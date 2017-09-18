@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "AdminList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Protal Login Accounts</h2>
+<div id="ProtalLogingAccountGrid"></div>
+
+<br />
+<h2>New Protal Loging Request</h2>
+<div id="NewProtalLogingRequestGrid"></div>
+<script>
+    $(document).ready(function () {
+
+        //NewProtalLogingRequestGrid data bindings - Start
+        $("#ProtalLogingAccountGrid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "/AdminList/GetProtalLogingAccount/",
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    },
+                    batch: false,
+                    schema: {
+                        model: {
+                            id: "H_CustomerPortalAdminId",
+                            fields: {
+                                H_CustomerPortalAdminId:{type:"text"},
+                                PortalAccountName: { type: "text" },
+                                Account_Name: { type: "text" },
+                            }
+                        }
+                    }
+                },
+                filterable: true,
+                pageSize: 10,
+                navigatable: true,
+                pageable: true,
+                height: 250,
+                columns: [
+                    {
+                        field: "PortalAccountName",
+                        title: "Portal Account Name",
+                        template: "<a href='/AdminList/GetStatus?brunchid=#= H_CustomerPortalAdminId #'>#=H_CustomerPortalAdminId#</a>"
+                    },
+                    {
+                        field: "Account_Name",
+                        title: "Customer Account"
+                    },
+                    {
+                        field: "ActiveLogins",
+                        title: "# Active Logins"
+                    },
+                    {
+                        field: "Billing_Method",
+                        title: "Billing Method"
+                    },
+                    {
+                        field: "CanAddClaims",
+                        title: "Add Claims?",
+                        template: "#if(CanAddClaims === true){# Yes #}else if(CanAddClaims === false){# No #} else{# #= 'N/A' #  #}#"
+                    },
+                     {
+                         field: "LastLogin",
+                         title: "Last Login Date",
+                         template: "#if(LastLogin === null){# N/A #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
+                     },
+                ]
+        });
+        //ProtalLogingAccountGrid data bindings - End
+
+        
+        //NewProtalLogingRequestGrid data bindings - Start
+        $("#NewProtalLogingRequestGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/AdminList/GetNewProtalLogingRequest/",
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+                //schema: {
+                //    model: {
+                //        id: "H_CustomerPortalAdminId",
+                //        fields: {
+                //            H_CustomerPortalAdminId: { type: "text" },
+                //            PortalAccountName: { type: "text" },
+                //            Account_Name: { type: "text" },
+                //        }
+                //    }
+                //}
+            },
+            filterable: true,
+            pageSize: 10,
+            navigatable: true,
+            pageable: true,
+            height: 250,
+            columns: [
+                {
+                    field: "Company",
+                    title: "Company"
+                },
+                {
+                    field: "FirstName",
+                    title: "First Name"
+                },
+                {
+                    field: "LastName",
+                    title: "Last Name"
+                },
+                {
+                    field: "Phone",
+                    title: "Phone"
+                },
+                {
+                    field: "EmailAddress",
+                    title: "Email"
+                },
+                 //{
+                 //    field: "LastLogin",
+                 //    title: "Last Login Date",
+                 //    template: "#if(LastLogin === null){# N/A #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
+                 //},
+            ]
+        });
+        //NewProtalLogingRequestGrid data bindings - End
+
+        });
+
+</script>
