@@ -17,6 +17,11 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
+        public ActionResult AdminDetail()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<ActionResult> GetProtalLogingAccount()
         {
@@ -43,6 +48,23 @@ namespace HonanClaimsPortal.Controllers
 
         [HttpGet]
         public async Task<ActionResult> GetNewProtalLogingRequest()
+        {
+            try
+            {
+                List<ProtalLogingRequestModel> list = new List<ProtalLogingRequestModel>();
+                ProtalLogingRequestRepo protalLogingRequestRepo = new ProtalLogingRequestRepo();
+                list = await protalLogingRequestRepo.GetProtalLogingAccount();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PortalCutomerAdminDetail()
         {
             try
             {
