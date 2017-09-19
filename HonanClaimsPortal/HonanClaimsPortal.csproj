@@ -413,6 +413,7 @@
     <Content Include="Content\master\js\modules\tour.js" />
     <Content Include="Content\master\js\modules\trigger-resize.js" />
     <Content Include="Content\master\js\modules\utils.js" />
+    <Content Include="Content\style.css" />
     <Content Include="Content\vendor\animate.css\animate.min.css" />
     <Content Include="Content\vendor\animo.js\animo.js" />
     <Content Include="Content\vendor\blueimp-canvas-to-blob\js\canvas-to-blob.js" />
@@ -1263,6 +1264,7 @@
     <Content Include="Views\AdminList\AdminList.cshtml" />
     <Content Include="Views\AdminList\AdminDetail.cshtml" />
     <Content Include="Views\Shared\_AccountLookup.cshtml" />
+    <Content Include="Views\AdminList\TeamGetPortalRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

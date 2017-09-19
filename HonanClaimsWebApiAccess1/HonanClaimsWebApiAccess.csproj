@@ -52,6 +52,8 @@
     <Compile Include="Models\ProtalLoginAccounts\ProtalLoginAccountsRepo.cs" />
     <Compile Include="Models\ProtalLogingRequest\ProtalLogingRequestModel.cs" />
     <Compile Include="Models\ProtalLogingRequest\ProtalLogingRequestRepo.cs" />
+    <Compile Include="Models\TeamGetPortalRegistration\TeamGetPortalRegistrationRepo.cs" />
+    <Compile Include="Models\TeamGetPortalRegistration\TeamGetPortalRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
