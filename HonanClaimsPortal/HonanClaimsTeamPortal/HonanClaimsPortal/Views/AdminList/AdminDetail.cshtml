@@ -7,94 +7,100 @@
 <h2>AdminDetail</h2>
 
 <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="email">Account Name</label>
-                <input type="text" class="form-control" id="Oc_Num">
-            </div>
-            <div class="form-group">
-                <label for="Team">Claim Team</label>
-                <select class="form-control" id="Claim">
-                    <option value="Risksmart GCC">Risksmart GCC</option>
-                    <option value="Risksmart Property">Risksmart Property</option>
-                    <option value="Property Claims">Property Claims</option>
-                    <option value="GCC Claims">GCC Claims</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="email">Can add Online Claims</label>
-                <select class="form-control" id="Online">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="email">Mannual Claim Form</label>
-                <div class="form-group">
-                    <label id="displayclaim">tttt.xls</label>
-                    <input id="claimupload" type="file" name="claim" accept="image/*">
+    <div class="col-md-6">
+        <div class="col-md-12 form-group mb">
+            <label class="col-sm-3 control-label input-sm">Account Name #</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input disabled type="text" class="form-control" id="AccName">
+                    <span id="btnPolicyLookup" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
+
+                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                            <i class="fa fa-binoculars"></i>
+                        </button>
+                    </span>
                 </div>
+                @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
             </div>
+
+        </div>
+        <div class="form-group">
+            <label for="Team">Claim Team</label>
+            <select class="form-control" id="Claim">
+                <option value="Risksmart GCC">Risksmart GCC</option>
+                <option value="RisksmartProperty">Risksmart Property</option>
+                <option value="Property Claims">Property Claims</option>
+                <option value="GCC Claims">GCC Claims</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="email">Can add Online Claims</label>
+            <select class="form-control" id="Online">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="email">Mannual Claim Form</label>
             <div class="form-group">
-                <label for="email">Billing Method</label>
-                <select class="form-control" id="Billingmethod">
-                    <option value="0">---Select---</option>
-                    <option value="Risksmart GCC">Risksmart GCC</option>
-                    <option value="Risksmart Property">Risksmart Property</option>
-                    <option value="Property Claims">Property Claims</option>
-                    <option value="GCC Claims">GCC Claims</option>
-                </select>
-            </div>
-
-            <div class="col-md-12 form-group mb">
-                <label class="col-sm-3 control-label input-sm">Policy #</label>
-                <div class="col-sm-9">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="Name">
-                        <span id="btnPolicyLookup" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
-
-                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                <i class="fa fa-binoculars"></i>
-                            </button>
-                        </span>
-                    </div>
-                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                <label for="email">Fee Per Hour</label>
-                <input type="text" class="form-control" id="feeHour">
-            </div>
-            <div class="form-group">
-                <label for="email">Fee Per Billing Method</label>
-                <input type="text" class="form-control" id="feebill">
+                <label id="displayclaim">tttt.xls</label>
+                <form>
+                    <input onchange="OnchangeclaimImage(this)" id="claimupload" type="file">
+                    <button type="reset" id="file_reset" style="display:none"></button>
+                </form>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="col-md-6">
-                <input id="claimupload" type="file" name="images">
-            </div>
-            <div class="col-md-6">
-                <button type="button" class="btn btn-primary">Remove</button>
-            </div>
-            <div>
-                <img src="cinqueterre.jpg" class="img-thumbnail" alt="Cinque Terre" width="304" height="236">
-            </div>
+        <div class="form-group">
+            <label for="email">Billing Method</label>
+            <select class="form-control" id="Billingmethod"></select>
         </div>
+
+        <div class="form-group">
+            <label for="email">Fee Per Hour</label>
+            <input type="text" class="form-control" id="feeHour">
+        </div>
+        <div class="form-group">
+            <label for="email">Fee Per Billing Method</label>
+            <input type="text" class="form-control" id="feebill">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-6">
+            <form>
+                <input onchange="OnchangeLogoImage(this)" id="claimupload" type="file" accept="image/*">
+                <button type="reset" id="file_reset" style="display:none"></button>
+            </form>
+
+        </div>
+        <div class="col-md-6">
+            <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
+        </div>
+        <div>
+            <img id="logoImg" class="img-thumbnail" width="304" height="236">
+        </div>
+    </div>
 </div>
-
+<div style="text-align:center;">
+    <button id="saveEdit" type="button" class="btn btn-primary">Save/Edit</button><br />
+</div>
+<div class="row">
+    <div class="col-md-10">
+        <div id="loginGrid"></div>
+    </div>
+    <div class="col-md-"></div>
+</div>
 <!--Modal-->
-<div id="OcModal" class="modal fade OcModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+<div id="OcModal" class="modal fade OcModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">OC # Lookup</h4>
             </div>
+
             <div class="modal-body">
-               
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
+                <div id="lookupAccountGrid"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -102,3 +108,197 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnPolicyLookup").click(function () {
+            $('#Accsearch').val('');
+            $("#lookupAccountGrid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "/AdminList/GetLookupAccounts"
+                    },
+                    pageSize: 10
+                },
+                height: 550,
+                sortable: true,
+                serverPaging: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 10
+                },
+                columns: [{
+                    hidden: true,
+                    field: "AccountId",
+                    title: "AccountId"
+                },
+                {
+                    template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
+                    title: "Account Name",
+                },
+                {
+                    field: "AccountType",
+                    title: " Account Type",
+                }
+                ]
+            });
+            $('#OcModal').modal('show');
+        });
+
+        var isNew = @ViewBag.IsNew;
+        var adminId = @ViewBag.AdminId;
+
+        adminId = "Q6UJ9A00KFLQ";
+        setInitialDetails(isNew,adminId)
+        loadLogins(isNew, adminId);
+
+        function loadLogins(isNew, adminId) {
+            $("#loginGrid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "/AdminList/GetAdminLoginAccounts?adminId=" + adminId
+                    },
+                    pageSize: 10
+                },
+                height: 200,
+                sortable: true,
+                columns: [{
+                    hidden: true,
+                    field: "H_PortalLoginId",
+                    title: "H_PortalLoginId"
+                },
+                {
+                    template: "#if(ActiveLogin == 'T'){# True #} else{# #= 'False' #  #}#",
+                    title: "IsActive",
+                },
+                {
+                    field: "ContactName",
+                    title: "Contact Name",
+                }, {
+                    field: "UserName",
+                    title: "User Name",
+                }, {
+                    field: "Password",
+                    title: "Password",
+                },
+                {
+                    field: "LastLogin",
+                    title: "Last Login",
+                }
+                ]
+            });
+
+    }
+    });
+
+    $("#Accsearch").keyup(function () {
+        var val = $('#Accsearch').val();
+        $("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
+            logic: "or",
+            filters: [
+                {
+                    field: "AccountName",
+                    operator: "contains",
+                    value: val,
+                },
+                {
+                    field: "AccountType",
+                    operator: "contains",
+                    value: val
+                },
+
+            ]
+        });
+
+    });
+    function accountClick(e) {
+        ClaimOptions();
+        $('#AccName').val(e.text);
+        $('#OcModal').modal('hide');
+    }
+
+    function ClaimOptions(text) {
+        $.get("/AdminList/GetOnlyBilling?Name=" + text, function (data, status) {
+            $('#Billingmethod').find('option').remove();
+            $.each(data, function (key, value) {
+                if (value.billing != "") {
+                    $('#Billingmethod').append('<option value=' + value + '>' + value + '</option>');
+                }
+            });
+
+        });
+    }
+
+    function ClaimOptionsWithSet(text,selectText) {
+        $.get("/AdminList/GetOnlyBilling?Name=" + text, function (data, status) {
+            $('#Billingmethod').find('option').remove();
+            $.each(data, function (key, value) {
+                if (value.billing != "") {
+                    if (value.billing == selectText) {
+                        $('#Billingmethod').append('<option selected value=' + value + '>' + value + '</option>');
+                    } else {
+                        $('#Billingmethod').append('<option value=' + value + '>' + value + '</option>');
+                    }
+                }
+            });
+
+        });
+    }
+
+    function OnchangeLogoImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#logoImg').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#removelogo").click(function () {
+        $('#file_reset').trigger('click');
+        $('#logoImg').attr('src', "");
+    });
+
+    function OnchangeclaimImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+               //
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $('#saveEdit').click(function () {
+
+    });
+
+    function setInitialDetails(isNew,adminId){
+        if (isNew == true) {
+            $.get("/AdminList/AdminPortalRecord?adminId=" + adminId, function (data, status) {
+                $('#AccName').val(data.Accountname);
+                $('#Online').val(data.Account_Can_Add_Claims);
+
+                $('#Claim').val(data.Manualclaim_Form);
+                debugger
+                $('#displayclaim').text(data.Manualclaim_Form);
+
+                $('#feeHour').val(data.Fee_Per_Billing_Method);
+                $('#feebill').val(data.Fee_Per_Hour);
+                var image = "data:image/png;base64," + data.Customer_Logo;
+                $('#logoImg').attr('src', image);
+                ClaimOptionsWithSet(data.Accountname, data.Billing_Method);
+
+            });
+        }
+    }
+
+</script>
