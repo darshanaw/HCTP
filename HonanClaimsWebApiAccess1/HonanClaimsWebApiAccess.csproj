@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Models\AdminLoginDetail\AdminLoginDetailRepo.cs" />
+    <Compile Include="Models\AdminLoginDetail\AdminLoginsModel.cs" />
+    <Compile Include="Models\AdminLoginDetail\CustomerPortalAdminModel.cs" />
+    <Compile Include="Models\LookupModel\AccountLookup.cs" />
+    <Compile Include="Models\LookupModel\AccountLookupRepo.cs" />
     <Compile Include="Models\ProtalLoginAccounts\ProtalLoginAccountsModel.cs" />
     <Compile Include="Models\ProtalLoginAccounts\ProtalLoginAccountsRepo.cs" />
     <Compile Include="Models\ProtalLogingRequest\ProtalLogingRequestModel.cs" />

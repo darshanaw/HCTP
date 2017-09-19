@@ -1,7 +1,10 @@
-﻿using HonanClaimsPortal.Models.ProtalLoginAccounts;
+﻿using HonanClaimsPortal.Models.LookupModel;
+using HonanClaimsPortal.Models.ProtalLoginAccounts;
 using HonanClaimsPortal.Models.ProtalLogingRequest;
 using HonanClaimsWebApiAccess1.Models.ProtalLogingRequest;
 using HonanClaimsWebApiAccess1.Models.TeamGetPortalRegistration;
+using HonanClaimsWebApiAccess1.Models.AdminLoginDetail;
+using HonanClaimsWebApiAccess1.Models.LookupModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +22,10 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
-        public ActionResult AdminDetail(string adminId)
+        public ActionResult AdminDetail(string adminId = null)
         {
+            ViewBag.AdminId = adminId == null ? "null" : adminId;
+            ViewBag.IsNew = string.IsNullOrEmpty(adminId) ? "true" : "false";
             return View();
         }
 
@@ -38,7 +43,7 @@ namespace HonanClaimsPortal.Controllers
             {
                 throw ex;
             }
-            
+
         }
 
 
@@ -95,7 +100,51 @@ namespace HonanClaimsPortal.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetLookupAccounts()
+        {
+            List<AccountLookup> list = new List<AccountLookup>();
+            AccountLookupRepo accountLookupRepo = new AccountLookupRepo();
+            list = await accountLookupRepo.GetProtalLogingAccount();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpGet]
+        public async Task<ActionResult> GetOnlyBilling(string Name)
+        {
+            List<AccountLookup> list = new List<AccountLookup>();
+            AccountLookupRepo accountLookupRepo = new AccountLookupRepo();
+            list = await accountLookupRepo.GetProtalLogingAccount();
+            var filterList = list.Where(s => s.AccountName == Name).Select(x => new { billing = x.BillingMethod }).ToList();
+            return Json(filterList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAdminLogins()
+        {
+            List<AccountLookup> list = new List<AccountLookup>();
+            AccountLookupRepo accountLookupRepo = new AccountLookupRepo();
+            list = await accountLookupRepo.GetProtalLogingAccount();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAdminLoginAccounts(string adminId)
+        {
+            List<AdminLoginsModel> list = new List<AdminLoginsModel>();
+            AdminLogindetailRepo accountLookupRepo = new AdminLogindetailRepo();
+            list = await accountLookupRepo.GetAdminLogins(adminId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AdminPortalRecord(string adminId)
+        {
+            CustomerPortalAdminModel list = new CustomerPortalAdminModel();
+            AdminLogindetailRepo accountLookupRepo = new AdminLogindetailRepo();
+            list = await accountLookupRepo.GetAdminRecord(adminId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public async Task<ActionResult> portalRegRequestId(string portalRegRequestId)
         {

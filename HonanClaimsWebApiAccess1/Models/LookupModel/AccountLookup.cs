@@ -11,5 +11,7 @@ namespace HonanClaimsPortal.Models.LookupModel
         public string AccountName { get; set; }
         public string AccountType { get; set; }
         public string AccountManager { get; set; }
+        public string BillingMethod { get; set; }
+        
     }
 }
