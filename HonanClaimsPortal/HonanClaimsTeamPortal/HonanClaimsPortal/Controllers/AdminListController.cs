@@ -19,7 +19,7 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
-        public ActionResult AdminDetail()
+        public ActionResult AdminDetail(string adminId)
         {
             return View();
         }
