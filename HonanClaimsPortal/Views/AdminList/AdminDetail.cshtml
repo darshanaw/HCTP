@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "AdminDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AdminDetail</h2>
+
+<div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email">Account Name</label>
+                <input type="text" class="form-control" id="Oc_Num">
+            </div>
+            <div class="form-group">
+                <label for="Team">Claim Team</label>
+                <select class="form-control" id="Claim">
+                    <option value="Risksmart GCC">Risksmart GCC</option>
+                    <option value="Risksmart Property">Risksmart Property</option>
+                    <option value="Property Claims">Property Claims</option>
+                    <option value="GCC Claims">GCC Claims</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="email">Can add Online Claims</label>
+                <select class="form-control" id="Online">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="email">Mannual Claim Form</label>
+                <div class="form-group">
+                    <label id="displayclaim">tttt.xls</label>
+                    <input id="claimupload" type="file" name="claim" accept="image/*">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Billing Method</label>
+                <select class="form-control" id="Billingmethod">
+                    <option value="0">---Select---</option>
+                    <option value="Risksmart GCC">Risksmart GCC</option>
+                    <option value="Risksmart Property">Risksmart Property</option>
+                    <option value="Property Claims">Property Claims</option>
+                    <option value="GCC Claims">GCC Claims</option>
+                </select>
+            </div>
+
+            <div class="col-md-12 form-group mb">
+                <label class="col-sm-3 control-label input-sm">Policy #</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="Name">
+                        <span id="btnPolicyLookup" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
+
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label for="email">Fee Per Hour</label>
+                <input type="text" class="form-control" id="feeHour">
+            </div>
+            <div class="form-group">
+                <label for="email">Fee Per Billing Method</label>
+                <input type="text" class="form-control" id="feebill">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-6">
+                <input id="claimupload" type="file" name="images">
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary">Remove</button>
+            </div>
+            <div>
+                <img src="cinqueterre.jpg" class="img-thumbnail" alt="Cinque Terre" width="304" height="236">
+            </div>
+        </div>
+</div>
+
+<!--Modal-->
+<div id="OcModal" class="modal fade OcModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">OC # Lookup</h4>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
