@@ -5,13 +5,36 @@
 }
 
 <h2>Protal Login Accounts</h2>
-<div id="ProtalLogingAccountGrid"></div>
+<div id="ProtalLogingAccountGrid"></div><input type="text" id="searchbox" />
 
 <br />
 <h2>New Protal Loging Request</h2>
 <div id="NewProtalLogingRequestGrid"></div>
 <script>
     $(document).ready(function () {
+
+
+
+            $("#searchbox").keyup(function () {
+                var val = $('#searchbox').val();
+                $("#ProtalLogingAccountGrid").data("kendoGrid").dataSource.filter({
+                    logic: "or",
+                    filters: [
+                        {
+                            field: "PortalAccountName",
+                            operator: "contains",
+                            value: val,
+                        },
+                        {
+                            field: "Account_Name",
+                            operator: "contains",
+                            value: val
+                        },
+                  
+                    ]
+                });
+
+            });
 
         //NewProtalLogingRequestGrid data bindings - Start
         $("#ProtalLogingAccountGrid").kendoGrid({
@@ -25,16 +48,6 @@
                         }
                     },
                     batch: false,
-                    schema: {
-                        model: {
-                            id: "H_CustomerPortalAdminId",
-                            fields: {
-                                H_CustomerPortalAdminId:{type:"text"},
-                                PortalAccountName: { type: "text" },
-                                Account_Name: { type: "text" },
-                            }
-                        }
-                    }
                 },
                 filterable: true,
                 pageSize: 10,
@@ -45,8 +58,8 @@
                     {
                         field: "PortalAccountName",
                         title: "Portal Account Name",
-                        template: "<a href='/AdminList/GetStatus?brunchid=#= H_CustomerPortalAdminId #'>#=H_CustomerPortalAdminId#</a>"
-                    },
+                        template: "<a href='/AdminList/GetStatus?brunchid=#= H_CustomerPortalAdminId #'>#= PortalAccountName #</a>",
+                    },                   
                     {
                         field: "Account_Name",
                         title: "Customer Account"

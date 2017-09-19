@@ -14,7 +14,7 @@ namespace HonanClaimsPortal.Models.ProtalLoginAccounts
         {
             List<ProtalLoginAccountsModel> list = new List<ProtalLoginAccountsModel>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/AccountAndReg/GetPortalLoginAccounts";
+            string apiUrl = SiteUrl + "api/AccountAndReg/GetPortalLoginAccounts?accountName=";
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
