@@ -11,6 +11,9 @@
     <div class="col-md-4">
         <input class="form-control search-box" type="text" id="searchbox" placeholder="Search for" />
     </div>
+    <div class="col-md-2">
+        <button type="submit" id="btnCreateNewContact" class="form-control search-box mb-sm btn btn-primary">Create New Contact</button>
+    </div>
 </div>
 
 <div id="ProtalLogingAccountGrid"></div>
@@ -20,7 +23,9 @@
 <script>
     $(document).ready(function () {
 
-
+        $("#btnCreateNewContact").click(function () {
+    window.location.replace('@Url.Action("AdminDetail", "AdminList", new { id = "" })');
+});
 
             $("#searchbox").keyup(function () {
                 var val = $('#searchbox').val();
@@ -37,7 +42,12 @@
                             operator: "contains",
                             value: val
                         },
-                  
+                        {
+                            field: "Billing_Method",
+                            operator: "contains",
+                            value: val
+                        }
+
                     ]
                 });
 
@@ -60,13 +70,13 @@
                 pageSize: 10,
                 navigatable: true,
                 pageable: true,
-                height: 250,
+                height: 350,
                 columns: [
                     {
                         field: "PortalAccountName",
                         title: "Portal Account Name",
-                        template: "<a href='/AdminList/GetStatus?brunchid=#= H_CustomerPortalAdminId #'>#= PortalAccountName #</a>",
-                    },                   
+                        template: "<a href='/AdminList/AdminDetail?adminId=#= H_CustomerPortalAdminId #'>#= PortalAccountName #</a>",
+                    },
                     {
                         field: "Account_Name",
                         title: "Customer Account"
@@ -93,7 +103,7 @@
         });
         //ProtalLogingAccountGrid data bindings - End
 
-        
+
         //NewProtalLogingRequestGrid data bindings - Start
         $("#NewProtalLogingRequestGrid").kendoGrid({
             dataSource: {
@@ -111,7 +121,7 @@
             pageSize: 10,
             navigatable: true,
             pageable: true,
-            height: 250,
+            height: 350,
             columns: [
                 {
                     field: "Company",
