@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HonanClaimsPortal.Models;
+using HonanClaimsWebApiAccess1.LoginServices;
+using HonanClaimsPortal.Helpers;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -17,6 +19,7 @@ namespace HonanClaimsPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private LoginService loginService;
 
         public AccountController()
         {
@@ -57,8 +60,17 @@ namespace HonanClaimsPortal.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            LoginViewModel loginViewModel = new LoginViewModel();
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            loginViewModel.RememberMe = false;
+
+            if (Request.Cookies[CookieHelper.CookieObject_] != null && Request.Cookies[CookieHelper.CookieObject_][CookieHelper.UserCode_] != null)
+            {
+                loginViewModel.UserCode = Request.Cookies[CookieHelper.CookieObject_][CookieHelper.UserCode_].ToString();
+                loginViewModel.Password = Request.Cookies[CookieHelper.CookieObject_][CookieHelper.Password_].ToString();
+            }
+
+            return View(loginViewModel);
         }
 
         //
@@ -68,18 +80,38 @@ namespace HonanClaimsPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            Session[SessionHelper.claimTeamLogin] = null;
+
+            int counter = Session[SessionHelper.loginCounter] == null ? 0 : (int)Session[SessionHelper.loginCounter];
+            Session[SessionHelper.loginCounter] = counter + 1;
+
+            model.LoginAttempt = Session[SessionHelper.loginCounter].ToString();
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            loginService = new LoginService();
+            ClaimTeamLogin client = loginService.Login(model.UserCode, model.Password, model.LoginAttempt);
+
+            var result = (client == null || client.UserId == null) ? SignInStatus.Failure : SignInStatus.Success;
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            //var result = await SignInManager.PasswordSignInAsync(model.UserCode, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    Session[SessionHelper.loginCounter] = null;
+                    Session[SessionHelper.claimTeamLogin] = client;
+                    if (model.RememberMe)
+                    {
+                        Response.Cookies[CookieHelper.CookieObject_][CookieHelper.UserCode_] = model.UserCode;
+                        Response.Cookies[CookieHelper.CookieObject_][CookieHelper.Password_] = model.Password;
+                        Response.Cookies[CookieHelper.CookieObject_].Expires = DateTime.Now.AddDays(30);
+                    }
+                    return RedirectToAction("Index", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
