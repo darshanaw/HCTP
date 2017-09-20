@@ -61,6 +61,9 @@
     <Compile Include="Models\ProtalLoginAccounts\ProtalLoginAccountsRepo.cs" />
     <Compile Include="Models\ProtalLogingRequest\ProtalLogingRequestModel.cs" />
     <Compile Include="Models\ProtalLogingRequest\ProtalLogingRequestRepo.cs" />
+    <Compile Include="Models\TeamGetClaimAssigment\CRMPicklistItemModel.cs" />
+    <Compile Include="Models\TeamGetClaimAssigment\TeamGetClaimAssigmentModel.cs" />
+    <Compile Include="Models\TeamGetClaimAssigment\TeamGetClaimAssigmentRepo.cs" />
     <Compile Include="Models\TeamGetPortalRegistration\TeamGetPortalRegistrationRepo.cs" />
     <Compile Include="Models\TeamGetPortalRegistration\TeamGetPortalRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
