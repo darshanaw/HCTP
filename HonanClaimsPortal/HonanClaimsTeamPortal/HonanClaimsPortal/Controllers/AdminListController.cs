@@ -11,9 +11,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using HonanClaimsPortal.Helpers;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class AdminListController : Controller
     {
         // GET: AdminList

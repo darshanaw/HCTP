@@ -49,9 +49,7 @@ namespace HonanClaimsPortal.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string UserCode { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -60,6 +58,7 @@ namespace HonanClaimsPortal.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+        public string LoginAttempt { get; set; }
     }
 
     public class RegisterViewModel
