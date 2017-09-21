@@ -1,4 +1,6 @@
-﻿using HonanClaimsWebApiAccess1.Models.TeamGetClaimAssigment;
+﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApiAccess1.LoginServices;
+using HonanClaimsWebApiAccess1.Models.TeamGetClaimAssigment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +23,8 @@ namespace HonanClaimsPortal.Controllers
         {
             try
             {
-                //List<string> TeamList = (List<string>)Session["Teams"];
-                //List<st> TeamList = { "Risksmart GCC Team", "Property Claims Team" };
-                List<string> TeamList =new List<string>();
-                TeamList.Add("Risksmart GCC Team");
-                TeamList.Add("Property Claims Team");
-
+                ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+                List<string> TeamList = client.Teams;
                 List<HonanClaimsWebApiAccess1.Models.TeamGetClaimAssigment.CRMPicklistItem> list = new List<HonanClaimsWebApiAccess1.Models.TeamGetClaimAssigment.CRMPicklistItem>();
                 TeamGetClaimAssigmentRepo teamGetClaimAssigmentRepo = new TeamGetClaimAssigmentRepo();
                 list = await teamGetClaimAssigmentRepo.TeamGetClaimAssigmentList(TeamList);
