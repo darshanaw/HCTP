@@ -36,7 +36,6 @@ namespace HonanClaimsPortal.Controllers
         [HttpGet]
         public async Task<ActionResult> GetTeamGetBillableLawyers(string Name)
         {
-            string name = Request.Form["Name"].ToString();
             List<CommonModel> list = new List<CommonModel>();
             BillingRepo billingRepo = new BillingRepo();
             list = await billingRepo.GetTeamGetBillableLawyers(Name);
