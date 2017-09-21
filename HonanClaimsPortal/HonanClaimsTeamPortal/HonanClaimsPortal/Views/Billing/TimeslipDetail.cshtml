@@ -44,12 +44,9 @@
 
 <script>
     $(document).ready(function () {
-        var val = "";
-        $("#txtService_By_Name").change(function () {
-            var val = $("#txtService_By_Name").val();
-        });
 
-        setTimeout(function () {
+
+
             $("#txtService_By_Name").kendoAutoComplete({
 
                 dataTextField: "Text",
@@ -57,9 +54,9 @@
                 minLength: 2,
                 dataSource: {
                     type: "json",
-                    serverFiltering: true,
+                    //serverFiltering: true,
                     transport: {
-                        read: "/Billing/GetTeamGetBillableLawyers?Name=" + $("#txtService_By_Name").val(),
+                        read: "/Billing/GetTeamGetBillableLawyers?Name=",
                     }
                 },
                 select: onSelect
@@ -68,7 +65,7 @@
                 var dataItem = this.dataItem(e.item.index());
                 $('#Service_By').val(dataItem.Code);
             }
-        }, 3000);
+
 
         
 
