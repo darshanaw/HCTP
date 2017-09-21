@@ -24,11 +24,16 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
-        public ActionResult AdminDetail(string adminId = null)
+        public async Task<ActionResult> AdminDetail(string adminId = null)
         {
-            ViewBag.AdminId = adminId == null ? "null" : adminId;
-            ViewBag.IsNew = string.IsNullOrEmpty(adminId) ? "true" : "false";
-            return View();
+            var model = new CustomerPortalAdminModel();
+            model.IsNew = true;
+            if (adminId != null)
+            {
+               model =  await AdminPortalRecord(adminId);
+                model.IsNew = false;
+            }
+            return View(model);
         }
 
         [HttpGet]
@@ -98,7 +103,7 @@ namespace HonanClaimsPortal.Controllers
         public async Task<ActionResult> TeamInsertPortalLoginByContact(string portalRegRequestId, string matchingContactId, string userId)
         {
             TeamGetPortalRegistrationRepo teamGetPortalRegistrationRepo = new TeamGetPortalRegistrationRepo();
-            var result  =await teamGetPortalRegistrationRepo.TeamInsertPortalLoginByContact(portalRegRequestId, matchingContactId, userId);
+            var result = await teamGetPortalRegistrationRepo.TeamInsertPortalLoginByContact(portalRegRequestId, matchingContactId, userId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -139,14 +144,14 @@ namespace HonanClaimsPortal.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> AdminPortalRecord(string adminId)
+        private async Task<CustomerPortalAdminModel> AdminPortalRecord(string adminId)
         {
             CustomerPortalAdminModel list = new CustomerPortalAdminModel();
             AdminLogindetailRepo accountLookupRepo = new AdminLogindetailRepo();
             list = await accountLookupRepo.GetAdminRecord(adminId);
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return list;
         }
+
         [HttpPost]
         public async Task<ActionResult> portalRegRequestId(string portalRegRequestId)
         {
@@ -154,5 +159,38 @@ namespace HonanClaimsPortal.Controllers
             var result = await teamGetPortalRegistrationRepo.TeamDiscardLoginRequest(portalRegRequestId);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> AddPortalAdminRecord(HttpPostedFileBase claimupload, HttpPostedFileBase logoimgupload, CustomerPortalAdminModel model)
+        {
+            AdminLogindetailRepo loginrepo = new AdminLogindetailRepo();
+            var result =  await loginrepo.SaveAdminRecord(claimupload, logoimgupload, model);
+            if (result == true)
+            {
+                return RedirectToAction("AdminList");
+            }
+            else
+            {
+                return RedirectToAction("AdminDetail");
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> AddAdminLogin(AdminLoginsModel model)
+        {
+            string UserId = "U6UJ9A000009";//Session["UserId"];
+            AdminLogindetailRepo loginrepo = new AdminLogindetailRepo();
+            var result = await loginrepo.SaveAdminLoginRecord(model, UserId);
+            if (result == true)
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
