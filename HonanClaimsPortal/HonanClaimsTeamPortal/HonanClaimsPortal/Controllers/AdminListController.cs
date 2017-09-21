@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Mvc;
 using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.AdminLoginDetail;
+using HonanClaimsWebApiAccess1.LoginServices;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -22,7 +23,6 @@ namespace HonanClaimsPortal.Controllers
         // GET: AdminList
         public ActionResult AdminList()
         {
-            //string UserId = Session["UserId"].ToString(); ;
             return View();
         }
 
@@ -182,7 +182,9 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAdminLogin(AdminLoginsModel model)
         {
-            string UserId = "U6UJ9A000009";//Session["UserId"];
+            ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+
             AdminLogindetailRepo loginrepo = new AdminLogindetailRepo();
             var result = await loginrepo.SaveAdminLoginRecord(model, UserId);
             if (result == true)
