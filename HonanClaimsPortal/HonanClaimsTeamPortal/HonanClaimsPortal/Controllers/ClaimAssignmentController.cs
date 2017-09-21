@@ -58,13 +58,10 @@ namespace HonanClaimsPortal.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> TeamAssignUserToClaims(string ClaimIdList)
+        public async Task<ActionResult> TeamAssignUserToClaims(string ClaimIdList,string UserId)
         {
             try
-            {
-                //string UserId = Session["UserId"].ToString();
-                string UserId = "U6UJ9A000009";
-                
+            {               
                 TeamGetClaimAssigmentRepo teamGetClaimAssigmentRepo = new TeamGetClaimAssigmentRepo();
                 var list = await teamGetClaimAssigmentRepo.TeamAssignUserToClaims(ClaimIdList, UserId);
                 return Json(list, JsonRequestBehavior.AllowGet);

@@ -10,14 +10,14 @@
         <h2>Claims Assignment</h2>
     </div>
     <div class="col-md-4">
-        @*<input class="form-control search-box" type="text" id="searchbox" placeholder="Search for" />*@
+        <p class="search-box">Assign Selected New Claims To</p>
         <select class="form-control search-box" id="DropList" name="DropList"><option selected="selected"></option></select>
     </div>
     <div class="col-md-2">
         <button type="submit" id="btnAssignNow" class="form-control search-box mb-sm btn btn-primary">Assign Now</button>
     </div>
 </div>
-
+<p>Below is a list of claims created from the customer Protal. Please assign these claims to Clam team members</p>
 
 <div id="ClaimsAssignmentGrid"></div>
 
@@ -155,15 +155,24 @@
 
 
        $("#btnAssignNow").click(function () {
+           var e = document.getElementById("DropList");
+           var UserId = e.options[e.selectedIndex].value;
            debugger;
+           if (UserId == null || UserId == "") {
+               alert("Please select user");
+               return false;
+           }
+
            $.ajax({
-               url: '/ClaimAssignment/TeamAssignUserToClaims?ClaimIdList=' + JSON.stringify(ClaimIds),
+               url: '/ClaimAssignment/TeamAssignUserToClaims?ClaimIdList=' + JSON.stringify(ClaimIds) + '&UserId=' + UserId,
                type: 'POST',
                dataType: 'json',
-               success: function (json) {
-                   $.each(json, function (i, value) {
-                       $('#DropList').append($('<option>').text(value.Text).attr('value', value.Code));
-                   });
+               success: function (result) {
+                   if (result) {
+                       $('#ClaimsAssignmentGrid').data('kendoGrid').dataSource.read();
+                       $('#ClaimsAssignmentGrid').data('kendoGrid').refresh();
+                   }
+                   
                }
            });
        });

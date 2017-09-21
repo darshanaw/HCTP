@@ -22,6 +22,7 @@ namespace HonanClaimsPortal.Controllers
         // GET: AdminList
         public ActionResult AdminList()
         {
+            //string UserId = Session["UserId"].ToString(); ;
             return View();
         }
 
