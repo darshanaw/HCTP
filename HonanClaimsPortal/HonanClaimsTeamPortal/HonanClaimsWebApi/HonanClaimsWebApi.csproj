@@ -69,6 +69,8 @@
     <Compile Include="Models\AdminLoginDetail\AdminLoginsModel.cs" />
     <Compile Include="Models\AdminLoginDetail\ContactModel.cs" />
     <Compile Include="Models\AdminLoginDetail\CustomerPortalAdminModel.cs" />
+    <Compile Include="Models\ClaimList\ClaimListModel.cs" />
+    <Compile Include="Models\ClaimList\ClaimListRepo.cs" />
     <Compile Include="Models\LookupModel\AccountLookup.cs" />
     <Compile Include="Models\LookupModel\AccountLookupRepo.cs" />
     <Compile Include="Models\ProtalLoginAccounts\ProtalLoginAccountsModel.cs" />
