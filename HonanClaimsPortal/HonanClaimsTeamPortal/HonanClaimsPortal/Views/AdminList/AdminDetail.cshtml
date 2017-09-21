@@ -417,20 +417,25 @@
             ContactId: $('#ContactId').val(),
             UserName: $('#username').val(),
             Password: $('#Password').val(),
-            Email: $('#Email').val()
+            Email: $('#Email').val(),
+            IsNew: loginNew
         }
 
-        if (loginNew) {
             $.ajax({
                 type: 'POST',
                 url: "/AdminList/AddAdminLogin",
                 data: model,
                 success: function (resultData) {
-
+                    if (resultData == false) {
+                        setError("Error adding login detail", true);
+                    } else {
+                        setError("", false);
+                        $('#LoginDataModal').modal('hide');
+                    }
                 }
             });
 
-        }
+        
 
     })
 
