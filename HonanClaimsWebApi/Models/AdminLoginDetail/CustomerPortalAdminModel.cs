@@ -18,7 +18,8 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
         public string Accountname { get; set; }
         public string Customer_Logo { get; set; }
         public bool IsNew { get; set; }
-        public string AccountId { get; set; }
+        public string Account_Id { get; set; }
+        public string Manualclaim_Form_Path { get; set; }
     }
    
 }

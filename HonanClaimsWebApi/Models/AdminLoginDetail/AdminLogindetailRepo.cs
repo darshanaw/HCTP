@@ -61,7 +61,15 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
         {
 
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/AccountAndReg/TeamInsertCustomerPortalAdmin";
+            string apiUrl = string.Empty;
+            if (model.IsNew)
+            {
+                apiUrl = SiteUrl + "api/AccountAndReg/TeamInsertCustomerPortalAdmin";
+            }
+            else
+            {
+                apiUrl = SiteUrl + "api/AccountAndReg/TeamUpdateCustomerPortalAdmin";
+            }
             var json = JsonConvert.SerializeObject(model);
 
             using (var client = new HttpClient())

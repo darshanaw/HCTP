@@ -28,6 +28,7 @@ namespace HonanClaimsPortal.Controllers
         {
             var model = new CustomerPortalAdminModel();
             model.IsNew = true;
+            model.Manualclaim_Form = "Not set";
             if (adminId != null)
             {
                model =  await AdminPortalRecord(adminId);
