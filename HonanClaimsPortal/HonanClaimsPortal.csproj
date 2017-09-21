@@ -1288,9 +1288,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HonanClaimsWebApiAccess1\HonanClaimsWebApiAccess.csproj">
-      <Project>{78f2447e-8639-41ed-9d08-27422f04783a}</Project>
-      <Name>HonanClaimsWebApiAccess</Name>
+    <ProjectReference Include="..\HonanClaimsWebApi\HonanClaimsWebApi.csproj">
+      <Project>{f204054d-424e-4a99-bdb6-58cb1c569a53}</Project>
+      <Name>HonanClaimsWebApi</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
