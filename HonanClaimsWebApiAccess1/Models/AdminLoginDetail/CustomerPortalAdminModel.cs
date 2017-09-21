@@ -17,5 +17,8 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
         public string Fee_Per_Billing_Method { get; set; }
         public string Accountname { get; set; }
         public string Customer_Logo { get; set; }
+        public bool IsNew { get; set; }
+        public string AccountId { get; set; }
     }
+   
 }

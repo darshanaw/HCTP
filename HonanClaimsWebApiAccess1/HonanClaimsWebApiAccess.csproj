@@ -39,8 +39,13 @@
       <HintPath>..\packages\System.Configuration.Abstractions.2.0.2.26\lib\net45\System.Configuration.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+<<<<<<< .mine
+    <Reference Include="System.Web" />
+||||||| .r375
+=======
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+>>>>>>> .r383
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
