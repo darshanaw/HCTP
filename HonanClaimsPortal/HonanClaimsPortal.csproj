@@ -194,6 +194,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminListController.cs" />
+    <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\ClaimAssignmentController.cs" />
     <Compile Include="Controllers\ClaimListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1270,6 +1271,7 @@
     <Content Include="Views\AdminList\TeamGetPortalRegistration.cshtml" />
     <Content Include="Views\ClaimAssignment\Index.cshtml" />
     <Content Include="Views\ClaimList\Index.cshtml" />
+    <Content Include="Views\Billing\TimeslipDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
