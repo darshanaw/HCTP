@@ -8,13 +8,13 @@
 <h2>AdminDetail</h2>
 
 @using (Html.BeginForm("AddPortalAdminRecord", "AdminList", FormMethod.Post,
-                                                                                                                                                                                                                                                    new
-                                                                                                                                                                                                                                                    {
-                                                                                                                                                                                                                                                        enctype = "multipart/form-data",
-                                                                                                                                                                                                                                                        id = "FileUploadForm",
-                                                                                                                                                                                                                                                        name = "ImgForm",
-                                                                                                                                                                                                                                                        //target = "UploadTarget",
-                                                                                                                                                                                                                                                    }))
+    new
+    {
+        enctype = "multipart/form-data",
+        id = "FileUploadForm",
+        name = "ImgForm",
+        //target = "UploadTarget",
+    }))
 {
 
     @Html.HiddenFor(m => m.H_Customerportaladminid)

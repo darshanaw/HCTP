@@ -1,0 +1,94 @@
+﻿@model HonanClaimsWebApi.Models.Billing.BillingModel
+
+@{
+    ViewBag.Title = "TimeslipDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Timeslip</h2>
+
+
+@using (Html.BeginForm("AddPortalAdminRecord", "Billing", FormMethod.Post))
+{
+    @Html.CheckBoxFor(c => c.Billable)<label>Is Billable</label>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-2">Services By :</label>
+                <div class="col-sm-10">
+                    <div class="demo-section k-content">
+                        @*@Html.TextBoxFor(m => m.Service_By_Name, new { @class = "form-control", id = "txtService_By_Name" })*@
+                        <input id="txtService_By_Name" name="txtService_By_Name" style="width: 100%;" />
+                    </div>
+                </div>
+                @*@Html.HiddenFor(h=>h.Service_By_Name)*@
+                @Html.HiddenFor(h => h.Service_By)
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-2">Claim # :</label>
+                <div class="col-sm-10">
+                    <div>
+                        @Html.TextBoxFor(m => m.Claim_No)
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        var val = "";
+        $("#txtService_By_Name").change(function () {
+            var val = $("#txtService_By_Name").val();
+        });
+
+        setTimeout(function () {
+            $("#txtService_By_Name").kendoAutoComplete({
+
+                dataTextField: "Text",
+                filter: "contains",
+                minLength: 2,
+                dataSource: {
+                    type: "json",
+                    serverFiltering: true,
+                    transport: {
+                        read: "/Billing/GetTeamGetBillableLawyers?Name=" + $("#txtService_By_Name").val(),
+                    }
+                },
+                select: onSelect
+            });
+            function onSelect(e) {
+                var dataItem = this.dataItem(e.item.index());
+                $('#Service_By').val(dataItem.Code);
+            }
+        }, 3000);
+
+        
+
+        $("#Claim_No").kendoAutoComplete({
+            dataTextField: "Text",
+            filter: "contains",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                serverFiltering: true,
+                transport: {
+                    read: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Claim_No").val(),
+                }
+            },
+            select: onSelectClaim_No
+        });
+        function onSelectClaim_No(e) {
+            //var dataItem = this.dataItem(e.item.index());
+            //$('#Claim_No').val(dataItem.Code);
+        }
+
+    });
+</script>
