@@ -88,21 +88,29 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
             }
         }
 
-        public async Task<bool> SaveAdminLoginRecord(AdminLoginsModel model,string userId)
+        public async Task<bool> SaveAdminLoginRecord(AdminLoginsModel model, string userId)
         {
 
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "/api/AccountAndReg/TeamInsertCustomerPortalLogin?portalLogin=&userId=" + userId;
+            string apiUrl = string.Empty;
+            if (model.IsNew)
+            {
+                apiUrl = SiteUrl + "/api/AccountAndReg/TeamInsertCustomerPortalLogin?portalLogin=&userId=" + userId;
+            }
+            else
+            {
+                apiUrl = SiteUrl + "/api/AccountAndReg/TeamUpdateCustomerPortalLogin?portalLogin=" + model.H_PortalLoginId + "&userId=" + userId;
+            }
             var json = JsonConvert.SerializeObject(model);
 
             using (var client = new HttpClient())
             {
-                    var jsonString = JsonConvert.SerializeObject(model);
-                    var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                var jsonString = JsonConvert.SerializeObject(model);
+                var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
 
-                    var result = await client.PostAsync(apiUrl, content);
-                    string resultContent = await result.Content.ReadAsStringAsync();
-                    return Convert.ToBoolean(resultContent);
+                var result = await client.PostAsync(apiUrl, content);
+                string resultContent = await result.Content.ReadAsStringAsync();
+                return Convert.ToBoolean(resultContent);
 
             }
         }

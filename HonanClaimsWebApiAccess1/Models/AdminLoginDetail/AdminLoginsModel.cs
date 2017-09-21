@@ -17,5 +17,6 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
         public string Password { get; set; }
         public string LastLogin { get; set; }
         public string Email { get; set; }
+        public bool IsNew { get; set; }
     }
 }
