@@ -67,6 +67,7 @@
     <Compile Include="LoginServices\LoginService.cs" />
     <Compile Include="Models\AdminLoginDetail\AdminLogindetailRepo.cs" />
     <Compile Include="Models\AdminLoginDetail\AdminLoginsModel.cs" />
+    <Compile Include="Models\AdminLoginDetail\ContactModel.cs" />
     <Compile Include="Models\AdminLoginDetail\CustomerPortalAdminModel.cs" />
     <Compile Include="Models\LookupModel\AccountLookup.cs" />
     <Compile Include="Models\LookupModel\AccountLookupRepo.cs" />

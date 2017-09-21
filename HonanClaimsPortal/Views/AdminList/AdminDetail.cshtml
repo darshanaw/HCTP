@@ -8,13 +8,13 @@
 <h2>AdminDetail</h2>
 
 @using (Html.BeginForm("AddPortalAdminRecord", "AdminList", FormMethod.Post,
-                                                                                                                                                                                                                                        new
-                                                                                                                                                                                                                                        {
-                                                                                                                                                                                                                                            enctype = "multipart/form-data",
-                                                                                                                                                                                                                                            id = "FileUploadForm",
-                                                                                                                                                                                                                                            name = "ImgForm",
-                                                                                                                                                                                                                                            //target = "UploadTarget",
-                                                                                                                                                                                                                                        }))
+                                                                                                                                                                                                                                                    new
+                                                                                                                                                                                                                                                    {
+                                                                                                                                                                                                                                                        enctype = "multipart/form-data",
+                                                                                                                                                                                                                                                        id = "FileUploadForm",
+                                                                                                                                                                                                                                                        name = "ImgForm",
+                                                                                                                                                                                                                                                        //target = "UploadTarget",
+                                                                                                                                                                                                                                                    }))
 {
 
     @Html.HiddenFor(m => m.H_Customerportaladminid)
@@ -225,15 +225,8 @@
                 <div class="col-md-12 form-group mb">
                     <label class="col-sm-3 control-label input-sm">Contact Name #</label>
                     <div class="col-sm-9">
-                        <div class="input-group">
-
-                            <input type="text" class="form-control" disabled id="ContactName">
-                            <span id="btncontactlook" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
-
-                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                    <i class="fa fa-binoculars"></i>
-                                </button>
-                            </span>
+                        <div class="demo-section k-content">
+                            <input id="products" style="width: 100%;" />
                         </div>
                         @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                     </div>
@@ -412,6 +405,9 @@
     });
 
     $('#newLogin').click(function () {
+        var accId = $('#Account_Id').val();
+        if (accId == null || accId == "") { return; };
+        LoadContacts(accId);
         $('#LoginDataModal').modal('show');
     })
 
@@ -421,7 +417,6 @@
     })
 
     $('#Addlogin').click(function () {
-        debugger
         var loginNew = false;
         var adminId = $("#H_Customerportaladminid").val();
         //if (adminId == null || adminId=="") {
@@ -454,6 +449,8 @@
                     if (resultData == false) {
                         setError("Error adding login detail", true);
                     } else {
+                        $('#loginGrid').data('kendoGrid').dataSource.read();
+                        $('#loginGrid').data('kendoGrid').refresh();
                         setError("", false);
                         $('#LoginDataModal').modal('hide');
                     }
@@ -477,4 +474,26 @@
             $('#error').hide();
         }
     }
+
+    function LoadContacts(accountId) {
+        $("#products").kendoAutoComplete({
+            dataTextField: "ContactName",
+            filter: "contains",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                serverFiltering: true,
+                transport: {
+                    read: "/AdminList/GetContactNames?accountId=" + accountId
+                }
+            },
+            select: onSelect
+        });
+
+        function onSelect(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#ContactId').val(dataItem.ContactId);
+        }
+    }
+
 </script>

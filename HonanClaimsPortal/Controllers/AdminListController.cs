@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.AdminLoginDetail;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -192,6 +193,16 @@ namespace HonanClaimsPortal.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetContactNames(string accountId)
+        {
+            List<ContactModel> list = new List<ContactModel>();
+            AdminLogindetailRepo accountLookupRepo = new AdminLogindetailRepo();
+            list = await accountLookupRepo.GetContactNames(accountId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }
