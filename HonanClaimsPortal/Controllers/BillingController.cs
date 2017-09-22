@@ -34,11 +34,11 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetTeamGetBillableLawyers(string Name)
-        {
+        public async Task<ActionResult> GetTeamGetBillableLawyers(string filter)
+       {
             List<CommonModel> list = new List<CommonModel>();
             BillingRepo billingRepo = new BillingRepo();
-            list = await billingRepo.GetTeamGetBillableLawyers(Name);
+            list = await billingRepo.GetTeamGetBillableLawyers(filter);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
