@@ -14,8 +14,11 @@ namespace HonanClaimsWebApi.Models.Billing
         public string Is_Billable { get; set; }
         public string Claim_No { get; set; }
         public string ActivityId { get; set; }
+        public string Activity_Name { get; set; }//
         public string Policyid { get; set; }
+        public string Policy_Name { get; set; }//
         public string ClientId { get; set; }
+        public string Client_Name { get; set; }//
         public DateTime Service_Date { get; set; }
         public string Start_Time_HH { get; set; }
         public string Start_Time_MM { get; set; }

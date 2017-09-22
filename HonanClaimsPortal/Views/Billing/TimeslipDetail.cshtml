@@ -18,12 +18,10 @@
                 <label class="col-sm-2">Services By :</label>
                 <div class="col-sm-10">
                     <div class="demo-section k-content">
-                        @*@Html.TextBoxFor(m => m.Service_By_Name, new { @class = "form-control", id = "txtService_By_Name" })*@
-                        <input id="txtService_By_Name" name="txtService_By_Name" style="width: 100%;" />
+                        @Html.TextBoxFor(m => m.Service_By_Name)
+                        @Html.HiddenFor(h => h.Service_By)
                     </div>
-                </div>
-                @*@Html.HiddenFor(h=>h.Service_By_Name)*@
-                @Html.HiddenFor(h => h.Service_By)
+                </div>         
             </div>
         </div>
 
@@ -33,22 +31,38 @@
                 <div class="col-sm-10">
                     <div>
                         @Html.TextBoxFor(m => m.Claim_No)
-                        
+                        @Html.HiddenFor(m=>m.H_Claimsid)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-2">Activity :</label>
+                <div class="col-sm-10">
+                    <div>
+                        @Html.TextBoxFor(m => m.Activity_Name)
+                       @Html.HiddenFor(m => m.ActivityId)
                     </div>
                 </div>
             </div>
         </div>
 
     </div>
+
+
+    <input type="button" value="submit" id="btntest"/>
 }
 
 <script>
     $(document).ready(function () {
 
+        $("#btntest").click(function () {
+            var vvv = $("#Service_By").val();
+        });
 
-
-            $("#txtService_By_Name").kendoAutoComplete({
-
+        $("#Service_By_Name").kendoAutoComplete({
                 dataTextField: "Text",
                 filter: "contains",
                 minLength: 2,
@@ -61,15 +75,49 @@
                 },
                 select: onSelect
             });
-            function onSelect(e) {
+        function onSelect(e) {
+
                 var dataItem = this.dataItem(e.item.index());
                 $('#Service_By').val(dataItem.Code);
+                $('#Service_By_Name').val(dataItem.Text)
             }
 
-
-        
-
         $("#Claim_No").kendoAutoComplete({
+            animation: false
+        });
+
+        $("#Claim_No").keypress(function () {
+
+            $("#Claim_No").kendoAutoComplete({
+                dataTextField: "Text",
+                filter: "contains",
+                minLength: 2,
+                type: "POST",
+                dataSource: {
+                    type: "json",
+                    serverFiltering: false,
+                    transport: {
+                        read: {
+                            url: "/Billing/TeamGetClaimNosAssigned",
+                            dataType: "json",
+                            data: { "UserId": $("#Service_By").val() }
+                        }
+                    }
+                },
+                select: onSelectClaim_No
+            });
+            function onSelectClaim_No(e) {
+                debugger;
+                var dataItem = this.dataItem(e.item.index());
+                $('#Claim_No').val(dataItem.Text);
+                $("#H_Claimsid").val(dataItem.Code);
+            }
+
+        });
+
+
+
+        $("#Activity_Name").kendoAutoComplete({
             dataTextField: "Text",
             filter: "contains",
             minLength: 2,
@@ -77,14 +125,15 @@
                 type: "json",
                 serverFiltering: true,
                 transport: {
-                    read: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Claim_No").val(),
+                    read: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid").val(),
                 }
             },
-            select: onSelectClaim_No
+            select: onSelectActivity_Name
         });
-        function onSelectClaim_No(e) {
-            //var dataItem = this.dataItem(e.item.index());
-            //$('#Claim_No').val(dataItem.Code);
+        function onSelectActivity_Name(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#ActivityId').val(dataItem.Code);
+            $("#Activity_Name").val(dataItem.Text);
         }
 
     });
