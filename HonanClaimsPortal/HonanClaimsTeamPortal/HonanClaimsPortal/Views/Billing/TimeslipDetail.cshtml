@@ -17,11 +17,11 @@
             <div class="form-group mb">
                 <label class="col-sm-2">Services By :</label>
                 <div class="col-sm-10">
-                    <div class="demo-section k-content">
+                    <div>
                         @Html.TextBoxFor(m => m.Service_By_Name)
                         @Html.HiddenFor(h => h.Service_By)
                     </div>
-                </div>         
+                </div>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
                 <div class="col-sm-10">
                     <div>
                         @Html.TextBoxFor(m => m.Claim_No)
-                        @Html.HiddenFor(m=>m.H_Claimsid)
+                        @Html.HiddenFor(m => m.H_Claimsid)
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <div class="col-sm-10">
                     <div>
                         @Html.TextBoxFor(m => m.Activity_Name)
-                       @Html.HiddenFor(m => m.ActivityId)
+                        @Html.HiddenFor(m => m.ActivityId)
                     </div>
                 </div>
             </div>
@@ -52,42 +52,176 @@
     </div>
 
 
-    <input type="button" value="submit" id="btntest"/>
+    <input type="button" value="submit" id="btntest" />
 }
+
+@*<input id="autocomplete" />*@
+@*<script>
+        $("#Service_By_Name").kendoAutoComplete({
+            dataSource: []
+        });
+        var dataSource = new kendo.data.DataSource({
+            data: []
+        });
+        var autocomplete = $("#Service_By_Name").data("kendoAutoComplete");
+        autocomplete.setDataSource(dataSource);
+
+
+        $("#Service_By_Name").keyup(function (e) {
+
+            var autocomplete = $("#Service_By_Name").data("kendoAutoComplete");
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: "/Billing/GetTeamGetBillableLawyers?filter=" + $("#Service_By_Name").val(),
+                    dataType:"json"
+                }
+                //data: ["Apples", "Oranges", "Bananas", "Cherries"]
+            });
+            autocomplete.setDataSource(dataSource);
+
+        });
+    </script>*@
+
+@*<script>
+
+        $(document).ready(function () {
+
+            var data = [{ "Text": "Apples", "Name": "NApple" }, { "Text": "Oranges", "Name": "NOrange" }];
+
+
+            $("#Service_By_Name").keypress(function () {
+                //var vvv = $("#Service_By_Name").val();
+                data1 = [{ "Text": "Apples11", "Name": "NApple11" }, { "Text": "Oranges11", "Name": "NOrange11" }];
+                loadAuto(data1);
+            });
+
+            loadAuto(data);
+            function loadAuto(data) {
+                $("#Service_By_Name").kendoAutoComplete({
+                    dataTextField: "Text",
+                    filter: "contains",
+                    minLength: 2,
+                    dataSource: data
+                    //select: onSelect
+                });
+            }
+        });
+    </script>*@
+
+
+@*<input id="autocomplete" />
+<script>
+
+    var dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: "/Billing/GetTeamGetBillableLawyers?filter=" + $("#Service_By_Name").val(),
+                dataType: "json"
+            }
+        }
+    });
+
+    $("#Service_By_Name").keypress(function () {
+        var dd = $("#Service_By_Name").val();
+        debugger;
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Billing/GetTeamGetBillableLawyers?filter=" + dd,
+                    dataType: "json"
+                }
+            }
+        });
+        dataSource.refresh();
+    });
+
+
+    $("#Service_By_Name").kendoAutoComplete({
+        dataTextField: "Text",
+        filter: "contains",
+        minLength: 2,
+        dataSource: dataSource,
+    });
+
+</script>*@
+
+<script>
+    var kendoAutoCompleteWC = null;
+    $(document).ready(function () {
+        kendoAutoCompleteWC = $("#Service_By_Name").kendoAutoComplete({
+            dataTextField: "Text",
+            //dataValueField: "ID",
+            minLength: 2,
+            dataSource: {
+                //serverFiltering: true,
+                type: "json",
+                transport: {
+                    read: "/Billing/GetTeamGetBillableLawyers?filter=" + "",
+                }
+
+            },
+            filter: "contains",
+            placeholder: "Select"
+        }).data("kendoAutoComplete");
+    });
+    $('#Service_By_Name').keyup(function () {
+        var dd = $("#Service_By_Name").val();
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Billing/GetTeamGetBillableLawyers?filter=" + $("#Service_By_Name").val(),
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteWC.setDataSource(dataSource);
+    });
+</script>
 
 <script>
     $(document).ready(function () {
 
-        $("#btntest").click(function () {
-            var vvv = $("#Service_By").val();
-        });
+        //$("#btntest").click(function () {
+        //    var vvv = $("#Service_By_Name").val();
+        //});
 
-        $("#Service_By_Name").kendoAutoComplete({
-                dataTextField: "Text",
-                filter: "contains",
-                minLength: 2,
-                dataSource: {
-                    type: "json",
-                    //serverFiltering: true,
-                    transport: {
-                        read: "/Billing/GetTeamGetBillableLawyers?Name=",
-                    }
-                },
-                select: onSelect
-            });
-        function onSelect(e) {
+        //var dataSource=[];
+        //$("#Service_By_Name").kendoAutoComplete({
+        //    dataSource: dataSource
+        //});
+        //$("#Service_By_Name").keypress(function () {
+        //    loadauto($("#Service_By_Name").val());
+        //});
 
-                var dataItem = this.dataItem(e.item.index());
-                $('#Service_By').val(dataItem.Code);
-                $('#Service_By_Name').val(dataItem.Text)
-            }
+        //loadauto($("#Service_By_Name").val());
 
-        $("#Claim_No").kendoAutoComplete({
-            animation: false
-        });
+        //function loadauto(value) {
+        //    dataSource =
 
+        //    //var auto = $("#Service_By_Name").kendoAutoComplete({
+        //    //    dataTextField: "Text",
+        //    //    filter: "contains",
+        //    //    minLength: 2,
+        //    //    dataSource: {
+        //    //        //serverFiltering: true,
+        //    //        type: "json",
+        //    //        transport: {
+        //    //            read: "/Billing/GetTeamGetBillableLawyers?filter=" + value,
+        //    //        }
+
+        //    //    },
+        //    //    select: onSelect
+        //    //}).data("kendoAutoComplete");
+
+        //    function onSelect(e) {
+        //        var dataItem = this.dataItem(e.item.index());
+        //        $('#Service_By').val(dataItem.Code);
+        //        $('#Service_By_Name').val(dataItem.Text)
+        //    }
+        //}
+
+        //$("#Claim_No").kendoAutoComplete({});
         $("#Claim_No").keypress(function () {
-
             $("#Claim_No").kendoAutoComplete({
                 dataTextField: "Text",
                 filter: "contains",
@@ -107,7 +241,6 @@
                 select: onSelectClaim_No
             });
             function onSelectClaim_No(e) {
-                debugger;
                 var dataItem = this.dataItem(e.item.index());
                 $('#Claim_No').val(dataItem.Text);
                 $("#H_Claimsid").val(dataItem.Code);
@@ -116,25 +249,27 @@
         });
 
 
-
-        $("#Activity_Name").kendoAutoComplete({
-            dataTextField: "Text",
-            filter: "contains",
-            minLength: 2,
-            dataSource: {
-                type: "json",
-                serverFiltering: true,
-                transport: {
-                    read: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid").val(),
-                }
-            },
-            select: onSelectActivity_Name
+        //$("#Activity_Name").kendoAutoComplete({});
+        $("#Activity_Name").keypress(function () {
+            $("#Activity_Name").kendoAutoComplete({
+                dataTextField: "Text",
+                filter: "contains",
+                minLength: 2,
+                dataSource: {
+                    type: "json",
+                    serverFiltering: true,
+                    transport: {
+                        read: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid").val(),
+                    }
+                },
+                select: onSelectActivity_Name
+            });
+            function onSelectActivity_Name(e) {
+                var dataItem = this.dataItem(e.item.index());
+                $('#ActivityId').val(dataItem.Code);
+                $("#Activity_Name").val(dataItem.Text);
+            }
         });
-        function onSelectActivity_Name(e) {
-            var dataItem = this.dataItem(e.item.index());
-            $('#ActivityId').val(dataItem.Code);
-            $("#Activity_Name").val(dataItem.Text);
-        }
 
     });
 </script>
