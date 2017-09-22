@@ -50,5 +50,14 @@ namespace HonanClaimsPortal.Controllers
             list = await billingRepo.TeamGetClaimNosAssigned(UserId);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> TeamGetClaimActivities(string Claimsid)
+        {
+            List<CommonModel> list = new List<CommonModel>();
+            BillingRepo billingRepo = new BillingRepo();
+            list = await billingRepo.TeamGetClaimActivities(Claimsid);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }
