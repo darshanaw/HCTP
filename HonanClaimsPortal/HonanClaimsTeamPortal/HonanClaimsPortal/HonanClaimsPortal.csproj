@@ -199,7 +199,12 @@
     <Compile Include="Controllers\ClaimListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+<<<<<<< .mine
+    <Compile Include="Controllers\MyActivityController.cs" />
+||||||| .r406
+=======
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
+>>>>>>> .r416
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1273,7 +1278,12 @@
     <Content Include="Views\ClaimAssignment\Index.cshtml" />
     <Content Include="Views\ClaimList\Index.cshtml" />
     <Content Include="Views\Billing\TimeslipDetail.cshtml" />
+<<<<<<< .mine
+    <Content Include="Views\MyActivity\Index.cshtml" />
+||||||| .r406
+=======
     <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
+>>>>>>> .r416
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

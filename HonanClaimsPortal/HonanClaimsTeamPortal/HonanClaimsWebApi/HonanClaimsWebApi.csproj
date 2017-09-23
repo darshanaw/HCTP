@@ -81,6 +81,12 @@
     <Compile Include="Models\Common\CommonModel.cs" />
     <Compile Include="Models\LookupModel\AccountLookup.cs" />
     <Compile Include="Models\LookupModel\AccountLookupRepo.cs" />
+    <Compile Include="Models\MyActivity\ActivityClaimModel.cs" />
+    <Compile Include="Models\MyActivity\ActivityOwnerModel.cs" />
+    <Compile Include="Models\MyActivity\ActivityReturnModel.cs" />
+    <Compile Include="Models\MyActivity\ActivityUserModel.cs" />
+    <Compile Include="Models\MyActivity\MyActivityRepo.cs" />
+    <Compile Include="Models\MyActivity\MyActivityModels.cs" />
     <Compile Include="Models\ProtalLoginAccounts\ProtalLoginAccountsModel.cs" />
     <Compile Include="Models\ProtalLoginAccounts\ProtalLoginAccountsRepo.cs" />
     <Compile Include="Models\ProtalLogingRequest\ProtalLogingRequestModel.cs" />
