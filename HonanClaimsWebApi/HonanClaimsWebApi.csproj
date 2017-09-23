@@ -73,6 +73,7 @@
     <Compile Include="Models\Billing\BillingRepo.cs" />
     <Compile Include="Models\ClaimList\ClaimListModel.cs" />
     <Compile Include="Models\ClaimList\ClaimListRepo.cs" />
+    <Compile Include="Models\ClaimList\CustomerModel.cs" />
     <Compile Include="Models\Common\CommonModel.cs" />
     <Compile Include="Models\LookupModel\AccountLookup.cs" />
     <Compile Include="Models\LookupModel\AccountLookupRepo.cs" />

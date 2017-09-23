@@ -4,15 +4,207 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Claim List</h2>
+<h2>My Claim List</h2>
 <div>
-    <div id="grid1"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-12 form-group mb">
+                <label class="col-sm-3 control-label input-sm">Search My Claims #</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchTxt">
+                        <span id="btnsearchtext" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
+
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input type="radio" id="myclaim" value="true" name="allormy">My Claims</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input type="radio" id="allclaim" value="false" name="allormy">All Claims</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-12 form-group mb">
+                <label class="col-sm-3 control-label input-sm">Customer #</label>
+                <div class="col-sm-9">
+                    <input id="customerId" style="display:none;" />
+                    <div class="demo-section k-content">
+                        <input id="customer" style="width: 100%;" />
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input type="radio" id="openclaim" value="true" name="openclose">Open Claims</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input type="radio" id="closeclaim" value="false" name="openclose">Close Claims</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-12 form-group mb">
+                <button id="clearFilter" type="button" class="btn btn-default">Clear Filter</button>
+                <button id="filterList" type="button" class="btn btn-default">Filter List</button>
+            </div>
+
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input value="All" id="typeall" type="radio" name="claimtype">All</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input value="Claims" id="typeclaim" type="radio" name="claimtype">Claims</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="radio">
+                    <label><input value="Notification" id="typenoti" type="radio" name="claimtype">Notification</label>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div id="grid1"></div>
+    </div>
+
 </div>
 <script>
     $(document).ready(function () {
 
+        //load customer list
+        $.get("/ClaimList/GetCustomerList", function (data, status) {
+            $("#customer").kendoAutoComplete({
+                dataTextField: "Text",
+                filter: "startswith",
+                minLength: 2,
+                dataSource: data,
+                select: onSelect
+            });
+
+            function onSelect(e) {
+                var dataItem = this.dataItem(e.item.index());
+                $('#customerId').val(dataItem.Code);
+                LoadClaimGrid();
+            }
+        });
 
 
+        //set value when start
+        $('#myclaim').prop("checked", true)
+        //set value when start
+        $('#openclaim').prop("checked", true)
+        //set value when start
+        $('#typeall').prop("checked", true)
+
+        LoadClaimGrid();
+
+        function LoadClaimGrid() {
+            var searchText = null;
+            var customerId = null;
+            var onlyMyClaim = true;
+            var Openclaim = true;
+            var ClaimType = "All";
+            //get search text
+            var s = $('#searchTxt').val();
+            if (s != null && s != "") { searchText = s }
+            //get customer
+            var c = $('#customerId').val();
+            if (c != null && c != "") { customerId = c }
+            //get all claims or my
+            onlyMyClaim = $('input[name=allormy]:checked').val();
+            //get open claims
+            Openclaim = $('input[name=openclose]:checked').val();
+            //get claim type
+            ClaimType = $('input[name=claimtype]:checked').val();
+
+            $("#grid1").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId
+                    },
+                    pageSize: 10
+                },
+                height: 200,
+                sortable: true,
+                columns: [{
+                    hidden: true,
+                    field: "ClaimsId",
+                    title: "ClaimsId"
+                },
+                {
+                    field: "ClaimRefNo",
+                    title: "Claims Ref #",
+                },
+                {
+                    field: "DateOfLoss",
+                    title: "Date of Loss",
+                }, {
+                    field: "Contact",
+                    title: "Contact",
+                }, {
+                    field: "ClaimStage",
+                    title: "Claim Stage",
+                },
+                {
+                    field: "Status",
+                    title: "Status",
+                },
+                 {
+                     field: "ClaimType",
+                     title: "Type",
+                 }
+                ]
+            });
+        }
+
+        $('#clearFilter').click(function () {
+            //set value when start
+            $('#myclaim').prop("checked", true)
+            //set value when start
+            $('#openclaim').prop("checked", true)
+            //set value when start
+            $('#typeall').prop("checked", true)
+
+            $('#searchTxt').val("");
+            $('#customerId').val("");
+            $("#customer").data("kendoAutoComplete").value("");
+            LoadClaimGrid();
+
+        })
+
+        $('#allclaim, #myclaim, #openclaim, #closeclaim, #typeall, #typeclaim, #typenoti').change(function () {
+            LoadClaimGrid();
+        });
+
+        $('#btnsearchtext, #filterList').click(function () {
+            LoadClaimGrid();
+        })
 
     });
 </script>
