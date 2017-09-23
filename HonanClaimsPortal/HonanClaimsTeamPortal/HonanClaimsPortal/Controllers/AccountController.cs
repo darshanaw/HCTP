@@ -96,7 +96,7 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLogin client = loginService.Login(model.UserCode, model.Password, model.LoginAttempt);
 
             var result = (client == null || client.UserId == null) ? SignInStatus.Failure : SignInStatus.Success;
-
+            
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             //var result = await SignInManager.PasswordSignInAsync(model.UserCode, model.Password, model.RememberMe, shouldLockout: false);
