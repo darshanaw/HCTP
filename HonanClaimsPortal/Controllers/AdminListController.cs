@@ -182,7 +182,7 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAdminLogin(AdminLoginsModel model)
         {
-            ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
 
             AdminLogindetailRepo loginrepo = new AdminLogindetailRepo();

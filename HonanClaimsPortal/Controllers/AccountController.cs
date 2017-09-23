@@ -93,7 +93,7 @@ namespace HonanClaimsPortal.Controllers
             }
 
             loginService = new LoginService();
-            ClaimTeamLogin client = loginService.Login(model.UserCode, model.Password, model.LoginAttempt);
+            ClaimTeamLoginModel client = loginService.Login(model.UserCode, model.Password, model.LoginAttempt);
 
             var result = (client == null || client.UserId == null) ? SignInStatus.Failure : SignInStatus.Success;
             

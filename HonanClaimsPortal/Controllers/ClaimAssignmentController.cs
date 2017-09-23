@@ -23,7 +23,7 @@ namespace HonanClaimsPortal.Controllers
         {
             try
             {
-                ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 List<string> TeamList = client.Teams;
                 List<HonanClaimsWebApiAccess1.Models.TeamGetClaimAssigment.CRMPicklistItem> list = new List<HonanClaimsWebApiAccess1.Models.TeamGetClaimAssigment.CRMPicklistItem>();
                 TeamGetClaimAssigmentRepo teamGetClaimAssigmentRepo = new TeamGetClaimAssigmentRepo();

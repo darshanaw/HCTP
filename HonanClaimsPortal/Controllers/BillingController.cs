@@ -21,7 +21,7 @@ namespace HonanClaimsPortal.Controllers
 
         public ActionResult TimeslipDetail()
         {
-            ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string Service_By_Name = client.FirstName+" "+client.LastName;
             string Service_By = client.UserId;
 

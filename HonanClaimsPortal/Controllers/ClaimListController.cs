@@ -23,7 +23,7 @@ namespace HonanClaimsPortal.Controllers
         {
             try
             {
-                ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 string UserId = client.UserId;
 
                 List<ClaimListModel> list = new List<ClaimListModel>();
@@ -43,7 +43,7 @@ namespace HonanClaimsPortal.Controllers
         {
             try
             {
-                ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 string UserId = client.UserId;
 
                 List<CustomerModel> list = new List<CustomerModel>();
