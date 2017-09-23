@@ -199,6 +199,7 @@
     <Compile Include="Controllers\ClaimListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RisksmartGccClaimController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1272,10 +1273,12 @@
     <Content Include="Views\ClaimAssignment\Index.cshtml" />
     <Content Include="Views\ClaimList\Index.cshtml" />
     <Content Include="Views\Billing\TimeslipDetail.cshtml" />
+    <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Timeslip\" />
+    <Folder Include="Views\RisksmartGcc\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
