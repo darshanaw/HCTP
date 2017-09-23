@@ -30,7 +30,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public bool Timeslip_Checked { get; set; }
         public string Checked_By { get; set; }
         public DateTime? Checked_Date { get; set; }
-        public string Invoice_Processed { get; set; }
+        public bool Invoice_Processed { get; set; }
         public string Invoice_Processed_By { get; set; }
         public string Invoice_Processed_Date { get; set; }
         public string Invoice_No { get; set; }
