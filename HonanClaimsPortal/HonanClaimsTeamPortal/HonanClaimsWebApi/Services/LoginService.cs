@@ -24,7 +24,7 @@ namespace HonanClaimsWebApiAccess1.LoginServices
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public ClaimTeamLogin Login(string userCode, string password, string loginAttempt)
+        public ClaimTeamLoginModel Login(string userCode, string password, string loginAttempt)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace HonanClaimsWebApiAccess1.LoginServices
                             string response = responseReader.ReadToEnd();
                             if (!string.IsNullOrEmpty(response))
                             {
-                                return new JavaScriptSerializer().Deserialize<ClaimTeamLogin>(response);
+                                return new JavaScriptSerializer().Deserialize<ClaimTeamLoginModel>(response);
                             }
 
                         }

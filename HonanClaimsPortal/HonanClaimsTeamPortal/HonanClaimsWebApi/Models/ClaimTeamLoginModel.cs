@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HonanClaimsWebApiAccess1.LoginServices
 {
-    public class ClaimTeamLogin
+    public class ClaimTeamLoginModel
     {
         public string UserId { get; set; }
         public string FirstName { get; set; }
