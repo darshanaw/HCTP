@@ -22,7 +22,17 @@ namespace HonanClaimsPortal.Controllers
             lookupServices = new LookupServices();
             picklistServicecs = new PicklistServicecs();
 
-            newClaimModel.Claim_Team_List = new List<SelectListItem>()
+            InitializeModel(newClaimModel);
+
+            //newClaimModel.Assigned_To_List = picklistServicecs.GetTeamGetUserOfTeam()
+
+
+            return View(newClaimModel);
+        }
+
+        private void InitializeModel(NewClaimModel model)
+        {
+            model.Claim_Team_List = new List<SelectListItem>()
             {
                 new SelectListItem(){ Text = ClaimTeams.RisksmartGCC, Value=ClaimTeams.RisksmartGCC},
                 new SelectListItem(){ Text = ClaimTeams.RisksmartProperty, Value=ClaimTeams.RisksmartProperty},
@@ -30,16 +40,12 @@ namespace HonanClaimsPortal.Controllers
                 new SelectListItem(){ Text = ClaimTeams.GCCClaims, Value=ClaimTeams.GCCClaims}
             };
 
-            newClaimModel.Claim_Type_List = new List<SelectListItem>()
+            model.Claim_Type_List = new List<SelectListItem>()
             {
                 new SelectListItem(){Text= Enum.GetName(typeof(ClaimType),0), Value = Enum.GetName(typeof(ClaimType),0)},
                 new SelectListItem(){Text= Enum.GetName(typeof(ClaimType),1), Value = Enum.GetName(typeof(ClaimType),1)}
             };
 
-            //newClaimModel.Assigned_To_List = picklistServicecs.GetTeamGetUserOfTeam()
-
-
-            return View(newClaimModel);
         }
 
         [HttpPost]
@@ -51,6 +57,7 @@ namespace HonanClaimsPortal.Controllers
                     return RedirectToAction("NewRisksmartGccClaim", "RisksmartGccClaim");
             }
 
+            InitializeModel(model);
             return View(model);
         }
     }

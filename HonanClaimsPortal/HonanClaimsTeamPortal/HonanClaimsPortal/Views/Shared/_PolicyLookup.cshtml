@@ -78,10 +78,12 @@
             'info': false,
             "fnServerParams": function (aoData) {
 
-                accountId = $("#Oc_No").val();
+                accountId = $("#Oc_No").val();  
 
-                if ($('#Oc_No'))
-                       aoData.push({ 'name': 'accountId', 'value': accountId });
+                if ($('#Oc_No') && $('#Oc_No').val() !='')
+                    aoData.push({ 'name': 'accountId', 'value': accountId });
+                else if ($('#Accountid'))
+                    aoData.push({ 'name': 'accountId', 'value': $('#Accountid').val() });
 
                 },
             "aoColumns": [
