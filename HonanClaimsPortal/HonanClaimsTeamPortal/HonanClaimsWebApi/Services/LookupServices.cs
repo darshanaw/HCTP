@@ -23,6 +23,12 @@ namespace HonanClaimsWebApi.Services
         private const string policyApiGet1 = "api/General/GetPolicyLookup?policyNo=";
         private const string policyApiGet2 = "&accountId=";
 
+        private const string storeApiGet1 = "api/General/GetStoreLookup?storeName=";
+        private const string storeApiGet2 = "&accountId=";
+
+        private const string contactApiGet1 = "api/General/GetContactLookup?contactName=";
+        private const string contactApiGet2 = "&accountId=";
+
 
         public List<AccountSimpleModel> GetAccounts(string accountName, string accountType)
         {
@@ -100,6 +106,64 @@ namespace HonanClaimsWebApi.Services
                         {
                             string response = responseReader.ReadToEnd();
                             return new JavaScriptSerializer().Deserialize<List<PolicySimple>>(response);
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<StoreSimple> GetStores(string storeName, string policyId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + storeApiGet1 + storeName + storeApiGet2 + policyId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<StoreSimple>>(response);
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<CRMContactSimple> GetContactLookup(string contactName, string accountId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + contactApiGet1 + contactName + contactApiGet2 + accountId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<CRMContactSimple>>(response);
                         }
                     }
                 }

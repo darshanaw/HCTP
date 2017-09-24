@@ -1296,6 +1296,9 @@
     <Content Include="Views\Shared\_AccountOcLookup.cshtml" />
     <Content Include="Views\Shared\_AssignToLookup.cshtml" />
     <Content Include="Views\RisksmartGccClaim\NewRisksmartGccClaim.cshtml" />
+    <Content Include="Views\Shared\_StoreLookup.cshtml" />
+    <Content Include="Views\Shared\_AccountBrokerLookup.cshtml" />
+    <Content Include="Views\Shared\_ContactBrokerLookUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

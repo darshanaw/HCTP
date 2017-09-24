@@ -167,6 +167,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public DateTime? Claim_Acknowledged_Date { get; set; }
         public DateTime? Claim_Lodged_Date { get; set; }
         public string Policy_Section { get; set; }
+       
         public decimal Net_Paid_Liability { get; set; }
         public decimal Net_Paid_Defence { get; set; }
         public decimal Total_Incurred { get; set; }
@@ -194,8 +195,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool? Indemnity_Granted { get; set; }
         public string Broker { get; set; }
         public string Broker_Name { get; set; }
+        public string Broker_Name_Id { get; set; }
         public string Panel_Lawyers_Retained { get; set; }
         public string Broker_Account { get; set; }
+        public string Broker_Account_Id { get; set; }
         public string Oc_Num { get; set; }
         public string Oc_Id { get; set; }
         public string Reported_By_Contact_Phone_Num { get; set; }
@@ -208,6 +211,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Policy_Class { get; set; }
         public decimal Basic_Excess { get; set; }
 
+        public List<PicklistItem> Policy_Class_List { get; set; }
+        public List<PicklistItem> Policy_Section_List { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
         public List<PicklistItem> RegionList { get; set; }
