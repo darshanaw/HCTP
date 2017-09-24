@@ -135,7 +135,7 @@ namespace HonanClaimsWebApi.Models.Billing
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
             string apiUrl = string.Empty;
 
-            apiUrl = SiteUrl + "api/AccountAndReg/TeamUpdateCustomerPortalAdmin";
+            apiUrl = SiteUrl + "api/Billing/TeamInsertTimeslip?billing=&userId=";
             
             var json = JsonConvert.SerializeObject(model);
 
