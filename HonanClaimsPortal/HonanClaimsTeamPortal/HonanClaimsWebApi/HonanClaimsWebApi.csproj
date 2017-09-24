@@ -70,6 +70,7 @@
     <Compile Include="Models\AccountSimpleModel.cs" />
     <Compile Include="Models\ClaimTeamLoginModel.cs" />
     <Compile Include="Models\Claim\NewClaimModel.cs" />
+    <Compile Include="Models\Common\CRMPicklistItem.cs" />
     <Compile Include="Models\LookupModel\CRMOCNumSimple.cs" />
     <Compile Include="Models\LookupModel\PolicySimple.cs" />
     <Compile Include="Services\ClaimServices.cs" />

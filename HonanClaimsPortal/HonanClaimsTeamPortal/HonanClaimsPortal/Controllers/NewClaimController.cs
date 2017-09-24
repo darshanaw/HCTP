@@ -9,15 +9,18 @@ using System.Web.Mvc;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class NewClaimController : Controller
     {
         NewClaimModel newClaimModel;
         LookupServices lookupServices;
+        PicklistServicecs picklistServicecs;
         // GET: NewClaim
         public ActionResult Index()
         {
             newClaimModel = new NewClaimModel();
             lookupServices = new LookupServices();
+            picklistServicecs = new PicklistServicecs();
 
             newClaimModel.Claim_Team_List = new List<SelectListItem>()
             {
@@ -33,8 +36,22 @@ namespace HonanClaimsPortal.Controllers
                 new SelectListItem(){Text= Enum.GetName(typeof(ClaimType),1), Value = Enum.GetName(typeof(ClaimType),1)}
             };
 
-          
+            //newClaimModel.Assigned_To_List = picklistServicecs.GetTeamGetUserOfTeam()
+
+
             return View(newClaimModel);
+        }
+
+        [HttpPost]
+        public ActionResult Index(NewClaimModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if(model.Claim_Team == ClaimTeams.RisksmartGCC)
+                    return RedirectToAction("NewRisksmartGccClaim", "RisksmartGccClaim");
+            }
+
+            return View(model);
         }
     }
 }
