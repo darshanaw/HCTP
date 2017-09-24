@@ -1242,7 +1242,6 @@
     <Content Include="Scripts\notify.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1289,7 +1288,6 @@
     <Content Include="Views\ClaimAssignment\Index.cshtml" />
     <Content Include="Views\ClaimList\Index.cshtml" />
     <Content Include="Views\Billing\TimeslipDetail.cshtml" />
-    <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
     <Content Include="Views\RisksmartGccClaim\DetailRisksmartGccClaim.cshtml" />
     <Content Include="Views\NewClaim\Index.cshtml" />
     <Content Include="Views\Shared\_OcNoLookUp.cshtml" />
@@ -1301,6 +1299,7 @@
     <Content Include="Views\Shared\_AccountBrokerLookup.cshtml" />
     <Content Include="Views\Shared\_ContactBrokerLookUp.cshtml" />
     <Content Include="Views\MyActivity\Index.cshtml" />
+    <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
