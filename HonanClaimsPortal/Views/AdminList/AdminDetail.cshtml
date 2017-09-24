@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>AdminDetail</h2>
-
 @using (Html.BeginForm("AddPortalAdminRecord", "AdminList", FormMethod.Post,
     new
     {
@@ -18,309 +16,318 @@
 {
 
     @Html.HiddenFor(m => m.H_Customerportaladminid)
-    <div class="row">
-        <div class="col-md-6">
-            <div class="col-md-12 form-group mb">
-                <label class="col-sm-3 control-label input-sm">Account Name #</label>
-                <div class="col-sm-9">
+    <div class="main-container">
+        <div class="row mb-15">
+            <div class="col-md-12">
+                <div class="page-title">
+                    <h3>Admin Detail</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 detail-section">
+                <div class="form-group">
+                    <label>Account Name</label>
                     <div class="input-group">
                         @Html.TextBoxFor(m => m.Accountname, new { @class = "form-control" })
                         @Html.HiddenFor(m => m.Account_Id)
-                        <span id="btnPolicyLookup" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
-
-                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                <i class="fa fa-binoculars"></i>
-                            </button>
-                        </span>
+                        <span class="input-group-addon pointer" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
                     </div>
                     @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                 </div>
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Risksmart GCC",
+                        Value = "Risksmart GCC"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Risksmart Property",
+                        Value = "Risksmart Property",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Property Claims",
+                        Value = "Property Claims",
+                    });
 
-            </div>
-            @{
-                List<SelectListItem> listItems = new List<SelectListItem>();
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Risksmart GCC",
-                    Value = "Risksmart GCC"
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Risksmart Property",
-                    Value = "Risksmart Property",
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Property Claims",
-                    Value = "Property Claims",
-                });
-
-                listItems.Add(new SelectListItem
-                {
-                    Text = "GCC Claims",
-                    Value = "GCC Claims"
-                });
-            }
-            <div class="form-group">
-                <label for="Team">Claim Team</label>
-                @Html.DropDownListFor(model => model.Claim_Team, listItems, "-- Select Claim --", new { @class = "form-control" })
-            </div>
-            @{
-                List<SelectListItem> OnlineClaims = new List<SelectListItem>();
-                OnlineClaims.Add(new SelectListItem
-                {
-                    Text = "Yes",
-                    Value = "Yes"
-                });
-                OnlineClaims.Add(new SelectListItem
-                {
-                    Text = "No",
-                    Value = "No",
-                });
-            }
-            <div class="form-group">
-                <label for="email">Can add Online Claims</label>
-                @Html.DropDownListFor(model => model.Account_Can_Add_Claims, OnlineClaims, "-- Select --", new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label for="email">Mannual Claim Form</label>
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "GCC Claims",
+                        Value = "GCC Claims"
+                    });
+                }
                 <div class="form-group">
-                    <a href="@Model.Manualclaim_Form_Path">@Model.Manualclaim_Form</a>
-                    @Html.HiddenFor(m => m.Manualclaim_Form)
-                    <input name="claimupload" id="claimupload" type="file">
+                    <label for="Team">Claim Team</label>
+                    @Html.DropDownListFor(model => model.Claim_Team, listItems, "-- Select Claim --", new { @class = "form-control" })
+                </div>
+                @{
+                    List<SelectListItem> OnlineClaims = new List<SelectListItem>();
+                    OnlineClaims.Add(new SelectListItem
+                    {
+                        Text = "Yes",
+                        Value = "Yes"
+                    });
+                    OnlineClaims.Add(new SelectListItem
+                    {
+                        Text = "No",
+                        Value = "No",
+                    });
+                }
+                <div class="form-group">
+                    <label for="email">Can add Online Claims</label>
+                    @Html.DropDownListFor(model => model.Account_Can_Add_Claims, OnlineClaims, "-- Select --", new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label for="email">Mannual Claim Form</label>
+                    <div class="form-group">
+                        <a href="@Model.Manualclaim_Form_Path">@Model.Manualclaim_Form</a>
+                        @Html.HiddenFor(m => m.Manualclaim_Form)
+                        <input name="claimupload" id="claimupload" type="file">
+                    </div>
+                </div>
+                @{
+                    List<SelectListItem> BillingMethod = new List<SelectListItem>();
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Hour",
+                        Value = "Per Hour"
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Claim",
+                        Value = "Per Claim",
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Annul",
+                        Value = "Per Annul",
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "No Billing",
+                        Value = "No Billing",
+                    });
+                }
+
+                <div class="form-group">
+                    <label for="email">Billing Method</label>
+                    @Html.DropDownListFor(model => model.Billing_Method, BillingMethod, "-- Select Method --", new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Fee Per Hour</label>
+                    @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label for="email">Fee Per Billing Method</label>
+                    @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control" })
                 </div>
             </div>
-            @{
-                List<SelectListItem> BillingMethod = new List<SelectListItem>();
-                BillingMethod.Add(new SelectListItem
-                {
-                    Text = "Per Hour",
-                    Value = "Per Hour"
-                });
-                BillingMethod.Add(new SelectListItem
-                {
-                    Text = "Per Claim",
-                    Value = "Per Claim",
-                });
-                BillingMethod.Add(new SelectListItem
-                {
-                    Text = "Per Annul",
-                    Value = "Per Annul",
-                });
-                BillingMethod.Add(new SelectListItem
-                {
-                    Text = "No Billing",
-                    Value = "No Billing",
-                });
-            }
-
-            <div class="form-group">
-                <label for="email">Billing Method</label>
-                @Html.DropDownListFor(model => model.Billing_Method, BillingMethod, "-- Select Method --", new { @class = "form-control" })
-            </div>
-
-            <div class="form-group">
-                <label for="email">Fee Per Hour</label>
-                @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label for="email">Fee Per Billing Method</label>
-                @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="col-md-6">
-                <input onchange="OnchangeLogoImage(this)" id="logoimgupload" name="logoimgupload" type="file">
-            </div>
-            <div class="col-md-6">
-                <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
-            </div>
-            <div>
-                @if (Model.IsNew)
-                {
-                    <img id="logoImg" class="img-thumbnail" width="304" height="236">
-                }
-                else
-                {
-                    <img id="logoImg" src="data:image/png;base64,@Model.Customer_Logo" class="img-thumbnail" width="304" height="236">
-                }
+            <div class="col-md-8 img-upload-section">
+                <div class="col-md-6 p-0">
+                    <input onchange="OnchangeLogoImage(this)" id="logoimgupload" name="logoimgupload" type="file">
+                </div>
+                <div class="col-md-6 p-0">
+                    <div class="pull-right">
+                        <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
+                    </div>
+                </div>
+                <div>
+                    @if (Model.IsNew)
+                    {
+                        <img id="logoImg" class="img-logo-preview">
+                    }
+                    else
+                    {
+                        <img id="logoImg" src="data:image/png;base64,@Model.Customer_Logo" class="img-logo-preview">
+                    }
+                </div>
             </div>
         </div>
     </div>
-    <div style="text-align:center;">
-        <input type="submit" class="btn btn-default" value="Submit" /><br />
-    </div>
-
-                }
-
-
-
-<div class="row">
-    <div class="col-md-10">
-        <div id="loginGrid"></div>
-    </div>
-    <div class="col-md-2">
-        <button type="button" id="newLogin" class="btn btn-primary">New Login</button>
-    </div>
-</div>
-<!--Modal-->
-<div id="OcModal" class="modal fade OcModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">OC # Lookup</h4>
-            </div>
-
-            <div class="modal-body">
-                <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
-                <div id="lookupAccountGrid"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <div class="main-container">
+        <div class="row mt-15 mb-15">
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary" value="Submit" />
             </div>
         </div>
     </div>
-</div>
-
-
-<!--Modal-->
-<div id="ConModal" class="modal fade OcModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">OC # Lookup</h4>
+        }
+<div class="main-container">
+    <div class="row mt-15 mb-15">
+        <div class="col-md-12">
+            <div class="pull-right mb-15">
+                <button type="button" id="newLogin" class="btn btn-primary">New Login</button>
             </div>
-
-            <div class="modal-body">
-                <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
-                <div id="lookupAccountGrid"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+        </div>
+        <div class="col-md-12">
+            <div id="loginGrid"></div>
         </div>
     </div>
 </div>
 
-<!--Modal-->
-<div id="LoginDataModal" class="modal fade OcModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Login Detail</h4>
-            </div>
+    <!--Modal-->
+    <div id="OcModal" class="modal fade OcModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">OC # Lookup</h4>
+                </div>
 
-            <div class="modal-body">
-                <input id="portalLoginId" style="display:none" />
-                <input type="text" class="form-control" style="display:none" id="ContactId">
-                <div id="error" style="display:none;" class="alert alert-danger">
-                    <strong>Error</strong> <span id="Errormsg"></span>
+                <div class="modal-body">
+                    <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
+                    <div id="lookupAccountGrid"></div>
                 </div>
-                <div style="text-align:left;" class="checkbox">
-                    <label><input id="isactive" type="checkbox" checked value="">Is Active</label>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
-                <div class="col-md-12 form-group mb">
-                    <label class="col-sm-3 control-label input-sm">Contact Name #</label>
-                    <div class="col-sm-9">
-                        <div class="demo-section k-content">
-                            <input id="products" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+
+
+    <!--Modal-->
+    <div id="ConModal" class="modal fade OcModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">OC # Lookup</h4>
+                </div>
+
+                <div class="modal-body">
+                    <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
+                    <div id="lookupAccountGrid"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal-->
+    <div id="LoginDataModal" class="modal fade OcModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Login Detail</h4>
+                </div>
+
+                <div class="modal-body">
+                    <input id="portalLoginId" style="display:none" />
+                    <input type="text" class="form-control" style="display:none" id="ContactId">
+                    <div id="error" style="display:none;" class="alert alert-danger">
+                        <strong>Error</strong> <span id="Errormsg"></span>
+                    </div>
+                    <div style="text-align:left;" class="checkbox">
+                        <label><input id="isactive" type="checkbox" checked value="">Is Active</label>
+                    </div>
+                    <div class="col-md-12 form-group mb">
+                        <label class="col-sm-3 control-label input-sm">Contact Name #</label>
+                        <div class="col-sm-9">
+                            <div class="demo-section k-content">
+                                <input id="products" style="width: 100%;" />
+                            </div>
+                            @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                         </div>
-                        @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                    </div>
-
-                </div>
-                <div class="col-md-12 form-group">
-                    <label class="col-sm-3 control-label input-sm">User Name #</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="username">
 
                     </div>
+                    <div class="col-md-12 form-group">
+                        <label class="col-sm-3 control-label input-sm">User Name #</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="username">
 
-                </div>
-                <div class="col-md-12 form-group mb">
-                    <label class="col-sm-3 control-label input-sm">Password #</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="Password">
+                        </div>
 
-                        <a style="float:right;" id="GenaratePassword">GenaratePassword</a>
                     </div>
+                    <div class="col-md-12 form-group mb">
+                        <label class="col-sm-3 control-label input-sm">Password #</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Password">
 
-                </div>
-                <div class="col-md-12 form-group mb">
-                    <label class="col-sm-3 control-label input-sm">Email #</label>
-                    <div class="col-sm-9">
+                            <a style="float:right;" id="GenaratePassword">GenaratePassword</a>
+                        </div>
 
-                        <input type="text" class="form-control" id="Email">
                     </div>
+                    <div class="col-md-12 form-group mb">
+                        <label class="col-sm-3 control-label input-sm">Email #</label>
+                        <div class="col-sm-9">
 
+                            <input type="text" class="form-control" id="Email">
+                        </div>
+
+                    </div>
                 </div>
-            </div>
-            <div style="text-align:center;" class="modal-footer">
-                <button type="button" class="btn btn-default">Cancel</button>
-                <button id="Addlogin" type="button" class="btn btn-default">Save</button>
+                <div style="text-align:center;" class="modal-footer">
+                    <button type="button" class="btn btn-default">Cancel</button>
+                    <button id="Addlogin" type="button" class="btn btn-default">Save</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
 
-        $("#btnPolicyLookup").click(function () {
-            $('#Accsearch').val('');
-            $("#lookupAccountGrid").kendoGrid({
-                dataSource: {
-                    type: "json",
-                    transport: {
-                        read: "/AdminList/GetLookupAccounts"
+            $("#btnPolicyLookup").click(function () {
+                $('#Accsearch').val('');
+                $("#lookupAccountGrid").kendoGrid({
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/AdminList/GetLookupAccounts"
+                        },
+                        pageSize: 10
                     },
-                    pageSize: 10
-                },
-                dataBound: function (e) {
-                    $('#OcModal').modal('show');
-                },
-                height: 550,
-                sortable: true,
-                serverPaging: true,
-                pageable: {
-                    refresh: true,
-                    pageSizes: true,
-                    buttonCount: 10
-                },
-                columns: [{
-                    hidden: true,
-                    field: "AccountId",
-                    title: "AccountId"
-                },
-                {
-                    template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
-                    title: "Account Name",
-                },
-                {
-                    field: "AccountType",
-                    title: " Account Type",
-                }
-                ]
+                    dataBound: function (e) {
+                        $('#OcModal').modal('show');
+                    },
+                    height: 550,
+                    sortable: true,
+                    serverPaging: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        buttonCount: 10
+                    },
+                    columns: [{
+                        hidden: true,
+                        field: "AccountId",
+                        title: "AccountId"
+                    },
+                    {
+                        template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
+                        title: "Account Name",
+                    },
+                    {
+                        field: "AccountType",
+                        title: " Account Type",
+                    }
+                    ]
+                });
+
             });
 
-        });
+            $("#claimupload").change(function (input) {
+                var file1 = $('#claimupload').get(0).files;
+                if (file1 != null) {
+                    $('#displaytext').text(file1[0].name);
+                    $('#Manualclaim_Form').val(file1[0].name);
+                }
+                //$('#Manualclaim_Form').text()
+            });
 
-        $("#claimupload").change(function (input) {
-            var file1 = $('#claimupload').get(0).files;
-            if (file1 != null) {
-                $('#displaytext').text(file1[0].name);
-                $('#Manualclaim_Form').val(file1[0].name);
-            }
-            //$('#Manualclaim_Form').text()
-        });
-
-        var model = @Html.Raw(Json.Encode(Model));
-       //setInitialDetails(isNew,adminId)
-       loadLogins(model.H_Customerportaladminid);
+            var model = @Html.Raw(Json.Encode(Model));
+            //setInitialDetails(isNew,adminId)
+            loadLogins(model.H_Customerportaladminid);
 
             function loadLogins(adminId) {
                 $("#loginGrid").kendoGrid({
@@ -358,88 +365,88 @@
                     }
                     ]
                 });
-        }
-    });
-
-    $("#Accsearch").keyup(function () {
-        var val = $('#Accsearch').val();
-        $("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
-            logic: "or",
-            filters: [
-                {
-                    field: "AccountName",
-                    operator: "contains",
-                    value: val,
-                },
-                {
-                    field: "AccountType",
-                    operator: "contains",
-                    value: val
-                },
-
-            ]
+            }
         });
 
-    });
-    function accountClick(e) {
-        $('#AccountId').val(e.id);
-        $("#Accountname").val(e.text);
-        $('#OcModal').modal('hide');
-    }
+        $("#Accsearch").keyup(function () {
+            var val = $('#Accsearch').val();
+            $("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
+                logic: "or",
+                filters: [
+                    {
+                        field: "AccountName",
+                        operator: "contains",
+                        value: val,
+                    },
+                    {
+                        field: "AccountType",
+                        operator: "contains",
+                        value: val
+                    },
 
-    function OnchangeLogoImage(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+                ]
+            });
 
-            reader.onload = function (e) {
-                $('#logoImg').attr('src', e.target.result);
-            };
-
-            reader.readAsDataURL(input.files[0]);
+        });
+        function accountClick(e) {
+            $('#AccountId').val(e.id);
+            $("#Accountname").val(e.text);
+            $('#OcModal').modal('hide');
         }
-    }
 
-    $("#removelogo").click(function () {
-        $('#file_reset').trigger('click');
-        $('#logoImg').attr('src', "");
-    });
+        function OnchangeLogoImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-    $('#newLogin').click(function () {
-        var accId = $('#Account_Id').val();
-        if (accId == null || accId == "") { return; };
-        LoadContacts(accId);
-        $('#LoginDataModal').modal('show');
-    })
+                reader.onload = function (e) {
+                    $('#logoImg').attr('src', e.target.result);
+                };
 
-    $('#GenaratePassword').click(function () {
-        var random = Math.random().toString(36).substring(6);
-        $('#Password').val(random);
-    })
-
-    $('#Addlogin').click(function () {
-        var loginNew = false;
-        var adminId = $("#H_Customerportaladminid").val();
-        //if (adminId == null || adminId=="") {
-        //    setError("Please Add Admin record", true);
-        //    return;
-        //}
-
-        setError("", false);
-        var portalId = $('#portalLoginId').val();
-        if (portalId == null || portalId == "") { loginNew = true; }
-
-
-        var model = {
-            H_PortalLoginId: loginNew == true ? null : portalId,
-            H_PortalLoginAdminId: adminId,
-            ActiveLogin: $('#isactive').val(),
-            ContactName: $('#ContactName').val(),
-            ContactId: $('#ContactId').val(),
-            UserName: $('#username').val(),
-            Password: $('#Password').val(),
-            Email: $('#Email').val(),
-            IsNew: loginNew
+                reader.readAsDataURL(input.files[0]);
+            }
         }
+
+        $("#removelogo").click(function () {
+            $('#file_reset').trigger('click');
+            $('#logoImg').attr('src', "");
+        });
+
+        $('#newLogin').click(function () {
+            var accId = $('#Account_Id').val();
+            if (accId == null || accId == "") { return; };
+            LoadContacts(accId);
+            $('#LoginDataModal').modal('show');
+        })
+
+        $('#GenaratePassword').click(function () {
+            var random = Math.random().toString(36).substring(6);
+            $('#Password').val(random);
+        })
+
+        $('#Addlogin').click(function () {
+            var loginNew = false;
+            var adminId = $("#H_Customerportaladminid").val();
+            //if (adminId == null || adminId=="") {
+            //    setError("Please Add Admin record", true);
+            //    return;
+            //}
+
+            setError("", false);
+            var portalId = $('#portalLoginId').val();
+            if (portalId == null || portalId == "") { loginNew = true; }
+
+
+            var model = {
+                H_PortalLoginId: loginNew == true ? null : portalId,
+                H_PortalLoginAdminId: adminId,
+                ActiveLogin: $('#isactive').val(),
+                ContactName: $('#ContactName').val(),
+                ContactId: $('#ContactId').val(),
+                UserName: $('#username').val(),
+                Password: $('#Password').val(),
+                Email: $('#Email').val(),
+                IsNew: loginNew
+            }
 
             $.ajax({
                 type: 'POST',
@@ -459,41 +466,41 @@
 
 
 
-    })
+        })
 
-    $('#btncontactlook').click(function () {
+        $('#btncontactlook').click(function () {
 
-    })
+        })
 
-    function setError(errormsg, isshow) {
-        if (isshow) {
-            $('#Errormsg').text(errormsg);
-            $('#error').show();
-        } else {
-            $('#Errormsg').text(errormsg);
-            $('#error').hide();
+        function setError(errormsg, isshow) {
+            if (isshow) {
+                $('#Errormsg').text(errormsg);
+                $('#error').show();
+            } else {
+                $('#Errormsg').text(errormsg);
+                $('#error').hide();
+            }
         }
-    }
 
-    function LoadContacts(accountId) {
-        $("#products").kendoAutoComplete({
-            dataTextField: "ContactName",
-            filter: "contains",
-            minLength: 2,
-            dataSource: {
-                type: "json",
-                serverFiltering: true,
-                transport: {
-                    read: "/AdminList/GetContactNames?accountId=" + accountId
-                }
-            },
-            select: onSelect
-        });
+        function LoadContacts(accountId) {
+            $("#products").kendoAutoComplete({
+                dataTextField: "ContactName",
+                filter: "contains",
+                minLength: 2,
+                dataSource: {
+                    type: "json",
+                    serverFiltering: true,
+                    transport: {
+                        read: "/AdminList/GetContactNames?accountId=" + accountId
+                    }
+                },
+                select: onSelect
+            });
 
-        function onSelect(e) {
-            var dataItem = this.dataItem(e.item.index());
-            $('#ContactId').val(dataItem.ContactId);
+            function onSelect(e) {
+                var dataItem = this.dataItem(e.item.index());
+                $('#ContactId').val(dataItem.ContactId);
+            }
         }
-    }
 
-</script>
+    </script>

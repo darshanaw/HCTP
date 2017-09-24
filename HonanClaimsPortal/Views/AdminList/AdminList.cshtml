@@ -3,103 +3,113 @@
     ViewBag.Title = "AdminList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="main-container">
+    <div class="row mb-15">
+        <div class="col-md-12">
+            <div class="page-title">
+                <h3>Protal Login Accounts</h3>
+            </div>
+            <div class="search-box">
+                <div class="input-group mt-20">
+                    <input type="text" class="form-control" id="searchbox" placeholder="Search for">
+                    <span class="input-group-addon pointer" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+                </div>
+                @*<input class="form-control search-box" type="text" id="searchbox" placeholder="Search for" />*@
+            </div>
+            <div class="create-btn">
+                <div class="pull-right mt-20">
+                    <button type="submit" id="btnCreateNewContact" class="btn btn-primary">Create New Contact</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Protal Login Accounts</h2>
-    </div>
-    <div class="col-md-4">
-        <input class="form-control search-box" type="text" id="searchbox" placeholder="Search for" />
-    </div>
-    <div class="col-md-2">
-        <button type="submit" id="btnCreateNewContact" class="form-control search-box mb-sm btn btn-primary">Create New Contact</button>
-    </div>
+    <div id="ProtalLogingAccountGrid"></div>
+    <br />
+    <h3 class="mb-15">New Protal Loging Request</h3>
+    <div id="NewProtalLogingRequestGrid"></div>
 </div>
 
-<div id="ProtalLogingAccountGrid"></div>
-<br />
-<h2>New Protal Loging Request</h2>
-<div id="NewProtalLogingRequestGrid"></div>
 <script>
     $(document).ready(function () {
 
         $("#btnCreateNewContact").click(function () {
-    window.location.replace('@Url.Action("AdminDetail", "AdminList", new { id = "" })');
-});
+            window.location.replace('@Url.Action("AdminDetail", "AdminList", new { id = "" })');
+        });
 
-            $("#searchbox").keyup(function () {
-                var val = $('#searchbox').val();
-                $("#ProtalLogingAccountGrid").data("kendoGrid").dataSource.filter({
-                    logic: "or",
-                    filters: [
-                        {
-                            field: "PortalAccountName",
-                            operator: "contains",
-                            value: val,
-                        },
-                        {
-                            field: "Account_Name",
-                            operator: "contains",
-                            value: val
-                        },
-                        {
-                            field: "Billing_Method",
-                            operator: "contains",
-                            value: val
-                        }
-
-                    ]
-                });
-
-            });
-
-        //NewProtalLogingRequestGrid data bindings - Start
-        $("#ProtalLogingAccountGrid").kendoGrid({
-                dataSource: {
-                    transport: {
-                        read: "/AdminList/GetProtalLogingAccount/",
-                    },
-                    parameterMap: function (options, operation) {
-                        if (operation !== "read" && options.models) {
-                            return { models: kendo.stringify(options.models) };
-                        }
-                    },
-                    batch: false,
-                },
-                filterable: true,
-                pageSize: 10,
-                navigatable: true,
-                pageable: true,
-                height: 350,
-                columns: [
+        $("#searchbox").keyup(function () {
+            var val = $('#searchbox').val();
+            $("#ProtalLogingAccountGrid").data("kendoGrid").dataSource.filter({
+                logic: "or",
+                filters: [
                     {
                         field: "PortalAccountName",
-                        title: "Portal Account Name",
-                        template: "<a href='/AdminList/AdminDetail?adminId=#= H_CustomerPortalAdminId #'>#= PortalAccountName #</a>",
+                        operator: "contains",
+                        value: val,
                     },
                     {
                         field: "Account_Name",
-                        title: "Customer Account"
-                    },
-                    {
-                        field: "ActiveLogins",
-                        title: "# Active Logins"
+                        operator: "contains",
+                        value: val
                     },
                     {
                         field: "Billing_Method",
-                        title: "Billing Method"
-                    },
-                    {
-                        field: "CanAddClaims",
-                        title: "Add Claims?",
-                        template: "#if(CanAddClaims === true){# Yes #}else if(CanAddClaims === false){# No #} else{# #= 'N/A' #  #}#"
-                    },
-                     {
-                         field: "LastLogin",
-                         title: "Last Login Date",
-                         template: "#if(LastLogin === null){# N/A #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
-                     },
+                        operator: "contains",
+                        value: val
+                    }
+
                 ]
+            });
+
+        });
+
+        //NewProtalLogingRequestGrid data bindings - Start
+        $("#ProtalLogingAccountGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/AdminList/GetProtalLogingAccount/",
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 10,
+            navigatable: true,
+            pageable: true,
+            height: 350,
+            columns: [
+                {
+                    field: "PortalAccountName",
+                    title: "Portal Account Name",
+                    template: "<a href='/AdminList/AdminDetail?adminId=#= H_CustomerPortalAdminId #'>#= PortalAccountName #</a>",
+                },
+                {
+                    field: "Account_Name",
+                    title: "Customer Account"
+                },
+                {
+                    field: "ActiveLogins",
+                    title: "# Active Logins"
+                },
+                {
+                    field: "Billing_Method",
+                    title: "Billing Method"
+                },
+                {
+                    field: "CanAddClaims",
+                    title: "Add Claims?",
+                    template: "#if(CanAddClaims === true){# Yes #}else if(CanAddClaims === false){# No #} else{# #= 'N/A' #  #}#"
+                },
+                 {
+                     field: "LastLogin",
+                     title: "Last Login Date",
+                     template: "#if(LastLogin === null){# N/A #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
+                 },
+            ]
         });
         //ProtalLogingAccountGrid data bindings - End
 
@@ -154,6 +164,6 @@
         });
         //NewProtalLogingRequestGrid data bindings - End
 
-        });
+    });
 
 </script>
