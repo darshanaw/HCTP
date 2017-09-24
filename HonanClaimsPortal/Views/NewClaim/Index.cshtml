@@ -126,7 +126,7 @@
                             <div class="col-md-12 col-sm-12 m0 p0">
                                 <div class="panel-footer text-right" style="padding-right:8%">
                                     <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                                    <button type="submit" class="mb-sm btn btn-primary">Next >></button>
+                                    <button  id="btnSubmit" type="submit" class="mb-sm btn btn-primary">Next >></button>
                                 </div>
                             </div>
 
@@ -274,6 +274,19 @@
 
             $('#tbAssignTo').DataTable().ajax.reload(null, false);
         });
+
+        $("#btnSubmit").click(function (e) {
+           
+            if ($("#Claim_Type").val() == '@HonanClaimsPortal.Helpers.ClaimType.Claim' && $("#Assigned_To").val() == '')
+            {
+                $("#Assigned_To").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else
+            {
+                $("#Assigned_To").removeClass("input-validation-error");
+            }
+        })
 
     })
 </script>
