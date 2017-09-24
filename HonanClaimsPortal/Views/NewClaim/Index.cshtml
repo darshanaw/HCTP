@@ -32,14 +32,15 @@
 
 <div class="content-wrapper">
     <h3>
-        New Claim
+        <b> New Claim </b>
     </h3>
     
     <div class="row">
         <div class="panel panel-default">
+@using (Html.BeginForm("Index", "NewClaim", FormMethod.Post))
+{
             <div class="panel-body">
-                @using (Html.BeginForm("Index", "NewClaim", FormMethod.Post))
-                {
+              
 
                     @Html.HiddenFor(o => o.Oc_No)
                     @Html.HiddenFor(o => o.Accountid)
@@ -123,17 +124,19 @@
                             </div>
 
 
-                            <div class="col-md-12 col-sm-12 m0 p0">
-                                <div class="panel-footer text-right" style="padding-right:8%">
-                                    <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                                    <button  id="btnSubmit" type="submit" class="mb-sm btn btn-primary">Next >></button>
-                                </div>
-                            </div>
 
                         </div>
                     </div>
-                }
+                
             </div>
+
+            <div class="col-md-12 col-sm-12 m0 p0">
+                <div class="panel-footer text-right" style="padding-right:8%">
+                    <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
+                    <button id="btnSubmit" type="submit" class="mb-sm btn btn-primary">Next >></button>
+                </div>
+            </div>
+}
         </div>
     </div>
 
