@@ -1300,6 +1300,7 @@
     <Content Include="Views\Shared\_ContactBrokerLookUp.cshtml" />
     <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
+    <Content Include="Views\Billing\MyBillableTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

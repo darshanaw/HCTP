@@ -106,5 +106,47 @@ namespace HonanClaimsPortal.Controllers
             var result =await billingRepo.TeamInsertTimeslip(model);
             return RedirectToAction("TimeslipDetail");
         }
+
+
+        //My Biling
+        public async Task<ActionResult> MyBillableTime()
+        {
+            try
+            {
+                MyBillingModel returnModel = new MyBillingModel();
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string UserId = client.UserId;
+                BillingSimpleRepo billingSimpleRepo = new BillingSimpleRepo();
+
+                var CustomerList = await billingSimpleRepo.GetCustomerList(UserId);
+                var ServeiceUserList = await billingSimpleRepo.GetServeiceUserList();
+                returnModel.CustomerUserModel = CustomerList;
+                returnModel.ServicesUserModel = ServeiceUserList;
+                return View(returnModel);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> TeamGetMyBillableTimes(string showMe,string customerId,string serviceUserId,string serviceFromDate, string serviceToDate)
+        {
+            try
+            {
+                List<BillingSimpleModel> list = new List<BillingSimpleModel>();
+                BillingSimpleRepo billingSimpleRepo = new BillingSimpleRepo();
+                list = await billingSimpleRepo.TeamGetMyBillableTimes(showMe, customerId, serviceUserId, serviceFromDate, serviceToDate);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
     }
 }
