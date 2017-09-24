@@ -103,8 +103,8 @@ namespace HonanClaimsPortal.Controllers
         public async Task<ActionResult> TeamInsertTimeslip(BillingModel model)
         {
             BillingRepo billingRepo = new BillingRepo();
-            var result = billingRepo.TeamInsertTimeslip(model);
-            return View();
+            var result =await billingRepo.TeamInsertTimeslip(model);
+            return RedirectToAction("TimeslipDetail");
         }
     }
 }

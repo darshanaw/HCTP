@@ -25,6 +25,7 @@
                 <div class="col-sm-10">
                     <div>
                         @Html.TextBoxFor(m => m.Service_By_Name)
+                        @Html.ValidationMessageFor(o => o.Service_By_Name, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                         @Html.HiddenFor(h => h.Service_By)
                     </div>
                 </div>
@@ -85,7 +86,7 @@
             </div>           
         </div>
 
-        @*<div class="col-md-12 col-sm-12 form-group">
+        <div class="col-md-12 col-sm-12 form-group">
             <label class="col-sm-3 control-label input-sm">Services Date</label>
             <div class="col-sm-9">
                 <div id="datetimepicker1" class="input-group date">
@@ -94,9 +95,9 @@
                         <span class="fa fa-calendar"></span>
                     </span>
                 </div>
-                @Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                @*@Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
             </div>
-        </div>*@
+        </div>
 
         <div class="col-md-12 col-sm-12 form-group">
             <label class="col-sm-3 control-label input-sm">Start Time</label>
@@ -182,6 +183,7 @@
                 <div class="col-sm-10">
                     <div>
                         @Html.TextBoxFor(m => m.Units, new { @type = "number", @class = "form-control" })
+                        @Html.ValidationMessageFor(o => o.Units, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
             </div>
@@ -189,10 +191,10 @@
 
         <div class="col-md-12">
             <div class="form-group mb">
-                <label class="col-sm-2">Unit :</label>
+                <label class="col-sm-2">Billable :</label>
                 <div class="col-sm-10">
                     <div>
-                        @Html.TextBoxFor(m => m.Is_Billable, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Is_Billable, new { @class = "form-control" ,  @readonly = true})
                     </div>
                 </div>
             </div>
@@ -298,6 +300,7 @@
                 <div class="col-sm-10">
                     <div>
                         @Html.TextAreaFor(c => c.Work_Done, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(o => o.Work_Done, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
             </div>
@@ -306,15 +309,11 @@
     </div>
 
 
-    @*<div class="col-md-12 col-sm-12 m0 p0">
+    <div class="col-md-12 col-sm-12 m0 p0">
         <div class="panel-footer text-right">
             <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
             <button type="submit" class="mb-sm btn btn-primary">Save</button>
         </div>
-    </div>*@
-
-    <div style="text-align:center;">
-        <input type="submit" class="btn btn-default" value="Submit" /><br />
     </div>
 
     <!--Modal-->
@@ -369,245 +368,281 @@
                 document.getElementById("Invoice_Processed_Date").style.visibility = "hidden";
             }
         });
-    });
 
-    $("#Start_Time_HH").change(function (e) {
-        var SH = parseInt($("#Start_Time_HH").val());
-        var SM = parseInt($("#Start_Time_MM").val());
-        var EH = parseInt($("#End_Time_HH").val());
-        var EM = parseInt($("#End_Time_MM").val());
-
-        if (EH!=0 && SH > EH) {
-            alert("Start time cannot be later than end time");
-            $("#Start_Time_HH").val("00");
-            return false;
-        } else {
-            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-            if (totalMi < 0) {
-                return false;
-            }
-            var mode = totalMi % 6;
-            var Unit = 0;
-            if (mode <= 2) {
-                Unit = Math.floor(totalMi / 6);
+        var tbilible = 0;
+        $('#Billable').change(function () {
+            debugger;
+            if (this.checked) {
+                $("#Is_Billable").val(tbilible);
             } else {
-                Unit = Math.ceil(totalMi / 6);
+                tbilible = $("#Is_Billable").val();
+                $("#Is_Billable").val(0);
             }
-            $("#Units").val(Unit);
-        }
-    });
-
-    $("#Start_Time_MM").change(function (e) {
-        var SH = parseInt($("#Start_Time_HH").val());
-        var SM = parseInt($("#Start_Time_MM").val());
-        var EH = parseInt($("#End_Time_HH").val());
-        var EM = parseInt($("#End_Time_MM").val());
-
-        if (EH == EH) {
-            if (EM != 0 && SM > EM) {
-                alert("Start time cannot be later than end time");
-                $("#Start_Time_MM").val(EM);
-                //$("#End_Time_MM").val(EM);
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units").val(Unit);
-
-                //return false;
-            } else {
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units").val(Unit);
-            }
-
-        } else {
-            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-            if (totalMi < 0) {
-                e.preventDefault;
-                return false;
-            }
-            var mode = totalMi % 6;
-            var Unit = 0;
-            if (mode <= 2) {
-                Unit = Math.floor(totalMi / 6);
-            } else {
-                Unit = Math.ceil(totalMi / 6);
-            }
-            $("#Units").val(Unit);
-        }
-    });
-
-
-
-    $("#End_Time_HH").change(function (e) {
-        var SH = parseInt($("#Start_Time_HH").val());
-        var SM = parseInt($("#Start_Time_MM").val());
-        var EH = parseInt($("#End_Time_HH").val());
-        var EM = parseInt($("#End_Time_MM").val());
-
-        if (SH > EH) {
-            alert("End time cannot be earlier than start time");
-            $("#End_Time_HH").val("00");
-            return false;
-        } else {
-            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-            if (totalMi < 0) {
-                return false;
-            }
-            var mode = totalMi % 6;
-            var Unit = 0;
-            if (mode <= 2) {
-                Unit = Math.floor(totalMi / 6);
-            } else {
-                Unit = Math.ceil(totalMi / 6);
-            }
-            $("#Units").val(Unit);
-        }
-    });
-
-    $("#End_Time_MM").change(function (e) {
-        var SH = parseInt($("#Start_Time_HH").val());
-        var SM = parseInt($("#Start_Time_MM").val());
-        var EH = parseInt($("#End_Time_HH").val());
-        var EM = parseInt($("#End_Time_MM").val());
-
-        if (EH == EH) {
-            if (SM > EM) {
-                alert("Start time cannot be later than end time");
-                $("#End_Time_MM").val(SM);
-                // return false;
-                var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units").val(Unit);
-            } else {
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units").val(Unit);
-            }
-
-        } else {
-            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-            if (totalMi < 0) {
-                e.preventDefault;
-                return false;
-            }
-            var mode = totalMi % 6;
-            var Unit = 0;
-            if (mode <= 2) {
-                Unit = Math.floor(totalMi / 6);
-            } else {
-                Unit = Math.ceil(totalMi / 6);
-            }
-            $("#Units").val(Unit);
-        }
-    });
-
-    $(document).ready(function () {
-        $('#datetimepicker1').datetimepicker({
-            format: 'DD/MM/YYYY'
         });
-        $('#datetimepicker1').data("DateTimePicker").date(new Date());
 
+        $("#Start_Time_HH").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
 
-        $("#btnPolicyLookup").click(function () {
-            $('#Accsearch').val('');
-            $("#lookupClientGrid").kendoGrid({
-                dataSource: {
-                    type: "json",
-                    transport: {
-                        read: "/Billing/GetLookupAccounts"
-                    },
-                    pageSize: 10
-                },
-                dataBound: function (e) {
-                    $('#ClientModal').modal('show');
-                },
-                height: 550,
-                sortable: true,
-                serverPaging: true,
-                pageable: {
-                    refresh: true,
-                    pageSizes: true,
-                    buttonCount: 10
-                },
-                columns: [{
-                    hidden: true,
-                    field: "AccountId",
-                    title: "AccountId"
-                },
-                {
-                    template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
-                    title: "Account Name",
-                },
-                {
-                    field: "AccountType",
-                    title: " Account Type",
+            if (EH != 0 && SH > EH) {
+                alert("Start time cannot be later than end time");
+                $("#Start_Time_HH").val("00");
+                return false;
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    return false;
                 }
-                ]
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                $("#Is_Billable").val(RatePUNIT * Unit);
+
+            }
+        });
+
+        $("#Start_Time_MM").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
+
+            if (EH == EH) {
+                if (EM != 0 && SM > EM) {
+                    alert("Start time cannot be later than end time");
+                    $("#Start_Time_MM").val(EM);
+                    //$("#End_Time_MM").val(EM);
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    $("#Is_Billable").val(RatePUNIT * Unit);
+                    //return false;
+                } else {
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    $("#Is_Billable").val(RatePUNIT * Unit);
+                }
+
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    e.preventDefault;
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                $("#Is_Billable").val(RatePUNIT * Unit);
+            }
+        });
+
+
+
+        $("#End_Time_HH").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
+
+            if (SH > EH) {
+                alert("End time cannot be earlier than start time");
+                $("#End_Time_HH").val("00");
+                return false;
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                $("#Is_Billable").val(RatePUNIT * Unit);
+            }
+        });
+
+        $("#End_Time_MM").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
+
+            if (EH == EH) {
+                if (SM > EM) {
+                    alert("Start time cannot be later than end time");
+                    $("#End_Time_MM").val(SM);
+                    // return false;
+                    var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    $("#Is_Billable").val(RatePUNIT * Unit);
+                } else {
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    $("#Is_Billable").val(RatePUNIT * Unit);
+                }
+
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    e.preventDefault;
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                $("#Is_Billable").val(RatePUNIT * Unit);
+            }
+        });
+
+        $(document).ready(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#datetimepicker1').data("DateTimePicker").date(new Date());
+
+
+            $("#datetimepicker1").on("dp.change", function (e) {
+                var tdate = $("#datetimepicker1").data().date;
+                //var start = new Date();
+                //var Start_Time = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes();
+                $("#Service_Date").val(tdate);
+                debugger
             });
 
-        });
-    });
 
-    $("#Accsearch").keyup(function () {
-        var val = $('#Accsearch').val();
-        $("#lookupClientGrid").data("kendoGrid").dataSource.filter({
-            logic: "or",
-            filters: [
-                {
-                    field: "AccountName",
-                    operator: "contains",
-                    value: val,
-                },
-                {
-                    field: "AccountType",
-                    operator: "contains",
-                    value: val
-                },
+            $("#btnPolicyLookup").click(function () {
+                $('#Accsearch').val('');
+                $("#lookupClientGrid").kendoGrid({
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Billing/GetLookupAccounts"
+                        },
+                        pageSize: 10
+                    },
+                    dataBound: function (e) {
+                        $('#ClientModal').modal('show');
+                    },
+                    height: 550,
+                    sortable: true,
+                    serverPaging: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        buttonCount: 10
+                    },
+                    columns: [{
+                        hidden: true,
+                        field: "AccountId",
+                        title: "AccountId"
+                    },
+                    {
+                        template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
+                        title: "Account Name",
+                    },
+                    {
+                        field: "AccountType",
+                        title: " Account Type",
+                    }
+                    ]
+                });
 
-            ]
+            });
         });
+
+        $("#Accsearch").keyup(function () {
+            var val = $('#Accsearch').val();
+            $("#lookupClientGrid").data("kendoGrid").dataSource.filter({
+                logic: "or",
+                filters: [
+                    {
+                        field: "AccountName",
+                        operator: "contains",
+                        value: val,
+                    },
+                    {
+                        field: "AccountType",
+                        operator: "contains",
+                        value: val
+                    },
+
+                ]
+            });
+        });
+        function accountClick(e) {
+            $('#ClientId').val(e.id);
+            $("#Client_Name").val(e.text);
+            $('#ClientModal').modal('hide');
+        }
     });
-    function accountClick(e) {
-        $('#ClientId').val(e.id);
-        $("#Client_Name").val(e.text);
-        $('#ClientModal').modal('hide');
-    }
 </script>
 
 

@@ -18,7 +18,7 @@ namespace HonanClaimsPortal.Controllers
         {
             ActivityReturnModel returnModel = new ActivityReturnModel();
 
-            ClaimTeamLogin client = (ClaimTeamLogin)Session[SessionHelper.claimTeamLogin];
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
 
             string UserId = client.UserId;

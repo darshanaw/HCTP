@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public string Policy_Name { get; set; }//added
         public string ClientId { get; set; }
         public string Client_Name { get; set; }//added
-        public DateTime Service_Date { get; set; }
+        public string Service_Date { get; set; }
         public string Start_Time_HH { get; set; }
         public string Start_Time_MM { get; set; }
         public string End_Time_HH { get; set; }
@@ -36,10 +37,14 @@ namespace HonanClaimsWebApi.Models.Billing
         public string Invoice_No { get; set; }
         public string Invoice_Date { get; set; }
         public decimal Rate_Per_Unit { get; set; }
+        [Required(ErrorMessage = "Units Done Required")]
         public int Units { get; set; }
+        [Required(ErrorMessage = "Work Done Required")]
         public string Work_Done { get; set; }
+        [Required(ErrorMessage = "Service By Required")]
         public string Service_By_Name { get; set; }
         public string Quarter { get; set; }
+        
         public string Work_Done_Short { get; set; }
     }
 }
