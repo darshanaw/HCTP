@@ -198,17 +198,17 @@
     <Compile Include="Controllers\ClaimAssignmentController.cs" />
     <Compile Include="Controllers\ClaimListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-<<<<<<< .mine
     <Compile Include="Controllers\MyActivityController.cs" />
-||||||| .r406
-=======
+    <Compile Include="Controllers\NewClaimController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
->>>>>>> .r416
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthorizeUserAttribute.cs" />
+    <Compile Include="Helpers\ClaimHelper.cs" />
+    <Compile Include="Helpers\jQueryDataTableParamModel.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -807,6 +807,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -1218,9 +1219,14 @@
     <Content Include="Content\vendor\weather-icons\font\weathericons-regular-webfont.woff" />
     <Content Include="Content\vendor\weather-icons\font\weathericons-regular-webfont.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\cldr.js" />
+    <Content Include="Scripts\globalize.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.globalize.js" />
+    <Content Include="Scripts\jquery.validate.globalize.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1229,7 +1235,11 @@
     <Content Include="Scripts\Kendo\kendo.aspnetmvc.min.js" />
     <Content Include="Scripts\Kendo\kendo.grid.min.js" />
     <Content Include="Scripts\Kendo\kendo.modernizr.custom.js" />
+    <Content Include="Scripts\loading.gif" />
+    <Content Include="Scripts\loadingoverlay.min.js" />
+    <Content Include="Scripts\loadingoverlay_progress.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\notify.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Web.config">
@@ -1278,17 +1288,19 @@
     <Content Include="Views\ClaimAssignment\Index.cshtml" />
     <Content Include="Views\ClaimList\Index.cshtml" />
     <Content Include="Views\Billing\TimeslipDetail.cshtml" />
-<<<<<<< .mine
     <Content Include="Views\MyActivity\Index.cshtml" />
-||||||| .r406
-=======
     <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
->>>>>>> .r416
+    <Content Include="Views\RisksmartGccClaim\DetailRisksmartGccClaim.cshtml" />
+    <Content Include="Views\NewClaim\Index.cshtml" />
+    <Content Include="Views\Shared\_OcNoLookUp.cshtml" />
+    <Content Include="Views\Shared\_PolicyLookup.cshtml" />
+    <Content Include="Views\Shared\_AccountOcLookup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Timeslip\" />
+    <Folder Include="Views\Lookup\" />
     <Folder Include="Views\RisksmartGcc\" />
+    <Folder Include="Views\Timeslip\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

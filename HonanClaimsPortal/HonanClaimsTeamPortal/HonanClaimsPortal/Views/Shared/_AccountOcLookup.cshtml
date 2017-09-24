@@ -36,13 +36,13 @@
 <div class="panel panel-default">
 
     <div class="table-responsive">
-        <table id="tbAccount" class="table table-striped" style="margin-bottom: 10px;">
+        <table id="tbAccountOc" class="table table-striped" style="margin-bottom: 10px;">
             <thead>
                 <tr>
-                    <th class="sort-alpha">Account Id</th>
-                    <th class="sort-alpha">Account Name</th>
-                    <th class="sort-alpha">Account Type</th>
-                    <th class="sort-alpha">Account Manager</th>
+                    <th class="sort-alpha">AccountId</th>
+                    <th class="sort-alpha">OC#</th>
+                    <th class="sort-alpha">AccountType</th>
+                    <th class="sort-alpha">AccountManager</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -53,12 +53,12 @@
 <script>
     $(document).ready(function () {
 
-        $("#tbAccount").hide();
+        $("#tbAccountOc").hide();
 
-        $('#tbAccount').dataTable({
+        $('#tbAccountOc').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/AccountAjaxHandler",
+            "sAjaxSource": "/Lookup/AccountOcAjaxHandler",
             "paging": false,
             "bProcessing": false,
             "bsearch": false,
@@ -70,7 +70,7 @@
                     "sName": "AccountName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeAccountModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[4] + '\')">' + oObj[1] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeAccountOcModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[4] + '\')">' + oObj[1] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                     }
                 },
@@ -80,30 +80,72 @@
             ]
         });
 
-        $('#tbAccount').on('search.dt', function () {
+        $('#tbAccountOc').on('search.dt', function () {
                //var value = $('.dataTables_filter input').val();
                //console.log(value); // <-- the value
-            $("#tbAccount").show();
+            $("#tbAccountOc").show();
            });
 
     });
 
 
-    function closeAccountModal(ocNum,ocName,billingMethod) {
+    function closeAccountOcModal(ocNum,ocName,billingMethod) {
 
-        $("#Account_Name").val(ocName);
-
-        if ($("#Accountid").length > 0)
+        if ($("#Oc_Name").length > 0)
         {
-            $("#Accountid").val(ocNum);
+            $("#Oc_Name").val(ocName);
+            $("#Oc_No").val(ocNum);
         }
 
-        if ($("#BillingMethod").length > 0)
-        {
-            $("#BillingMethod").val(billingMethod);
+        getPolicy(ocNum);
+
+        $('#AccountOcModal').modal('toggle');
+    }
+
+    function getPolicy(ocNum) {
+        $.ajax({
+            url: "/lookup/GetPolicyByAccountId?accountId=" + ocNum, success: function (result) {
+                if (result) {
+                    setPolicyFields(result.arry[1], result.arry[4], result.arry[5], result.arry[6], result.arry[7], result.arry[8]);
+                }
+                else
+                    setPolicyFields("", "", "", "", "", "")
+            }
+        });
+    }
+
+    function setPolicyFields(policyNo, address1, addresss2, suburb, state, postcode) {
+
+        if ($("#Policy_No")) {
+
+            $("#Policy_No").val(policyNo);
         }
 
-        $('#AccountModal').modal('toggle');
+        if ($("#Property_Address_1").length > 0) {
+
+            $("#Property_Address_1").val(address1);
+        }
+
+        if ($("#Property_Address_2").length > 0) {
+
+            $("#Property_Address_2").val(addresss2);
+        }
+
+        if ($("#Property_Suburb").length > 0) {
+
+            $("#Property_Suburb").val(suburb.toUpperCase());
+        }
+
+        if ($("#Property_State").length > 0) {
+
+            $("#Property_State").val(state);
+        }
+
+        if ($("#Property_Postalcode").length > 0) {
+
+            $("#Property_Postalcode").val(postcode);
+        }
+
     }
 
 </script>

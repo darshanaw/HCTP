@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace HonanClaimsWebApi.Models.Claim
 {
@@ -12,6 +13,7 @@ namespace HonanClaimsWebApi.Models.Claim
     {
         public string H_Claimsid { get; set; }
         public string Accountid { get; set; }
+        [Required(ErrorMessage ="Account Name Required")]
         public string Account_Name { get; set; }
         public string Insurer_Ref { get; set; }
         public string Claim_Reference_Num { get; set; }
@@ -86,6 +88,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool? Claim_Approved { get; set; }
         public bool? Claim_Declined { get; set; }
         public string Claim_Status { get; set; }
+        public List<PicklistItem> Claim_Status_List { get; set; }
+        public string BillingMethod { get; set; }
         public string Client_Group { get; set; }
         public string Broker_Company { get; set; }
         public string Property_Address_1 { get; set; }
@@ -103,6 +107,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Policy_Report_Num { get; set; }
         public string Details_Of_Responsible_3Rd_Pty { get; set; }
         public string Assigned_User { get; set; }
+        public List<SelectListItem> Assigned_User_List { get; set; }
         public string Claim_Stage { get; set; }
         public decimal Liability_Reserve { get; set; }
         public decimal Defence_Reserve { get; set; }
