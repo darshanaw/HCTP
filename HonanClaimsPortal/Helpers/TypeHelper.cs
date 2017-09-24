@@ -22,4 +22,11 @@ namespace HonanClaimsPortal.Helpers
         public static string claimTeamLogin = "claimTeamLogin";
         public static string loginCounter = "loginCounter";
     }
+
+    public enum ClaimType
+    {
+        Claim = 0,
+        Notification = 1
+    }
+
 }

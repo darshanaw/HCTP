@@ -1,4 +1,5 @@
 ﻿
+
 <script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
 <script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
@@ -36,13 +37,11 @@
 <div class="panel panel-default">
 
     <div class="table-responsive">
-        <table id="tbAccount" class="table table-striped" style="margin-bottom: 10px;">
+        <table id="tbOc" class="table table-striped" style="margin-bottom: 10px;">
             <thead>
                 <tr>
-                    <th class="sort-alpha">Account Id</th>
-                    <th class="sort-alpha">Account Name</th>
-                    <th class="sort-alpha">Account Type</th>
-                    <th class="sort-alpha">Account Manager</th>
+                    <th class="sort-alpha">OC #</th>
+                    <th class="sort-alpha">Address</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -53,57 +52,45 @@
 <script>
     $(document).ready(function () {
 
-        $("#tbAccount").hide();
+        //$("#tbOc").hide();
 
-        $('#tbAccount').dataTable({
+           $('#tbOc').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/AccountAjaxHandler",
+            "sAjaxSource": "/Lookup/OcAjaxHandler",
             "paging": false,
             "bProcessing": false,
             "bsearch": false,
             'info':false,
             "aoColumns": [
-
-                { "sName": "AccountId", "visible": false },
+            
                 {
-                    "sName": "AccountName",
+                    "sName": "OCNum",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeAccountModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[4] + '\')">' + oObj[1] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeOcModal(\'' + oObj[0] + '\')">' + oObj[0] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                     }
                 },
-                { "sName": "AccountType" },
-                { "sName": "AccountManager" },
-                { "sName": "BillingMethod", "visible": false }
+                { "sName": "Address" }
             ]
         });
 
-        $('#tbAccount').on('search.dt', function () {
+           $('#tbOc').on('search.dt', function () {
                //var value = $('.dataTables_filter input').val();
                //console.log(value); // <-- the value
-            $("#tbAccount").show();
+               $("#tbOc").show();
            });
 
     });
 
 
-    function closeAccountModal(ocNum,ocName,billingMethod) {
+    function closeOcModal(ocNum) {
 
-        $("#Account_Name").val(ocName);
+        $("#Oc_No").val(ocNum);
 
-        if ($("#Accountid").length > 0)
-        {
-            $("#Accountid").val(ocNum);
-        }
-
-        if ($("#BillingMethod").length > 0)
-        {
-            $("#BillingMethod").val(billingMethod);
-        }
-
-        $('#AccountModal').modal('toggle');
+       
+        $('#OcModal').modal('toggle');
     }
 
 </script>

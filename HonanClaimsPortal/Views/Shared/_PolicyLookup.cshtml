@@ -1,0 +1,144 @@
+﻿
+
+
+@{
+    ViewBag.Title = "Honan Claims -  Policy Lookup";
+}
+
+@{
+    string accountId = this.ViewData.ContainsKey("AccountId") ? this.ViewData["AccountId"].ToString() : string.Empty;
+
+}
+
+<!-- DATATABLES-->
+<script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+<script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+<script src="~/Content/vendor/datatables-buttons/js/dataTables.buttons.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
+@*<link href="~/Content/vendor/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />*@
+
+<style>
+    table.dataTable thead .sorting {
+        background: url('/Content/vendor/datatables/media/images/sort_both.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background: url('/Content/vendor/datatables/media/images/sort_asc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background: url('/Content/vendor/datatables/media/images/sort_desc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    .dataTables_filter {
+        margin-top: 10px !important;
+    }
+</style>
+
+<div class="panel panel-default">
+
+    <div class="table-responsive">
+        <table id="tbPolicy" class="table table-striped" style="margin-bottom: 10px;">
+            <thead>
+                <tr>
+                    <th class="sort-alpha">PolicyId</th>
+                    <th class="sort-alpha">Policy No</th>
+                    <th class="sort-alpha">Policy Class</th>
+                    <th class="sort-alpha">Policy Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var accountId = "";
+
+
+        $('#tbPolicy').dataTable({
+            "bServerSide": true,
+            "searching": true,
+            "sAjaxSource": "/Lookup/PolicyAjaxHandler",//?accountId=" + $("#Accountid").val(),
+            "paging": false,
+            "bProcessing": false,
+            "bsearch": false,
+            'info': false,
+            "fnServerParams": function (aoData) {
+
+                accountId = $("#Oc_No").val();
+
+                if ($('#Oc_No'))
+                       aoData.push({ 'name': 'accountId', 'value': accountId });
+
+                },
+            "aoColumns": [
+
+                //{
+                //    "targets": 'no-sort',
+                //    "orderable": false,
+                //    "data": null,
+                //    "defaultContent": "<button>Click!</button>"
+                //},
+                { "sName": "PolicyId", "visible": false, },
+                {
+                    "sName": "PolicyNo",
+                    "sClass": "center",
+                    "mRender": function (data, type, oObj) {
+                        //return "<a  onclick='closeModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
+                        return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \'' + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\');">' + oObj[1] + '</a>';
+                    }
+                },
+                { "sName": "PolicyClass" },
+                { "sName": "PolicyStatus"}
+
+            ]
+        });
+    });
+
+    function closeModal(val,address1,addresss2,suburb,state,postcode)
+    {
+        var text = $(val).text();
+        $("#Policy_No").val(text);
+
+       if ($("#Property_Address_1").length > 0) {
+
+            $("#Property_Address_1").val(address1);
+        }
+
+        if ($("#Property_Address_2").length > 0) {
+
+            $("#Property_Address_2").val(addresss2);
+        }
+
+        if ($("#Property_Suburb").length > 0) {
+
+            $("#Property_Suburb").val(suburb.toUpperCase());
+        }
+
+        if ($("#Property_State").length > 0) {
+
+            $("#Property_State").val(state);
+        }
+
+        if ($("#Property_Postalcode").length > 0) {
+
+            $("#Property_Postalcode").val(postcode);
+        }
+
+        $('#PolicyModal').modal('toggle');
+    }
+
+</script>
