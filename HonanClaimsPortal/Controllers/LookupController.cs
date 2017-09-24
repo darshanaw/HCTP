@@ -1,5 +1,6 @@
 ﻿using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models;
+using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApi.Models.LookupModel;
 using HonanClaimsWebApi.Services;
 using System;
@@ -13,6 +14,7 @@ namespace HonanClaimsPortal.Controllers
     public class LookupController : Controller
     {
         LookupServices lookupServices;
+        PicklistServicecs picklistServicecs;
         // GET: Lookup
         public ActionResult AccountAjaxHandler(jQueryDataTableParamModel param)
         {
@@ -269,6 +271,60 @@ namespace HonanClaimsPortal.Controllers
             }
 
             return null;
+        }
+
+        public ActionResult AssingToAjaxHandler(jQueryDataTableParamModel param, string teamName)
+        {
+            picklistServicecs = new PicklistServicecs();
+            List<CRMPicklistItem> objectList = new List<CRMPicklistItem>();
+            teamName = string.IsNullOrEmpty(teamName) ? "-" : teamName;
+            //if (Session["PolicyobjectList"] == null)
+            //{
+            objectList =
+               picklistServicecs.GetTeamGetUserOfTeam(teamName);
+            //}
+            //else
+            //    objectList = Session["PolicyobjectList"] as List<PolicySimple>;
+
+
+            IEnumerable<CRMPicklistItem> filteredRecords = objectList;
+
+            var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+            Func<CRMPicklistItem, string> orderingFunction = (c => sortColumnIndex == 1 ? c.Code :
+                                                                c.Text);
+
+            var sortDirection = Request["sSortDir_0"]; // asc or desc
+            if (sortDirection == "asc")
+                filteredRecords = filteredRecords.OrderBy(orderingFunction);
+            else
+                filteredRecords = filteredRecords.OrderByDescending(orderingFunction);
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filteredRecords = filteredRecords
+                            .Where(c => c.Text.ToUpper().Contains(param.sSearch.ToUpper()));
+                //           c.Town.Contains(param.sSearch));
+            }
+
+
+            List<string[]> aData = new List<string[]>();
+
+            foreach (CRMPicklistItem item in filteredRecords)
+            {
+                string[] arry = new string[] { item.Text, item.Code };
+                aData.Add(arry);
+            }
+
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = 97,
+                iTotalDisplayRecords = 3,
+                aaData = aData
+
+            },
+
+            JsonRequestBehavior.AllowGet);
         }
     }
 }

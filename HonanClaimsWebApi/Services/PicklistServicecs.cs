@@ -14,6 +14,7 @@ namespace HonanClaimsWebApi.Services
     public class PicklistServicecs
     {
         private const string getPicklistApiGet = "api/General/GetPickListData?pickListName=";
+        private const string getCrmPicklistApiGet = "api/claim/TeamGetUsersOfTeam?team=";
 
         public List<PicklistItem> GetPickListItems(string pickListName)
         {
@@ -33,6 +34,35 @@ namespace HonanClaimsWebApi.Services
                         {
                             string response = responseReader.ReadToEnd();
                             return new JavaScriptSerializer().Deserialize<List<PicklistItem>>(response);
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<CRMPicklistItem> GetTeamGetUserOfTeam(string teamName)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getCrmPicklistApiGet + teamName);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<CRMPicklistItem>>(response);
                         }
                     }
                 }

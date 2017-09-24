@@ -200,7 +200,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MyActivityController.cs" />
     <Compile Include="Controllers\NewClaimController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1295,6 +1294,7 @@
     <Content Include="Views\Shared\_OcNoLookUp.cshtml" />
     <Content Include="Views\Shared\_PolicyLookup.cshtml" />
     <Content Include="Views\Shared\_AccountOcLookup.cshtml" />
+    <Content Include="Views\Shared\_AssignToLookup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
