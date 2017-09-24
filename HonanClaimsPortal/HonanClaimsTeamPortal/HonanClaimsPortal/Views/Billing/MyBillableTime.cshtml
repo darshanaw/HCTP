@@ -1,0 +1,248 @@
+﻿@model HonanClaimsWebApi.Models.Billing.MyBillingModel
+
+@{
+    ViewBag.Title = "MyBillableTime";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- MOMENT JS-->
+<script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+
+<!-- DATETIMEPICKER-->
+<link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+<h2>My Billable Time</h2>
+
+
+
+<div class="col-md-4">
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem
+        {
+            Text = "Today",
+            Value = "Today"
+        });
+        listItems.Add(new SelectListItem
+        {
+            Text = "This Week",
+            Value = "This Week",
+        });
+        listItems.Add(new SelectListItem
+        {
+            Text = "Last Week",
+            Value = "Last Week",
+        });
+
+        listItems.Add(new SelectListItem
+        {
+            Text = "This Month",
+            Value = "This Month"
+        });
+
+        listItems.Add(new SelectListItem
+        {
+            Text = "This Quarter",
+            Value = "This Quarter"
+        });
+
+        listItems.Add(new SelectListItem
+        {
+            Text = "Last Quarter",
+            Value = "Last Quarter"
+        });
+
+        listItems.Add(new SelectListItem
+        {
+            Text = "This Year",
+            Value = "This Year"
+        });
+    }
+
+    <div class="form-group">
+        <label for="Team">Show Me</label>
+        @Html.DropDownListFor(model => model.ShowMe, listItems, "This Week", new { @class = "form-control", @onchange = "comboChange()" })
+    </div>
+
+    <div class="form-group">
+        <label for="sel1">Customer</label>
+        @Html.DropDownListFor(m => m.CustomerUserModel,
+              new SelectList(Model.CustomerUserModel, "Code", "Text"),
+
+              new { @class = "form-control", @onchange = "comboChange()" })
+    </div>
+    <div class="form-group">
+        <label for="sel1">Services User</label>
+        @Html.DropDownListFor(m => m.ServicesUserModel,
+              new SelectList(Model.ServicesUserModel, "Code", "Text"),
+
+              new { @class = "form-control", @onchange = "comboChange()" })
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <div class="col-md-12 col-sm-12 form-group">
+        <label class="col-sm-3 control-label input-sm">Services Date From</label>
+        <div class="col-sm-9">
+            <div id="datetimepicker1" class="input-group date">
+                @Html.TextBoxFor(o => o.ServiceFromDate, new { @class = "form-control input-sm" })
+                <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+            @*@Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+        </div>
+    </div>
+
+
+    <div class="col-md-12 col-sm-12 form-group">
+        <label class="col-sm-3 control-label input-sm">Services Date To</label>
+        <div class="col-sm-9">
+            <div id="datetimepicker2" class="input-group date">
+                @Html.TextBoxFor(o => o.ServiceToDate, new { @class = "form-control input-sm" })
+                <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+            @*@Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <button id="addNew" type="button" class="btn btn-default">Add New Billing Time</button>
+    <button id="clearFilter" type="button" class="btn btn-default">Clear Filter</button>
+    <button id="filterList" type="button" class="btn btn-default">Filter List</button>
+</div>
+
+
+<div class="col-md-12">
+    <div id="grid"></div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+
+            $('#datetimepicker2').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+
+            $("#datetimepicker1").on("dp.change", function (e) {
+                var tdate = $("#datetimepicker1").data().date;
+                $("#ServiceFromDate").val(tdate);
+            });
+
+
+            $("#datetimepicker2").on("dp.change", function (e) {
+                var tdate = $("#datetimepicker2").data().date;
+                $("#ServiceToDate").val(tdate);
+            });
+            $("#ShowMe").val("This Week");
+            loadMyBill();
+        });
+
+        function comboChange() {
+            loadMyBill();
+        }
+
+        $("#filterList").click(function () {
+            loadMyBill();
+        });
+
+        $("#clearFilter").click(function () {
+            $("#ServiceFromDate").val("");
+            $("#ServiceToDate").val("");
+            $("#CustomerUserModel").val("");
+            $("#ServicesUserModel").val("");
+            $("#ShowMe").val("This Week");
+
+            loadMyBill();
+        });
+
+        $("#addNew").click(function () {
+            //TO:DO redirect to next page
+            //window.location.replace('@Url.Action("AdminDetail", "AdminList", new { id = "" })');
+        });
+
+        function loadMyBill() {
+            var showMe = null;
+            var customerId = null;
+            var serviceUserId = null;
+            var serviceFromDate = null;
+            var serviceToDate = null;
+
+            //Get value list
+            showMe = $("#ShowMe").val();
+            customerId = $("#CustomerUserModel").val();
+            serviceUserId = $("#ServicesUserModel").val();
+            serviceFromDate = $("#ServiceFromDate").val();
+            serviceToDate = $("#ServiceToDate").val();
+
+
+            //load grid list
+
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "/Billing/TeamGetMyBillableTimes?showMe=" + showMe + "&customerId=" + customerId + "&serviceUserId=" + serviceUserId + "&serviceFromDate=" + serviceFromDate + "&serviceToDate=" + serviceToDate
+                    },
+                    pageSize: 10
+                },
+                filterable: true,
+                pageSize: 10,
+                navigatable: true,
+                pageable: true,
+                height: 450,
+                columns: [
+               {
+                   field: "ClaimRefNo",
+                   title: "Claims Ref #",
+               },
+               {
+                   field: "Customer",
+                   title: "Customer",
+               },
+
+               {
+                   field: "ServiceBy",
+                   title: "ServiceBy",
+               },
+
+               {
+                   field: "ServiceDate",
+                   title: "ServiceDate",
+               },
+
+               {
+                   field: "StartTime",
+                   title: "StartTime",
+               },
+
+               {
+                   field: "Billable",
+                   title: "Billable $$",
+               },
+               {
+                   field: "Qty",
+                   title: "Qty(Mins)",
+               },
+               {
+                   field: "Checked",
+                   title: "Checked",
+               },
+               {
+                   field: "Invoiced",
+                   title: "Invoiced",
+               },
+                ]
+            });
+
+
+
+        }
+    </script>
