@@ -679,6 +679,13 @@
                     debugger;
                     $('#Client_Name').val(data.Text);
                     $("#ClientId").val(data.Code);
+
+                    if (data.Order != null) {                    
+                    var RatePHR = data.Order;
+                    var RatePUNIT = (RatePHR / 60 * 6);
+                    $("#Rate").val(data.Order);
+                    $("#Rate_Per_Unit").val(RatePUNIT);
+                    }
                 }
             });
         }
