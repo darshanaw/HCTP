@@ -135,22 +135,28 @@ namespace HonanClaimsWebApi.Models.Billing
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
             string apiUrl = string.Empty;
 
-            apiUrl = SiteUrl + "api/Billing/TeamInsertTimeslip?billing=&userId=";
-            
             var json = JsonConvert.SerializeObject(model);
+
+            apiUrl = SiteUrl + "api/Billing/TeamInsertTimeslip?billing="+json+"&userId=";
+            
+            
 
             using (var client = new HttpClient())
             {
-                using (var formData = new MultipartFormDataContent())
-                {
-                    var jsonString = JsonConvert.SerializeObject(model);
-                    var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
-                    formData.Add(content, "PortalAdminDetail", "PortalAdminDetail");
+                var result = await client.PostAsync(apiUrl, null);
+                string resultContent = await result.Content.ReadAsStringAsync();
+                return Convert.ToBoolean(resultContent);
 
-                    var result = await client.PostAsync(apiUrl, formData);
-                    string resultContent = await result.Content.ReadAsStringAsync();
-                    return Convert.ToBoolean(resultContent);
-                }
+                //using (var formData = new MultipartFormDataContent())
+                //{
+                //    var jsonString = JsonConvert.SerializeObject(model);
+                //    var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                //    formData.Add(content, "PortalAdminDetail", "PortalAdminDetail");
+
+                //    var result = await client.PostAsync(apiUrl, formData);
+                //    string resultContent = await result.Content.ReadAsStringAsync();
+                //    return Convert.ToBoolean(resultContent);
+                //}
             }
         }
     }
