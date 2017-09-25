@@ -476,18 +476,16 @@
     }
 
     function LoadContacts(accountId) {
-        $("#products").kendoAutoComplete({
-            dataTextField: "ContactName",
-            filter: "contains",
-            minLength: 2,
-            dataSource: {
-                type: "json",
-                serverFiltering: true,
-                transport: {
-                    read: "/AdminList/GetContactNames?accountId=" + accountId
-                }
-            },
-            select: onSelect
+        var listdata = null;
+        $.get("/AdminList/GetContactNames?accountId=" + accountId, function (data) {
+            listdata = data;
+            $("#products").kendoAutoComplete({
+                dataTextField: "ContactName",
+                filter: "contains",
+                minLength: 2,
+                dataSource: data,
+                select: onSelect
+            });
         });
 
         function onSelect(e) {

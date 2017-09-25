@@ -37,5 +37,39 @@ namespace HonanClaimsPortal.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetMyTimeslipCheck(string claimTeam, string accountId, string serviceBy, string claimId, string fromDate, string toDate)
+        {
+            try
+            {
+                List<TimeSlipGridDetailModel> list = new List<TimeSlipGridDetailModel>();
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                list = await timelistcheckrepo.GetTimeSlipGridData(claimTeam, accountId, serviceBy, claimId, fromDate, toDate);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetBillingRecords(string billingId)
+        {
+            try
+            {
+                BillingTimeRecordModel list = new BillingTimeRecordModel();
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                list = await timelistcheckrepo.GetBillingRecords(billingId);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
