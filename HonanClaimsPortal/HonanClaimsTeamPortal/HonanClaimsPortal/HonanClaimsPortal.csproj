@@ -198,6 +198,7 @@
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\ClaimAssignmentController.cs" />
     <Compile Include="Controllers\ClaimListController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1308,6 +1309,8 @@
     <Content Include="Views\TimeslipCheck\Index.cshtml" />
     <Content Include="Views\AccountList\Index.cshtml" />
     <Content Include="Views\RisksmartPropertyClaim\NewRisksmartPropertyClaim.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\Contact\ContactDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

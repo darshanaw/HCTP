@@ -70,17 +70,18 @@
                     transport: {
                         read: "/AccountList/GetAccounts?AccountName=" + AccountName + "&Type=" + Type
                     },
-                    pageSize: 10
+                    pageSize: 20
                 },
                 filterable: true,
                 pageSize: 10,
                 navigatable: true,
                 pageable: true,
-                height: 450,
+                height: 550,
                 columns: [
                     {
                         field: "Account",
                         title: "Account",
+                        template: "<a href='/AccountList/AccountListDetail?AccountId=#= AccountId #'>#= Account #</a>",
                     },
                     {
                         field: "City",
