@@ -202,6 +202,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MyActivityController.cs" />
     <Compile Include="Controllers\NewClaimController.cs" />
+    <Compile Include="Controllers\PoliciesController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
     <Compile Include="Controllers\TimeslipCheckController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1307,6 +1308,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Lookup\" />
+    <Folder Include="Views\Policies\" />
     <Folder Include="Views\RisksmartGcc\" />
     <Folder Include="Views\Timeslip\" />
   </ItemGroup>
