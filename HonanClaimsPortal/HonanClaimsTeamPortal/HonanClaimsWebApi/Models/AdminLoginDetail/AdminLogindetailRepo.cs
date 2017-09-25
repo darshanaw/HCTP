@@ -88,7 +88,8 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
 
                     var jsonString = JsonConvert.SerializeObject(model);
                     var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
-                    formData.Add(content, "PortalAdminDetail", "PortalAdminDetail");
+                    formData.Add(content, "PortalAdminDetail");
+
 
                     var result = await client.PostAsync(apiUrl, formData);
                     string resultContent = await result.Content.ReadAsStringAsync();
@@ -101,15 +102,15 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
         {
 
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "/api/AccountAndReg/TeamInsertCustomerPortalLogin?portalLogin=&userId=" + userId;
             var json = JsonConvert.SerializeObject(model);
+            string apiUrl = SiteUrl + "/api/AccountAndReg/TeamInsertCustomerPortalLogin?portalLogin=" + json + "&userId=" + userId;
 
             using (var client = new HttpClient())
             {
                 var jsonString = JsonConvert.SerializeObject(model);
                 var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
 
-                var result = await client.PostAsync(apiUrl, content);
+                var result = await client.GetAsync(apiUrl);
                 string resultContent = await result.Content.ReadAsStringAsync();
                 return Convert.ToBoolean(resultContent);
 
