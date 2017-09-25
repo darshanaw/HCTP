@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*!
  *
  * Angle - Bootstrap Admin App + jQuery
@@ -324,10 +324,7 @@ fieldset .form-group {
   margin-top: -10px;
   margin-right: -10px;
 }
-.modal-backdrop {
-  position: fixed;
-  bottom: 0;
-}
+
 .topnavbar,
 .navbar,
 .navbar .dropdown-menu {
@@ -419,9 +416,7 @@ body {
 .wrapper > footer > p {
   margin: 0;
 }
-.modal-open .wrapper {
-  z-index: 0;
-}
+
 .content-wrapper {
   padding: 15px;
   width: 100%;

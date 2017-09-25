@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*!
  *
  * Angle - Bootstrap Admin App + jQuery
@@ -324,10 +324,7 @@ fieldset .form-group {
   margin-top: -10px;
   margin-left: -10px;
 }
-.modal-backdrop {
-  position: fixed;
-  bottom: 0;
-}
+
 .topnavbar,
 .navbar,
 .navbar .dropdown-menu {
@@ -376,7 +373,6 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: 116;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -391,7 +387,6 @@ body {
 .wrapper > .aside > .nav-floating {
   left: inherit;
   margin-left: 220px;
-  z-index: 1110;
   min-width: 190px;
   overflow: auto;
 }
@@ -402,7 +397,6 @@ body {
   position: relative;
   height: 100%;
   margin-left: 0;
-  z-index: 111;
   background-color: #f5f7fa;
   margin-bottom: 60px !important;
 }
@@ -419,9 +413,7 @@ body {
 .wrapper > footer > p {
   margin: 0;
 }
-.modal-open .wrapper {
-  z-index: 0;
-}
+
 .content-wrapper {
   padding: 15px;
   width: 100%;
@@ -1015,7 +1007,6 @@ _:-ms-lang(x),
   margin-bottom: 0;
   border-radius: 0;
   background-color: #fff;
-  z-index: 1050;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
@@ -1194,6 +1185,7 @@ _:-ms-lang(x),
     background-image: linear-gradient(to right, #23b7e5 0%, #51c6ea 100%);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5', endColorstr='#ff51c6ea', GradientType=1);
+    z-index:1;
   }
   .topnavbar .navbar-header {
     background-image: none;
