@@ -22,6 +22,11 @@ namespace HonanClaimsPortal.Controllers
         {
             client = Session[SessionHelper.loginCounter] as ClaimTeamLoginModel;
 
+            if (TempData[TempDataHelper.NewClaimModel] == null)
+                return RedirectToAction("Index", "NewClaim");
+
+            NewClaimModel newClaimModel = TempData[TempDataHelper.NewClaimModel] as NewClaimModel;
+
             RisksmartGccClaim model = new RisksmartGccClaim();
             model.Claim_Received = false;
             model.Claim_Acknowledged = false;
@@ -30,6 +35,20 @@ namespace HonanClaimsPortal.Controllers
             model.Outcome_Declined = false;
             model.Claim_Closed = false;
             model.Litigated = false;
+
+            model.Claim_Team = newClaimModel.Claim_Team;
+            model.Claim_Team_Name = newClaimModel.Claim_Team;
+            model.Account_Name = newClaimModel.Account_Name;
+            model.Accountid = newClaimModel.Accountid;
+            model.Claim_Type = newClaimModel.Claim_Type;
+            model.Oc_Num = newClaimModel.Oc_No;
+            model.Policy_No = newClaimModel.Policy_No;
+            model.Assigned_User = newClaimModel.Assigned_To;
+            model.Property_Address_1 = newClaimModel.Property_Address_1;
+            model.Property_Address_1 = newClaimModel.Property_Address_2;
+            model.Property_Postalcode = newClaimModel.Property_Postalcode;
+            model.Property_State = newClaimModel.Property_State;
+            model.Property_Suburb = newClaimModel.Property_Suburb;
 
             InitializeModel(model);
 
@@ -93,7 +112,7 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_Section_List = pickListServices.GetPickListItems("Risksmart GCC Policy Section");
             model.Policy_Section_List.Insert(0, new PicklistItem());
 
-            model.Policy_Class_List = pickListServices.GetPickListItems("RHonan Policy Classes");
+            model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
             model.Policy_Class_List.Insert(0, new PicklistItem());
 
             // Add CCTV available list

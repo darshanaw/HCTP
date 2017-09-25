@@ -548,7 +548,7 @@
                                     <div class="col-sm-9">
                                         <div class="input-group">
                                             @Html.TextBoxFor(o => o.Broker_Name, new { @class = "form-control input-sm", @maxlength = 100 })
-                                            <span id="accountNoModal" class="input-group-btn" data-toggle="modal" data-target="#ContactBrokerModal">
+                                            <span id="brokerAccountNameModal" class="input-group-btn" data-toggle="modal" data-target="#ContactBrokerModal">
                                                 <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                     <i class="fa fa-binoculars"></i>
                                                 </button>
@@ -563,7 +563,7 @@
                                     <div class="col-sm-9">
                                         <div class="input-group">
                                             @Html.TextBoxFor(o => o.Broker_Account, new { @class = "form-control input-sm", @maxlength = 100 })
-                                            <span id="accountNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountBrokerModal">
+                                            <span id="brokerAccountNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountBrokerModal">
                                                 <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                     <i class="fa fa-binoculars"></i>
                                                 </button>
@@ -696,6 +696,10 @@
 
             $('#tbStore').DataTable().ajax.reload(null, false);
         });
+
+        $("#brokerAccountNameModal").click(function () {
+            $('#tbContactBroker').DataTable().ajax.reload(null, false);
+        })
 
         $("#Claim_Status").change(function () {
 

@@ -23,6 +23,11 @@ namespace HonanClaimsPortal.Helpers
         public static string loginCounter = "loginCounter";
     }
 
+    public class TempDataHelper
+    {
+        public static string NewClaimModel = "NewClaimModel";
+    }
+
     public enum ClaimType
     {
         Claim = 0,

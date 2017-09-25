@@ -333,7 +333,7 @@ namespace HonanClaimsPortal.Controllers
             List<StoreSimple> objectList = new List<StoreSimple>();
             
             objectList =
-                lookupServices.GetStores("", "");
+                lookupServices.GetStores("", Policy_No);
            
 
             IEnumerable<StoreSimple> filteredRecords = objectList;
@@ -419,7 +419,7 @@ namespace HonanClaimsPortal.Controllers
 
             foreach (CRMContactSimple item in filteredRecords)
             {
-                string[] arry = new string[] { item.LastName, item.FirstName, item.ContactName  };
+                string[] arry = new string[] { item.LastName, item.FirstName, item.ContactName, item.AccountId,item.AccountName,item.ContactId  };
                 aData.Add(arry);
             }
 

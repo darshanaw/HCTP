@@ -11,6 +11,7 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public string ContactId { get; set; }
         public string ContactName { get; set; }
         public string AccountName { get; set; }
+        public string AccountId { get; set; }
         public string Phone { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

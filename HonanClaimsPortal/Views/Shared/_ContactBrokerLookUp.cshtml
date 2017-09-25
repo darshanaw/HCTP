@@ -63,15 +63,22 @@
             "paging": false,
             "bProcessing": false,
             "bsearch": false,
-            'info':false,
+            'info': false,
+            "fnServerParams": function (aoData) {
+
+                if ($('#Broker_Account_Id'))
+                    aoData.push({ 'name': 'accountId', 'value': $("#Broker_Account_Id").val() });
+
+            },
             "aoColumns": [
             
                 {
                     "sName": "LastName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeContactBrokerModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\')">' + oObj[1] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeContactBrokerModal(\'' + oObj[5] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' + oObj[4] + '\')">' + oObj[0] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
+                        //item.LastName, item.FirstName, item.ContactName, item.AccountId,item.AccountName,item.ContactId
                     }
                 },
                 { "sName": "FirstName" },
@@ -88,9 +95,23 @@
     });
 
 
-    function closeContactBrokerModal(ocNum, ocName) {
+    function closeContactBrokerModal(contactId,contactName,accountId,accountName) {
 
-        $("#Broker_Name").val(ocName);
+        $("#Broker_Name").val(contactName);
+
+        if ($("#Broker_Name_Id").length > 0)
+        {
+            $("#Broker_Name_Id").val(contactId);
+        }
+
+        if ($("#Broker_Account").length > 0) {
+            $("#Broker_Account").val(accountName);
+        }
+
+        if ($("#Broker_Account_Id").length > 0) {
+            $("#Broker_Account_Id").val(accountId);
+        }
+        
 
         $('#ContactBrokerModal').modal('toggle');
     }

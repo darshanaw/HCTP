@@ -53,6 +53,8 @@ namespace HonanClaimsPortal.Controllers
         {
             if (ModelState.IsValid)
             {
+                TempData[TempDataHelper.NewClaimModel] = model;
+
                 if(model.Claim_Team == ClaimTeams.RisksmartGCC)
                     return RedirectToAction("NewRisksmartGccClaim", "RisksmartGccClaim");
             }
