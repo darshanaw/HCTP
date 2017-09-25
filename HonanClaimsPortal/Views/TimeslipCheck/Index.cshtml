@@ -1,4 +1,4 @@
-﻿
+﻿@model HonanClaimsWebApi.Models.TimeslipCheck.TimeslipReturnModel;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,7 +9,23 @@
     <div class="col-md-4">
 
         <div class="form-group">
-            <label for="sel1">Claim</label>
+            <label for="sel1">Claim Team</label>
+            @Html.DropDownListFor(m => m.ClaimTeam,
+              new SelectList(Model.ClaimTeam, "Code", "Text"),
+              "--Select--",
+              new { @class = "form-control", @onchange = "comboChange()" })
+        </div>
+        <div class="form-group">
+            <label for="sel1">Account</label>
+            @*@Html.DropDownListFor(m => m.ActivityClaim,
+              new SelectList(Model.ActivityClaim, "Code", "Text"),
+              "--Select--",
+              new { @class = "form-control", @onchange = "comboChange()" })*@
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="sel1">Service by</label>
             @*@Html.DropDownListFor(m => m.ActivityClaim,
               new SelectList(Model.ActivityClaim, "Code", "Text"),
               "--Select--",
@@ -25,30 +41,14 @@
     </div>
     <div class="col-md-4">
         <div class="form-group">
-            <label for="sel1">Claim</label>
+            <label for="sel1">Date from</label>
             @*@Html.DropDownListFor(m => m.ActivityClaim,
               new SelectList(Model.ActivityClaim, "Code", "Text"),
               "--Select--",
               new { @class = "form-control", @onchange = "comboChange()" })*@
         </div>
         <div class="form-group">
-            <label for="sel1">Claim</label>
-            @*@Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })*@
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="sel1">Claim</label>
-            @*@Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })*@
-        </div>
-        <div class="form-group">
-            <label for="sel1">Claim</label>
+            <label for="sel1">Date to</label>
             @*@Html.DropDownListFor(m => m.ActivityClaim,
               new SelectList(Model.ActivityClaim, "Code", "Text"),
               "--Select--",
