@@ -95,6 +95,8 @@
     <Compile Include="Models\LookupModel\CRMOCNumSimple.cs" />
     <Compile Include="Models\LookupModel\PolicySimple.cs" />
     <Compile Include="Models\LookupModel\StoreSimple.cs" />
+    <Compile Include="Models\Policies\PoliciesModel.cs" />
+    <Compile Include="Models\Policies\PoliciesRepo.cs" />
     <Compile Include="Models\TimeslipCheck\TimeSlipCheckRepo.cs" />
     <Compile Include="Models\TimeslipCheck\TimeslipDataModel.cs" />
     <Compile Include="Models\TimeslipCheck\TimeslipReturnModel.cs" />
