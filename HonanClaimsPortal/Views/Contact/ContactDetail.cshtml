@@ -1,0 +1,139 @@
+﻿@model HonanClaimsWebApi.Models.Contact.ContactModel
+
+@{
+    ViewBag.Title = "ContactDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-container">
+    <h2>Contact</h2>
+
+    <div class="col-md-5">
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Contact Name:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Account:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.Account, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Title:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Address:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">WorkPhone:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.WorkPhone, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Mobile:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Fax:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Home Phone:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.Homephone, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">E-mail:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-5">
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Preferred Contact:</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.TextBoxFor(m => m.Preferred_Contact, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-4">Primary contact for account</label>
+                <div class="col-sm-8">
+                    <div>
+                        @Html.CheckBoxFor(m => m.Isprimary, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

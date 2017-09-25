@@ -28,14 +28,21 @@ namespace HonanClaimsPortal.Controllers
                 List<AccountListModel> list = new List<AccountListModel>();
                 AccountListRepo accountListRepo = new AccountListRepo();
                 list = await accountListRepo.GetAccounts(AccountName,Type);
-                //return new JsonResult() { Data = list, MaxJsonLength = 86753090, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return new JsonResult() { Data = list, MaxJsonLength = 86753090, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                //return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        }
 
+        public async Task<ActionResult> AccountDetail()
+        {
+            AccountListRepo accountListRepo = new AccountListRepo();
+            AccountModel model = new AccountModel();
+            model.AccountType = await accountListRepo.GetPickListData();
+            return View(model);
         }
 
     }

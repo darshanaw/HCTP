@@ -1,0 +1,112 @@
+﻿@model HonanClaimsWebApi.Models.Contact.ContactListModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Contact</h2>
+
+<div class="col-md-4">
+    <div class="col-md-12">
+        <div class="form-group mb">
+            <label class="col-sm-2">Contact Name:</label>
+            <div class="col-sm-10">
+                <div>
+                    @Html.TextBoxFor(m => m.ConatctName, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="col-md-12">
+        <div class="form-group mb">
+            <label class="col-sm-2">Account Name:</label>
+            <div class="col-sm-10">
+                <div>
+                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+        <button id="clearFilter" type="button" class="btn btn-default">Clear Filters</button>
+        <button id="filterList" type="button" class="btn btn-default">Filter Accounts</button>
+</div>
+
+<div class="col-md-12">
+    <div id="grid"></div>
+</div>
+
+<script>
+    $("#clearFilter").click(function () {
+        $("#AccountName").val('');
+        $("#ConatctName").val('');
+        loadContacts();
+    });
+
+    $("#filterList").click(function () {
+        loadContacts();
+    });
+
+
+    $(document).ready(function () {
+        loadContacts();
+    });
+
+
+    function loadContacts() {
+        var AccountName = null;
+        var ConatctName = null;
+
+        AccountName = $("#AccountName").val();
+        ConatctName = $("#ConatctName").val();
+
+        $("#grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/Contact/GetContacts?AccountName=" + AccountName + "&ConatctName=" + ConatctName
+                },
+                pageSize: 20
+            },
+            filterable: true,
+            pageSize: 10,
+            navigatable: true,
+            pageable: true,
+            height: 550,
+            columns: [
+                {
+                    field: "ContactName",
+                    title: "ContactName",
+                    template: "<a href='/Contact/ContactDetail?ContactId=#= ContactId #'>#= ContactName #</a>",
+                },
+                {
+                    field: "Account",
+                    title: "Account",
+                    template: "<a href='/Contact/ContactDetail?ContactId=#= ContactId #'>#= Account #</a>",
+                },
+
+                {
+                    field: "State",
+                    title: "State",
+                },
+                {
+                    field: "WorkPhone",
+                    title: "WorkPhone",
+                },
+                {
+                    field: "Mobile",
+                    title: "Mobile",
+                },
+                {
+                    field: "Email",
+                    title: "Email",
+                },
+            ]
+        });
+    }
+</script>
