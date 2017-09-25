@@ -203,6 +203,7 @@
     <Compile Include="Controllers\MyActivityController.cs" />
     <Compile Include="Controllers\NewClaimController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
+    <Compile Include="Controllers\TimeslipCheckController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1301,6 +1302,7 @@
     <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
     <Content Include="Views\Billing\MyBillableTime.cshtml" />
+    <Content Include="Views\TimeslipCheck\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
