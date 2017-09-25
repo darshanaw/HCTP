@@ -1,0 +1,102 @@
+﻿@model HonanClaimsWebApi.Models.AccountList.AccountModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Accounts</h2>
+
+<div class="col-md-4">
+    <div class="col-md-12">
+        <div class="form-group mb">
+            <label class="col-sm-2">Account Name:</label>
+            <div class="col-sm-10">
+                <div>
+                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="form-group">
+        <label for="sel1">Account Type</label>
+        @Html.DropDownListFor(m => m.AccountType, new SelectList(Model.AccountType, "Code", "Text"), "--select--", new { @class = "form-control", @onchange = "comboChange()" })
+    </div>
+</div>
+
+
+<div class="col-md-4">
+    <div class="col-md-4">
+        <button id="clearFilter" type="button" class="btn btn-default">Clear Filters</button>
+        <button id="filterList" type="button" class="btn btn-default">Filter Accounts</button>
+    </div>
+</div>
+
+    <div class="col-md-12">
+        <div id="grid"></div>
+    </div>
+
+
+    <script>
+        $("#clearFilter").click(function () {
+            $("#AccountName").val('');
+            $("#AccountType").val('');
+            loadAccounts();
+        });
+
+
+        $("#filterList").click(function () {
+            loadAccounts();
+        });
+
+        $(document).ready(function () {
+            loadAccounts();
+        });
+
+
+        function loadAccounts() {
+
+            var AccountName = null;
+            var Type = null;
+
+            AccountName = $("#AccountName").val();
+            Type = $("#AccountType").val();
+
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "/AccountList/GetAccounts?AccountName=" + AccountName + "&Type=" + Type
+                    },
+                    pageSize: 10
+                },
+                filterable: true,
+                pageSize: 10,
+                navigatable: true,
+                pageable: true,
+                height: 450,
+                columns: [
+                    {
+                        field: "Account",
+                        title: "Account",
+                    },
+                    {
+                        field: "City",
+                        title: "City",
+                    },
+
+                    {
+                        field: "State",
+                        title: "State",
+                    },
+                    {
+                        field: "Type",
+                        title: "Type",
+                    },
+                ]
+            });
+        }
+
+    </script>
