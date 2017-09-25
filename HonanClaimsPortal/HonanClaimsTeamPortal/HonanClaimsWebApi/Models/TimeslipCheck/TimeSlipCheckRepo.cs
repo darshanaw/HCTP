@@ -19,10 +19,10 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             {
                 apiUrl = SiteUrl + "api/Billing/TeamGetCheckBillableTimeClaimTeams";
             }
-            else if(area == arealist.Account)
+            else if (area == arealist.Account)
             {
                 apiUrl = SiteUrl + "api/Billing/TeamGetCheckBillableTimeAccounts";
-               
+
             }
             else if (area == arealist.Claim)
             {
@@ -50,5 +50,61 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             }
             return list;
         }
+
+        public async Task<List<TimeSlipGridDetailModel>> GetTimeSlipGridData(string claimTeam, string accountId, string serviceBy, string claimId, string fromDate, string toDate)
+        {
+            List<TimeSlipGridDetailModel> list = new List<TimeSlipGridDetailModel>();
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            claimTeam = claimTeam == "null" ? string.Empty : claimTeam;
+            accountId = accountId == "null" ? string.Empty : accountId;
+            serviceBy = serviceBy == "null" ? string.Empty : serviceBy;
+            claimId = claimId == "null" ? string.Empty : claimId;
+            fromDate = fromDate == "null" ? string.Empty : fromDate;
+            toDate = toDate == "null" ? string.Empty : toDate;
+
+            string apiUrl = SiteUrl + "api/Billing/TeamGetCheckBillableTimes?claimTeam=" + claimTeam + "&accountId=" + accountId + "&serviceBy=" + serviceBy + "&claimId=" + claimId + "&fromDate=" + fromDate + "&toDate=" + toDate;
+
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TimeSlipGridDetailModel>>(data);
+
+                }
+            }
+            return list;
+        }
+
+        public async Task<BillingTimeRecordModel> GetBillingRecords(string billingId)
+        {
+            BillingTimeRecordModel list = new BillingTimeRecordModel();
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Billing/TeamGetBillableTimeRecord?billingId=" + billingId;
+
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    list = Newtonsoft.Json.JsonConvert.DeserializeObject<BillingTimeRecordModel>(data);
+
+                }
+            }
+            return list;
+        }
+
     }
 }

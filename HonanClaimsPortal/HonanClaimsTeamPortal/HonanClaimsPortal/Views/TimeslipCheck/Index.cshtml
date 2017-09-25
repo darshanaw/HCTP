@@ -1,58 +1,303 @@
-﻿@model HonanClaimsWebApi.Models.TimeslipCheck.TimeslipReturnModel;
+﻿@model HonanClaimsWebApi.Models.TimeslipCheck.TimeslipReturnModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-<div>
-    <div class="col-md-4">
+<!-- MOMENT JS-->
+<script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+<!-- DATETIMEPICKER-->
+<link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-        <div class="form-group">
-            <label for="sel1">Claim Team</label>
-            @Html.DropDownListFor(m => m.ClaimTeam,
+<h2>Check Billable Time</h2>
+<div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <button id="clearFilter" style="float:right;" type="button" class="btn btn-default">Clear Filter</button>
+            <button id="filterList" style="float:right;" type="button" class="btn btn-default">Filter Billables</button>
+            <div class="row">
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <label for="sel1">Claim Team</label>
+                        @Html.DropDownListFor(m => m.ClaimTeam,
               new SelectList(Model.ClaimTeam, "Code", "Text"),
               "--Select--",
               new { @class = "form-control", @onchange = "comboChange()" })
-        </div>
-        <div class="form-group">
-            <label for="sel1">Account</label>
-            @*@Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Account</label>
+                        @Html.DropDownListFor(m => m.Account,
+              new SelectList(Model.Account, "Code", "Text"),
               "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })*@
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="sel1">Service by</label>
-            @*@Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
+              new { @class = "form-control", @onchange = "comboChange()" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="sel1">Service by</label>
+                        @Html.DropDownListFor(m => m.ServiceBy,
+              new SelectList(Model.ServiceBy, "Code", "Text"),
               "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })*@
-        </div>
-        <div class="form-group">
-            <label for="sel1">Claim</label>
-            @*@Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
+              new { @class = "form-control", @onchange = "comboChange()" })
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Claim</label>
+                        @Html.DropDownListFor(m => m.Claim,
+              new SelectList(Model.Claim, "Code", "Text"),
               "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })*@
+              new { @class = "form-control", @onchange = "comboChange()" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="sel1">Date from</label>
+                        <div id="datetimepicker1" class="input-group date">
+                            @Html.TextBoxFor(o => o.Datefrom, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                            <span style="color:red;" id="errorDate"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Date to</label>
+                        <div id="datetimepicker2" class="input-group date">
+                            @Html.TextBoxFor(o => o.Dateto, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <div id="grid1"></div>
+                </div>
+            </div>
+
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="sel1">Date from</label>
-            @*@Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })*@
-        </div>
-        <div class="form-group">
-            <label for="sel1">Date to</label>
-            @*@Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })*@
+        <div class="col-md-6">
+            <div class="row">
+                <div class="form-group">
+                    <label>Service By</label>
+                    @Html.TextBoxFor(m => m.InnerModeL.Service_By, new { @class = "form-control" , disabled = "disabled"})
+                    @Html.HiddenFor(m => m.InnerModeL.H_Billingsid)
+                </div>
+                <div class="form-group">
+                    <label>Claim</label>
+                    @Html.TextBoxFor(m => m.InnerModeL.Claim_No, new { @class = "form-control", disabled = "disabled" })
+                </div>
+                <div class="form-group">
+                    <label>Is Billable</label>
+                    <div class="input-group">
+                        @Html.CheckBoxFor(m => m.InnerModeL.Is_Billable, new { @class = "form-control" })
+                        <label>Rate p/Hr</label>
+                        @Html.TextBoxFor(m => m.InnerModeL.Rate, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sel1">Service Date</label>
+                    <div id="datetimepicker3" class="input-group date">
+                        @Html.TextBoxFor(o => o.InnerModeL.Service_Date, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.InnerModeL.Start_Time_HH, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.InnerModeL.Start_Time_MM, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>End Time</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.InnerModeL.End_Time_HH, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.InnerModeL.End_Time_MM, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Qty(Mins)</label>
+                    @Html.TextBoxFor(m => m.InnerModeL.Qty_Mins, new { @class = "form-control" , disabled = "disabled" })
+                </div>
+                <div class="form-group">
+                    <label>Billable</label>
+                    @Html.TextBoxFor(m => m.InnerModeL.Billable, new { @class = "form-control" , disabled = "disabled" })
+                </div>
+
+                <div class="form-group">
+                    @Html.TextAreaFor(m => m.InnerModeL.Billable, new { @class = "form-control" })
+                </div>
+
+                <button id="Markaschecked" type="button" class="btn btn-default">Mark as Checked</button>
+                <button id="nonbillable" type="button" class="btn btn-default">Mark as Non Billable</button>
+                <button id="skipnext" type="button" class="btn btn-default">Skip Next One</button>
+            </div>
+
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#datetimepicker2').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#datetimepicker3').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+        $("#datetimepicker1").on("dp.change", function (e) {
+            var tdate = $("#datetimepicker1").data().date;
+            $("#Datefrom").val(tdate);
+        });
+
+        $("#datetimepicker3").on("dp.change", function (e) {
+            var tdate = $("#datetimepicker3").data().date;
+            $("#Service_Date").val(tdate);
+        });
+
+
+        $("#datetimepicker2").on("dp.change", function (e) {
+            var tdate = $("#datetimepicker2").data().date;
+            var tdate1 = $("#datetimepicker1").data().date;
+            $("#Dateto").val(tdate);
+            if (tdate < tdate1) {
+                $("#errorDate").text("From date must be less than To date");
+            } else {
+                $("#errorDate").text("");
+                LoadGridDetail();
+            }
+        });
+
+        LoadGridDetail();
+
+        $('#clearFilter').click(function () {
+            debugger
+            $('#ClaimTeam').val("");
+            $('#ServiceBy').val("")
+            $('#Claim').val("");
+            $('#Datefrom').val("");
+            $('#Dateto').val("");
+            LoadGridDetail();
+        });
+
+        $('#filterList').click(function () {
+            LoadGridDetail();
+        })
+    })
+
+    function LoadGridDetail() {
+
+        var claimTeam = null;
+        var accountId = null;
+        var serviceBy = null;
+        var claimId = null;
+        var fromDate = null;
+        var toDate = null;
+
+        //Get value list
+        var c = $('#ClaimTeam').val();
+        if (c != null && c != "") { claimTeam = c }
+        var o = $('#Account').val();
+        if (o != null && o != "") { accountId = o }
+        var cl = $('#ServiceBy').val();
+        if (cl != null && cl != "") { serviceBy = cl }
+        var s = $('#Claim').val();
+        if (s != null && s != "") { claimId = s }
+        var a = $('#Datefrom').val();
+        if (a != null && a != "") { fromDate = a }
+        var t = $('#Dateto').val();
+        if (t != null && a != "") { toDate = t }
+        //load grid list
+        $("#grid1").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/TimeslipCheck/GetMyTimeslipCheck?claimTeam=" + claimTeam + "&accountId=" + accountId + "&serviceBy=" + serviceBy + "&claimId=" + claimId + "&fromDate=" + fromDate + "&toDate=" + toDate
+                },
+                pageSize: 10
+            },
+            height: 500,
+            sortable: true,
+            selectable: "row",
+            change: onChange,
+            columns: [{
+                hidden: true,
+                field: "BillingId",
+                title: "BillingId"
+            },
+            {
+                field: "ClaimRefNo",
+                title: "Claims Ref ",
+            },
+            {
+                field: "ServiceBy",
+                title: "Service By",
+            }, {
+                field: "ServiceDate",
+                title: "Service Date",
+            }, {
+                field: "StartTime",
+                title: "Start Time",
+            },
+            {
+                field: "Qty",
+                title: "Qty(Mins)",
+            },
+            {
+                field: "Billable",
+                title: "Billable $$",
+            }
+
+            ]
+        });
+
+        function onChange(arg) {
+            var dataItem = arg.sender._data[0];
+            setTextFields(dataItem);
+        }
+    }
+
+    function comboChange() {
+        LoadGridDetail();
+    }
+
+    function setTextFields(dataItem) {
+        $.get("/TimeslipCheck/GetBillingRecords?billingId=" + dataItem.BillingId, function (data) {
+            $('#InnerModeL_H_Billingsid').val(data.H_Billingsid);
+            $('#InnerModeL_Service_By').val(data.Service_By);
+            $('#InnerModeL_Is_Billable').val(data.Is_Billable);
+            if (data.Is_Billable) { $('#InnerModeL_Is_Billable').prop("checked", true); } else { $('#InnerModeL_Is_Billable').prop("checked", false); }
+            $('#InnerModeL_Rate').val(data.Rate);
+            $('#InnerModeL_Claim_No').val(data.Claim_No);
+            if (data.Service_Date != null && data.Service_Date != "") {
+                $("#InnerModeL_Service_Date").val(data.Service_Date);
+            }
+
+            $('#InnerModeL_Start_Time_HH').val(data.Start_Time_HH);
+            $('#InnerModeL_Start_Time_MM').val(data.Start_Time_MM);
+            $('#InnerModeL_End_Time_HH').val(data.End_Time_HH);
+            $('#InnerModeL_End_Time_MM').val(data.End_Time_MM);
+
+            $('#InnerModeL_Qty_Mins').val(data.Qty_Mins);
+            $('#InnerModeL_Billable').val(data.Billable);
+            
+        });
+    }
+</script>

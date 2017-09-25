@@ -67,7 +67,7 @@ namespace HonanClaimsWebApi.Models.MyActivity
                 var jsonSerialiser = new JavaScriptSerializer();
                 var json = jsonSerialiser.Serialize(filteredlist);
 
-                string apiUrl = SiteUrl + "api/Activity/GetUsers?teamName=" + json;
+                string apiUrl = SiteUrl + "api/Activity/GetUsers?teamNames=" + json;
                 using (HttpClient client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(apiUrl);
