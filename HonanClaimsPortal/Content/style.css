@@ -124,6 +124,25 @@
 .pointer{
     cursor:pointer;
 }
+
+.modal-header{
+    padding:15px 30px;
+}
+
+.modal-header .close{
+    font-size:30px;
+}
+
+.modal-body{
+    padding:15px 30px;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+}
+
+.modal-footer{
+    padding:15px 30px;
+}
+
 /* / common styles */
 
 /* adminlist page */
