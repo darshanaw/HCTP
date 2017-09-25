@@ -150,6 +150,7 @@ namespace HonanClaimsWebApi.Services
         {
             try
             {
+                accountId = accountId ?? "";
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
                     ConfigurationManager.AppSettings["apiurl"] + contactApiGet1 + contactName + contactApiGet2 + accountId);
                 request.Method = "GET";
