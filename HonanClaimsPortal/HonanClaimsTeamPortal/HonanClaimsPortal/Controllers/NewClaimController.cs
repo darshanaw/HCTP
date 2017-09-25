@@ -55,9 +55,16 @@ namespace HonanClaimsPortal.Controllers
             {
                 TempData[TempDataHelper.NewClaimModel] = model;
 
-                if(model.Claim_Team == ClaimTeams.RisksmartGCC)
-                    return RedirectToAction("NewRisksmartGccClaim", "RisksmartGccClaim");
-            }
+                
+                switch (model.Claim_Team)
+                {
+                    case ClaimTeams.RisksmartGCC:
+                        return RedirectToAction("NewRisksmartGccClaim", "RisksmartGccClaim");
+                    case ClaimTeams.RisksmartProperty:
+                        return RedirectToAction("NewRisksmartPropertyClaim", "RisksmartPropertyClaim");
+                }
+
+           }
 
             InitializeModel(model);
             return View(model);
