@@ -193,6 +193,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountListController.cs" />
     <Compile Include="Controllers\AdminListController.cs" />
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\ClaimAssignmentController.cs" />
@@ -1305,6 +1306,7 @@
     <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
     <Content Include="Views\Billing\MyBillableTime.cshtml" />
     <Content Include="Views\TimeslipCheck\Index.cshtml" />
+    <Content Include="Views\AccountList\Index.cshtml" />
     <Content Include="Views\RisksmartPropertyClaim\NewRisksmartPropertyClaim.cshtml" />
   </ItemGroup>
   <ItemGroup>
