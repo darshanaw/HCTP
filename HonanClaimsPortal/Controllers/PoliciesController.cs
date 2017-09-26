@@ -17,7 +17,7 @@ namespace HonanClaimsPortal.Controllers
             PoliciesRepo policiesRepo = new PoliciesRepo();
 
             model.PolicyClass = await policiesRepo.GetPloicyClass();
-            model.IsActive = true;
+            model.IsActive = false;
             model.PolicyType = await policiesRepo.GetPolicyPolicyType();
             return View(model);
         }

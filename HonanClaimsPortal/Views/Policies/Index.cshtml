@@ -100,6 +100,15 @@
 </div>
 
 <script>
+
+    $('#IsActive').change(function () {
+        if (this.checked) {
+            $("#IsActive").val(true);
+        } else {
+            $("#IsActive").val(false);
+        }
+    });
+
         $("#clearFilter").click(function () {
             $("#AccountName").val('');
             $("#AccountType").val('');
