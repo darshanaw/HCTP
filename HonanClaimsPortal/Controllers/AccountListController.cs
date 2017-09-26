@@ -14,7 +14,7 @@ namespace HonanClaimsPortal.Controllers
         public async Task<ActionResult>  Index()
         {
             AccountListRepo accountListRepo = new AccountListRepo();
-            AccountModel model = new AccountModel();
+            AccountsModel model = new AccountsModel();
             model.AccountType =await accountListRepo.GetPickListData(); 
             return View(model);
         }
@@ -37,11 +37,11 @@ namespace HonanClaimsPortal.Controllers
             }
         }
 
-        public async Task<ActionResult> AccountDetail()
+        public async Task<ActionResult> AccountDetail(string AccountId)
         {
             AccountListRepo accountListRepo = new AccountListRepo();
             AccountModel model = new AccountModel();
-            model.AccountType = await accountListRepo.GetPickListData();
+            model = await accountListRepo.GetAccountDetail(AccountId);
             return View(model);
         }
 

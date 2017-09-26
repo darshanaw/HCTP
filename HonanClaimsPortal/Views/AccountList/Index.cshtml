@@ -1,4 +1,4 @@
-﻿@model HonanClaimsWebApi.Models.AccountList.AccountModel
+﻿@model HonanClaimsWebApi.Models.AccountList.AccountsModel
 
 @{
     ViewBag.Title = "Index";
@@ -81,7 +81,7 @@
                     {
                         field: "Account",
                         title: "Account",
-                        template: "<a href='/AccountList/AccountListDetail?AccountId=#= AccountId #'>#= Account #</a>",
+                        template: "<a href='/AccountList/AccountDetail?AccountId=#= AccountId #'>#= Account #</a>",
                     },
                     {
                         field: "City",

@@ -53,5 +53,27 @@ namespace HonanClaimsWebApi.Models.AccountList
             }
             return list;
         }
+
+        public async Task<AccountModel> GetAccountDetail(string AccountId)
+        {
+            AccountModel list = new AccountModel();
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Account/GetAccount?accountId=" + AccountId;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    list = Newtonsoft.Json.JsonConvert.DeserializeObject<AccountModel>(data);
+                }
+            }
+            return list;
+        }
+
     }
 }

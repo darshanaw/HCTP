@@ -1312,6 +1312,7 @@
     <Content Include="Views\RisksmartPropertyClaim\NewRisksmartPropertyClaim.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Contact\ContactDetail.cshtml" />
+    <Content Include="Views\AccountList\AccountDetail.cshtml" />
     <Content Include="Views\NewContactAccount\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
