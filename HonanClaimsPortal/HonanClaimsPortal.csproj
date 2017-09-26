@@ -1315,6 +1315,7 @@
     <Content Include="Views\AccountList\AccountDetail.cshtml" />
     <Content Include="Views\NewContactAccount\Index.cshtml" />
     <Content Include="Views\Policies\Index.cshtml" />
+    <Content Include="Views\Policies\PoliciesDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
