@@ -152,25 +152,50 @@
     float:left;
 }
 
+.page-title-1{
+    width:20%;
+    float:left;
+}
 .search-box{
     width:30%;
     float:left;
 }
 
-.create-btn{
+.search-box-1{
+    width:20%;
+    float:left;
+}
+
+.action-btn{
     width:45%;
     float:right;
 }
 
+.action-btn-1{
+    width:35%;
+    float:right;
+}
+
+.cust-search{
+    width:20%;
+    float:left;
+    margin-left:15px;
+}
+
 @media screen and (max-width:1024px){
-    .page-title{
+    .page-title, .page-title-1{
         width:100%;
     }
     
-    .search-box{
+    .search-box, .search-box-1{
         width:50%;
     }
     
+    .cust-search{
+        width:47%;
+        margin-left:15px;
+    }
+
     .create-btn{
         width:50%;
     }
@@ -192,7 +217,7 @@
     border:1px solid #c7c7c7;
     margin-top:15px;
     height:calc(100vh - 180px);
-    border-radius:5px;
+    border-radius:3px;
     background-color:#fcfdff;
 }
 
@@ -216,3 +241,32 @@
     }
 }
 /* / AdminDetail page */
+
+/* My Claim list */
+
+.k-content{
+    background-color:transparent !important;
+}
+
+.radioset-1, .radioset-2, .radioset-3{
+    border:1px solid #c7c7c7;
+    border-radius:3px;
+    padding-left:15px;
+}
+
+.claim-filterration .radioset-1 .radio{
+    width:48%;
+    display:inline-block;
+}
+
+.claim-filterration .radioset-2 .radio{
+    width:48%;
+    display:inline-block;
+}
+
+.claim-filterration .radioset-3 .radio{
+    width:31%;
+    display:inline-block;
+}
+
+/* / My Claim list */
