@@ -1,4 +1,6 @@
-﻿using HonanClaimsWebApi.Models.TimeslipCheck;
+﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.TimeslipCheck;
+using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +66,44 @@ namespace HonanClaimsPortal.Controllers
                 TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
                 list = await timelistcheckrepo.GetBillingRecords(billingId);
                 return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> MarkAsChecked(string billingId)
+        {
+            try
+            {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string assignId = client.UserId;
+
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                var res = await timelistcheckrepo.MarkAsChecked(billingId,assignId);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> MarkAsNonBillable(string billingId)
+        {
+            try
+            {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string assignId = client.UserId;
+
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                var res = await timelistcheckrepo.MarkAsChecked(billingId, assignId);
+                return Json(res, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

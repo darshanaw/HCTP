@@ -106,5 +106,49 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             return list;
         }
 
+        public async Task<bool> MarkAsChecked(string billingId, string userId)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsChecked?userId=" + userId + "&billingId=" + billingId;
+            bool result = true;
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    result = Convert.ToBoolean(data);
+                }
+            }
+            return result;
+        }
+
+
+        public async Task<bool> MarkAsNonBillable(string billingId, string userId)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsNonBillable?userId=" + userId + "&billingId=" + billingId;
+            bool result = true;
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    result = Convert.ToBoolean(data);
+                }
+            }
+            return result;
+        }
     }
 }
