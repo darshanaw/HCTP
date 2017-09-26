@@ -75,7 +75,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> MarkAsChecked(string billingId)
+        public async Task<ActionResult> MarkAsChecked(string billingId, string serviceDate, string startTimeHH, string startTimeMM, string endTimeHH, string endTimeMM, string claimId)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace HonanClaimsPortal.Controllers
                 string assignId = client.UserId;
 
                 TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
-                var res = await timelistcheckrepo.MarkAsChecked(billingId,assignId);
+                var res = await timelistcheckrepo.MarkAsChecked(billingId, assignId, serviceDate, startTimeHH, startTimeMM, endTimeHH, endTimeMM, claimId);
                 return Json(res, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> MarkAsNonBillable(string billingId)
+        public async Task<ActionResult> MarkAsNonBillable(string billingId, string serviceDate, string startTimeHH, string startTimeMM, string endTimeHH, string endTimeMM, string claimId)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace HonanClaimsPortal.Controllers
                 string assignId = client.UserId;
 
                 TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
-                var res = await timelistcheckrepo.MarkAsChecked(billingId, assignId);
+                var res = await timelistcheckrepo.MarkAsNonBillable(billingId, assignId, serviceDate, startTimeHH, startTimeMM, endTimeHH, endTimeMM, claimId);
                 return Json(res, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
