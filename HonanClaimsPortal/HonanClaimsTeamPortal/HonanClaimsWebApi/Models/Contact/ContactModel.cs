@@ -23,11 +23,19 @@ namespace HonanClaimsWebApi.Models.Contact
         public string Fax { get; set; }
         public string Homephone { get; set; }
         public string Otherphone { get; set; }
-        public bool Isprimary { get; set; }
         public string Preferred_Contact { get; set; }
         public string Webaddress { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
+        public string AccountType { get; set; }
+        public string AccountStatus { get; set; }
+        public bool PrimaryContactForAccount { get; set; }
+        public bool AuthorizedServiceContact { get; set; }
+        public bool DoNotSolicit { get; set; }
+        public bool DoNotEmail { get; set; }
+        public bool DoNotCall { get; set; }
+        public bool DoNotMail { get; set; }
+        public bool DoNotFax { get; set; }
     }
 
     public class ContactListModel
