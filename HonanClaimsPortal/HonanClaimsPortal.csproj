@@ -204,6 +204,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MyActivityController.cs" />
     <Compile Include="Controllers\NewClaimController.cs" />
+    <Compile Include="Controllers\NewContactAccountController.cs" />
     <Compile Include="Controllers\PoliciesController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
     <Compile Include="Controllers\TimeslipCheckController.cs" />
@@ -1311,6 +1312,7 @@
     <Content Include="Views\RisksmartPropertyClaim\NewRisksmartPropertyClaim.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Contact\ContactDetail.cshtml" />
+    <Content Include="Views\NewContactAccount\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
