@@ -1314,11 +1314,11 @@
     <Content Include="Views\Contact\ContactDetail.cshtml" />
     <Content Include="Views\AccountList\AccountDetail.cshtml" />
     <Content Include="Views\NewContactAccount\Index.cshtml" />
-    <Content Include="Views\Policies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Lookup\" />
+    <Folder Include="Views\Policies\" />
     <Folder Include="Views\RisksmartGcc\" />
     <Folder Include="Views\Timeslip\" />
   </ItemGroup>
