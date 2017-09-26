@@ -106,11 +106,24 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             return list;
         }
 
-        public async Task<bool> MarkAsChecked(string billingId, string userId)
+        public async Task<bool> MarkAsChecked(string billingId, string userId, string serviceDate, string startTimeHH, string startTimeMM, string endTimeHH, string endTimeMM, string claimId)
         {
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsChecked?userId=" + userId + "&billingId=" + billingId;
+
             bool result = true;
+
+            if (string.IsNullOrEmpty(billingId) || string.IsNullOrEmpty(claimId))
+            {
+                return false;
+            }
+
+            serviceDate = serviceDate == "" ? string.Empty : serviceDate;
+            startTimeHH = startTimeHH == "" ? string.Empty : startTimeHH;
+            startTimeMM = startTimeMM == "" ? string.Empty : startTimeMM;
+            endTimeHH = endTimeHH == "" ? string.Empty : endTimeHH;
+            endTimeMM = endTimeMM == "" ? string.Empty : endTimeMM;
+
+            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsChecked?userId=" + userId + "&billingId=" + billingId + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId;
 
             using (HttpClient client = new HttpClient())
             {
@@ -128,13 +141,23 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             return result;
         }
 
-
-        public async Task<bool> MarkAsNonBillable(string billingId, string userId)
+        public async Task<bool> MarkAsNonBillable(string billingId, string userId, string serviceDate, string startTimeHH, string startTimeMM, string endTimeHH, string endTimeMM, string claimId)
         {
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsNonBillable?userId=" + userId + "&billingId=" + billingId;
+
             bool result = true;
 
+            if (string.IsNullOrEmpty(billingId) || string.IsNullOrEmpty(claimId))
+            {
+                return false;
+            }
+
+            serviceDate = serviceDate == "" ? string.Empty : serviceDate;
+            startTimeHH = startTimeHH == "" ? string.Empty : startTimeHH;
+            startTimeMM = startTimeMM == "" ? string.Empty : startTimeMM;
+            endTimeHH = endTimeHH == "" ? string.Empty : endTimeHH;
+            endTimeMM = endTimeMM == "" ? string.Empty : endTimeMM;
+            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsNonBillable?userId=" + userId + "&billingId=" + billingId + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
