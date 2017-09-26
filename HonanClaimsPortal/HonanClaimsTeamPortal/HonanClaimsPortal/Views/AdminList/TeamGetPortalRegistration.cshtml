@@ -5,112 +5,108 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div class="col-md-6 col-sm-6">
-    <div class="form-group mb">
-        <label for="input-id-1" class="col-sm-3 control-label input-sm">First Name</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(o => o.FirstName, new { @class = "form-control input-sm" })
-        </div>
-    </div>
+<div class="main-container">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>First Name</label>
+				@Html.TextBoxFor(o => o.FirstName, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				<label>Last Name</label>
+				@Html.TextBoxFor(o => o.LastName, new { @class = "form-control" })
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="col-md-6 col-sm-6">
-    <div class="form-group mb">
-        <label for="input-id-1" class="col-sm-3 control-label input-sm">Last Name</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(o => o.LastName, new { @class = "form-control input-sm" })
-        </div>
-    </div>
-</div>
+	<div class="col-md-6 col-sm-6">
+		<div class="form-group mb">
+			<label for="input-id-1" class="col-sm-3 control-label input-sm">Title</label>
+			<div class="col-sm-9">
+				@Html.TextBoxFor(o => o.Title, new { @class = "form-control input-sm" })
+			</div>
+		</div>
+	</div>
 
-<div class="col-md-6 col-sm-6">
-    <div class="form-group mb">
-        <label for="input-id-1" class="col-sm-3 control-label input-sm">Title</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(o => o.Title, new { @class = "form-control input-sm" })
-        </div>
-    </div>
-</div>
+	<div class="col-md-6 col-sm-6">
+		<div class="form-group mb">
+			<label for="input-id-1" class="col-sm-3 control-label input-sm">Company</label>
+			<div class="col-sm-9">
+				@Html.TextBoxFor(o => o.Company, new { @class = "form-control input-sm" })
+			</div>
+		</div>
+	</div>
 
-<div class="col-md-6 col-sm-6">
-    <div class="form-group mb">
-        <label for="input-id-1" class="col-sm-3 control-label input-sm">Company</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(o => o.Company, new { @class = "form-control input-sm" })
-        </div>
-    </div>
-</div>
+	<div class="col-md-6 col-sm-6">
+		<div class="form-group mb">
+			<label for="input-id-1" class="col-sm-3 control-label input-sm">Phone</label>
+			<div class="col-sm-9">
+				@Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm" })
+			</div>
+		</div>
+	</div>
 
-<div class="col-md-6 col-sm-6">
-    <div class="form-group mb">
-        <label for="input-id-1" class="col-sm-3 control-label input-sm">Phone</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm" })
-        </div>
-    </div>
-</div>
+	<div class="col-md-6 col-sm-6">
+		<div class="form-group mb">
+			<label for="input-id-1" class="col-sm-3 control-label input-sm">Email</label>
+			<div class="col-sm-9">
+				@Html.TextBoxFor(o => o.EmailAddress, new { @class = "form-control input-sm" })
+			</div>
+		</div>
+	</div>
 
-<div class="col-md-6 col-sm-6">
-    <div class="form-group mb">
-        <label for="input-id-1" class="col-sm-3 control-label input-sm">Email</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(o => o.EmailAddress, new { @class = "form-control input-sm" })
-        </div>
-    </div>
-</div>
-
-<div class="col-md-6 col-sm-6">
-    <div class="form-group mb">
-        <label for="input-id-1" class="col-sm-3 control-label input-sm">Registered</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(o => o.RegistrationDate, new { @class = "form-control input-sm" })
-        </div>
-    </div>
-</div>
+	<div class="col-md-6 col-sm-6">
+		<div class="form-group mb">
+			<label for="input-id-1" class="col-sm-3 control-label input-sm">Registered</label>
+			<div class="col-sm-9">
+				@Html.TextBoxFor(o => o.RegistrationDate, new { @class = "form-control input-sm" })
+			</div>
+		</div>
+	</div>
 
 
-<br />
-<br />
-<div class="col-md-12 col-sm-12">
-    <h4>CRM Matching Contacts</h4>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Company</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.MatchingContacts != null)
-            {
-                foreach (var item in Model.MatchingContacts)
-                {
-                    <tr class="click-row">
-                        <td class="nr">@item.ContactId</td>
-                        <td>@item.ContactName</td>
-                        <td>@item.FirstName</td>
-                        <td>@item.LastName</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-</div>
+	<br />
+	<br />
+	<div class="col-md-12 col-sm-12">
+		<h4>CRM Matching Contacts</h4>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Company</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model.MatchingContacts != null)
+				{
+					foreach (var item in Model.MatchingContacts)
+					{
+						<tr class="click-row">
+							<td class="nr">@item.ContactId</td>
+							<td>@item.ContactName</td>
+							<td>@item.FirstName</td>
+							<td>@item.LastName</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	</div>
 
-<div class="col-md-12 col-sm-12">
-    @if(Model.MatchingContacts != null)
-    {
-        <button type="submit" id="btnSaveSelected" class="mb-sm btn btn-primary">Use Selected Contact >> New Loging</button>
-    }
-   
-    <button type="submit" id="btnSaveCreate" class="mb-sm btn btn-primary">Create New Contact</button>
-    <button type="submit" id="btnSaveDelete" class="mb-sm btn btn-primary">Discard Login Requestion (Delete)</button>
-    </div>
+	<div class="col-md-12 col-sm-12">
+		@if (Model.MatchingContacts != null)
+		{
+			<button type="submit" id="btnSaveSelected" class="mb-sm btn btn-primary">Use Selected Contact >> New Loging</button>
+		}
 
-<input type="hidden" id="ContactId"/>
-<script>
+		<button type="submit" id="btnSaveCreate" class="mb-sm btn btn-primary">Create New Contact</button>
+		<button type="submit" id="btnSaveDelete" class="mb-sm btn btn-primary">Discard Login Requestion (Delete)</button>
+	</div>
+
+	<input type="hidden" id="ContactId" />
+	<script>
     $(".click-row").click(function () {
         var $row = $(this).closest("tr");    // Find the row
         var text = $row.find(".nr").text(); // Find the text
@@ -133,7 +129,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                window.location.href = '/AdminList/AdminList'; 
+                window.location.href = '/AdminList/AdminList';
             }
         });
     });
@@ -150,7 +146,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                window.location.href = '/AdminList/AdminList'; 
+                window.location.href = '/AdminList/AdminList';
             }
         });
     });
@@ -167,8 +163,8 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                window.location.href = '/AdminList/AdminList'; 
+                window.location.href = '/AdminList/AdminList';
             }
         });
     });
-</script>
+	</script>
