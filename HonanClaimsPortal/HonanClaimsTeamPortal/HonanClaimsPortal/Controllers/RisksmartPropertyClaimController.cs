@@ -26,9 +26,9 @@ namespace HonanClaimsPortal.Controllers
 
             NewClaimModel newClaimModel = TempData[TempDataHelper.NewClaimModel] as NewClaimModel;
 
-            RisksmartPropertyClaim model = new RisksmartPropertyClaim();
+            //RisksmartPropertyClaim model = new RisksmartPropertyClaim();
 
-            return View(model);
+            return View();
         }
     }
 }

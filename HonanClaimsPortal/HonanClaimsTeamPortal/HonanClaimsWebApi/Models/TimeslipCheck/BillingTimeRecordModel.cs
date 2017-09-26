@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HonanClaimsWebApi.Models.TimeslipCheck
 {
-   public class BillingTimeRecordModel
+    public class BillingTimeRecordModel
     {
 
         public string H_Billingsid { get; set; }
@@ -21,6 +21,6 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
         public decimal Rate { get; set; }
         public int Qty_Mins { get; set; }
         public decimal Billable { get; set; }
-    
+        public string Work_Done { get; set; }
     }
 }

@@ -85,7 +85,7 @@
             <div class="row">
                 <div class="form-group">
                     <label>Service By</label>
-                    @Html.TextBoxFor(m => m.InnerModeL.Service_By, new { @class = "form-control" , disabled = "disabled"})
+                    @Html.TextBoxFor(m => m.InnerModeL.Service_By, new { @class = "form-control", disabled = "disabled" })
                     @Html.HiddenFor(m => m.InnerModeL.H_Billingsid)
                 </div>
                 <div class="form-group">
@@ -129,15 +129,15 @@
 
                 <div class="form-group">
                     <label>Qty(Mins)</label>
-                    @Html.TextBoxFor(m => m.InnerModeL.Qty_Mins, new { @class = "form-control" , disabled = "disabled" })
+                    @Html.TextBoxFor(m => m.InnerModeL.Qty_Mins, new { @class = "form-control", disabled = "disabled" })
                 </div>
                 <div class="form-group">
                     <label>Billable</label>
-                    @Html.TextBoxFor(m => m.InnerModeL.Billable, new { @class = "form-control" , disabled = "disabled" })
+                    @Html.TextBoxFor(m => m.InnerModeL.Billable, new { @class = "form-control", disabled = "disabled" })
                 </div>
 
                 <div class="form-group">
-                    @Html.TextAreaFor(m => m.InnerModeL.Billable, new { @class = "form-control" })
+                    @Html.TextAreaFor(m => m.InnerModeL.Work_Done, new { @class = "form-control" })
                 </div>
 
                 <button id="Markaschecked" type="button" class="btn btn-default">Mark as Checked</button>
@@ -269,6 +269,7 @@
         });
 
         function onChange(arg) {
+            debugger
             var dataItem = arg.sender._data[0];
             setTextFields(dataItem);
         }
@@ -297,7 +298,39 @@
 
             $('#InnerModeL_Qty_Mins').val(data.Qty_Mins);
             $('#InnerModeL_Billable').val(data.Billable);
-            
+
         });
     }
+
+    $('#Markaschecked').click(function () {
+        var id = $('#InnerModeL_H_Billingsid').val();
+        if (id != null && id != "") {
+            $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id, function (data) {
+                alert("mark as checked");
+            });
+        }
+    })
+
+
+    $('#nonbillable').click(function () {
+        var id = $('#InnerModeL_H_Billingsid').val();
+        if (id != null && id != "") {
+            $.get("/TimeslipCheck/MarkAsNonBillable?billingId=" + id, function (data) {
+                alert("mark as Non Billable");
+            });
+        }
+    })
+
+    $('#skipnext').click(function () {
+        var grid = $("#grid1").data("kendoGrid");
+        var selectedRow = grid.select();
+        var index = selectedRow.index();
+        if (index != -1) {
+            var data = $("#grid1").data("kendoGrid").dataSource.view();
+            var newind = index + 1;
+            if (data.length >= newind) {
+                setTextFields(data[newind]);
+            }
+        }
+    })
 </script>
