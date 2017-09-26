@@ -114,16 +114,39 @@
                 <div class="form-group">
                     <label>Start Time</label>
                     <div class="input-group">
-                        @Html.TextBoxFor(m => m.InnerModeL.Start_Time_HH, new { @class = "form-control" })
-                        @Html.TextBoxFor(m => m.InnerModeL.Start_Time_MM, new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.InnerModeL.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
+                                SelectListItem
+                   {
+                       Text = i.ToString().PadLeft(2, '0'),
+                       Value = i.ToString().PadLeft(2, '0')
+                   }), new { @class = "form-control input-sm" })
+
+                        @Html.DropDownListFor(m => m.InnerModeL.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
+                                SelectListItem
+                   {
+                       Text = i.ToString().PadLeft(2, '0'),
+                       Value = i.ToString().PadLeft(2, '0')
+                   }), new { @class = "form-control input-sm" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>End Time</label>
                     <div class="input-group">
-                        @Html.TextBoxFor(m => m.InnerModeL.End_Time_HH, new { @class = "form-control" })
-                        @Html.TextBoxFor(m => m.InnerModeL.End_Time_MM, new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.InnerModeL.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
+                                SelectListItem
+                   {
+                       Text = i.ToString().PadLeft(2, '0'),
+                       Value = i.ToString().PadLeft(2, '0')
+                   }), new { @class = "form-control input-sm" })
+
+                        @Html.DropDownListFor(m => m.InnerModeL.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
+                                SelectListItem
+                   {
+                       Text = i.ToString().PadLeft(2, '0'),
+                       Value = i.ToString().PadLeft(2, '0')
+                   }), new { @class = "form-control input-sm" })
+
                     </div>
                 </div>
 
