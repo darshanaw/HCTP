@@ -1307,7 +1307,6 @@
     <Content Include="Views\Shared\_StoreLookup.cshtml" />
     <Content Include="Views\Shared\_AccountBrokerLookup.cshtml" />
     <Content Include="Views\Shared\_ContactBrokerLookUp.cshtml" />
-    <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\RisksmartGccClaim\Index.cshtml" />
     <Content Include="Views\Billing\MyBillableTime.cshtml" />
     <Content Include="Views\TimeslipCheck\Index.cshtml" />
@@ -1320,6 +1319,7 @@
     <Content Include="Views\Shared\_InsurerLookUp.cshtml" />
     <Content Include="Views\Policies\Index.cshtml" />
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
+    <Content Include="Views\MyActivity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
