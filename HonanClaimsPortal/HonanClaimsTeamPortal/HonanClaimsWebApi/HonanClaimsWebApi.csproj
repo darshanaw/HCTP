@@ -91,6 +91,7 @@
     <Compile Include="Models\Billing\BillingSimpleModel.cs" />
     <Compile Include="Models\Billing\BillingSimpleRepo.cs" />
     <Compile Include="Models\ClaimTeamLoginModel.cs" />
+    <Compile Include="Models\Claim\ClaimGeneral.cs" />
     <Compile Include="Models\Claim\NewClaimModel.cs" />
     <Compile Include="Models\Claim\RisksmartPropertyClaim.cs" />
     <Compile Include="Models\Common\CRMPicklistItem.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LookupServices.cs" />
     <Compile Include="Services\PicklistServicecs.cs" />
+    <Compile Include="Services\ServiceHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

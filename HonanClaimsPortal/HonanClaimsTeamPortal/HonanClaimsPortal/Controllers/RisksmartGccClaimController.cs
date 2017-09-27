@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using HonanClaimsWebApi.Models.MyActivity;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -55,11 +57,15 @@ namespace HonanClaimsPortal.Controllers
             return View(model);
         }
         // GET: RisksmartGccClaim
-        public ActionResult DetailRisksmartGccClaim()
+        public ActionResult DetailRisksmartGccClaim(string id)
         {
             client = Session[SessionHelper.loginCounter] as ClaimTeamLoginModel;
 
-            RisksmartGccClaim model = new RisksmartGccClaim();
+            ClaimServices claims = new ClaimServices();
+            //Mapper mapper = new 
+            Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral, RisksmartGccClaim>());
+            RisksmartGccClaim model = Mapper.Map<RisksmartGccClaim>(claims.GetClaimNotification(id));
+
             model.Claim_Received = false;
             model.Claim_Acknowledged = false;
             model.Review = false;
@@ -78,16 +84,16 @@ namespace HonanClaimsPortal.Controllers
             claimServices = new ClaimServices();
             pickListServices = new PicklistServicecs();
 
-            model.Assigned_User_List = claimServices.GetClaimTeams();
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager))
+                model.Assigned_User_List = claimServices.GetUsers(new List<string>() { "Risksmart GCC Manager" });
+
             model.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
 
             //Get Reported By Types
             model.ReportedByTypeList = pickListServices.GetPickListItems("Risksmart GCC Reported By Type");
-            model.ReportedByTypeList.Insert(0, new PicklistItem());
 
             //Get Regions
             model.RegionList = pickListServices.GetPickListItems("H_StoreRegion");
-            model.RegionList.Insert(0, new PicklistItem());
 
             // Add Juristiction list
             model.JuristictionList = new List<string>()
@@ -112,15 +118,44 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_Section_List = pickListServices.GetPickListItems("Risksmart GCC Policy Section");
             model.Policy_Section_List.Insert(0, new PicklistItem());
 
+            //Get Outcome List
+            model.Outcome_List = pickListServices.GetPickListItems("Risksmart GCC Outcome");
+            model.Outcome_List.Insert(0, new PicklistItem());
+
             model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
             model.Policy_Class_List.Insert(0, new PicklistItem());
+
+
+            if (model.Reported_Time != null)
+            {
+                string time = DateTime.Parse(model.Reported_Time.ToString()).ToString("HH:mm");
+                model.Reported_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                model.Reported_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
 
             // Add CCTV available list
             model.CCTVAvailableList = new List<string>() { "", "Yes", "No" };
 
             // Add CCTV viewed list
             model.CCTVViewedList = new List<string>() { "", "Yes", "No" };
+
+            model.Total_Reserve = model.Liability_Reserve + model.Defence_Reserve;
+
+            model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
+
+            if (model.Total_Reserve < model.Excess)
+                model.Current_Exposure = model.Total_Reserve;
+            else
+                model.Current_Reserve = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
         }
-        
+
+        [HttpPost]
+        public ActionResult DetailRisksmartGccClaim(RisksmartGccClaim claim)
+        {
+            
+
+            return View(claim);
+        }
+
     }
 }
