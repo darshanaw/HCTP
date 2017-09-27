@@ -1,103 +1,97 @@
 ﻿@model HonanClaimsWebApi.Models.AccountList.AccountsModel
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Accounts</h2>
-
-<div class="col-md-4">
-    <div class="col-md-12">
-        <div class="form-group mb">
-            <label class="col-sm-2">Account Name:</label>
-            <div class="col-sm-10">
-                <div>
-                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="main-container">
+	<div class="row mb-15">
+		<div class="col-md-12">
+			<div class="page-title-1">
+				<h3 class="mt-50">Accounts</h3>
+			</div>
+			<div class="search-box-1">
+				<div class="form-group mt-20">
+					<label>Account Name</label>
+					@Html.TextBoxFor(m => m.AccountName, new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="cust-search">
+				<div class="form-group mt-20">
+					<label>Account Type</label>
+					@Html.DropDownListFor(m => m.AccountType, new SelectList(Model.AccountType, "Code", "Text"), "--select--", new { @class = "form-control", @onchange = "comboChange()" })
+				</div>
+			</div>
+			<div class="action-btn-1">
+				<div class="pull-right mt-45">
+					<button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
+					<button id="filterList" type="button" class="btn btn-primary">Filter Accounts</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="grid"></div>
 </div>
 
-<div class="col-md-4">
-    <div class="form-group">
-        <label for="sel1">Account Type</label>
-        @Html.DropDownListFor(m => m.AccountType, new SelectList(Model.AccountType, "Code", "Text"), "--select--", new { @class = "form-control", @onchange = "comboChange()" })
-    </div>
-</div>
+<script>
+	$("#clearFilter").click(function () {
+		$("#AccountName").val('');
+		$("#AccountType").val('');
+		loadAccounts();
+	});
 
 
-<div class="col-md-4">
-    <div class="col-md-4">
-        <button id="clearFilter" type="button" class="btn btn-default">Clear Filters</button>
-        <button id="filterList" type="button" class="btn btn-default">Filter Accounts</button>
-    </div>
-</div>
+	$("#filterList").click(function () {
+		loadAccounts();
+	});
 
-    <div class="col-md-12">
-        <div id="grid"></div>
-    </div>
+	$(document).ready(function () {
+		loadAccounts();
+	});
 
 
-    <script>
-        $("#clearFilter").click(function () {
-            $("#AccountName").val('');
-            $("#AccountType").val('');
-            loadAccounts();
-        });
+	function loadAccounts() {
 
+		var AccountName = null;
+		var Type = null;
 
-        $("#filterList").click(function () {
-            loadAccounts();
-        });
+		AccountName = $("#AccountName").val();
+		Type = $("#AccountType").val();
 
-        $(document).ready(function () {
-            loadAccounts();
-        });
+		$("#grid").kendoGrid({
+			dataSource: {
+				transport: {
+					read: "/AccountList/GetAccounts?AccountName=" + AccountName + "&Type=" + Type
+				},
+				pageSize: 20
+			},
+			filterable: true,
+			pageSize: 10,
+			navigatable: true,
+			pageable: true,
+			height: 550,
+			columns: [
+				{
+					field: "Account",
+					title: "Account",
+					template: "<a href='/AccountList/AccountDetail?AccountId=#= AccountId #'>#= Account #</a>",
+				},
+				{
+					field: "City",
+					title: "City",
+				},
 
+				{
+					field: "State",
+					title: "State",
+				},
+				{
+					field: "Type",
+					title: "Type",
+				},
+			]
+		});
+	}
 
-        function loadAccounts() {
-
-            var AccountName = null;
-            var Type = null;
-
-            AccountName = $("#AccountName").val();
-            Type = $("#AccountType").val();
-
-            $("#grid").kendoGrid({
-                dataSource: {
-                    transport: {
-                        read: "/AccountList/GetAccounts?AccountName=" + AccountName + "&Type=" + Type
-                    },
-                    pageSize: 20
-                },
-                filterable: true,
-                pageSize: 10,
-                navigatable: true,
-                pageable: true,
-                height: 550,
-                columns: [
-                    {
-                        field: "Account",
-                        title: "Account",
-                        template: "<a href='/AccountList/AccountDetail?AccountId=#= AccountId #'>#= Account #</a>",
-                    },
-                    {
-                        field: "City",
-                        title: "City",
-                    },
-
-                    {
-                        field: "State",
-                        title: "State",
-                    },
-                    {
-                        field: "Type",
-                        title: "Type",
-                    },
-                ]
-            });
-        }
-
-    </script>
+</script>
