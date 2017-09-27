@@ -5,40 +5,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Contact</h2>
-
-<div class="col-md-4">
-    <div class="col-md-12">
-        <div class="form-group mb">
-            <label class="col-sm-2">Contact Name:</label>
-            <div class="col-sm-10">
-                <div>
+<div class="main-container">
+    <div class="row mb-15">
+        <div class="col-md-12">
+            <div class="page-title-1">
+                <h3 class="mt-50">Contact</h3>
+            </div>
+            <div class="search-box-1">
+                <div class="form-group mt-20">
+                    <label>Contact Name</label>
                     @Html.TextBoxFor(m => m.ConatctName, new { @class = "form-control" })
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-4">
-    <div class="col-md-12">
-        <div class="form-group mb">
-            <label class="col-sm-2">Account Name:</label>
-            <div class="col-sm-10">
-                <div>
+            <div class="cust-search">
+                <div class="form-group mt-20">
+                    <label>Account Name</label>
                     @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="action-btn-1">
+                <div class="pull-right mt-45">
+                    <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
+                    <button id="filterList" type="button" class="btn btn-primary">Filter Accounts</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="col-md-4">
-        <button id="clearFilter" type="button" class="btn btn-default">Clear Filters</button>
-        <button id="filterList" type="button" class="btn btn-default">Filter Accounts</button>
-</div>
-
-<div class="col-md-12">
     <div id="grid"></div>
 </div>
 

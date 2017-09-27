@@ -270,3 +270,41 @@
 }
 
 /* / My Claim list */
+
+/* Term get portal registration */
+
+.table{
+    background-color:#fff;
+}
+
+th{
+    background-color:#fafafa;
+}
+
+/* / Term get portal registration */
+
+/* Time slip details */
+.timeslip .k-autocomplete{
+    width:100% !important;
+    border-radius:5px 0 0 5px !important;
+}
+
+.timeslip .k-autocomplete:first-child{
+    width:100% !important;
+    border-radius:5px !important;
+}
+
+.timeslip .k-input{
+    border-radius:5px 0 0 5px !important;
+}
+
+.timeslip .k-input:first-child{
+    border-radius:5px !important;
+}
+
+.timedetail textarea{
+    height:1470px !important;
+    resize:none;
+}
+
+/* / Time slip details */
