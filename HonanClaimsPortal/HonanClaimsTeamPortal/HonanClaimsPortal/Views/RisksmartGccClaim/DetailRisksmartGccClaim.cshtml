@@ -70,6 +70,7 @@
     <div class="tab-pane active" id="tabClaimDetail">
         @using (Html.BeginForm("DetailRisksmartGccClaim", "RickmartGccClaim", FormMethod.Post))
         {
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             <div class="panel panel-default">
 
                 <div class="panel-body">
@@ -1112,6 +1113,8 @@
 
 <script>
     $(function () {
+
+        jQuery.validator.methods["date"] = function (value, element) { return true; }
 
         $("#storeShow").click(function () {
 
