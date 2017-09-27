@@ -363,6 +363,29 @@
                     <div class="col-md-6 col-sm-12 m0 p0">
 
                         <fieldset>
+
+
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm"></label>
+                                    <div class="col-sm-9">
+                                        <div class="panel widget bg-primary">
+                                            <div class="row row-table">
+                                                @*<div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                    <em class="icon-share fa-3x"></em>
+                </div>*@
+                                                <div class="col-xs-8 pv-xs">
+                                                    <div class="h3 m0 text-bold">Claim Reference #</div>
+                                                    <div class="text-uppercase">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @Html.HiddenFor(o => o.Claim_Reference_Num)
+                           
+
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Firstname</label>
