@@ -44,5 +44,4 @@ namespace HonanClaimsWebApi.Models.Contact
         public string AccountName { get; set; }
     }
 
-  
 }
