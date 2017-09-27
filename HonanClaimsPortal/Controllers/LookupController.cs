@@ -327,14 +327,15 @@ namespace HonanClaimsPortal.Controllers
             JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult StoreAjaxHandler(jQueryDataTableParamModel param, string Policy_No)
+        
+        public ActionResult StoreAjaxHandler(jQueryDataTableParamModel param, string AccountId)
         {
             lookupServices = new LookupServices();
             List<StoreSimple> objectList = new List<StoreSimple>();
-            
+
             objectList =
-                lookupServices.GetStores("", Policy_No);
-           
+                lookupServices.GetStores("", AccountId);
+            Session[SessionHelper.StoreobjectList] = objectList;
 
             IEnumerable<StoreSimple> filteredRecords = objectList;
 

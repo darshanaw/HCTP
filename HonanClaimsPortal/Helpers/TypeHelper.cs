@@ -21,6 +21,7 @@ namespace HonanClaimsPortal.Helpers
     {
         public static string claimTeamLogin = "claimTeamLogin";
         public static string loginCounter = "loginCounter";
+        public static string StoreobjectList = "StoreobjectList";
     }
 
     public class TempDataHelper

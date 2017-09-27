@@ -1,42 +1,30 @@
-﻿using HonanClaimsWebApi.Models.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using HonanClaimsWebApi.Models.Common;
 
 namespace HonanClaimsWebApi.Models.Claim
 {
-    public class RisksmartGccClaim
+    public class ClaimGeneral
     {
         public string H_Claimsid { get; set; }
-        [Required(ErrorMessage = "AccountId Name Required")]
         public string Accountid { get; set; }
-        [Required(ErrorMessage = "Account Name Required")]
         public string Account_Name { get; set; }
         public string Insurer_Ref { get; set; }
         public string Claim_Reference_Num { get; set; }
-        [Required(ErrorMessage = "Reported By Type Required")]
         public string Reported_By_Type { get; set; }
-        [Required(ErrorMessage = "Reported By Required")]
         public string Reported_By { get; set; }
-        [Required(ErrorMessage = "Region Required")]
         public string Region { get; set; }
-        //[Required(ErrorMessage = "Required")]
         public string Storeid { get; set; }
-        [Required(ErrorMessage = "Store Name Required")]
         public string Storeid_Name { get; set; }
         public string Exact_Location { get; set; }
-        [Required(ErrorMessage = "Responsible Department Required")]
         public string Responsible_Department { get; set; }
         public string Witnesses { get; set; }
         public string Client_Ref_Num { get; set; }
         public string Claimant_Company { get; set; }
-        [Required(ErrorMessage = "Claimant First Name Required")]
         public string Claimant_First_Name { get; set; }
-        [Required(ErrorMessage = "Claimant Last Name Required")]
         public string Claimant_Last_Name { get; set; }
         public string Claimant_Address { get; set; }
         public string Date_Of_Birth { get; set; }
@@ -45,14 +33,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Claimant_Home_Phone { get; set; }
         public string Claimant_Mobile_Phone { get; set; }
         public string Email_Address { get; set; }
-        [Required(ErrorMessage = "Incident Name Required")]
         public string Incident_Name { get; set; }
-        [Required(ErrorMessage = "Incident Address Required")]
         public string Incident_Address { get; set; }
-        [Required(ErrorMessage = "Required")]
         public string Incident_Category { get; set; }
         public string Incident_Type { get; set; }
-        [Required(ErrorMessage = "Incident Summary Required")]
         public string Incident_Summary { get; set; }
         public string Injury_Summary { get; set; }
         public string Juristiction { get; set; }
@@ -69,12 +53,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Insurer_Conduct { get; set; }
         public string Insured_Name { get; set; }
         public string Property_Claim_Ref { get; set; }
-        [Required(ErrorMessage = "Policy No Required")]
         public string Policy_No { get; set; }
         public string Policy_Name { get; set; }
         public string Policy_Type { get; set; }
         public string Period_From { get; set; }
-        [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
         public decimal Excess { get; set; }
         public string Binder { get; set; }
         public bool? Litigated { get; set; }
@@ -89,8 +71,6 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool? Claim_Approved { get; set; }
         public bool? Claim_Declined { get; set; }
         public string Claim_Status { get; set; }
-        public List<PicklistItem> Claim_Status_List { get; set; }
-        public string BillingMethod { get; set; }
         public string Client_Group { get; set; }
         public string Broker_Company { get; set; }
         public string Property_Address_1 { get; set; }
@@ -108,7 +88,6 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Policy_Report_Num { get; set; }
         public string Details_Of_Responsible_3Rd_Pty { get; set; }
         public string Assigned_User { get; set; }
-        public List<PicklistItem> Assigned_User_List { get; set; }
         public string Claim_Stage { get; set; }
         public decimal Liability_Reserve { get; set; }
         public decimal Defence_Reserve { get; set; }
@@ -142,17 +121,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Insurer_Name { get; set; }
         public string Policy_No_Name { get; set; }
         public string Broker_Company_Name { get; set; }
-
-        [Required(ErrorMessage = "Reported Date Required")]
         public DateTime? Reported_Date { get; set; }
         public DateTime? Reported_Time { get; set; }
-
-        [Required(ErrorMessage = "Reported Time Required")]
         public string Reported_TimeH { get; set; }
-
-        [Required(ErrorMessage = "Reported Time Required")]
         public string Reported_TimeM { get; set; }
-        [Required(ErrorMessage = "Incident Date Required")]
         public DateTime? Incident_Date { get; set; }
         public string Period_To { get; set; }
         public DateTime? Account_Period_From { get; set; }
@@ -168,7 +140,6 @@ namespace HonanClaimsWebApi.Models.Claim
         public DateTime? Claim_Acknowledged_Date { get; set; }
         public DateTime? Claim_Lodged_Date { get; set; }
         public string Policy_Section { get; set; }
-
         public decimal Net_Paid_Liability { get; set; }
         public decimal Net_Paid_Defence { get; set; }
         public decimal Total_Incurred { get; set; }
@@ -192,29 +163,20 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool? Claim_Not_Lodged { get; set; }
         public DateTime? Claim_Not_Lodged_Date { get; set; }
         public bool? Expert_Appointed { get; set; }
-        public DateTime? Claim_ClosedExpert_Appointed_Date { get; set; }
+        public DateTime? Expert_Appointed_Date { get; set; }
         public bool? Indemnity_Granted { get; set; }
         public string Broker { get; set; }
         public string Broker_Name { get; set; }
-        public string Broker_Name_Id { get; set; }
         public string Panel_Lawyers_Retained { get; set; }
-        public string Broker_Account { get; set; }
-        public string Broker_Account_Id { get; set; }
         public string Oc_Num { get; set; }
         public string Oc_Id { get; set; }
         public string Reported_By_Contact_Phone_Num { get; set; }
         public DateTime? Incident_Time { get; set; }
-        [Required(ErrorMessage = "Incident Time Required")]
         public string Incident_TimeH { get; set; }
-        [Required(ErrorMessage = "Incident Time Required")]
         public string Incident_TimeM { get; set; }
         public string Policy_Status { get; set; }
-        public string Policy_Class { get; set; }
-        public decimal Basic_Excess { get; set; }
 
-        public List<PicklistItem> Policy_Class_List { get; set; }
-        public List<PicklistItem> Outcome_List { get; set; }
-        public List<PicklistItem> Policy_Section_List { get; set; }
+        public string UserId { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
         public List<PicklistItem> RegionList { get; set; }
@@ -225,6 +187,5 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<string> CCTVViewedList { get; set; }
         public List<string> YesNoList { get; set; }
         public List<PicklistItem> PropertySuburbList { get; set; }
-        public NextAction NextAction { get; set; }
     }
 }

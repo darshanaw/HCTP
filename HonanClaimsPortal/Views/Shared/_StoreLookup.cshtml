@@ -6,7 +6,7 @@
 }
 
 @{
-    string Policy_No = this.ViewData.ContainsKey("Policy_No") && this.ViewData["Policy_No"] != null ? this.ViewData["Policy_No"].ToString() : string.Empty;
+    string Accountid = this.ViewData.ContainsKey("Accountid") && this.ViewData["Accountid"] != null ? this.ViewData["Accountid"].ToString() : string.Empty;
 
 }
 
@@ -66,23 +66,13 @@
         $('#tbStore').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/StoreAjaxHandler?Policy_No=@Policy_No",
+            "sAjaxSource": "/Lookup/StoreAjaxHandler",
             "fnServerParams": function (aoData) {
 
-                @if (string.IsNullOrEmpty(Policy_No))
-                    {
-                        <text>
-                               if ($('#Policy_No').length)
-                                aoData.push({ 'name': 'Policy_No', 'value': $("#Policy_No").val() });
-                        </text>
-                    }
-                    else
-                    {
-                        <text>
-                            aoData.push({ 'name': 'Policy_No', 'value': @Policy_No });
-                        </text>
-                    }
-                },
+                if ($('#Accountid').length)
+                                aoData.push({ 'name': 'Accountid', 'value': $("#Accountid").val() });
+
+            },
             "paging": false,
             "bProcessing": false,
             "bsearch": false,
