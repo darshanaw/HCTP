@@ -29,6 +29,11 @@ namespace HonanClaimsPortal.Helpers
         public static string NewClaimModel = "NewClaimModel";
     }
 
+    public class AccountType
+    {
+        public static string Underwriter = "Underwriter";
+    }
+
     public enum ClaimType
     {
         Claim = 0,

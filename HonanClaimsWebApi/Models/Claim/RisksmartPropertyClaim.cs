@@ -210,8 +210,11 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Policy_Status { get; set; }
         public string Policy_Class { get; set; }
         public decimal Basic_Excess { get; set; }
-
+        public DateTime? AcctPeriod1 { get; set; }//New field
+        public DateTime? AcctPeriod2 { get; set; }//New field
         public List<PicklistItem> Policy_Class_List { get; set; }
+        public List<PicklistItem> Causation_List { get; set; }
+        public List<PicklistItem> Client_Group_List { get; set; }
         public List<PicklistItem> Policy_Section_List { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
