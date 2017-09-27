@@ -69,6 +69,7 @@
                 transport: {
                     read: "/AdminList/GetProtalLogingAccount/",
                 },
+                pageSize: 20,
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
                         return { models: kendo.stringify(options.models) };
@@ -77,10 +78,11 @@
                 batch: false,
             },
             filterable: true,
-            pageSize: 10,
+            pageSize: 20,
             navigatable: true,
             pageable: true,
             height: 350,
+            sortable: true,
             columns: [
                 {
                     field: "PortalAccountName",
@@ -120,6 +122,7 @@
                 transport: {
                     read: "/AdminList/GetNewProtalLogingRequest/",
                 },
+                pageSize: 20,
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
                         return { models: kendo.stringify(options.models) };
@@ -128,10 +131,11 @@
                 batch: false,
             },
             filterable: true,
-            pageSize: 10,
+            pageSize: 20,
             navigatable: true,
             pageable: true,
             height: 350,
+            sortable: true,
             columns: [
                 {
                     field: "Company",
