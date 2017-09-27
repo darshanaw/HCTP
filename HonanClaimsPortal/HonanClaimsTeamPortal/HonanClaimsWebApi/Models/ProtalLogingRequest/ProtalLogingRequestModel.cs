@@ -14,5 +14,6 @@ namespace HonanClaimsPortal.Models.ProtalLogingRequest
         public string Company { get; set; }
         public string EmailAddress { get; set; }
         public string Phone { get; set; }
+        public DateTime LastLogin { get; set; }
     }
 }
