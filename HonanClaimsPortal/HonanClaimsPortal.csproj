@@ -1320,10 +1320,10 @@
     <Content Include="Views\NewContactAccount\Index.cshtml" />
     <Content Include="Views\Shared\_InsurerLookUp.cshtml" />
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
-    <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\Policies\Index.cshtml" />
     <Content Include="Views\PropertyClaim\NewPropertyClaim.cshtml" />
     <Content Include="Views\GccClaim\NewGccClaim.cshtml" />
+    <Content Include="Views\MyActivity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
