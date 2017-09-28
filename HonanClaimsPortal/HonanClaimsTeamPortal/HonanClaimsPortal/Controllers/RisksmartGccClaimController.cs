@@ -108,7 +108,7 @@ namespace HonanClaimsPortal.Controllers
             };
 
             //Get Incident categoris
-            model.IncidentCategoryList = pickListServices.GetPickListItems("GCC Incident Category");
+            model.IncidentCategoryList = pickListServices.GetPickListItems("Risksmart GCC Incident Category");
             model.IncidentCategoryList.Insert(0, new PicklistItem());
 
             //Get Incident Party Types
@@ -125,12 +125,18 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
             model.Policy_Class_List.Insert(0, new PicklistItem());
 
-
             if (model.Reported_Time != null)
             {
                 string time = DateTime.Parse(model.Reported_Time.ToString()).ToString("HH:mm");
                 model.Reported_TimeH = time.Split(':')[0].PadLeft(2, '0');
                 model.Reported_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
+
+            if (model.Incident_Time != null)
+            {
+                string time = DateTime.Parse(model.Incident_Time.ToString()).ToString("HH:mm");
+                model.Incident_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                model.Incident_TimeM = time.Split(':')[1].PadLeft(2, '0');
             }
 
             // Add CCTV available list
