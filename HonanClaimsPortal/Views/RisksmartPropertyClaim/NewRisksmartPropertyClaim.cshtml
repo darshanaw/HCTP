@@ -59,16 +59,14 @@
                             <div class="col-md-12 form-group mb">
                                 <label class="col-sm-3 control-label input-sm">OC #</label>
                                 <div class="col-sm-9">
-                                    @Html.TextBoxFor(o => o.Oc_Num, new { @class = "form-control input-sm", @maxlength = 200, @readonly = true })
-                                    @*<div class="input-group">
-                                            @Html.TextBoxFor(o => o.Oc_Num, new {@class = "form-control input-sm", @maxlength = 100})
-                                            <span id="ocNoModal" class="input-group-btn" data-toggle="modal" data-target="#OcModal">
-
-                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                    <i class="fa fa-binoculars"></i>
-                                                </button>
-                                            </span>
-                                        </div>*@
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Oc_Num, new { @class = "form-control input-sm", @maxlength = 200 })
+                                        <span class="input-group-btn" data-toggle="modal" data-target="#AccountOcModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
 
                             </div>
@@ -913,6 +911,25 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="AccountOcModal" class="modal fade AccountOcModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">OC# Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_AccountOcLookup.cshtml")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
 </div>
 

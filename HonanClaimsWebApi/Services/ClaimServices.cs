@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.Common;
 using Newtonsoft.Json;
+using HonanClaimsWebApi.Models.Views;
 
 namespace HonanClaimsWebApi.Services
 {
@@ -19,8 +20,9 @@ namespace HonanClaimsWebApi.Services
     {
         private const string claimNotificationApiGet = "api/claim/GetClaimNotification?id=";
         private const string getUsers = "api/Activity/GetUsers?teamNames=";
-
-
+        private const string getClaimApiGet1 = "api/claim/GetClaims?openClaims=";
+        private const string getClaimApiGet2 = "&claimNo=&userId=";
+        private const string getNotificationsApiGet = "api/claim/GetNotifications?userId=";
         public List<SelectListItem> GetClaimTeams()
         {
             List<SelectListItem> str = new List<SelectListItem>()
@@ -105,6 +107,68 @@ namespace HonanClaimsWebApi.Services
                     }
                 }
 
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<ClaimNotificationSimple> GetClaimsObjectList(bool isOpenClaims, string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getClaimApiGet1 + isOpenClaims + getClaimApiGet2 + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<ClaimNotificationSimple>>(response);
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<ClaimNotificationSimple> GetNotificationsObjectList(string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getNotificationsApiGet + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            if (!string.IsNullOrEmpty(response))
+                            {
+                                return new JavaScriptSerializer().Deserialize<List<ClaimNotificationSimple>>(response);
+                            }
+                        }
+                    }
+                }
                 return null;
             }
             catch (Exception e)
