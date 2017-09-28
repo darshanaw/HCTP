@@ -15,18 +15,18 @@
 <div class="main-container">
     <div class="row mt-20">
         <div class="col-md-12">
-            <div class="cust-search-1 mt-10">
+            <div class="cust-search-2 mt-10">
                 <h3 class="mt-20">My Billable Time</h3>
             </div>
-            <div class="search-box-1">
-                <div class="form-group">
+            <div class="search-box-2">
+                <div class="form-group mb-0">
                     <label for="sel1">Services User</label>
                     @Html.DropDownListFor(m => m.ServicesUserModel,
                     new SelectList(Model.ServicesUserModel, "Code", "Text"),
                     new { @class = "form-control", @onchange = "comboChange()" })
                 </div>
             </div>
-            <div class="action-btn-1">
+            <div class="action-btn-3">
                 <div class="pull-right mt-25">
                     <button id="addNew" type="button" class="btn btn-primary">Add New Billing Time</button>
                 </div>
@@ -35,8 +35,8 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="cust-search-1 mt-10">
-                <div class="form-group">
+            <div class="cust-search-2">
+                <div class="form-group mb-0">
                     @{
                         List<SelectListItem> listItems = new List<SelectListItem>();
                         listItems.Add(new SelectListItem
@@ -83,46 +83,47 @@
                     @Html.DropDownListFor(model => model.ShowMe, listItems, "This Week", new { @class = "form-control", @onchange = "comboChange()" })
                 </div>
             </div>
-            <div class="search-box-1">
-                <div class="form-group">
+            <div class="search-box-2">
+                <div class="form-group mb-0">
                     <label>Services Date From</label>
-                    <div id="datetimepicker1">
+                    <div id="datetimepicker1" class="input-group">
                         @Html.TextBoxFor(o => o.ServiceFromDate, new { @class = "form-control" })
+                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </div>
                     @*@Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                 </div>
             </div>
-        </div>
-        <div class="action-btn-1">
-            <div class="pull-right mt-25">
-                <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
-                <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
+            <div class="action-btn-3">
+                <div class="pull-right mt-25">
+                    <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
+                    <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-15">
         <div class="col-md-12">
-            <div class="cust-search-1 mt-10">
-                <div class="form-group">
+            <div class="cust-search-2">
+                <div class="form-group mb-0">
                     <label for="sel1">Customer</label>
                     @Html.DropDownListFor(m => m.CustomerUserModel,
-                new SelectList(Model.CustomerUserModel, "Code", "Text"),
+                    new SelectList(Model.CustomerUserModel, "Code", "Text"),
 
-                new { @class = "form-control", @onchange = "comboChange()" })
+                    new { @class = "form-control", @onchange = "comboChange()" })
                 </div>
             </div>
-            <div class="search-box-1">
-                <div class="form-group">
+            <div class="search-box-2">
+                <div class="form-group mb-0">
                     <label>Services Date To</label>
                     <div id="datetimepicker2" class="input-group">
                         @Html.TextBoxFor(o => o.ServiceToDate, new { @class = "form-control input-sm" })
-                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-calender" aria-hidden="true"></i></span>
+                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </div>
                     @*@Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                 </div>
             </div>
-            <div class="action-btn-1">
+            <div class="action-btn-3">
                 <div class="pull-right mt-25">
                 </div>
             </div>
