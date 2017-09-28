@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -18,23 +19,31 @@ namespace HonanClaimsWebApi.Models.Contact
             {
                 string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
 
-                var jsonSerialiser = new JavaScriptSerializer();
-                var json = jsonSerialiser.Serialize(model);
+                var json = JsonConvert.SerializeObject(model);
 
                 string apiUrl = SiteUrl + "api/Account/CreateContactAccount?contactAccountObjStr=" + json + "&userId=" + userId;
                 using (HttpClient client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(apiUrl);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await client.GetAsync(apiUrl);
-                    if (response.IsSuccessStatusCode)
+                    using (var formData = new MultipartFormDataContent())
                     {
-                        var data = await response.Content.ReadAsStringAsync();
-                        result = Convert.ToBoolean(data);
+                        client.BaseAddress = new Uri(apiUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                        var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "contactAccountObjStr");
+                        formData.Add(content2, "userId");
+                        HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var data = await response.Content.ReadAsStringAsync();
+                            result = Convert.ToBoolean(data);
+
+                        }
 
                     }
+
                 }
 
             }
