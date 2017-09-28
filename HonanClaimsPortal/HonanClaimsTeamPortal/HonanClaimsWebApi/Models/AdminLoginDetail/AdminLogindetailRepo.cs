@@ -71,7 +71,6 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
             {
                 apiUrl = SiteUrl + "api/AccountAndReg/TeamUpdateCustomerPortalAdmin";
             }
-            var json = JsonConvert.SerializeObject(model);
 
             using (var client = new HttpClient())
             {
