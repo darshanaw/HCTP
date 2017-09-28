@@ -202,6 +202,7 @@
     <Compile Include="Controllers\ClaimAssignmentController.cs" />
     <Compile Include="Controllers\ClaimListController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\GccClaimController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LookupController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="Controllers\NewClaimController.cs" />
     <Compile Include="Controllers\NewContactAccountController.cs" />
     <Compile Include="Controllers\PoliciesController.cs" />
+    <Compile Include="Controllers\PropertyClaimController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
     <Compile Include="Controllers\TimeslipCheckController.cs" />
     <Compile Include="Controllers\RisksmartPropertyClaimController.cs" />
@@ -1320,6 +1322,8 @@
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
     <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\Policies\Index.cshtml" />
+    <Content Include="Views\PropertyClaim\NewPropertyClaim.cshtml" />
+    <Content Include="Views\GccClaim\NewGccClaim.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

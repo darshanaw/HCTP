@@ -92,7 +92,9 @@
     <Compile Include="Models\Billing\BillingSimpleRepo.cs" />
     <Compile Include="Models\ClaimTeamLoginModel.cs" />
     <Compile Include="Models\Claim\ClaimGeneral.cs" />
+    <Compile Include="Models\Claim\GccClaim.cs" />
     <Compile Include="Models\Claim\NewClaimModel.cs" />
+    <Compile Include="Models\Claim\PropertyClaim.cs" />
     <Compile Include="Models\Claim\RisksmartPropertyClaim.cs" />
     <Compile Include="Models\Common\CRMPicklistItem.cs" />
     <Compile Include="Models\Contact\ContactAccountModel.cs" />

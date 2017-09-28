@@ -65,7 +65,7 @@
         $('#tbInsurer').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/AccountCustomAjaxHandler?accountType='@HonanClaimsPortal.Helpers.AccountType.Underwriter'",//?accountId=" + $("#Accountid").val(),
+            "sAjaxSource": "/Lookup/AccountCustomAjaxHandler?accountType=@HonanClaimsPortal.Helpers.AccountType.Underwriter",//?accountId=" + $("#Accountid").val(),
             "paging": false,
             "bProcessing": false,
             "bsearch": false,
@@ -83,7 +83,7 @@
                     "sName": "AccountName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeAccountModal(\'' + oObj[0] + '\')">' + oObj[1] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeInsurerModal(\'' + oObj[0] + '\',\'' + oObj[1] + '\')">' + oObj[1] + '</a >';
                     }
                 },
                 { "sName": "AccountType" },
