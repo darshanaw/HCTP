@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label>Account Name</label>
                     <div class="input-group">
-                        @Html.TextBoxFor(m => m.Accountname, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Accountname, new { @class = "form-control", @readonly = true })
                         @Html.HiddenFor(m => m.Account_Id)
                         @Html.HiddenFor(m => m.IsNew)
                         <span class="input-group-addon pointer" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
@@ -120,12 +120,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Fee Per Hour</label>
-                    @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control" })
+                    <label for="email">Fee Per Hour ($)</label>
+                    @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control" , @type = "number" })
+                    @Html.ValidationMessageFor(o => o.Fee_Per_Hour, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                 </div>
                 <div class="form-group">
-                    <label for="email">Fee Per Billing Method</label>
-                    @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control" })
+                    <label for="email">Fee Per Billing Method ($)</label>
+                    @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control" , @type = "number" })
+                    @Html.ValidationMessageFor(o => o.Fee_Per_Billing_Method, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                 </div>
             </div>
             <div class="col-md-8 img-upload-section">
