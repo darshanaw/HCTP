@@ -1,0 +1,216 @@
+﻿@model HonanClaimsWebApi.Models.MyActivity.ActivityReturnModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-container">
+    <div class="row mt-20">
+        <div class="col-md-12">
+            <div class="cust-search-1 mt-10">
+                <h3 class="mt-20">My Activity</h3>
+            </div>
+            <div class="search-box-1">
+                <div class="form-group">
+                    <label for="sel1">Claim</label>
+                    @Html.DropDownListFor(m => m.ActivityClaim,
+                    new SelectList(Model.ActivityClaim, "Code", "Text"),
+                    "--Select--",
+                    new { @class = "form-control", @onchange = "comboChange()" })
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group">
+                    <label for="sel1">Activity owner</label>
+                    @Html.DropDownListFor(m => m.OwnerList,
+                    new SelectList(Model.OwnerList, "Code", "Text"),
+                    "--Select--",
+                    new { @class = "form-control", @onchange = "comboChange()" })
+                </div>
+            </div>
+            <div class="action-btn-2">
+                <div class="pull-right mt-25">
+                    <button id="filterList" type="button" class="btn btn-primary">Filter Accounts</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="cust-search-1">
+                <div class="form-group mb-0">
+                    <input id="overdue" type="checkbox" value="true">
+                    <label class="ml-10">Show OverDue</label>
+                </div>
+                <div class="form-group mb-0">
+                    <input id="fivedays" type="checkbox" value="true">
+                    <label class="ml-10">Due next 5 days</label>
+                </div>
+                <div class="form-group mb-0">
+                    <input id="ShowDue" type="checkbox" value="true">
+                    <label class="ml-10">Show with Due date</label>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for" id="searchTxt" aria-describedby="basic-addon2">
+                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+            </div>
+            <div class="search-box-1">
+                <div class="form-group">
+                    <label for="sel1">User</label>
+                    @{
+                        if (Model.Activityusers.Count > 0)
+                        {
+                            @Html.DropDownListFor(m => m.Activityusers,
+                        new SelectList(Model.Activityusers, "Code", "Text"),
+                        "--Select--",
+                        new { @class = "form-control", @onchange = "comboChange()" })
+                            }
+                            else
+                            {
+                                <select disabled class="form-control" id="Activityusers"></select>
+                            }
+                        }
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group">
+                    <label for="sel1">Customer</label>
+                    @Html.DropDownListFor(m => m.CustomerList,
+                    new SelectList(Model.CustomerList, "Code", "Text"),
+                    "--Select--",
+                    new { @class = "form-control", @onchange = "comboChange()" })
+                </div>
+            </div>
+            <div class="action-btn-2">
+                <div class="pull-right mt-25">
+                    <button id="clearFilter" type="button" class="btn btn-default">Clear Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="grid"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#overdue').prop("checked", true);
+        $('#ShowDue').prop("checked", true);
+        loadactivity();
+    });
+
+    function loadactivity() {
+
+        var overdue = true;
+        var nextfiveday = false;
+        var showwithdate = true;
+        var claimId = null;
+        var owner = null;
+        var customerId = null;
+        var search = null;
+        var assignId = null;
+
+        //Get value list
+        overdue = $('#overdue').val();
+        nextfiveday = $('#fivedays').val();
+        showwithdate = $('#ShowDue').val();
+        var c = $('#ActivityClaim').val();
+        if (c != null && c != "") { claimId = c }
+        var o = $('#OwnerList').val();
+        if (o != null && o != "") { owner = o }
+        var cl = $('#CustomerList').val();
+        if (cl != null && cl != "") { customerId = cl }
+        var s = $('#searchTxt').val();
+        if (s != null && s != "") { search = s }
+        var a = $('#Activityusers').val();
+        if (a != null && a != "") { assignId = a }
+        //load grid list
+        $("#grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/MyActivity/GetMyActivity?overdue=" + overdue + "&nextfiveday=" + nextfiveday + "&showwithdate=" + showwithdate + "&claimId=" + claimId + "&owner=" + owner + "&customerId=" + customerId + "&searchtext=" + search + "&assignId=" + assignId
+                },
+                pageSize: 10
+            },
+            height: 500,
+            sortable: true,
+            columns: [{
+                hidden: true,
+                field: "ActivityTaskId",
+                title: "ActivityTaskId"
+            },
+            {
+                field: "ClaimRefNo",
+                title: "Claims Ref #",
+            },
+            {
+                field: "Customer",
+                title: "Customer",
+            }, {
+                field: "Seq",
+                title: "Seq",
+            }, {
+                field: "Stage",
+                title: "Stage",
+            },
+            {
+                field: "Action",
+                title: "Action",
+            },
+             {
+                 field: "Owner",
+                 title: "Owner",
+             },
+             {
+                 field: "Contact",
+                 title: "Contact",
+             },
+             {
+                 field: "SLADays",
+                 title: "SLA(Days)",
+             },
+             {
+                 field: "DueDate",
+                 title: "DueDate",
+             }
+            ]
+        });
+    }
+
+    function comboChange() {
+        loadactivity();
+    }
+
+    $("#overdue, #fivedays , #ShowDue").change(function () {
+        loadactivity();
+    });
+
+    $("#btnsearchtext").click(function () {
+        loadactivity();
+    })
+
+    $("#clearFilter").click(function () {
+        $('#overdue').prop("checked", true);
+        $('#ShowDue').prop("checked", true);
+        $('#fivedays').prop("checked", false);
+        $('#ActivityClaim').val("");
+        $('#CustomerList').val("");
+        $('#searchTxt').val("");
+        $('#Activityusers').val("");
+        $('#OwnerList').val("");
+
+        loadactivity();
+    })
+
+    $("#filterList").click(function () {
+        loadactivity();
+    })
+
+
+</script>
