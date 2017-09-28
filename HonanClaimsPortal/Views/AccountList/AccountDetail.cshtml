@@ -7,20 +7,41 @@
 
 
 <div class="main-container">
-    <h2>Account Detail</h2>
-
-    <div class="col-md-5">
-    
+    <div class="row mb-15">
         <div class="col-md-12">
-            <div class="form-group mb">
-                <label class="col-sm-4">Account:</label>
-                <div class="col-sm-8">
-                    <div>
-                        @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control", @readonly = true })
-                    </div>
-                </div>
+            <div class="page-title-1">
+                <h3>Account Detail</h3>
             </div>
         </div>
+    </div>
+    <div class="row mb-15">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Account</label>
+                @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control", @readonly = true })
+            </div>
+            <div class="form-group">
+                <label>Main Phone</label>
+                @Html.TextBoxFor(m => m.Mainphone, new { @class = "form-control", @readonly = true })
+            </div>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <div class="col-md-5">
+
     
         <div class="col-md-12">
             <div class="form-group mb">
