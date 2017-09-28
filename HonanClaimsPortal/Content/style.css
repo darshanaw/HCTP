@@ -187,6 +187,16 @@
     margin-left:15px;
 }
 
+.cust-search-1{
+    width:40%;
+    float:left;
+}
+
+.cust-search-1 .form-group{
+    display:inline-block;
+    margin-right:10px;
+}
+
 @media screen and (max-width:1024px){
     .page-title, .page-title-1{
         width:100%;

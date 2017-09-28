@@ -4,82 +4,96 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>My Activity</h2>
-<div class="row">
-    <div class="col-md-4">
-        <div class="checkbox">
-            <label><input id="overdue" type="checkbox" value="true">Show OverDue</label>
-        </div>
-        <div class="checkbox">
-            <label><input id="fivedays" type="checkbox" value="true">Due next 5 days</label>
-        </div>
-        <div class="checkbox">
-            <label><input id="ShowDue" type="checkbox" value="true">Show with Due date</label>
-        </div>
-        <div class="col-md-12 form-group mb">
-            <div class="col-sm-9">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" id="searchTxt">
-                    <span id="btnsearchtext" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
-
-                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-                @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+<div class="main-container">
+    <div class="row mt-20">
+        <div class="col-md-12">
+            <div class="cust-search-1 mt-10">
+                <h3 class="mt-20">My Activity</h3>
             </div>
+            <div class="search-box-1">
+                <div class="form-group">
+                    <label for="sel1">Claim</label>
+                    @Html.DropDownListFor(m => m.ActivityClaim,
+                    new SelectList(Model.ActivityClaim, "Code", "Text"),
+                    "--Select--",
+                    new { @class = "form-control", @onchange = "comboChange()" })
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group">
+                    <label for="sel1">Activity owner</label>
+                    @Html.DropDownListFor(m => m.OwnerList,
+                    new SelectList(Model.OwnerList, "Code", "Text"),
+                    "--Select--",
+                    new { @class = "form-control", @onchange = "comboChange()" })
+                </div>
+            </div>
+            <div class="action-btn-2">
+                <div class="pull-right mt-25">
+                    <button id="filterList" type="button" class="btn btn-primary">Filter Accounts</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="cust-search-1">
+                <div class="form-group mb-0">
+                    <input id="overdue" type="checkbox" value="true">
+                    <label class="ml-10">Show OverDue</label>
+                </div>
+                <div class="form-group mb-0">
+                    <input id="fivedays" type="checkbox" value="true">
+                    <label class="ml-10">Due next 5 days</label>
+                </div>
+                <div class="form-group mb-0">
+                    <input id="ShowDue" type="checkbox" value="true">
+                    <label class="ml-10">Show with Due date</label>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for" id="searchTxt" aria-describedby="basic-addon2">
+                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+            </div>
+            <div class="search-box-1">
+                <div class="form-group">
+                    <label for="sel1">User</label>
+                    @{
+                        if (Model.Activityusers.Count > 0)
+                        {
+                            @Html.DropDownListFor(m => m.Activityusers,
+                        new SelectList(Model.Activityusers, "Code", "Text"),
+                        "--Select--",
+                        new { @class = "form-control", @onchange = "comboChange()" })
+                            }
+                            else
+                            {
+                                <select disabled class="form-control" id="Activityusers"></select>
+                            }
+                        }
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group">
+                    <label for="sel1">Customer</label>
+                    @Html.DropDownListFor(m => m.CustomerList,
+                    new SelectList(Model.CustomerList, "Code", "Text"),
+                    "--Select--",
+                    new { @class = "form-control", @onchange = "comboChange()" })
+                </div>
+            </div>
+            <div class="action-btn-2">
+                <div class="pull-right mt-25">
+                    <button id="clearFilter" type="button" class="btn btn-default">Clear Filter</button>
+                </div>
+            </div>
         </div>
+    </div>
 
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="sel1">Claim</label>
-            @Html.DropDownListFor(m => m.ActivityClaim,
-              new SelectList(Model.ActivityClaim, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })
-        </div>
-        <div class="form-group">
-            <label for="sel1">User</label>
-            @{
-                if (Model.Activityusers.Count > 0)
-                {
-                    @Html.DropDownListFor(m => m.Activityusers,
-              new SelectList(Model.Activityusers, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })
-                }
-                else
-                {
-                    <select disabled class="form-control" id="Activityusers"></select>
-                }
-            }
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <label for="sel1">Activity owner</label>
-            @Html.DropDownListFor(m => m.OwnerList,
-              new SelectList(Model.OwnerList, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })
-        </div>
-        <div class="form-group">
-            <label for="sel1">Customer</label>
-            @Html.DropDownListFor(m => m.CustomerList,
-              new SelectList(Model.CustomerList, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboChange()" })
-        </div>
-    </div>
-    <div class="col-md-4">
-        <button id="clearFilter" type="button" class="btn btn-default">Clear Filter</button>
-        <button id="filterList" type="button" class="btn btn-default">Filter List</button>
-    </div>
-</div>
-<div class="row">
     <div id="grid"></div>
 </div>
 
