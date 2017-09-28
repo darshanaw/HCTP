@@ -107,6 +107,8 @@
     <Compile Include="Models\LookupModel\StoreSimple.cs" />
     <Compile Include="Models\Policies\PoliciesModel.cs" />
     <Compile Include="Models\Policies\PoliciesRepo.cs" />
+    <Compile Include="Models\SendEmail\EmailModel.cs" />
+    <Compile Include="Models\SendEmail\SendEmailRepo.cs" />
     <Compile Include="Models\TimeslipCheck\BillingTimeRecordModel.cs" />
     <Compile Include="Models\TimeslipCheck\TimeSlipCheckRepo.cs" />
     <Compile Include="Models\TimeslipCheck\TimeslipDataModel.cs" />
