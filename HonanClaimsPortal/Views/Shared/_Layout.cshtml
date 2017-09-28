@@ -34,128 +34,126 @@
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
     <script src="https://kendo.cdn.telerik.com/2017.3.913/js/jquery.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>   
+    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
 
     <link href="~/Content/style.css" rel="stylesheet" />
 
     <!--Bootbox-->
     <script src="~/Scripts/bootbox.min.js"></script>
-  
+
 </head>
 <body>
     <div class="overlay">
         <div id="loading-img"></div>
     </div>
 
-<div class="wrapper">
-<!-- top navbar-->
-<header class="topnavbar-wrapper">
-    <!-- START Top Navbar-->
-    <nav role="navigation" class="navbar topnavbar">
-        <!-- START navbar header-->
-        <div class="navbar-header">
-            <a href="/Home/Index" class="navbar-brand">
-                <div class="brand-logo user-block-picture">
-                    <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
-                            
-                    @*<img src="@Url.Content("~/clientlogo/" + System.IO.Path.GetFileName(@userObj.LogoPath))" 
-                                 alt="App Logo" class="img-responsive">*@
-                    
-                   
+    <div class="wrapper">
+        <!-- top navbar-->
+        <header class="topnavbar-wrapper">
+            <!-- START Top Navbar-->
+            <nav role="navigation" class="navbar topnavbar">
+                <!-- START navbar header-->
+                <div class="navbar-header">
+                    <a href="/Home/Index" class="navbar-brand">
+                        <div class="brand-logo user-block-picture">
+                            <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
+
+                            @*<img src="@Url.Content("~/clientlogo/" + System.IO.Path.GetFileName(@userObj.LogoPath))"
+                                alt="App Logo" class="img-responsive">*@
+
+
+                        </div>
+                        <div class="brand-logo-collapsed">
+                            <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
+                        </div>
+                    </a>
                 </div>
-                <div class="brand-logo-collapsed">
-                    <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
-                </div>
-            </a>
-        </div>
-        <!-- END navbar header-->
-        <!-- START Nav wrapper-->
-        <div class="nav-wrapper">
-            <!-- START Left navbar-->
-            <ul class="nav navbar-nav">
-                <li>
-                    <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
-                    <a href="#" data-trigger-resize="" data-toggle-state="aside-collapsed" class="hidden-xs">
-                        <em class="fa fa-navicon"></em>
-                    </a>
-                    <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
-                    <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
-                        <em class="fa fa-navicon"></em>
-                    </a>
-                </li>
-                <!-- START User avatar toggle-->
-                @*<li>
-                   
-                    <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
-                        <em class="icon-pin"></em>
-                    </a>
-                </li>*@
-                <!-- END User avatar toggle-->
-                <!-- START lock screen-->
-                <li>
-                    @*<a href="lock.html" title="Lock screen">
+                <!-- END navbar header-->
+                <!-- START Nav wrapper-->
+                <div class="nav-wrapper">
+                    <!-- START Left navbar-->
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                            <a href="#" data-trigger-resize="" data-toggle-state="aside-collapsed" class="hidden-xs">
+                                <em class="fa fa-navicon"></em>
+                            </a>
+                            <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+                            <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
+                                <em class="fa fa-navicon"></em>
+                            </a>
+                        </li>
+                        <!-- START User avatar toggle-->
+                        @*<li>
+
+                                <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
+                                    <em class="icon-pin"></em>
+                                </a>
+                            </li>*@
+                        <!-- END User avatar toggle-->
+                        <!-- START lock screen-->
+                        <li>
+                            @*<a href="lock.html" title="Lock screen">
                                     <em class="icon-lock"></em>
                                 </a>*@
-                </li>
-                <!-- END lock screen-->
-            </ul>
-          
-            <ul class="nav navbar-nav navbar-left">
-               
-            </ul>
-            
-            <!-- END Left navbar-->
-            <!-- START Right Navbar-->
-            <ul class="nav navbar-nav navbar-right">
-                <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
-                    <a href="#">Hello, </a>
-                </li>
-                <!-- Search icon-->
-                @*<li>
-                    <a href="#" data-search-open="">
-                                    <em class="icon-magnifier"></em>
-                                </a>
-                </li>*@
-                <!-- Fullscreen (only desktops)-->
-                <li class="visible-lg">
+                        </li>
+                        <!-- END lock screen-->
+                    </ul>
 
-                </li>
-               
-                    @*<li class="user-block-status visible-md visible-lg" style="pointer-events:none">
-        <a href="#">@DateTime.Today.ToLongDateString()</a>
-    </li>*@
-                    @*<li class="user-block-status" style="pointer-events:none">
-                        <a href="#">Last Login : @userObj.LastLoginTime</a>
-                    </li>*@
-                @*<li class="user-block-status">
-                            <a href="/Account/LogOff">[Sign out]</a>
-                        </li>*@
-                <!-- START Alert menu-->
-                <li class="dropdown dropdown-list">
-                    <a href="#" data-toggle="dropdown">
-                        <em class="icon-user"></em>
-                        @*<div class="label label-danger">11</div>*@
-                    </a>
-                    <!-- START Dropdown menu-->
-                    <ul class="dropdown-menu animated flipInX">
-                        <li>
-                            <!-- START list group-->
-                            <div class="list-group">
-                                <!-- list item-->
-                                <a href="/Account/LogOff" class="list-group-item">
-                                    <div class="media-box">
-                                        <div class="pull-left">
-                                            <em class="fa fa-user fa-2x text-warning"></em>
-                                        </div>
-                                        <div class="media-box-body clearfix">
-                                            <p class="m-sm" >Sign Out</p>
-                                            @*<p class="m0 text-muted">
+                    <ul class="nav navbar-nav navbar-left"></ul>
+
+                    <!-- END Left navbar-->
+                    <!-- START Right Navbar-->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
+                            <a href="#">Hello, </a>
+                        </li>
+                        <!-- Search icon-->
+                        @*<li>
+                                <a href="#" data-search-open="">
+                                                <em class="icon-magnifier"></em>
+                                            </a>
+                            </li>*@
+                        <!-- Fullscreen (only desktops)-->
+                        <li class="visible-lg">
+
+                        </li>
+
+                        @*<li class="user-block-status visible-md visible-lg" style="pointer-events:none">
+                                <a href="#">@DateTime.Today.ToLongDateString()</a>
+                            </li>*@
+                        @*<li class="user-block-status" style="pointer-events:none">
+                                <a href="#">Last Login : @userObj.LastLoginTime</a>
+                            </li>*@
+                        @*<li class="user-block-status">
+                                <a href="/Account/LogOff">[Sign out]</a>
+                            </li>*@
+                        <!-- START Alert menu-->
+                        <li class="dropdown dropdown-list">
+                            <a href="#" data-toggle="dropdown">
+                                <em class="icon-user"></em>
+                                @*<div class="label label-danger">11</div>*@
+                            </a>
+                            <!-- START Dropdown menu-->
+                            <ul class="dropdown-menu animated flipInX">
+                                <li>
+                                    <!-- START list group-->
+                                    <div class="list-group">
+                                        <!-- list item-->
+                                        <a href="/Account/LogOff" class="list-group-item">
+                                            <div class="media-box">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-user fa-2x text-warning"></em>
+                                                </div>
+                                                <div class="media-box-body clearfix">
+                                                    <p class="m-sm">Sign Out</p>
+                                                    @*<p class="m0 text-muted">
                                                             <small>1 new follower</small>
                                                         </p>*@
-                                        </div>
-                                    </div>
-                                </a>
-                                @*<!-- list item-->
+                                                </div>
+                                            </div>
+                                        </a>
+                                        @*<!-- list item-->
                                             <a href="#" class="list-group-item">
                                                 <div class="media-box">
                                                     <div class="pull-left">
@@ -188,541 +186,568 @@
                                                 <small>More notifications</small>
                                                 <span class="label label-danger pull-right">14</span>
                                             </a>*@
+                                    </div>
+                                    <!-- END list group-->
+                                </li>
+                            </ul>
+                            <!-- END Dropdown menu-->
+
+                        </li>
+                        <!-- END Alert menu-->
+                        <!-- START Offsidebar button-->
+                        <li>
+                            <div>
+                                &nbsp;&nbsp;
                             </div>
-                            <!-- END list group-->
+                        </li>
+                        <!-- END Offsidebar menu-->
+                    </ul>
+                    <!-- END Right Navbar-->
+                </div>
+                <!-- END Nav wrapper-->
+                <!-- START Search form-->
+                @*<form role="search" action="search.html" class="navbar-form">
+                        <div class="form-group has-feedback">
+                            <input type="text" placeholder="Type and hit enter ..." class="form-control">
+                            <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+                        </div>
+                        <button type="submit" class="hidden btn btn-default">Submit</button>
+                    </form>*@
+                <!-- END Search form-->
+            </nav>
+            <!-- END Top Navbar-->
+        </header>
+        <!-- sidebar-->
+        <aside class="aside" id="sidebarNav">
+            <!-- START Sidebar (left)-->
+            <div class="aside-inner">
+                <nav data-sidebar-anyclick-close="" class="sidebar" aria-expanded="true">
+                    <!-- START sidebar nav-->
+                    <ul class="nav">
+                        <!-- START user info-->
+                        <li class="has-user-block">
+                            <div id="user-block" class="collapse in">
+                                <div class="item user-block">
+                                    <!-- User picture-->
+                                    <!-- Name and Job-->
+                                    <div class="user-block-info visible-sm visible-xs">
+                                        <span class="user-block-name"></span>
+                                        <span class="user-block-name"></span>
+                                    </div>
+                                    <div class="user-block-picture">
+
+                                        @*<img src="@Url.Action(@userObj.LogoPath.ToString())" alt="Person Image" />*@
+                                        @*<img src="@userObj.LogoPath.ToString()" alt="Person Image"/>*@
+                                        <img src="#" alt="" />
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+                        <!-- END user info-->
+                        <!-- Iterates over all sidebar items-->
+                        <li class="nav-heading ">
+                            @*<span data-localize="sidebar.heading.HEADER">Main Navigation</span>*@
+                        </li>
+                        <li class=" ">
+                            <a href="/AdminList/AdminList" title="Admin">
+                                <em class="icon-speech"></em>
+                                <span>Admin</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/Notification/ViewNotifications" title="View Notifications">
+                                <em class="icon-speech"></em>
+                                <span>Test 2</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/NewClaim/Index" title="New Claim">
+                                <em class="icon-speech"></em>
+                                <span>New Claim</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/Myactivity/Index" title="My Activity">
+                                <em class="icon-speech"></em>
+                                <span>My Activity</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/claimlist/Index" title="My Claim List">
+                                <em class="icon-speech"></em>
+                                <span>My Claim List</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/AccountList/Index" title="Account">
+                                <em class="icon-speech"></em>
+                                <span>Account</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/Contact/Index" title="Contact">
+                                <em class="icon-speech"></em>
+                                <span>Contact</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/TimeslipCheck/Index" title="TimeSlip Check">
+                                <em class="icon-speech"></em>
+                                <span>TimeSlip Check</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/NewContactAccount/Index" title="Risksmart Gcc">
+                                <em class="icon-speech"></em>
+                                <span>New Contact/Account</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/Policies/Index" title="Policy">
+                                <em class="icon-speech"></em>
+                                <span>Policy</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a id="emialclick" title="Policy">
+                                <em class="icon-speech"></em>
+                                <span>Send Email</span>
+                            </a>
                         </li>
                     </ul>
-                    <!-- END Dropdown menu-->
-
-                </li>
-                <!-- END Alert menu-->
-
-                <!-- START Offsidebar button-->
-                <li>
-                    <div>
-                        &nbsp;&nbsp;
-                    </div>
-                </li>
-                <!-- END Offsidebar menu-->
-            </ul>
-            <!-- END Right Navbar-->
-        </div>
-        <!-- END Nav wrapper-->
-        <!-- START Search form-->
-        @*<form role="search" action="search.html" class="navbar-form">
-            <div class="form-group has-feedback">
-                <input type="text" placeholder="Type and hit enter ..." class="form-control">
-                <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+                    <!-- END sidebar nav-->
+                </nav>
             </div>
-            <button type="submit" class="hidden btn btn-default">Submit</button>
-        </form>*@
-        <!-- END Search form-->
-    </nav>
-    <!-- END Top Navbar-->
-</header>
-<!-- sidebar-->
-<aside class="aside" id="sidebarNav">
-    <!-- START Sidebar (left)-->
-    <div class="aside-inner">
-        <nav data-sidebar-anyclick-close="" class="sidebar" aria-expanded="true">
-            <!-- START sidebar nav-->
-            <ul class="nav">
-                <!-- START user info-->
-                <li class="has-user-block">
-                    <div id="user-block" class="collapse in">
-                        <div class="item user-block">
-                            <!-- User picture-->
-                            <!-- Name and Job-->
-                            <div class="user-block-info visible-sm visible-xs">
-                                <span class="user-block-name"></span>
-                                <span class="user-block-name"></span>
+            <!-- END Sidebar (left)-->
+        </aside>
+        <!-- offsidebar-->
+        <aside class="offsidebar hide">
+            <!-- START Off Sidebar (right)-->
+            <nav>
+                <div role="tabpanel">
+                    <!-- Nav tabs-->
+                    <ul role="tablist" class="nav nav-tabs nav-justified">
+                        <li role="presentation" class="active">
+                            <a href="#app-settings" aria-controls="app-settings" role="tab" data-toggle="tab">
+                                <em class="icon-equalizer fa-lg"></em>
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#app-chat" aria-controls="app-chat" role="tab" data-toggle="tab">
+                                <em class="icon-user fa-lg"></em>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes-->
+                    <div class="tab-content">
+                        <div id="app-settings" role="tabpanel" class="tab-pane fade in active">
+                            <h3 class="text-center text-thin">Settings</h3>
+                            <div class="p">
+                                <h4 class="text-muted text-thin">Themes</h4>
+                                <div class="table-grid mb">
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-a.css">
+                                                <input type="radio" name="setting-theme" checked="checked">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-info"></span>
+                                                    <span class="color bg-info-light"></span>
+                                                </span>
+                                                <span class="color bg-white"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-b.css">
+                                                <input type="radio" name="setting-theme">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-green"></span>
+                                                    <span class="color bg-green-light"></span>
+                                                </span>
+                                                <span class="color bg-white"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-c.css">
+                                                <input type="radio" name="setting-theme">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-purple"></span>
+                                                    <span class="color bg-purple-light"></span>
+                                                </span>
+                                                <span class="color bg-white"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-d.css">
+                                                <input type="radio" name="setting-theme">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-danger"></span>
+                                                    <span class="color bg-danger-light"></span>
+                                                </span>
+                                                <span class="color bg-white"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-grid mb">
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-e.css">
+                                                <input type="radio" name="setting-theme">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-info-dark"></span>
+                                                    <span class="color bg-info"></span>
+                                                </span>
+                                                <span class="color bg-gray-dark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-f.css">
+                                                <input type="radio" name="setting-theme">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-green-dark"></span>
+                                                    <span class="color bg-green"></span>
+                                                </span>
+                                                <span class="color bg-gray-dark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-g.css">
+                                                <input type="radio" name="setting-theme">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-purple-dark"></span>
+                                                    <span class="color bg-purple"></span>
+                                                </span>
+                                                <span class="color bg-gray-dark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col mb">
+                                        <div class="setting-color">
+                                            <label data-load-css="css/theme-h.css">
+                                                <input type="radio" name="setting-theme">
+                                                <span class="icon-check"></span>
+                                                <span class="split">
+                                                    <span class="color bg-danger-dark"></span>
+                                                    <span class="color bg-danger"></span>
+                                                </span>
+                                                <span class="color bg-gray-dark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="user-block-picture">
-
-                                @*<img src="@Url.Action(@userObj.LogoPath.ToString())" alt="Person Image" />*@
-                                @*<img src="@userObj.LogoPath.ToString()" alt="Person Image"/>*@
-                                <img src="#" alt="" />
-
-
+                            <div class="p">
+                                <h4 class="text-muted text-thin">Layout</h4>
+                                <div class="clearfix">
+                                    <p class="pull-left">Fixed</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-fixed" type="checkbox" data-toggle-state="layout-fixed">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <p class="pull-left">Boxed</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-boxed" type="checkbox" data-toggle-state="layout-boxed">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <p class="pull-left">RTL</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-rtl" type="checkbox">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="p">
+                                <h4 class="text-muted text-thin">Aside</h4>
+                                <div class="clearfix">
+                                    <p class="pull-left">Collapsed</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-collapsed" type="checkbox" data-toggle-state="aside-collapsed">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <p class="pull-left">Collapsed Text</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-collapsed-text" type="checkbox" data-toggle-state="aside-collapsed-text">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <p class="pull-left">Float</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-float" type="checkbox" data-toggle-state="aside-float">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <p class="pull-left">Hover</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-hover" type="checkbox" data-toggle-state="aside-hover">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <p class="pull-left">Show Scrollbar</p>
+                                    <div class="pull-right">
+                                        <label class="switch">
+                                            <input id="chk-hover" type="checkbox" data-toggle-state="show-scrollbar" data-target=".sidebar">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="app-chat" role="tabpanel" class="tab-pane fade">
+                            <h3 class="text-center text-thin">Connections</h3>
+                            <ul class="nav">
+                                <!-- START list title-->
+                                <li class="p">
+                                    <small class="text-muted">ONLINE</small>
+                                </li>
+                                <!-- END list title-->
+                                <li>
+                                    <!-- START User status-->
 
+                                    <a href="#" class="media-box p mt0">
+                                        <!-- Contact info-->
+                                        <span class="media-box-body">
+                                            <span class="media-box-heading">
+                                                <strong>Juan Sims</strong>
+                                                <br>
+                                                <small class="text-muted">Designeer</small>
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <!-- END User status-->
+                                    <!-- START User status-->
+                                    <a href="#" class="media-box p mt0">
+                                        <span class="pull-right">
+                                            <span class="circle circle-success circle-lg"></span>
+                                        </span>
+                                        <span class="pull-left">
+                                            <!-- Contact avatar-->
+                                            <img src="img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                        </span>
+                                        <!-- Contact info-->
+                                        <span class="media-box-body">
+                                            <span class="media-box-heading">
+                                                <strong>Maureen Jenkins</strong>
+                                                <br>
+                                                <small class="text-muted">Designeer</small>
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <!-- END User status-->
+                                    <!-- START User status-->
+                                    <a href="#" class="media-box p mt0">
+                                        <span class="pull-right">
+                                            <span class="circle circle-danger circle-lg"></span>
+                                        </span>
+                                        <span class="pull-left">
+                                            <!-- Contact avatar-->
+                                            <img src="img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                        </span>
+                                        <!-- Contact info-->
+                                        <span class="media-box-body">
+                                            <span class="media-box-heading">
+                                                <strong>Billie Dunn</strong>
+                                                <br>
+                                                <small class="text-muted">Designeer</small>
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <!-- END User status-->
+                                    <!-- START User status-->
+                                    <a href="#" class="media-box p mt0">
+                                        <span class="pull-right">
+                                            <span class="circle circle-warning circle-lg"></span>
+                                        </span>
+                                        <span class="pull-left">
+                                            <!-- Contact avatar-->
+                                            <img src="img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                        </span>
+                                        <!-- Contact info-->
+                                        <span class="media-box-body">
+                                            <span class="media-box-heading">
+                                                <strong>Tomothy Roberts</strong>
+                                                <br>
+                                                <small class="text-muted">Designer</small>
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <!-- END User status-->
+                                </li>
+                                <!-- START list title-->
+                                <li class="p">
+                                    <small class="text-muted">OFFLINE</small>
+                                </li>
+                                <!-- END list title-->
+                                <li>
+                                    <!-- START User status-->
+                                    <a href="#" class="media-box p mt0">
+                                        <span class="pull-right">
+                                            <span class="circle circle-lg"></span>
+                                        </span>
+                                        <span class="pull-left">
+                                            <!-- Contact avatar-->
+                                            <img src="img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                        </span>
+                                        <!-- Contact info-->
+                                        <span class="media-box-body">
+                                            <span class="media-box-heading">
+                                                <strong>Lawrence Robinson</strong>
+                                                <br>
+                                                <small class="text-muted">Developer</small>
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <!-- END User status-->
+                                    <!-- START User status-->
+                                    <a href="#" class="media-box p mt0">
+                                        <span class="pull-right">
+                                            <span class="circle circle-lg"></span>
+                                        </span>
+                                        <span class="pull-left">
+                                            <!-- Contact avatar-->
+                                            <img src="img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                        </span>
+                                        <!-- Contact info-->
+                                        <span class="media-box-body">
+                                            <span class="media-box-heading">
+                                                <strong>Tyrone Owens</strong>
+                                                <br>
+                                                <small class="text-muted">Designer</small>
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <!-- END User status-->
+                                </li>
+                                <li>
+                                    <div class="p-lg text-center">
+                                        <!-- Optional link to list more users-->
+                                        <a href="#" title="See more contacts" class="btn btn-purple btn-sm">
+                                            <strong>Load more..</strong>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <!-- Extra items-->
+                            <div class="p">
+                                <p>
+                                    <small class="text-muted">Tasks completion</small>
+                                </p>
+                                <div class="progress progress-xs m0">
+                                    <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-success progress-80">
+                                        <span class="sr-only">80% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p">
+                                <p>
+                                    <small class="text-muted">Upload quota</small>
+                                </p>
+                                <div class="progress progress-xs m0">
+                                    <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-warning progress-40">
+                                        <span class="sr-only">40% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </li>
-                <!-- END user info-->
-                <!-- Iterates over all sidebar items-->
-                <li class="nav-heading ">
-                    @*<span data-localize="sidebar.heading.HEADER">Main Navigation</span>*@
-                </li>
-                <li class=" ">
-                    <a href="/AdminList/AdminList" title="Admin">
-                        <em class="icon-speech"></em>
-                        <span>Admin</span>
-                    </a>
-                </li>
-                <li class=" ">
-                    <a href="/Notification/ViewNotifications" title="View Notifications">
-                        <em class="icon-speech"></em>
-                        <span>Test 2</span>
-                    </a>
-                </li>
-                <li class=" ">
-                    <a href="/NewClaim/Index" title="New Claim">
-                        <em class="icon-speech"></em>
-                        <span>New Claim</span>
-                    </a>
-                </li>
-                <li class=" ">
-                    <a href="/Myactivity/Index" title="My Activity">
-                        <em class="icon-speech"></em>
-                        <span>My Activity</span>
-                    </a>
-                </li>
-                <li class=" ">
-                    <a href="/claimlist/Index" title="My Claim List">
-                        <em class="icon-speech"></em>
-                        <span>My Claim List</span>
-                    </a>
-                </li>
-
-                <li class=" ">
-                    <a href="/AccountList/Index" title="Account">
-                        <em class="icon-speech"></em>
-                        <span>Account</span>
-                    </a>
-                </li>
-
-                <li class=" ">
-                    <a href="/Contact/Index" title="Contact">
-                        <em class="icon-speech"></em>
-                        <span>Contact</span>
-                    </a>
-                </li>
-                <li class=" ">
-                    <a href="/TimeslipCheck/Index" title="TimeSlip Check">
-                        <em class="icon-speech"></em>
-                        <span>TimeSlip Check</span>
-                    </a>
-                </li>
-                <li class=" ">
-                    <a href="/NewContactAccount/Index" title="Risksmart Gcc">
-                        <em class="icon-speech"></em>
-                        <span>New Contact/Account</span>
-                    </a>
-                </li>
-                <li class=" ">
-                    <a href="/Policies/Index" title="Policy">
-                        <em class="icon-speech"></em>
-                        <span>Policy</span>
-                    </a>
-                </li>
-             </ul>
-            <!-- END sidebar nav-->
-        </nav>
-    </div>
-    <!-- END Sidebar (left)-->
-</aside>
-<!-- offsidebar-->
-<aside class="offsidebar hide">
-<!-- START Off Sidebar (right)-->
-<nav>
-<div role="tabpanel">
-<!-- Nav tabs-->
-<ul role="tablist" class="nav nav-tabs nav-justified">
-    <li role="presentation" class="active">
-        <a href="#app-settings" aria-controls="app-settings" role="tab" data-toggle="tab">
-            <em class="icon-equalizer fa-lg"></em>
-        </a>
-    </li>
-    <li role="presentation">
-        <a href="#app-chat" aria-controls="app-chat" role="tab" data-toggle="tab">
-            <em class="icon-user fa-lg"></em>
-        </a>
-    </li>
-</ul>
-<!-- Tab panes-->
-<div class="tab-content">
-<div id="app-settings" role="tabpanel" class="tab-pane fade in active">
-    <h3 class="text-center text-thin">Settings</h3>
-    <div class="p">
-        <h4 class="text-muted text-thin">Themes</h4>
-        <div class="table-grid mb">
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-a.css">
-                        <input type="radio" name="setting-theme" checked="checked">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-info"></span>
-                            <span class="color bg-info-light"></span>
-                        </span>
-                        <span class="color bg-white"></span>
-                    </label>
                 </div>
-            </div>
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-b.css">
-                        <input type="radio" name="setting-theme">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-green"></span>
-                            <span class="color bg-green-light"></span>
-                        </span>
-                        <span class="color bg-white"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-c.css">
-                        <input type="radio" name="setting-theme">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-purple"></span>
-                            <span class="color bg-purple-light"></span>
-                        </span>
-                        <span class="color bg-white"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-d.css">
-                        <input type="radio" name="setting-theme">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-danger"></span>
-                            <span class="color bg-danger-light"></span>
-                        </span>
-                        <span class="color bg-white"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="table-grid mb">
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-e.css">
-                        <input type="radio" name="setting-theme">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-info-dark"></span>
-                            <span class="color bg-info"></span>
-                        </span>
-                        <span class="color bg-gray-dark"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-f.css">
-                        <input type="radio" name="setting-theme">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-green-dark"></span>
-                            <span class="color bg-green"></span>
-                        </span>
-                        <span class="color bg-gray-dark"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-g.css">
-                        <input type="radio" name="setting-theme">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-purple-dark"></span>
-                            <span class="color bg-purple"></span>
-                        </span>
-                        <span class="color bg-gray-dark"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="col mb">
-                <div class="setting-color">
-                    <label data-load-css="css/theme-h.css">
-                        <input type="radio" name="setting-theme">
-                        <span class="icon-check"></span>
-                        <span class="split">
-                            <span class="color bg-danger-dark"></span>
-                            <span class="color bg-danger"></span>
-                        </span>
-                        <span class="color bg-gray-dark"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="p">
-        <h4 class="text-muted text-thin">Layout</h4>
-        <div class="clearfix">
-            <p class="pull-left">Fixed</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-fixed" type="checkbox" data-toggle-state="layout-fixed">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-        <div class="clearfix">
-            <p class="pull-left">Boxed</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-boxed" type="checkbox" data-toggle-state="layout-boxed">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-        <div class="clearfix">
-            <p class="pull-left">RTL</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-rtl" type="checkbox">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="p">
-        <h4 class="text-muted text-thin">Aside</h4>
-        <div class="clearfix">
-            <p class="pull-left">Collapsed</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-collapsed" type="checkbox" data-toggle-state="aside-collapsed">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-        <div class="clearfix">
-            <p class="pull-left">Collapsed Text</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-collapsed-text" type="checkbox" data-toggle-state="aside-collapsed-text">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-        <div class="clearfix">
-            <p class="pull-left">Float</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-float" type="checkbox" data-toggle-state="aside-float">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-        <div class="clearfix">
-            <p class="pull-left">Hover</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-hover" type="checkbox" data-toggle-state="aside-hover">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-        <div class="clearfix">
-            <p class="pull-left">Show Scrollbar</p>
-            <div class="pull-right">
-                <label class="switch">
-                    <input id="chk-hover" type="checkbox" data-toggle-state="show-scrollbar" data-target=".sidebar">
-                    <span></span>
-                </label>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="app-chat" role="tabpanel" class="tab-pane fade">
-    <h3 class="text-center text-thin">Connections</h3>
-    <ul class="nav">
-        <!-- START list title-->
-        <li class="p">
-            <small class="text-muted">ONLINE</small>
-        </li>
-        <!-- END list title-->
-        <li>
-            <!-- START User status-->
-
-            <a href="#" class="media-box p mt0">
-                <!-- Contact info-->
-                <span class="media-box-body">
-                    <span class="media-box-heading">
-                        <strong>Juan Sims</strong>
-                        <br>
-                        <small class="text-muted">Designeer</small>
-                    </span>
-                </span>
-            </a>
-            <!-- END User status-->
-            <!-- START User status-->
-            <a href="#" class="media-box p mt0">
-                <span class="pull-right">
-                    <span class="circle circle-success circle-lg"></span>
-                </span>
-                <span class="pull-left">
-                    <!-- Contact avatar-->
-                    <img src="img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                </span>
-                <!-- Contact info-->
-                <span class="media-box-body">
-                    <span class="media-box-heading">
-                        <strong>Maureen Jenkins</strong>
-                        <br>
-                        <small class="text-muted">Designeer</small>
-                    </span>
-                </span>
-            </a>
-            <!-- END User status-->
-            <!-- START User status-->
-            <a href="#" class="media-box p mt0">
-                <span class="pull-right">
-                    <span class="circle circle-danger circle-lg"></span>
-                </span>
-                <span class="pull-left">
-                    <!-- Contact avatar-->
-                    <img src="img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                </span>
-                <!-- Contact info-->
-                <span class="media-box-body">
-                    <span class="media-box-heading">
-                        <strong>Billie Dunn</strong>
-                        <br>
-                        <small class="text-muted">Designeer</small>
-                    </span>
-                </span>
-            </a>
-            <!-- END User status-->
-            <!-- START User status-->
-            <a href="#" class="media-box p mt0">
-                <span class="pull-right">
-                    <span class="circle circle-warning circle-lg"></span>
-                </span>
-                <span class="pull-left">
-                    <!-- Contact avatar-->
-                    <img src="img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                </span>
-                <!-- Contact info-->
-                <span class="media-box-body">
-                    <span class="media-box-heading">
-                        <strong>Tomothy Roberts</strong>
-                        <br>
-                        <small class="text-muted">Designer</small>
-                    </span>
-                </span>
-            </a>
-            <!-- END User status-->
-        </li>
-        <!-- START list title-->
-        <li class="p">
-            <small class="text-muted">OFFLINE</small>
-        </li>
-        <!-- END list title-->
-        <li>
-            <!-- START User status-->
-            <a href="#" class="media-box p mt0">
-                <span class="pull-right">
-                    <span class="circle circle-lg"></span>
-                </span>
-                <span class="pull-left">
-                    <!-- Contact avatar-->
-                    <img src="img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                </span>
-                <!-- Contact info-->
-                <span class="media-box-body">
-                    <span class="media-box-heading">
-                        <strong>Lawrence Robinson</strong>
-                        <br>
-                        <small class="text-muted">Developer</small>
-                    </span>
-                </span>
-            </a>
-            <!-- END User status-->
-            <!-- START User status-->
-            <a href="#" class="media-box p mt0">
-                <span class="pull-right">
-                    <span class="circle circle-lg"></span>
-                </span>
-                <span class="pull-left">
-                    <!-- Contact avatar-->
-                    <img src="img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                </span>
-                <!-- Contact info-->
-                <span class="media-box-body">
-                    <span class="media-box-heading">
-                        <strong>Tyrone Owens</strong>
-                        <br>
-                        <small class="text-muted">Designer</small>
-                    </span>
-                </span>
-            </a>
-            <!-- END User status-->
-        </li>
-        <li>
-            <div class="p-lg text-center">
-                <!-- Optional link to list more users-->
-                <a href="#" title="See more contacts" class="btn btn-purple btn-sm">
-                    <strong>Load more..</strong>
-                </a>
-            </div>
-        </li>
-    </ul>
-    <!-- Extra items-->
-    <div class="p">
-        <p>
-            <small class="text-muted">Tasks completion</small>
-        </p>
-        <div class="progress progress-xs m0">
-            <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-success progress-80">
-                <span class="sr-only">80% Complete</span>
-            </div>
-        </div>
-    </div>
-    <div class="p">
-        <p>
-            <small class="text-muted">Upload quota</small>
-        </p>
-        <div class="progress progress-xs m0">
-            <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-warning progress-40">
-                <span class="sr-only">40% Complete</span>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</nav>
-<!-- END Off Sidebar (right)-->
-</aside>
-<section> 
-    @RenderBody()
-</section>
-@*<footer>
+            </nav>
+            <!-- END Off Sidebar (right)-->
+        </aside>
+        <section>
+            @RenderBody()
+        </section>
+        @*<footer>
                 <span>&copy; 2017 - HonanCCP</span>
             </footer>*@
-</div>
-    
-<!-- Modal -->
-<div id="sendEmailModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Send a Question</h4>
-            </div>
-            <div class="modal-body">
-               
-            </div>
-            
-        </div>
-
     </div>
-</div>
 
-<!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- Modal -->
+    <div id="sendEmailModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <input name="EmailTattchment" id="claimupload" type="file" multiple>
+                    <h4 class="modal-title">Send a Question</h4>
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div>
+                            <div class="form-group">
+                                <label for="usr">Claim:</label>
+                                <select id="claim"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="usr">To:</label>
+                                <input type="text" class="form-control" id="usr">
+                            </div>
+                            <div class="form-group">
+                                <label for="usr">CC:</label>
+                                <input type="text" class="form-control" id="usr">
+                            </div>
+                            <div id="EmailEdit">
+                                <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =============== VENDOR SCRIPTS ===============-->
     <!-- MODERNIZR-->
     <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
     <!-- MATCHMEDIA POLYFILL-->
@@ -744,16 +769,46 @@
     <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
     <!-- RTL demo-->
     <script src="~/Content/app/js/demo/demo-rtl.js"></script>
-   @*@Scripts.Render("~/bundles/jqueryval")*@
+    @*@Scripts.Render("~/bundles/jqueryval")*@
     <!-- =============== PAGE VENDOR SCRIPTS ===============-->
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/Content/app/js/app.js"></script>
 
-   
+
     <script src="~/Scripts/jquery.validate.min.js"></script>
     @*<script src="~/Scripts/globalize.js"></script>
-    <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
+        <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        // create Editor from textarea HTML element with default set of tools
+        $("#editor").kendoEditor({
+            resizable: {
+                content: true,
+                toolbar: true
+            }
+        });
+
+        $.get("Home/GetClaimList", function (data) {
+            loadClaimList(data);
+        });
+
+
+        function loadClaimList(listdata) {
+            $("#claim").kendoMultiSelect({
+                dataTextField: "Text",
+                dataValueField: "Code",
+                autoBind: true,
+                dataSource: listdata
+            });
+        };
+
+        $('#emialclick').click(function () {
+            $('#sendEmailModal').modal('show');
+
+        })
+    });
+</script>
