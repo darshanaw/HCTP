@@ -77,11 +77,19 @@
             "bsearch": false,
             'info': false,
             "fnServerParams": function (aoData) {
+               
 
-                accountId = $("#Oc_No").val();  
-
-                if ($('#Oc_No') && $('#Oc_No').val() !='')
+                if ($('#Oc_No') && $('#Oc_No').val() != '' && typeof $('#Oc_No').val() != 'undefined')
+                {
+                    accountId = $("#Oc_No").val();  
                     aoData.push({ 'name': 'accountId', 'value': accountId });
+                }
+                else if ($('#Oc_Id') && $('#Oc_Id').val() != '' && typeof $('#Oc_Id').val() != 'undefined')
+                {
+                    accountId = $("#Oc_Id").val(); 
+                    aoData.push({ 'name': 'accountId', 'value': accountId });
+
+                }
                 else if ($('#Accountid'))
                     aoData.push({ 'name': 'accountId', 'value': $('#Accountid').val() });
 
@@ -100,7 +108,7 @@
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
                         //return "<a  onclick='closeModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
-                        return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \'' + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\');">' + oObj[1] + '</a>';
+                        return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \'' + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\', \'' + oObj[10] + '\');">' + oObj[1] + '</a>';
                     }
                 },
                 { "sName": "PolicyClass" },
@@ -110,7 +118,7 @@
         });
     });
 
-    function closeModal(val,address1,addresss2,suburb,state,postcode)
+    function closeModal(val,address1,addresss2,suburb,state,postcode,accountManager)
     {
         var text = $(val).text();
         $("#Policy_No").val(text);
@@ -138,6 +146,11 @@
         if ($("#Property_Postalcode").length > 0) {
 
             $("#Property_Postalcode").val(postcode);
+        }
+       
+        if ($("#AccountManager").length > 0)
+        {
+            $("#AccountManager").val(accountManager);
         }
 
         $('#PolicyModal').modal('toggle');

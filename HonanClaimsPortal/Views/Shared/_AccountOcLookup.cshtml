@@ -106,7 +106,7 @@
         $.ajax({
             url: "/lookup/GetPolicyByAccountId?accountId=" + ocNum, success: function (result) {
                 if (result) {
-                    setPolicyFields(result.arry[1], result.arry[4], result.arry[5], result.arry[6], result.arry[7], result.arry[8]);
+                    setPolicyFields(result.arry[1], result.arry[4], result.arry[5], result.arry[6], result.arry[7], result.arry[8], result.arry[9]);
                 }
                 else
                     setPolicyFields("", "", "", "", "", "")
@@ -114,7 +114,7 @@
         });
     }
 
-    function setPolicyFields(policyNo, address1, addresss2, suburb, state, postcode) {
+    function setPolicyFields(policyNo, address1, addresss2, suburb, state, postcode,accountManager) {
 
         if ($("#Policy_No")) {
 
@@ -145,6 +145,11 @@
 
             $("#Property_Postalcode").val(postcode);
         }
+
+        if ($('#AccountManager').length > 0)
+        {
+            $('#AccountManager').val(accountManager);
+        }        
 
     }
 

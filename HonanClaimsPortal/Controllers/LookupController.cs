@@ -78,7 +78,7 @@ namespace HonanClaimsPortal.Controllers
             lookupServices = new LookupServices();
             List<AccountSimpleModel> objectList = new List<AccountSimpleModel>();
 
-            if (!string.IsNullOrEmpty(param.sSearch))
+            if (!string.IsNullOrEmpty(accountType))
             {
                 objectList = lookupServices.GetAccounts(param.sSearch, accountType);
             }
@@ -249,7 +249,7 @@ namespace HonanClaimsPortal.Controllers
         {
             lookupServices = new LookupServices();
             List<PolicySimple> objectList = new List<PolicySimple>();
-
+            
             //if (Session["PolicyobjectList"] == null)
             //{
             objectList =
@@ -290,7 +290,7 @@ namespace HonanClaimsPortal.Controllers
 
             foreach (PolicySimple item in filteredRecords)
             {
-                string[] arry = new string[] { item.PolicyId, item.PolicyNo, item.PolicyClass, item.PolicyStatus, item.Address1, item.Address2, item.Suburb, item.State, item.Postcode,item.PolicyExpiry };
+                string[] arry = new string[] { item.PolicyId, item.PolicyNo, item.PolicyClass, item.PolicyStatus, item.Address1, item.Address2, item.Suburb, item.State, item.Postcode,item.PolicyExpiry,item.AccountManager };
                 aData.Add(arry);
             }
 
@@ -316,7 +316,7 @@ namespace HonanClaimsPortal.Controllers
 
             if (objectList.Count() == 1)
             {
-                string[] arry = new string[] { objectList.FirstOrDefault().PolicyId, objectList.FirstOrDefault().PolicyNo, objectList.FirstOrDefault().PolicyClass, objectList.FirstOrDefault().PolicyExpiry, objectList.FirstOrDefault().Address1, objectList.FirstOrDefault().Address2, objectList.FirstOrDefault().Suburb, objectList.FirstOrDefault().State, objectList.FirstOrDefault().Postcode };
+                string[] arry = new string[] { objectList.FirstOrDefault().PolicyId, objectList.FirstOrDefault().PolicyNo, objectList.FirstOrDefault().PolicyClass, objectList.FirstOrDefault().PolicyExpiry, objectList.FirstOrDefault().Address1, objectList.FirstOrDefault().Address2, objectList.FirstOrDefault().Suburb, objectList.FirstOrDefault().State, objectList.FirstOrDefault().Postcode, objectList.FirstOrDefault().AccountManager };
 
 
                 return Json(new

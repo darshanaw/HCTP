@@ -62,6 +62,10 @@ namespace HonanClaimsPortal.Controllers
                         return RedirectToAction("NewRisksmartGccClaim", "RisksmartGccClaim");
                     case ClaimTeams.RisksmartProperty:
                         return RedirectToAction("NewRisksmartPropertyClaim", "RisksmartPropertyClaim");
+                    case ClaimTeams.PropertyClaims:
+                        return RedirectToAction("NewPropertyClaim", "PropertyClaim");
+                    case ClaimTeams.GCCClaims:
+                        return RedirectToAction("NewGccClaim", "GccClaim");
                 }
 
            }

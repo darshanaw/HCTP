@@ -10,8 +10,8 @@ namespace HonanClaimsWebApi.Models.LookupModel
     {
         public string PolicyId { get; set; }
         public string PolicyNo { get; set; }
-        //public string Account { get; set; }
-        //public string AccountManager { get; set; }
+        public string Account { get; set; }
+        public string AccountManager { get; set; }
         public string PolicyClass { get; set; }
         public string PolicyExpiry { get; set; }
         public string PolicyStatus { get; set; }

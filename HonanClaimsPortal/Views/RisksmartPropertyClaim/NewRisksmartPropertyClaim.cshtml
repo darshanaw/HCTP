@@ -34,13 +34,7 @@
 
 <div class="content-wrapper">
     <h3>
-        @*@{
-
-            string pageName = Request.QueryString["PageType"] != null ? Request.QueryString[HonanCCp.CustomHelpers.QueryStringHelper.PageType].ToString() : "";
-            var a = !string.IsNullOrEmpty(pageName) ? Session[HonanCCp.CustomHelpers.SessionHelper.Page] = pageName : "";
-        }*@
-
-        New Claim @*@Session[HonanCCp.CustomHelpers.SessionHelper.Page]*@
+        New @Model.Claim_Type
     </h3>
     <div class="row">
         <div class="panel panel-default">
