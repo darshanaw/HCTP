@@ -17,26 +17,24 @@
                 @Html.TextBoxFor(o => o.LastName, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Email</label>
-                @Html.TextBoxFor(o => o.EmailAddress, new { @class = "form-control" })
+                <label>Title</label>
+                @Html.TextBoxFor(o => o.Title, new { @class = "form-control" })
             </div>
-            <div class="form-group">
-                <label>Phone</label>
-                @Html.TextBoxFor(o => o.Phone, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="col-md-6">
             <div class="form-group">
                 <label>Company</label>
                 @Html.TextBoxFor(o => o.Company, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Title</label>
-                @Html.TextBoxFor(o => o.Title, new { @class = "form-control" })
+                <label>Phone</label>
+                @Html.TextBoxFor(o => o.Phone, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                @Html.TextBoxFor(o => o.EmailAddress, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label>Registered</label>
-                @Html.TextBoxFor(o => o.RegistrationDate, new { @class = "form-control" })
+                @Html.TextBoxFor(o => o.RegistrationDate, new { @class = "form-control" ,@readonly=true})
             </div>
         </div>
     </div>
