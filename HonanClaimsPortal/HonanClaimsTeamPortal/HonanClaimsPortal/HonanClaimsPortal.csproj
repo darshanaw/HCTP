@@ -214,6 +214,7 @@
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
     <Compile Include="Controllers\TimeslipCheckController.cs" />
     <Compile Include="Controllers\RisksmartPropertyClaimController.cs" />
+    <Compile Include="Controllers\ViewPagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,6 +227,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ClaimViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\404.html" />
@@ -373,6 +375,7 @@
     <Content Include="Content\app\widgets.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Custom.css" />
     <Content Include="Content\index.html" />
     <Content Include="Content\Kendo\kendo.bootstrap.min.css" />
     <Content Include="Content\Kendo\kendo.common-material.min.css" />
@@ -434,6 +437,7 @@
     <Content Include="Content\master\js\modules\tour.js" />
     <Content Include="Content\master\js\modules\trigger-resize.js" />
     <Content Include="Content\master\js\modules\utils.js" />
+    <Content Include="Content\Overlay.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\vendor\animate.css\animate.min.css" />
     <Content Include="Content\vendor\animo.js\animo.js" />
@@ -1324,6 +1328,8 @@
     <Content Include="Views\PropertyClaim\NewPropertyClaim.cshtml" />
     <Content Include="Views\GccClaim\NewGccClaim.cshtml" />
     <Content Include="Views\MyActivity\Index.cshtml" />
+    <Content Include="Views\ViewPages\ViewClaims.cshtml" />
+    <Content Include="Views\ViewPages\ViewNotifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
