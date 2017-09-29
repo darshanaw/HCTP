@@ -207,6 +207,8 @@ namespace HonanClaimsPortal.Controllers
             // Add CCTV viewed list
             model.CCTVViewedList = new List<string>() { "", "Yes", "No" };
 
+            model.PanelLawyersRetainedList = new List<string>() { "", "Yes", "No" };
+
             model.Total_Reserve = model.Liability_Reserve + model.Defence_Reserve;
 
             model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
@@ -223,6 +225,14 @@ namespace HonanClaimsPortal.Controllers
 
 
             return View(claim);
+        }
+
+
+        public ActionResult HistoryAjaxHandler(string claimId, string fieldName, string newValue)
+        {
+            ClaimServices claimService = new ClaimServices();
+            client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            return Json(claimService.CreateHistoryRecord(client.UserId, client.FirstName + " " + client.LastName, claimId, fieldName, newValue));
         }
 
     }

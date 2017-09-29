@@ -226,6 +226,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<string> CCTVAvailableList { get; set; }
         public List<string> CCTVViewedList { get; set; }
         public List<string> YesNoList { get; set; }
+        public List<string> PanelLawyersRetainedList { get; set; }
         public List<PicklistItem> PropertySuburbList { get; set; }
         public NextAction NextAction { get; set; }
     }

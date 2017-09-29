@@ -64,6 +64,8 @@
 
 @Html.HiddenFor(o => o.Accountid)
 @Html.HiddenFor(o => o.BillingMethod)
+@Html.HiddenFor(o => o.Broker_Account_Id)
+@Html.HiddenFor(o => o.Broker_Name_Id)
 
 <div class="tab-content">
 
@@ -109,7 +111,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @*@Html.TextBoxFor(o => o.Accountid, new { @class = "form-control input-sm", @maxlength = 100 })*@
+                                    @*@Html.TextBoxFor(o => o.BillingMethod, new { @class = "form-control input-sm", @maxlength = 100 })*@
 
 
                                     <div class="form-group mb">
@@ -405,7 +407,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Incident Address</label>
                                         <div class="col-sm-9">
-                                           @Html.TextAreaFor(o => o.Incident_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                            @Html.TextAreaFor(o => o.Incident_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
                                         </div>
                                     </div>
                                 </div>
@@ -413,7 +415,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Exact Location</label>
                                         <div class="col-sm-9">
-                                           @Html.TextBoxFor(o => o.Exact_Location, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                            @Html.TextBoxFor(o => o.Exact_Location, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
                                         </div>
                                     </div>
                                 </div>
@@ -780,7 +782,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Binder #</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm"})
+                                            @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm" })
                                         </div>
                                     </div>
                                 </div>
@@ -812,8 +814,17 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Insurer</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Insurer, new { @class = "form-control input-sm" })
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(o => o.InsurerName, new { @class = "form-control input-sm", @maxlength = 100 })
+
+                                                <span id="insurerModel" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
+                                        @Html.HiddenFor(o => o.Insurer)
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
@@ -836,15 +847,29 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Broker Name</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Broker_Name, new { @class = "form-control input-sm" })
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(o => o.Broker_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                <span id="brokerAccountNameModal" class="input-group-btn" data-toggle="modal" data-target="#ContactBrokerModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">Broker Name</label>
+                                        <label class="col-sm-3 control-label input-sm">Broker Account</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Broker_Account, new { @class = "form-control input-sm" })
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(o => o.Broker_Account, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                <span id="brokerAccountNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountBrokerModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -852,7 +877,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Panel Lawyers Retained</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Panel_Lawyers_Retained, new { @class = "form-control input-sm" })
+                                            @Html.DropDownListFor(model => model.Panel_Lawyers_Retained, new SelectList(Model.PanelLawyersRetainedList), new { @class = "form-control input-sm valueChanged" })
                                         </div>
                                     </div>
                                 </div>
@@ -877,6 +902,19 @@
                                     </div>
                                 </div>
 
+
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Liab/Def Res. Source</label>
+                                        <div class="col-sm-9">
+                                            <span id="ssss" class="input-group-btn btn-outline" >
+                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px" data-toggle="modal" data-target="#ExrtaFieldModal">
+                                                    <i class="fa fa-dollar"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
@@ -951,11 +989,9 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Claim Quick Note</label>
                                         <div class="col-sm-9">
-                                            @Html.TextAreaFor(o => o.Claim_Note, new { @class = "form-control input-sm" })
+                                            @Html.TextAreaFor(o => o.Claim_Note, new { @class = "form-control input-sm", @maxlength = 400 })
                                         </div>
                                     </div>
-
-
                                 </div>
                             </fieldset>
 
@@ -1043,13 +1079,102 @@
                 <h4 class="modal-title">Policy Lookup</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" }})
+                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" } })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="InsurerModal" class="modal fade InsurerModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Insurer Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_InsurerLookUp.cshtml", null) @*, new ViewDataDictionary { { "AccountId", (Session[HonanCCp.CustomHelpers.SessionHelper.LoginClient] as LoginClient).AccountId } })*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="AccountBrokerModal" class="modal fade AccountBrokerModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Account Broker Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_AccountBrokerLookup.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="ContactBrokerModal" class="modal fade ContactBrokerModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Broker Name Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_ContactBrokerLookup.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="ExrtaFieldModal" class="modal fade ExrtaFieldModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @*<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>*@
+            <div class="modal-body">
+
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group mb">
+                        <label class="col-sm-4 control-label input-sm">Liability Res. Source $</label>
+                        <div class="col-sm-8">
+                            <input type="number" id="txtLiabilityResSource" value="@Model.Liability_Res_Source" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group mb">
+                        <label class="col-sm-4 control-label input-sm">Defence Res. Source $</label>
+                        <div class="col-sm-8">
+                            <input type="number" id="txtDefecnceResSource" value="@Model.Defence_Res_Source" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="SetExtraFields()">Ok</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1071,12 +1196,21 @@
             $('#tbPolicy').DataTable().ajax.reload(null, false);
         });
 
+        $("#brokerAccountNameModal").click(function () {
+            $('#tbContactBroker').DataTable().ajax.reload(null, false);
+        })
 
-        $("#Claim_Status").change(function () {
+
+        $("#ddlStatus").change(function () {
 
             if ($(this).val() == "Closed" && $("#BillingMethod").val() == "Per Claim") {
                 bootbox.alert("This customer is billed Per Claim when claims are closed. Please ensure that all claims data is up to date before closing this Claim");
             }
+        });
+
+
+        $("#btnShowExtra").click(function () {
+
         });
 
 
@@ -1199,6 +1333,51 @@
             $("#Policy_Class_TextBox").show();
             $("#Policy_Class_Dropdown").hide();
         }
-       
+
+
+        $('.form-control').change(function () {
+            $.ajax({
+                type: "POST",
+                url: "/RisksmartGccClaim/HistoryAjaxHandler",
+                data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                },
+                failure: function (response) {
+                    alert("Error writing to history");
+                },
+                error: function (response) {
+                    alert("Error writing to history");
+                }
+            });
+        });
+
+        $('input:checkbox').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/RisksmartGccClaim/HistoryAjaxHandler",
+                data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                },
+                failure: function (response) {
+                    alert("Error writing to history");
+                },
+                error: function (response) {
+                    alert("Error writing to history");
+                }
+            });
+        });
+
+
+
     })
+
+    function SetExtraFields() {
+        $("#Liability_Res_Source").val($("#txtLiabilityResSource").val());
+        $("#Defence_Res_Source").val($("#txtDefecnceResSource").val());
+        $('#ExrtaFieldModal').modal('toggle');
+    }
 </script>

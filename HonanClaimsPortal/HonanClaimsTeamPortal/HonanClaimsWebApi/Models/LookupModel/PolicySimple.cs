@@ -23,5 +23,7 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public DateTime? PeriodFrom { get; set; }
         public DateTime? PeriodTo { get; set; }
         public Decimal Excess { get; set; }
+        public string UnderwriterId { get; set; }
+        public string UnderwriterName { get; set; }
     }
 }
