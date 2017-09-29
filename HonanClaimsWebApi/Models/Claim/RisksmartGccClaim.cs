@@ -22,7 +22,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Reported_By_Type { get; set; }
         [Required(ErrorMessage = "Reported By Required")]
         public string Reported_By { get; set; }
-        [Required(ErrorMessage = "Region Required")]
+        //[Required(ErrorMessage = "Region Required")]
         public string Region { get; set; }
         //[Required(ErrorMessage = "Required")]
         public string Storeid { get; set; }
@@ -49,7 +49,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Incident_Name { get; set; }
         [Required(ErrorMessage = "Incident Address Required")]
         public string Incident_Address { get; set; }
-        [Required(ErrorMessage = "Incident Category Required")]
+        //[Required(ErrorMessage = "Incident Category Required")]
         public string Incident_Category { get; set; }
         public string Incident_Type { get; set; }
         [Required(ErrorMessage = "Incident Summary Required")]

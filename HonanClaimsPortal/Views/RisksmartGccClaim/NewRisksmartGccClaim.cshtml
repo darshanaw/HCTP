@@ -35,7 +35,6 @@
 
 <!-- END wizard steps indicator-->
 <!-- START Wizard Step inputs-->
-@Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
 @{
     string disable = ""; /*string.IsNullOrEmpty(@Model.Claim_Reference_Num) ? "" : "disabled";*/
@@ -53,90 +52,97 @@
     })
 </script>
 
-@Html.HiddenFor(o => o.Accountid)
-@Html.HiddenFor(o => o.BillingMethod)
-@Html.HiddenFor(o=>o.Broker_Account_Id)
-@Html.HiddenFor(o => o.Broker_Name_Id)
-@Html.HiddenFor(o => o.Claim_Team)
-@Html.HiddenFor(o => o.Claim_Type)
 
 <div class="content-wrapper">
+    <br />
     <h3>
         New @Model.Claim_Type
     </h3>
 
     <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-body">
+        @using (Html.BeginForm("NewRisksmartGccClaim", "RisksmartGccClaim", FormMethod.Post, new { id = "formNewRisksmartGccClaim" }))
+        {
+            @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
 
-                <fieldset style="padding-bottom: 0px">
+            @Html.HiddenFor(o => o.Accountid)
+            @Html.HiddenFor(o => o.Account_Name)
+            @Html.HiddenFor(o => o.BillingMethod)
+            @Html.HiddenFor(o => o.Broker_Account_Id)
+            @Html.HiddenFor(o => o.Broker_Name_Id)
+            @Html.HiddenFor(o => o.Claim_Team)
+            @Html.HiddenFor(o => o.Claim_Type)
 
-                    @*@if (Session[HonanCCp.CustomHelpers.SessionHelper.Page].ToString() == HonanCCp.CustomHelpers.PageTypes.Claim.ToString())
-            {*@
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group mb  has-feedback">
-                            <label class="col-sm-3 control-label input-sm">Policy #</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
-                                    <span class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
+            <div class="panel panel-default">
+                <div class="panel-body">
 
-                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
-                                            <i class="fa fa-binoculars"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                    <fieldset style="padding-bottom: 0px">
 
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Policy Class</label>
-                            <div class="col-sm-9">
-                                @if (string.IsNullOrEmpty(Model.Policy_No))
-                                {
-                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                }
-                                else if (!string.IsNullOrEmpty(Model.Policy_Class))
-                                {
-                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
-                                            new { @class = "form-control input-sm" })
-                                }
-                            </div>
-                        </div>
+                        @*@if (Session[HonanCCp.CustomHelpers.SessionHelper.Page].ToString() == HonanCCp.CustomHelpers.PageTypes.Claim.ToString())
+                            {*@
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group mb  has-feedback">
+                                <label class="col-sm-3 control-label input-sm">Policy #</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
+                                        <span class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
 
-                    </div>
-
-
-
-
-                    @*}*@
-                    <div class="col-md-6 col-sm-12">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8" style="text-align: center; font-size: large;">
-                            <div class="col-md-12 col-sm-12">
-                                <div class="panel widget bg-primary">
-                                    <div class="row row-table">
-                                        @*<div class="col-xs-4 text-center bg-primary-dark pv-lg">
-                                <em class="icon-share fa-3x"></em>
-                                </div>*@
-                                        <div class="col-xs-8 pv-xs">
-                                            <div class="h3 m0 text-bold">Claim Reference #</div>
-                                            <div class="text-uppercase">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
-                                        </div>
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                            @Html.HiddenFor(o => o.Claim_Reference_Num)
+
+                            <div class="form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Policy Class</label>
+                                <div class="col-sm-9">
+                                    @if (string.IsNullOrEmpty(Model.Policy_No))
+                                    {
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                    }
+                                    else if (!string.IsNullOrEmpty(Model.Policy_Class))
+                                    {
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
+                     new { @class = "form-control input-sm" })
+                                    }
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-md-2"></div>
 
-                    </div>
 
-                </fieldset>
+
+
+                        @*}*@
+                        <div class="col-md-6 col-sm-12">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-8" style="text-align: center; font-size: large;">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="panel widget bg-primary">
+                                        <div class="row row-table">
+                                            @*<div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                                                <em class="icon-share fa-3x"></em>
+                                                </div>*@
+                                            <div class="col-xs-8 pv-xs">
+                                                <div class="h3 m0 text-bold">Claim Reference #</div>
+                                                <div class="text-uppercase">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(o => o.Claim_Reference_Num)
+                            </div>
+                            <div class="col-md-2"></div>
+
+                        </div>
+
+                    </fieldset>
 
 
 
@@ -163,14 +169,14 @@
                                 <label class="col-sm-1 control-label input-sm text-right">HH</label>
                                 <div class="col-sm-3">
                                     @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
-                                    SelectListItem
+         SelectListItem
                                { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
                                 </div>
                                 <label class="col-sm-1 control-label input-sm text-center"> - </label>
                                 <label class="col-sm-1 control-label input-sm text-right">Min</label>
                                 <div class="col-sm-3">
                                     @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                    SelectListItem
+         SelectListItem
                                { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
                                 </div>
                             </div>
@@ -181,7 +187,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Reported By Type</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(model => model.Reported_By_Type, new SelectList(Model.ReportedByTypeList, "Text", "Text"),"", new { @class = "form-control input-sm" })
+                                        @Html.DropDownListFor(model => model.Reported_By_Type, new SelectList(Model.ReportedByTypeList, "Text", "Text"), "", new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -199,12 +205,12 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Region</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(model => model.Region, new SelectList(Model.RegionList, "Text", "Text"),"",
-                                        new { @class = "form-control input-sm", @name = "Region", @style = "width:100%" })
+                                        @Html.DropDownListFor(model => model.Region, new SelectList(Model.RegionList, "Text", "Text"), "",
+         new { @class = "form-control input-sm", @name = "Region", @style = "width:100%" })
                                     </div>
                                 </div>
                             </div>
-                                     
+
                             <div class="col-md-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">* Store</label>
@@ -226,7 +232,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Juristiction</label>
                                     <div class="col-sm-9">
-                                      @Html.DropDownListFor(model => model.Juristiction, new SelectList(Model.JuristictionList), new { @class = "form-control input-sm" })
+                                        @Html.DropDownListFor(model => model.Juristiction, new SelectList(Model.JuristictionList), new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -257,7 +263,7 @@
                             </div>
                         </fieldset>
 
-                        
+
                         <fieldset>
 
                             <div class="col-md-12 col-sm-12">
@@ -292,7 +298,7 @@
                                 <div class="col-sm-3">
 
                                     @Html.DropDownListFor(m => m.Incident_TimeH, Enumerable.Range(0, 24).Select(i => new
-                                    SelectListItem
+         SelectListItem
                                {
                                    Text = i.ToString().PadLeft(2, '0'),
                                    Value = i.ToString().PadLeft(2, '0')
@@ -303,7 +309,7 @@
                                 <label class="col-sm-1 control-label input-sm text-right">Min</label>
                                 <div class="col-sm-3">
                                     @Html.DropDownListFor(m => m.Incident_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                    SelectListItem
+         SelectListItem
                                {
                                    Text = i.ToString().PadLeft(2, '0'),
                                    Value = i.ToString().PadLeft(2, '0')
@@ -319,7 +325,7 @@
                                     <label class="col-sm-3 control-label input-sm">Incident Category</label>
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(model => model.Incident_Category, new SelectList(Model.IncidentCategoryList, "Text", "Text"),
-                                        new { @class = "form-control input-sm", @multiple = "multiple", @name = "Incident_Category", @style = "width:100%" })
+         new { @class = "form-control input-sm", @multiple = "multiple", @name = "Incident_Category", @style = "width:100%" })
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +394,7 @@
                                     <label class="col-sm-3 control-label input-sm">Incident Party Type</label>
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(model => model.Incident_Party_Type, new SelectList(Model.IncidentPartyTypeList, "Text", "Text"),
-                        new { @class = "form-control input-sm" })
+new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -534,6 +540,10 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Litigated</label>
                                     <div class="col-sm-9">
+                                        @if (Model.Litigated == null)
+                                        {
+                                            Model.Litigated = false;
+                                        }                                        
                                         @Html.CheckBoxFor(o => o.Litigated.Value)
                                     </div>
                                 </div>
@@ -543,7 +553,7 @@
                                     <label class="col-sm-3 control-label input-sm">Policy Section</label>
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(model => model.Policy_Section, new SelectList(Model.Policy_Section_List, "Text", "Text"),
-                        new { @class = "form-control input-sm" })
+new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -635,15 +645,16 @@
 
                     </div>
 
-              
 
 
+
+                </div>
+                <div class="panel-footer text-right">
+                    <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
+                    <button type="submit" class="mb-sm btn btn-primary">Save</button>
+                </div>
             </div>
-            <div class="panel-footer text-right">
-                <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                <button type="submit" class="mb-sm btn btn-primary">Save</button>
-            </div>
-        </div>
+        }
     </div>
 </div>
 
@@ -764,10 +775,23 @@
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
 <script>
     $(function () {
 
+        $('#formNewRisksmartGccClaim').submit(function () {
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
+
         $('#Incident_Category').select2();
+
+        //To get rid of date format validation error
+        jQuery.validator.methods["date"] = function (value, element) { return true; }
 
         $("#Region").select2({
             //multiple: true,

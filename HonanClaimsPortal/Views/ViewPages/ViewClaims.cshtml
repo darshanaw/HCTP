@@ -3,11 +3,17 @@
     ViewBag.Title = "ViewClaims";
 }
 
+<script src="~/Scripts/notify.js"></script>
+
+@{
+    var message = TempData["SuccessMsg"];
+}
+
 <div class="content-wrapper">
     <h3>
         View Claims
     </h3>
-       Using test user id "Q6UJ9A00KFLR"
+       
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -60,7 +66,7 @@
                     field: "ClaimId",
                     title: "Claim Id",
                     hidden: true
-                },                
+                },
                 {
                     field: "ClaimRefNo",
                     title: "Claim Ref No"
@@ -102,18 +108,22 @@
             if (this.value == 'false') {
 
                 $("#gridClaims").data("kendoGrid").dataSource.read({ isOpenClaim: false });
-                
+
             }
             else if (this.value == 'true')
             {
                 $("#gridClaims").data("kendoGrid").dataSource.read({ isOpenClaim: true });
-                
+
             }
         });
 
     });
 
 
+    var message = '@message';
+    if (message) {
+        $.notify(message, "success");
+    }
 
 
 </script>

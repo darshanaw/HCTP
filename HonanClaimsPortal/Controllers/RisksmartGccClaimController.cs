@@ -22,12 +22,14 @@ namespace HonanClaimsPortal.Controllers
 
         public ActionResult NewRisksmartGccClaim()
         {
-            client = Session[SessionHelper.loginCounter] as ClaimTeamLoginModel;
+            client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
 
             if (TempData[TempDataHelper.NewClaimModel] == null)
                 return RedirectToAction("Index", "NewClaim");
 
             NewClaimModel newClaimModel = TempData[TempDataHelper.NewClaimModel] as NewClaimModel;
+
+            claimServices = new ClaimServices();
 
             RisksmartGccClaim model = new RisksmartGccClaim();
             model.Claim_Received = false;
@@ -52,19 +54,74 @@ namespace HonanClaimsPortal.Controllers
             model.Property_State = newClaimModel.Property_State;
             model.Property_Suburb = newClaimModel.Property_Suburb;
 
-            InitializeModel(model);
+            // Get Claim Reference #
+            model.Claim_Reference_Num = claimServices.GenerateClaimRefNo(model.Claim_Team);
+            model.Claim_Reference_Num = model.Claim_Reference_Num.Replace("\"", "");
+
+            InitializeModel(model, claimServices);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult NewRisksmartGccClaim(RisksmartGccClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category)
+        {
+            try
+            {
+                pickListServices = new PicklistServicecs();
+                claimServices = new ClaimServices();
+                client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+                if (claim.Region != null)
+                    claim.Region = String.Join(",", Region.Where(s => !string.IsNullOrEmpty(s)));
+                if (claim.Incident_Category != null)
+                    claim.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+
+                Mapper.Initialize(cfg => cfg.CreateMap<RisksmartGccClaim, ClaimGeneral>());
+                ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
+
+                if (claim.Claim_Type ==  ClaimType.Notification.ToString())
+                {
+                    if (ModelState.ContainsKey("Policy_No"))
+                        ModelState["Policy_No"].Errors.Clear();
+                }
+
+                if (ModelState.IsValid)
+                {                    
+                    generalClaim.Claim_Team_Name = claim.Claim_Team;
+                    generalClaim.Accountid = claim.Accountid;
+                    generalClaim.Account_Name = claim.Account_Name;
+                    var result = claimServices.InsertClaimNotification(generalClaim, client.UserId);
+
+                    if (result.IsSuccess)
+                    {
+                        TempData["SuccessMsg"] = Messages.successMessage;
+
+                        if (claim.Claim_Type == ClaimType.Claim.ToString())
+                            return RedirectToAction("ViewClaims", "ViewPages");
+                        else
+                            return RedirectToAction("ViewNotifications", "ViewPages");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            InitializeModel(claim,claimServices);
+
+            return View(claim);
         }
         // GET: RisksmartGccClaim
         public ActionResult DetailRisksmartGccClaim(string id)
         {
-            client = Session[SessionHelper.loginCounter] as ClaimTeamLoginModel;
+            client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
 
-            ClaimServices claims = new ClaimServices();
+            claimServices = new ClaimServices();
             //Mapper mapper = new 
             Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral, RisksmartGccClaim>());
-            RisksmartGccClaim model = Mapper.Map<RisksmartGccClaim>(claims.GetClaimNotification(id));
+            RisksmartGccClaim model = Mapper.Map<RisksmartGccClaim>(claimServices.GetClaimNotification(id));
 
             model.Claim_Received = false;
             model.Claim_Acknowledged = false;
@@ -74,14 +131,14 @@ namespace HonanClaimsPortal.Controllers
             model.Claim_Closed = false;
             model.Litigated = false;
 
-            InitializeModel(model);
+            InitializeModel(model, claimServices);
 
             return View(model);
         }
 
-        private void InitializeModel(RisksmartGccClaim model)
+        private void InitializeModel(RisksmartGccClaim model, ClaimServices claimServices)
         {
-            claimServices = new ClaimServices();
+
             pickListServices = new PicklistServicecs();
 
             if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager))
@@ -158,7 +215,7 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public ActionResult DetailRisksmartGccClaim(RisksmartGccClaim claim)
         {
-            
+
 
             return View(claim);
         }
