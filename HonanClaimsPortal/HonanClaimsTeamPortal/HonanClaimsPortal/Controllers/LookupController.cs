@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class LookupController : Controller
     {
         LookupServices lookupServices;

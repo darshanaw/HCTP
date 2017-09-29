@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class ClaimAssignmentController : Controller
     {
         // GET: ClaimAssignment

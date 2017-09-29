@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class PropertyClaimController : Controller
     {
         ClaimTeamLoginModel client;
