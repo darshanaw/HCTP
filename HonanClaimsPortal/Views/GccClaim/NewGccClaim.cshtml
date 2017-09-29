@@ -416,7 +416,7 @@
                 <h4 class="modal-title">Policy Lookup</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null) @*, new ViewDataDictionary { { "AccountId", (Session[HonanCCp.CustomHelpers.SessionHelper.LoginClient] as LoginClient).AccountId } })*@
+                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

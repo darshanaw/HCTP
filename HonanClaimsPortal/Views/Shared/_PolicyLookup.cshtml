@@ -8,6 +8,7 @@
 @{
     string accountId = this.ViewData.ContainsKey("AccountId") ? this.ViewData["AccountId"].ToString() : string.Empty;
 
+    string pageId = this.ViewData.ContainsKey("PageId") ? this.ViewData["PageId"].ToString() : string.Empty;
 }
 
 <!-- DATATABLES-->
@@ -66,8 +67,7 @@
     $(document).ready(function () {
 
         var accountId = "";
-
-
+       
         $('#tbPolicy').dataTable({
             "bServerSide": true,
             "searching": true,
