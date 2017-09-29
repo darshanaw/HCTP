@@ -19,7 +19,7 @@ namespace HonanClaimsWebApi.Services
 {
     public class ClaimServices
     {
-        private const string claimNotificationApiGet = "api/claim/GetClaimNotification?id=";
+        private const string claimNotificationApiGet = "api/claim/TeamGetClaimNotification?id=";
         private const string getUsers = "api/Activity/GetUsers?teamNames=";
         private const string getClaimApiGet1 = "api/claim/GetClaims?openClaims=";
         private const string getClaimApiGet2 = "&claimNo=&userId=";
@@ -28,6 +28,8 @@ namespace HonanClaimsWebApi.Services
 
         private const string insertClaimNotificationApiGet1 = "api/Claim/TeamInsertClaimNotification?claim=";
         private const string insertClaimNotificationApiGet2 = "&userId=";
+        private const string insertHistoryRecord = "api/General/CreateHistoryRecord?userId=";
+
 
         ExecutionResult exeReult;
 
@@ -244,6 +246,47 @@ namespace HonanClaimsWebApi.Services
                     }
                 }
                 return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Create Hitory Record
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="userName"></param>
+        /// <param name="claimId"></param>
+        /// <param name="fieldName"></param>
+        /// <param name="newValue"></param>
+        /// <returns></returns>
+        public string CreateHistoryRecord(string userId,string userName, string claimId, string fieldName, string newValue)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + insertHistoryRecord + userId + "&userName=" + userName + "&claimId=" + claimId + "&fieldName=" + fieldName + "&newValue=" + newValue);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            if (!string.IsNullOrEmpty(response))
+                            {
+                                return response;
+                            }
+                        }
+                    }
+                }
+                return "";
             }
             catch (Exception e)
             {

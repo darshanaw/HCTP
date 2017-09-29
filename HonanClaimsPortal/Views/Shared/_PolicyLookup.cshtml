@@ -104,7 +104,7 @@
 
                         return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \''
                             + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\', \'' + oObj[10] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' +
-                            oObj[11] + '\', \'' + oObj[12] + '\', \'' + oObj[13] + '\');">' + oObj[1] + '</a>';
+                            oObj[11] + '\', \'' + oObj[12] + '\', \'' + oObj[13] + '\', \'' + oObj[14] + '\', \'' + oObj[15] + '\');">' + oObj[1] + '</a>';
                     }
                 },
                 { "sName": "PolicyClass" },
@@ -114,7 +114,7 @@
         });
     });
 
-    function closeModal(val, address1, addresss2, suburb, state, postcode, accountManager,policyClass, policyStatus, periodFrom, periodTo, excess) {
+    function closeModal(val, address1, addresss2, suburb, state, postcode, accountManager,policyClass, policyStatus, periodFrom, periodTo, excess,underwriterId,underwriterName) {
 
         var text = $(val).text();
 
@@ -136,6 +136,8 @@
             $("#Period_From").val(periodFrom);
             $("#Period_To").val(periodTo);
             $("#Excess").val(excess);
+            $("#InsurerName").val(underwriterName);
+            $("#Insurer").val(underwriterId);
         }
         else
         {

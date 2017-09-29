@@ -175,6 +175,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Incident_TimeH { get; set; }
         public string Incident_TimeM { get; set; }
         public string Policy_Status { get; set; }
+        public string BillingMethod { get; set; }
 
         public string UserId { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }
