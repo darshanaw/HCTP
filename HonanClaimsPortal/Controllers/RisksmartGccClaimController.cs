@@ -182,6 +182,9 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
             model.Policy_Class_List.Insert(0, new PicklistItem());
 
+            model.ClientGroupList = pickListServices.GetPickListItems("Risksmart GCC Client Group");
+            model.ClientGroupList.Insert(0, new PicklistItem());
+
             if (model.Reported_Time != null)
             {
                 string time = DateTime.Parse(model.Reported_Time.ToString()).ToString("HH:mm");

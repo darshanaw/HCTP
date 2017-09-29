@@ -290,7 +290,10 @@ namespace HonanClaimsPortal.Controllers
 
             foreach (PolicySimple item in filteredRecords)
             {
-                string[] arry = new string[] { item.PolicyId, item.PolicyNo, item.PolicyClass, item.PolicyStatus, item.Address1, item.Address2, item.Suburb, item.State, item.Postcode,item.PolicyExpiry,item.AccountManager };
+                string[] arry = new string[] { item.PolicyId, item.PolicyNo, item.PolicyClass, item.PolicyStatus, item.Address1, item.Address2, item.Suburb, item.State, item.Postcode, item.PolicyExpiry, item.AccountManager,
+                    item.PeriodFrom != null ? DateTime.Parse(item.PeriodFrom.ToString()).ToShortDateString() : "" 
+                    , item.PeriodTo != null ? DateTime.Parse(item.PeriodTo.ToString()).ToShortDateString() : "", item.Excess.ToString()};
+
                 aData.Add(arry);
             }
 
