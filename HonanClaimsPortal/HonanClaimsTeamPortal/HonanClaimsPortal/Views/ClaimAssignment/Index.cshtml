@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/bootbox.min.js"></script>
 <div class="main-container">
     <div class="row mb-15">
         <div class="col-md-12">
@@ -122,7 +122,7 @@
             if (ClaimNames.indexOf(dataItem.TeamName) > -1) {
 
             } else {
-                alert("You can not select diffrent claim teams");
+                bootbox.alert("You can not select diffrent claim teams");
                 return false;
             }
 
