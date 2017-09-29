@@ -37,13 +37,13 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Claimant_Mobile_Phone { get; set; }
         public string Email_Address { get; set; }
         public string Incident_Name { get; set; }
-        [Required(ErrorMessage = "Required Incident_Address")]
+        //[Required(ErrorMessage = "Required Incident_Address")]
         public string Incident_Address { get; set; }
-        [Required(ErrorMessage = "Required Incident_Category")]
+        //[Required(ErrorMessage = "Required Incident_Category")]
         public string Incident_Category { get; set; }
-        [Required(ErrorMessage = "Required Incident_Type")]
+        //[Required(ErrorMessage = "Required Incident_Type")]
         public string Incident_Type { get; set; }
-        [Required(ErrorMessage = "Required Incident_Summary")]
+        //[Required(ErrorMessage = "Required Incident_Summary")]
         public string Incident_Summary { get; set; }
         public string Injury_Summary { get; set; }
         public string Juristiction { get; set; }
@@ -95,6 +95,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Loss_Details { get; set; }
         public string Policy_Report_Num { get; set; }
         public string Details_Of_Responsible_3Rd_Pty { get; set; }
+        public string Assigned_User_Name { get; set; }
         public string Assigned_User { get; set; }
         public string Claim_Stage { get; set; }
         public decimal Liability_Reserve { get; set; }

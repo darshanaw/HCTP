@@ -47,7 +47,7 @@ namespace HonanClaimsPortal.Controllers
             model.Claim_Type = newClaimModel.Claim_Type;
             model.Oc_Num = newClaimModel.Oc_No;
             model.Policy_No = newClaimModel.Policy_No;
-            model.Assigned_User = newClaimModel.Assigned_To;
+            model.Assigned_User = newClaimModel.Assigned_To_Id;
             model.Property_Address_1 = newClaimModel.Property_Address_1;
             model.Property_Address_1 = newClaimModel.Property_Address_2;
             model.Property_Postalcode = newClaimModel.Property_Postalcode;
@@ -91,16 +91,18 @@ namespace HonanClaimsPortal.Controllers
                     generalClaim.Claim_Team_Name = claim.Claim_Team;
                     generalClaim.Accountid = claim.Accountid;
                     generalClaim.Account_Name = claim.Account_Name;
-                    var result = claimServices.InsertClaimNotification(generalClaim, client.UserId);
+                    var result = claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
 
                     if (result.IsSuccess)
                     {
                         TempData["SuccessMsg"] = Messages.successMessage;
 
-                        if (claim.Claim_Type == ClaimType.Claim.ToString())
-                            return RedirectToAction("ViewClaims", "ViewPages");
-                        else
-                            return RedirectToAction("ViewNotifications", "ViewPages");
+                        return RedirectToAction("index", "claimlist");
+
+                        //if (claim.Claim_Type == ClaimType.Claim.ToString())
+                        //    return RedirectToAction("ViewClaims", "ViewPages");
+                        //else
+                        //    return RedirectToAction("ViewNotifications", "ViewPages");
                     }
                 }
             }

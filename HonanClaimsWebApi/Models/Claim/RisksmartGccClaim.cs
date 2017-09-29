@@ -18,25 +18,25 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Account_Name { get; set; }
         public string Insurer_Ref { get; set; }
         public string Claim_Reference_Num { get; set; }
-        [Required(ErrorMessage = "Reported By Type Required")]
+        //[Required(ErrorMessage = "Reported By Type Required")]
         public string Reported_By_Type { get; set; }
-        [Required(ErrorMessage = "Reported By Required")]
+        //[Required(ErrorMessage = "Reported By Required")]
         public string Reported_By { get; set; }
         //[Required(ErrorMessage = "Region Required")]
         public string Region { get; set; }
         //[Required(ErrorMessage = "Required")]
         public string Storeid { get; set; }
-        [Required(ErrorMessage = "Store Name Required")]
+        //[Required(ErrorMessage = "Store Name Required")]
         public string Storeid_Name { get; set; }
         public string Exact_Location { get; set; }
-        [Required(ErrorMessage = "Responsible Department Required")]
+        //[Required(ErrorMessage = "Responsible Department Required")]
         public string Responsible_Department { get; set; }
         public string Witnesses { get; set; }
         public string Client_Ref_Num { get; set; }
         public string Claimant_Company { get; set; }
-        [Required(ErrorMessage = "Claimant First Name Required")]
+        //[Required(ErrorMessage = "Claimant First Name Required")]
         public string Claimant_First_Name { get; set; }
-        [Required(ErrorMessage = "Claimant Last Name Required")]
+        //[Required(ErrorMessage = "Claimant Last Name Required")]
         public string Claimant_Last_Name { get; set; }
         public string Claimant_Address { get; set; }
         public string Date_Of_Birth { get; set; }
@@ -47,12 +47,12 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Email_Address { get; set; }
         [Required(ErrorMessage = "Incident Name Required")]
         public string Incident_Name { get; set; }
-        [Required(ErrorMessage = "Incident Address Required")]
+        //[Required(ErrorMessage = "Incident Address Required")]
         public string Incident_Address { get; set; }
         //[Required(ErrorMessage = "Incident Category Required")]
         public string Incident_Category { get; set; }
         public string Incident_Type { get; set; }
-        [Required(ErrorMessage = "Incident Summary Required")]
+        //[Required(ErrorMessage = "Incident Summary Required")]
         public string Incident_Summary { get; set; }
         public string Injury_Summary { get; set; }
         public string Juristiction { get; set; }
@@ -107,6 +107,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Loss_Details { get; set; }
         public string Policy_Report_Num { get; set; }
         public string Details_Of_Responsible_3Rd_Pty { get; set; }
+        public string Assigned_User_Name { get; set; }
         public string Assigned_User { get; set; }
         public List<PicklistItem> Assigned_User_List { get; set; }
         public string Claim_Stage { get; set; }

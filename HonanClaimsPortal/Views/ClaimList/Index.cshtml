@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="~/Scripts/notify.js"></script>
+
+@{
+    var message = TempData["SuccessMsg"];
+}
+
 <div class="main-container">
     <div class="row mb-15">
         <div class="col-md-12">
@@ -129,8 +135,8 @@
                     type: "json",
                     transport: {
                         read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId
-                    },
-                    pageSize: 10
+                    }
+                    //pageSize: 10
                 },
                 height: 600,
                 sortable: true,
@@ -190,4 +196,10 @@
         })
 
     });
+
+        var message = '@message';
+        if (message) {
+            $.notify(message, "success");
+        }
+
 </script>

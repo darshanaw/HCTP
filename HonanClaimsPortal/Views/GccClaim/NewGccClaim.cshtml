@@ -19,18 +19,6 @@
             format: 'DD/MM/YYYY'
         });
 
-       
-        $("#btnSave").click(function () {
-
-            if ($('#Incident_Category :selected').text() == "") {
-
-                $('.select2-selection.select2-selection--multiple').addClass("alertError");
-            }
-            else
-                $('.select2-selection.select2-selection--multiple').removeClass("alertError");
-
-        });
-
     });
 </script>
 
@@ -44,13 +32,16 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 @*<form role="form" class="form-horizontal" name="form.NewClaimGcc">*@
-                @using (Html.BeginForm("NewGCCClaim", "Claim", FormMethod.Post))
+                @using (Html.BeginForm("NewGccClaim", "GccClaim", FormMethod.Post))
                 {
                     @Html.HiddenFor(o => o.Claim_Team)
                     @Html.HiddenFor(o => o.Claim_Type)
                     @Html.HiddenFor(o => o.Broker_Account_Id)
                     @Html.HiddenFor(o => o.Broker_Name_Id)
                     @Html.HiddenFor(o => o.Accountid)
+                    @Html.HiddenFor(o => o.Assigned_User)
+
+                    @*@Html.ValidationSummary(false)*@
 
                     <fieldset style="padding-bottom: 0px">
 
