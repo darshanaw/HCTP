@@ -1,4 +1,5 @@
-﻿using HonanClaimsWebApi.Models.Policies;
+﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.Policies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class PoliciesController : Controller
     {
         // GET: Policies

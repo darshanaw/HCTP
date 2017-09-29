@@ -419,12 +419,21 @@ namespace HonanClaimsPortal.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            if (Session[SessionHelper.claimTeamLogin] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            LoginService loginService = new LoginService();
+            loginService.LogoutUser((Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel).UserId);
+
+            Session[SessionHelper.claimTeamLogin] = null;
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login", "Account");
         }
 
         //

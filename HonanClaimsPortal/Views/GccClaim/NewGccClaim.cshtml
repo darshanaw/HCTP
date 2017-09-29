@@ -32,7 +32,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 @*<form role="form" class="form-horizontal" name="form.NewClaimGcc">*@
-                @using (Html.BeginForm("NewGccClaim", "GccClaim", FormMethod.Post))
+                @using (Html.BeginForm("NewGccClaim", "GccClaim", FormMethod.Post, new { id = "formNewGccClaim" }))
                 {
                     @Html.HiddenFor(o => o.Claim_Team)
                     @Html.HiddenFor(o => o.Claim_Type)
@@ -475,9 +475,19 @@
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
 <script>
 
     $(document).ready(function () {
+
+        $('#formNewGccClaim').submit(function () {
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
 
         $('#Incident_Category').select2({
             tags: true

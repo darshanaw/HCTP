@@ -23,7 +23,7 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-body">
-                @using (Html.BeginForm("NewPropertyClaim", "PropertyClaim", FormMethod.Post, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("NewPropertyClaim", "PropertyClaim", FormMethod.Post, FormMethod.Post, new { id = "formNewPropertyClaim", enctype = "multipart/form-data" }))
                 {
                     @*@Html.ValidationSummary(false)*@
 
@@ -793,9 +793,19 @@
     </div>
 </div>
 
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
 <script>
 
     $(document).ready(function () {
+
+        $('#formNewPropertyClaim').submit(function () {
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
 
         jQuery.validator.methods["date"] = function (value, element) { return true; }
 

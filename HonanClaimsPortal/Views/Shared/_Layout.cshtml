@@ -49,6 +49,8 @@
         <div id="loading-img"></div>
     </div>
 
+    @{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
+
     <div class="wrapper">
         <!-- top navbar-->
         <header class="topnavbar-wrapper">
@@ -108,7 +110,7 @@
                     <!-- START Right Navbar-->
                     <ul class="nav navbar-nav navbar-right">
                         <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
-                            <a href="#">Hello, </a>
+                            <a href="#">Hello, @userObj.FirstName</a>
                         </li>
                         <!-- Search icon-->
                         @*<li>
