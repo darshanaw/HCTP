@@ -20,5 +20,8 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public string Suburb { get; set; }
         public string State { get; set; }
         public string Postcode { get; set; }
+        public DateTime? PeriodFrom { get; set; }
+        public DateTime? PeriodTo { get; set; }
+        public Decimal Excess { get; set; }
     }
 }

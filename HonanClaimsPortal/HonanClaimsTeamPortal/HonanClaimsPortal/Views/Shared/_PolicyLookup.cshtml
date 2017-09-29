@@ -102,7 +102,9 @@
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
 
-                        return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \'' + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\', \'' + oObj[10] + '\');">' + oObj[1] + '</a>';
+                        return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \''
+                            + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\', \'' + oObj[10] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' +
+                            oObj[11] + '\', \'' + oObj[12] + '\', \'' + oObj[13] + '\');">' + oObj[1] + '</a>';
                     }
                 },
                 { "sName": "PolicyClass" },
@@ -112,39 +114,59 @@
         });
     });
 
-    function closeModal(val, address1, addresss2, suburb, state, postcode, accountManager) {
+    function closeModal(val, address1, addresss2, suburb, state, postcode, accountManager,policyClass, policyStatus, periodFrom, periodTo, excess) {
 
         var text = $(val).text();
 
         $("#Policy_No").val(text);
 
-        if ($("#Property_Address_1").length > 0) {
+        if ("@pageId" == "Detail")
+        {
+            if (policyClass != "") {
+                $("#Policy_Class_TextBox").val(policyClass);
+                $("#Policy_Class_TextBox").show();
+                $("#Policy_Class_Dropdown").hide();
+            }
+            else {
+                $("#Policy_Class_Dropdown").show();
+                $("#Policy_Class_TextBox").hide();
+            }
 
-            $("#Property_Address_1").val(address1);
+            $("#Policy_Status").val(policyStatus);
+            $("#Period_From").val(periodFrom);
+            $("#Period_To").val(periodTo);
+            $("#Excess").val(excess);
         }
+        else
+        {
+            if ($("#Property_Address_1").length > 0) {
 
-        if ($("#Property_Address_2").length > 0) {
+                $("#Property_Address_1").val(address1);
+            }
 
-            $("#Property_Address_2").val(addresss2);
-        }
+            if ($("#Property_Address_2").length > 0) {
 
-        if ($("#Property_Suburb").length > 0) {
+                $("#Property_Address_2").val(addresss2);
+            }
 
-            $("#Property_Suburb").val(suburb.toUpperCase());
-        }
+            if ($("#Property_Suburb").length > 0) {
 
-        if ($("#Property_State").length > 0) {
+                $("#Property_Suburb").val(suburb.toUpperCase());
+            }
 
-            $("#Property_State").val(state);
-        }
+            if ($("#Property_State").length > 0) {
 
-        if ($("#Property_Postalcode").length > 0) {
+                $("#Property_State").val(state);
+            }
 
-            $("#Property_Postalcode").val(postcode);
-        }
+            if ($("#Property_Postalcode").length > 0) {
 
-        if ($("#AccountManager").length > 0) {
-            $("#AccountManager").val(accountManager);
+                $("#Property_Postalcode").val(postcode);
+            }
+
+            if ($("#AccountManager").length > 0) {
+                $("#AccountManager").val(accountManager);
+            }
         }
 
         $('#PolicyModal').modal('toggle');

@@ -219,6 +219,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
         public List<PicklistItem> RegionList { get; set; }
         public List<PicklistItem> IncidentCategoryList { get; set; }
+        public List<PicklistItem> ClientGroupList { get; set; }
         public List<string> JuristictionList { get; set; }
         public List<string> GenderList { get; set; }
         public List<string> CCTVAvailableList { get; set; }

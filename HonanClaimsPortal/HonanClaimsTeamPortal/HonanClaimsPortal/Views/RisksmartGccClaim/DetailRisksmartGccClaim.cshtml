@@ -712,7 +712,17 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Policy #</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                                            @*@Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabledControl", @readonly = true })*@
+
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
+                                                <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
+
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -722,7 +732,9 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Policy_Class, new { @class = "form-control input-sm disabledControl", @readonly = true })
+
+                                            @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"), new { @id = "Policy_Class_Dropdown", @class = "form-control input-sm valueChanged" })
+                                            @Html.TextBoxFor(o => o.Policy_Class, new { @id = "Policy_Class_TextBox", @class = "form-control input-sm disabledControl", @readonly = true })
 
                                         </div>
                                     </div>
@@ -768,7 +780,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Binder #</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                                            @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm"})
                                         </div>
                                     </div>
                                 </div>
@@ -784,7 +796,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Policy Section</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Policy_Section, new { @class = "form-control input-sm" })
+                                            @Html.DropDownListFor(model => model.Policy_Section, new SelectList(Model.Policy_Section_List, "Text", "Text"), new { @class = "form-control input-sm valueChanged" })
                                         </div>
                                     </div>
                                 </div>
@@ -792,7 +804,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Client Group</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Client_Group, new { @class = "form-control input-sm" })
+                                            @Html.DropDownListFor(model => model.Client_Group, new SelectList(Model.ClientGroupList, "Text", "Text"), new { @class = "form-control input-sm valueChanged" })
                                         </div>
                                     </div>
                                 </div>
@@ -1020,6 +1032,27 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div id="PolicyModal" class="modal fade PolicyModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Policy Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" }})
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
@@ -1031,6 +1064,11 @@
         $("#storeShow").click(function () {
 
             $('#tbStore').DataTable().ajax.reload(null, false);
+        });
+
+        $("#policyShow").click(function () {
+
+            $('#tbPolicy').DataTable().ajax.reload(null, false);
         });
 
 
@@ -1136,21 +1174,31 @@
 
         var values = "@Model.Incident_Category"; //pull ItemIds from Model in MVC
         $.each(values.split(","), function (i, e) {
-        if (e != "Not Set" && e != "" && e != null && e != undefined) {
-            if (!re.test(e)) {
-                var newList = $.merge($('#Incident_Category').select2('data'), [{
-                    id: e,
-                    tag: e
-                }]);
-                $("#Incident_Category").select2('data', newList);
-                $("#Incident_Category").append('<option value="' + e + '">' + e + '</option>');
+            if (e != "Not Set" && e != "" && e != null && e != undefined) {
+                if (!re.test(e)) {
+                    var newList = $.merge($('#Incident_Category').select2('data'), [{
+                        id: e,
+                        tag: e
+                    }]);
+                    $("#Incident_Category").select2('data', newList);
+                    $("#Incident_Category").append('<option value="' + e + '">' + e + '</option>');
+                }
+                else {
+                    $("#Incident_Category").append($("#Incident_Category option[value='" + e + "']"));
+                }
+                $("#Incident_Category option[value='" + e + "']").prop("selected", true);
             }
-            else{
-                $("#Incident_Category").append($("#Incident_Category option[value='" + e + "']"));
-            }
-            $("#Incident_Category option[value='" + e + "']").prop("selected", true);
-        }
-});
+        });
 
+        var policyClass = "@Model.Policy_Class";
+        if (policyClass == "") {
+            $("#Policy_Class_Dropdown").show();
+            $("#Policy_Class_TextBox").hide();
+        }
+        else {
+            $("#Policy_Class_TextBox").show();
+            $("#Policy_Class_Dropdown").hide();
+        }
+       
     })
 </script>
