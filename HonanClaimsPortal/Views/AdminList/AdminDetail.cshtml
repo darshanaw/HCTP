@@ -6,13 +6,13 @@
 }
 
 @using (Html.BeginForm("AddPortalAdminRecord", "AdminList", FormMethod.Post,
-                new
-                {
-                    enctype = "multipart/form-data",
-                    id = "FileUploadForm",
-                    name = "ImgForm",
-                    //target = "UploadTarget",
-                }))
+                                        new
+                                        {
+                                            enctype = "multipart/form-data",
+                                            id = "FileUploadForm",
+                                            name = "ImgForm",
+                                            //target = "UploadTarget",
+                                        }))
 {
 
     @Html.HiddenFor(m => m.H_Customerportaladminid)
@@ -398,11 +398,18 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
-            reader.onload = function (e) {
-                $('#logoImg').attr('src', e.target.result);
-            };
+            var f = input.files[0]
+            if (f.size > 2097152) {
+                alert("Allowed file size exceeded. (Max. 2 MB)")
+                input.value = null;
+            } else {
 
-            reader.readAsDataURL(input.files[0]);
+                reader.onload = function (e) {
+                    $('#logoImg').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
         }
     }
 
@@ -500,5 +507,22 @@
             $('#ContactId').val(dataItem.ContactId);
         }
     }
+
+    //$(function () {
+    //    $('#logoimgupload').change(function () {
+    //        debugger
+    //        //because this is single file upload I use only first index
+    //        var f = this.files[0]
+
+    //        //here I CHECK if the FILE SIZE is bigger than 8 MB (numbers below are in bytes)
+    //        if (f.size >1) {
+    //            //show an alert to the user
+    //            alert("Allowed file size exceeded. (Max. 8 MB)")
+
+    //            //reset file upload control
+    //            this.value = null;
+    //        }
+    //    })
+    //});
 
 </script>
