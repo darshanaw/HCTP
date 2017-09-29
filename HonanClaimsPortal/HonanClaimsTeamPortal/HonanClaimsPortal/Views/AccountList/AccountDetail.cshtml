@@ -145,8 +145,8 @@
                 @Html.TextBoxFor(m => m.Proposals_Email_Address, new { @class = "form-control", @readonly = true })
             </div>
             <div class="form-group">
-                <label>Proposal Recommendation Required</label>
                 @Html.CheckBoxFor(m => m.Proposal_Recommendation_Reqd, new { @readonly = true })
+                <label class="ml-15">Proposal Recommendation Required</label>
             </div>
             <div class="form-group">
                 <label>Preferred Proposal Format</label>

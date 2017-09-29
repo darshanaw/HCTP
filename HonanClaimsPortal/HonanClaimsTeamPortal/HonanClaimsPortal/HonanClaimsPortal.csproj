@@ -1329,7 +1329,6 @@
     <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\ViewPages\ViewClaims.cshtml" />
     <Content Include="Views\ViewPages\ViewNotifications.cshtml" />
-    <Content Include="Views\MyActivity\PoliciesDetail.cshtml" />
     <Content Include="Views\Policies\Index.cshtml" />
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
   </ItemGroup>

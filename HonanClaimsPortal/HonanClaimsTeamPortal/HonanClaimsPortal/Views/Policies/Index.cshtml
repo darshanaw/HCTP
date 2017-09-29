@@ -1,0 +1,170 @@
+﻿@model HonanClaimsWebApi.Models.Policies.PolicyReturnModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-title-1">
+                <h3 class="mt-50">Policies</h3>
+            </div>
+            <div class="search-box-1">
+                <div class="form-group mt-20">
+                    <label>Policy No.</label>
+                    @Html.TextBoxFor(m => m.PolicyNumber, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group mt-20">
+                    <label>Customer</label>
+                    @Html.TextBoxFor(m => m.Customer, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group mt-20">
+                    <label>Policy Type</label>
+                    @Html.DropDownListFor(m => m.PolicyType, new SelectList(Model.PolicyType, "Code", "Text"), "--select--", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="action-btn-2">
+                <div class="pull-right mt-45">
+                    <button id="filterList" type="button" class="btn btn-primary">Filter Policies</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-15">
+        <div class="col-md-12">
+            <div class="search-box-1">
+                <div class="form-group mt-30">
+                    @Html.CheckBoxFor(m => m.IsActive)
+                    <label class="ml-15">Active Only</label>
+                </div>
+            </div>
+            <div class="search-box-1">
+                <div class="form-group">
+                    <label>Associate</label>
+                    @Html.TextBoxFor(m => m.Associate, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group">
+                    <label>Underwriter</label>
+                    @Html.TextBoxFor(m => m.Underwriter, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="cust-search">
+                <div class="form-group">
+                    <label>Policy Class</label>
+                    @Html.DropDownListFor(m => m.PolicyClass, new SelectList(Model.PolicyClass, "Code", "Text"), "--select--", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="action-btn-2">
+                <div class="pull-right mt-25">
+                    <button id="clearFilter" type="button" class="btn btn-default">Clear Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $('#IsActive').change(function () {
+        if (this.checked) {
+            $("#IsActive").val(true);
+        } else {
+            $("#IsActive").val(false);
+        }
+    });
+
+    $("#clearFilter").click(function () {
+        $("#AccountName").val('');
+        $("#AccountType").val('');
+        loadPolicy();
+    });
+
+
+    $("#filterList").click(function () {
+        loadPolicy();
+    });
+
+    $(document).ready(function () {
+        loadPolicy();
+        $("#IsActive").val(false);
+    });
+
+
+    function loadPolicy() {
+        var IsActive = null;
+        var PolicyNumber = null;
+        var Associate = null;
+        var Customer = null;
+        var Underwriter = null;
+        var PolicyType = null;
+        var PolicyClass = null;
+
+        IsActive = $("#IsActive").val();
+        PolicyNumber = $("#PolicyNumber").val();
+        Associate = $("#Associate").val();
+        Customer = $("#Customer").val();
+        Underwriter = $("#Underwriter").val();
+        PolicyType = $("#PolicyType").val();
+        PolicyClass = $("#PolicyClass").val();
+
+
+        $("#grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/Policies/GetPolicyList?IsActive=" + IsActive + "&PolicyNumber=" + PolicyNumber + "&Associate=" + Associate + "&Customer=" + Customer + "&Underwriter=" + Underwriter + "&PolicyType=" + PolicyType + "&PolicyClass=" + PolicyClass
+                },
+                pageSize: 20
+            },
+            filterable: true,
+            pageSize: 10,
+            navigatable: true,
+            pageable: true,
+            height: 550,
+            sortable: true,
+            columns: [
+                {
+                    field: "PolicyNo",
+                    title: "Policy Number",
+                    template: "<a href='/Policies/PoliciesDetail?PolicyId=#= PolicyId #'>#= PolicyNo #</a>",
+                },
+                {
+                    field: "Customer",
+                    template: "<a href='/Policies/PoliciesDetail?PolicyId=#= PolicyId #'>#= Customer #</a>",
+                },
+
+                {
+                    field: "InceptionDate",
+                    title: "Inception Date",
+                },
+                {
+                    field: "ExpiryDate",
+                    title: "Expiry Date",
+                },
+                {
+                    field: "Associate",
+                    template: "<a href='/Policies/PoliciesDetail?PolicyId=#= PolicyId #'>#= Associate #</a>",
+                },
+                {
+                    field: "Underwriter",
+                    title: "Underwriter",
+                },
+                {
+                    field: "PolicyStatus",
+                    title: "Policy Status",
+                },
+            ]
+        });
+    }
+
+</script>
