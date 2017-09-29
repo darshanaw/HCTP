@@ -13,6 +13,7 @@ using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.Common;
 using Newtonsoft.Json;
 using HonanClaimsWebApi.Models.Views;
+using HonanClaimsWebApi.Models;
 
 namespace HonanClaimsWebApi.Services
 {
@@ -23,6 +24,13 @@ namespace HonanClaimsWebApi.Services
         private const string getClaimApiGet1 = "api/claim/GetClaims?openClaims=";
         private const string getClaimApiGet2 = "&claimNo=&userId=";
         private const string getNotificationsApiGet = "api/claim/GetNotifications?userId=";
+        private const string getClaimsPolicyNoApiGet = "api/Claim/GenerateClaimRefNo?teamName=";
+
+        private const string insertClaimNotificationApiGet1 = "api/Claim/InsertClaimNotification?claim=";
+        private const string insertClaimNotificationApiGet2 = "&userId=";
+
+        ExecutionResult exeReult;
+
         public List<SelectListItem> GetClaimTeams()
         {
             List<SelectListItem> str = new List<SelectListItem>()
@@ -33,6 +41,72 @@ namespace HonanClaimsWebApi.Services
             };
 
             return str;
+        }
+
+        public string GenerateClaimRefNo(string teamName)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getClaimsPolicyNoApiGet + teamName);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return responseReader.ReadToEnd();
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public ExecutionResult InsertClaimNotification(ClaimGeneral claim, string userId)
+        {
+            string responseClaimId = "";
+            exeReult = new ExecutionResult();
+            try
+            {
+                string jsonClaim = new JavaScriptSerializer().Serialize(claim);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1 + jsonClaim +
+                    insertClaimNotificationApiGet2 + userId);
+
+                claim.UserId = userId;
+                var dataString = JsonConvert.SerializeObject(claim);
+
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                    string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1), "POST", dataString);
+                    responseClaimId = response;
+                }
+                
+                exeReult.ResultObject = responseClaimId;
+                exeReult.IsSuccess = true;
+                exeReult.IsFailure = false;
+                return exeReult;
+
+            }
+            catch (Exception e)
+            {
+                exeReult.IsFailure = true;
+                exeReult.IsSuccess = false;
+                throw e;
+            }
+
+
         }
 
         /// <summary>

@@ -80,10 +80,12 @@
 
 
                 if ($('#Oc_No') && $('#Oc_No').val() != '' && typeof $('#Oc_No').val() != 'undefined') {
+
                     accountId = $("#Oc_No").val();
                     aoData.push({ 'name': 'accountId', 'value': accountId });
                 }
                 else if ($('#Oc_Id') && $('#Oc_Id').val() != '' && typeof $('#Oc_Id').val() != 'undefined') {
+
                     accountId = $("#Oc_Id").val();
                     aoData.push({ 'name': 'accountId', 'value': accountId });
 

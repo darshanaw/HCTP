@@ -3,12 +3,17 @@
     ViewBag.Title = "ViewClaims";
 }
 
+<script src="~/Scripts/notify.js"></script>
+
+@{
+    var message = TempData["SuccessMsg"];
+}
+
 <div class="content-wrapper">
     <h3>
         View Notifications
     </h3>
-    Using test user id "Q6UJ9A00KFLR"
-   
+  
     <div id="gridClaims"></div>
 
 </div>
@@ -75,11 +80,13 @@
             ]
         });
 
-       
+
     });
 
-
-
+    var message = '@message';
+    if (message) {
+        $.notify(message, "success");
+    }
 
 </script>
 

@@ -221,6 +221,7 @@
     <Compile Include="Helpers\AuthorizeUserAttribute.cs" />
     <Compile Include="Helpers\ClaimHelper.cs" />
     <Compile Include="Helpers\jQueryDataTableParamModel.cs" />
+    <Compile Include="Helpers\Messages.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />

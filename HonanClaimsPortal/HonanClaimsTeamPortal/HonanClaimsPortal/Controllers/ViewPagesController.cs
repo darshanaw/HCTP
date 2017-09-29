@@ -40,7 +40,7 @@ namespace HonanClaimsPortal.Controllers
             claims = new ClaimServices();
             claimsList = new List<ClaimNotificationSimple>();
             ClaimTeamLoginModel user = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
-            claimsList = claims.GetClaimsObjectList(isOpenClaim, "Q6UJ9A00KFLR");// user.UserId);
+            claimsList = claims.GetClaimsObjectList(isOpenClaim, user.UserId);// user.UserId); "Q6UJ9A00KFLR"
             return claimsList;
         }
 
@@ -56,7 +56,7 @@ namespace HonanClaimsPortal.Controllers
             claims = new ClaimServices();
             claimsList = new List<ClaimNotificationSimple>();
             ClaimTeamLoginModel user = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
-            claimsList = claims.GetNotificationsObjectList("Q6UJ9A00KFLR");// user.UserId);
+            claimsList = claims.GetNotificationsObjectList(user.UserId);// user.UserId); "Q6UJ9A00KFLR"
             return claimsList;
             
         }

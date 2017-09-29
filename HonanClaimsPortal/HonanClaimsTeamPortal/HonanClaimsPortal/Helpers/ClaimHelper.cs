@@ -28,7 +28,7 @@ namespace HonanClaimsPortal.Helpers
     {
         public const string GCCClaims = "GCC Claim Team";
         public const string PropertyClaims = "Property Claims Team";
-        public const string RisksmartGCC = "Risksmart GCC Team";
+        public const string RisksmartGCC = "Risksmart GCC";//"Risksmart GCC Team";
         public const string RisksmartProperty = "Risksmart Property Team";
     }
 }
