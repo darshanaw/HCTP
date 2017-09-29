@@ -26,7 +26,7 @@ namespace HonanClaimsWebApi.Services
         private const string getNotificationsApiGet = "api/claim/GetNotifications?userId=";
         private const string getClaimsPolicyNoApiGet = "api/Claim/GenerateClaimRefNo?teamName=";
 
-        private const string insertClaimNotificationApiGet1 = "api/Claim/InsertClaimNotification?claim=";
+        private const string insertClaimNotificationApiGet1 = "api/Claim/TeamInsertClaimNotification?claim=";
         private const string insertClaimNotificationApiGet2 = "&userId=";
 
         ExecutionResult exeReult;
@@ -72,7 +72,7 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
-        public ExecutionResult InsertClaimNotification(ClaimGeneral claim, string userId)
+        public ExecutionResult TeamInsertClaimNotification(ClaimGeneral claim, string userId)
         {
             string responseClaimId = "";
             exeReult = new ExecutionResult();

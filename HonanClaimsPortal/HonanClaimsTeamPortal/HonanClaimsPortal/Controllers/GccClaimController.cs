@@ -1,4 +1,5 @@
-﻿using HonanClaimsPortal.Helpers;
+﻿using AutoMapper;
+using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApi.Services;
@@ -15,7 +16,7 @@ namespace HonanClaimsPortal.Controllers
     public class GccClaimController : Controller
     {
         ClaimTeamLoginModel client;
-        ClaimServices claims;
+        ClaimServices claimServices;
         PicklistServicecs pickListServices;
         LookupServices lookupServices;
 
@@ -34,8 +35,8 @@ namespace HonanClaimsPortal.Controllers
             //Session[SessionHelper.StoreobjectList] = null;
 
             GccClaim claim = new GccClaim();
-            
-            claims = new ClaimServices();
+
+            claimServices = new ClaimServices();
 
             claim.Claim_Team = newClaimModel.Claim_Team;
             claim.Claim_Team_Name = newClaimModel.Claim_Team;
@@ -45,7 +46,7 @@ namespace HonanClaimsPortal.Controllers
             claim.Oc_Id = newClaimModel.Oc_No;
             claim.Oc_Num = newClaimModel.Oc_Name;
             claim.Policy_No = newClaimModel.Policy_No;
-            claim.Assigned_User = newClaimModel.Assigned_To;
+            claim.Assigned_User = newClaimModel.Assigned_To_Id;
             claim.Property_Address_1 = newClaimModel.Property_Address_1;
             claim.Property_Address_1 = newClaimModel.Property_Address_2;
             claim.Property_Postalcode = newClaimModel.Property_Postalcode;
@@ -53,15 +54,59 @@ namespace HonanClaimsPortal.Controllers
             claim.Property_Suburb = newClaimModel.Property_Suburb;
 
             // Get Claim Reference #
-            //claim.Claim_Reference_Num = claims.GenerateClaimRefNo((Session[SessionHelper.LoginClient] as LoginClient).ClaimTeam);
-            //claim.Claim_Reference_Num = claim.Claim_Reference_Num.Replace("\"", "");
+            claim.Claim_Reference_Num = claimServices.GenerateClaimRefNo(claim.Claim_Team);
+            claim.Claim_Reference_Num = claim.Claim_Reference_Num.Replace("\"", "");
 
-            InitializeModel(claim);
+            InitializeModel(claim, claimServices);
 
             return View(claim);
         }
 
-        private void InitializeModel(GccClaim claim)
+        [HttpPost]
+        public ActionResult NewGccClaim(GccClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category)
+        {
+            try
+            {
+                pickListServices = new PicklistServicecs();
+                claimServices = new ClaimServices();
+                client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+                if (claim.Region != null)
+                    claim.Region = String.Join(",", Region.Where(s => !string.IsNullOrEmpty(s)));
+                if (claim.Incident_Category != null)
+                    claim.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+
+                Mapper.Initialize(cfg => cfg.CreateMap<GccClaim, ClaimGeneral>());
+                ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
+
+                if (ModelState.IsValid)
+                {
+                    generalClaim.Claim_Team_Name = claim.Claim_Team;
+                    generalClaim.Accountid = claim.Accountid;
+                    generalClaim.Account_Name = claim.Account_Name;
+                    var result = claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
+
+                    if (result.IsSuccess)
+                    {
+                        TempData["SuccessMsg"] = Messages.successMessage;
+
+                        return RedirectToAction("index", "claimlist");
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            InitializeModel(claim, claimServices);
+
+            return View(claim);
+        }
+
+        private void InitializeModel(GccClaim claim, ClaimServices claimServices)
         {
             pickListServices = new PicklistServicecs();
 

@@ -89,6 +89,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Loss_Details { get; set; }
         public string Policy_Report_Num { get; set; }
         public string Details_Of_Responsible_3Rd_Pty { get; set; }
+        public string Assigned_User_Name { get; set; }
         public string Assigned_User { get; set; }
         public string Claim_Stage { get; set; }
         public decimal Liability_Reserve { get; set; }

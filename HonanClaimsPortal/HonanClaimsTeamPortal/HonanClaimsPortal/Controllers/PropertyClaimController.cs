@@ -1,4 +1,5 @@
-﻿using HonanClaimsPortal.Helpers;
+﻿using AutoMapper;
+using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApi.Models.LookupModel;
@@ -15,7 +16,7 @@ namespace HonanClaimsPortal.Controllers
     public class PropertyClaimController : Controller
     {
         ClaimTeamLoginModel client;
-        ClaimServices claims;
+        ClaimServices claimServices;
         PicklistServicecs pickListServices;
         LookupServices lookupServices;
 
@@ -32,7 +33,7 @@ namespace HonanClaimsPortal.Controllers
 
             PropertyClaim claim = new PropertyClaim();
             pickListServices = new PicklistServicecs();
-            claims = new ClaimServices();
+            claimServices = new ClaimServices();
 
 
 
@@ -44,7 +45,7 @@ namespace HonanClaimsPortal.Controllers
             claim.Oc_Id = newClaimModel.Oc_No;
             claim.Oc_Num = newClaimModel.Oc_Name;
             claim.Policy_No = newClaimModel.Policy_No;
-            claim.Assigned_User = newClaimModel.Assigned_To;
+            claim.Assigned_User = newClaimModel.Assigned_To_Id;
             claim.Property_Address_1 = newClaimModel.Property_Address_1;
             claim.Property_Address_1 = newClaimModel.Property_Address_2;
             claim.Property_Postalcode = newClaimModel.Property_Postalcode;
@@ -55,17 +56,67 @@ namespace HonanClaimsPortal.Controllers
             //claim.Claim_Team = login.ClaimTeam;
             //claim.Claim_Type = string.IsNullOrEmpty(Request.QueryString[QueryStringHelper.PageType]) ? Session[SessionHelper.Page].ToString() : Request.QueryString[QueryStringHelper.PageType];
 
-            // Get Claim Reference #
-            //  claim.Claim_Reference_Num = claims.GenerateClaimRefNo((Session[SessionHelper.LoginClient] as LoginClient).ClaimTeam);
-            //  claim.Claim_Reference_Num = claim.Claim_Reference_Num.Replace("\"", "");
+            //Get Claim Reference #
+            claim.Claim_Reference_Num = claimServices.GenerateClaimRefNo(claim.Claim_Team);
+            claim.Claim_Reference_Num = claim.Claim_Reference_Num.Replace("\"", "");
 
 
-            InitializeModel(claim);
+            InitializeModel(claim, claimServices);
 
             return View(claim);
         }
 
-        private void InitializeModel(PropertyClaim claim)
+        [HttpPost]
+        public ActionResult NewPropertyClaim(PropertyClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category)
+        {
+            try
+            {
+                pickListServices = new PicklistServicecs();
+                claimServices = new ClaimServices();
+                client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+                if (claim.Region != null)
+                    claim.Region = String.Join(",", Region.Where(s => !string.IsNullOrEmpty(s)));
+                if (claim.Incident_Category != null)
+                    claim.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+
+                Mapper.Initialize(cfg => cfg.CreateMap<PropertyClaim, ClaimGeneral>());
+                ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
+
+                if (ModelState.IsValid)
+                {
+                    claimServices = new ClaimServices();
+                    generalClaim.Claim_Team_Name = claim.Claim_Team;
+                    generalClaim.Accountid = claim.Accountid;
+                    generalClaim.Account_Name = claim.Account_Name;
+                    var result = claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
+
+
+                    if (result.IsSuccess)
+                    {
+                        TempData["SuccessMsg"] = Messages.successMessage;
+
+                        return RedirectToAction("index", "claimlist");
+                        //if (claim.Claim_Type == ClaimType.Claim.ToString())
+                        //    return RedirectToAction("ViewClaims", "ViewPages");
+                        //else
+                        //    return RedirectToAction("ViewNotifications", "ViewPages");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            InitializeModel(claim, claimServices);
+
+            return View(claim);
+        }
+
+        private void InitializeModel(PropertyClaim claim, ClaimServices claimServices)
         {
             // Add Gender list
             claim.GenderList = new List<string>()

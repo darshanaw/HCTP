@@ -23,16 +23,17 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-body">
-                @using (Html.BeginForm("NewPropertyClaim", "Claim", FormMethod.Post, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("NewPropertyClaim", "PropertyClaim", FormMethod.Post, FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @*@Html.ValidationSummary(false)*@
 
                     @Html.HiddenFor(o => o.Claim_Team)
                     @Html.HiddenFor(o => o.Claim_Type)
                     @Html.HiddenFor(o => o.Accountid)
+                    @Html.HiddenFor(o => o.Account_Name)
                     @Html.HiddenFor(o => o.Insurer)
                     @Html.HiddenFor(o=>o.Oc_Id)
-
+                    @Html.HiddenFor(o => o.Assigned_User)
 
                     <fieldset style="padding-bottom: 0px">
                       

@@ -1,4 +1,5 @@
-﻿using HonanClaimsPortal.Helpers;
+﻿using AutoMapper;
+using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApi.Models.LookupModel;
@@ -19,7 +20,7 @@ namespace HonanClaimsPortal.Controllers
         ClaimServices claimServices;
         PicklistServicecs pickListServices;
         LookupServices lookupServices;
-     
+
         public ActionResult NewRisksmartPropertyClaim()
         {
             client = Session[SessionHelper.loginCounter] as ClaimTeamLoginModel;
@@ -27,11 +28,13 @@ namespace HonanClaimsPortal.Controllers
             if (TempData[TempDataHelper.NewClaimModel] == null)
                 return RedirectToAction("Index", "NewClaim");
 
+            claimServices = new ClaimServices();
+
             NewClaimModel newClaimModel = TempData[TempDataHelper.NewClaimModel] as NewClaimModel;
 
             RisksmartPropertyClaim model = new RisksmartPropertyClaim();
 
-           
+
             model.Claim_Team = newClaimModel.Claim_Team;
             model.Claim_Team_Name = newClaimModel.Claim_Team;
             model.Account_Name = newClaimModel.Account_Name;
@@ -40,7 +43,7 @@ namespace HonanClaimsPortal.Controllers
             model.Oc_Id = newClaimModel.Oc_Name;
             model.Oc_Num = newClaimModel.Oc_Name;
             model.Policy_No = newClaimModel.Policy_No;
-            model.Assigned_User = newClaimModel.Assigned_To;
+            model.Assigned_User = newClaimModel.Assigned_To_Id;
             model.Property_Address_1 = newClaimModel.Property_Address_1;
             model.Property_Address_1 = newClaimModel.Property_Address_2;
             model.Property_Postalcode = newClaimModel.Property_Postalcode;
@@ -48,15 +51,67 @@ namespace HonanClaimsPortal.Controllers
             model.Property_Suburb = newClaimModel.Property_Suburb;
 
             // Get Claim Reference #
-            //claim.Claim_Reference_Num = claims.GenerateClaimRefNo((Session[SessionHelper.LoginClient] as LoginClient).ClaimTeam);
-            //claim.Claim_Reference_Num = claim.Claim_Reference_Num.Replace("\"", "");
+            model.Claim_Reference_Num = claimServices.GenerateClaimRefNo(model.Claim_Team);
+            model.Claim_Reference_Num = model.Claim_Reference_Num.Replace("\"", "");
 
-            InitializeModel(model);
+            InitializeModel(model, claimServices);
 
             return View(model);
         }
 
-        private void InitializeModel(RisksmartPropertyClaim model)
+        [HttpPost]
+        public ActionResult NewRisksmartPropertyClaim(RisksmartPropertyClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category)
+        {
+            try
+            {
+                pickListServices = new PicklistServicecs();
+                claimServices = new ClaimServices();
+                client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+                if (claim.Region != null)
+                    claim.Region = String.Join(",", Region.Where(s => !string.IsNullOrEmpty(s)));
+                if (claim.Incident_Category != null)
+                    claim.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+
+                Mapper.Initialize(cfg => cfg.CreateMap<RisksmartPropertyClaim, ClaimGeneral>());
+                ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
+
+                if (ModelState.IsValid)
+                {
+                    claimServices = new ClaimServices();
+                    generalClaim.Claim_Team_Name = claim.Claim_Team;
+                    generalClaim.Accountid = claim.Accountid;
+                    generalClaim.Account_Name = claim.Account_Name;
+                    var result = claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
+
+                   
+                    if (result.IsSuccess)
+                    {
+                        TempData["SuccessMsg"] = Messages.successMessage;
+
+                        return RedirectToAction("index", "claimlist");
+                        //if (claim.Claim_Type == ClaimType.Claim.ToString())
+                        //    return RedirectToAction("ViewClaims", "ViewPages");
+                        //else
+                        //    return RedirectToAction("ViewNotifications", "ViewPages");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            InitializeModel(claim, claimServices);
+
+            return View(claim);
+
+        }
+
+        private void InitializeModel(RisksmartPropertyClaim model, ClaimServices claimServices)
         {
             pickListServices = new PicklistServicecs();
             //Get Regions
@@ -78,7 +133,7 @@ namespace HonanClaimsPortal.Controllers
 
             model.Client_Group_List = pickListServices.GetPickListItems("Risksmart GCC Client Group");
             model.Client_Group_List.Insert(0, new PicklistItem());
-            
+
 
             model.YesNoList = new List<string>() { "", "Yes", "No" };
         }
