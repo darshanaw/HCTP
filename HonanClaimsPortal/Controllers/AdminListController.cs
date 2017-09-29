@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.AdminLoginDetail;
 using HonanClaimsWebApiAccess1.LoginServices;
+using System.Configuration;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -33,7 +34,7 @@ namespace HonanClaimsPortal.Controllers
             model.Manualclaim_Form = "Not set";
             if (adminId != null)
             {
-               model =  await AdminPortalRecord(adminId);
+                model = await AdminPortalRecord(adminId);
                 model.IsNew = false;
             }
             return View(model);
@@ -167,7 +168,7 @@ namespace HonanClaimsPortal.Controllers
         public async Task<ActionResult> AddPortalAdminRecord(HttpPostedFileBase claimupload, HttpPostedFileBase logoimgupload, CustomerPortalAdminModel model)
         {
             AdminLogindetailRepo loginrepo = new AdminLogindetailRepo();
-            var result =  await loginrepo.SaveAdminRecord(claimupload, logoimgupload, model);
+            var result = await loginrepo.SaveAdminRecord(claimupload, logoimgupload, model);
             if (result == true)
             {
                 return RedirectToAction("AdminList");
@@ -204,6 +205,25 @@ namespace HonanClaimsPortal.Controllers
             AdminLogindetailRepo accountLookupRepo = new AdminLogindetailRepo();
             list = await accountLookupRepo.GetContactNames(accountId);
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public FileResult ManualClaimFormDownload(string fileName, string path)
+        {
+            if (System.IO.File.Exists(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName))
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName.Substring(13, fileName.Length - 13));
+            }
+            // return File(new byte[0],"");
+            return null;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RemoveImage(string adminId)
+        {
+            AdminLogindetailRepo accountLookupRepo = new AdminLogindetailRepo();
+            var data = await accountLookupRepo.RemoveAdminLogo(adminId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 

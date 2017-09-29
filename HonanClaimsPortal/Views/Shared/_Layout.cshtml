@@ -742,11 +742,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="usr">To:</label>
-                                <input type="text" class="form-control" id="usr">
+                                <select id="Tolist"></select>
                             </div>
                             <div class="form-group">
                                 <label for="usr">CC:</label>
-                                <input type="text" class="form-control" id="usr">
+                                <select id="CClist"></select>
                             </div>
                             <div id="EmailEdit">
                                 <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor">
@@ -797,6 +797,9 @@
 </html>
 <script>
     $(document).ready(function () {
+        var list = new Array();
+        $('#Tolist').prop('disabled', true);
+        $('#CClist').prop('disabled', true);
         // create Editor from textarea HTML element with default set of tools
         $("#editor").kendoEditor({
             resizable: {
@@ -815,9 +818,69 @@
                 dataTextField: "Text",
                 dataValueField: "Code",
                 autoBind: true,
+                deselect: onDeselect,
+                select: onSelect,
                 dataSource: listdata
             });
+
+            function onSelect(e) {
+                var dataItem = e.dataItem;
+                $('#Tolist').prop('disabled', false);
+                $('#CClist').prop('disabled', false);
+                loadEmails(dataItem, false);
+            };
+
+            function onDeselect(e) {
+                var dataItem = e.dataItem;
+                loadEmails(dataItem, true);
+            };
+
+
         };
+
+        function loadEmails(dataItem, IsRemove) {
+            if (IsRemove){
+                if (list.length > 0) {    
+                    list = jQuery.grep(list, function (value) {
+                        return value != dataItem.Code;
+                    });
+                    if (list.length <= 0) {
+                        $('#Tolist').prop('disabled', false);
+                        $('#CClist').prop('disabled', false);
+                    }
+                }
+            } else {
+                list.push(dataItem.Code);
+            }
+
+            BindEmailToInputs();
+        }
+
+        function BindEmailToInputs() {
+            $.ajax({
+                type: 'Post',
+                dataType: 'json',
+                url: '/Home/GetContactList',
+                data: JSON.stringify({ claimList: list }),
+                contentType: 'application/json; charset=utf-8',
+                async: false,
+                success: function (data) {
+                    bindToinputs(data);  
+                },
+                error: function (data) {
+                    console.debug(data);
+                }
+            });
+        }
+
+        function bindToinputs(data) {
+            $("#CClist, #Tolist").kendoMultiSelect({
+                dataTextField: "Text",
+                dataValueField: "Code",
+                autoBind: true,
+                dataSource: data
+            });
+        }
 
         $('#emialclick').click(function () {
             $('#sendEmailModal').modal('show');
