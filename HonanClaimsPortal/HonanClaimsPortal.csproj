@@ -303,6 +303,7 @@
     <Content Include="Content\app\img\bg8.jpg" />
     <Content Include="Content\app\img\bg9.jpg" />
     <Content Include="Content\app\img\dummy.png" />
+    <Content Include="Content\app\img\HomeNew.png" />
     <Content Include="Content\app\img\lock-bg.jpg" />
     <Content Include="Content\app\img\logo-single.png" />
     <Content Include="Content\app\img\logo.png" />
