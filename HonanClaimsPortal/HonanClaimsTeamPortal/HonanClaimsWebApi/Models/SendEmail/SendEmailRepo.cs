@@ -91,22 +91,28 @@ namespace HonanClaimsWebApi.Models.SendEmail
         {
             List<PickListData> list = new List<PickListData>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-           
+
             using (HttpClient client = new HttpClient())
             {
-                var claimList = JsonConvert.SerializeObject(ClaimList);
-                string apiUrl = SiteUrl + "api/General/GetClaimKeyContacts?claimIdList="+ claimList;
-
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
+                using (var formData = new MultipartFormDataContent())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PickListData>>(data);
+                    var claimList = JsonConvert.SerializeObject(ClaimList);
+                    string apiUrl = SiteUrl + "api/Contact/GetClaimKeyContacts";
+                    var content = new StringContent(claimList, System.Text.Encoding.UTF8, "application/json");
+                    formData.Add(content, "claimList");
+
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PickListData>>(data);
+                    }
                 }
+
             }
             return list;
         }

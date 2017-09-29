@@ -32,6 +32,7 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<ActionResult> GetContactList(List<string> claimList)
         {
             SendEmailRepo repo = new SendEmailRepo();
