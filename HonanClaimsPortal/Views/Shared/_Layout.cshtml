@@ -279,19 +279,19 @@
                                 <span>Claim Assignment</span>
                             </a>
                         </li>
-                        
+
                         @*<li class=" ">
-                            <a href="/ViewPages/ViewClaims" title="View Claims">
-                                <em class="icon-speech"></em>
-                                <span>View Claims</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/ViewPages/ViewNotifications" title="View Notifications">
-                                <em class="icon-speech"></em>
-                                <span>View Notifications</span>
-                            </a>
-                        </li>*@
+                                <a href="/ViewPages/ViewClaims" title="View Claims">
+                                    <em class="icon-speech"></em>
+                                    <span>View Claims</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a href="/ViewPages/ViewNotifications" title="View Notifications">
+                                    <em class="icon-speech"></em>
+                                    <span>View Notifications</span>
+                                </a>
+                            </li>*@
                         <li class=" ">
                             <a href="/Myactivity/Index" title="My Activity">
                                 <em class="icon-speech"></em>
@@ -782,10 +782,14 @@
                                 <select id="CClist" class="form-control"></select>
                             </div>
                             <div id="EmailEdit">
-                                <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor">
-                                </textarea>
+                                <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor"></textarea>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-primary">Send</button>
                     </div>
                 </div>
             </div>
@@ -872,8 +876,8 @@
         };
 
         function loadEmails(dataItem, IsRemove) {
-            if (IsRemove){
-                if (list.length > 0) {    
+            if (IsRemove) {
+                if (list.length > 0) {
                     list = jQuery.grep(list, function (value) {
                         return value != dataItem.Code;
                     });
@@ -898,7 +902,7 @@
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 success: function (data) {
-                    bindToinputs(data);  
+                    bindToinputs(data);
                 },
                 error: function (data) {
                     console.debug(data);
