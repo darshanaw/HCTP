@@ -24,6 +24,8 @@
                 <label>Company</label>
                 @Html.TextBoxFor(o => o.Company, new { @class = "form-control" })
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label>Phone</label>
                 @Html.TextBoxFor(o => o.Phone, new { @class = "form-control" })
@@ -34,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label>Registered</label>
-                @Html.TextBoxFor(o => o.RegistrationDate, new { @class = "form-control" ,@readonly=true})
+                @Html.TextBoxFor(o => o.RegistrationDate, new { @class = "form-control", @readonly = true })
             </div>
         </div>
     </div>
