@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,9 +14,17 @@ namespace HonanClaimsWebApi.Models.SendEmail
 {
     public class SendEmailRepo
     {
-        public async Task<bool> SendEmail(HttpPostedFileBase files, string userId, EmailModel model)
+        public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model)
         {
             var result = false;
+            var templist = new List<string>();
+
+            //emil please remove this part
+            templist.Add("ntfsrjsc@gmail.com");
+
+            model.ToEmails = templist;
+            model.CcEmails = templist;
+
             if (model != null)
             {
                 string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
@@ -40,7 +50,15 @@ namespace HonanClaimsWebApi.Models.SendEmail
                         var content5 = new StringContent(ccList, System.Text.Encoding.UTF8, "application/json");
                         var content6 = new StringContent(claimIdList, System.Text.Encoding.UTF8, "application/json");
 
-                        formData.Add(new StreamContent(files.InputStream), "filesList", "filesList");
+                        if (files.Count() > 0 && files != null)
+                        {
+                            foreach (var item in files)
+                            {
+                                formData.Add(CreateFileContent(item.InputStream, item.FileName, item.ContentType));
+                            }
+                        }
+
+
                         formData.Add(content, "toList");
                         formData.Add(content2, "userId");
                         formData.Add(content3, "emailBody");
@@ -64,6 +82,20 @@ namespace HonanClaimsWebApi.Models.SendEmail
             }
             return result;
         }
+
+        private StreamContent CreateFileContent(Stream stream, string fileName, string contentType)
+        {
+            var fileContent = new StreamContent(stream);
+            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                Name = "\"files\"",
+                FileName = "\"" + fileName + "\""
+            }; // the extra quotes are key here
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            return fileContent;
+        }
+
+
 
         public async Task<List<PickListData>> GetActivityClaims(string userId)
         {
@@ -99,7 +131,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
                     var claimList = JsonConvert.SerializeObject(ClaimList);
                     string apiUrl = SiteUrl + "api/Contact/GetClaimKeyContacts";
                     var content = new StringContent(claimList, System.Text.Encoding.UTF8, "application/json");
-                    formData.Add(content, "claimList");
+                    formData.Add(content, "claimIdList");
 
                     client.BaseAddress = new Uri(apiUrl);
                     client.DefaultRequestHeaders.Accept.Clear();

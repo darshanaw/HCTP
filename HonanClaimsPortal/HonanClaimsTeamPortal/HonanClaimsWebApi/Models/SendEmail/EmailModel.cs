@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace HonanClaimsWebApi.Models.SendEmail
 {
@@ -11,6 +12,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
         public List<string> ToEmails { get; set; }
         public List<string> CcEmails { get; set; }
         public List<string> ClaimIds { get; set; }
+        [AllowHtml]
         public string emailBody { get; set; }
         public string subject { get; set; }
     }
