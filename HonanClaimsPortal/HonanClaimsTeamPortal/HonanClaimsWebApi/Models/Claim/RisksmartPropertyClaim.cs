@@ -108,7 +108,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Details_Of_Responsible_3Rd_Pty { get; set; }
         public string Assigned_User_Name { get; set; }
         public string Assigned_User { get; set; }
-        public List<SelectListItem> Assigned_User_List { get; set; }
+        public List<PicklistItem> Assigned_User_List { get; set; }
         public string Claim_Stage { get; set; }
         public decimal Liability_Reserve { get; set; }
         public decimal Defence_Reserve { get; set; }
@@ -164,6 +164,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public DateTime? Acknowledge_Claim_On { get; set; }
         public string Claim_Team { get; set; }
         public string Claim_Team_Name { get; set; }
+        [Required(ErrorMessage ="Claim Type Required.")]
         public string Claim_Type { get; set; }
         public DateTime? Claim_Acknowledged_Date { get; set; }
         public DateTime? Claim_Lodged_Date { get; set; }
@@ -227,6 +228,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<string> CCTVViewedList { get; set; }
         public List<string> YesNoList { get; set; }
         public List<PicklistItem> PropertySuburbList { get; set; }
+        public List<PicklistItem> Outcome_List { get; set; }
         public NextAction NextAction { get; set; }
     }
 }

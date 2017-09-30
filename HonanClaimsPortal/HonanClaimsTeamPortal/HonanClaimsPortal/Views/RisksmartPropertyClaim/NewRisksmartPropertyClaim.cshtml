@@ -935,7 +935,9 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
     $(document).ready(function () {
 
-        $('#Incident_Category').select2();
+        $('#Incident_Category').select2({
+            theme: "bootstrap"
+        });
 
         $('#formNewRisksmartProperty').submit(function () {
 
