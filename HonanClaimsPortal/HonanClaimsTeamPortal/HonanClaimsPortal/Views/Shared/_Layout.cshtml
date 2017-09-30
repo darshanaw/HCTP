@@ -746,8 +746,17 @@
                 });
             }
 
-            <div class="form-group col-md-3">
-                @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchbox" placeholder="Search for">
+                        <span class="input-group-addon pointer" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>         
             </div>
 
             @RenderBody()
