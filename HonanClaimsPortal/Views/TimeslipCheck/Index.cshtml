@@ -382,9 +382,9 @@
             $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + Claimid, function (data) {
 
                 if (data == false) {
-                    alert("Error in Updating mark as checked");
+                    bootbox.alert("Error in Updating mark as checked");
                 } else {
-                    alert("mark as checked");
+                    bootbox.alert("mark as checked");
                 }
             });
         }
@@ -406,9 +406,9 @@
             $.get("/TimeslipCheck/MarkAsNonBillable?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + Claimid, function (data) {
 
                 if (data == false) {
-                    alert("Error in Updating Non billable");
+                    bootbox.alert("Error in Updating Non billable");
                 } else {
-                    alert("mark as Non Billable");
+                    bootbox.alert("mark as Non Billable");
                 }
             });
         }

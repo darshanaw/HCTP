@@ -163,6 +163,7 @@
         <div class="row mt-15 mb-15">
             <div class="col-md-12">
                 <input type="submit" class="btn btn-primary" value="Submit" />
+                <input type="button" id="btncancel" class="btn btn-primary" value="Cancel" />
             </div>
         </div>
     </div>
@@ -276,6 +277,11 @@
 
 
 <script>
+
+    $("#btncancel").click(function () {
+       window.location.replace('@Url.Action("AdminList", "AdminList", new { id = "" })');
+    });
+
     $(document).ready(function () {
 
         $("#btnPolicyLookup").click(function () {
@@ -401,7 +407,7 @@
 
             var f = input.files[0]
             if (f.size > 2097152) {
-                alert("Allowed file size exceeded. (Max. 2 MB)")
+                bootbox.alert("Allowed file size exceeded. (Max. 2 MB)")
                 input.value = null;
             } else {
 
@@ -529,7 +535,7 @@
     //        //here I CHECK if the FILE SIZE is bigger than 8 MB (numbers below are in bytes)
     //        if (f.size >1) {
     //            //show an alert to the user
-    //            alert("Allowed file size exceeded. (Max. 8 MB)")
+    //            bootbox.alert("Allowed file size exceeded. (Max. 8 MB)")
 
     //            //reset file upload control
     //            this.value = null;

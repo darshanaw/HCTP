@@ -274,7 +274,7 @@
             var EM = parseInt($("#End_Time_MM").val());
 
             if (EH != 0 && SH > EH) {
-                alert("Start time cannot be later than end time");
+                bootbox.alert("Start time cannot be later than end time");
                 $("#Start_Time_HH").val("00");
                 return false;
             } else {
@@ -304,7 +304,7 @@
 
             if (EH == EH) {
                 if (EM != 0 && SM > EM) {
-                    alert("Start time cannot be later than end time");
+                    bootbox.alert("Start time cannot be later than end time");
                     $("#Start_Time_MM").val(EM);
                     //$("#End_Time_MM").val(EM);
                     var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
@@ -396,7 +396,7 @@
 
             if (EH == EH) {
                 if (SM > EM) {
-                    alert("Start time cannot be later than end time");
+                    bootbox.alert("Start time cannot be later than end time");
                     $("#End_Time_MM").val(SM);
                     // return false;
                     var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
