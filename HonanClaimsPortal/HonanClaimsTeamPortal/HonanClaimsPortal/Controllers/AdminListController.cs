@@ -36,6 +36,21 @@ namespace HonanClaimsPortal.Controllers
             {
                 model = await AdminPortalRecord(adminId);
                 model.IsNew = false;
+                decimal Fee_Per_Hour;
+                if(model.Fee_Per_Hour!=null)
+                {
+                    if (Decimal.TryParse(model.Fee_Per_Hour, out Fee_Per_Hour))
+                        model.Fee_Per_Hour = (decimal.Round(Fee_Per_Hour, 2)).ToString();//string.Format("0:0.00", Fee_Per_Hour);//Fee_Per_Hour.ToString("0.##");
+                }
+
+                decimal Fee_Per_Billing_Method;
+                if (model.Fee_Per_Billing_Method!=null)
+                {
+                    if(Decimal.TryParse(model.Fee_Per_Billing_Method,out Fee_Per_Billing_Method))
+                    {
+                        model.Fee_Per_Billing_Method = (decimal.Round(Fee_Per_Billing_Method, 2)).ToString();//string.Format("0:0.00", Fee_Per_Billing_Method);//Fee_Per_Billing_Method.ToString("0.##");
+                    }
+                }
             }
             return View(model);
         }

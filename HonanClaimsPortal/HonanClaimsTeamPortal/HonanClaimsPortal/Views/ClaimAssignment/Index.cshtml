@@ -3,7 +3,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/bootbox.min.js"></script>
 <div class="main-container">
     <div class="row mb-15">
         <div class="col-md-12">
@@ -166,7 +165,7 @@
             var UserId = e.options[e.selectedIndex].value;
             debugger;
             if (UserId == null || UserId == "") {
-                alert("Please select user");
+                bootbox.alert("Please select user");
                 return false;
             }
 
