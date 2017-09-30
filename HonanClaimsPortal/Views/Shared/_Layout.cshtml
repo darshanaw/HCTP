@@ -62,7 +62,7 @@
                         <div class="brand-logo user-block-picture">
                             <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
 
-                            @*<img src="@Url.Content("~/clientlogo/" + System.IO.Path.GetFileName(@userObj.LogoPath))"
+                            @*<img src="@Url.Content(" ~/clientlogo/" + System.IO.Path.GetFileName(@userObj.LogoPath))"
                                 alt="App Logo" class="img-responsive">*@
 
 
@@ -88,7 +88,8 @@
                             </a>
                         </li>
                         <!-- START User avatar toggle-->
-                        @*<li>
+                        @*
+                            <li>
 
                                 <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
                                     <em class="icon-pin"></em>
@@ -113,7 +114,8 @@
                             <a href="#">Hello, @userObj.FirstName</a>
                         </li>
                         <!-- Search icon-->
-                        @*<li>
+                        @*
+                            <li>
                                 <a href="#" data-search-open="">
                                                 <em class="icon-magnifier"></em>
                                             </a>
@@ -123,13 +125,16 @@
 
                         </li>
 
-                        @*<li class="user-block-status visible-md visible-lg" style="pointer-events:none">
+                        @*
+                            <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
                                 <a href="#">@DateTime.Today.ToLongDateString()</a>
                             </li>*@
-                        @*<li class="user-block-status" style="pointer-events:none">
+                        @*
+                            <li class="user-block-status" style="pointer-events:none">
                                 <a href="#">Last Login : @userObj.LastLoginTime</a>
                             </li>*@
-                        @*<li class="user-block-status">
+                        @*
+                            <li class="user-block-status">
                                 <a href="/Account/LogOff">[Sign out]</a>
                             </li>*@
                         <!-- START Alert menu-->
@@ -241,7 +246,7 @@
                                     <div class="user-block-picture">
 
                                         @*<img src="@Url.Action(@userObj.LogoPath.ToString())" alt="Person Image" />*@
-                                        @*<img src="@userObj.LogoPath.ToString()" alt="Person Image"/>*@
+                                        @*<img src="@userObj.LogoPath.ToString()" alt="Person Image" />*@
                                         <img src="#" alt="" />
 
 
@@ -279,19 +284,20 @@
                                 <span>Claim Assignment</span>
                             </a>
                         </li>
-
-                        @*<li class=" ">
-                                <a href="/ViewPages/ViewClaims" title="View Claims">
-                                    <em class="icon-speech"></em>
-                                    <span>View Claims</span>
-                                </a>
-                            </li>
+                        
+                        @*
                             <li class=" ">
-                                <a href="/ViewPages/ViewNotifications" title="View Notifications">
-                                    <em class="icon-speech"></em>
-                                    <span>View Notifications</span>
-                                </a>
-                            </li>*@
+                            <a href="/ViewPages/ViewClaims" title="View Claims">
+                                <em class="icon-speech"></em>
+                                <span>View Claims</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/ViewPages/ViewNotifications" title="View Notifications">
+                                <em class="icon-speech"></em>
+                                <span>View Notifications</span>
+                            </a>
+                        </li>*@
                         <li class=" ">
                             <a href="/Myactivity/Index" title="My Activity">
                                 <em class="icon-speech"></em>
@@ -766,8 +772,10 @@
             </footer>*@
     </div>
     <!-- Modal -->
-    <div id="sendEmailModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
+    <div id="sendEmailModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -775,12 +783,18 @@
                 </div>
 
                 <div class="modal-body">
+                    <div id="errormsg" class="alert alert-danger">
+                        <strong></strong> <span id="error"></span>
+                    </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <input name="EmailTattchment" id="claimupload" type="file" multiple>
-                            <div class="form-group mt-20">
-                                <label for="usr">Claim</label>
-                                <select id="claim" class="form-control"></select>
+                        <div>
+                            <div class="form-group">
+                                <ul id="ul"></ul>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="usr">Claim:</label>
+                                <select id="claim"></select>
                             </div>
                             <div class="form-group">
                                 <label for="usr">To</label>
@@ -790,12 +804,15 @@
                                 <label for="usr">CC</label>
                                 <select id="CClist" class="form-control"></select>
                             </div>
+                            <div class="form-group">
+                                <label for="usr">Subject</label>
+                                <input class="form-control" id="subject" />
+                            </div>
                             <div id="EmailEdit">
                                 <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor"></textarea>
                             </div>
+                            <button id="sendemail" class="btn btn-default">Send</button>
                         </div>
-                    </div>
-                </div>
                 <div class="modal-footer">
                     <div class="pull-right">
                         <button class="btn btn-primary">Send</button>
@@ -835,17 +852,62 @@
 
 
     <script src="~/Scripts/jquery.validate.min.js"></script>
-    @*<script src="~/Scripts/globalize.js"></script>
+    @*
+        <script src="~/Scripts/globalize.js"></script>
         <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+    @*
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 </body>
 </html>
 <script>
     $(document).ready(function () {
         var list = new Array();
-        $('#Tolist').prop('disabled', true);
-        $('#CClist').prop('disabled', true);
+        var Tolist = new Array();
+        var CClist = new Array();
+        var emptyemail = new Array();
+        var filearray = new Array();
+
+
+        $("#claimupload").change(function (input) {
+            debugger;
+            var file1 = $('#claimupload').get(0).files;
+            if (file1 != null) {
+                jQuery.each(file1, function (i, file) {
+                    filearray.push(file);
+                });
+
+            }
+
+            ele = document.getElementById('claimupload');
+            ele.value = null;
+            $('#ul').empty();
+
+            $.each(filearray, function (i, item) {
+
+                $('#ul').append('<li><i class="fa fa-file" aria-hidden="true"></i>' + item.name + ' </li><i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i>');
+
+            });
+
+        });
+
+        $(document).delegate('.fa-trash-o', 'click', function (e) {
+            debugger;
+            id = e.target.id;
+            filearray = jQuery.grep(filearray, function (i, value) {
+                return value != id;
+            });
+
+            $('#ul').empty();
+            $.each(filearray, function (i, item) {
+                $('#ul').append('<li><i class="fa fa-file" aria-hidden="true"></i>' + item.name + ' </li><i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i>');
+
+            });
+        });
+
+        $('#errormsg').hide();
+        //$('#Tolist').prop('disabled', true);
+        // $('#CClist').prop('disabled', true);
         // create Editor from textarea HTML element with default set of tools
         $("#editor").kendoEditor({
             resizable: {
@@ -854,6 +916,8 @@
             }
         });
 
+
+        bindToinputs(emptyemail);
         $.get("Home/GetClaimList", function (data) {
             loadClaimList(data);
         });
@@ -886,7 +950,7 @@
 
         function loadEmails(dataItem, IsRemove) {
             if (IsRemove) {
-                if (list.length > 0) {
+                if (list.length > 0) {    
                     list = jQuery.grep(list, function (value) {
                         return value != dataItem.Code;
                     });
@@ -911,7 +975,11 @@
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 success: function (data) {
-                    bindToinputs(data);
+                    emptyemail = data;
+                    var widget = $("#Tolist").getKendoMultiSelect();
+                    var widget2 = $("#CClist").getKendoMultiSelect();
+                    widget.setDataSource(emptyemail);
+                    widget2.setDataSource(emptyemail);
                 },
                 error: function (data) {
                     console.debug(data);
@@ -920,17 +988,140 @@
         }
 
         function bindToinputs(data) {
+            emptyemail = data;
             $("#CClist, #Tolist").kendoMultiSelect({
-                dataTextField: "Text",
+                dataTextField: "Code",
                 dataValueField: "Code",
                 autoBind: true,
-                dataSource: data
+                deselect: onemailDeselect,
+                select: onemailSelect,
+                dataSource: emptyemail
             });
+
+            function onemailDeselect(e) {
+                var dataItem = e.dataItem;
+                if (e.sender.element[0].id == "Tolist") {
+                    addRemoveEmails(dataItem, true, true);
+                } else {
+                    addRemoveEmails(dataItem, true, false);
+                }
+            }
+
+            function onemailSelect(e) {
+
+                var dataItem = e.dataItem;
+                if (e.sender.element[0].id == "Tolist") {
+                    addRemoveEmails(dataItem, false, true);
+                } else {
+                    addRemoveEmails(dataItem, false, false);
+                }
+            }
         }
 
+        function addRemoveEmails(dataItem, IsRemove, isTo) {
+            if (IsRemove) {
+                if (isTo) {
+                    if (Tolist.length > 0) {
+                        Tolist = jQuery.grep(Tolist, function (value) {
+                            return value != dataItem.Code;
+                        });
+                    }
+                } else {
+                    if (CClist.length > 0) {
+                        CClist = jQuery.grep(CClist, function (value) {
+                            return value != dataItem.Code;
+            });
+        }
+                }
+
+            } else {
+                if (isTo) {
+                    Tolist.push(dataItem.Code);
+                } else {
+                    CClist.push(dataItem.Code);
+                }
+            }
+
+            BindEmailToInputs();
+        }
+
+
         $('#emialclick').click(function () {
+            var list = new Array();
+            var Tolist = new Array();
+            var CClist = new Array();
+            var emptyemail = new Array();
+            var filearray = new Array();
+            $('#ul').empty();
             $('#sendEmailModal').modal('show');
 
-        })
+        });
+
+        $('#sendemail').click(function () {
+
+            var editor = $("#editor").data("kendoEditor");
+            var seri = editor.value();
+            var subject = $('#subject').val();
+
+            if (list.length <= 0) {
+                $('#error').text("Please select claims");
+                $('#errormsg').show();
+                return;
+            }
+
+            if (Tolist.length <= 0) {
+                $('#error').text("Please enter To email");
+                $('#errormsg').show();
+                return;
+            }
+
+            if (subject == null || subject == "") {
+                $('#error').text("Please enter subject");
+                $('#errormsg').show();
+                return;
+            }
+
+            if (seri == null || seri == "") {
+                $('#error').text("Please enter body");
+                $('#errormsg').show();
+                return;
+            }
+
+            $('#error').text("");
+            $('#errormsg').hide();
+
+            var model = {
+                ToEmails: Tolist,
+                CcEmails: CClist,
+                ClaimIds: list,
+                subject: subject
+            }
+
+            var formData = new FormData();
+            jQuery.each(filearray, function (i, file) {
+                formData.append('files', file);
+            });
+
+            var t = JSON.stringify(model);
+
+            var encodedString = btoa(seri);
+            formData.append("model", t);
+            formData.append("html", encodedString);
+
+
+
+            $.ajax({
+                url: "/Home/SendEmail",
+                type: 'post',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    // ..... any success code you want
+                }
+            });
+
+        });
     });
 </script>

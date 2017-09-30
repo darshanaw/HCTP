@@ -4,6 +4,7 @@ using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -49,11 +50,29 @@ namespace HonanClaimsPortal.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> TeamInsertPortalLoginByContact()
-        //{
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> SendEmail()
+        {
+            var model = Request["model"];
+            var files = Request.Files;
+            var dicimod = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailModel>(model);
 
-        //}
+            byte[] data = Convert.FromBase64String(Request["html"]);
+            string decodedString = Encoding.UTF8.GetString(data);
 
+            dicimod.emailBody = decodedString;
+            List<HttpPostedFileBase> filee = new List<HttpPostedFileBase>();
+            for (int i = 0; i < files.Count; i++)
+            {
+                filee.Add(Request.Files[i]);
+            }
+
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+            SendEmailRepo rep = new SendEmailRepo();
+            var result = await rep.SendEmail(filee, UserId, dicimod);
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
     }
 }
