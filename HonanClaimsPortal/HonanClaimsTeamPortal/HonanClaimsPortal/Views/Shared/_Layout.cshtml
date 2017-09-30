@@ -722,6 +722,34 @@
             <!-- END Off Sidebar (right)-->
         </aside>
         <section>
+            @{
+                List<SelectListItem> Navigation = new List<SelectListItem>();
+                Navigation.Add(new SelectListItem
+                {
+                    Text = "Risksmart GCC Manager",
+                    Value = "Risksmart GCC Manager"
+                });
+                Navigation.Add(new SelectListItem
+                {
+                    Text = "Risksmart Property Manager",
+                    Value = "Risksmart Property Manager",
+                });
+                Navigation.Add(new SelectListItem
+                {
+                    Text = "GCC Claims Manager",
+                    Value = "GCC Claims Manager",
+                });
+                Navigation.Add(new SelectListItem
+                {
+                    Text = "Property Claims Manager",
+                    Value = "Property Claims Manager",
+                });
+            }
+
+            <div class="form-group col-md-3">
+                @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
+            </div>
+
             @RenderBody()
         </section>
         @*<footer>
