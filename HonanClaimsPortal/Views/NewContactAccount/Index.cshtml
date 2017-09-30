@@ -4,117 +4,129 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>New Contact/Account</h2>
-@using (Html.BeginForm("AddNewContact", "NewContactAccount", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("AddNewContact", "NewContactAccount", FormMethod.Post, new { @class = "", role = "form" }))
 {
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Contact</label>
-                @Html.TextBoxFor(m => m.Contact, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Account</label>
-                <div class="input-group">
-                    @Html.TextBoxFor(m => m.Account, new { @class = "form-control" })
-                    @Html.HiddenFor(m => m.AccountId)
-                    <span class="input-group-addon pointer" id="Accountlookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+    <div class="main-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="cust-search-1">
+                    <h3 class="mt-20">New Contact/Account</h3>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Phone</label>
-                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Website</label>
-                @Html.TextBoxFor(m => m.Website, new { @class = "form-control" })
-            </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Address1</label>
-                @Html.TextBoxFor(m => m.Address1, new { @class = "form-control" })
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Contact</label>
+                    @Html.TextBoxFor(m => m.Contact, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Account</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Account, new { @class = "form-control" })
+                        @Html.HiddenFor(m => m.AccountId)
+                        <span class="input-group-addon pointer" id="Accountlookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Website</label>
+                    @Html.TextBoxFor(m => m.Website, new { @class = "form-control" })
+                </div>
             </div>
-            <div class="form-group">
-                <label>Address2</label>
-                @Html.TextBoxFor(m => m.Address2, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>City</label>
-                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>State</label>
-                @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>PostCode</label>
-                @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control" })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">Contact Information</div>
-        <div class="col-md-6">Account Information</div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="email">Title</label>
-                @Html.HiddenFor(m => m.Title);
-                @Html.DropDownListFor(m => m.PickTitle,
-              new SelectList(Model.PickTitle, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control", @onchange = "comboTitleChange()" })
-            </div>
-            <div class="form-group">
-                <label>Work Phone</label>
-                @Html.TextBoxFor(m => m.ContactWorkPhone, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Mobile</label>
-                @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Fax</label>
-                @Html.TextBoxFor(m => m.ContactFax, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>Phone</label>
-                @Html.TextBoxFor(m => m.AccountPhone, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Fax</label>
-                @Html.TextBoxFor(m => m.AccountFax, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                @Html.HiddenFor(m => m.AccountType);
-                @Html.DropDownListFor(m => m.PickTypes,
-              new SelectList(Model.PickTypes, "Code", "Text"),
-              "--Select--",
-              new { @class = "form-control"})
-            </div>
-            <div class="form-group">
-                <label>Account Manager</label>
-                <div class="input-group">
-                    @Html.HiddenFor(m => m.AccountManagerName)
-                    @Html.HiddenFor(m => m.AccountManagerId)
-                    <input id="Manager" />
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Address1</label>
+                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Address2</label>
+                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    @Html.TextBoxFor(m => m.State, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>PostCode</label>
+                    @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control" })
                 </div>
             </div>
         </div>
     </div>
-    <div>
-        <button style="float:right;" type="submit" class="btn btn-default">Save</button>
-        <button style="float:right;" type="button" class="btn btn-default">Cancel</button>
-    </div>
+    <hr />
+        <div class="main-container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Contact Information</h4>
+                    <div class="form-group">
+                        <label for="email">Title</label>
+                        @Html.HiddenFor(m => m.Title)
+                        @Html.DropDownListFor(m => m.PickTitle,
+                        new SelectList(Model.PickTitle, "Code", "Text"),
+                        "--Select--",
+                        new { @class = "form-control", @onchange = "comboTitleChange()" })
+                    </div>
+                    <div class="form-group">
+                        <label>Work Phone</label>
+                        @Html.TextBoxFor(m => m.ContactWorkPhone, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile</label>
+                        @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label>Fax</label>
+                        @Html.TextBoxFor(m => m.ContactFax, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Account Information</h4>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        @Html.TextBoxFor(m => m.AccountPhone, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label>Fax</label>
+                        @Html.TextBoxFor(m => m.AccountFax, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        @Html.HiddenFor(m => m.AccountType)
+                        @Html.DropDownListFor(m => m.PickTypes,
+                        new SelectList(Model.PickTypes, "Code", "Text"),
+                        "--Select--",
+                        new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label>Account Manager</label>
+                        @Html.HiddenFor(m => m.AccountManagerName)
+                        @Html.HiddenFor(m => m.AccountManagerId)
+                        <input id="Manager" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default mr-20">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 }
 
 <!--Modal-->
