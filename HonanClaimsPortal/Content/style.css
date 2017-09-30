@@ -125,6 +125,10 @@
     cursor:pointer;
 }
 
+.resize-block{
+    resize:none;
+}
+
 .modal-header{
     padding:15px 30px;
 }
@@ -339,3 +343,11 @@ th{
 }
 
 /* / Time slip details */
+
+/* check billable time */
+
+.billable-txtarea{
+    height:106px !important;
+}
+
+/* check billable time */
