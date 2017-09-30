@@ -16,7 +16,7 @@ namespace HonanClaimsWebApi.Models.ClaimList
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
             searchText = searchText == "null" ? string.Empty : searchText;
             cutomerId = cutomerId == "null" ? string.Empty : cutomerId;
-            string apiUrl = SiteUrl + "api/Claim/TeamGetMyClaimList?assignedToId=" + userId + "&myClaimsOnly=" + myclaimsOnly + "&isOpenClaims=" + isopenClaim + "&claimType=" + claimType + "&searchText" + searchText + "= &customerId=" + cutomerId;
+            string apiUrl = SiteUrl + "api/Claim/TeamGetMyClaimList?assignedToId=" + userId + "&myClaimsOnly=" + myclaimsOnly + "&isOpenClaims=" + isopenClaim + "&claimType=" + claimType + "&searchText=" + searchText + "&customerId=" + cutomerId;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
