@@ -130,18 +130,23 @@
             Openclaim = $('input[name=openclose]:checked').val();
             //get claim type
             ClaimType = $('input[name=claimtype]:checked').val();
-
+            debugger;
             $("#grid1").kendoGrid({
                 dataSource: {
                     type: "json",
                     transport: {
                         read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId
-                    }
-                    //pageSize: 10
+                    },
+                    pageSize: 20
                 },
                 height: 600,
                 sortable: true,
-                sortable: true,
+                filterable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 5
+                },
                 columns: [{
                     hidden: true,
                     field: "ClaimsId",
