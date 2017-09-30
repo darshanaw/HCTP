@@ -789,14 +789,17 @@ new { @class = "form-control input-sm" })
             }
         });
 
-        $('#Incident_Category').select2();
+        $('#Incident_Category').select2({
+            theme: "bootstrap"
+        });
 
         //To get rid of date format validation error
         jQuery.validator.methods["date"] = function (value, element) { return true; }
 
         $("#Region").select2({
             //multiple: true,
-            tags: true
+            tags: true,
+            theme: "bootstrap"
         });
 
         $("#storeShow").click(function () {

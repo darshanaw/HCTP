@@ -111,12 +111,44 @@ namespace HonanClaimsPortal.Controllers
 
         }
 
-        private void InitializeModel(RisksmartPropertyClaim model, ClaimServices claimServices)
+        public ActionResult DetailRisksmartPropertyClaim(string id)
+        {
+            client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+            claimServices = new ClaimServices();
+            //Mapper mapper = new 
+            Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral, RisksmartPropertyClaim>());
+            RisksmartPropertyClaim model = Mapper.Map<RisksmartPropertyClaim>(claimServices.GetClaimNotification(id));
+
+            model.Claim_Received = false;
+            model.Claim_Acknowledged = false;
+            model.Review = false;
+            model.Outcome_Settlement = false;
+            model.Outcome_Declined = false;
+            model.Claim_Closed = false;
+            model.Litigated = false;
+
+            InitializeModel(model, claimServices);
+
+            return View(model);
+        }
+
+            private void InitializeModel(RisksmartPropertyClaim model, ClaimServices claimServices)
         {
             pickListServices = new PicklistServicecs();
+
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager))
+                model.Assigned_User_List = claimServices.GetUsers(new List<string>() { "Risksmart GCC Manager" });
+
+            model.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
+
             //Get Regions
             model.IncidentCategoryList = pickListServices.GetPickListItems("Risksmart Property Incident Category");
             model.IncidentCategoryList.Insert(0, new PicklistItem());
+
+            //Get Outcome List
+            model.Outcome_List = pickListServices.GetPickListItems("Risksmart GCC Outcome");
+            model.Outcome_List.Insert(0, new PicklistItem());
 
             //Get Suburbs
             model.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
