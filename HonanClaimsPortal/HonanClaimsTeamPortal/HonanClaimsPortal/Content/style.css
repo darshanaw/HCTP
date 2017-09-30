@@ -351,3 +351,16 @@ th{
 }
 
 /* check billable time */
+
+/* new contact/ account */
+
+.form-control .k-input{
+    width:100% !important;
+}
+
+span.k-widget.k-autocomplete.k-header.form-control.k-autocomplete-clearable.k-state-default{
+    width:100% !important;
+}
+
+
+/* / new contact/ account */
