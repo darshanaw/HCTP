@@ -173,8 +173,8 @@ namespace HonanClaimsPortal.Controllers
 
 
             //Get Incident Party Types
-            //claim.IncidentPartyTypeList = pickListServices.GetPickListItems("Risksmart GCC Incident Party Type");
-            //claim.IncidentPartyTypeList.Insert(0, new PicklistItem());
+            claim.IncidentPartyTypeList = pickListServices.GetPickListItems("GCC Incident Type");
+            claim.IncidentPartyTypeList.Insert(0, new PicklistItem());
 
             //claim.Policy_Section_List = pickListServices.GetPickListItems("Risksmart GCC Policy Section");
             //claim.Policy_Section_List.Insert(0, new PicklistItem());
