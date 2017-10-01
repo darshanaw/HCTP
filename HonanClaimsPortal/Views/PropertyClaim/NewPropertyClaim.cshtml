@@ -809,7 +809,7 @@
 
         jQuery.validator.methods["date"] = function (value, element) { return true; }
 
-      
+
         // Warning
         $(window).on('beforeunload', function () {
             return "Any changes will be lost";
@@ -829,14 +829,10 @@
 
     });
 
-    function Cancel() {
+ function Cancel() {
 
         $(window).off('beforeunload');
-
-        if ("@Model.Claim_Type" === "Claim")
-            window.location.href = '/Claim/ViewClaims';
-        else
-            window.location.href = '/Notification/ViewNotifications';
+        window.location.href = '/claimlist/Index';
     }
 
 </script>

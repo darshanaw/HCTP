@@ -975,11 +975,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     function Cancel() {
 
         $(window).off('beforeunload');
-
-        if ("@Model.Claim_Type" === "Claim")
-            window.location.href = '/Claim/ViewClaims';
-        else
-            window.location.href = '/Notification/ViewNotifications';
+        window.location.href = '/claimlist/Index';
     }
 
 </script>

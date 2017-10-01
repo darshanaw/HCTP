@@ -15,6 +15,7 @@ namespace HonanClaimsWebApi.Models.ClaimList
         public string ClaimStage { get; set; }
         public string Status { get; set; }
         public string ClaimType { get; set; }
+        public string ClaimTeam { get; set; }
     }
 
     public class CustomerListModel

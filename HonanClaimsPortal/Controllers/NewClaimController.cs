@@ -30,6 +30,24 @@ namespace HonanClaimsPortal.Controllers
             return View(newClaimModel);
         }
 
+        public ActionResult RedirectToDetail(string claimId, string claimTeam)
+        {
+            switch(claimTeam)
+            {
+                case ClaimTeams.RisksmartGCC:
+                    return RedirectToAction("DetailRisksmartGccClaim", "RisksmartGccClaim", new { id=claimId });
+                         case ClaimTeams.RisksmartProperty:
+                    return RedirectToAction("DetailRisksmartPropertyClaim", "RisksmartPropertyClaim", new { id = claimId });
+                case ClaimTeams.PropertyClaims:
+                    return RedirectToAction("DetailPropertyClaim", "PropertyClaim", new { id = claimId });
+                case ClaimTeams.GCCClaims:
+                    return RedirectToAction("DetailGccClaim", "GccClaim", new { id = claimId });
+                default:
+                     return RedirectToAction("Index", "ClaimList");
+
+            }
+        }
+
         private void InitializeModel(NewClaimModel model)
         {
             model.Claim_Team_List = new List<SelectListItem>()

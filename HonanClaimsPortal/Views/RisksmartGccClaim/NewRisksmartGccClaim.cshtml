@@ -816,7 +816,24 @@ new { @class = "form-control input-sm" })
             if ($(this).val() == "Closed" && $("#BillingMethod").val() == "Per Claim") {
                 bootbox.alert("This customer is billed Per Claim when claims are closed. Please ensure that all claims data is up to date before closing this Claim");
             }
-        })
+        });
 
-    })
+        // Warning
+        $(window).on('beforeunload', function () {
+            return "Any changes will be lost";
+        });
+
+        // Form Submit
+        $(document).on("submit", "form", function (event) {
+            // disable unload warning
+            $(window).off('beforeunload');
+        });
+
+    });
+
+    function Cancel() {
+
+        $(window).off('beforeunload');
+        window.location.href = '/claimlist/Index';
+    }
 </script>
