@@ -109,7 +109,7 @@
                  {
                      field: "LastLogin",
                      title: "Last Login Date",
-                     template: "#if(LastLogin === null){# N/A #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
+                     //template: "#if(LastLogin === null){# '' #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
                  },
             ]
         });
@@ -160,9 +160,9 @@
                     title: "Email"
                 },
                  {
-                     field: "LastLogin",
-                     title: "Last Login Date",
-                     template: "#if(LastLogin === null){# N/A #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
+                     field: "RegistrationDate",
+                     title: "Registration Date",
+                     //template: "#if(LastLogin === null){# N/A #}else{# #= kendo.toString(kendo.parseDate(LastLogin), 'dd-MM-yyyy') #  #}#"
                  },
             ]
         });

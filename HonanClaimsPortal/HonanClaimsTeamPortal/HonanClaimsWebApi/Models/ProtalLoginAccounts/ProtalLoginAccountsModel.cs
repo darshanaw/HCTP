@@ -14,6 +14,6 @@ namespace HonanClaimsPortal.Models.ProtalLoginAccounts
         public string Billing_Method { get; set; }
         public bool CanAddClaims { get; set; }
         public int ActiveLogins { get; set; }
-        public DateTime LastLogin { get; set; }
+        public string LastLogin { get; set; }
     }
 }
