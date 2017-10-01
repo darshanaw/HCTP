@@ -284,7 +284,7 @@
                                 <span>Claim Assignment</span>
                             </a>
                         </li>
-                       
+                        
 
                         @*
                             <li class=" ">
@@ -792,13 +792,16 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button id="closemod" type="button" class="close">&times;</button>
                     <h4 class="modal-title">Send a Question</h4>
                 </div>
-
+                <input name="EmailTattchment" id="claimupload" type="file" multiple>
                 <div class="modal-body">
                     <div id="errormsg" class="alert alert-danger">
                         <strong></strong> <span id="error"></span>
+                    </div>
+                    <div id="successshow" class="alert alert-success">
+                        <strong></strong> <span id="success"></span>
                     </div>
                     <div class="row">
                         <div>
@@ -834,6 +837,8 @@
                 </div>
             </div>
 
+        </div>
+    </div>
         </div>
     </div>
 
@@ -881,6 +886,32 @@
         var CClist = new Array();
         var emptyemail = new Array();
         var filearray = new Array();
+        $('#successshow').hide();
+
+        $('#closemod').click(function () {
+            clearSelector();
+        })
+
+
+        function clearSelector() {
+            var multiselect = $("#claim").data("kendoMultiSelect");
+            var widget = $("#Tolist").getKendoMultiSelect();
+            var widget2 = $("#CClist").getKendoMultiSelect();
+            var editor = $("#editor").data("kendoEditor");
+            var emptyemailnew = new Array();
+            multiselect.value("");
+            multiselect.trigger("change");
+            widget.value("");
+            //multiselect1.trigger("change");
+            widget2.value("");
+            //multiselect2.trigger("change");
+            $('#subject').val("");
+            editor.value("");
+            widget.setDataSource(emptyemailnew);
+            widget2.setDataSource(emptyemailnew);
+            filearray = [];
+            $('#ul').empty();
+        }
 
 
         $("#claimupload").change(function (input) {
@@ -1067,12 +1098,14 @@
             var emptyemail = new Array();
             var filearray = new Array();
             $('#ul').empty();
+            $('#successshow').hide();
+            $('#errormsg').hide();
             $('#sendEmailModal').modal('show');
 
         });
 
         $('#sendemail').click(function () {
-
+            $('#successshow').hide();
             var editor = $("#editor").data("kendoEditor");
             var seri = editor.value();
             var subject = $('#subject').val();
@@ -1132,9 +1165,14 @@
                 processData: false,
                 data: formData,
                 success: function (data) {
+                    $('#successshow').show();
+                    $('#success').text("Email sent");
+                    clearSelector();
                     // ..... any success code you want
                 }
             });
+
+
 
         });
     });
