@@ -148,10 +148,11 @@
                     hidden: true,
                     field: "ClaimsId",
                     title: "ClaimsId"
-                },
+                },                   
                 {
                     field: "ClaimRefNo",
                     title: "Claims Ref #",
+                    template: '<a href="/NewClaim/RedirectToDetail?claimId=#=ClaimsId#&claimTeam=#=ClaimTeam#">#=ClaimRefNo#</a>'
                 },
                 {
                     field: "DateOfLoss",
