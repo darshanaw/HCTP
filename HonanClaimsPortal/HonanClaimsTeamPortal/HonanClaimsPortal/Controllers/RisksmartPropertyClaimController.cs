@@ -138,7 +138,7 @@ namespace HonanClaimsPortal.Controllers
             pickListServices = new PicklistServicecs();
 
             if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager))
-                model.Assigned_User_List = claimServices.GetUsers(new List<string>() { "Risksmart GCC Manager" });
+                model.Assigned_User_List = claimServices.GetUsers(new List<string>() { "Risksmart Property Manager" });
 
             model.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
 
@@ -147,14 +147,14 @@ namespace HonanClaimsPortal.Controllers
             model.IncidentCategoryList.Insert(0, new PicklistItem());
 
             //Get Outcome List
-            model.Outcome_List = pickListServices.GetPickListItems("Risksmart GCC Outcome");
+            model.Outcome_List = pickListServices.GetPickListItems("Risksmart Property  Outcome");
             model.Outcome_List.Insert(0, new PicklistItem());
 
             //Get Suburbs
             model.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
             model.PropertySuburbList.Insert(0, new PicklistItem());
 
-            model.Policy_Section_List = pickListServices.GetPickListItems("Risksmart GCC Policy Section");
+            model.Policy_Section_List = pickListServices.GetPickListItems("Risksmart Property Policy Section");
             model.Policy_Section_List.Insert(0, new PicklistItem());
 
             model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
@@ -163,11 +163,11 @@ namespace HonanClaimsPortal.Controllers
             model.Causation_List = pickListServices.GetPickListItems("Risksmart Property Causation");
             model.Causation_List.Insert(0, new PicklistItem());
 
-            model.Client_Group_List = pickListServices.GetPickListItems("Risksmart GCC Client Group");
+            model.Client_Group_List = pickListServices.GetPickListItems("Risksmart Property Client Group");
             model.Client_Group_List.Insert(0, new PicklistItem());
 
-            model.ClientGroupList = pickListServices.GetPickListItems("Risksmart GCC Client Group");
-            model.ClientGroupList.Insert(0, new PicklistItem());
+            //model.ClientGroupList = pickListServices.GetPickListItems("Risksmart GCC Client Group");
+            //model.ClientGroupList.Insert(0, new PicklistItem());
 
             model.YesNoList = new List<string>() { "", "Yes", "No" };
 

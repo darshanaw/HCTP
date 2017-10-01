@@ -106,6 +106,32 @@ namespace HonanClaimsPortal.Controllers
             return View(claim);
         }
 
+        public ActionResult DetailGccClaim(string id)
+        {
+            client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+            claimServices = new ClaimServices();
+            //Mapper mapper = new 
+            Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral, GccClaim>());
+            GccClaim model = Mapper.Map<GccClaim>(claimServices.GetClaimNotification(id));
+
+            model.Claim_Not_Lodged = false;
+            model.Claim_Acknowledged = false;
+            model.Claim_Lodged = false;
+            model.Outcome_Settlement = false;
+            model.Outcome_Declined = false;
+            model.Claim_Closed = false;
+            model.Litigated = false;
+            model.Expert_Appointed = false;
+            model.Indemnity_Granted = false;
+            model.Partial_Indemnity_Granted = false;
+            model.Claim_Declined = false;
+
+            InitializeModel(model, claimServices);
+
+            return View(model);
+        }
+
         private void InitializeModel(GccClaim claim, ClaimServices claimServices)
         {
             pickListServices = new PicklistServicecs();
@@ -121,6 +147,108 @@ namespace HonanClaimsPortal.Controllers
             claim.Policy_Class_List.Insert(0, new PicklistItem());
 
             claim.YesNoList = new List<string>() { "", "Yes", "No" };
+
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager))
+                claim.Assigned_User_List = claimServices.GetUsers(new List<string>() { "GCC Claims Manager" });
+
+            claim.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
+
+            //Get Reported By Types
+            //claim.ReportedByTypeList = pickListServices.GetPickListItems("Risksmart GCC Reported By Type");
+
+            //Get Regions
+            claim.RegionList = pickListServices.GetPickListItems("H_StoreRegion");
+
+            // Add Juristiction list
+            claim.JuristictionList = new List<string>()
+            {
+                "","NSW","VIC","QLD","WA","SA","TAS"
+            };
+
+            // Add Gender list
+            claim.GenderList = new List<string>()
+            {
+                "","Male","Female"
+            };
+
+
+            //Get Incident Party Types
+            //claim.IncidentPartyTypeList = pickListServices.GetPickListItems("Risksmart GCC Incident Party Type");
+            //claim.IncidentPartyTypeList.Insert(0, new PicklistItem());
+
+            //claim.Policy_Section_List = pickListServices.GetPickListItems("Risksmart GCC Policy Section");
+            //claim.Policy_Section_List.Insert(0, new PicklistItem());
+
+            //Get Outcome List
+            claim.Outcome_List = pickListServices.GetPickListItems("Risksmart GCC Outcome");
+            claim.Outcome_List.Insert(0, new PicklistItem());
+
+            claim.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
+            claim.Policy_Class_List.Insert(0, new PicklistItem());
+
+            //claim.ClientGroupList = pickListServices.GetPickListItems("Risksmart GCC Client Group");
+            //claim.ClientGroupList.Insert(0, new PicklistItem());
+
+            if (claim.Reported_Time != null)
+            {
+                string time = DateTime.Parse(claim.Reported_Time.ToString()).ToString("HH:mm");
+                claim.Reported_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                claim.Reported_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
+
+            if (claim.Incident_Time != null)
+            {
+                string time = DateTime.Parse(claim.Incident_Time.ToString()).ToString("HH:mm");
+                claim.Incident_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                claim.Incident_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
+
+            // Add CCTV available list
+            claim.CCTVAvailableList = new List<string>() { "", "Yes", "No" };
+
+            // Add CCTV viewed list
+            claim.CCTVViewedList = new List<string>() { "", "Yes", "No" };
+
+            //claim.PanelLawyersRetainedList = new List<string>() { "", "Yes", "No" };
+            
+
+            claim.Total_Incurred = claim.Total_Reserve + claim.Net_Paid_Liability + claim.Net_Paid_Defence;
+
+            claim.Liability_Reserve = claim.Liability_Res_Source;
+            claim.Defence_Reserve = claim.Defence_Res_Source;
+
+            PaymentServices paymentServices = new PaymentServices();
+            decimal val, liabilityReserveGross = 0, defenceReserveGross = 0;
+
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claim.H_Claimsid, "Liability Reserve", true), out val))
+            {
+                liabilityReserveGross = val;
+                claim.Liability_Reserve = claim.Liability_Reserve - val;
+            }
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claim.H_Claimsid, "Defence Reserve", true), out val))
+            {
+                defenceReserveGross = val;
+                claim.Defence_Reserve = claim.Defence_Reserve - val;
+            }
+
+            claim.Total_Reserve = claim.Liability_Reserve + claim.Defence_Reserve;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claim.H_Claimsid, "Liability Reserve", false), out val))
+                claim.Net_Paid_Liability = val;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claim.H_Claimsid, "Defence Reserve", false), out val))
+                claim.Net_Paid_Defence = val;
+
+            claim.Gross_Paid_To_Date = liabilityReserveGross + defenceReserveGross;
+
+            claim.Total_Incurred = claim.Total_Reserve + claim.Net_Paid_Liability + claim.Net_Paid_Defence;
+
+            if (claim.Total_Reserve < claim.Excess)
+                claim.Current_Exposure = claim.Total_Reserve;
+            else
+                claim.Current_Reserve = claim.Excess - claim.Net_Paid_Liability - claim.Net_Paid_Defence;
         }
     }
 }
