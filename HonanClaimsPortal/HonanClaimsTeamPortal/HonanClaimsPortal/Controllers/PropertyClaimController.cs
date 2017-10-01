@@ -117,48 +117,107 @@ namespace HonanClaimsPortal.Controllers
             return View(claim);
         }
 
-        private void InitializeModel(PropertyClaim claim, ClaimServices claimServices)
+        private void InitializeModel(PropertyClaim model, ClaimServices claimServices)
         {
             // Add Gender list
-            claim.GenderList = new List<string>()
+            model.GenderList = new List<string>()
             {
                 "","Male","Female"
             };
 
-            claim.Policy_Section_List = pickListServices.GetPickListItems("Risksmart GCC Policy Section");
-            claim.Policy_Section_List.Insert(0, new PicklistItem());
+            pickListServices = new PicklistServicecs();
+
+            model.Policy_Section_List = pickListServices.GetPickListItems("Property Claims Policy Section");
+            model.Policy_Section_List.Insert(0, new PicklistItem());
 
             //Get Suburbs
-            claim.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
-            claim.PropertySuburbList.Insert(0, new PicklistItem());
+            model.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
+            model.PropertySuburbList.Insert(0, new PicklistItem());
 
             //Get States
-            claim.PropertyStateList = pickListServices.GetPickListItems("H_State");
-            claim.PropertyStateList.Insert(0, new PicklistItem());
+            model.PropertyStateList = pickListServices.GetPickListItems("H_State");
+            model.PropertyStateList.Insert(0, new PicklistItem());
 
-            claim.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
-            claim.Policy_Class_List.Insert(0, new PicklistItem());
+            model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
+            model.Policy_Class_List.Insert(0, new PicklistItem());
 
-            claim.Causation_List = pickListServices.GetPickListItems("Risksmart Property Causation");
-            claim.Causation_List.Insert(0, new PicklistItem());
+            model.Causation_List = pickListServices.GetPickListItems("Property Claims Causation");
+            model.Causation_List.Insert(0, new PicklistItem());
 
-            claim.YesNoList = new List<string>() { "", "Yes", "No" };
+            model.YesNoList = new List<string>() { "", "Yes", "No" };
 
-            //claim.Oc_Num = login.AccountName;
-            //claim.Accountid = login.AccountId;
+            //model.Client_Group_List = pickListServices.GetPickListItems("Risksmart Property Client Group");
+            //model.Client_Group_List.Insert(0, new PicklistItem());
 
-            //lookupServices = new LookupServices();
-            //List<PolicySimple> policies = lookupServices.GetPolicies("", login.AccountId);
+            model.Liability_Reserve = model.Liability_Res_Source;
+            model.Defence_Reserve = model.Defence_Res_Source;
 
-            //if (policies.Count == 1)
-            //{
-            //    claim.Policy_No = policies[0].PolicyNo;
-            //    claim.Property_Address_1 = policies[0].Address1;
-            //    claim.Property_Address_2 = policies[0].Address2;
-            //    claim.Property_Suburb = policies[0].Suburb;
-            //    claim.Property_State = policies[0].State;
-            //    claim.Property_Postalcode = policies[0].Postcode;
-            //}
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.PropertyClaimsManager))
+                model.Assigned_User_List = claimServices.GetUsers(new List<string>() { "Property Claims Manager" });
+
+            model.Outcome_List = pickListServices.GetPickListItems("Property  Claims Outcome");
+            model.Outcome_List.Insert(0, new PicklistItem());
+
+            model.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
+
+            //model.IncidentCategoryList = pickListServices.GetPickListItems("Risksmart Property Incident Category");
+            //model.IncidentCategoryList.Insert(0, new PicklistItem());
+
+            model.Policy_Section_List = pickListServices.GetPickListItems("Property Claims Policy Section");
+            model.Policy_Section_List.Insert(0, new PicklistItem());
+
+
+            model.Claim_Received = model.Claim_Received == null || model.Claim_Received ==  false ? false : true;
+            model.Claim_Acknowledged = model.Claim_Acknowledged == null || model.Claim_Acknowledged == false ? false : true;
+            model.Review = model.Review == null || model.Review == false ? false : true;
+            model.Outcome_Settlement = model.Outcome_Settlement == null || model.Outcome_Settlement == false ? false : true;
+            model.Outcome_Declined = model.Outcome_Declined == null || model.Outcome_Declined == false ? false : true;
+            model.Claim_Closed = model.Claim_Closed == null || model.Claim_Closed == false ? false : true;
+            model.Litigated = model.Litigated == null || model.Litigated == false ? false : true;
+
+
+            //Calculations
+            PaymentServices paymentServices = new PaymentServices();
+            decimal val, liabilityReserveGross = 0, defenceReserveGross = 0;
+
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Liability Reserve", true), out val))
+            {
+                liabilityReserveGross = val;
+                model.Liability_Reserve = model.Liability_Reserve - val;
+            }
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Defence Reserve", true), out val))
+            {
+                defenceReserveGross = val;
+                model.Defence_Reserve = model.Defence_Reserve - val;
+            }
+
+            model.Total_Reserve = model.Liability_Reserve + model.Defence_Reserve;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Liability Reserve", false), out val))
+                model.Net_Paid_Liability = val;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Defence Reserve", false), out val))
+                model.Net_Paid_Defence = val;
+
+            model.Gross_Paid_To_Date = liabilityReserveGross + defenceReserveGross;
+
+            model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
+        }
+
+        public ActionResult DetailPropertyClaim(string id)
+        {
+            client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+            claimServices = new ClaimServices();
+            //Mapper mapper = new 
+            Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral,PropertyClaim>());
+            PropertyClaim model = Mapper.Map<PropertyClaim>(claimServices.GetClaimNotification(id));
+
+            InitializeModel(model, claimServices);
+
+            return View(model);
         }
     }
 }
