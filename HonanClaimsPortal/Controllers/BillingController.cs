@@ -32,7 +32,13 @@ namespace HonanClaimsPortal.Controllers
             var model = new BillingModel();
             model.Service_By_Name = Service_By_Name;
             model.Service_By = Service_By;
-            model.Billable = true;
+            model.Is_Billable = true;
+
+
+           model.Billable = (decimal.Round(model.Billable, 2));
+            model.Rate = (decimal.Round(model.Rate, 2));
+            model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
+
             return View(model);
         } 
 
@@ -47,7 +53,7 @@ namespace HonanClaimsPortal.Controllers
 
         [HttpGet]
         public async Task<ActionResult> TeamGetClaimNosAssigned(string UserId)
-        {
+       {
             List<CommonModel> list = new List<CommonModel>();
             BillingRepo billingRepo = new BillingRepo();
             list = await billingRepo.TeamGetClaimNosAssigned(UserId);
@@ -103,8 +109,10 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public async Task<ActionResult> TeamInsertTimeslip(BillingModel model)
         {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
             BillingRepo billingRepo = new BillingRepo();
-            var result =await billingRepo.TeamInsertTimeslip(model);
+            var result =await billingRepo.TeamInsertTimeslip(model,client.UserId);
             return RedirectToAction("TimeslipDetail");
         }
 
