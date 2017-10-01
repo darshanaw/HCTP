@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HonanClaimsWebApi.Models.ClaimList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
