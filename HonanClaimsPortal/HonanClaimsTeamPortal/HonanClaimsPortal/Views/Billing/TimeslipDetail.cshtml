@@ -25,7 +25,7 @@
         </div>
         <div class="row timeslip">
             <div class="col-md-6">
-                @Html.CheckBoxFor(c => c.Billable)<label class="ml-15">Is Billable</label>
+                @Html.CheckBoxFor(c => c.Is_Billable)<label class="ml-15">Is Billable</label>
                 <div class="form-group">
                     <label>Services By</label>
                     @Html.TextBoxFor(m => m.Service_By_Name, new { @class = "form-control" })
@@ -138,11 +138,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Rate P/Hr</label>
+                    <label>Rate P/Hr ($)</label>
                     @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control" })
                 </div>
                 <div class="form-group">
-                    <label>Rate P/Unit</label>
+                    <label>Rate P/Unit ($)</label>
                     @Html.TextBoxFor(m => m.Rate_Per_Unit, new { @type = "number", @class = "form-control" })
                 </div>
                 <div class="form-group">
@@ -151,21 +151,22 @@
                     @Html.ValidationMessageFor(o => o.Units, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                 </div>
                 <div class="form-group">
-                    <label>Billable</label>
-                    @Html.TextBoxFor(m => m.Is_Billable, new { @class = "form-control", @readonly = true })
+                    <label>Billable ($)</label>
+                    @Html.TextBoxFor(m => m.Billable, new { @class = "form-control", @readonly = true })
                 </div>
                 <div class="form-group">
                     @Html.CheckBoxFor(c => c.Timeslip_Checked)
                     <label class="ml-10">Timeslip Checked</label>
                 </div>
                 <div class="form-group">
-                    <label></label>
                     @Html.TextBoxFor(c => c.Checked_By, new { @readonly = true, @class = "form-control" })
+                    @*<input type="text" class="form-control" id="Checked_ByH" readonly />*@
                 </div>
                 <div class="form-group">
-                    <label></label>
                     @Html.TextBoxFor(c => c.Checked_Date, new { @readonly = true, @class = "form-control" })
+                    @*<input type="text" class="form-control" id="Checked_DateH" readonly />*@
                 </div>
+
                 <div class="form-group">
                     @Html.CheckBoxFor(c => c.Invoice_Processed)
                     <label class="ml-10">Invoice Processed</label>
@@ -173,10 +174,12 @@
                 <div class="form-group">
                     <label></label>
                     @Html.TextBoxFor(c => c.Invoice_Processed_By, new { @readonly = true, @class = "form-control" })
+                    @*<input type="text" class="form-control" id="Invoice_Processed_ByH" readonly />*@
                 </div>
                 <div class="form-group">
                     <label></label>
                     @Html.TextBoxFor(c => c.Invoice_Processed_Date, new { @readonly = true, @class = "form-control" })
+                    @*<input type="text" class="form-control" id="Invoice_Processed_DateH" readonly />*@
                 </div>
                 <div class="form-group">
                     <label>Invoice</label>
@@ -237,9 +240,16 @@
             if (this.checked) {
                 document.getElementById("Checked_By").style.visibility = "visible";
                 document.getElementById("Checked_Date").style.visibility = "visible";
+
+                //document.getElementById("Checked_ByH").style.visibility = "hidden";
+                //document.getElementById("Checked_DateH").style.visibility = "hidden";
+
             } else {
                 document.getElementById("Checked_By").style.visibility = "hidden";
                 document.getElementById("Checked_Date").style.visibility = "hidden";
+
+                //document.getElementById("Checked_ByH").style.visibility = "visible";
+                //document.getElementById("Checked_DateH").style.visibility = "visible";
             }
         });
 
@@ -250,20 +260,26 @@
             if (this.checked) {
                 document.getElementById("Invoice_Processed_By").style.visibility = "visible";
                 document.getElementById("Invoice_Processed_Date").style.visibility = "visible";
+
+                //document.getElementById("Invoice_Processed_ByH").style.visibility = "hidden";
+                //document.getElementById("Invoice_Processed_DateH").style.visibility = "hidden";
             } else {
                 document.getElementById("Invoice_Processed_By").style.visibility = "hidden";
                 document.getElementById("Invoice_Processed_Date").style.visibility = "hidden";
+
+                //document.getElementById("Invoice_Processed_ByH").style.visibility = "visible";
+                //document.getElementById("Invoice_Processed_DateH").style.visibility = "visible";
             }
         });
 
         var tbilible = 0;
-        $('#Billable').change(function () {
+        $('#Is_Billable').change(function () {
             debugger;
             if (this.checked) {
-                $("#Is_Billable").val(tbilible);
+                $("#Billable").val(tbilible);
             } else {
-                tbilible = $("#Is_Billable").val();
-                $("#Is_Billable").val(0);
+                tbilible = $("#Billable").val();
+                $("#Billable").val(0);
             }
         });
 
@@ -291,7 +307,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Is_Billable").val(RatePUNIT * Unit);
+                $("#Billable").val(RatePUNIT * Unit);
 
             }
         });
@@ -320,7 +336,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Is_Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val(RatePUNIT * Unit);
                     //return false;
                 } else {
                     var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
@@ -336,7 +352,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Is_Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val(RatePUNIT * Unit);
                 }
 
             } else {
@@ -354,7 +370,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Is_Billable").val(RatePUNIT * Unit);
+                $("#Billable").val(RatePUNIT * Unit);
             }
         });
 
@@ -384,7 +400,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Is_Billable").val(RatePUNIT * Unit);
+                $("#Billable").val(RatePUNIT * Unit);
             }
         });
 
@@ -412,7 +428,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Is_Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val(RatePUNIT * Unit);
                 } else {
                     var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
                     if (totalMi < 0) {
@@ -427,7 +443,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Is_Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val(RatePUNIT * Unit);
                 }
 
             } else {
@@ -445,7 +461,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Is_Billable").val(RatePUNIT * Unit);
+                $("#Billable").val(RatePUNIT * Unit);
             }
         });
 

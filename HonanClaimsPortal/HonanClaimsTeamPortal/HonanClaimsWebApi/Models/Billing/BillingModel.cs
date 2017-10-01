@@ -12,7 +12,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public string H_Billingsid { get; set; }
         public string H_Claimsid { get; set; }
         public string Service_By { get; set; }
-        public string Is_Billable { get; set; }
+        public bool Is_Billable { get; set; }
         public string Claim_No { get; set; }
         public string ActivityId { get; set; }
         public string Activity_Name { get; set; }//added
@@ -27,7 +27,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public string End_Time_MM { get; set; }
         public int Qty_Mins { get; set; }
         public decimal Rate { get; set; }
-        public bool Billable { get; set; }
+        public decimal Billable { get; set; }
         public bool Timeslip_Checked { get; set; }
         public string Checked_By { get; set; }
         public DateTime? Checked_Date { get; set; }

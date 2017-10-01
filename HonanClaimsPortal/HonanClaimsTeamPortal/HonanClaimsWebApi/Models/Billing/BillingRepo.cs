@@ -129,35 +129,28 @@ namespace HonanClaimsWebApi.Models.Billing
         }
 
         
-        public async Task<bool> TeamInsertTimeslip(BillingModel model)
+        public async Task<bool> TeamInsertTimeslip(BillingModel model,string UserId)
         {
-
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
             string apiUrl = string.Empty;
-
             var json = JsonConvert.SerializeObject(model);
-
-            apiUrl = SiteUrl + "api/Billing/TeamInsertTimeslip?billing="+json+"&userId=";
-            
-            
-
-            using (var client = new HttpClient())
+            bool result = false;
+            apiUrl = SiteUrl + "api/Billing/TeamInsertTimeslip?billing=" + json + "&userId="+ UserId;
+            using (HttpClient client = new HttpClient())
             {
-                var result = await client.PostAsync(apiUrl, null);
-                string resultContent = await result.Content.ReadAsStringAsync();
-                return Convert.ToBoolean(resultContent);
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                //using (var formData = new MultipartFormDataContent())
-                //{
-                //    var jsonString = JsonConvert.SerializeObject(model);
-                //    var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
-                //    formData.Add(content, "PortalAdminDetail", "PortalAdminDetail");
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(data);
 
-                //    var result = await client.PostAsync(apiUrl, formData);
-                //    string resultContent = await result.Content.ReadAsStringAsync();
-                //    return Convert.ToBoolean(resultContent);
-                //}
+                }
             }
+            return result;
         }
     }
 }
