@@ -150,6 +150,7 @@
     <Compile Include="Models\TeamGetPortalRegistration\TeamGetPortalRegistrationRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LookupServices.cs" />
+    <Compile Include="Services\PaymentServices.cs" />
     <Compile Include="Services\PicklistServicecs.cs" />
     <Compile Include="Services\ServiceHelper.cs" />
   </ItemGroup>
