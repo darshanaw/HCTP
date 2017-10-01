@@ -32,13 +32,13 @@ namespace HonanClaimsPortal.Controllers
             claimServices = new ClaimServices();
 
             RisksmartGccClaim model = new RisksmartGccClaim();
-            model.Claim_Received = false;
-            model.Claim_Acknowledged = false;
-            model.Review = false;
-            model.Outcome_Settlement = false;
-            model.Outcome_Declined = false;
-            model.Claim_Closed = false;
-            model.Litigated = false;
+            model.Claim_Received = model.Claim_Received == null || model.Claim_Received == false ? false : true;
+            model.Claim_Acknowledged = model.Claim_Acknowledged == null || model.Claim_Acknowledged == false ? false : true;
+            model.Review = model.Review == null || model.Review == false ? false : true;
+            model.Outcome_Settlement = model.Outcome_Settlement == null || model.Outcome_Settlement == false ? false : true;
+            model.Outcome_Declined = model.Outcome_Declined == null || model.Outcome_Declined == false ? false : true;
+            model.Claim_Closed = model.Claim_Closed == null || model.Claim_Closed == false ? false : true;
+            model.Litigated = model.Litigated == null || model.Litigated == false ? false : true;
 
             model.Claim_Team = newClaimModel.Claim_Team;
             model.Claim_Team_Name = newClaimModel.Claim_Team;
@@ -125,13 +125,13 @@ namespace HonanClaimsPortal.Controllers
             Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral, RisksmartGccClaim>());
             RisksmartGccClaim model = Mapper.Map<RisksmartGccClaim>(claimServices.GetClaimNotification(id));
 
-            model.Claim_Received = false;
-            model.Claim_Acknowledged = false;
-            model.Review = false;
-            model.Outcome_Settlement = false;
-            model.Outcome_Declined = false;
-            model.Claim_Closed = false;
-            model.Litigated = false;
+            model.Claim_Received = model.Claim_Received == null || model.Claim_Received == false ? false : true;
+            model.Claim_Acknowledged = model.Claim_Acknowledged == null || model.Claim_Acknowledged == false ? false : true;
+            model.Review = model.Review == null || model.Review == false ? false : true;
+            model.Outcome_Settlement = model.Outcome_Settlement == null || model.Outcome_Settlement == false ? false : true;
+            model.Outcome_Declined = model.Outcome_Declined == null || model.Outcome_Declined == false ? false : true;
+            model.Claim_Closed = model.Claim_Closed == null || model.Claim_Closed == false ? false : true;
+            model.Litigated = model.Litigated == null || model.Litigated == false ? false : true;
 
             InitializeModel(model, claimServices);
 

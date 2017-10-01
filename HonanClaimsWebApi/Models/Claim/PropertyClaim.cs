@@ -33,6 +33,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Claimant_Work_Phone { get; set; }
         public string Claimant_Home_Phone { get; set; }
         public string Claimant_Mobile_Phone { get; set; }
+        public string BillingMethod { get; set; }
         public string Email_Address { get; set; }
         public string Incident_Name { get; set; }
         public string Incident_Address { get; set; }
@@ -173,7 +174,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool? Indemnity_Granted { get; set; }
         public string Broker { get; set; }
         public string Broker_Name { get; set; }
+        public string Broker_Name_Id { get; set; }
         public string Panel_Lawyers_Retained { get; set; }
+        public string Broker_Account { get; set; }
+        public string Broker_Account_Id { get; set; }
         [Required(ErrorMessage = "Oc Num Required")]
         public string Oc_Num { get; set; }
         public string Oc_Id { get; set; }
@@ -195,6 +199,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<PicklistItem> Policy_Section_List { get; set; }
         public List<PicklistItem> Causation_List { get; set; }
         public string AccountManager { get; set; }
+        public string Policy_Status { get; set; }
+        public DateTime? AcctPeriod1 { get; set; }//New field
+        public DateTime? AcctPeriod2 { get; set; }//New field
+        public decimal Basic_Excess { get; set; }
         //New fields end
 
         public List<PicklistItem> ReportedByTypeList { get; set; }
@@ -209,5 +217,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<PicklistItem> PropertySuburbList { get; set; }
         public List<PicklistItem> PropertyStateList { get; set; }
         public NextAction NextAction { get; set; }
+        public List<PicklistItem> Client_Group_List { get; set; }
+        public List<PicklistItem> ClientGroupList { get; set; }
+        public List<PicklistItem> Outcome_List { get; set; }
+        public List<PicklistItem> Assigned_User_List { get; set; }
+        public List<PicklistItem> Claim_Status_List { get; set; }
     }
 }
