@@ -1,4 +1,4 @@
-﻿
+﻿@model HonanClaimsWebApi.Models.ClaimList.CustomerListModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,11 +28,8 @@
                         </div>
                         <div class="cust-search">
                             <div class="form-group mt-20">
-                                <label>Customer</label>
-                                <input id="customerId" style="display:none;" />
-                                <div class="demo-section k-content">
-                                    <input id="customer" class="form-control" />
-                                </div>
+                                <label>Policy Type</label>
+                                @Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="action-btn-1">

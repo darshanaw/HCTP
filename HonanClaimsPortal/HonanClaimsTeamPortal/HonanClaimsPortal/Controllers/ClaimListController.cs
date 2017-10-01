@@ -14,9 +14,17 @@ namespace HonanClaimsPortal.Controllers
     public class ClaimListController : Controller
     {
         // GET: ClaimList
-        public ActionResult Index()
+        public async  Task<ActionResult> Index()
         {
-            return View();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+
+            List<CustomerModel> list = new List<CustomerModel>();
+            CustomerListModel CustomerList = new CustomerListModel();
+            ClaimListRepo protalLoginAccountsRepo = new ClaimListRepo();
+            list = await protalLoginAccountsRepo.GetCustomerList(UserId);
+            CustomerList.CustomerList = list;
+            return View(CustomerList);
         }
 
         [HttpGet]
