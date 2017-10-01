@@ -34,7 +34,7 @@ namespace HonanClaimsPortal.Controllers
             model.Service_By = Service_By;
             model.Billable = true;
             return View(model);
-        }
+        } 
 
         [HttpGet]
         public async Task<ActionResult> GetTeamGetBillableLawyers(string filter)
