@@ -209,7 +209,38 @@ namespace HonanClaimsPortal.Controllers
 
             model.PanelLawyersRetainedList = new List<string>() { "", "Yes", "No" };
 
+            
+
+            model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
+
+            model.Liability_Reserve = model.Liability_Res_Source;
+            model.Defence_Reserve = model.Defence_Res_Source;
+
+            PaymentServices paymentServices = new PaymentServices();
+            decimal val, liabilityReserveGross = 0, defenceReserveGross = 0;
+
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Liability Reserve", true), out val))
+            {
+                liabilityReserveGross = val;
+                model.Liability_Reserve = model.Liability_Reserve - val;
+            }
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Defence Reserve", true), out val))
+            {
+                defenceReserveGross = val;
+                model.Defence_Reserve = model.Defence_Reserve - val;
+            }
+
             model.Total_Reserve = model.Liability_Reserve + model.Defence_Reserve;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Liability Reserve", false), out val))
+                model.Net_Paid_Liability = val;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Defence Reserve", false), out val))
+                model.Net_Paid_Defence = val;
+
+            model.Gross_Paid_To_Date = liabilityReserveGross + defenceReserveGross;
 
             model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
 
@@ -217,6 +248,7 @@ namespace HonanClaimsPortal.Controllers
                 model.Current_Exposure = model.Total_Reserve;
             else
                 model.Current_Reserve = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
+
         }
 
         [HttpPost]
