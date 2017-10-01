@@ -1334,6 +1334,7 @@
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
     <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\RisksmartPropertyClaim\DetailRisksmartPropertyClaim.cshtml" />
+    <Content Include="Views\GccClaim\DetailGccClaim.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
