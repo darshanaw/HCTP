@@ -97,6 +97,17 @@
             $("#Oc_No").val(ocNum);
         }
 
+        if ($("#Oc_Num").length > 0)
+        {
+            $("#Oc_Num").val(ocName);
+        }
+
+        if ($("#Oc_Num").length > 0) {
+
+            $("#Oc_Num").val(ocName);
+            $("#Oc_Id").val(ocNum);
+        }
+
         getPolicy(ocNum);
 
         $('#AccountOcModal').modal('toggle');

@@ -217,6 +217,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<PicklistItem> Policy_Class_List { get; set; }
         public List<PicklistItem> Causation_List { get; set; }
         public List<PicklistItem> Client_Group_List { get; set; }
+        public List<PicklistItem> ClientGroupList { get; set; }
         public List<PicklistItem> Policy_Section_List { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
