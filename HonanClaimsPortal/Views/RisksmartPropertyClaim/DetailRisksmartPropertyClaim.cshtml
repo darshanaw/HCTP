@@ -750,9 +750,19 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                         <div class="col-sm-9">
 
-                                            @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"), new { @id = "Policy_Class_Dropdown", @class = "form-control input-sm valueChanged" })
-                                            @Html.TextBoxFor(o => o.Policy_Class, new { @id = "Policy_Class_TextBox", @class = "form-control input-sm disabledControl", @readonly = true })
-
+                                            @if (string.IsNullOrEmpty(Model.Policy_No))
+                                            {
+                                                @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                            }
+                                            else if (!string.IsNullOrEmpty(Model.Policy_Class))
+                                            {
+                                                @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
+                                            new { @class = "form-control input-sm" })
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -949,7 +959,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Liability Resource $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Liability_Res_Source, new { @type = "number", @class = "form-control input-sm  disabled" })
+                                            @Html.TextBoxFor(o => o.Liability_Res_Source, new { @type = "number", @class = "form-control input-sm" })
                                         </div>
                                     </div>
                                 </div>
@@ -957,7 +967,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Defence Ressource $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Defence_Res_Source, new { @type = "number", @class = "form-control input-sm  disabled" })
+                                            @Html.TextBoxFor(o => o.Defence_Res_Source, new { @type = "number", @class = "form-control input-sm" })
                                         </div>
                                     </div>
                                 </div>
@@ -979,7 +989,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Liability_Reserve, new { @type = "number", @class = "form-control input-sm  disabled", @readonly = true })
+                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
+                                            @Html.HiddenFor(o => o.Liability_Reserve)
                                         </div>
                                     </div>
                                 </div>
@@ -987,7 +998,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Defence Reserve $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Defence_Reserve, new { @class = "form-control input-sm  disabled", @readonly = true })
+                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
+                                            @Html.HiddenFor(o => o.Defence_Reserve)
                                         </div>
                                     </div>
                                 </div>
@@ -996,7 +1008,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Total Reserve $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Total_Reserve, new { @class = "form-control input-sm  disabled", @readonly = true })
+                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
+                                            @Html.HiddenFor(o => o.Total_Reserve)
                                         </div>
                                     </div>
                                 </div>
@@ -1004,7 +1017,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Net Paid Liability $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Net_Paid_Liability, new { @class = "form-control input-sm  disabled", @readonly = true })
+                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
+                                            @Html.HiddenFor(o => o.Net_Paid_Liability)
                                         </div>
                                     </div>
                                 </div>
@@ -1012,7 +1026,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Net Paid Defence $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Net_Paid_Defence, new { @type = "number", @class = "form-control input-sm  disabled", @readonly = true })
+                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
+                                            @Html.HiddenFor(o => o.Net_Paid_Defence)
                                         </div>
                                     </div>
                                 </div>
@@ -1020,7 +1035,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Gross Paid to Date $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Gross_Paid_To_Date, new { @type = "number", @class = "form-control input-sm  disabled", @readonly = true })
+                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
+                                            @Html.HiddenFor(o => o.Gross_Paid_To_Date)
                                         </div>
                                     </div>
                                 </div>
@@ -1028,7 +1044,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Total Incurred $</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Total_Incurred, new { @class = "form-control input-sm  disabled", @readonly = true })
+                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
+                                            @Html.HiddenFor(o => o.Total_Incurred)
                                         </div>
                                     </div>
                                 </div>
