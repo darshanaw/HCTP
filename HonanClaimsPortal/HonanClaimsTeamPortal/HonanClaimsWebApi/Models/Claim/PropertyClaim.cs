@@ -11,7 +11,9 @@ namespace HonanClaimsWebApi.Models.Claim
     public class PropertyClaim
     {
         public string H_Claimsid { get; set; }
+        [Required(ErrorMessage = "Account ID Required")]
         public string Accountid { get; set; }
+        [Required(ErrorMessage = "Account Name Required")]
         public string Account_Name { get; set; }
         public string Insurer_Ref { get; set; }
         public string Claim_Reference_Num { get; set; }
@@ -214,6 +216,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<string> CCTVAvailableList { get; set; }
         public List<string> CCTVViewedList { get; set; }
         public List<string> YesNoList { get; set; }
+        public List<string> ComplexityList { get; set; }
         public List<PicklistItem> PropertySuburbList { get; set; }
         public List<PicklistItem> PropertyStateList { get; set; }
         public NextAction NextAction { get; set; }

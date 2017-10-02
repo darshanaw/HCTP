@@ -315,10 +315,12 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Reported Date</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Reported_Date, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm  disabled", @readonly = true })
-                                            @Html.HiddenFor(o => o.Reported_Date)
-
-
+                                            <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
+                                                <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                                    <span class="fa fa-calendar"></span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -806,8 +808,22 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                     <div class="form-group mb">
                                                         <label class="col-sm-3 control-label input-sm">Excess</label>
                                                         <div class="col-sm-9">
-                                                            @*@Html.TextBoxFor(, new { @class = "", @readonly = true, Value =  })*@
-                                                            <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
+                                                            @if (!string.IsNullOrEmpty(Model.Excess.ToString()) && Model.Excess != 0)
+                                                            {
+                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="input-group">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
+                                                                    <span class="input-group-btn">
+
+                                                                        <button type="button" class="mb-sm btn btn-danger btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                            <i class="fa fa-flag-o"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            }
                                                             @Html.HiddenFor(o => o.Excess)
                                                         </div>
                                                     </div>
