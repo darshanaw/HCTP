@@ -29,6 +29,7 @@ namespace HonanClaimsWebApi.Services
         private const string insertClaimNotificationApiGet1 = "api/Claim/TeamInsertClaimNotification?claim=";
         private const string insertClaimNotificationApiGet2 = "&userId=";
         private const string insertHistoryRecord = "api/General/CreateHistoryRecord?userId=";
+        private const string updateClaimNotificationApiGet1 = "api/Claim/TeamUpdateClaimNotification?claim=";
 
 
         ExecutionResult exeReult;
@@ -292,6 +293,36 @@ namespace HonanClaimsWebApi.Services
             {
                 throw e;
             }
+        }
+
+
+        public bool TeamUpdateClaimNotification(ClaimGeneral claim, string userId)
+        {
+            string responseClaimId = "";
+
+            try
+            {
+                string jsonClaim = new JavaScriptSerializer().Serialize(claim);
+                claim.UserId = userId;
+                var dataString = JsonConvert.SerializeObject(claim);
+
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                    string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + updateClaimNotificationApiGet1), "POST", dataString);
+                    return bool.Parse(response);
+                }
+
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                return false;
+                throw e;
+            }
+
+
         }
     }
 }

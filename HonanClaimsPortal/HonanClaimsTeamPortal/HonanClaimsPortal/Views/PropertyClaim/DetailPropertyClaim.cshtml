@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
 <link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
 
+
+
 <style>
     .disabled {
         background-color: lightgray;
@@ -53,13 +55,11 @@
 
 <!-- END wizard steps indicator-->
 <!-- START Wizard Step inputs-->
-@*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
 
 @{
     string disable = ""; /*string.IsNullOrEmpty(@Model.Claim_Reference_Num) ? "" : "disabled";*/
-
-    //HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)HttpContext.Current.Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
-
+    var message = TempData["ErrorMsg"];
+    TempData.Remove("ErrorMsg");
 }
 
 
@@ -68,13 +68,14 @@
     <div class="tab-pane active" id="tabClaimDetail">
         @using (Html.BeginForm("DetailPropertyClaim", "PropertyClaim", FormMethod.Post))
         {
+            @Html.HiddenFor(o => o.H_Claimsid)
             @Html.HiddenFor(o => o.Accountid)
             @Html.HiddenFor(o => o.BillingMethod)
             @Html.HiddenFor(o => o.Broker_Account_Id)
             @Html.HiddenFor(o => o.Broker_Name_Id)
             @Html.HiddenFor(o => o.Claim_Team)
 
-            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
             <div class="panel panel-default">
 
                 <div class="panel-body">
@@ -234,7 +235,7 @@
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="form-group mb">
                                                     <label class="col-sm-3 control-label input-sm">Property Address</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-9" style="padding-left: 22px;">
                                                         <div class="form-group">
                                                             @Html.TextBoxFor(o => o.Property_Address_1, new { @class = "form-control input-sm", @placeholder = "Address 1" })
                                                         </div>
@@ -394,7 +395,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Claim_Not_Lodged.Value, new { @id = "chkNotLodged" })
+                                                        @Html.CheckBoxFor(o => o.Claim_Not_Lodged, new { @id = "chkNotLodged" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Not_Lodged_Date, new { @id = "txtNotLodgedDate", @class = "form-control input-sm" })
@@ -411,7 +412,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Claim_Lodged.Value, new { @id = "chkLodged" })
+                                                        @Html.CheckBoxFor(o => o.Claim_Lodged, new { @id = "chkLodged" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Lodged_Date, new { @id = "txtLodgedDate", @class = "form-control input-sm" })
@@ -429,7 +430,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Claim_Acknowledged.Value, new { @id = "chkAcknowledged" })
+                                                        @Html.CheckBoxFor(o => o.Claim_Acknowledged, new { @id = "chkAcknowledged" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Acknowledged_Date, new { @id = "txtAcknowledgedDate", @class = "form-control input-sm" })
@@ -444,11 +445,11 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             <label class="col-sm-3 control-label input-sm"></label>
                                             <div class="col-sm-9">
                                                 <label class="checkbox-inline">
-                                                    @Html.CheckBoxFor(o => o.Claim_Approved.Value, new { @id = "chkApproved" })
+                                                    @Html.CheckBoxFor(o => o.Claim_Approved, new { @id = "chkApproved" })
                                                     <label class="input-sm" style="padding-top: 0px">Approval - Approved</label>
                                                 </label>
                                                 <label class="checkbox-inline">
-                                                    @Html.CheckBoxFor(o => o.Claim_Declined.Value, new { @id = "chkDeclined" })
+                                                    @Html.CheckBoxFor(o => o.Claim_Declined, new { @id = "chkDeclined" })
                                                     <label class="input-sm" style="padding-top: 0px">Approval - Declined</label>
                                                 </label>
 
@@ -477,7 +478,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Claim_Closed.Value, new { @id = "chkClaimClosed" })
+                                                        @Html.CheckBoxFor(o => o.Claim_Closed, new { @id = "chkClaimClosed" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Closed_Date, new { @id = "txtClaimClosedDate", @class = "form-control input-sm" })
@@ -1369,6 +1370,9 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
+@*NOTIFY*@
+<script src="~/Content/master/js/modules/notify.js"></script>
+
 <script>
     $(function () {
 
@@ -1587,4 +1591,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         $("#Defence_Res_Source").val($("#txtDefecnceResSource").val());
         $('#ExrtaFieldModal').modal('toggle');
     }
+
+    var message = '@message';
+    if (message) {
+        $.notify(message, "danger");
+    }
+
 </script>
