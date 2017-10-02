@@ -307,7 +307,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Billable").val(RatePUNIT * Unit);
+                $("#Billable").val(RatePUNIT * Unit).toFixed(2);
 
             }
         });
@@ -336,7 +336,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val((RatePUNIT * Unit).toFixed(2));
                     //return false;
                 } else {
                     var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
@@ -352,7 +352,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val((RatePUNIT * Unit).toFixed(2));
                 }
 
             } else {
@@ -370,7 +370,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Billable").val(RatePUNIT * Unit);
+                $("#Billable").val((RatePUNIT * Unit).toFixed(2))
             }
         });
 
@@ -400,7 +400,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Billable").val(RatePUNIT * Unit);
+                $("#Billable").val((RatePUNIT * Unit).toFixed(2))
             }
         });
 
@@ -428,7 +428,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val((RatePUNIT * Unit).toFixed(2))
                 } else {
                     var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
                     if (totalMi < 0) {
@@ -443,7 +443,7 @@
                     }
                     $("#Units").val(Unit);
                     var RatePUNIT = $("#Rate_Per_Unit").val();
-                    $("#Billable").val(RatePUNIT * Unit);
+                    $("#Billable").val((RatePUNIT * Unit).toFixed(2))
                 }
 
             } else {
@@ -461,7 +461,7 @@
                 }
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
-                $("#Billable").val(RatePUNIT * Unit);
+                $("#Billable").val((RatePUNIT * Unit).toFixed(2))
             }
         });
 
