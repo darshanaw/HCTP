@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AdminListController.cs" />
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\ClaimAssignmentController.cs" />
+    <Compile Include="Controllers\ClaimDetailTabsController.cs" />
     <Compile Include="Controllers\ClaimListController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\GccClaimController.cs" />
@@ -220,6 +221,7 @@
     </Compile>
     <Compile Include="Helpers\AuthorizeUserAttribute.cs" />
     <Compile Include="Helpers\ClaimHelper.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\jQueryDataTableParamModel.cs" />
     <Compile Include="Helpers\Messages.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
@@ -1336,9 +1338,11 @@
     <Content Include="Views\RisksmartPropertyClaim\DetailRisksmartPropertyClaim.cshtml" />
     <Content Include="Views\GccClaim\DetailGccClaim.cshtml" />
     <Content Include="Views\PropertyClaim\DetailPropertyClaim.cshtml" />
+    <Content Include="Views\Shared\_Attachments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ClaimDetailTabs\" />
     <Folder Include="Views\Lookup\" />
     <Folder Include="Views\RisksmartGcc\" />
     <Folder Include="Views\Timeslip\" />

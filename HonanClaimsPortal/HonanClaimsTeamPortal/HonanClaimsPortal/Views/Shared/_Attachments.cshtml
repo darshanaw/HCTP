@@ -1,0 +1,106 @@
+﻿
+@{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
+
+
+
+<br />
+
+    @*<div class="form-group mt-20">
+        <label>Search My Claims</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="searchTxt">
+            <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+    </div>*@
+
+<div class="col-md-12">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div class="input-group">
+            <input type="text" class="form-control" id="AttachmentsearchTxt" placeholder="Search file name" />
+            <span class="input-group-addon pointer" id="btnAttachmentSearchtext" data-toggle="modal"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+    </div>
+</div>
+<br /><br /><br />
+<div id="gridAttachments"></div>
+<hr />
+<h4>Upload Files</h4>
+<input type="file" name="files" id="claimAttachments" />
+
+
+<script>
+
+    $(function () {
+
+        $("#claimAttachments").kendoUpload({
+            async: {
+                saveUrl: '@Url.Action("UploadAttachment", "ClaimDetailTabs")',
+                //removeUrl: '@Url.Action("", "ClaimDetailTabs")',
+                autoUpload: false
+            },
+            upload: function (e) {
+                e.data = { claimId: $("#H_Claimsid").val(), userId: '@userObj.UserId' };
+            },
+            complete: onCompleteAttachmentUpload
+        });
+
+
+        $("#gridAttachments").kendoGrid({
+
+            dataSource: {
+                transport: {
+                    //read: "/ClaimDetailTabs/AjaxAttachmentsLoad?claimId=" + $("#H_Claimsid").val() + "&searchText=" + $("#AttachmentsearchTxt").val(),
+                    read: "/ClaimDetailTabs/AjaxAttachmentsLoad?claimId=" + $("#H_Claimsid").val(),
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 100,
+            navigatable: true,
+            pageable: true,
+            height: 400,
+            sortable: true,
+            columns: [
+               
+                {
+                    field: "AttachmentDescription",
+                    title: "Attachment Name"
+                    //template: "<a href='#'>#= ClaimRefNo #</a>",
+                },
+                {
+                    field: "UserId",
+                    title: "User"
+                },
+                {
+                    field: "LastUpdated",
+                    title: "Last Updated",
+                    template: '#= kendo.toString(kendo.parseDate(LastUpdated), "dd/MM/yyyy")#' 
+                },
+                {
+                    field: "Size",
+                    title: "Size"
+                }
+            ]
+        });
+
+        $("#btnAttachmentSearchtext").click(function () {
+           
+            //$("#gridAttachments").data("kendoGrid").dataSource.read();
+            $("#gridAttachments").data("kendoGrid").dataSource.read({ searchText: $("#AttachmentsearchTxt").val() });
+
+        });
+
+    });
+
+    function onCompleteAttachmentUpload()
+    {
+        $("#gridAttachments").data("kendoGrid").dataSource.read();
+    }
+</script>
