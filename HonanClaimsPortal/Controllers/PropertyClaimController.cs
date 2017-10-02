@@ -245,6 +245,33 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public ActionResult DetailPropertyClaim(PropertyClaim model)
         {
+
+            Session[SessionHelper.StoreobjectList] = null;
+            PicklistServicecs picklistService = new PicklistServicecs();
+            ClaimServices claims = new ClaimServices();
+
+
+            Mapper.Initialize(cfg => cfg.CreateMap<PropertyClaim, ClaimGeneral>());
+            ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);
+
+            generalClaim.Policy_Type = model.Policy_Class;
+
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            if (ModelState.IsValid)
+            {
+                claims = new ClaimServices();
+                var result = claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
+                if (result)
+                {
+                    
+                    return RedirectToAction("Index", "ClaimList");
+                }
+                else
+                    TempData["ErrorMsg"] = Messages.errorMessage;
+            }
+
+            InitializeModel(model, claims);
+
             return View(model);
         }
     }
