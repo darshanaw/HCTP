@@ -62,34 +62,46 @@
                 <label>Preferred Contact</label>
                 @Html.TextBoxFor(m => m.Preferred_Contact, new { @class = "form-control", @readonly = true })
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 @Html.CheckBoxFor(m => m.PrimaryContactForAccount, new { @readonly = true })
                 <label class="ml-15">Primary contact for account</label>
             </div>
-            <div class="form-group">
-                @Html.CheckBoxFor(m => m.AuthorizedServiceContact, new { @readonly = true })
-                <label class="ml-15">Authorized service contact</label>
-            </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
                 @Html.CheckBoxFor(m => m.DoNotSolicit, new { @readonly = true })
                 <label class="ml-15">Do not solicit</label>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
+                @Html.CheckBoxFor(m => m.AuthorizedServiceContact, new { @readonly = true })
+                <label class="ml-15">Authorized service contact</label>
+            </div>
+            <div class="form-group col-md-6">
                 @Html.CheckBoxFor(m => m.DoNotEmail, new { @readonly = true })
                 <label class="ml-15">Do not email</label>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
+            </div>
+            <div class="form-group col-md-6">
                 @Html.CheckBoxFor(m => m.DoNotCall, new { @readonly = true })
                 <label class="ml-15">Do not call</label>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
+            </div>
+            <div class="form-group col-md-6">
                 @Html.CheckBoxFor(m => m.DoNotMail, new { @readonly = true })
                 <label class="ml-15">Do not mail</label>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-6">
+            </div>
+            <div class="form-group col-md-6">
                 @Html.CheckBoxFor(m => m.DoNotFax, new { @readonly = true })
                 <label class="ml-15">Do not fax</label>
             </div>
+            <div class='row'>
+                <div class='col-md-6 col-lg-offset-2'>
+                    <hr>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Contact Type</label>
                 @Html.TextBoxFor(m => m.Type, new { @class = "form-control", @readonly = true })
