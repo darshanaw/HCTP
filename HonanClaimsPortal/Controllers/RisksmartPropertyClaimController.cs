@@ -202,6 +202,26 @@ namespace HonanClaimsPortal.Controllers
             model.Gross_Paid_To_Date = liabilityReserveGross + defenceReserveGross;
 
             model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
+
+            if (model.Total_Reserve < model.Excess)
+                model.Current_Exposure = model.Total_Reserve;
+            else
+                model.Current_Exposure = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
+
+
+            if (model.Reported_Time != null)
+            {
+                string time = DateTime.Parse(model.Reported_Time.ToString()).ToString("HH:mm");
+                model.Reported_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                model.Reported_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
+
+            if (model.Incident_Time != null)
+            {
+                string time = DateTime.Parse(model.Incident_Time.ToString()).ToString("HH:mm");
+                model.Incident_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                model.Incident_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
         }
     }
 }

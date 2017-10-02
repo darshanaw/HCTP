@@ -146,8 +146,7 @@ namespace HonanClaimsPortal.Controllers
 
             model.YesNoList = new List<string>() { "", "Yes", "No" };
 
-            //model.Client_Group_List = pickListServices.GetPickListItems("Risksmart Property Client Group");
-            //model.Client_Group_List.Insert(0, new PicklistItem());
+            model.ComplexityList = new List<string>() { "","High", "Med", "Low" };
 
             model.Liability_Reserve = model.Liability_Res_Source;
             model.Defence_Reserve = model.Defence_Res_Source;
@@ -155,7 +154,7 @@ namespace HonanClaimsPortal.Controllers
             if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.PropertyClaimsManager))
                 model.Assigned_User_List = claimServices.GetUsers(new List<string>() { "Property Claims Manager" });
 
-            model.Outcome_List = pickListServices.GetPickListItems("Property  Claims Outcome");
+            model.Outcome_List = pickListServices.GetPickListItems("Property Claims Outcome");
             model.Outcome_List.Insert(0, new PicklistItem());
 
             model.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
@@ -174,7 +173,10 @@ namespace HonanClaimsPortal.Controllers
             model.Outcome_Declined = model.Outcome_Declined == null || model.Outcome_Declined == false ? false : true;
             model.Claim_Closed = model.Claim_Closed == null || model.Claim_Closed == false ? false : true;
             model.Litigated = model.Litigated == null || model.Litigated == false ? false : true;
-
+            model.Claim_Lodged = model.Claim_Lodged == null || model.Claim_Lodged == false ? false : true;
+            model.Claim_Not_Lodged = model.Claim_Not_Lodged == null || model.Claim_Not_Lodged == false ? false : true;
+            model.Claim_Approved = model.Claim_Approved == null || model.Claim_Approved == false ? false : true;
+            model.Claim_Declined = model.Claim_Declined == null || model.Claim_Declined == false ? false : true;
 
             //Calculations
             PaymentServices paymentServices = new PaymentServices();
@@ -204,6 +206,26 @@ namespace HonanClaimsPortal.Controllers
             model.Gross_Paid_To_Date = liabilityReserveGross + defenceReserveGross;
 
             model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
+
+            if (model.Total_Reserve < model.Excess)
+                model.Current_Exposure = model.Total_Reserve;
+            else
+                model.Current_Exposure = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
+
+
+            if (model.Reported_Time != null)
+            {
+                string time = DateTime.Parse(model.Reported_Time.ToString()).ToString("HH:mm");
+                model.Reported_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                model.Reported_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
+
+            if (model.Incident_Time != null)
+            {
+                string time = DateTime.Parse(model.Incident_Time.ToString()).ToString("HH:mm");
+                model.Incident_TimeH = time.Split(':')[0].PadLeft(2, '0');
+                model.Incident_TimeM = time.Split(':')[1].PadLeft(2, '0');
+            }
         }
 
         public ActionResult DetailPropertyClaim(string id)
@@ -217,6 +239,12 @@ namespace HonanClaimsPortal.Controllers
 
             InitializeModel(model, claimServices);
 
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult DetailPropertyClaim(PropertyClaim model)
+        {
             return View(model);
         }
     }

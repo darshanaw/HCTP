@@ -247,7 +247,7 @@ namespace HonanClaimsPortal.Controllers
             if (model.Total_Reserve < model.Excess)
                 model.Current_Exposure = model.Total_Reserve;
             else
-                model.Current_Reserve = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
+                model.Current_Exposure = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
 
         }
 
