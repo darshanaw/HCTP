@@ -1332,13 +1332,13 @@
     <Content Include="Views\GccClaim\NewGccClaim.cshtml" />
     <Content Include="Views\ViewPages\ViewClaims.cshtml" />
     <Content Include="Views\ViewPages\ViewNotifications.cshtml" />
-    <Content Include="Views\Policies\Index.cshtml" />
-    <Content Include="Views\Policies\PoliciesDetail.cshtml" />
     <Content Include="Views\MyActivity\Index.cshtml" />
     <Content Include="Views\RisksmartPropertyClaim\DetailRisksmartPropertyClaim.cshtml" />
     <Content Include="Views\GccClaim\DetailGccClaim.cshtml" />
     <Content Include="Views\PropertyClaim\DetailPropertyClaim.cshtml" />
     <Content Include="Views\Shared\_Attachments.cshtml" />
+    <Content Include="Views\Policies\Index.cshtml" />
+    <Content Include="Views\Policies\PoliciesDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

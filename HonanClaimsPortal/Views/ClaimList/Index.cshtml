@@ -29,7 +29,7 @@
                         <div class="cust-search">
                             <div class="form-group mt-20">
                                 <label>Customer</label>
-                                @Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), new { @class = "form-control" })
+                                @Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), "--select--", new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="action-btn-1">
@@ -83,21 +83,21 @@
     $(document).ready(function () {
 
         //load customer list
-        $.get("/ClaimList/GetCustomerList", function (data, status) {
-            $("#customer").kendoAutoComplete({
-                dataTextField: "Text",
-                filter: "startswith",
-                minLength: 2,
-                dataSource: data,
-                select: onSelect
-            });
+        //$.get("/ClaimList/GetCustomerList", function (data, status) {
+        //    $("#customer").kendoAutoComplete({
+        //        dataTextField: "Text",
+        //        filter: "startswith",
+        //        minLength: 2,
+        //        dataSource: data,
+        //        select: onSelect
+        //    });
 
-            function onSelect(e) {
-                var dataItem = this.dataItem(e.item.index());
-                $('#customerId').val(dataItem.Code);
-                LoadClaimGrid();
-            }
-        });
+        //    function onSelect(e) {
+        //        var dataItem = this.dataItem(e.item.index());
+        //        $('#customerId').val(dataItem.Code);
+        //        LoadClaimGrid();
+        //    }
+        //});
 
 
         //set value when start
@@ -119,7 +119,7 @@
             var s = $('#searchTxt').val();
             if (s != null && s != "") { searchText = s }
             //get customer
-            var c = $('#customerId').val();
+            var c = $('#CustomerList').val();
             if (c != null && c != "") { customerId = c }
             //get all claims or my
             onlyMyClaim = $('input[name=allormy]:checked').val();
@@ -185,7 +185,7 @@
             $('#typeall').prop("checked", true)
 
             $('#searchTxt').val("");
-            $('#customerId').val("");
+            $('#CustomerList').val("");
             $("#customer").data("kendoAutoComplete").value("");
             LoadClaimGrid();
 
