@@ -20,13 +20,19 @@ namespace HonanClaimsWebApi.Models.Billing
         public string Policy_Name { get; set; }//added
         public string ClientId { get; set; }
         public string Client_Name { get; set; }//added
+        [Required(ErrorMessage = "Service Date Required")]
         public string Service_Date { get; set; }
+        [Required(ErrorMessage = "Start Time Required")]
         public string Start_Time_HH { get; set; }
+        [Required(ErrorMessage = "Start Time Required")]
         public string Start_Time_MM { get; set; }
+        [Required(ErrorMessage = "End Time Required")]
         public string End_Time_HH { get; set; }
+        [Required(ErrorMessage = "End Time Required")]
         public string End_Time_MM { get; set; }
         public int Qty_Mins { get; set; }
         public decimal Rate { get; set; }
+        [Required(ErrorMessage = "Billable Required")]
         public decimal Billable { get; set; }
         public bool Timeslip_Checked { get; set; }
         public string Checked_By { get; set; }
