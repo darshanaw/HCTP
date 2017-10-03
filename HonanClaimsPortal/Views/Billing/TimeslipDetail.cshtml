@@ -383,7 +383,7 @@
             var EM = parseInt($("#End_Time_MM").val());
 
             if (SH > EH) {
-                alert("End time cannot be earlier than start time");
+                bootbox.alert("End time cannot be earlier than start time");
                 $("#End_Time_HH").val("00");
                 return false;
             } else {
