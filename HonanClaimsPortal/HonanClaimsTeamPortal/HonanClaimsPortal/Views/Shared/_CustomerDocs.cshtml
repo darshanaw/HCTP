@@ -11,23 +11,23 @@
 <div class="panel panel-default">
 
     <div class="panel-body">
-        <input type="file" name="files" id="claimAttachments" />
+        <input type="file" name="files" id="claimCustomerDocs" />
         <br /><br />
         <div class="col-md-12" style="padding-left:0px">
             <div class="col-md-8" style="padding-left:0px">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="AttachmentsearchTxt" placeholder="Search file name" />
-                    <span class="input-group-addon pointer" id="btnAttachmentSearchtext" data-toggle="modal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" id="CustomerDocssearchTxt" placeholder="Search file name" />
+                    <span class="input-group-addon pointer" id="btnCustomerDocsSearchtext" data-toggle="modal"><i class="fa fa-search" aria-hidden="true"></i></span>
                 </div>
             </div>
             <div class="col-md-4" style="padding-right:0px">
-                
+
             </div>
         </div>
         <br /><br /><br />
-        <div id="gridAttachments"></div>
-       
-       
+        <div id="gridCustomerDocs"></div>
+
+
 
     </div>
 </div>
@@ -36,25 +36,25 @@
 
     $(function () {
 
-        $("#claimAttachments").kendoUpload({
+        $("#claimCustomerDocs").kendoUpload({
             async: {
-                saveUrl: '@Url.Action("UploadAttachment", "ClaimDetailTabs")',
+                saveUrl: '@Url.Action("UploadCustomerDoc", "ClaimDetailTabs")',
                 //removeUrl: '@Url.Action("", "ClaimDetailTabs")',
                 autoUpload: false
             },
             upload: function (e) {
                 e.data = { claimId: $("#H_Claimsid").val(), userId: '@userObj.UserId' };
             },
-            complete: onCompleteAttachmentUpload
+            complete: onCompleteDocUpload
         });
 
 
-        $("#gridAttachments").kendoGrid({
+        $("#gridCustomerDocs").kendoGrid({
 
             dataSource: {
                 transport: {
                     //read: "/ClaimDetailTabs/AjaxAttachmentsLoad?claimId=" + $("#H_Claimsid").val() + "&searchText=" + $("#AttachmentsearchTxt").val(),
-                    read: "/ClaimDetailTabs/AjaxAttachmentsLoad?claimId=" + $("#H_Claimsid").val(),
+                    read: "/ClaimDetailTabs/AjaxCustomerDocsLoad?claimId=" + $("#H_Claimsid").val(),
                 },
                 pageSize: 100,
                 parameterMap: function (options, operation) {
@@ -92,18 +92,18 @@
             ]
         });
 
-        $("#btnAttachmentSearchtext").click(function () {
+        $("#btnCustomerDocsSearchtext").click(function () {
 
             //$("#gridAttachments").data("kendoGrid").dataSource.read();
-            $("#gridAttachments").data("kendoGrid").dataSource.read({ searchText: $("#AttachmentsearchTxt").val() });
+            $("#gridCustomerDocs").data("kendoGrid").dataSource.read({ CustomerDocssearchTxt: $("#CustomerDocssearchTxt").val() });
 
         });
 
     });
 
-    function onCompleteAttachmentUpload()
+    function onCompleteDocUpload()
     {
-        $("#gridAttachments").data("kendoGrid").dataSource.read({ searchText: $("#AttachmentsearchTxt").val() });
+        $("#gridCustomerDocs").data("kendoGrid").dataSource.read({ CustomerDocssearchTxt: $("#CustomerDocssearchTxt").val() });
     }
 
     function DownloadFile(fileName) {
@@ -111,3 +111,4 @@
     }
 
 </script>
+

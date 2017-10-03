@@ -1339,6 +1339,7 @@
     <Content Include="Views\Shared\_Attachments.cshtml" />
     <Content Include="Views\Policies\Index.cshtml" />
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
+    <Content Include="Views\Shared\_CustomerDocs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
