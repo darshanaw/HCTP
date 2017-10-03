@@ -96,7 +96,8 @@
 
     function closeInsurerModal(accountId, accountName)
     {
-        $("#InsurerName").val(accountName);
+        $("#InsurerName").val(accountName); // Needs to delete
+        $("#Insurer_Name").val(accountName);
         $("#Insurer").val(accountId);   
 
         $('#InsurerModal').modal('toggle');

@@ -167,6 +167,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool? Indemnity_Granted { get; set; }
         public string Broker { get; set; }
         public string Broker_Name { get; set; }
+        public string Broker_Name_Id { get; set; }
         public string Panel_Lawyers_Retained { get; set; }
         public string Oc_Num { get; set; }
         public string Oc_Id { get; set; }
@@ -176,6 +177,9 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Incident_TimeM { get; set; }
         public string Policy_Status { get; set; }
         public string BillingMethod { get; set; }
+        public string Policy_Class { get; set; }
+        public string Broker_Account { get; set; }
+        public string Broker_Account_Id { get; set; }
 
         public string UserId { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }

@@ -52,7 +52,7 @@ namespace HonanClaimsPortal.Controllers
             claim.Property_Postalcode = newClaimModel.Property_Postalcode;
             claim.Property_State = newClaimModel.Property_State;
             claim.Property_Suburb = newClaimModel.Property_Suburb;
-            claim.AccountManager = newClaimModel.AccountManager;
+            claim.Account_Manager_Property = newClaimModel.AccountManager;
 
             //claim.Claim_Team = login.ClaimTeam;
             //claim.Claim_Type = string.IsNullOrEmpty(Request.QueryString[QueryStringHelper.PageType]) ? Session[SessionHelper.Page].ToString() : Request.QueryString[QueryStringHelper.PageType];
@@ -254,7 +254,7 @@ namespace HonanClaimsPortal.Controllers
             Mapper.Initialize(cfg => cfg.CreateMap<PropertyClaim, ClaimGeneral>());
             ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);
 
-            generalClaim.Policy_Type = model.Policy_Class;
+            generalClaim.Policy_Class = string.IsNullOrEmpty(model.Policy_Class) == true ? model.Policy_Class_Selection : model.Policy_Class;
 
             ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
             if (ModelState.IsValid)

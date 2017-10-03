@@ -123,13 +123,14 @@
         if ("@pageId" == "Detail")
         {
             if (policyClass != "") {
-                $("#Policy_Class_TextBox").val(policyClass);
-                $("#Policy_Class_TextBox").show();
-                $("#Policy_Class_Dropdown").hide();
+                //$(".Policy_Class_TextBox").val(policyClass);
+                $(".Policy_Class_TextBox").show();
+                $(".Policy_Class_Dropdown").hide();
+                $("#Policy_Class").val(policyClass);
             }
             else {
-                $("#Policy_Class_Dropdown").show();
-                $("#Policy_Class_TextBox").hide();
+                $(".Policy_Class_Dropdown").show();
+                $(".Policy_Class_TextBox").hide();
             }
 
             $("#Policy_Status").val(policyStatus);
