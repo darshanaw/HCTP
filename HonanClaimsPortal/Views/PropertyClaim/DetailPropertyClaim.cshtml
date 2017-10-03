@@ -1197,8 +1197,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     <div class="tab-pane" id="tabKey_Contacts_Dates">
     </div>
     <div class="tab-pane" id="tabAttachments">
+        @Html.Partial("~/Views/Shared/_Attachments.cshtml", null)
     </div>
     <div class="tab-pane" id="tabCustomerDocs">
+        @Html.Partial("~/Views/Shared/_CustomerDocs.cshtml", null)
     </div>
     <div class="tab-pane" id="tabBillings">
     </div>

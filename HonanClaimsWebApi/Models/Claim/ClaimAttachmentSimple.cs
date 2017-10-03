@@ -17,6 +17,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public UInt64 Size { get; set; }
         public string UserId { get; set; }
         public string IsCustomerDoc { get; set; }
+        public string UploadedUser { get; set; }
+        public string SizeInKb { get; set; }
 
     }
 }

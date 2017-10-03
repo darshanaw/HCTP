@@ -20,7 +20,8 @@ namespace HonanClaimsWebApi.Services
         private const string createClaimAttachApiGet5 = "&Size=";
         private const string createClaimAttachApiGet6 = "&UserId=";
         private const string createClaimAttachApiGet7 = "&IsCustomerDoc=";
-        private const string createClaimAttachApiGet8 = "api/claim/GetCustomerDocs?ClaimId=";
+        private const string createClaimAttachApiGet8 = "api/claim/TeamGetDocs?ClaimId=";
+        private const string createClaimAttachApiGet9 = "&isCustomerDocs=";
 
         public bool CreateClaimAttachmentCustomerDoc(ClaimAttachmentSimple attachment, out string fileCreateId)
         {
@@ -60,13 +61,13 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        public List<ClaimAttachmentSimple> GetCustomerDocs(string claimId)
+        public List<ClaimAttachmentSimple> TeamGetDocs(string claimId, string isCustomerDocs)
         {
 
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + createClaimAttachApiGet8 + claimId);
+                    ConfigurationManager.AppSettings["apiurl"] + createClaimAttachApiGet8 + claimId + createClaimAttachApiGet9 + isCustomerDocs);
 
                 request.Method = "GET";
                 request.ContentType = "application/json";
