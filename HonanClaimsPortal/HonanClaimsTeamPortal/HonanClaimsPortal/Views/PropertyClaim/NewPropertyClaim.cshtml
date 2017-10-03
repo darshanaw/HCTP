@@ -195,7 +195,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Acct Manager</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.AccountManager, new { @class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Account_Manager_Property, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
                                 </div>
                             </div>
@@ -644,7 +644,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Complexity</label>
                                         <div class="col-sm-9">
-                                            @Html.DropDownListFor(model => model.Property_State,
+                                            @Html.DropDownListFor(model => model.Complexity,
                                                 new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new SelectListItem { Value = "High", Text = "High" }, new SelectListItem { Value = "Med", Text = "Med" }
                                                     ,new SelectListItem { Value = "Low", Text = "Low" }},
                                                 new { @class = "form-control input-sm"})
@@ -695,7 +695,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Acct Name</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm" })
+                                            @Html.TextBoxFor(o => o.Payment_Account_Name, new { @class = "form-control input-sm" })
                                         </div>
                                     </div>
                                 </div>
