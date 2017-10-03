@@ -271,7 +271,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             <div class="form-group mb">
                                                 <label class="col-sm-3 control-label input-sm">Acct Manager</label>
                                                 <div class="col-sm-9">
-                                                    @Html.TextBoxFor(o => o.AccountManager, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                                                    @Html.TextBoxFor(o => o.Account_Manager_Property, new { @class = "form-control input-sm disabledControl", @readonly = true })
                                                 </div>
                                             </div>
                                         </div>
@@ -380,6 +380,14 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                 <label class="col-sm-3 control-label input-sm">Acct Name</label>
                                                 <div class="col-sm-9">
                                                     @Html.TextBoxFor(o => o.Payment_Account_Name, new { @class = "form-control input-sm", @maxlength = 200 })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group mb">
+                                                <label class="col-sm-3 control-label input-sm">Claim Detail</label>
+                                                <div class="col-sm-9">
+                                                    @Html.TextAreaFor(o => o.Claim_Detail, new { @class = "form-control input-sm", @maxlength = 400 })
                                                 </div>
                                             </div>
                                         </div>
@@ -525,10 +533,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                                                 <div class="col-sm-9">
 
-                                                                    @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"), new { @id = "Policy_Class_Dropdown", @class = "form-control input-sm valueChanged" })
-                                                                    @Html.TextBoxFor(o => o.Policy_Class, new { @id = "Policy_Class_TextBox", @class = "form-control input-sm disabledControl", @readonly = true })
+                                                                    @Html.DropDownListFor(model => model.Policy_Class_Selection, new SelectList(Model.Policy_Class_List, "Text", "Text"), new {@class = "form-control input-sm valueChanged Policy_Class_Dropdown" })
+                                                                    @Html.TextBoxFor(o => o.Policy_Class, new {@class = "form-control input-sm disabledControl Policy_Class_TextBox", @readonly = true })
 
-
+                                                                    @*@Html.HiddenFor(o => o.Policy_Class)*@
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -608,7 +616,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <label class="col-sm-3 control-label input-sm">Insurer</label>
                                                                 <div class="col-sm-9">
                                                                     <div class="input-group">
-                                                                        @Html.TextBoxFor(o => o.InsurerName, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                                        @Html.TextBoxFor(o => o.Insurer_Name, new { @class = "form-control input-sm", @maxlength = 100 })
 
                                                                         <span id="insurerModel" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
                                                                             <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
@@ -1479,12 +1487,12 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
           var policyClass = "@Model.Policy_Class";
         if (policyClass == "") {
-            $("#Policy_Class_Dropdown").show();
-            $("#Policy_Class_TextBox").hide();
+            $(".Policy_Class_Dropdown").show();
+            $(".Policy_Class_TextBox").hide();
         }
         else {
-            $("#Policy_Class_TextBox").show();
-            $("#Policy_Class_Dropdown").hide();
+            $(".Policy_Class_TextBox").show();
+            $(".Policy_Class_Dropdown").hide();
         }
 
         $('#aEmailClaimant').click(function () {
@@ -1537,12 +1545,12 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
         var policyClass = "@Model.Policy_Class";
         if (policyClass == "") {
-            $("#Policy_Class_Dropdown").show();
-            $("#Policy_Class_TextBox").hide();
+            $(".Policy_Class_Dropdown").show();
+            $(".Policy_Class_TextBox").hide();
         }
         else {
-            $("#Policy_Class_TextBox").show();
-            $("#Policy_Class_Dropdown").hide();
+            $(".Policy_Class_TextBox").show();
+            $(".Policy_Class_Dropdown").hide();
         }
 
 
@@ -1583,6 +1591,9 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         });
 
 
+        $("#Assigned_User").change(function () {
+            $('#Assigned_Date').val(getTodaysDate());
+        });
 
     })
 

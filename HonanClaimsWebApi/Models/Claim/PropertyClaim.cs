@@ -197,10 +197,10 @@ namespace HonanClaimsWebApi.Models.Claim
 
         //New fields start
         public string Policy_Class { get; set; }
+        public string Policy_Class_Selection { get; set; }
         public List<PicklistItem> Policy_Class_List { get; set; }
         public List<PicklistItem> Policy_Section_List { get; set; }
         public List<PicklistItem> Causation_List { get; set; }
-        public string AccountManager { get; set; }
         public string Policy_Status { get; set; }
         public DateTime? AcctPeriod1 { get; set; }//New field
         public DateTime? AcctPeriod2 { get; set; }//New field
