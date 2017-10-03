@@ -83,7 +83,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Claim_Detail { get; set; }
         public string Account_Manager_Property { get; set; }
         public bool? Claim_Lodged { get; set; }
-        public bool? Claim_Acknowledged { get; set; }
+        public bool Claim_Acknowledged { get; set; }
         public bool? Assessor_Appointed { get; set; }
         public bool? Claim_Approved { get; set; }
         public bool? Claim_Declined { get; set; }
@@ -178,15 +178,15 @@ namespace HonanClaimsWebApi.Models.Claim
         public decimal Deductible { get; set; }
         public decimal Net_Incurred_On_Deductible { get; set; }
         public decimal Balance_On_Deduct_Remaining { get; set; }
-        public bool? Claim_Received { get; set; }
+        public bool Claim_Received { get; set; }
         public bool? Partial_Indemnity_Granted { get; set; }
         public DateTime? Claim_Received_Date { get; set; }
-        public bool? Claim_Closed { get; set; }
+        public bool Claim_Closed { get; set; }
         public DateTime? Claim_Closed_Date { get; set; }
-        public bool? Review { get; set; }
+        public bool Review { get; set; }
         public DateTime? Review_Date { get; set; }
-        public bool? Outcome_Settlement { get; set; }
-        public bool? Outcome_Declined { get; set; }
+        public bool Outcome_Settlement { get; set; }
+        public bool Outcome_Declined { get; set; }
         public DateTime? Outcome_Date { get; set; }
         public string Outcome { get; set; }
         public string Oc_Claims_Contact { get; set; }
@@ -211,6 +211,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Incident_TimeM { get; set; }
         public string Policy_Status { get; set; }
         public string Policy_Class { get; set; }
+        public string Policy_Class_Selection { get; set; }
         public decimal Basic_Excess { get; set; }
         public DateTime? AcctPeriod1 { get; set; }//New field
         public DateTime? AcctPeriod2 { get; set; }//New field

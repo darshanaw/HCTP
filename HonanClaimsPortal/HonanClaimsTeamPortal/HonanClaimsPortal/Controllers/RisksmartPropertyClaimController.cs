@@ -222,6 +222,50 @@ namespace HonanClaimsPortal.Controllers
                 model.Incident_TimeH = time.Split(':')[0].PadLeft(2, '0');
                 model.Incident_TimeM = time.Split(':')[1].PadLeft(2, '0');
             }
+
+            model.Claim_Received = model.Claim_Received == null || model.Claim_Received == false ? false : true;
+            model.Claim_Acknowledged = model.Claim_Acknowledged == null || model.Claim_Acknowledged == false ? false : true;
+            model.Review = model.Review == null || model.Review == false ? false : true;
+            model.Outcome_Settlement = model.Outcome_Settlement == null || model.Outcome_Settlement == false ? false : true;
+            model.Outcome_Declined = model.Outcome_Declined == null || model.Outcome_Declined == false ? false : true;
+            model.Claim_Closed = model.Claim_Closed == null || model.Claim_Closed == false ? false : true;
+            model.Litigated = model.Litigated == null || model.Litigated == false ? false : true;
+            model.Claim_Lodged = model.Claim_Lodged == null || model.Claim_Lodged == false ? false : true;
+            model.Claim_Not_Lodged = model.Claim_Not_Lodged == null || model.Claim_Not_Lodged == false ? false : true;
+            model.Claim_Approved = model.Claim_Approved == null || model.Claim_Approved == false ? false : true;
+            model.Claim_Declined = model.Claim_Declined == null || model.Claim_Declined == false ? false : true;
+        }
+
+        [HttpPost]
+        public ActionResult DetailRisksmartPropertyClaim(RisksmartPropertyClaim model)
+        {
+            Session[SessionHelper.StoreobjectList] = null;
+            PicklistServicecs picklistService = new PicklistServicecs();
+            ClaimServices claims = new ClaimServices();
+
+
+            Mapper.Initialize(cfg => cfg.CreateMap<RisksmartPropertyClaim, ClaimGeneral>());
+            ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);
+
+            generalClaim.Policy_Class = string.IsNullOrEmpty(model.Policy_Class) == true ? model.Policy_Class_Selection : model.Policy_Class;
+
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            if (ModelState.IsValid)
+            {
+                claims = new ClaimServices();
+                var result = claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
+                if (result)
+                {
+
+                    return RedirectToAction("Index", "ClaimList");
+                }
+                else
+                    TempData["ErrorMsg"] = Messages.errorMessage;
+            }
+
+            InitializeModel(model, claims);
+
+            return View(model);
         }
     }
 }

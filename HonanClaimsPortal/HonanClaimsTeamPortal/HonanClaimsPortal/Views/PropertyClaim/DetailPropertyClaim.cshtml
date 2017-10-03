@@ -66,7 +66,7 @@
 <div class="tab-content">
 
     <div class="tab-pane active" id="tabClaimDetail">
-        @using (Html.BeginForm("DetailPropertyClaim", "PropertyClaim", FormMethod.Post))
+        @using (Html.BeginForm("DetailPropertyClaim", "PropertyClaim", FormMethod.Post, new { id = "formDetailPropertyClaim", enctype = "multipart/form-data" }))
         {
             @Html.HiddenFor(o => o.H_Claimsid)
             @Html.HiddenFor(o => o.Accountid)
@@ -1381,8 +1381,18 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 @*NOTIFY*@
 <script src="~/Content/master/js/modules/notify.js"></script>
 
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
 <script>
-    $(function () {
+    $(document).ready(function () {
+
+        $('#formDetailPropertyClaim').submit(function () {
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
 
         jQuery.validator.methods["date"] = function (value, element) { return true; }
 
