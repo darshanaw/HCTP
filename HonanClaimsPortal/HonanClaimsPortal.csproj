@@ -1340,6 +1340,7 @@
     <Content Include="Views\Policies\Index.cshtml" />
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
     <Content Include="Views\Shared\_CustomerDocs.cshtml" />
+    <Content Include="Views\Shared\_Billings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

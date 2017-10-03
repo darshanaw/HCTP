@@ -1,10 +1,12 @@
 ﻿using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.Claim;
+using HonanClaimsWebApi.Models.TimeslipCheck;
 using HonanClaimsWebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,6 +16,7 @@ namespace HonanClaimsPortal.Controllers
     {
         DocumentService documentService;
         List<ClaimAttachmentSimple> attachmentList;
+        BillingTabModel billingTab;
         // GET: ClaimDetailTabs
         public ActionResult Index()
         {
@@ -127,6 +130,31 @@ namespace HonanClaimsPortal.Controllers
             }
             // return File(new byte[0],"");
             return null;
+        }
+
+
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public  ActionResult _Billing()
+        {
+            var billingTab = new BillingTabModel();
+            //billingTab.ServiceByList = await GetComboDetails(arealist.ServiceBy);
+            return PartialView(billingTab);
+        }
+
+        private async Task<List<TimeslipDataModel>> GetComboDetails(arealist area)
+        {
+            try
+            {
+                List<TimeslipDataModel> list = new List<TimeslipDataModel>();
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                list = await timelistcheckrepo.GetComboList(area);
+                return list;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }
