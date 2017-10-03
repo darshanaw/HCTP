@@ -91,6 +91,7 @@
     <Compile Include="Models\Billing\BillingSimpleModel.cs" />
     <Compile Include="Models\Billing\BillingSimpleRepo.cs" />
     <Compile Include="Models\ClaimTeamLoginModel.cs" />
+    <Compile Include="Models\Claim\BillingTabModel.cs" />
     <Compile Include="Models\Claim\ClaimAttachmentSimple.cs" />
     <Compile Include="Models\Claim\ClaimGeneral.cs" />
     <Compile Include="Models\Claim\GccClaim.cs" />
