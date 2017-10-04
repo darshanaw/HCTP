@@ -1017,6 +1017,7 @@
     <div class="tab-pane" id="tabPayments">
     </div>
     <div class="tab-pane" id="tabFileNotes">
+        @Html.Partial("~/Views/Shared/_FileNotes.cshtml", new ViewDataDictionary { { "claimId" , Model.H_Claimsid },{ "Claim_Reference_Num", Model.Claim_Reference_Num } })
     </div>
 </div>
 <!-- Modal -->

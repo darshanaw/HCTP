@@ -31,6 +31,7 @@ namespace HonanClaimsWebApi.Services
         private const string insertHistoryRecord = "api/General/CreateHistoryRecord?userId=";
         private const string updateClaimNotificationApiGet1 = "api/Claim/TeamUpdateClaimNotification?claim=";
 
+        private const string getUserRefNumbers = "api/Claim/GetClaimsForUser?assignedToId=";
 
         ExecutionResult exeReult;
 
@@ -323,6 +324,38 @@ namespace HonanClaimsWebApi.Services
             }
 
 
+        }
+
+        public List<CRMPicklistItem> GetClaimsForUser(string assignedToId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getUserRefNumbers + assignedToId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            if (!string.IsNullOrEmpty(response))
+                            {
+                                return new JavaScriptSerializer().Deserialize<List<CRMPicklistItem>>(response);
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

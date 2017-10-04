@@ -94,6 +94,7 @@
     <Compile Include="Models\Claim\BillingTabModel.cs" />
     <Compile Include="Models\Claim\ClaimAttachmentSimple.cs" />
     <Compile Include="Models\Claim\ClaimGeneral.cs" />
+    <Compile Include="Models\Claim\FileNoteDetailModal.cs" />
     <Compile Include="Models\Claim\GccClaim.cs" />
     <Compile Include="Models\Claim\NewClaimModel.cs" />
     <Compile Include="Models\Claim\PropertyClaim.cs" />
