@@ -120,14 +120,6 @@ namespace HonanClaimsPortal.Controllers
             Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral, RisksmartPropertyClaim>());
             RisksmartPropertyClaim model = Mapper.Map<RisksmartPropertyClaim>(claimServices.GetClaimNotification(id));
 
-            model.Claim_Received = false;
-            model.Claim_Acknowledged = false;
-            model.Review = false;
-            model.Outcome_Settlement = false;
-            model.Outcome_Declined = false;
-            model.Claim_Closed = false;
-            model.Litigated = false;
-
             InitializeModel(model, claimServices);
 
             return View(model);
@@ -147,7 +139,7 @@ namespace HonanClaimsPortal.Controllers
             model.IncidentCategoryList.Insert(0, new PicklistItem());
 
             //Get Outcome List
-            model.Outcome_List = pickListServices.GetPickListItems("Risksmart Property  Outcome");
+            model.Outcome_List = pickListServices.GetPickListItems("Risksmart Property Outcome");
             model.Outcome_List.Insert(0, new PicklistItem());
 
             //Get Suburbs

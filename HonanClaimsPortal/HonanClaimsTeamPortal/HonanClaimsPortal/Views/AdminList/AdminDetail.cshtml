@@ -284,6 +284,14 @@
 
     $(document).ready(function () {
 
+
+        $("#Fee_Per_Hour").change(function () {
+            if ($("#Billing_Method").val() == "Per Hour") {
+                $("#Fee_Per_Billing_Method").val($("#Fee_Per_Hour").val())
+            }
+        });
+
+
         $("#btnPolicyLookup").click(function () {
             $('#Accsearch').val('');
             $("#lookupAccountGrid").kendoGrid({
@@ -524,6 +532,7 @@
             var dataItem = this.dataItem(e.item.index());
             $('#ContactId').val(dataItem.ContactId);
         }
+
     }
 
     //$(function () {
