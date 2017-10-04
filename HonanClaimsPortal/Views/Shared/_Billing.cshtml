@@ -13,7 +13,7 @@
                     <label class=" control-label input-sm">Service By: </label>
                     <div>
                         @Html.DropDownListFor(m => m.ServiceBy,
-                            new SelectList(Model.ServiceByList, "Code", "Text"),
+                            new SelectList(Model.ServiceByList, "Code", "Text"),"",
                             new { @class = "form-control" })
                     </div>
                 </div>
@@ -109,13 +109,13 @@
 
 <script>
     $(function () {
-       
+
         if ($("#BillingMethod").val() != "Per Hour") {
 
             $("#divInvoiced").hide();
-            $("#divInvoiceNo").hide();  
+            $("#divInvoiceNo").hide();
         }
-       
+
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
         });
@@ -158,7 +158,8 @@
                 },
                 {
                     field: "ServiceDate",
-                    title: "Service Date"
+                    title: "Service Date",
+                    template: '#= kendo.toString(kendo.parseDate(ServiceDate), "dd/MM/yyyy")#'
                 },
                 {
                     field: "StartTime",
@@ -189,7 +190,7 @@
     })
 
     function ClearFilters()
-    {        
+    {
         $("#ServiceBy").val("");
         $("#Service_Date_From").val("");
         $("#Service_Date_To").val("");
@@ -218,7 +219,7 @@
                 totalsum += arg.sender.dataSource.data()[0].Qty;
             }
         }
-       
+
         $("#Total_Qty").val((totalsum / 60).toFixed(2));
 
         //UnitsInStock field sum of current page
