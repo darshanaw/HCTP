@@ -3,6 +3,7 @@ using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.TimeslipCheck;
 using HonanClaimsWebApi.Services;
+using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,6 +15,7 @@ using System.Web.Mvc;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class ClaimDetailTabsController : Controller
     {
         DocumentService documentService;
@@ -21,6 +23,8 @@ namespace HonanClaimsPortal.Controllers
         List<BillingSimpleModel> billableTimesList;
         BillingTabModel billingTab;
         BillableServices billableServices;
+        ClaimServices claimServices;
+
         // GET: ClaimDetailTabs
         public ActionResult Index()
         {
@@ -87,7 +91,7 @@ namespace HonanClaimsPortal.Controllers
             return Content("");
         }
 
-        public ActionResult AjaxAttachmentsLoad(string claimId,string searchText)
+        public ActionResult AjaxAttachmentsLoad(string claimId, string searchText)
         {
             attachmentList = new List<ClaimAttachmentSimple>();
             attachmentList = GetAttachments(claimId, searchText);
@@ -118,9 +122,9 @@ namespace HonanClaimsPortal.Controllers
             documentService = new DocumentService();
             attachmentList = new List<ClaimAttachmentSimple>();
             if (!string.IsNullOrEmpty(searchText))
-                attachmentList = documentService.TeamGetDocs(claimId,"false").Where(o => o.AttachmentDescription.ToUpper().Contains(searchText.ToUpper())).ToList();
+                attachmentList = documentService.TeamGetDocs(claimId, "false").Where(o => o.AttachmentDescription.ToUpper().Contains(searchText.ToUpper())).ToList();
             else
-                attachmentList = documentService.TeamGetDocs(claimId,"false");
+                attachmentList = documentService.TeamGetDocs(claimId, "false");
             return attachmentList;
 
         }
@@ -157,9 +161,9 @@ namespace HonanClaimsPortal.Controllers
                 invoiced = "true";
             else if (invoiced == "No")
                 invoiced = "false";
-            
 
-            billableTimesList = billableServices.GetBillableTimes(claimId, serviceUserId, isBillable,serviceFromDate,serviceToDate,invoiced, invoiceNo);
+
+            billableTimesList = billableServices.GetBillableTimes(claimId, serviceUserId, isBillable, serviceFromDate, serviceToDate, invoiced, invoiceNo);
             return Json(billableTimesList, JsonRequestBehavior.AllowGet);
         }
 
@@ -167,8 +171,8 @@ namespace HonanClaimsPortal.Controllers
         {
             try
             {
-                List<TimeslipDataModel> list = new List<TimeslipDataModel>();              
-                list = billableServices.GetServiceByUserList(claimId,"","","","","");
+                List<TimeslipDataModel> list = new List<TimeslipDataModel>();
+                list = billableServices.GetServiceByUserList(claimId, "", "", "", "", "");
                 return list;
             }
             catch (Exception ex)
@@ -176,6 +180,27 @@ namespace HonanClaimsPortal.Controllers
 
                 throw ex;
             }
+        }
+
+        public ActionResult _FileNoteDetail(string claimId, string Claim_Reference_Num)
+        {
+            FileNoteDetailModal model = new FileNoteDetailModal();
+            claimServices = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            model.CreatedDate_Fn = DateTime.Now;
+            model.CreatedBy_Id_Fn = client.UserId;
+            model.CreatedBy_Fn = client.FirstName + " " + client.LastName;
+            model.ClaimId_Fn = claimId;
+            model.ClaimRefNo_Fn = Claim_Reference_Num;
+            model.RefnuberList_Fn = claimServices.GetClaimsForUser(client.UserId);
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult _FileNoteDetail(FileNoteDetailModal model)
+        {
+            return PartialView();
         }
     }
 }
