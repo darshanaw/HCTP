@@ -6,6 +6,7 @@ using HonanClaimsWebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -37,8 +38,8 @@ namespace HonanClaimsPortal.Controllers
 
                 ClaimAttachmentSimple attachment = new ClaimAttachmentSimple()
                 {
-                    AttachmentName = file.FileName,
-                    AttachmentDescription = file.FileName,
+                    AttachmentName = Path.GetFileName(file.FileName),
+                    AttachmentDescription = Path.GetFileName(file.FileName),
                     AttachmentType = file.ContentType,
                     UserId = userId,
                     ClaimId = claimId,
@@ -67,8 +68,8 @@ namespace HonanClaimsPortal.Controllers
 
                 ClaimAttachmentSimple attachment = new ClaimAttachmentSimple()
                 {
-                    AttachmentName = file.FileName,
-                    AttachmentDescription = file.FileName,
+                    AttachmentName = Path.GetFileName(file.FileName),
+                    AttachmentDescription = Path.GetFileName(file.FileName),
                     AttachmentType = file.ContentType,
                     UserId = userId,
                     ClaimId = claimId,
@@ -151,6 +152,13 @@ namespace HonanClaimsPortal.Controllers
         {
             billableTimesList = new List<BillingSimpleModel>();
             billableServices = new BillableServices();
+
+            if (invoiced == "Yes")
+                invoiced = "true";
+            else if (invoiced == "No")
+                invoiced = "false";
+            
+
             billableTimesList = billableServices.GetBillableTimes(claimId, serviceUserId, isBillable,serviceFromDate,serviceToDate,invoiced, invoiceNo);
             return Json(billableTimesList, JsonRequestBehavior.AllowGet);
         }
