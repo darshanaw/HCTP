@@ -11,7 +11,9 @@
             format: 'DD/MM/YYYY'
         });
 
-        $('#ClaimRefNo_Fn').select2({ width: "100%",theme: "bootstrap" });
+        if (!$('#ClaimRefNo_Fn').is('input:text')) {
+            $('#ClaimRefNo_Fn').select2({ width: "100%", theme: "bootstrap" });
+        }
     })
 </script>
 
@@ -25,8 +27,8 @@
 
         <div class="row">
             <div class="form-group mb">
-                <label class="col-sm-3 control-label input-sm">Claim Ref</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 control-label input-sm">Claim Ref</label>
+                <div class="col-sm-8">
                     @if (string.IsNullOrEmpty(Model.ClaimRefNo_Fn))
                     {
                         @Html.DropDownListFor(model => model.ClaimRefNo_Fn, new SelectList(Model.RefnuberList_Fn, "Text", "Text"), "",
@@ -41,8 +43,8 @@
         </div>
         <div class="row">
             <div class="form-group mb">
-                <label class="col-sm-3 control-label input-sm">File Note Date</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 control-label input-sm">File Note Date</label>
+                <div class="col-sm-8">
                     <div class="input-group date dateCalendar" style="width:100%">
                         @Html.TextBoxFor(o => o.FileNoteDate_Fn, new { @class = "form-control input-sm" })
                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
@@ -59,16 +61,16 @@
 
         <div class="row">
             <div class="form-group mb">
-                <label class="col-sm-3 control-label input-sm">Created By</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 control-label input-sm">Created By</label>
+                <div class="col-sm-8">
                     @Html.TextBoxFor(o => o.CreatedBy_Fn, new { @class = "form-control input-sm disabledControl", @readonly = true })
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group mb">
-                <label class="col-sm-3 control-label input-sm">Created Date</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 control-label input-sm">Created Date</label>
+                <div class="col-sm-8">
                     @Html.TextBoxFor(o => o.CreatedDate_Fn, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm disabledControl", @readonly = true })
                 </div>
             </div>
@@ -104,4 +106,8 @@
     </div>
 
 }
+
+
+
+
 
