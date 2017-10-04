@@ -1,0 +1,233 @@
+﻿@model  HonanClaimsWebApi.Models.Claim.BillingTabModel
+
+@{ 
+    string display = "";
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="col-md-12">
+         <div class="col-md-3">
+                <div class="form-group mb">
+                    <label class=" control-label input-sm">Service By: </label>
+                    <div>
+                        @Html.DropDownListFor(m => m.ServiceBy,
+                            new SelectList(Model.ServiceByList, "Code", "Text"),
+                            new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group mb">
+                    <label class="control-label input-sm">Service Date From: </label>
+                    <div>
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.Service_Date_From, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" id="divInvoiced">
+                <div class="form-group mb">
+
+                    <label class="control-label input-sm">Invoiced: </label>
+                    <div>                       
+                        @Html.DropDownListFor(model => model.Invoiced, new SelectList(Model.YesNoList),
+                                    new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group mb">
+                    <div class="col-sm-6" style="padding-top:10%">
+                        <input type="button" class="btn btn-default" id="ClearFilters" value="Clear Filters" />
+                    </div>
+                    <div class="col-sm-6" style="padding-top:10%">
+                        <input type="button" class="btn btn-primary" id="FilterBillables" value="Filter Billables" />
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        <br />
+        
+        <div class="col-md-12">
+
+            <div class="col-md-3">
+                <div class="radioset-1">
+                    <div class="radio">
+                        <label><input type="radio" id="rdoBillable" value="true" name="rdoBill">Billable</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" id="rdoNonBillable" value="false" name="rdoBill">Non Billable</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group mb">
+                    <label class="control-label input-sm">Service Date To: </label>
+                    <div>
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.Service_Date_To, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" id="divInvoiceNo">
+                <div class="form-group mb">
+                    <label class="control-label input-sm">Invoice #: </label>
+                    <div>
+                        @Html.DropDownListFor(m => m.InvoiceNumber,
+                            new SelectList(Model.InvoiceNumberList, "Code", "Text"),
+                            new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group mb">
+                    <label class="control-label input-sm">Total Qty (Hrs): </label>
+                    <div>
+                        @Html.TextBoxFor(o => o.Total_Qty, new { @class = "form-control input-sm disabled", @readonly = true })
+                    </div>
+                </div>
+            </div>
+
+            </div>
+    </div>
+</div>
+
+
+<div id="gridBillableTimes"></div>
+
+<script>
+    $(function () {
+       
+        if ($("#BillingMethod").val() != "Per Hour") {
+
+            $("#divInvoiced").hide();
+            $("#divInvoiceNo").hide();  
+        }
+       
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+        $("#FilterBillables").click(function () {
+
+            RefreshGrid();
+        });
+
+        $("#ClearFilters").click(function () {
+            ClearFilters();
+        });
+
+        $("#gridBillableTimes").kendoGrid({
+
+            dataSource: {
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxBillableTimesLoadLoad?claimId=" + $("#H_Claimsid").val(),
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 100,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            dataBound: onDataBound,
+            columns: [
+
+                {
+                    field: "ServiceBy",
+                    title: "Service By",
+                    template: "<a href='/Billing/TimeslipDetail?BillingId=#=BillingId#'>#= ServiceBy #</a>"
+                },
+                {
+                    field: "ServiceDate",
+                    title: "Service Date"
+                },
+                {
+                    field: "StartTime",
+                    title: "Start Time"
+                },
+                {
+                    field: "Qty",
+                    title: "Qty (Mins)"
+                },
+                {
+                    field: "Billable",
+                    title: "Billable $$"
+                },
+                {
+                    field: "Work_Done",
+                    title: "Work Done"
+                },
+                {
+                    field: "Checked",
+                    title: "Checked"
+                },
+                {
+                    field: "Invoiced",
+                    title: "Invoiced"
+                }
+            ]
+        });
+    })
+
+    function ClearFilters()
+    {        
+        $("#ServiceBy").val("");
+        $("#Service_Date_From").val("");
+        $("#Service_Date_To").val("");
+        $("#Invoiced").val("");
+        $("#InvoiceNumber").val("");
+        $("input[name='rdoBill']").prop('checked', false);
+
+        RefreshGrid();
+    }
+
+    function RefreshGrid()
+    {
+        $("#gridBillableTimes").data("kendoGrid").dataSource.read({
+            serviceUserId: $("#ServiceBy").val(), isBillable: $("input[name='rdoBill']:checked").val(), serviceFromDate: $("#Service_Date_From").val(), serviceToDate: $("#Service_Date_To").val()
+            , invoiced: $("#Invoiced").val(), invoiceNo: $("#InvoiceNumber").val()
+        });
+    }
+
+    function onDataBound(arg) {
+
+        //Total sum of UnitsInStock field
+        var datalength = arg.sender.dataSource.data().length;
+        var totalsum = 0;
+        if (datalength > 0) {
+            for (var i = 0; i < datalength; i++) {
+                totalsum += arg.sender.dataSource.data()[0].Qty;
+            }
+        }
+       
+        $("#Total_Qty").val((totalsum / 60).toFixed(2));
+
+        //UnitsInStock field sum of current page
+        //var curretpagesum = 0;
+        //var grid = $("#grid").data("kendoGrid");
+        //$(grid.tbody).find('tr').each(function (index) {
+        //    curretpagesum += parseInt($(this).find('td:eq(2)').html());
+        //});
+        //$("#txtCurrentPageSum").val(curretpagesum);
+    }
+
+</script>
