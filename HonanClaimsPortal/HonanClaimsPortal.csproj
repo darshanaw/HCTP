@@ -29,6 +29,7 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1340,7 +1341,7 @@
     <Content Include="Views\Policies\Index.cshtml" />
     <Content Include="Views\Policies\PoliciesDetail.cshtml" />
     <Content Include="Views\Shared\_CustomerDocs.cshtml" />
-    <Content Include="Views\Shared\_Billings.cshtml" />
+    <Content Include="Views\Shared\_Billing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,10 +1,14 @@
-﻿using System;
+﻿using HonanClaimsWebApi.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace HonanClaimsWebApi.Models.TimeslipCheck
 {
@@ -50,6 +54,7 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             }
             return list;
         }
+         
 
         public async Task<List<TimeSlipGridDetailModel>> GetTimeSlipGridData(string claimTeam, string accountId, string serviceBy, string claimId, string fromDate, string toDate)
         {

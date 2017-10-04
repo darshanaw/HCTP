@@ -18,6 +18,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public decimal Billable { get; set; }
         public string Checked { get; set; }
         public string Invoiced { get; set; }
+        public string Work_Done { get; set; }
     }
 
 
