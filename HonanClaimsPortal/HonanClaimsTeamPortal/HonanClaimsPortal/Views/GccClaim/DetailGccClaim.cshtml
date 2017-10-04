@@ -68,6 +68,7 @@
 @Html.HiddenFor(o => o.Broker_Name_Id)
 @Html.HiddenFor(o => o.Liability_Res_Source)
 @Html.HiddenFor(o => o.Defence_Res_Source)
+@Html.HiddenFor(o => o.H_Claimsid)
 
 <div class="tab-content">
 
@@ -671,6 +672,7 @@
         @Html.Partial("~/Views/Shared/_CustomerDocs.cshtml", null)
     </div>
     <div class="tab-pane" id="tabBillings">
+        @{Html.RenderAction("_Billing", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
     </div>
     <div class="tab-pane" id="tabPayments">
     </div>

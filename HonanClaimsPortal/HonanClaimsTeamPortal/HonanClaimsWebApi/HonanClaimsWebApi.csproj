@@ -118,6 +118,7 @@
     <Compile Include="Models\TimeslipCheck\TimeSlipGridDetailModel.cs" />
     <Compile Include="Models\TimeslipCheck\TimeslipReturnModel.cs" />
     <Compile Include="Models\Views\ClaimNotificationSimple.cs" />
+    <Compile Include="Services\BillableServices.cs" />
     <Compile Include="Services\ClaimServices.cs" />
     <Compile Include="Services\DocumentService.cs" />
     <Compile Include="Services\LoginService.cs" />

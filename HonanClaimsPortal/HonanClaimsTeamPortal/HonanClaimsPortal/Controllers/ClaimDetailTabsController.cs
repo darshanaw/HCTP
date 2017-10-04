@@ -1,4 +1,5 @@
 ﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.TimeslipCheck;
 using HonanClaimsWebApi.Services;
@@ -16,7 +17,9 @@ namespace HonanClaimsPortal.Controllers
     {
         DocumentService documentService;
         List<ClaimAttachmentSimple> attachmentList;
+        List<BillingSimpleModel> billableTimesList;
         BillingTabModel billingTab;
+        BillableServices billableServices;
         // GET: ClaimDetailTabs
         public ActionResult Index()
         {
@@ -133,21 +136,31 @@ namespace HonanClaimsPortal.Controllers
         }
 
 
-        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public  ActionResult _Billing()
+        //[AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult _Billing(string claimId)
         {
+            billableServices = new BillableServices();
             var billingTab = new BillingTabModel();
-            //billingTab.ServiceByList = await GetComboDetails(arealist.ServiceBy);
+            billingTab.ServiceByList = GetComboDetails(billableServices, claimId);
+            billingTab.YesNoList = new List<string>() { "", "Yes", "No" };
+            billingTab.InvoiceNumberList = billableServices.TeamGetInvoiceNumbersPerClaim(claimId);
             return PartialView(billingTab);
         }
 
-        private async Task<List<TimeslipDataModel>> GetComboDetails(arealist area)
+        public ActionResult AjaxBillableTimesLoadLoad(string claimId, string serviceUserId, string isBillable, string serviceFromDate, string serviceToDate, string invoiced, string invoiceNo)
+        {
+            billableTimesList = new List<BillingSimpleModel>();
+            billableServices = new BillableServices();
+            billableTimesList = billableServices.GetBillableTimes(claimId, serviceUserId, isBillable,serviceFromDate,serviceToDate,invoiced, invoiceNo);
+            return Json(billableTimesList, JsonRequestBehavior.AllowGet);
+        }
+
+        private List<TimeslipDataModel> GetComboDetails(BillableServices billableServices, string claimId)
         {
             try
             {
-                List<TimeslipDataModel> list = new List<TimeslipDataModel>();
-                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
-                list = await timelistcheckrepo.GetComboList(area);
+                List<TimeslipDataModel> list = new List<TimeslipDataModel>();              
+                list = billableServices.GetServiceByUserList(claimId,"","","","","");
                 return list;
             }
             catch (Exception ex)

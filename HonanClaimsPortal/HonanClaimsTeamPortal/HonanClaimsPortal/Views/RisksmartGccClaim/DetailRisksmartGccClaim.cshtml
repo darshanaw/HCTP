@@ -1012,8 +1012,7 @@
         @Html.Partial("~/Views/Shared/_CustomerDocs.cshtml", null)
     </div>
     <div class="tab-pane" id="tabBillings">
-        @*@Html.Partial("~/Views/Shared/_Billings.cshtml", new HonanClaimsWebApi.Models.Claim.BillingTabModel())*@
-        @*@Html.Action("_Billings", "ClaimDetailTabs")*@
+        @{Html.RenderAction("_Billing", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
     </div>
     <div class="tab-pane" id="tabPayments">
     </div>
