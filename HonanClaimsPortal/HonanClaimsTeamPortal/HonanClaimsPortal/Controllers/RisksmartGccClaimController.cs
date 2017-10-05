@@ -73,9 +73,9 @@ namespace HonanClaimsPortal.Controllers
                 client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
 
                 if (claim.Region != null)
-                    claim.Region = String.Join(",", Region.Where(s => !string.IsNullOrEmpty(s)));
+                    claim.Region = String.Join(", ", Region.Where(s => !string.IsNullOrEmpty(s)));
                 if (claim.Incident_Category != null)
-                    claim.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+                    claim.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
                 Mapper.Initialize(cfg => cfg.CreateMap<RisksmartGccClaim, ClaimGeneral>());
                 ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
@@ -249,12 +249,48 @@ namespace HonanClaimsPortal.Controllers
             else
                 model.Current_Exposure = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
 
+
+            model.Claim_Received = model.Claim_Received == null || model.Claim_Received == false ? false : true;
+            model.Claim_Acknowledged = model.Claim_Acknowledged == null || model.Claim_Acknowledged == false ? false : true;
+            model.Review = model.Review == null || model.Review == false ? false : true;
+            model.Outcome_Settlement = model.Outcome_Settlement == null || model.Outcome_Settlement == false ? false : true;
+            model.Outcome_Declined = model.Outcome_Declined == null || model.Outcome_Declined == false ? false : true;
+            model.Litigated = model.Litigated == null || model.Litigated == false ? false : true;
+            model.Claim_Closed = model.Claim_Closed == null || model.Claim_Closed == false ? false : true;
+
         }
 
         [HttpPost]
-        public ActionResult DetailRisksmartGccClaim(RisksmartGccClaim model)
+        public ActionResult DetailRisksmartGccClaim(RisksmartGccClaim model, IEnumerable<string> Incident_Category)
         {
+            Session[SessionHelper.StoreobjectList] = null;
+            PicklistServicecs picklistService = new PicklistServicecs();
+            ClaimServices claims = new ClaimServices();
 
+            if (model.Incident_Category != null)
+                model.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+
+            Mapper.Initialize(cfg => cfg.CreateMap<RisksmartGccClaim, ClaimGeneral>());
+            ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);
+
+            generalClaim.Policy_Class = string.IsNullOrEmpty(model.Policy_Class) == true ? model.Policy_Class_Selection : model.Policy_Class;
+
+        
+
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            if (ModelState.IsValid)
+            {
+                claims = new ClaimServices();
+                var result = claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
+                if (result)
+                {
+                    return RedirectToAction("Index", "ClaimList");
+                }
+                else
+                    TempData["ErrorMsg"] = Messages.errorMessage;
+            }
+
+            InitializeModel(model, claims);
 
             return View(model);
         }
@@ -266,6 +302,7 @@ namespace HonanClaimsPortal.Controllers
             client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
             return Json(claimService.CreateHistoryRecord(client.UserId, client.FirstName + " " + client.LastName, claimId, fieldName, newValue));
         }
+       
 
     }
 }

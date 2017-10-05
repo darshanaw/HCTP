@@ -77,14 +77,14 @@ namespace HonanClaimsWebApi.Models.Claim
         [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
         public decimal Excess { get; set; }
         public string Binder { get; set; }
-        public bool? Litigated { get; set; }
+        public bool Litigated { get; set; }
         public string Cat_Code { get; set; }
         public string Idr { get; set; }
         public string Complexity { get; set; }
         public string Claim_Detail { get; set; }
         public string Account_Manager_Property { get; set; }
         public bool? Claim_Lodged { get; set; }
-        public bool? Claim_Acknowledged { get; set; }
+        public bool Claim_Acknowledged { get; set; }
         public bool? Assessor_Appointed { get; set; }
         public bool? Claim_Approved { get; set; }
         public bool? Claim_Declined { get; set; }
@@ -178,15 +178,15 @@ namespace HonanClaimsWebApi.Models.Claim
         public decimal Deductible { get; set; }
         public decimal Net_Incurred_On_Deductible { get; set; }
         public decimal Balance_On_Deduct_Remaining { get; set; }
-        public bool? Claim_Received { get; set; }
+        public bool Claim_Received { get; set; }
         public bool? Partial_Indemnity_Granted { get; set; }
         public DateTime? Claim_Received_Date { get; set; }
-        public bool? Claim_Closed { get; set; }
+        public bool Claim_Closed { get; set; }
         public DateTime? Claim_Closed_Date { get; set; }
-        public bool? Review { get; set; }
+        public bool Review { get; set; }
         public DateTime? Review_Date { get; set; }
-        public bool? Outcome_Settlement { get; set; }
-        public bool? Outcome_Declined { get; set; }
+        public bool Outcome_Settlement { get; set; }
+        public bool Outcome_Declined { get; set; }
         public DateTime? Outcome_Date { get; set; }
         public string Outcome { get; set; }
         public string Oc_Claims_Contact { get; set; }
@@ -212,6 +212,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Policy_Status { get; set; }
         public string Policy_Class { get; set; }
         public decimal Basic_Excess { get; set; }
+        public string Policy_Class_Selection { get; set; }
+
 
         public List<PicklistItem> Policy_Class_List { get; set; }
         public List<PicklistItem> Outcome_List { get; set; }
