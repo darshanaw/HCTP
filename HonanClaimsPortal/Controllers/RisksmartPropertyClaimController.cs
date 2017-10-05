@@ -236,7 +236,7 @@ namespace HonanClaimsPortal.Controllers
             ClaimServices claims = new ClaimServices();
 
             if (model.Incident_Category != null)
-                model.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+                model.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
             Mapper.Initialize(cfg => cfg.CreateMap<RisksmartPropertyClaim, ClaimGeneral>());
             ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);

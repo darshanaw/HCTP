@@ -24,7 +24,7 @@
 
 <div class="content-wrapper">
     <h3>
-       
+
         New @Model.Claim_Type
 
     </h3>
@@ -40,54 +40,15 @@
                     @Html.HiddenFor(o => o.Broker_Name_Id)
                     @Html.HiddenFor(o => o.Accountid)
                     @Html.HiddenFor(o => o.Assigned_User)
+                    @Html.HiddenFor(o => o.Account_Name)
 
                     @*@Html.ValidationSummary(false)*@
 
                     <fieldset style="padding-bottom: 0px">
 
                         @*@if (Session[HonanCCp.CustomHelpers.SessionHelper.Page].ToString() == HonanCCp.CustomHelpers.PageTypes.Claim.ToString())
-                        {*@
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group mb  has-feedback">
-                                    <label class="col-sm-3 control-label input-sm">Policy #</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })                                          
-                                            <span class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
+                            {*@
 
-                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
-                                                    <i class="fa fa-binoculars"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Policy Class</label>
-                                    <div class="col-sm-9">
-                                        @if (string.IsNullOrEmpty(Model.Policy_No))
-                                        {
-                                            @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                        }
-                                        else if (!string.IsNullOrEmpty(Model.Policy_Class))
-                                        {
-                                            @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                        }
-                                        else
-                                        {
-                                            @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
-                                            new { @class = "form-control input-sm" })
-                                        }
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        
-
-
-                        @*}*@
                         <div class="col-md-6 col-sm-12">
                             <div class="col-md-2"></div>
                             <div class="col-md-8" style="text-align: center; font-size: large;">
@@ -109,6 +70,50 @@
                             <div class="col-md-2"></div>
 
                         </div>
+
+
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group mb  has-feedback">
+                                <label class="col-sm-3 control-label input-sm">Policy #</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
+                                        <span class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
+
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Policy Class</label>
+                                <div class="col-sm-9">
+                                    @if (string.IsNullOrEmpty(Model.Policy_No))
+                                    {
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                    }
+                                    else if (!string.IsNullOrEmpty(Model.Policy_Class))
+                                    {
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
+                                            new { @class = "form-control input-sm" })
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        @*}*@
+
 
                     </fieldset>
 
@@ -296,7 +301,7 @@
 
                     <div class="col-md-6 col-sm-12 m0 p0">
                         <fieldset>
-                           
+
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Client Group</label>
@@ -379,18 +384,18 @@
 
 
                         </fieldset>
-                     </div>
-
-                        <div class="col-md-12 col-sm-12 m0 p0">
-                            <div class="panel-footer text-right">
-                                <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                                <button id="btnSave" type="submit" class="mb-sm btn btn-primary">Save</button>
-                            </div>
-                        </div>
-
-                        }
-
                     </div>
+
+                    <div class="col-md-12 col-sm-12 m0 p0">
+                        <div class="panel-footer text-right">
+                            <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
+                            <button id="btnSave" type="submit" class="mb-sm btn btn-primary">Save</button>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
 
 
         </div>
@@ -513,7 +518,7 @@
 
     });
 
- function Cancel() {
+    function Cancel() {
 
         $(window).off('beforeunload');
         window.location.href = '/claimlist/Index';
