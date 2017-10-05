@@ -124,7 +124,15 @@
                 </div>
             </div>
             <div class="action-btn-3">
-                <div class="pull-right mt-25">
+                <div class="pull-right">
+                    <label>Total Qty(Mins)</label>
+                    @*<input type="text" name="EMP_NAME" value="@ViewData["TotalQ"].ToString()">*@
+                    @*@ViewData["TotalQ"].ToString();*@
+                    @Html.TextBoxFor(m => m.TotalQ, new { @class = "form-control input-sm", @readonly = true })
+                    @*@ViewBag.TotalQ*@
+                    @*@Html.TextBox("NameOfTheTextbox", (String)ViewBag.TotalQ)*@
+                    @*<input type="text" value="@ViewBag.TotalQty" readonly />*@
+                    @*@Html.TextBoxFor(o => @ViewBag.TotalQty, new { @class = "form-control input-sm", @readonly = true })*@
                 </div>
             </div>
         </div>
@@ -208,6 +216,7 @@
             pageable: true,
             height: 450,
             sortable: true,
+            dataBound: ondatebound,
             columns: [
            {
                field: "ClaimRefNo",
@@ -251,6 +260,15 @@
            },
             ]
         });
+
+        function ondatebound(e) {
+            var gridData = e.sender.dataSource.view();
+                var subTotal = 0;
+                for (var i = 0; i < gridData.length; i++) {
+                    subTotal = subTotal + gridData[i].Qty;
+                }
+                $("#TotalQ").val(subTotal);
+        }
 
     }
 </script>
