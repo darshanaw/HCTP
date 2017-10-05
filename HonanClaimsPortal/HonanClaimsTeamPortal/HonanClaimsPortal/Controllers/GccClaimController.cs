@@ -72,9 +72,9 @@ namespace HonanClaimsPortal.Controllers
                 client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
 
                 if (claim.Region != null)
-                    claim.Region = String.Join(",", Region.Where(s => !string.IsNullOrEmpty(s)));
+                    claim.Region = String.Join(", ", Region.Where(s => !string.IsNullOrEmpty(s)));
                 if (claim.Incident_Category != null)
-                    claim.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+                    claim.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
                 Mapper.Initialize(cfg => cfg.CreateMap<GccClaim, ClaimGeneral>());
                 ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
@@ -114,18 +114,6 @@ namespace HonanClaimsPortal.Controllers
             //Mapper mapper = new 
             Mapper.Initialize(cfg => cfg.CreateMap<ClaimGeneral, GccClaim>());
             GccClaim model = Mapper.Map<GccClaim>(claimServices.GetClaimNotification(id));
-
-            model.Claim_Not_Lodged = false;
-            model.Claim_Acknowledged = false;
-            model.Claim_Lodged = false;
-            model.Outcome_Settlement = false;
-            model.Outcome_Declined = false;
-            model.Claim_Closed = false;
-            model.Litigated = false;
-            model.Expert_Appointed = false;
-            model.Indemnity_Granted = false;
-            model.Partial_Indemnity_Granted = false;
-            model.Claim_Declined = false;
 
             InitializeModel(model, claimServices);
 
@@ -249,6 +237,51 @@ namespace HonanClaimsPortal.Controllers
                 claim.Current_Exposure = claim.Total_Reserve;
             else
                 claim.Current_Reserve = claim.Excess - claim.Net_Paid_Liability - claim.Net_Paid_Defence;
+
+
+            claim.Claim_Closed = claim.Claim_Closed == null || claim.Claim_Closed == false ? false : true;
+            claim.Claim_Declined = claim.Claim_Declined == null || claim.Claim_Declined == false ? false : true;
+            claim.Partial_Indemnity_Granted = claim.Partial_Indemnity_Granted == null || claim.Partial_Indemnity_Granted == false ? false : true;
+            claim.Indemnity_Granted = claim.Indemnity_Granted == null || claim.Indemnity_Granted == false ? false : true;
+            claim.Expert_Appointed = claim.Expert_Appointed == null || claim.Expert_Appointed == false ? false : true;
+            claim.Claim_Acknowledged = claim.Claim_Acknowledged == null || claim.Claim_Acknowledged == false ? false : true;
+            claim.Claim_Lodged = claim.Claim_Lodged == null || claim.Claim_Lodged == false ? false : true;
+            claim.Claim_Not_Lodged = claim.Claim_Not_Lodged == null || claim.Claim_Not_Lodged == false ? false : true;
+
+        }
+
+        [HttpPost]
+        public ActionResult DetailGccClaim(GccClaim model, IEnumerable<string> Incident_Category)
+        {
+            Session[SessionHelper.StoreobjectList] = null;
+            PicklistServicecs picklistService = new PicklistServicecs();
+            ClaimServices claims = new ClaimServices();
+
+            if (model.Incident_Category != null)
+                model.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+
+            Mapper.Initialize(cfg => cfg.CreateMap<GccClaim, ClaimGeneral>());
+            ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);
+
+            generalClaim.Policy_Class = string.IsNullOrEmpty(model.Policy_Class) == true ? model.Policy_Class_Selection : model.Policy_Class;
+
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            if (ModelState.IsValid)
+            {
+                claims = new ClaimServices();
+                var result = claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
+                if (result)
+                {
+
+                    return RedirectToAction("Index", "ClaimList");
+                }
+                else
+                    TempData["ErrorMsg"] = Messages.errorMessage;
+            }
+
+            InitializeModel(model, claims);
+
+            return View(model);
         }
     }
 }

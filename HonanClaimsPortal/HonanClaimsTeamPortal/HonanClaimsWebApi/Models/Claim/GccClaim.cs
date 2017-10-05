@@ -73,11 +73,11 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Complexity { get; set; }
         public string Claim_Detail { get; set; }
         public string Account_Manager_Property { get; set; }
-        public bool? Claim_Lodged { get; set; }
-        public bool? Claim_Acknowledged { get; set; }
+        public bool Claim_Lodged { get; set; }
+        public bool Claim_Acknowledged { get; set; }
         public bool? Assessor_Appointed { get; set; }
         public bool? Claim_Approved { get; set; }
-        public bool? Claim_Declined { get; set; }
+        public bool Claim_Declined { get; set; }
         public string Claim_Status { get; set; }
         public string Client_Group { get; set; }
         public string Broker_Company { get; set; }
@@ -162,9 +162,9 @@ namespace HonanClaimsWebApi.Models.Claim
         public decimal Net_Incurred_On_Deductible { get; set; }
         public decimal Balance_On_Deduct_Remaining { get; set; }
         public bool? Claim_Received { get; set; }
-        public bool? Partial_Indemnity_Granted { get; set; }
+        public bool Partial_Indemnity_Granted { get; set; }
         public DateTime? Claim_Received_Date { get; set; }
-        public bool? Claim_Closed { get; set; }
+        public bool Claim_Closed { get; set; }
         public DateTime? Claim_Closed_Date { get; set; }
         public bool? Review { get; set; }
         public DateTime? Review_Date { get; set; }
@@ -173,11 +173,11 @@ namespace HonanClaimsWebApi.Models.Claim
         public DateTime? Outcome_Date { get; set; }
         public string Outcome { get; set; }
         public string Oc_Claims_Contact { get; set; }
-        public bool? Claim_Not_Lodged { get; set; }
+        public bool Claim_Not_Lodged { get; set; }
         public DateTime? Claim_Not_Lodged_Date { get; set; }
-        public bool? Expert_Appointed { get; set; }
+        public bool Expert_Appointed { get; set; }
         public DateTime? Expert_Appointed_Date { get; set; }
-        public bool? Indemnity_Granted { get; set; }
+        public bool Indemnity_Granted { get; set; }
         public string Broker { get; set; }
         public string Broker_Name { get; set; }
         public string Panel_Lawyers_Retained { get; set; }
@@ -197,6 +197,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Broker_Account { get; set; }
         public string Broker_Account_Id { get; set; }
         public string Broker_Name_Id { get; set; }
+        public string Policy_Class_Selection { get; set; }
         //New fields end
 
         public List<PicklistItem> ReportedByTypeList { get; set; }
