@@ -131,7 +131,6 @@ namespace HonanClaimsWebApi.Models.Policies
         public string UnderwriterId { get; set; }
         public string PolicyStatus { get; set; }
         public string PolicyClass { get; set; }
-        public string AccountId { get; set; }
     }
 
     public class PolicyReturnModel
