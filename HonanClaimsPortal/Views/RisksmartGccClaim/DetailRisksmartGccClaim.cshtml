@@ -62,19 +62,21 @@
 
 }
 
-@Html.HiddenFor(o => o.Accountid)
-@Html.HiddenFor(o => o.BillingMethod)
-@Html.HiddenFor(o => o.Broker_Account_Id)
-@Html.HiddenFor(o => o.Broker_Name_Id)
-@Html.HiddenFor(o => o.Liability_Res_Source)
-@Html.HiddenFor(o => o.Defence_Res_Source)
-@Html.HiddenFor(o=>o.H_Claimsid)
 
 <div class="tab-content">
 
     <div class="tab-pane active" id="tabClaimDetail">
         @using (Html.BeginForm("DetailRisksmartGccClaim", "RickmartGccClaim", FormMethod.Post))
         {
+            //DetailRisksmartGccClaim
+            @Html.HiddenFor(o => o.Accountid)
+            @Html.HiddenFor(o => o.BillingMethod)
+            @Html.HiddenFor(o => o.Broker_Account_Id)
+            @Html.HiddenFor(o => o.Broker_Name_Id)
+            @Html.HiddenFor(o => o.Liability_Res_Source)
+            @Html.HiddenFor(o => o.Defence_Res_Source)
+            @Html.HiddenFor(o => o.H_Claimsid)
+
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             <div class="panel panel-default">
 
@@ -84,7 +86,8 @@
                             <fieldset>
                                 <br />
                                 <div class="col-md-6">
-                                    <div class="col-md-12 col-sm-12 ">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-6">
                                         <div class="form-group mb">
                                             <div class="col-md-12" style="text-align: center; font-size: small;">
                                                 <div class="panel widget bg-primary">
@@ -99,6 +102,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-2"></div>
 
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group mb">
