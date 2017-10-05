@@ -1,4 +1,14 @@
-﻿<div class="panel panel-default">
+﻿
+<style>
+
+    .FileNoteDetailModal {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
+
+</style>
+
+<div class="panel panel-default">
 
    
     <div class="panel-body">
@@ -12,7 +22,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <input type="button" value="New File Note" id="btnNewFileNote" class="btn btn-primary pull-right" data-toggle="modal" data-target="#FileNoteDetailModal" />
+                    <input type="button" value="New File Note" id="btnNewFileNote" class="btn btn-primary pull-right"  data-toggle="modal" data-target="#FileNoteDetailModal"/>
                 </div>
                
                 
@@ -27,7 +37,7 @@
 
 
 <!-- Modal -->
-<div id="FileNoteDetailModal" class="modal fade" role="dialog" data-backdrop="true" style="padding-top: 10%;">
+<div id="FileNoteDetailModal" class="modal fade FileNoteDetailModal" role="dialog" data-backdrop="true"">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -36,6 +46,7 @@
             </div>
             <div class="modal-body">
                 @{Html.RenderAction("_FileNoteDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"], Claim_Reference_Num = this.ViewData["Claim_Reference_Num"] });}
+             
             </div>
             @*<div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -43,3 +54,103 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    $(function () {
+
+        $("#gridFileNotes").kendoGrid({
+
+            dataSource: {
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxFileNotesLoad?claimId=" + $("#H_Claimsid").val()
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 100,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            columns: [
+
+                {
+                    field: "CreatedDate",
+                    title: "Created Date",
+                    template: "<a href='javascript:void(0);' onclick=\"loadFileNoteDetail('#= H_FileNotesId #')\" '>#= CreatedDate #</a>"
+                },
+                {
+                    field: "CreatedUser",
+                    title: "Created By"
+                },
+                {
+                    field: "ShortDescription",
+                    title: "Short Description"
+                }
+            ]
+        });
+
+        $("#btnFileNotesSearchtext").click(function () {
+
+            RefreshGrid();
+
+        });
+
+    });
+
+    function RefreshGrid() {
+
+        $("#gridFileNotes").data("kendoGrid").dataSource.read({
+            searchText: $("#FileNotessearchTxt").val()
+        });
+    }
+
+    function clearFileNoteControls()
+    {
+        //$("#CreatedBy_Id_Fn").val("");
+        //$("#ClaimId_Fn").val("");
+        //$("#ClaimRefNo_Fn").val("");
+        $("#FileNoteDate_Fn").val("");
+        //$("#CreatedBy_Fn").val("");
+        //$("#CreatedDate_Fn").val("");
+        $("#ShortDescription_Fn").val("");
+        $("#Detail_Fn").val("");
+        $("#H_FileNotesId_Fn").val("");
+    }
+
+    function loadFileNoteDetail(fileNoteId)
+    {
+        $.ajax({
+            url: "/ClaimDetailTabs/getFuleNoteById?fileNoteId=" + fileNoteId, success: function (result) {
+
+                $("#CreatedBy_Id_Fn").val(result.CreatedUserId);
+                $("#ClaimId_Fn").val(result.H_ClaimsId);
+                $("#ClaimRefNo_Fn").val(result.ClaimRefNum);
+                $("#FileNoteDate_Fn").val(result.FileNoteDate);
+                $("#CreatedBy_Fn").val(result.CreatedUser);
+                $("#CreatedDate_Fn").val(result.CreatedDate);
+
+                $("#ShortDescription_Fn").val(result.ShortDescription);
+                $("#Detail_Fn").val(result.Details);
+                $("#H_FileNotesId_Fn").val(result.H_FileNotesId);
+
+                $('#FileNoteDetailModal').modal('show');
+            }
+        });
+
+
+        $("#btnNewFileNote").click(function () {
+
+            clearFileNoteControls();
+           
+        });
+        
+    }
+
+</script>

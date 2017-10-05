@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
 <link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
 
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
 <script>
     $(function () {
 
@@ -14,14 +16,35 @@
         if (!$('#ClaimRefNo_Fn').is('input:text')) {
             $('#ClaimRefNo_Fn').select2({ width: "100%", theme: "bootstrap" });
         }
+
+        $('#frmileNote').submit(function () {
+
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
     })
+
+    function GetResult_Fn(data)
+    {
+        if ($('#FileNoteDetailModal').length > 0) {
+            $('#FileNoteDetailModal').modal('hide');
+        }
+       
+        $.LoadingOverlay("hide");
+        RefreshGrid();
+    }
+
 </script>
 
 
-@using (Ajax.BeginForm("_FileNoteDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST" }))
+@using (Ajax.BeginForm("_FileNoteDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Fn", UpdateTargetId= "divFake" },new { @id = "frmileNote" }))
 {
     @Html.HiddenFor(o=>o.CreatedBy_Id_Fn)
     @Html.HiddenFor(o => o.ClaimId_Fn)
+    @Html.HiddenFor(o=>o.H_FileNotesId_Fn)
+
+    <div id="divFake" style="display:none"></div>
 
     <div class="col-md-6">
 
@@ -97,14 +120,15 @@
                 </div>
             </div>
         </div>
-        <br />
+        <br /><br /><br /><br /><br /><br /><br />
         <div class="footer text-right">
-            <button type="button" class="mb-sm btn btn-default">Discard Changes</button>
+            <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
             <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
         </div>
 
     </div>
 
+   
 }
 
 

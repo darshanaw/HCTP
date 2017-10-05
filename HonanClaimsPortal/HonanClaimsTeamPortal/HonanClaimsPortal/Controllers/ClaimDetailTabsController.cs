@@ -200,7 +200,32 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public ActionResult _FileNoteDetail(FileNoteDetailModal model)
         {
-            return PartialView();
+            
+            documentService = new DocumentService();
+            if(!string.IsNullOrEmpty(model.H_FileNotesId_Fn))
+            {
+                documentService.UpdateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value,model.H_FileNotesId_Fn);
+            }
+            else
+                documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AjaxFileNotesLoad(string searchText, string claimId)
+        {
+            documentService = new DocumentService();
+            List<FileNote> fileNotes = new List<FileNote>();
+            fileNotes = documentService.GetFileNotes(searchText, claimId);
+            return Json(fileNotes, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getFuleNoteById(string fileNoteId)
+        {
+            documentService = new DocumentService();
+            FileNote fileNote = new FileNote();
+            fileNote = documentService.GetFileNoteById(fileNoteId);
+            return Json(fileNote, JsonRequestBehavior.AllowGet);
         }
     }
 }

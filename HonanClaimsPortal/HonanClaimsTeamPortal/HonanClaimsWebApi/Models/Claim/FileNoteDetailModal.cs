@@ -25,6 +25,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string ShortDescription_Fn { get; set; }
         [Required]
         public string Detail_Fn { get; set; }
+        public string H_FileNotesId_Fn { get; set; }
 
         public List<CRMPicklistItem> RefnuberList_Fn { get; set; }
 
