@@ -66,7 +66,7 @@
 <div class="tab-content">
 
     <div class="tab-pane active" id="tabClaimDetail">
-        @using (Html.BeginForm("DetailRisksmartGccClaim", "RickmartGccClaim", FormMethod.Post))
+        @using (Html.BeginForm("DetailRisksmartGccClaim", "RisksmartGccClaim", FormMethod.Post, new { id = "formRisksmartGccClaim", enctype = "multipart/form-data" }))
         {
             //DetailRisksmartGccClaim
             @Html.HiddenFor(o => o.Accountid)
@@ -77,7 +77,6 @@
             @Html.HiddenFor(o => o.Defence_Res_Source)
             @Html.HiddenFor(o => o.H_Claimsid)
 
-            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             <div class="panel panel-default">
 
                 <div class="panel-body">
@@ -561,7 +560,7 @@
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Claim_Received.Value, new { @id = "chkReceived" })
+                                                        @Html.CheckBoxFor(o => o.Claim_Received, new { @id = "chkReceived" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Received_Date, new { @id = "txtReceivedDate", @class = "form-control input-sm" })
@@ -579,7 +578,7 @@
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Claim_Acknowledged.Value, new { @id = "chkAcknowledged" })
+                                                        @Html.CheckBoxFor(o => o.Claim_Acknowledged, new { @id = "chkAcknowledged" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Acknowledged_Date, new { @id = "txtAcknowledgedDate", @class = "form-control input-sm" })
@@ -595,7 +594,7 @@
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Review.Value, new { @id = "chkReveiew" })
+                                                        @Html.CheckBoxFor(o => o.Review, new { @id = "chkReveiew" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Review_Date, new { @id = "txtReveiwedDate", @class = "form-control input-sm" })
@@ -610,11 +609,11 @@
                                             <label class="col-sm-3 control-label input-sm"></label>
                                             <div class="col-sm-9">
                                                 <label class="checkbox-inline">
-                                                    @Html.CheckBoxFor(o => o.Outcome_Settlement.Value, new { @id = "chkOutcomeSettlement" })
+                                                    @Html.CheckBoxFor(o => o.Outcome_Settlement, new { @id = "chkOutcomeSettlement" })
                                                     <label class="input-sm" style="padding-top: 0px">Outcome Settlement</label>
                                                 </label>
                                                 <label class="checkbox-inline">
-                                                    @Html.CheckBoxFor(o => o.Outcome_Declined.Value, new { @id = "chkOutcomeDeclined" })
+                                                    @Html.CheckBoxFor(o => o.Outcome_Declined, new { @id = "chkOutcomeDeclined" })
                                                     <label class="input-sm" style="padding-top: 0px">Outcome Declined</label>
                                                 </label>
 
@@ -643,7 +642,7 @@
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        @Html.CheckBoxFor(o => o.Claim_Closed.Value, new { @id = "chkClaimClosed" })
+                                                        @Html.CheckBoxFor(o => o.Claim_Closed, new { @id = "chkClaimClosed" })
                                                     </span>
                                                     <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Closed_Date, new { @id = "txtClaimClosedDate", @class = "form-control input-sm" })
@@ -693,7 +692,7 @@
                                                             <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                                             <div class="col-sm-9">
 
-                                                                @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"), new { @id = "Policy_Class_Dropdown", @class = "form-control input-sm valueChanged" })
+                                                                @Html.DropDownListFor(model => model.Policy_Class_Selection, new SelectList(Model.Policy_Class_List, "Text", "Text"), new { @id = "Policy_Class_Dropdown", @class = "form-control input-sm valueChanged" })
                                                                 @Html.TextBoxFor(o => o.Policy_Class, new { @id = "Policy_Class_TextBox", @class = "form-control input-sm disabledControl", @readonly = true })
 
                                                             </div>
@@ -766,7 +765,7 @@
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Litigated</label>
                                                             <div class="col-sm-9">
-                                                                @Html.CheckBoxFor(o => o.Litigated.Value)
+                                                                @Html.CheckBoxFor(o => o.Litigated)
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1176,8 +1175,19 @@
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+
 <script>
-    $(function () {
+    $(document).ready(function () {
+
+        $('#formRisksmartGccClaim').submit(function () {
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
 
         jQuery.validator.methods["date"] = function (value, element) { return true; }
 
@@ -1304,6 +1314,8 @@
         var values = "@Model.Incident_Category"; //pull ItemIds from Model in MVC
         $.each(values.split(","), function (i, e) {
             if (e != "Not Set" && e != "" && e != null && e != undefined) {
+                if (i == 0)
+                    e = " " + e;
                 if (!re.test(e)) {
                     var newList = $.merge($('#Incident_Category').select2('data'), [{
                         id: e,
@@ -1366,8 +1378,9 @@
             });
         });
 
-
-
+        $("#Assigned_User").change(function () {
+            $('#Assigned_Date').val(getTodaysDate());
+        });
     })
 
     function SetExtraFields() {
@@ -1375,4 +1388,11 @@
         $("#Defence_Res_Source").val($("#txtDefecnceResSource").val());
         $('#ExrtaFieldModal').modal('toggle');
     }
+
+    function Cancel() {
+
+        $(window).off('beforeunload');
+        window.location.href = '/ClaimList/Index';
+    }
+
 </script>

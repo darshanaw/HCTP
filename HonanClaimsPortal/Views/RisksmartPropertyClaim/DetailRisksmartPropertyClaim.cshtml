@@ -1530,4 +1530,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         $.notify(message, "danger");
      }
 
+    function Cancel() {
+
+        $(window).off('beforeunload');
+        window.location.href = '/ClaimList/Index';
+    }
+
 </script>

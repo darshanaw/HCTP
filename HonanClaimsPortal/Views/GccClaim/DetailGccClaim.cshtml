@@ -1044,4 +1044,10 @@
         $("#Defence_Res_Source").val($("#txtDefecnceResSource").val());
         $('#ExrtaFieldModal').modal('toggle');
     }
+
+    function Cancel() {
+
+        $(window).off('beforeunload');
+        window.location.href = '/ClaimList/Index';
+    }
 </script>
