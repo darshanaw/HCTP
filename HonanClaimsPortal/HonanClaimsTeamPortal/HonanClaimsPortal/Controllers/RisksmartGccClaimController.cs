@@ -252,11 +252,11 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult DetailRisksmartGccClaim(RisksmartGccClaim claim)
+        public ActionResult DetailRisksmartGccClaim(RisksmartGccClaim model)
         {
 
 
-            return View(claim);
+            return View(model);
         }
 
 
