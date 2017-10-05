@@ -31,6 +31,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public string ServiceUserId { get; set; }
         public string ServiceFromDate { get; set; }
         public string ServiceToDate { get; set; }
+        public string TotalQ { get; set; }
     }
 
     public class CustomerUserModel
