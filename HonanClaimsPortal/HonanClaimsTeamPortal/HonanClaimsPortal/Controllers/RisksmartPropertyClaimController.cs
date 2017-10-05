@@ -229,12 +229,14 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult DetailRisksmartPropertyClaim(RisksmartPropertyClaim model)
+        public ActionResult DetailRisksmartPropertyClaim(RisksmartPropertyClaim model, IEnumerable<string> Incident_Category)
         {
             Session[SessionHelper.StoreobjectList] = null;
             PicklistServicecs picklistService = new PicklistServicecs();
             ClaimServices claims = new ClaimServices();
 
+            if (model.Incident_Category != null)
+                model.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
             Mapper.Initialize(cfg => cfg.CreateMap<RisksmartPropertyClaim, ClaimGeneral>());
             ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);

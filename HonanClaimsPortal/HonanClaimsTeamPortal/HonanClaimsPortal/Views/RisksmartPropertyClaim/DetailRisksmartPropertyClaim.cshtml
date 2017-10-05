@@ -1448,6 +1448,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
         var values = "@Model.Incident_Category"; //pull ItemIds from Model in MVC
         $.each(values.split(","), function (i, e) {
+            if (i == 0)
+                e = " " + e;
             if (e != "Not Set" && e != "" && e != null && e != undefined) {
                 if (!re.test(e)) {
                     var newList = $.merge($('#Incident_Category').select2('data'), [{
