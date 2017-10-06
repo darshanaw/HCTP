@@ -1344,6 +1344,7 @@
     <Content Include="Views\Shared\_Billing.cshtml" />
     <Content Include="Views\Shared\_FileNotes.cshtml" />
     <Content Include="Views\Shared\_FileNoteDetail.cshtml" />
+    <Content Include="Views\Shared\_ConvertToClaimLookup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

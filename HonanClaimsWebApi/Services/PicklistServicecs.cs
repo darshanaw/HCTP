@@ -15,6 +15,7 @@ namespace HonanClaimsWebApi.Services
     {
         private const string getPicklistApiGet = "api/General/GetPickListData?pickListName=";
         private const string getCrmPicklistApiGet = "api/claim/TeamGetUsersOfTeam?team=";
+        private const string getUsersOfTeamAutoComplete = "api/General/TeamGetUsersofTeamAutoComplete?teamName=";
 
         public List<PicklistItem> GetPickListItems(string pickListName)
         {
@@ -51,6 +52,35 @@ namespace HonanClaimsWebApi.Services
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
                     ConfigurationManager.AppSettings["apiurl"] + getCrmPicklistApiGet + teamName);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<CRMPicklistItem>>(response);
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<CRMPicklistItem> GetTeamGetUserOfTeamAutoComplete(string teamName,string userName)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getUsersOfTeamAutoComplete + teamName + "&userName=" + userName);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
