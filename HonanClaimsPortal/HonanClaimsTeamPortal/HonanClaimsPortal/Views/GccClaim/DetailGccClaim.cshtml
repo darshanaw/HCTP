@@ -633,6 +633,13 @@
                                         </div>
                                     </div>
 
+                                    @if (Model.Claim_Type == "Notification")
+                                    {
+                                        <div class="col-md-12 text-center">
+                                            <input id="btnConvertToClaim" type="button" class="btn btn-info btn-xl" value="Convert To Claim" data-toggle="modal" data-target="#convertToClaimModel" />
+                                        </div>
+                                    }
+
                                 </fieldset>
 
                                 
@@ -810,6 +817,35 @@
         </div>
     </div>
 </div>
+
+
+<!-- Covert to Claim Modal -->
+<div id="convertToClaimModel" class="modal fade convertToClaimModel" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Convert To Claim</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_ConvertToClaimLookup.cshtml", null, new ViewDataDictionary { { "Accountid", Model.Accountid }, { "TeamName", "Risksmart GCC Team" }, { "ClaimId", Model.H_Claimsid } })
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#convertToClaimModel').on('show.bs.modal', function () {
+        $('#Policy_No_CC').val(@Model.Policy_No)
+        $('#ActivityTemplate').val("@Model.Claim_Team_Name")
+    });
+</script>
+
+<!-- Covert to Claim Modal End-->
+
 
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
