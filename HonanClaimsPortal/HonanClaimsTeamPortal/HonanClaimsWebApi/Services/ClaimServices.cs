@@ -32,6 +32,8 @@ namespace HonanClaimsWebApi.Services
         private const string updateClaimNotificationApiGet1 = "api/Claim/TeamUpdateClaimNotification?claim=";
 
         private const string getUserRefNumbers = "api/Claim/GetClaimsForUser?assignedToId=";
+        private const string convertToClaim = "api/Claim/ConvertToClaim?claimId=";
+
 
         ExecutionResult exeReult;
 
@@ -351,6 +353,38 @@ namespace HonanClaimsWebApi.Services
                     }
                 }
                 return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public bool ConvertNotificationToClaim(string userId,string claimId,string policyNo,string assignedUserId,string teamName)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + convertToClaim + claimId + "&teamName=" + teamName + "&assignedUserId=" + assignedUserId + "&policyNo=" + policyNo + "&userid=" + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            if (!string.IsNullOrEmpty(response))
+                            {
+                                return new JavaScriptSerializer().Deserialize<bool>(response);
+                            }
+                        }
+                    }
+                }
+                return false;
             }
             catch (Exception e)
             {

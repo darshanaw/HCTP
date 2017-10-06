@@ -6,6 +6,7 @@ using HonanClaimsWebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -496,5 +497,32 @@ namespace HonanClaimsPortal.Controllers
             JsonRequestBehavior.AllowGet);
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetPoliciesAjaxHandler(string filter,string accountId)
+        {
+            lookupServices = new LookupServices();
+            List<PolicySimple> list = new List<PolicySimple>();
+            list = lookupServices.GetPolicies(filter, accountId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetUsersAjaxHandler(string filter, string teamName)
+        {
+            PicklistServicecs picklistService = new PicklistServicecs();
+            List<CRMPicklistItem> list = new List<CRMPicklistItem>();
+            list = picklistService.GetTeamGetUserOfTeamAutoComplete(teamName, filter);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ConvertToClaimAjax(string claimId, string policyNo, string assignedUserId, string teamName)
+        {
+            HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
+            ClaimServices claimServices = new ClaimServices();
+            return Json(claimServices.ConvertNotificationToClaim(login.UserId, claimId, policyNo, assignedUserId, teamName), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
