@@ -281,23 +281,26 @@ namespace HonanClaimsPortal.Controllers
             model.Payment_Type_List = pickListServices.GetPickListItems("Honan Payment Type");
             model.Payment_Method_List = pickListServices.GetPickListItems("Honan Payment Method");
             model.H_Claimsid = claimId;
-            model.IsNew = false;
+            model.IsNew = true;
 
             return PartialView(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> _PaymentDetail(Payment model, HttpPostedFileBase file)
+        public async Task<ActionResult> _PaymentDetail(Payment model, IEnumerable<HttpPostedFileBase> files)
         {
             documentService = new DocumentService();
             exeResult = new ExecutionResult();
 
+            if (Session[SessionHelper.PaymentAttachment] != null)
+                files = (IEnumerable<HttpPostedFileBase>)Session[SessionHelper.PaymentAttachment];
+
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
-            if (!model.IsNew)
-            {
-              exeResult = await documentService.CreatePaymentDetailRecord(model,client.UserId, file);
-            }
+          //  if (model.IsNew)
+          //  {
+              exeResult = await documentService.CreatePaymentDetailRecord(model,client.UserId, files);
+            //}
             //else
             //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
 
@@ -325,6 +328,12 @@ namespace HonanClaimsPortal.Controllers
         {
             KeyContactDateServices service = new KeyContactDateServices();
             return Json(service.DeleteKeyDate(keyDateId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UploadPaymentFile(IEnumerable<HttpPostedFileBase> files)
+        {
+            Session[SessionHelper.PaymentAttachment] = files;
+            return Content("");
         }
 
         public ActionResult _KeyContactDetail(string claimId,string keyContactId)

@@ -30,7 +30,7 @@
 </style>
 
 
-@using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Pd", UpdateTargetId = "divFakePayment" }, new { @id = "frmPaymentDetail" }))
+@using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Pd", UpdateTargetId = "divFakePayment" }, new { @id = "frmPaymentDetail", enctype = "multipart/form-data" }))
 {
 @Html.HiddenFor(o => o.Payee_Account)
 @Html.HiddenFor(o => o.Payee_Contact)
@@ -177,7 +177,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Total Net GST</label>
             <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Total_Net, "{0:C0}", new { @class = "form-control input-sm" })
+                @Html.TextBoxFor(o => o.Total_Net, "{0:n2}", new { @class = "form-control input-sm", @type = "number" })
             </div>
         </div>
     </div>
@@ -435,14 +435,12 @@
         });
 
         $("#uploadInvoiceAttach").kendoUpload({
-            async: {
-                saveUrl: '@Url.Action("UploadAttachment", "ClaimDetailTabs")'
-            },
 
-            upload: function (e) {
-                e.data = { claimId: $("#H_Claimsid").val(), userId: '' };
-            },
-            complete: onCompleteInvoiceUpload
+            multiple: false,
+            async: {
+                saveUrl: '@Url.Action("UploadPaymentFile", "ClaimDetailTabs")',
+                autoUpload: true
+            }
         });
 
         $("#uploadInvoiceAttach").closest(".k-upload-button")
@@ -488,7 +486,7 @@
         });
 
         //$("#Payment_To_Name_Pd").click(function () {
-          
+
         //    $('#tbPaymentTo').DataTable().ajax.reload(null, false);
         //});
 
@@ -512,7 +510,7 @@
             else
             {
                 $("#Reserve_Type").val("");
-                $("#Reserve_Type").prop("disabled", false);  
+                $("#Reserve_Type").prop("disabled", false);
                 $("#Date_Invoice_Received").rules("add", "required");
                 $("#Payee_Type").rules("add", "required");
                 $("#Payee_Account_Name").rules("add", "required");
@@ -521,7 +519,7 @@
             }
         });
 
-       
+
 
     });
 
@@ -530,12 +528,12 @@
         if ($("#Gst_Included").is(':checked'))
         {
             var gst = ($("#Gst").val() / 100) * $("#Total_Gross").val();
-            $("#Total_Net").val(gst);
+            $("#Total_Net").val(gst.toFixed(2));
         }
         else {
             $("#Total_Net").val("");
         }
-        
+
     }
 
     function onCompleteInvoiceUpload() {

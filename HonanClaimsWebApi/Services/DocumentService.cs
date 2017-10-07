@@ -46,6 +46,7 @@ namespace HonanClaimsWebApi.Services
         private const string getInvoiceDate = "&invoicedDate=";
         private const string getStatus = "&status=";
         private const string getInvoiceNo = "&invoiceNo=";
+        private const string getPaymentDetailById = "";
 
         ExecutionResult exeReult;
 
@@ -274,7 +275,7 @@ namespace HonanClaimsWebApi.Services
 
         // Payment Detail
 
-        public async Task<ExecutionResult> CreatePaymentDetailRecord(Payment payment, string userId, HttpPostedFileBase invoice)
+        public async Task<ExecutionResult> CreatePaymentDetailRecord(Payment payment, string userId, IEnumerable<HttpPostedFileBase> invoice)
         {
             exeReult = new ExecutionResult();
             string result = "";
@@ -285,18 +286,18 @@ namespace HonanClaimsWebApi.Services
 
                 if (payment.IsNew)
                 {
-                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmUpdatePayment;
+                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmInsertPayment;
                 }
                 else
-                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmInsertPayment;
+                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmUpdatePayment;
 
                 using (var client = new HttpClient())
                 {
                     using (var formData = new MultipartFormDataContent())
                     {
-                        if (invoice != null)
+                        if (invoice != null && invoice.Count() > 0)
                         {
-                            formData.Add(new StreamContent(invoice.InputStream), "invoice", invoice.FileName);
+                            formData.Add(new StreamContent(invoice.FirstOrDefault().InputStream), "invoice", invoice.FirstOrDefault().FileName);
                         }
                      
                         var jsonString = JsonConvert.SerializeObject(payment);
@@ -314,7 +315,6 @@ namespace HonanClaimsWebApi.Services
                 }
 
                 exeReult.ResultObject = result;
-                exeReult.IsSuccess = true;
                 exeReult.IsFailure = false;
                 return exeReult;
             }
@@ -328,11 +328,7 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        //private const string getPaymentDetails = "api/Payment/GetPayments?claimId=";
-        //private const string getPayee = "&payeeId=";
-        //private const string getInvoiceDate = "&invoicedDate=";
-        //private const string getStatus = "&status=";
-        //private const string getInvoiceNo = "&invoiceNo=";
+       
 
         public List<PaymentSimple> GetPaymentDetails(string claimId, string payeeId, string invoicedDate, string status, string invoiceNo)
         {

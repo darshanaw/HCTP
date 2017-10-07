@@ -82,7 +82,7 @@
                 {
                     field: "Date_Invoice_Received",
                     title: "Date Received",
-                    template: "<a href='/ClaimDetailTabs/FileDownload?fileName=#=Date_Invoice_Received#'>#=Date_Invoice_Received#</a>"
+                    template: "<a  href='javascript:void(0);' onclick=\"loadPaymentDetail('#= H_Paymentsid #')\" '>#=Date_Invoice_Received#</a>"
                 },
                 {
                     field: "Invoice_Reference",
@@ -107,5 +107,27 @@
             ]
         });
     });
+
+
+    function loadPaymentDetail(detailId)
+    {
+        $.ajax({
+            url: "/ClaimDetailTabs/getFuleNoteById?fileNoteId=" + fileNoteId, success: function (result) {
+
+                $("#CreatedBy_Id_Fn").val(result.CreatedUserId);
+                $("#ClaimId_Fn").val(result.H_ClaimsId);
+                $("#ClaimRefNo_Fn").val(result.ClaimRefNum);
+                $("#FileNoteDate_Fn").val(result.FileNoteDate);
+                $("#CreatedBy_Fn").val(result.CreatedUser);
+                $("#CreatedDate_Fn").val(result.CreatedDate);
+
+                $("#ShortDescription_Fn").val(result.ShortDescription);
+                $("#Detail_Fn").val(result.Details);
+                $("#H_FileNotesId_Fn").val(result.H_FileNotesId);
+
+                $('#FileNoteDetailModal').modal('show');
+            }
+        });
+    }
 
 </script>
