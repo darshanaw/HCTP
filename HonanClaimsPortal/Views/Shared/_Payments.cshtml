@@ -25,6 +25,7 @@
             </div>
         </div>
         <br /><br /><br />
+        <div id="gridPaymentDetails"></div>
 
     </div>
 </div>
@@ -45,3 +46,66 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function RefreshPaymentDetailsGrid() {
+        $("#gridPaymentDetails").data("kendoGrid").dataSource.read({
+            payeeId: '', invoicedDate: '', status: '', invoiceNo: ''
+        });
+    }
+    //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
+    $(function () {
+
+        $("#gridPaymentDetails").kendoGrid({
+
+            dataSource: {
+                transport: {
+                    //read: "/ClaimDetailTabs/AjaxAttachmentsLoad?claimId=" + $("#H_Claimsid").val() + "&searchText=" + $("#AttachmentsearchTxt").val(),
+                    read: "/ClaimDetailTabs/AjaxPaymentDetailsLoad?claimId=" + $("#H_Claimsid").val(),
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 100,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            columns: [
+
+                {
+                    field: "Date_Invoice_Received",
+                    title: "Date Received",
+                    template: "<a href='/ClaimDetailTabs/FileDownload?fileName=#=Date_Invoice_Received#'>#=Date_Invoice_Received#</a>"
+                },
+                {
+                    field: "Invoice_Reference",
+                    title: "Invoice Ref"
+                },
+                {
+                    field: "Payee",
+                    title: "Payee"
+                },
+                {
+                    field: "Total_Gross",
+                    title: "Total Gross"
+                },
+                {
+                    field: "Total_Net",
+                    title: "Total Net"
+                },
+                {
+                    field: "Payment_Status",
+                    title: "Payment Status"
+                }
+            ]
+        });
+    });
+
+</script>

@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Script.Serialization;
 
 namespace HonanClaimsWebApi.Services
@@ -38,7 +39,13 @@ namespace HonanClaimsWebApi.Services
         private const string getFileNoteById = "api/FileNote/TeamGetFileNote?fileNoteId=";
 
         private const string getmInsertPayment = "api/Payment/TeamInsertPayment";
-        private const string paymentUserId = "userId";
+        private const string getmUpdatePayment = "api/Payment/TeamUpdatePayment";
+
+        private const string getPaymentDetails = "api/Payment/GetPayments?claimId=";
+        private const string getPayee = "&payeeId=";
+        private const string getInvoiceDate = "&invoicedDate=";
+        private const string getStatus = "&status=";
+        private const string getInvoiceNo = "&invoiceNo=";
 
         ExecutionResult exeReult;
 
@@ -267,37 +274,18 @@ namespace HonanClaimsWebApi.Services
 
         // Payment Detail
 
-        public async Task<ExecutionResult> CreatePaymentDetailRecord(Payment payment, string userId)
+        public async Task<ExecutionResult> CreatePaymentDetailRecord(Payment payment, string userId, HttpPostedFileBase invoice)
         {
             exeReult = new ExecutionResult();
             string result = "";
+
             try
-            {
-                //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                //    ConfigurationManager.AppSettings["apiurl"] + getmInsertPayment);
-
-                //request.Method = "POST";
-                //request.ContentType = "application/json";
-
-                //WebResponse webResponse = request.GetResponse();
-                //using (Stream webStream = webResponse.GetResponseStream())
-                //{
-                //    if (webStream != null)
-                //    {
-                //        using (StreamReader responseReader = new StreamReader(webStream))
-                //        {
-                //            string response = responseReader.ReadToEnd();
-                //            result = new JavaScriptSerializer().Deserialize<string>(response);
-                //        }
-                //    }
-                //}
-
-
+            {              
                 string apiUrl = string.Empty;
 
                 if (payment.IsNew)
                 {
-                    //apiUrl = SiteUrl + "api/AccountAndReg/TeamInsertCustomerPortalAdmin";
+                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmUpdatePayment;
                 }
                 else
                     apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmInsertPayment;
@@ -306,15 +294,11 @@ namespace HonanClaimsWebApi.Services
                 {
                     using (var formData = new MultipartFormDataContent())
                     {
-                        //if (file2 != null)
-                        //{
-                        //    formData.Add(new StreamContent(file2.InputStream), "logo", file2.FileName);
-                        //}
-                        //if (file1 != null)
-                        //{
-                        //    formData.Add(new StreamContent(file1.InputStream), "manualClaimForm", file1.FileName);
-                        //}
-
+                        if (invoice != null)
+                        {
+                            formData.Add(new StreamContent(invoice.InputStream), "invoice", invoice.FileName);
+                        }
+                     
                         var jsonString = JsonConvert.SerializeObject(payment);
                         var jsonString_userId = JsonConvert.SerializeObject(userId);
                         var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
@@ -344,114 +328,45 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        //public ExecutionResult UpdateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate, string fileNoteId)
-        //{
-        //    exeReult = new ExecutionResult();
-        //    string result = "";
-        //    try
-        //    {
-        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-        //            ConfigurationManager.AppSettings["apiurl"] + updateFileNote + userId + param_shortDes + shortDescription + param_detail + details
-        //            + param_fileNoteDate + fileNoteDate + param_fileNoteId + fileNoteId);
+        //private const string getPaymentDetails = "api/Payment/GetPayments?claimId=";
+        //private const string getPayee = "&payeeId=";
+        //private const string getInvoiceDate = "&invoicedDate=";
+        //private const string getStatus = "&status=";
+        //private const string getInvoiceNo = "&invoiceNo=";
 
-        //        request.Method = "GET";
-        //        request.ContentType = "application/json";
+        public List<PaymentSimple> GetPaymentDetails(string claimId, string payeeId, string invoicedDate, string status, string invoiceNo)
+        {
 
-        //        WebResponse webResponse = request.GetResponse();
-        //        using (Stream webStream = webResponse.GetResponseStream())
-        //        {
-        //            if (webStream != null)
-        //            {
-        //                using (StreamReader responseReader = new StreamReader(webStream))
-        //                {
-        //                    string response = responseReader.ReadToEnd();
-        //                    result = new JavaScriptSerializer().Deserialize<string>(response);
-        //                }
-        //            }
-        //        }
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getPaymentDetails + claimId + getPayee + payeeId + getInvoiceDate + invoicedDate + getStatus + status + getInvoiceNo + invoiceNo);
 
-        //        exeReult.ResultObject = result;
-        //        exeReult.IsSuccess = true;
-        //        exeReult.IsFailure = false;
-        //        return exeReult;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        exeReult.IsFailure = true;
-        //        exeReult.IsSuccess = false;
+                request.Method = "GET";
+                request.ContentType = "application/json";
 
-        //        throw e;
-        //    }
-
-        //}
-
-        //public List<FileNote> GetFileNotes(string searchText, string claimId)
-        //{
-
-        //    try
-        //    {
-        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-        //            ConfigurationManager.AppSettings["apiurl"] + getFileNotes + searchText + param_claimId + claimId);
-
-        //        request.Method = "GET";
-        //        request.ContentType = "application/json";
-
-        //        WebResponse webResponse = request.GetResponse();
-        //        using (Stream webStream = webResponse.GetResponseStream())
-        //        {
-        //            if (webStream != null)
-        //            {
-        //                using (StreamReader responseReader = new StreamReader(webStream))
-        //                {
-        //                    string response = responseReader.ReadToEnd();
-        //                    return new JavaScriptSerializer().Deserialize<List<FileNote>>(response);
-        //                }
-        //            }
-        //        }
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<PaymentSimple>>(response);
+                        }
+                    }
+                }
 
 
-        //        return null;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
-        //}
-
-        //public FileNote GetFileNoteById(string fileNoteId)
-        //{
-
-        //    try
-        //    {
-        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-        //            ConfigurationManager.AppSettings["apiurl"] + getFileNoteById + fileNoteId);
-
-        //        request.Method = "GET";
-        //        request.ContentType = "application/json";
-
-        //        WebResponse webResponse = request.GetResponse();
-        //        using (Stream webStream = webResponse.GetResponseStream())
-        //        {
-        //            if (webStream != null)
-        //            {
-        //                using (StreamReader responseReader = new StreamReader(webStream))
-        //                {
-        //                    string response = responseReader.ReadToEnd();
-        //                    return new JavaScriptSerializer().Deserialize<List<FileNote>>(response).FirstOrDefault();
-        //                }
-        //            }
-        //        }
-
-
-        //        return null;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-
-        //}
+        }
 
     }
 }

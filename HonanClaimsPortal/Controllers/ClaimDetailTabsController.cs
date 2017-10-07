@@ -1,4 +1,5 @@
 ﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.TimeslipCheck;
@@ -26,6 +27,7 @@ namespace HonanClaimsPortal.Controllers
         ClaimServices claimServices;
         KeyContactDateTabModel keyContactTab;
         PicklistServicecs pickListServices;
+        ExecutionResult exeResult;
 
         // GET: ClaimDetailTabs
         public ActionResult Index()
@@ -283,14 +285,16 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult _PaymentDetail(Payment model)
+        public async Task<ActionResult> _PaymentDetail(Payment model, HttpPostedFileBase file)
         {
             documentService = new DocumentService();
+            exeResult = new ExecutionResult();
+
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
             if (!model.IsNew)
             {
-                documentService.CreatePaymentDetailRecord(model, client.UserId);
+              exeResult = await documentService.CreatePaymentDetailRecord(model,client.UserId, file);
             }
             //else
             //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
@@ -298,36 +302,15 @@ namespace HonanClaimsPortal.Controllers
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public ActionResult UploadPaymentAttachment(IEnumerable<HttpPostedFileBase> files)
-        //{
-        //    // The Name of the Upload component is "attachments" 
-        //    foreach (var file in files)
-        //    {
-        //        string fileCreateId = "";
-        //        documentService = new DocumentService();
+        public ActionResult AjaxPaymentDetailsLoad(string claimId, string payeeId, string invoicedDate, string status, string invoiceNo)
+        {
+            documentService = new DocumentService();
+            List<PaymentSimple> payments = new List<PaymentSimple>();
+            payments = documentService.GetPaymentDetails(claimId, payeeId, invoicedDate, status, invoiceNo);
+            return Json(payments, JsonRequestBehavior.AllowGet);
+        }
 
-        //        ClaimAttachmentSimple attachment = new ClaimAttachmentSimple()
-        //        {
-        //            AttachmentName = Path.GetFileName(file.FileName),
-        //            AttachmentDescription = Path.GetFileName(file.FileName),
-        //            AttachmentType = file.ContentType,
-        //            UserId = userId,
-        //            ClaimId = claimId,
-        //            IsCustomerDoc = "F",
-        //            //LastUpdated = DateTime.Now,
-        //            Size = Convert.ToUInt64(file.ContentLength)
-
-        //        };
-
-        //        documentService.CreateClaimAttachmentCustomerDoc(attachment, out fileCreateId);
-
-        //        FileHelper.SaveFile(file, claimId);
-        //    }
-        //    // Return an empty string to signify success
-        //    return Content("");
-        //}
-
+      
         [HttpPost]
         public ActionResult DeleteKeyContact(string keyContactId)
         {
@@ -335,12 +318,13 @@ namespace HonanClaimsPortal.Controllers
             return Json(service.DeleteKeyContact(keyContactId), JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpPost]
         public ActionResult DeleteKeyDate(string keyDateId)
         {
             KeyContactDateServices service = new KeyContactDateServices();
             return Json(service.DeleteKeyDate(keyDateId), JsonRequestBehavior.AllowGet);
         }
+
     }
+    
 }
