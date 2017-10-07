@@ -1,0 +1,129 @@
+﻿@model HonanClaimsWebApi.Models.Claim.KeyContact
+
+
+@Html.HiddenFor(o => o.H_Claimsid,new {@id = "H_Claimsid_KCD"})
+@Html.HiddenFor(o => o.Contactid)
+@Html.HiddenFor(o => o.Accountid)
+
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Claim #</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id="Claim_Ref_No_KCD", @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Description</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(model => model.Description, new SelectList(Model.DescriptionList, "Text", "Text"), "",
+                                        new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Contact</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(o => o.Contact_Name, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Account</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Email Address</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(o => o.Email_Address, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Phone</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm", @type = "number" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Address</label>
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(o => o.Address, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Notes</label>
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(o => o.Notes, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 top-padding-eight">
+            <div class="text-right">
+                <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default">Discard Changes</button>
+                <button type="button" onclick="ConvertToClaim()" class="mb-sm btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+     var kendoAutoCompleteService_By_Name = null;
+    $(document).ready(function () {
+        kendoAutoCompleteService_By_Name = $("#Claim_Ref_No_KCD").kendoAutoComplete({
+            dataTextField: "Text",
+            //dataValueField: "ID",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
+                }
+            },
+            filter: "contains",
+            select: onSelectService_By_Name,
+        }).data("kendoAutoComplete");
+
+        function onSelectService_By_Name(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#H_Claimsid_KCD').val(dataItem.Code);
+            $('#Claim_Ref_No_KCD').val(dataItem.Text)
+        }
+    });
+
+    $('#Claim_Ref_No_KCD').keyup(function () {
+        var dd = $("#Claim_Ref_No_KCD").val();
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=" + $("#Claim_Ref_No_KCD").val(),
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteService_By_Name.setDataSource(dataSource);
+    });
+</script>

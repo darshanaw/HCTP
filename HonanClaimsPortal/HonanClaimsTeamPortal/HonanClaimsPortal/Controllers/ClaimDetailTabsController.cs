@@ -2,6 +2,7 @@
 using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Claim;
+using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApi.Models.TimeslipCheck;
 using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
@@ -235,6 +236,7 @@ namespace HonanClaimsPortal.Controllers
         public ActionResult _KeyContactsDates(string claimId)
         {
             KeyContactDateTabModel model = new KeyContactDateTabModel();
+            ViewData["claimId"] = claimId;
             model.ClaimId = claimId;
             return PartialView(model);
         }
@@ -325,6 +327,23 @@ namespace HonanClaimsPortal.Controllers
             return Json(service.DeleteKeyDate(keyDateId), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult _KeyContactDetail(string claimId,string keyContactId)
+        {
+            KeyContact model = new KeyContact();
+
+            pickListServices = new PicklistServicecs();
+            model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
+
+            return PartialView(model);
+        }
+
+        public ActionResult AjaxGetAssignedClaimNos(string claimNo)
+        {
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            claimServices = new ClaimServices();
+            List<CRMPicklistItem> items = claimServices.GetClaimsForUser(login.UserId).Where(x => x.Text.Contains(claimNo)).ToList();
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
     }
     
 }

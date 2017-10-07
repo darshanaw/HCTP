@@ -145,5 +145,7 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
         }
+
+        //public KeyContact GetKeyContact()
     }
 }
