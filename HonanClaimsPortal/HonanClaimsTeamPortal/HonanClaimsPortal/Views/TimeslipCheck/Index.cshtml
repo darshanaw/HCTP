@@ -135,10 +135,10 @@
                             <div class="form-group">
                                 @Html.DropDownListFor(m => m.InnerModeL.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                     SelectListItem
-                               {
-                                   Text = i.ToString().PadLeft(2, '0'),
-                                   Value = i.ToString().PadLeft(2, '0')
-                               }), new { @class = "form-control" })
+                           {
+                               Text = i.ToString().PadLeft(2, '0'),
+                               Value = i.ToString().PadLeft(2, '0')
+                           }), new { @class = "form-control" })
                             </div>
                         </div>
 
@@ -146,10 +146,10 @@
                             <div class="form-group">
                                 @Html.DropDownListFor(m => m.InnerModeL.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
                                          SelectListItem
-                               {
-                                   Text = i.ToString().PadLeft(2, '0'),
-                                   Value = i.ToString().PadLeft(2, '0')
-                               }), new { @class = "form-control" })
+                           {
+                               Text = i.ToString().PadLeft(2, '0'),
+                               Value = i.ToString().PadLeft(2, '0')
+                           }), new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -161,20 +161,20 @@
                             <div class="form-group">
                                 @Html.DropDownListFor(m => m.InnerModeL.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                     SelectListItem
-                               {
-                                   Text = i.ToString().PadLeft(2, '0'),
-                                   Value = i.ToString().PadLeft(2, '0')
-                               }), new { @class = "form-control input-sm" })
+                           {
+                               Text = i.ToString().PadLeft(2, '0'),
+                               Value = i.ToString().PadLeft(2, '0')
+                           }), new { @class = "form-control input-sm" })
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             @Html.DropDownListFor(m => m.InnerModeL.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
                                 SelectListItem
-                           {
-                               Text = i.ToString().PadLeft(2, '0'),
-                               Value = i.ToString().PadLeft(2, '0')
-                           }), new { @class = "form-control input-sm" })
+                       {
+                           Text = i.ToString().PadLeft(2, '0'),
+                           Value = i.ToString().PadLeft(2, '0')
+                       }), new { @class = "form-control input-sm" })
                         </div>
                     </div>
 
@@ -200,8 +200,17 @@
         </div>
     </div>
 </div>
-
+<input type="button" value="test" id="test"/>
 <script>
+    $("#test").on("click", function () {
+        var ids = [];
+        var grid = $("#grid1").data("kendoGrid");
+        grid.select().each(function () {
+            var dataItem = grid.dataItem($(this));
+            ids.push(dataItem.BillingId);
+        });
+    });
+
     $(document).ready(function () {
 
         $("#InnerModeL_Is_Billable").attr('value', 'true');
@@ -300,13 +309,14 @@
             },
             height: 600,
             sortable: true,
-            selectable: "row",
+            selectable: "multiple",
             change: onChange,
-            columns: [{
-                hidden: true,
-                field: "BillingId",
-                title: "BillingId"
-            },
+            columns: [
+                {
+                    hidden: true,
+                    field: "BillingId",
+                    title: "BillingId"
+                },
             {
                 field: "ClaimRefNo",
                 title: "Claims Ref ",
@@ -328,13 +338,20 @@
             {
                 field: "Billable",
                 title: "Billable $$",
+            }],    
+            dataBound: function () {
+                $(".checkbox").bind("change", function (e) {
+                    $(e.target).closest("tr").toggleClass("k-state-selected");
+                });
             }
-
-            ]
         });
 
         function onChange(arg) {
-            var dataItem = arg.sender._data[0];
+            $('tr').find('[type=checkbox]').prop('checked', false);
+            $('tr.k-state-selected').find('[type=checkbox]').prop('checked', true);
+            //var dataItem = arg.sender._data[0];
+            //setTextFields(dataItem);
+            var dataItem = this.dataItem(this.select());
             setTextFields(dataItem);
         }
     }
@@ -363,7 +380,6 @@
 
             $('#InnerModeL_Qty_Mins').val(data.Qty_Mins);
             $('#InnerModeL_Billable').val(data.Billable);
-
         });
     }
 
