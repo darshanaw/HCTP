@@ -1,0 +1,209 @@
+﻿@model  HonanClaimsWebApi.Models.Claim.KeyContactDateTabModel
+
+@{
+    string display = "";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key Contacts</div>
+    <div class="panel-body">
+        <div class="col-md-12 mb">
+            <div class="btn-group pull-right">
+                <button id="btnRemoveContact" class="btn btn-sm btn-default" onclick="removeKeyContact()">Remove Key Contact</button>
+                <button id="btnAddKeyContact" class="btn btn-sm btn-primary">Add Key Contact</button>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <div id="grdKeyContacts"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Key Dates</div>
+    <div class="panel-body">
+        <div class="col-md-12 mb">
+            <div class="btn-group pull-right">
+                <button id="btnRemoveKeyDate" class="btn btn-sm btn-default" onclick="removeKeyDate()">Remove Key Date</button>
+                <button id="btnAddKeyDate" class="btn btn-sm btn-primary" onclick="addKeyDate()">Add Key Date</button>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <div id="grdKeyDates"></div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div id="grid"></div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#grdKeyContacts").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxGetKeyContacts?claimId=" + "@Model.ClaimId",
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 20,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            selectable: "row",
+            dataBound: onDataBound,
+            columns: [
+
+                //{
+                //    field: "H_Keycontactsid",
+                //    visible: false
+                //},
+                {
+                    field: "Description",
+                    title: "Description",
+                },
+                {
+                    field: "Account_Name",
+                    title: "Account",
+                    template: "<a href='/AccountList/AccountDetail?AccountId=#=Accountid#'>#= Account_Name #</a>"
+                    //template: '#= kendo.toString(kendo.parseDate(ServiceDate), "dd/MM/yyyy")#'
+                },
+                {
+                    field: "Contact_Name",
+                    title: "Contact",
+                    template: "<a href='/Contact/ContactDetail?ContactId=#=Contactid#'>#= Contact_Name #</a>"
+                },
+                {
+                    field: "Phone",
+                    title: "Phone"
+                },
+                {
+                    field: "Email_Address",
+                    title: "Email"
+                }
+            ]
+        });
+
+        var ds = new kendo.data.DataSource({
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxGetKeyDates?claimId=" + "@Model.ClaimId",
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+        });
+
+
+         $("#grdKeyDates").kendoGrid({
+             dataSource: ds,
+            filterable: true,
+            pageSize: 20,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            selectable: "row",
+            dataBound: onDataBound,
+            columns: [
+
+                {
+                    field: "Seq",
+                    title: "Seq",
+                },
+                {
+                    field: "Key_Date_Description",
+                    title: "Description",
+                },
+                {
+                    field: "Key_Date",
+                    title: "Date",
+                    template: '#= kendo.toString(kendo.parseDate(Key_Date), "dd/MM/yyyy")#'
+                }
+            ]
+        });
+
+
+    })
+
+    function addKeyDate() {
+        $("#grdKeyDates").data("kendoGrid").addRow();
+    }
+
+    function removeKeyContact() {
+        var grid = $("#grdKeyContacts").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem != null) {
+
+            //Remove Key Contact
+            $.LoadingOverlay("show");
+            $.ajax({
+                type: "POST",
+                url: "/ClaimDetailTabs/DeleteKeyContact",
+                data: '{keyContactId: "' + selectedItem.H_Keycontactsid + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $('#grdKeyContacts').data('kendoGrid').dataSource.read();
+                    $('#grdKeyContacts').data('kendoGrid').refresh();
+                    $.LoadingOverlay("hide");
+                },
+                failure: function (response) {
+                    alert("Failed to Update");
+                    $.LoadingOverlay("hide");
+                },
+                error: function (response) {
+                    alert("Failed to Update");
+
+                    
+                }
+            });
+        }
+    }
+
+    function removeKeyDate() {
+        var grid = $("#grdKeyDates").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem != null) {
+
+            //Remove Key Date
+            $.LoadingOverlay("show");
+            $.ajax({
+                type: "POST",
+                url: "/ClaimDetailTabs/DeleteKeyDate",
+                data: '{keyDateId: "' + selectedItem.H_Keydatesid + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $('#grdKeyDates').data('kendoGrid').dataSource.read();
+                    $('#grdKeyDates').data('kendoGrid').refresh();
+                    $.LoadingOverlay("hide");
+                },
+                failure: function (response) {
+                    alert("Failed to Update");
+                    $.LoadingOverlay("hide");
+                },
+                error: function (response) {
+                    alert("Failed to Update");
+
+
+                }
+            });
+        }
+    }
+</script>
+

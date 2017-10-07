@@ -24,6 +24,7 @@ namespace HonanClaimsPortal.Controllers
         BillingTabModel billingTab;
         BillableServices billableServices;
         ClaimServices claimServices;
+        KeyContactDateTabModel keyContactTab;
         PicklistServicecs pickListServices;
 
         // GET: ClaimDetailTabs
@@ -201,11 +202,11 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public ActionResult _FileNoteDetail(FileNoteDetailModal model)
         {
-            
+
             documentService = new DocumentService();
-            if(!string.IsNullOrEmpty(model.H_FileNotesId_Fn))
+            if (!string.IsNullOrEmpty(model.H_FileNotesId_Fn))
             {
-                documentService.UpdateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value,model.H_FileNotesId_Fn);
+                documentService.UpdateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value, model.H_FileNotesId_Fn);
             }
             else
                 documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
@@ -229,6 +230,36 @@ namespace HonanClaimsPortal.Controllers
             return Json(fileNote, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult _KeyContactsDates(string claimId)
+        {
+            KeyContactDateTabModel model = new KeyContactDateTabModel();
+            model.ClaimId = claimId;
+            return PartialView(model);
+        }
+
+        public ActionResult AjaxGetKeyContacts(string claimId)
+        {
+            KeyContactDateServices services = new KeyContactDateServices();
+            List<KeyContact> keyContacts = services.GetKeyContacts(claimId);
+            return Json(keyContacts, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AjaxGetKeyDates(string claimId)
+        {
+            KeyContactDateServices services = new KeyContactDateServices();
+            List<KeyDate> keyDates = services.GetKeyDates(claimId);
+            return Json(keyDates, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AjaxUpdateKeyDates(KeyDate KeyDate)
+        {
+            KeyContactDateServices services = new KeyContactDateServices();
+            //List<KeyDate> keyDates = services.GetKeyDates(claimId);
+            return Json(KeyDate, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult _PaymentDetail(string claimId, string Claim_Reference_Num)
         {
             Payment model = new Payment();
@@ -236,7 +267,7 @@ namespace HonanClaimsPortal.Controllers
             pickListServices = new PicklistServicecs();
 
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
-          
+
             model.ClaimRefNo_Payment = Claim_Reference_Num;
             model.ClaimRefNo_Payment_List = claimServices.GetClaimsForUser(client.UserId);
             model.Payee_Type_List = pickListServices.GetPickListItems("Honan Payee type");
@@ -259,42 +290,57 @@ namespace HonanClaimsPortal.Controllers
 
             if (!model.IsNew)
             {
-                documentService.CreatePaymentDetailRecord(model,client.UserId);
+                documentService.CreatePaymentDetailRecord(model, client.UserId);
             }
             //else
-                //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
+            //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
 
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
-            //[HttpPost]
-            //public ActionResult UploadPaymentAttachment(IEnumerable<HttpPostedFileBase> files)
-            //{
-            //    // The Name of the Upload component is "attachments" 
-            //    foreach (var file in files)
-            //    {
-            //        string fileCreateId = "";
-            //        documentService = new DocumentService();
+        //[HttpPost]
+        //public ActionResult UploadPaymentAttachment(IEnumerable<HttpPostedFileBase> files)
+        //{
+        //    // The Name of the Upload component is "attachments" 
+        //    foreach (var file in files)
+        //    {
+        //        string fileCreateId = "";
+        //        documentService = new DocumentService();
 
-            //        ClaimAttachmentSimple attachment = new ClaimAttachmentSimple()
-            //        {
-            //            AttachmentName = Path.GetFileName(file.FileName),
-            //            AttachmentDescription = Path.GetFileName(file.FileName),
-            //            AttachmentType = file.ContentType,
-            //            UserId = userId,
-            //            ClaimId = claimId,
-            //            IsCustomerDoc = "F",
-            //            //LastUpdated = DateTime.Now,
-            //            Size = Convert.ToUInt64(file.ContentLength)
+        //        ClaimAttachmentSimple attachment = new ClaimAttachmentSimple()
+        //        {
+        //            AttachmentName = Path.GetFileName(file.FileName),
+        //            AttachmentDescription = Path.GetFileName(file.FileName),
+        //            AttachmentType = file.ContentType,
+        //            UserId = userId,
+        //            ClaimId = claimId,
+        //            IsCustomerDoc = "F",
+        //            //LastUpdated = DateTime.Now,
+        //            Size = Convert.ToUInt64(file.ContentLength)
 
-            //        };
+        //        };
 
-            //        documentService.CreateClaimAttachmentCustomerDoc(attachment, out fileCreateId);
+        //        documentService.CreateClaimAttachmentCustomerDoc(attachment, out fileCreateId);
 
-            //        FileHelper.SaveFile(file, claimId);
-            //    }
-            //    // Return an empty string to signify success
-            //    return Content("");
-            //}
+        //        FileHelper.SaveFile(file, claimId);
+        //    }
+        //    // Return an empty string to signify success
+        //    return Content("");
+        //}
+
+        [HttpPost]
+        public ActionResult DeleteKeyContact(string keyContactId)
+        {
+            KeyContactDateServices service = new KeyContactDateServices();
+            return Json(service.DeleteKeyContact(keyContactId), JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpPost]
+        public ActionResult DeleteKeyDate(string keyDateId)
+        {
+            KeyContactDateServices service = new KeyContactDateServices();
+            return Json(service.DeleteKeyDate(keyDateId), JsonRequestBehavior.AllowGet);
+        }
+    }
 }

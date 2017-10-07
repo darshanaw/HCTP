@@ -1015,6 +1015,8 @@
     <div class="tab-pane" id="tabActivityTasks">
     </div>
     <div class="tab-pane" id="tabKey_Contacts_Dates">
+        @*@Html.Partial("~/Views/Shared/_KeyContactsDates.cshtml", null)*@
+        @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
     </div>
     <div class="tab-pane" id="tabAttachments">
 
