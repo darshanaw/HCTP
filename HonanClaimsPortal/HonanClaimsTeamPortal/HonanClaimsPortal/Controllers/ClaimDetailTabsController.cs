@@ -242,8 +242,59 @@ namespace HonanClaimsPortal.Controllers
             model.Payee_Type_List = pickListServices.GetPickListItems("Honan Payee type");
             model.Gst = "10";
             model.Gst_Included = true;
+            model.Payment_Status_List = pickListServices.GetPickListItems("Honan Payment Status");
+            model.Payment_Type_List = pickListServices.GetPickListItems("Honan Payment Type");
+            model.Payment_Method_List = pickListServices.GetPickListItems("Honan Payment Method");
+            model.H_Claimsid = claimId;
+            model.IsNew = false;
 
             return PartialView(model);
         }
-    }
+
+        [HttpPost]
+        public ActionResult _PaymentDetail(Payment model)
+        {
+            documentService = new DocumentService();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+            if (!model.IsNew)
+            {
+                documentService.CreatePaymentDetailRecord(model,client.UserId);
+            }
+            //else
+                //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+            //[HttpPost]
+            //public ActionResult UploadPaymentAttachment(IEnumerable<HttpPostedFileBase> files)
+            //{
+            //    // The Name of the Upload component is "attachments" 
+            //    foreach (var file in files)
+            //    {
+            //        string fileCreateId = "";
+            //        documentService = new DocumentService();
+
+            //        ClaimAttachmentSimple attachment = new ClaimAttachmentSimple()
+            //        {
+            //            AttachmentName = Path.GetFileName(file.FileName),
+            //            AttachmentDescription = Path.GetFileName(file.FileName),
+            //            AttachmentType = file.ContentType,
+            //            UserId = userId,
+            //            ClaimId = claimId,
+            //            IsCustomerDoc = "F",
+            //            //LastUpdated = DateTime.Now,
+            //            Size = Convert.ToUInt64(file.ContentLength)
+
+            //        };
+
+            //        documentService.CreateClaimAttachmentCustomerDoc(attachment, out fileCreateId);
+
+            //        FileHelper.SaveFile(file, claimId);
+            //    }
+            //    // Return an empty string to signify success
+            //    return Content("");
+            //}
+        }
 }

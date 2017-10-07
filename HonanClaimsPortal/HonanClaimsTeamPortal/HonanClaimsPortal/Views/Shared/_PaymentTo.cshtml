@@ -74,7 +74,7 @@
                     "sName": "AccountName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closePaymentToModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[4] + '\', \'' + oObj[6] + '\')">' + oObj[1] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closePaymentToModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[4] + '\')">' + oObj[1] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                     }
                 },
@@ -95,7 +95,7 @@
 
 
     function closePaymentToModal(accountId, accountName) {
-
+      
         $("#Payment_To_Name").val(accountName);
 
         if ($("#Payment_To").length > 0)

@@ -11,11 +11,22 @@
     })
 </script>
 
+<style>
+    .k-upload.k-header{
+        width:100%;
+    }
+</style>
 
-@Html.HiddenFor(o=>o.Payee_Account)
-@Html.HiddenFor(o=>o.Payee_Contact)
-@Html.HiddenFor(o=>o.Payment_To)
-@Html.HiddenFor(o=>o.Sent_To_Contact)
+
+@using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Fn", UpdateTargetId = "divFakePayment" }, new { @id = "frmPayment" }))
+{
+@Html.HiddenFor(o => o.Payee_Account)
+@Html.HiddenFor(o => o.Payee_Contact)
+@Html.HiddenFor(o => o.Payment_To)
+@Html.HiddenFor(o => o.Sent_To_Contact)
+@Html.HiddenFor(o=>o.Invoice_Attached)
+@Html.HiddenFor(o=>o.H_Claimsid)
+@Html.HiddenFor(o => o.IsNew)
 
 <div class="col-md-6">
 
@@ -26,7 +37,7 @@
                 @if (string.IsNullOrEmpty(Model.ClaimRefNo_Payment))
                 {
                     @Html.DropDownListFor(model => model.ClaimRefNo_Payment, new SelectList(Model.ClaimRefNo_Payment_List, "Text", "Text"), "",
-                                        new { @class = "form-control input-sm" })
+                   new { @class = "form-control input-sm" })
                 }
                 else
                 {
@@ -41,7 +52,8 @@
             <label class="col-sm-4 control-label input-sm">Reserve Type</label>
             <div class="col-sm-8">
                 @Html.DropDownListFor(model => model.Reserve_Type, new SelectList(Model.Reserve_Type_List, "Text", "Text"), "",
-                                        new { @class = "form-control input-sm" })
+                   new { @class = "form-control input-sm" })
+                @Html.HiddenFor(x => x.Reserve_Type)
             </div>
         </div>
     </div>
@@ -72,7 +84,7 @@
     <div class="row">
         <div class="form-group mb">
             @*<label class="col-sm-4 control-label input-sm">Invoice Attach</label>*@
-            <div class="col-sm-12">
+            <div class="col-sm-12 mb">
                 <input type="file" name="files" id="uploadInvoiceAttach" />
             </div>
         </div>
@@ -83,7 +95,7 @@
             <label class="col-sm-4 control-label input-sm">Payee Type</label>
             <div class="col-sm-8">
                 @Html.DropDownListFor(model => model.Payee_Type, new SelectList(Model.Payee_Type_List, "Text", "Text"), "",
-                                        new { @class = "form-control input-sm" })
+                   new { @class = "form-control input-sm" })
             </div>
         </div>
     </div>
@@ -124,7 +136,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Total Gross</label>
             <div class="col-sm-8">
-                @Html.TextBoxFor(o=>o.Total_Gross, new { @class = "form-control input-sm", @type = "number" })
+                @Html.TextBoxFor(o => o.Total_Gross, new { @class = "form-control input-sm", @type = "number" })
             </div>
         </div>
     </div>
@@ -133,7 +145,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm"></label>
             <div class="col-sm-8">
-                GST Inc >>  @Html.CheckBoxFor(o=>o.Gst_Included)
+                GST Inc >>  @Html.CheckBoxFor(o => o.Gst_Included)
             </div>
         </div>
     </div>
@@ -151,7 +163,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Total Net GST</label>
             <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Total_Net, new { @class = "form-control input-sm disabled", @readonly = true })
+                @Html.TextBoxFor(o => o.Total_Net, "{0:C0}", new { @class = "form-control input-sm" })
             </div>
         </div>
     </div>
@@ -211,7 +223,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Phone #</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                @Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_phone" })
             </div>
         </div>
     </div>
@@ -220,7 +232,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Email</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                @Html.TextBoxFor(o => o.Email, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_email" })
             </div>
         </div>
     </div>
@@ -229,7 +241,8 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Payment Status</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                @Html.DropDownListFor(model => model.Payment_Status, new SelectList(Model.Payment_Status_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
             </div>
         </div>
     </div>
@@ -238,7 +251,12 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Date Invoice Paid</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                <div class="input-group date dateCalendar" style="width:100%">
+                    @Html.TextBoxFor(o => o.Date_Invoice_Paid, new { @class = "form-control input-sm" })
+                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -247,7 +265,8 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Payment Type</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                @Html.DropDownListFor(model => model.Payment_Type, new SelectList(Model.Payment_Type_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
             </div>
         </div>
     </div>
@@ -256,7 +275,8 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Payment Method</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                @Html.DropDownListFor(model => model.Payment_Method, new SelectList(Model.Payment_Method_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
             </div>
         </div>
     </div>
@@ -265,7 +285,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Settlement Payment</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                @Html.CheckBoxFor(o => o.Is_Settlement)
             </div>
         </div>
     </div>
@@ -274,7 +294,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Amount</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                @Html.TextBoxFor(o => o.Payment_Amount, new { @class = "form-control input-sm", @type = "number" })
             </div>
         </div>
     </div>
@@ -283,7 +303,12 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Payment Date</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" />
+                <div class="input-group date dateCalendar" style="width:100%">
+                    @Html.TextBoxFor(o => o.Payment_Date, new { @class = "form-control input-sm" })
+                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                        <span class="fa fa-calendar"></span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -299,12 +324,16 @@
 
 </div>
 
+
+
 <div class="col-md-12">
     <div class="footer text-right">
         <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
         <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
     </div>
 </div>
+
+}
 
 <!-- Modal -->
 <div id="AccountBrokerModal_Pd" class="modal fade AccountBrokerModal_Pd" role="dialog" data-backdrop="false">
@@ -378,21 +407,25 @@
     </div>
 </div>
 
+
 <script>
 
     $(function () {
 
         $("#uploadInvoiceAttach").kendoUpload({
             async: {
-                saveUrl: '@Url.Action("UploadAttachment", "ClaimDetailTabs")',
-                //removeUrl: '@Url.Action("", "ClaimDetailTabs")',
-                autoUpload: false
+                saveUrl: '@Url.Action("UploadAttachment", "ClaimDetailTabs")'
             },
+
             upload: function (e) {
                 e.data = { claimId: $("#H_Claimsid").val(), userId: '' };
             },
             complete: onCompleteInvoiceUpload
         });
+
+        $("#uploadInvoiceAttach").closest(".k-upload-button")
+            .find("span")
+            .text("Attach Invoice");
 
 
         $(".AccountBrokerModal_Pd_Close").click(function () {
@@ -440,6 +473,33 @@
         $("#Sent_To_Contact_Name_Pd").click(function () {
             $('#tbSendToContact_Pd').DataTable().ajax.reload(null, false);
         });
+
+        $("#Is_Settlement").change(function () {
+
+            if ($("#Is_Settlement").is(":checked"))
+            {
+                $("#Reserve_Type").val("Liability Reserve");
+                $("#Reserve_Type").prop("disabled", true);
+                $("#Gst_Included").prop("checked", true);
+                $("#Date_Invoice_Received").rules("remove", "required");
+                $("#Payee_Type").rules("remove", "required");
+                $("#Payee_Account_Name").rules("remove", "required");
+                $("#Payment_Amount").rules("add", "required");
+                $("#Payment_Date").rules("add", "required");
+            }
+            else
+            {
+                $("#Reserve_Type").val("");
+                $("#Reserve_Type").prop("disabled", false);  
+                $("#Date_Invoice_Received").rules("add", "required");
+                $("#Payee_Type").rules("add", "required");
+                $("#Payee_Account_Name").rules("add", "required");
+                $("#Payment_Amount").rules("remove", "required");
+                $("#Payment_Date").rules("remove", "required");
+            }
+        });
+
+       
 
     });
 
