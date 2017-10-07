@@ -284,42 +284,40 @@
     });
 
     $(document).ready(function () {
-        document.getElementById("Checked_By").style.visibility = "hidden";
-        document.getElementById("Checked_Date").style.visibility = "hidden";
+        var Timeslip_Checked = $("#Timeslip_Checked").is(":checked");
+        if (Timeslip_Checked == false)
+        {
+            document.getElementById("Checked_By").style.visibility = "hidden";
+            document.getElementById("Checked_Date").style.visibility = "hidden";
+        }
 
+        
         $('#Timeslip_Checked').change(function () {
             if (this.checked) {
                 document.getElementById("Checked_By").style.visibility = "visible";
                 document.getElementById("Checked_Date").style.visibility = "visible";
-
-                //document.getElementById("Checked_ByH").style.visibility = "hidden";
-                //document.getElementById("Checked_DateH").style.visibility = "hidden";
-
             } else {
                 document.getElementById("Checked_By").style.visibility = "hidden";
                 document.getElementById("Checked_Date").style.visibility = "hidden";
-
-                //document.getElementById("Checked_ByH").style.visibility = "visible";
-                //document.getElementById("Checked_DateH").style.visibility = "visible";
             }
         });
 
-        document.getElementById("Invoice_Processed_By").style.visibility = "hidden";
-        document.getElementById("Invoice_Processed_Date").style.visibility = "hidden";
+        var Invoice_Processed = $("#Invoice_Processed").is(":checked");
+        debugger;
+        if (Invoice_Processed == false)
+        {
+            document.getElementById("Invoice_Processed_By").style.visibility = "hidden";
+            document.getElementById("Invoice_Processed_Date").style.visibility = "hidden";
+        }
+
 
         $('#Invoice_Processed').change(function () {
             if (this.checked) {
                 document.getElementById("Invoice_Processed_By").style.visibility = "visible";
                 document.getElementById("Invoice_Processed_Date").style.visibility = "visible";
-
-                //document.getElementById("Invoice_Processed_ByH").style.visibility = "hidden";
-                //document.getElementById("Invoice_Processed_DateH").style.visibility = "hidden";
             } else {
                 document.getElementById("Invoice_Processed_By").style.visibility = "hidden";
                 document.getElementById("Invoice_Processed_Date").style.visibility = "hidden";
-
-                //document.getElementById("Invoice_Processed_ByH").style.visibility = "visible";
-                //document.getElementById("Invoice_Processed_DateH").style.visibility = "visible";
             }
         });
 
