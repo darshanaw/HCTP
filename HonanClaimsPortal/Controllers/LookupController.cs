@@ -481,7 +481,7 @@ namespace HonanClaimsPortal.Controllers
 
             foreach (CRMContactSimple item in filteredRecords)
             {
-                string[] arry = new string[] { item.LastName, item.FirstName, item.ContactName, item.AccountId,item.AccountName,item.ContactId  };
+                string[] arry = new string[] { item.LastName, item.FirstName, item.ContactName, item.AccountId,item.AccountName,item.ContactId,item.Email  };
                 aData.Add(arry);
             }
 

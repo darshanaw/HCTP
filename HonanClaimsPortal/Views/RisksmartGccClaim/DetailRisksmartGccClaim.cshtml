@@ -1028,6 +1028,7 @@
         @{Html.RenderAction("_Billing", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
     </div>
     <div class="tab-pane" id="tabPayments">
+        @Html.Partial("~/Views/Shared/_Payments.cshtml", new ViewDataDictionary { { "claimId", Model.H_Claimsid }, { "Claim_Reference_Num", Model.Claim_Reference_Num } })
     </div>
     <div class="tab-pane" id="tabFileNotes">
         @Html.Partial("~/Views/Shared/_FileNotes.cshtml", new ViewDataDictionary { { "claimId" , Model.H_Claimsid },{ "Claim_Reference_Num", Model.Claim_Reference_Num } })
@@ -1241,7 +1242,7 @@
 
         $("#brokerAccountNameModal").click(function () {
             $('#tbContactBroker').DataTable().ajax.reload(null, false);
-        })
+        });
 
 
         $("#ddlStatus").change(function () {
