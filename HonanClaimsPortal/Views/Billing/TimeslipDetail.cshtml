@@ -23,7 +23,8 @@
                 </div>
             </div>
         </div>
-        <div class="row timeslip">
+        @Html.HiddenFor(m=>m.H_Billingsid)
+         <div class="row timeslip">
             <div class="col-md-6">
                 @Html.CheckBoxFor(c => c.Is_Billable)<label class="col-md-3 ml-15">Is Billable</label>
                 <div class="form-group col-md-12 col-sm-12">
@@ -238,9 +239,18 @@
     </div>
 
     <hr />
+    @Html.HiddenFor(m=>m.IsNew)
     <div class="main-container">
         <button type="button" onclick="Cancel()" class="btn btn-default mr-20">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save</button>
+        @if (Model.IsNew)
+        {
+            <button type="submit" class="btn btn-primary">Add</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">Save</button>
+        }
+        
     </div>
 
         <!--Modal-->
