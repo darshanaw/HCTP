@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HonanClaimsWebApi.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,9 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Contact_Name { get; set; }
         public string Account_Name { get; set; }
         public string Imported { get; set; }
+        public string Claim_Ref_No { get; set; }
+
+        public List<PicklistItem> DescriptionList { get; set; }
+
     }
 }

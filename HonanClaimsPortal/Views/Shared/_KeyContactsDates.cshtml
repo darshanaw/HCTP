@@ -10,7 +10,7 @@
         <div class="col-md-12 mb">
             <div class="btn-group pull-right">
                 <button id="btnRemoveContact" class="btn btn-sm btn-default" onclick="removeKeyContact()">Remove Key Contact</button>
-                <button id="btnAddKeyContact" class="btn btn-sm btn-primary">Add Key Contact</button>
+                <button id="btnAddKeyContact" class="btn btn-sm btn-primary" onclick="addNewContact()">Add Key Contact</button>
             </div>
 
         </div>
@@ -41,6 +41,26 @@
     <div id="grid"></div>
 </div>
 
+
+
+<!-- Key Contacts Modal -->
+<div id="KeyContactDetailModal" class="modal fade KeyContactDetailModal" role="dialog" data-backdrop="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Key Contact Detail</h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderAction("_KeyContactDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"], keyContactId = "" });}
+
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function () {
@@ -205,5 +225,12 @@
             });
         }
     }
+
+    function addNewContact() {
+
+
+        $('#KeyContactDetailModal').modal('show');
+    }
+
 </script>
 
