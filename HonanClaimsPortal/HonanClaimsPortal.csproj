@@ -1351,6 +1351,7 @@
     <Content Include="Views\Shared\_PaymentContactLookUp.cshtml" />
     <Content Include="Views\Shared\_PaymentTo.cshtml" />
     <Content Include="Views\Shared\_SendToContact.cshtml" />
+    <Content Include="Views\Shared\_KeyContactsDates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
