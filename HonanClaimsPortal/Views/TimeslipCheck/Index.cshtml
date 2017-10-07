@@ -311,6 +311,11 @@
             sortable: true,
             selectable: "multiple",
             change: onChange,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
             columns: [
                 {
                     hidden: true,
