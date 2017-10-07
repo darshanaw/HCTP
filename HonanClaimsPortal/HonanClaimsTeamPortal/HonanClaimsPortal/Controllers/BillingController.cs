@@ -24,10 +24,17 @@ namespace HonanClaimsPortal.Controllers
 
         public async Task<ActionResult> TimeslipDetail(string BillingId)
         {
-            BillingRepo billingRepo = new BillingRepo();
             var model = new BillingModel();
+            if (BillingId==null)
+            {
+                model.IsNew = true;
+                model.Is_Billable = true;
+                return View(model);
+            }
+            model.IsNew = false;
+            BillingRepo billingRepo = new BillingRepo();           
             model =await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
-            model.Is_Billable = true;
+            
 
            model.Billable = (decimal.Round(model.Billable, 2));
            model.Rate = (decimal.Round(model.Rate, 2));
@@ -102,11 +109,28 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public async Task<ActionResult> TeamInsertTimeslip(BillingModel model)
         {
-            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
-
             BillingRepo billingRepo = new BillingRepo();
-            var result =await billingRepo.TeamInsertTimeslip(model,client.UserId);
-            return RedirectToAction("TimeslipDetail");
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            if (model.IsNew)
+            {
+                
+                var result = await billingRepo.TeamInsertTimeslip(model, client.UserId);
+                if (result)
+                {
+                    return RedirectToAction("MyBillableTime");
+                }
+                return RedirectToAction("TimeslipDetail");
+            }
+            else
+            {
+                var result = await billingRepo.TeamUpdateTimeslip(model, client.UserId);
+                if (result)
+                {
+                    return RedirectToAction("MyBillableTime");
+                }
+                return RedirectToAction("TimeslipDetail");
+            }
+
         }
 
 

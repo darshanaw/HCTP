@@ -168,9 +168,30 @@ namespace HonanClaimsWebApi.Models.Billing
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    result = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(data);
+                    result = true;
 
+                }
+            }
+            return result;
+        }
+
+        public async Task<bool> TeamUpdateTimeslip(BillingModel model, string UserId)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = string.Empty;
+            var json = JsonConvert.SerializeObject(model);
+            bool result = false;
+            apiUrl = SiteUrl + "api/Billing/TeamUpdateBilling?billing="+json+"&userId="+ UserId;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    result = true;
                 }
             }
             return result;
