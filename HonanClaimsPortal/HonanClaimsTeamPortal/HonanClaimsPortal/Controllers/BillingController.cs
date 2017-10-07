@@ -22,24 +22,17 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
-        public ActionResult TimeslipDetail()
+        public async Task<ActionResult> TimeslipDetail(string BillingId)
         {
-            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
-            string Service_By_Name = client.FirstName+" "+client.LastName;
-            string Service_By = client.UserId;
-
-
+            BillingRepo billingRepo = new BillingRepo();
             var model = new BillingModel();
-            model.Service_By_Name = Service_By_Name;
-            model.Service_By = Service_By;
+            model =await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
             model.Is_Billable = true;
 
-
            model.Billable = (decimal.Round(model.Billable, 2));
-            model.Rate = (decimal.Round(model.Rate, 2));
-            model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
-
-            return View(model);
+           model.Rate = (decimal.Round(model.Rate, 2));
+           model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
+           return View(model);
         } 
 
         [HttpGet]
