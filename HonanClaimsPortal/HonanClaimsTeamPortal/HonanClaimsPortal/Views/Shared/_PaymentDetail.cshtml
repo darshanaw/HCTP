@@ -8,7 +8,19 @@
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
         });
-    })
+
+    });
+
+    function GetResult_Pd(data) {
+
+        if ($('#PaymentDetailModal').length > 0) {
+            $('#PaymentDetailModal').modal('hide');
+        }
+
+        $.LoadingOverlay("hide");
+        RefreshPaymentDetailsGrid();
+    }
+
 </script>
 
 <style>
@@ -18,7 +30,7 @@
 </style>
 
 
-@using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Fn", UpdateTargetId = "divFakePayment" }, new { @id = "frmPayment" }))
+@using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Pd", UpdateTargetId = "divFakePayment" }, new { @id = "frmPaymentDetail" }))
 {
 @Html.HiddenFor(o => o.Payee_Account)
 @Html.HiddenFor(o => o.Payee_Contact)
@@ -27,6 +39,8 @@
 @Html.HiddenFor(o=>o.Invoice_Attached)
 @Html.HiddenFor(o=>o.H_Claimsid)
 @Html.HiddenFor(o => o.IsNew)
+
+<div id="divFakePayment"></div>
 
 <div class="col-md-6">
 
@@ -329,7 +343,7 @@
 <div class="col-md-12">
     <div class="footer text-right">
         <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
-        <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
+        <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail">Save Changes</button>
     </div>
 </div>
 
@@ -410,7 +424,15 @@
 
 <script>
 
+
     $(function () {
+
+        $('#frmPaymentDetail').submit(function () {
+
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
 
         $("#uploadInvoiceAttach").kendoUpload({
             async: {
@@ -436,9 +458,9 @@
             $("#ContactBrokerModal_Pd").modal("hide");
         });
 
-        $("#AccountNoModal_Pd").click(function () {
-            $('#tbPaymentAccount').DataTable().ajax.reload(null, false);
-        });
+        //$("#AccountNoModal_Pd").click(function () {
+        //    $('#tbPaymentAccount').DataTable().ajax.reload(null, false);
+        //});
 
         $("#ContactModal_Pd").click(function () {
             $('#tbContact_Pd').DataTable().ajax.reload(null, false);

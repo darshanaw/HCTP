@@ -102,6 +102,7 @@
     <Compile Include="Models\Claim\KeyDate.cs" />
     <Compile Include="Models\Claim\NewClaimModel.cs" />
     <Compile Include="Models\Claim\Payment.cs" />
+    <Compile Include="Models\Claim\PaymentSimple.cs" />
     <Compile Include="Models\Claim\PropertyClaim.cs" />
     <Compile Include="Models\Claim\RisksmartPropertyClaim.cs" />
     <Compile Include="Models\Common\CRMPicklistItem.cs" />
