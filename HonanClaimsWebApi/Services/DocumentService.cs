@@ -1,11 +1,13 @@
 ﻿using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.Claim;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
@@ -34,6 +36,9 @@ namespace HonanClaimsWebApi.Services
 
         private const string getFileNotes = "api/FileNote/GetFileNotes?searchText=";
         private const string getFileNoteById = "api/FileNote/TeamGetFileNote?fileNoteId=";
+
+        private const string getmInsertPayment = "api/Payment/TeamInsertPayment";
+        private const string paymentUserId = "userId";
 
         ExecutionResult exeReult;
 
@@ -258,6 +263,195 @@ namespace HonanClaimsWebApi.Services
             }
 
         }
+
+
+        // Payment Detail
+
+        public async Task<ExecutionResult> CreatePaymentDetailRecord(Payment payment, string userId)
+        {
+            exeReult = new ExecutionResult();
+            string result = "";
+            try
+            {
+                //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                //    ConfigurationManager.AppSettings["apiurl"] + getmInsertPayment);
+
+                //request.Method = "POST";
+                //request.ContentType = "application/json";
+
+                //WebResponse webResponse = request.GetResponse();
+                //using (Stream webStream = webResponse.GetResponseStream())
+                //{
+                //    if (webStream != null)
+                //    {
+                //        using (StreamReader responseReader = new StreamReader(webStream))
+                //        {
+                //            string response = responseReader.ReadToEnd();
+                //            result = new JavaScriptSerializer().Deserialize<string>(response);
+                //        }
+                //    }
+                //}
+
+
+                string apiUrl = string.Empty;
+
+                if (payment.IsNew)
+                {
+                    //apiUrl = SiteUrl + "api/AccountAndReg/TeamInsertCustomerPortalAdmin";
+                }
+                else
+                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmInsertPayment;
+
+                using (var client = new HttpClient())
+                {
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        //if (file2 != null)
+                        //{
+                        //    formData.Add(new StreamContent(file2.InputStream), "logo", file2.FileName);
+                        //}
+                        //if (file1 != null)
+                        //{
+                        //    formData.Add(new StreamContent(file1.InputStream), "manualClaimForm", file1.FileName);
+                        //}
+
+                        var jsonString = JsonConvert.SerializeObject(payment);
+                        var jsonString_userId = JsonConvert.SerializeObject(userId);
+                        var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                        var content_userId = new StringContent(jsonString_userId, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "payment");
+                        formData.Add(content_userId, "userId");
+
+
+                        var postResult = await client.PostAsync(apiUrl, formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                        exeReult.IsSuccess = Convert.ToBoolean(resultContent);
+                    }
+                }
+
+                exeReult.ResultObject = result;
+                exeReult.IsSuccess = true;
+                exeReult.IsFailure = false;
+                return exeReult;
+            }
+            catch (Exception e)
+            {
+                exeReult.IsFailure = true;
+                exeReult.IsSuccess = false;
+
+                throw e;
+            }
+
+        }
+
+        //public ExecutionResult UpdateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate, string fileNoteId)
+        //{
+        //    exeReult = new ExecutionResult();
+        //    string result = "";
+        //    try
+        //    {
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+        //            ConfigurationManager.AppSettings["apiurl"] + updateFileNote + userId + param_shortDes + shortDescription + param_detail + details
+        //            + param_fileNoteDate + fileNoteDate + param_fileNoteId + fileNoteId);
+
+        //        request.Method = "GET";
+        //        request.ContentType = "application/json";
+
+        //        WebResponse webResponse = request.GetResponse();
+        //        using (Stream webStream = webResponse.GetResponseStream())
+        //        {
+        //            if (webStream != null)
+        //            {
+        //                using (StreamReader responseReader = new StreamReader(webStream))
+        //                {
+        //                    string response = responseReader.ReadToEnd();
+        //                    result = new JavaScriptSerializer().Deserialize<string>(response);
+        //                }
+        //            }
+        //        }
+
+        //        exeReult.ResultObject = result;
+        //        exeReult.IsSuccess = true;
+        //        exeReult.IsFailure = false;
+        //        return exeReult;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        exeReult.IsFailure = true;
+        //        exeReult.IsSuccess = false;
+
+        //        throw e;
+        //    }
+
+        //}
+
+        //public List<FileNote> GetFileNotes(string searchText, string claimId)
+        //{
+
+        //    try
+        //    {
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+        //            ConfigurationManager.AppSettings["apiurl"] + getFileNotes + searchText + param_claimId + claimId);
+
+        //        request.Method = "GET";
+        //        request.ContentType = "application/json";
+
+        //        WebResponse webResponse = request.GetResponse();
+        //        using (Stream webStream = webResponse.GetResponseStream())
+        //        {
+        //            if (webStream != null)
+        //            {
+        //                using (StreamReader responseReader = new StreamReader(webStream))
+        //                {
+        //                    string response = responseReader.ReadToEnd();
+        //                    return new JavaScriptSerializer().Deserialize<List<FileNote>>(response);
+        //                }
+        //            }
+        //        }
+
+
+        //        return null;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+
+        //}
+
+        //public FileNote GetFileNoteById(string fileNoteId)
+        //{
+
+        //    try
+        //    {
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+        //            ConfigurationManager.AppSettings["apiurl"] + getFileNoteById + fileNoteId);
+
+        //        request.Method = "GET";
+        //        request.ContentType = "application/json";
+
+        //        WebResponse webResponse = request.GetResponse();
+        //        using (Stream webStream = webResponse.GetResponseStream())
+        //        {
+        //            if (webStream != null)
+        //            {
+        //                using (StreamReader responseReader = new StreamReader(webStream))
+        //                {
+        //                    string response = responseReader.ReadToEnd();
+        //                    return new JavaScriptSerializer().Deserialize<List<FileNote>>(response).FirstOrDefault();
+        //                }
+        //            }
+        //        }
+
+
+        //        return null;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+
+        //}
 
     }
 }

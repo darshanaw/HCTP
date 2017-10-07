@@ -37,10 +37,14 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Sent_To_Contact { get; set; }
         public string Sent_To_Contact_Name { get; set; }
         public DateTime? Date_Sent_For_Payment { get; set; }
+        [Required(ErrorMessage = "Payment Status Required")]
         public string Payment_Status { get; set; }
+        public List<PicklistItem> Payment_Status_List { get; set; }
         public string Date_Invoice_Paid { get; set; }
         public string Payment_Type { get; set; }
+        public List<PicklistItem> Payment_Type_List { get; set; }
         public string Payment_Method { get; set; }
+        public List<PicklistItem> Payment_Method_List { get; set; }
         public string Payment_Note { get; set; }
         [Required(ErrorMessage = "Reserve type required.")]
         public string Reserve_Type { get; set; }
@@ -61,5 +65,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool Is_Settlement { get; set; }
         public DateTime? Settlement_Invoice_Received { get; set; }
         public bool Imported { get; set; }
+        [Required(ErrorMessage = "Payment_Amount Required")]
+        public double? Payment_Amount { get; set; }
+        [Required(ErrorMessage = "Payment_Date")]
+        public DateTime? Payment_Date { get; set; }
+        public bool IsNew { get; set; }
     }
 }
