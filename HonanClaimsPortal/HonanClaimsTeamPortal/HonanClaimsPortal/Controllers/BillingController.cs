@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
- 
+
 namespace HonanClaimsPortal.Controllers
 {
     [AuthorizeUser]
@@ -25,26 +25,27 @@ namespace HonanClaimsPortal.Controllers
         public async Task<ActionResult> TimeslipDetail(string BillingId)
         {
             var model = new BillingModel();
-            if (BillingId==null)
+            if (BillingId == null)
             {
                 model.IsNew = true;
                 model.Is_Billable = true;
                 return View(model);
             }
             model.IsNew = false;
-            BillingRepo billingRepo = new BillingRepo();           
-            model =await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
-            
+            BillingRepo billingRepo = new BillingRepo();
+            model = await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
 
-           model.Billable = (decimal.Round(model.Billable, 2));
-           model.Rate = (decimal.Round(model.Rate, 2));
-           model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
-           return View(model);
-        } 
+
+            model.Billable = (decimal.Round(model.Billable, 2));
+            model.Rate = (decimal.Round(model.Rate, 2));
+            model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
+            return View(model);
+        }
+
 
         [HttpGet]
         public async Task<ActionResult> GetTeamGetBillableLawyers(string filter)
-       {
+        {
             List<CommonModel> list = new List<CommonModel>();
             BillingRepo billingRepo = new BillingRepo();
             list = await billingRepo.GetTeamGetBillableLawyers(filter);
@@ -53,7 +54,7 @@ namespace HonanClaimsPortal.Controllers
 
         [HttpGet]
         public async Task<ActionResult> TeamGetClaimNosAssigned(string UserId)
-       {
+        {
             List<CommonModel> list = new List<CommonModel>();
             BillingRepo billingRepo = new BillingRepo();
             list = await billingRepo.TeamGetClaimNosAssigned(UserId);
@@ -84,7 +85,7 @@ namespace HonanClaimsPortal.Controllers
 
                 throw ex;
             }
-           
+
         }
 
 
@@ -113,7 +114,7 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             if (model.IsNew)
             {
-                
+
                 var result = await billingRepo.TeamInsertTimeslip(model, client.UserId);
                 if (result)
                 {
@@ -158,7 +159,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> TeamGetMyBillableTimes(string showMe,string customerId,string serviceUserId,string serviceFromDate, string serviceToDate)
+        public async Task<ActionResult> TeamGetMyBillableTimes(string showMe, string customerId, string serviceUserId, string serviceFromDate, string serviceToDate)
         {
             try
             {
@@ -174,5 +175,72 @@ namespace HonanClaimsPortal.Controllers
 
         }
 
+        //Partial view
+        public async Task<ActionResult> _TimeslipDetail(string BillingId)
+        {
+            var model = new BillingModel();
+            if (BillingId == null)
+            {
+                model.IsNew = true;
+                model.Is_Billable = true;
+                return PartialView(model);
+            }
+            model.IsNew = false;
+            BillingRepo billingRepo = new BillingRepo();
+            model = await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
+
+
+            model.Billable = (decimal.Round(model.Billable, 2));
+            model.Rate = (decimal.Round(model.Rate, 2));
+            model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
+            return PartialView(model);
+        }
+
+        public async Task<ActionResult> GetTimeslipDetail(string BillingId)
+        {
+            var model = new BillingModel();
+            if (BillingId == null || BillingId == "null" || BillingId == "undefined" || BillingId == "")
+            {
+                model.IsNew = true;
+                model.Is_Billable = true;
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            model.IsNew = false;
+            BillingRepo billingRepo = new BillingRepo();
+            model = await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
+
+
+            model.Billable = (decimal.Round(model.Billable, 2));
+            model.Rate = (decimal.Round(model.Rate, 2));
+            model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> _TimeslipDetail(BillingModel model)
+        {
+            BillingRepo billingRepo = new BillingRepo();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            if (model.IsNew)
+            {
+
+                var result = await billingRepo.TeamInsertTimeslip(model, client.UserId);
+                if (result)
+                {
+                    return PartialView(model);
+                }
+                return PartialView(model);
+            }
+            else
+            {
+                var result = await billingRepo.TeamUpdateTimeslip(model, client.UserId);
+                if (result)
+                {
+                    return PartialView(model);
+                }
+                return PartialView(model);
+            }
+
+        }
     }
 }
