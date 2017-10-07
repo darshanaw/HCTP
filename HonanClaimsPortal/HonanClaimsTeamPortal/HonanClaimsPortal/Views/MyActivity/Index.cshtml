@@ -8,7 +8,7 @@
     <div class="row mt-20">
         <div class="col-md-12">
             <div class="cust-search-1 mt-10">
-                <h3 class="mt-20">My Activity</h3>
+                <h3 class="mt-20">My Activity Deadlines</h3>
             </div>
             <div class="search-box-1">
                 <div class="form-group">
@@ -116,9 +116,13 @@
         var assignId = null;
 
         //Get value list
-        overdue = $('#overdue').val();
-        nextfiveday = $('#fivedays').val();
-        showwithdate = $('#ShowDue').val();
+        overdue = $("#overdue").is(":checked");
+        nextfiveday = $("#fivedays").is(":checked");
+        showwithdate = $("#ShowDue").is(":checked");
+
+        //overdue = $('#overdue').val();
+        //nextfiveday = $('#fivedays').val();
+        //showwithdate = $('#ShowDue').val();
         var c = $('#ActivityClaim').val();
         if (c != null && c != "") { claimId = c }
         var o = $('#OwnerList').val();
