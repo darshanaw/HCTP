@@ -1351,13 +1351,9 @@
     <Content Include="Views\Shared\_PaymentContactLookUp.cshtml" />
     <Content Include="Views\Shared\_PaymentTo.cshtml" />
     <Content Include="Views\Shared\_SendToContact.cshtml" />
-<<<<<<< .mine
     <Content Include="Views\Shared\_TimeslipDetail.cshtml" />
-||||||| .r627
-=======
     <Content Include="Views\Shared\_KeyContactsDates.cshtml" />
     <Content Include="Views\Shared\_KeyContactDetail.cshtml" />
->>>>>>> .r642
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
