@@ -1345,6 +1345,12 @@
     <Content Include="Views\Shared\_FileNotes.cshtml" />
     <Content Include="Views\Shared\_FileNoteDetail.cshtml" />
     <Content Include="Views\Shared\_ConvertToClaimLookup.cshtml" />
+    <Content Include="Views\Shared\_Payments.cshtml" />
+    <Content Include="Views\Shared\_PaymentDetail.cshtml" />
+    <Content Include="Views\Shared\_PaymentAccountLookUp.cshtml" />
+    <Content Include="Views\Shared\_PaymentContactLookUp.cshtml" />
+    <Content Include="Views\Shared\_PaymentTo.cshtml" />
+    <Content Include="Views\Shared\_SendToContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

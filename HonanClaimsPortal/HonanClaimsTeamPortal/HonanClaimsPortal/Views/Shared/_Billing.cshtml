@@ -121,7 +121,7 @@
         });
 
         $("#FilterBillables").click(function () {
-
+            
             RefreshGrid();
         });
 
@@ -202,11 +202,12 @@
     }
 
     function RefreshGrid()
-    {
+    {       
         $("#gridBillableTimes").data("kendoGrid").dataSource.read({
             serviceUserId: $("#ServiceBy").val(), isBillable: $("input[name='rdoBill']:checked").val(), serviceFromDate: $("#Service_Date_From").val(), serviceToDate: $("#Service_Date_To").val()
             , invoiced: $("#Invoiced").val(), invoiceNo: $("#InvoiceNumber").val()
         });
+       
     }
 
     function onDataBound(arg) {

@@ -37,7 +37,7 @@
 
 
 <!-- Modal -->
-<div id="FileNoteDetailModal" class="modal fade FileNoteDetailModal" role="dialog" data-backdrop="true"">
+<div id="FileNoteDetailModal" class="modal fade FileNoteDetailModal" role="dialog" data-backdrop="true">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,13 +98,13 @@
 
         $("#btnFileNotesSearchtext").click(function () {
 
-            RefreshGrid();
+            RefreshFileNotesGrid();
 
         });
 
     });
 
-    function RefreshGrid() {
+    function RefreshFileNotesGrid() {
 
         $("#gridFileNotes").data("kendoGrid").dataSource.read({
             searchText: $("#FileNotessearchTxt").val()

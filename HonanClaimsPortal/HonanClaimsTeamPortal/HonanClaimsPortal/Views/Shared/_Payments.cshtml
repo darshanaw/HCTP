@@ -1,0 +1,47 @@
+﻿
+<style>
+    .PaymentDetail_{
+
+        max-height: 90vh;
+}
+</style>
+
+<div class="panel panel-default">
+
+    <div class="panel-body">
+
+        <div class="col-md-12" style="padding-left:0px">
+            <div class="col-md-12" style="padding-left:0px">
+                <div class="col-md-8">
+                    <div class="input-group">
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input type="button" value="New Payment" id="btnNewPayment" class="btn btn-primary pull-right" data-toggle="modal" data-target="#PaymentDetailModal" />
+                </div>
+
+
+            </div>
+        </div>
+        <br /><br /><br />
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="PaymentDetailModal" class="modal fade PaymentDetailModal" role="dialog" data-backdrop="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Payment Detail</h4>
+            </div>
+            <div class="modal-body PaymentDetail_">
+                @{Html.RenderAction("_PaymentDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"], Claim_Reference_Num = this.ViewData["Claim_Reference_Num"] });}
+
+            </div>
+           
+        </div>
+    </div>
+</div>

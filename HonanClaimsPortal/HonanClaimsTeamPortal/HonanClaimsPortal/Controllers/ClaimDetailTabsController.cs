@@ -24,6 +24,7 @@ namespace HonanClaimsPortal.Controllers
         BillingTabModel billingTab;
         BillableServices billableServices;
         ClaimServices claimServices;
+        PicklistServicecs pickListServices;
 
         // GET: ClaimDetailTabs
         public ActionResult Index()
@@ -226,6 +227,23 @@ namespace HonanClaimsPortal.Controllers
             FileNote fileNote = new FileNote();
             fileNote = documentService.GetFileNoteById(fileNoteId);
             return Json(fileNote, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult _PaymentDetail(string claimId, string Claim_Reference_Num)
+        {
+            Payment model = new Payment();
+            claimServices = new ClaimServices();
+            pickListServices = new PicklistServicecs();
+
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+          
+            model.ClaimRefNo_Payment = Claim_Reference_Num;
+            model.ClaimRefNo_Payment_List = claimServices.GetClaimsForUser(client.UserId);
+            model.Payee_Type_List = pickListServices.GetPickListItems("Honan Payee type");
+            model.Gst = "10";
+            model.Gst_Included = true;
+
+            return PartialView(model);
         }
     }
 }
