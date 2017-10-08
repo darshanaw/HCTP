@@ -6,13 +6,13 @@
 }
 
 @using (Html.BeginForm("AddPortalAdminRecord", "AdminList", FormMethod.Post,
-    new
-    {
-        enctype = "multipart/form-data",
-        id = "FileUploadForm",
-        name = "ImgForm",
-        //target = "UploadTarget",
-    }))
+                new
+                {
+                    enctype = "multipart/form-data",
+                    id = "FileUploadForm",
+                    name = "ImgForm",
+                    //target = "UploadTarget",
+                }))
 {
 
     @Html.HiddenFor(m => m.H_Customerportaladminid)
@@ -134,7 +134,7 @@
             <div class="col-md-8 img-upload-section">
                 <div class="row">
                     <div class="col-md-6">
-                        <input onchange="OnchangeLogoImage(this)" id="logoimgupload" name="logoimgupload" type="file">
+                        <input onchange="OnchangeLogoImage(this)" id="logoimgupload" accept="image/bmp,image/tiff,image/jpeg" name="logoimgupload" type="file">
                     </div>
                     <div class="col-md-6">
                         <div class="pull-right">
@@ -279,7 +279,7 @@
 <script>
 
     $("#btncancel").click(function () {
-       window.location.replace('@Url.Action("AdminList", "AdminList", new { id = "" })');
+        window.location.replace('@Url.Action("AdminList", "AdminList", new { id = "" })');
     });
 
     $(document).ready(function () {
@@ -411,9 +411,28 @@
 
     function OnchangeLogoImage(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
+            var reader = new FileReader();          	
+            var _validFileExtensions = [".jpeg", ".bmp", ".tiff"]; 
+            debugger;
             var f = input.files[0]
+            var sFileName = f.name;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+
+                if(!blnValid){
+                    input.value = null;
+                    bootbox.alert("this format is not allowed");
+                    return;
+                }
+            }
+
             if (f.size > 2097152) {
                 bootbox.alert("Allowed file size exceeded. (Max. 2 MB)")
                 input.value = null;
