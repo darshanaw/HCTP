@@ -21,17 +21,28 @@
         RefreshPaymentDetailsGrid();
     }
 
+    function clearPaymentFiles() {
+        $(".k-upload-files > li").remove();
+    }
+
 </script>
 
 <style>
     .k-upload.k-header{
         width:100%;
     }
+
+    .k-upload-status.k-upload-status-total
+    {
+        display:none;
+    }
+
 </style>
 
 
 @using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Pd", UpdateTargetId = "divFakePayment" }, new { @id = "frmPaymentDetail", enctype = "multipart/form-data" }))
 {
+
 @Html.HiddenFor(o => o.Payee_Account)
 @Html.HiddenFor(o => o.Payee_Contact)
 @Html.HiddenFor(o => o.Payment_To)
@@ -39,8 +50,9 @@
 @Html.HiddenFor(o=>o.Invoice_Attached)
 @Html.HiddenFor(o=>o.H_Claimsid)
 @Html.HiddenFor(o => o.IsNew)
+@Html.HiddenFor(o=>o.H_Paymentsid)
 
-<div id="divFakePayment"></div>
+<div style="display:none" id="divFakePayment"></div>
 
 <div class="col-md-6">
 
@@ -100,7 +112,7 @@
             @*<label class="col-sm-4 control-label input-sm">Invoice Attach</label>*@
             <div class="col-sm-12 mb">
                 <input type="file" name="files" id="uploadInvoiceAttach" />
-                <a href="#" id="paymentDetailAttachmentName"></a>
+                <a href='#'  id="paymentDetailAttachmentName" class="pull-right"></a>
             </div>
         </div>
     </div>
@@ -344,7 +356,7 @@
 <div class="col-md-12">
     <div class="footer text-right">
         <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
-        <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail">Save Changes</button>
+        <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
     </div>
 </div>
 
@@ -425,10 +437,27 @@
 
 <script>
 
+    function CheckPaymentData()
+    {
+        if ($("#Liability_Reserve").length > 0) {
+            var val1 = $("#Liability_Reserve").val();
+            var val2 = $("#Payment_Amount").val();
+            
+            if (val1 < val2) {
+
+                bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
+                return false;
+            }
+        }
+    }
 
     $(function () {
 
-        $('#frmPaymentDetail').submit(function () {
+        
+
+        $('#frmPaymentDetail').submit(function (e) {
+            
+            dynamicValidations_Payment();          
 
             if ($(this).valid()) {
                 $.LoadingOverlay("show");
@@ -468,6 +497,13 @@
         $("#Gst_Included").change(function () {
 
             claculateGst();
+
+            if ($("#Gst_Included").is(":checked")) {
+                $("#Gst_Included").val(true);
+            }
+            else
+                $("#Gst_Included").val(false);
+
         });
 
         $("#Total_Gross").change(function () {
@@ -497,34 +533,45 @@
 
         $("#Is_Settlement").change(function () {
 
-            if ($("#Is_Settlement").is(":checked"))
-            {
-                $("#Reserve_Type").val("Liability Reserve");
-                $("#Reserve_Type").prop("disabled", true);
-                $(".Reserve_Type_Class").val("Liability Reserve");
-                
-                $("#Gst_Included").prop("checked", true);
-                $("#Date_Invoice_Received").rules("remove", "required");
-                $("#Payee_Type").rules("remove", "required");
-                $("#Payee_Account_Name").rules("remove", "required");
-                $("#Payment_Amount").rules("add", "required");
-                $("#Payment_Date").rules("add", "required");
+            dynamicValidations_Payment();
+
+            if ($("#Is_Settlement").is(":checked")) {
+                $("#Is_Settlement").val(true);
             }
             else
-            {
-                $("#Reserve_Type").val("");
-                $("#Reserve_Type").prop("disabled", false);
-                $("#Date_Invoice_Received").rules("add", "required");
-                $("#Payee_Type").rules("add", "required");
-                $("#Payee_Account_Name").rules("add", "required");
-                $("#Payment_Amount").rules("remove", "required");
-                $("#Payment_Date").rules("remove", "required");
-            }
+                $("#Is_Settlement").val(false);
+
         });
 
-
+        
 
     });
+
+    function dynamicValidations_Payment()
+    {
+        if ($("#Is_Settlement").is(":checked")) {
+
+            $("#Reserve_Type").val("Liability Reserve");
+            $("#Reserve_Type").prop("disabled", true);
+            $(".Reserve_Type_Class").val("Liability Reserve");
+
+            $("#Gst_Included").prop("checked", true);
+            $("#Date_Invoice_Received").rules("remove", "required");
+            $("#Payee_Type").rules("remove", "required");
+            $("#Payee_Account_Name").rules("remove", "required");
+            $("#Payment_Amount").rules("add", "required");
+            $("#Payment_Date").rules("add", "required");
+        }
+        else {
+            //$("#Reserve_Type").val("");
+            $("#Reserve_Type").prop("disabled", false);
+            $("#Date_Invoice_Received").rules("add", "required");
+            $("#Payee_Type").rules("add", "required");
+            $("#Payee_Account_Name").rules("add", "required");
+            $("#Payment_Amount").rules("remove", "required");
+            $("#Payment_Date").rules("remove", "required");
+        }
+    }
 
     function claculateGst()
     {

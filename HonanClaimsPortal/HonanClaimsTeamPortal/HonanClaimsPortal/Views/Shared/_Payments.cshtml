@@ -1,10 +1,41 @@
 ﻿
 <style>
-    .PaymentDetail_{
-
+    .PaymentDetail_ {
         max-height: 90vh;
-}
+    }
 </style>
+
+@{
+
+    HonanClaimsWebApi.Services.PicklistServicecs pickListServices = new HonanClaimsWebApi.Services.PicklistServicecs();
+    HonanClaimsWebApi.Services.DocumentService docservice = new HonanClaimsWebApi.Services.DocumentService();
+
+
+    var Payment_Status_List_Filter = pickListServices.GetPickListItems("Honan Payment Status");
+}
+
+<script>
+
+    $(function () {
+
+        var newOption_ = $('<option value=""></option>');
+        $('#selPayeePayment').append(newOption_);
+
+        $.ajax({
+            url: "/ClaimDetailTabs/AjaxPickListPayeesLoad?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+
+                for (var i = 0; i < result.length; i++) {
+
+                    var newOption = $('<option value="' + result[i].Code + '">' + result[i].Text + '</option>');
+                    $('#selPayeePayment').append(newOption);
+
+                }
+            }
+        });
+
+    });
+
+</script>
 
 <div class="panel panel-default">
 
@@ -12,23 +43,125 @@
 
         <div class="col-md-12" style="padding-left:0px">
             <div class="col-md-12" style="padding-left:0px">
-                <div class="col-md-8">
-                    <div class="input-group">
+                <div class="col-md-12">
+
+                    <div>
+                        <div class="col-md-3">
+                            <div class="form-group mb">
+                                <label class=" control-label input-sm">Payee: </label>
+                                <div>
+                                    <select id="selPayeePayment" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb">
+                                <label class=" control-label input-sm">Invoice Date: </label>
+                                <div>
+                                    <div class="input-group date dateCalendar" style="width:100%">
+                                        @Html.TextBox("Date_Invoice_Paid_Filter", "", new { @class = "form-control input-sm" })
+                                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                            <span class="fa fa-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3" id="divInvoiced">
+                            <div class="form-group mb">
+
+                                <label class="control-label input-sm">Status: </label>
+                                <div>
+                                    @Html.DropDownList("PaymentStatus", new SelectList(Payment_Status_List_Filter, "Text", "Text"), "",
+                                    new { @class = "form-control input-sm", @id = "FilterPaymentStatus" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group mb">
+                                <label class="control-label input-sm">Invoice #: </label>
+                                <div>
+                                    @Html.TextBox("Invoice_No_Filter", "", new { @class = "form-control input-sm", @id = "Invoice_No_Filter" })
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="form-group mb">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <div class="form-group mb">
+                            <label class="control-label input-sm">Deductible: </label>
+                            <div>
+                                <input class="form-control input-sm disabledControl" id="Deductible_Filter" disabled="disabled" />
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group mb">
+                            <label class="control-label input-sm">Net Incurred On Deductible: </label>
+                            <div>
+                                @Html.TextBox("Net_Incurred_On_Deductible", "", new { @class = "form-control input-sm disabled", @readonly = true, @id = "Net_Incurred_On_Deductible" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group mb">
+                            <label class="control-label input-sm">Balance On Deductible Remaining: </label>
+                            <div>
+                                @Html.TextBox("Balance_On_Deductible_Remaining", "", new { @class = "form-control input-sm disabled", @readonly = true, @id = "Balance_On_Deductible_Remaining" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3" style="padding-top:3%">
+                        <div class="form-group mb">
+                            <input type="button" class="btn btn-default" id="ClearFilters_Payment" value="Clear Filters" />
+                            <input type="button" class="btn btn-primary" id="FilterBillables_Payment" value="Filter List" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
 
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <input type="button" value="New Payment" id="btnNewPayment" class="btn btn-primary pull-right" data-toggle="modal" data-target="#PaymentDetailModal" />
-                </div>
 
+                <div class="col-md-12">
+
+                    <div class="col-md-2">
+                        <input type="button" value="New Payment" id="btnNewPayment" class="btn btn-primary pull-left" data-toggle="modal" data-target="#PaymentDetailModal" />
+                    </div>
+
+                    <div class="col-md-10">
+
+                    </div>
+                </div>
 
             </div>
         </div>
         <br /><br /><br />
-        <div id="gridPaymentDetails"></div>
 
     </div>
+
 </div>
+
+<div id="gridPaymentDetails"></div>
 
 <!-- Modal -->
 <div id="PaymentDetailModal" class="modal fade PaymentDetailModal" role="dialog" data-backdrop="true">
@@ -42,22 +175,68 @@
                 @{Html.RenderAction("_PaymentDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"], Claim_Reference_Num = this.ViewData["Claim_Reference_Num"] });}
 
             </div>
-           
+
         </div>
     </div>
 </div>
 
 <script>
 
+    function onPaymentDataBound(arg) {
+
+        //Total sum of UnitsInStock field
+        var datalength = arg.sender.dataSource.data().length; 
+        var totalsum = 0;
+        if (datalength > 0) {
+            for (var i = 0; i < datalength; i++) {
+                totalsum += arg.sender.dataSource.data()[i].Total_Net;
+                
+            }
+        }
+       
+        $("#Net_Incurred_On_Deductible").val('$' + parseFloat(totalsum, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        var balance = (Number($("#Deductible_Filter").val().replace(/[^0-9\.-]+/g, ""))) - (Number($("#Net_Incurred_On_Deductible").val().replace(/[^0-9\.-]+/g, "")))   
+
+        $("#Balance_On_Deductible_Remaining").val('$' + parseFloat(balance, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+
+    }
+
     function RefreshPaymentDetailsGrid() {
+
         $("#gridPaymentDetails").data("kendoGrid").dataSource.read({
-            payeeId: '', invoicedDate: '', status: '', invoiceNo: ''
+            payeeId: $("#selPayeePayment").val(), invoicedDate: $("#Date_Invoice_Paid_Filter").val(), status: $("#FilterPaymentStatus").val(), invoiceNo: $("#Invoice_No_Filter").val()
         });
+    }
+
+    function clearFilters_Payment() {
+        $("#selPayeePayment").val("");
+        $("#Date_Invoice_Paid_Filter").val("");
+        $("#FilterPaymentStatus").val("");
+        $("#Invoice_No_Filter").val("");
     }
     //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
     $(function () {
 
-        $("#IsNew").val("true");
+        $("#Deductible_Filter").val('$' + parseFloat($("#Excess").val(), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+
+        $("#btnNewPayment").click(function () {
+
+            clearPaymentControls(true);
+            clearPaymentFiles();
+        });
+
+        $("#FilterBillables_Payment").click(function () {
+
+            RefreshPaymentDetailsGrid();
+        });
+
+        $("#ClearFilters_Payment").click(function () {
+
+            clearFilters_Payment();
+            RefreshPaymentDetailsGrid();
+
+        });
+
 
         $("#gridPaymentDetails").kendoGrid({
 
@@ -79,6 +258,7 @@
             navigatable: true,
             pageable: true,
             sortable: true,
+            dataBound: onPaymentDataBound,
             columns: [
 
                 {
@@ -91,7 +271,7 @@
                     title: "Invoice Ref"
                 },
                 {
-                    field: "Payee",
+                    field: "Payee_Account_Name",
                     title: "Payee"
                 },
                 {
@@ -111,11 +291,14 @@
     });
 
 
-    function loadPaymentDetail(paymentId)
-    {
+    function loadPaymentDetail(paymentId) {
+        clearPaymentControls(false);
+        clearPaymentFiles();
+
         $.ajax({
             url: "/ClaimDetailTabs/getPaymentById?paymentId=" + paymentId, success: function (result) {
 
+                $("#H_Paymentsid").val(result.H_Paymentsid);
                 //$("#ClaimRefNo_Payment").val(result.ClaimRefNo_Payment);
                 $("#Payee_Account").val(result.Payee_Account);
                 $("#Payee_Contact").val(result.Payee_Contact);
@@ -127,12 +310,27 @@
                 $("#Reserve_Type").val(result.Reserve_Type);
                 $("#Date_Invoice_Received").val(kendo.toString(kendo.parseDate(result.Date_Invoice_Received), "dd/MM/yyyy"));
                 $("#Invoice_Reference").val(result.Invoice_Reference);
-                $('#paymentDetailAttachmentName').text(result.Invoice_Attached);
+
+                if (result.AttachmentName) {
+
+                    $('#paymentDetailAttachmentName').text(result.AttachmentName);
+                    $('#paymentDetailAttachmentName').prop("href", "/ClaimDetailTabs/FileDownload?fileName=" + result.AttachmentSavedName);
+                    $('#paymentDetailAttachmentName').css("display", "block");
+                }
+
                 $("#Payee_Type").val(result.Payee_Type);
                 $("#Payee_Account_Name").val(result.Payee_Account_Name);
                 $("#Payee_Contact_Name").val(result.Payee_Contact_Name);
                 $("#Total_Gross").val(result.Total_Gross);
+
+
+                if (result.Gst_Included)
+                    $("#Gst_Included").prop("checked", true);
+                else
+                    $("#Gst_Included").prop("checked", false);
+
                 $("#Gst_Included").val(result.Gst_Included);
+
                 $("#Gst").val(result.Gst);
                 $("#Total_Net").val(result.Total_Net);
                 $("#Date_Sent_For_Payment").val(kendo.toString(kendo.parseDate(result.Date_Sent_For_Payment), "dd/MM/yyyy"));
@@ -144,24 +342,34 @@
                 $("#Date_Invoice_Paid").val(kendo.toString(kendo.parseDate(result.Date_Invoice_Paid), "dd/MM/yyyy"));
                 $("#Payment_Type").val(result.Payment_Type);
                 $("#Payment_Method").val(result.Payment_Method);
+
+                if (result.Is_Settlement)
+                    $("#Is_Settlement").prop("checked", true);
+                else
+                    $("#Is_Settlement").prop("checked", false);
+
                 $("#Is_Settlement").val(result.Is_Settlement);
+
+                dynamicValidations_Payment();
+
                 $("#Payment_Amount").val(result.Payment_Amount);
                 $("#Payment_Note").val(result.Payment_Note);
+                $("#Payment_Date").val(result.Payment_Date);
 
                 $('#PaymentDetailModal').modal('show');
             }
         });
     }
 
-    function clearControls()
-    {
+    function clearPaymentControls(isNew) {
+        $("#H_Paymentsid").val("");
         $("#Payee_Account").val("");
         $("#Payee_Contact").val("");
         $("#Payment_To").val("");
         $("#Sent_To_Contact").val("");
         $("#Invoice_Attached").val("");
         //$("#H_Claimsid").val(result.H_Claimsid);
-        $("#IsNew").val("true");
+        $("#IsNew").val(isNew);
         //$("#ClaimRefNo_Payment").val(result.ClaimRefNo_Payment);
         $("#Reserve_Type").val("");
         $("#Date_Invoice_Received").val("");
@@ -172,7 +380,7 @@
         $("#Payee_Contact_Name").val("");
         $("#Total_Gross").val("");
         $("#Gst_Included").val(true);
-        $("#Gst").val("");
+        $("#Gst").val("10");
         $("#Total_Net").val("");
         $("#Date_Sent_For_Payment").val("");
         $("#Payment_To_Name").val("");
@@ -183,9 +391,13 @@
         $("#Date_Invoice_Paid").val("");
         $("#Payment_Type").val("");
         $("#Payment_Method").val("");
+        $("#Is_Settlement").prop("checked", false);
         $("#Is_Settlement").val(false);
+        dynamicValidations_Payment();
         $("#Payment_Amount").val("");
         $("#Payment_Note").val("");
+        $("#Payment_Date").val("");
+        $('#paymentDetailAttachmentName').hide();
     }
 
 </script>

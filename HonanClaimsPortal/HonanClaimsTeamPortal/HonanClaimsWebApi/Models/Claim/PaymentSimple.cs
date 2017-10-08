@@ -12,6 +12,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Date_Invoice_Received { get; set; }
         public string Invoice_Reference { get; set; }
         public string Payee_Account_Name { get; set; }
+        public string Payee_Account_Id { get; set; }
         public decimal? Total_Gross { get; set; }
         public decimal? Total_Net { get; set; }
         public string Payment_Status { get; set; }

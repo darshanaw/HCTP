@@ -70,5 +70,7 @@ namespace HonanClaimsWebApi.Models.Claim
         [Required(ErrorMessage = "Payment_Date")]
         public DateTime? Payment_Date { get; set; }
         public bool IsNew { get; set; }
+        public string AttachmentName { get; set; }
+        public string AttachmentSavedName { get; set; }
     }
 }

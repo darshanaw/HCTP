@@ -266,6 +266,8 @@ namespace HonanClaimsPortal.Controllers
 
         public ActionResult _PaymentDetail(string claimId, string Claim_Reference_Num)
         {
+            Session[SessionHelper.PaymentAttachment] = null;
+
             Payment model = new Payment();
             claimServices = new ClaimServices();
             pickListServices = new PicklistServicecs();
@@ -297,19 +299,19 @@ namespace HonanClaimsPortal.Controllers
 
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
-            if(model.Is_Settlement && model.Payment_Amount.HasValue)
+            if (model.Is_Settlement && model.Payment_Amount.HasValue)
             {
                 model.Total_Gross = (decimal)model.Payment_Amount;
                 model.Total_Net = (decimal)model.Payment_Amount;
             }
 
-          //  if (model.IsNew)
-          //  {
-              exeResult = await documentService.CreatePaymentDetailRecord(model,client.UserId, files);
+            //  if (model.IsNew)
+            //  {
+            exeResult = await documentService.CreatePaymentDetailRecord(model, client.UserId, files);
             //}
             //else
             //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
-
+            Session[SessionHelper.PaymentAttachment] = null;
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
@@ -335,7 +337,27 @@ namespace HonanClaimsPortal.Controllers
             return Json(payments, JsonRequestBehavior.AllowGet);
         }
 
-      
+        public ActionResult AjaxPickListPayeesLoad(string claimId, string payeeId, string invoicedDate, string status, string invoiceNo)
+        {
+            documentService = new DocumentService();
+            List<PaymentSimple> payments = new List<PaymentSimple>();
+            payments = documentService.GetPaymentDetails(claimId, payeeId, invoicedDate, status, invoiceNo);
+            List<PicklistItem> payee = new List<PicklistItem>();
+
+            var obj = (from i in payments
+                       select new { i.Payee_Account_Id, i.Payee_Account_Name })
+                       .Distinct()
+                       .OrderBy(i => i.Payee_Account_Name);
+
+            foreach (var item in obj)
+            {
+                payee.Add(new PicklistItem() { Code = item.Payee_Account_Id, Text = item.Payee_Account_Name });
+            }
+
+            return Json(payee, JsonRequestBehavior.AllowGet);
+        }
+
+
         [HttpPost]
         public ActionResult DeleteKeyContact(string keyContactId)
         {
@@ -356,7 +378,7 @@ namespace HonanClaimsPortal.Controllers
             return Content("");
         }
 
-        public ActionResult _KeyContactDetail(string claimId,string keyContactId)
+        public ActionResult _KeyContactDetail(string claimId, string keyContactId)
         {
             KeyContact model = new KeyContact();
 
@@ -374,5 +396,5 @@ namespace HonanClaimsPortal.Controllers
             return Json(items, JsonRequestBehavior.AllowGet);
         }
     }
-    
+
 }
