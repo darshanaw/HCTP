@@ -285,7 +285,7 @@ namespace HonanClaimsWebApi.Services
             {              
                 string apiUrl = string.Empty;
 
-                if (payment.IsNew)
+                if (payment.IsNew && string.IsNullOrEmpty(payment.H_Paymentsid))
                 {
                     apiUrl = ConfigurationManager.AppSettings["apiurl"] + getmInsertPayment;
                 }
