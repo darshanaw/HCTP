@@ -57,6 +57,8 @@
     //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
     $(function () {
 
+        $("#IsNew").val("true");
+
         $("#gridPaymentDetails").kendoGrid({
 
             dataSource: {
@@ -109,25 +111,81 @@
     });
 
 
-    function loadPaymentDetail(detailId)
+    function loadPaymentDetail(paymentId)
     {
         $.ajax({
-            url: "/ClaimDetailTabs/getFuleNoteById?fileNoteId=" + fileNoteId, success: function (result) {
+            url: "/ClaimDetailTabs/getPaymentById?paymentId=" + paymentId, success: function (result) {
 
-                $("#CreatedBy_Id_Fn").val(result.CreatedUserId);
-                $("#ClaimId_Fn").val(result.H_ClaimsId);
-                $("#ClaimRefNo_Fn").val(result.ClaimRefNum);
-                $("#FileNoteDate_Fn").val(result.FileNoteDate);
-                $("#CreatedBy_Fn").val(result.CreatedUser);
-                $("#CreatedDate_Fn").val(result.CreatedDate);
+                //$("#ClaimRefNo_Payment").val(result.ClaimRefNo_Payment);
+                $("#Payee_Account").val(result.Payee_Account);
+                $("#Payee_Contact").val(result.Payee_Contact);
+                $("#Payment_To").val(result.Payment_To);
+                $("#Sent_To_Contact").val(result.Sent_To_Contact);
+                $("#Invoice_Attached").val(result.Invoice_Attached);
+                $("#H_Claimsid").val(result.H_Claimsid);
+                $("#IsNew").val("false");
+                $("#Reserve_Type").val(result.Reserve_Type);
+                $("#Date_Invoice_Received").val(kendo.toString(kendo.parseDate(result.Date_Invoice_Received), "dd/MM/yyyy"));
+                $("#Invoice_Reference").val(result.Invoice_Reference);
+                $('#paymentDetailAttachmentName').text(result.Invoice_Attached);
+                $("#Payee_Type").val(result.Payee_Type);
+                $("#Payee_Account_Name").val(result.Payee_Account_Name);
+                $("#Payee_Contact_Name").val(result.Payee_Contact_Name);
+                $("#Total_Gross").val(result.Total_Gross);
+                $("#Gst_Included").val(result.Gst_Included);
+                $("#Gst").val(result.Gst);
+                $("#Total_Net").val(result.Total_Net);
+                $("#Date_Sent_For_Payment").val(kendo.toString(kendo.parseDate(result.Date_Sent_For_Payment), "dd/MM/yyyy"));
+                $("#Payment_To_Name").val(result.Payment_To_Name);
+                $("#Sent_To_Contact_Name").val(result.Sent_To_Contact_Name);
+                $('#payment_phone').val(result.Phone);
+                $("#payment_email").val(result.Email);
+                $("#Payment_Status").val(result.Payment_Status);
+                $("#Date_Invoice_Paid").val(kendo.toString(kendo.parseDate(result.Date_Invoice_Paid), "dd/MM/yyyy"));
+                $("#Payment_Type").val(result.Payment_Type);
+                $("#Payment_Method").val(result.Payment_Method);
+                $("#Is_Settlement").val(result.Is_Settlement);
+                $("#Payment_Amount").val(result.Payment_Amount);
+                $("#Payment_Note").val(result.Payment_Note);
 
-                $("#ShortDescription_Fn").val(result.ShortDescription);
-                $("#Detail_Fn").val(result.Details);
-                $("#H_FileNotesId_Fn").val(result.H_FileNotesId);
-
-                $('#FileNoteDetailModal').modal('show');
+                $('#PaymentDetailModal').modal('show');
             }
         });
+    }
+
+    function clearControls()
+    {
+        $("#Payee_Account").val("");
+        $("#Payee_Contact").val("");
+        $("#Payment_To").val("");
+        $("#Sent_To_Contact").val("");
+        $("#Invoice_Attached").val("");
+        //$("#H_Claimsid").val(result.H_Claimsid);
+        $("#IsNew").val("true");
+        //$("#ClaimRefNo_Payment").val(result.ClaimRefNo_Payment);
+        $("#Reserve_Type").val("");
+        $("#Date_Invoice_Received").val("");
+        $("#Invoice_Reference").val("");
+        $('#paymentDetailAttachmentName').text("");
+        $("#Payee_Type").val("");
+        $("#Payee_Account_Name").val("");
+        $("#Payee_Contact_Name").val("");
+        $("#Total_Gross").val("");
+        $("#Gst_Included").val(true);
+        $("#Gst").val("");
+        $("#Total_Net").val("");
+        $("#Date_Sent_For_Payment").val("");
+        $("#Payment_To_Name").val("");
+        $("#Sent_To_Contact_Name").val("");
+        $('#payment_phone').val("");
+        $("#payment_email").val("");
+        $("#Payment_Status").val("");
+        $("#Date_Invoice_Paid").val("");
+        $("#Payment_Type").val("");
+        $("#Payment_Method").val("");
+        $("#Is_Settlement").val(false);
+        $("#Payment_Amount").val("");
+        $("#Payment_Note").val("");
     }
 
 </script>
