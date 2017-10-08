@@ -46,7 +46,8 @@ namespace HonanClaimsWebApi.Services
         private const string getInvoiceDate = "&invoicedDate=";
         private const string getStatus = "&status=";
         private const string getInvoiceNo = "&invoiceNo=";
-        private const string getPaymentDetailById = "";
+        private const string getPaymentDetailById = "api/Payment/GetPayment?paymentId=";
+        private const string param_paymentId = "&paymentId=";
 
         ExecutionResult exeReult;
 
@@ -362,6 +363,39 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
 
+        }
+        
+
+        public Payment getPaymentById(string paymentId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getPaymentDetailById + paymentId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<Payment>(response);
+                        }
+                    }
+                }
+
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
     }

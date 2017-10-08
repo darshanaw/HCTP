@@ -297,6 +297,12 @@ namespace HonanClaimsPortal.Controllers
 
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
+            if(model.Is_Settlement && model.Payment_Amount.HasValue)
+            {
+                model.Total_Gross = (decimal)model.Payment_Amount;
+                model.Total_Net = (decimal)model.Payment_Amount;
+            }
+
           //  if (model.IsNew)
           //  {
               exeResult = await documentService.CreatePaymentDetailRecord(model,client.UserId, files);
@@ -305,6 +311,20 @@ namespace HonanClaimsPortal.Controllers
             //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
 
             return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getPaymentById(string paymentId)
+        {
+            documentService = new DocumentService();
+            Payment payment = new Payment();
+            payment = documentService.getPaymentById(paymentId);
+
+            if (payment.Is_Settlement)
+            {
+                payment.Payment_Amount = Convert.ToDouble(payment.Total_Gross.Value);
+            }
+
+            return Json(payment, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AjaxPaymentDetailsLoad(string claimId, string payeeId, string invoicedDate, string status, string invoiceNo)
