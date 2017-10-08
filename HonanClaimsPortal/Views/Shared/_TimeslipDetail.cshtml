@@ -237,7 +237,7 @@
     <hr />
     @Html.HiddenFor(m => m.IsNew)
     <div class="main-container">
-        <button type="button" onclick="Cancel()" class="btn btn-default mr-20">Cancel</button>
+        <button type="button" id="cancel" class="btn btn-default mr-20">Cancel</button>
         @if (Model.IsNew)
         {
             <button type="submit" class="btn btn-primary">Add</button>
@@ -274,6 +274,10 @@
 
 
 <script>
+    $("#cancel").on("click", function () {
+        $('#BillingDetailModal').modal('hide');
+    });
+
 
     function GetResult_Fn(data) {
         if ($('#BillingDetailModal').length > 0) {

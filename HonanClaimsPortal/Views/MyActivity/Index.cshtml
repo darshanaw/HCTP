@@ -140,10 +140,15 @@
                 transport: {
                     read: "/MyActivity/GetMyActivity?overdue=" + overdue + "&nextfiveday=" + nextfiveday + "&showwithdate=" + showwithdate + "&claimId=" + claimId + "&owner=" + owner + "&customerId=" + customerId + "&searchtext=" + search + "&assignId=" + assignId
                 },
-                pageSize: 10
+                //pageSize: 10,
+                //serverPaging: false,
             },
-            height: 500,
+            filterable: true,         
+            serverPaging: false,
+            navigatable: true,
+            height: 550,
             sortable: true,
+            //pageable: true,
             columns: [{
                 hidden: true,
                 field: "ActivityTaskId",
@@ -182,6 +187,7 @@
              {
                  field: "DueDate",
                  title: "DueDate",
+                 template: "#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #"
              }
             ]
         });
