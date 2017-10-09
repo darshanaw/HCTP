@@ -176,7 +176,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         //Partial view
-        public async Task<ActionResult> _TimeslipDetail(string BillingId)
+        public ActionResult _TimeslipDetail(string BillingId)
         {
             var model = new BillingModel();
             if (BillingId == null)
@@ -187,7 +187,7 @@ namespace HonanClaimsPortal.Controllers
             }
             model.IsNew = false;
             BillingRepo billingRepo = new BillingRepo();
-            model = await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
+            model =  billingRepo.GetTeamGetBillableTimeRecord(BillingId).Result;
 
 
             model.Billable = (decimal.Round(model.Billable, 2));
@@ -217,30 +217,40 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> _TimeslipDetail(BillingModel model)
+        public ActionResult _TimeslipDetail(BillingModel model)
         {
-            BillingRepo billingRepo = new BillingRepo();
-            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
-            if (model.IsNew)
+            try
             {
-
-                var result = await billingRepo.TeamInsertTimeslip(model, client.UserId);
-                if (result)
+                if(model.H_Billingsid==null)
                 {
                     return PartialView(model);
                 }
-                return PartialView(model);
-            }
-            else
-            {
-                var result = await billingRepo.TeamUpdateTimeslip(model, client.UserId);
-                if (result)
+                BillingRepo billingRepo = new BillingRepo();
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                if (model.IsNew)
                 {
+
+                    var result = billingRepo.TeamInsertTimeslip(model, client.UserId).Result;
+                    if (result)
+                    {
+                        return PartialView(model);
+                    }
                     return PartialView(model);
                 }
-                return PartialView(model);
+                else
+                {
+                    var result = billingRepo.TeamUpdateTimeslip(model, client.UserId).Result;
+                    if (result)
+                    {
+                        return PartialView(model);
+                    }
+                    return PartialView(model);
+                }
             }
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }          
         }
     }
 }
