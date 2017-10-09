@@ -112,5 +112,44 @@ namespace HonanClaimsPortal.Controllers
             }
 
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> MarkAsCheckedPost(List<string> billingIdList)
+        {
+            try
+            {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string assignId = client.UserId;
+
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                var res = await timelistcheckrepo.MarkAsCheckedPost(billingIdList, assignId);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> MarkAsNonBillablePost(List<string> billingIdList)
+        {
+            try
+            {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string assignId = client.UserId;
+
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                var res = await timelistcheckrepo.MarkAsNonBillable(billingIdList,assignId);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
