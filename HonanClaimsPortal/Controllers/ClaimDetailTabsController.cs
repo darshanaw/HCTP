@@ -203,6 +203,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
+        [AjaxOnly]
         public ActionResult _FileNoteDetail(FileNoteDetailModal model)
         {
 
@@ -289,29 +290,33 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
+        [AjaxOnly]
         public async Task<ActionResult> _PaymentDetail(Payment model, IEnumerable<HttpPostedFileBase> files)
         {
-            documentService = new DocumentService();
-            exeResult = new ExecutionResult();
-
-            if (Session[SessionHelper.PaymentAttachment] != null)
-                files = (IEnumerable<HttpPostedFileBase>)Session[SessionHelper.PaymentAttachment];
-
-            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
-
-            if (model.Is_Settlement && model.Payment_Amount.HasValue)
+            if (ModelState.IsValid)
             {
-                model.Total_Gross = (decimal)model.Payment_Amount;
-                model.Total_Net = (decimal)model.Payment_Amount;
-            }
+                documentService = new DocumentService();
+                exeResult = new ExecutionResult();
 
-            //  if (model.IsNew)
-            //  {
-            exeResult = await documentService.CreatePaymentDetailRecord(model, client.UserId, files);
-            //}
-            //else
-            //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
-            Session[SessionHelper.PaymentAttachment] = null;
+                if (Session[SessionHelper.PaymentAttachment] != null)
+                    files = (IEnumerable<HttpPostedFileBase>)Session[SessionHelper.PaymentAttachment];
+
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+                if (model.Is_Settlement && model.Payment_Amount.HasValue)
+                {
+                    model.Total_Gross = (decimal)model.Payment_Amount;
+                    model.Total_Net = (decimal)model.Payment_Amount;
+                }
+
+                //  if (model.IsNew)
+                //  {
+                exeResult = await documentService.CreatePaymentDetailRecord(model, client.UserId, files);
+                //}
+                //else
+                //documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
+                Session[SessionHelper.PaymentAttachment] = null;
+            }
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 

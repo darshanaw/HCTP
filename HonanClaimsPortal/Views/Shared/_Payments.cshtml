@@ -189,6 +189,7 @@
         var totalsum = 0;
         if (datalength > 0) {
             for (var i = 0; i < datalength; i++) {
+                if (typeof arg.sender.dataSource.data()[i].Total_Net !== "undefined")
                 totalsum += arg.sender.dataSource.data()[i].Total_Net;
                 
             }

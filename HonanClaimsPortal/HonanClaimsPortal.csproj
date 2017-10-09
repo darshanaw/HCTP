@@ -220,6 +220,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AjaxOnly.cs" />
     <Compile Include="Helpers\AuthorizeUserAttribute.cs" />
     <Compile Include="Helpers\ClaimHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
