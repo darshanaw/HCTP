@@ -188,7 +188,7 @@
             navigatable: true,
             pageable: true,
             sortable: true,
-            dataBound: onDataBound,
+            dataBound: onBillingDataBound,
             columns: [
 
                 {
@@ -251,17 +251,18 @@
        
     }
 
-    function onDataBound(arg) {
+    function onBillingDataBound(arg) {
 
         //Total sum of UnitsInStock field
         var datalength = arg.sender.dataSource.data().length;
         var totalsum = 0;
         if (datalength > 0) {
             for (var i = 0; i < datalength; i++) {
+                if (typeof arg.sender.dataSource.data()[i].Qty !== "undefined")
                 totalsum += arg.sender.dataSource.data()[i].Qty;
             }
         }
-
+        
         $("#Total_Qty").val((totalsum / 60).toFixed(2));
 
         //UnitsInStock field sum of current page
