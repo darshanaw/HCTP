@@ -792,7 +792,7 @@
                     <button id="closemod" type="button" class="close">&times;</button>
                     <h4 class="modal-title">Send a Question</h4>
                 </div>
-                <input name="EmailTattchment" id="claimupload" type="file" multiple>
+                <input name="EmailTattchment" id="emailattach" type="file" multiple>
                 <div class="modal-body">
                     <div id="errormsg" class="alert alert-danger">
                         <strong></strong> <span id="error"></span>
@@ -911,9 +911,9 @@
         }
 
 
-        $("#claimupload").change(function (input) {
+        $("#emailattach").change(function (input) {
             debugger;
-            var file1 = $('#claimupload').get(0).files;
+            var file1 = $('#emailattach').get(0).files;
             if (file1 != null) {
                 jQuery.each(file1, function (i, file) {
                     filearray.push(file);
@@ -921,7 +921,7 @@
 
             }
 
-            ele = document.getElementById('claimupload');
+            ele = document.getElementById('emailattach');
             ele.value = null;
             $('#ul').empty();
 

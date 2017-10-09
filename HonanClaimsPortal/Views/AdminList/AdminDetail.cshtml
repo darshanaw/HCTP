@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <label for="email">Mannual Claim Form</label>
                     <div class="form-group">
-                        <a href="" onclick="downloadfile()">@Model.Manualclaim_Form</a>
+                        <a id="downloadfile" download>@Model.Manualclaim_Form</a>
                         @Html.HiddenFor(m => m.Manualclaim_Form)
                         @Html.HiddenFor(m => m.Manualclaim_Form_Path)
                         <input name="claimupload" id="claimupload" type="file">
@@ -281,6 +281,7 @@
     $("#btncancel").click(function () {
         window.location.replace('@Url.Action("AdminList", "AdminList", new { id = "" })');
     });
+
 
     $(document).ready(function () {
 
@@ -570,5 +571,25 @@
     //        }
     //    })
     //});
+
+    $('#downloadfile').click(function () {
+        downloadfile();
+    })
+
+    function downloadfile() {
+        debugger
+        fileName = $("#Manualclaim_Form").val();
+        path = $("#Manualclaim_Form_Path").val();
+
+        $.ajax({
+            url: "AdminList/ManualClaimFormDownload?fileName=" + fileName + "&path=" + path,
+            type: 'POST',
+            success: function () {
+               // window.location = 'download.php';
+            }
+        });
+
+       // window.location = "AdminList/ManualClaimFormDownload?fileName=" + fileName + "&path=" + path;
+    }
 
 </script>
