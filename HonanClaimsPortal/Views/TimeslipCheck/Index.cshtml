@@ -398,9 +398,16 @@
         var endTimeHH = $('#InnerModeL_End_Time_HH').val();
         var endTimeMM = $('#InnerModeL_End_Time_MM').val();
 
-        debugger
-        if (id != null && id != "" && Claimid != null && Claimid != "") {
-            $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + Claimid, function (data) {
+        //if (id != null && id != "" && Claimid != null && Claimid != "") {
+
+            var ids = [];
+            var grid = $("#grid1").data("kendoGrid");
+            grid.select().each(function () {
+                var dataItem = grid.dataItem($(this));
+                ids.push(dataItem.BillingId);
+            });
+
+            $.get("/TimeslipCheck/MarkAsCheckedPost?billingIdList=" + ids, function (data) {
 
                 if (data == false) {
                     bootbox.alert("Error in Updating mark as checked");
@@ -408,7 +415,7 @@
                     bootbox.alert("mark as checked");
                 }
             });
-        }
+       // }
     })
 
 
@@ -422,9 +429,15 @@
         var endTimeHH = $('#InnerModeL_End_Time_HH').val();
         var endTimeMM = $('#InnerModeL_End_Time_MM').val();
 
+        var ids = [];
+        var grid = $("#grid1").data("kendoGrid");
+        grid.select().each(function () {
+            var dataItem = grid.dataItem($(this));
+            ids.push(dataItem.BillingId);
+        });
 
-        if (id != null && id != "" && Claimid != null && Claimid != "") {
-            $.get("/TimeslipCheck/MarkAsNonBillable?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + Claimid, function (data) {
+       // if (id != null && id != "" && Claimid != null && Claimid != "") {
+            $.get("/TimeslipCheck/MarkAsNonBillablePost?billingIdList=" + ids, function (data) {
 
                 if (data == false) {
                     bootbox.alert("Error in Updating Non billable");
@@ -432,7 +445,7 @@
                     bootbox.alert("mark as Non Billable");
                 }
             });
-        }
+        //}
     })
 
     $('#skipnext').click(function () {

@@ -1,4 +1,5 @@
 ﻿using HonanClaimsWebApi.Models.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -163,6 +164,53 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             endTimeHH = endTimeHH == "" ? string.Empty : endTimeHH;
             endTimeMM = endTimeMM == "" ? string.Empty : endTimeMM;
             string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsNonBillable?userId=" + userId + "&billingId=" + billingId + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    result = Convert.ToBoolean(data);
+                }
+            }
+            return result;
+        }
+
+
+        public async Task<bool> MarkAsCheckedPost(List<string> billingIdList, string UserId)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = string.Empty;
+            var json = JsonConvert.SerializeObject(billingIdList);
+            bool result = false;
+            apiUrl = SiteUrl + "api/Billing/TeamBulkMarkAsChecked?billingIdList=" + json + "&userId=" + UserId;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    result = true;
+
+                }
+            }
+            return result;
+        }
+
+        public async Task<bool> MarkAsNonBillablePost(List<string> billingIdList,string userId)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+            bool result = true;
+
+            string apiUrl = SiteUrl + "api/Billing/TeamBulkMarkAsNonBillable?billingIdList=" + billingIdList + "&userId=" + userId;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
