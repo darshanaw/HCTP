@@ -40,7 +40,7 @@ namespace HonanClaimsWebApi.Models.Claim
         [Required(ErrorMessage = "Payment Status Required")]
         public string Payment_Status { get; set; }
         public List<PicklistItem> Payment_Status_List { get; set; }
-        public string Date_Invoice_Paid { get; set; }
+        public DateTime? Date_Invoice_Paid { get; set; }
         public string Payment_Type { get; set; }
         public List<PicklistItem> Payment_Type_List { get; set; }
         public string Payment_Method { get; set; }

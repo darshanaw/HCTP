@@ -2,8 +2,8 @@
 
 
 @Html.HiddenFor(o => o.H_Claimsid,new {@id = "H_Claimsid_KCD"})
-@Html.HiddenFor(o => o.Contactid)
-@Html.HiddenFor(o => o.Accountid)
+@Html.HiddenFor(o => o.Contactid, new { @id = "Contactid_KCD" })
+@Html.HiddenFor(o => o.Accountid, new { @id = "Accountid_KCD" })
 
 
 <div class="panel panel-default">
@@ -22,7 +22,7 @@
                     <label class="col-sm-3 control-label input-sm">Description</label>
                     <div class="col-sm-9">
                         @Html.DropDownListFor(model => model.Description, new SelectList(Model.DescriptionList, "Text", "Text"), "",
-                                        new { @class = "form-control input-sm" })
+                                        new {@class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
@@ -30,7 +30,14 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Contact</label>
                     <div class="col-sm-9">
-                        @Html.TextBoxFor(o => o.Contact_Name, new { @class = "form-control input-sm" })
+                        <div class="input-group">
+                            @Html.TextBoxFor(o => o.Contact_Name, new { @id = "Contact_Name_KCD", @class = "form-control input-sm", @maxlength = 100 })
+                            <span id="ContactModal_KCD" class="input-group-btn" data-toggle="modal" data-target="#ContactModal_KCD_NEW">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,7 +46,14 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Account</label>
                     <div class="col-sm-9">
-                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm" })
+                        <div class="input-group">
+                           @Html.TextBoxFor(o => o.Account_Name, new { @id = "Account_Name_KCD", @class = "form-control input-sm", @maxlength = 100 })
+                            <span id="AccountNoModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#AccountModal_KCD">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,7 +62,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Email Address</label>
                     <div class="col-sm-9">
-                        @Html.TextBoxFor(o => o.Email_Address, new { @class = "form-control input-sm" })
+                        @Html.TextBoxFor(o => o.Email_Address, new {@id= "Email_Address_KCD",  @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
@@ -57,7 +71,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Phone</label>
                     <div class="col-sm-9">
-                        @Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm", @type = "number" })
+                        @Html.TextBoxFor(o => o.Phone, new {@id= "Phone_KCD", @class = "form-control input-sm", @type = "number" })
                     </div>
                 </div>
             </div>
@@ -66,29 +80,86 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Address</label>
                     <div class="col-sm-9">
-                        @Html.TextAreaFor(o => o.Address, new { @class = "form-control input-sm" })
+                        @Html.TextAreaFor(o => o.Address, new {@id= "Address_KCD", @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12 top-padding">
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Notes</label>
                     <div class="col-sm-9">
-                        @Html.TextAreaFor(o => o.Notes, new { @class = "form-control input-sm" })
+                        @Html.TextAreaFor(o => o.Notes, new {@id= "Notes_KCD", @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-12 top-padding-eight">
             <div class="text-right">
-                <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default">Discard Changes</button>
+                <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default KeyContactDetailModalClose">Discard Changes</button>
                 <button type="button" onclick="ConvertToClaim()" class="mb-sm btn btn-primary">Save Changes</button>
             </div>
         </div>
 
     </div>
 </div>
+
+
+
+<!-- Contact Modal -->
+@*<div id="ContactModal_KCD" class="modal fade ContactModal_KCD" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ContactModal_Close_KCD">&times;</button>
+                <h4 class="modal-title">Contact Lookup</h4>
+            </div>
+            <div class="modal-body">
+              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ContactModal_Close_KCD" id="ContactModal_Close_KCD">Close</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<!--Account  Modal -->
+<div id="ContactModal_KCD_NEW" class="modal fade ContactModal_KCD_NEW" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ContactModal_KCD_Close">&times;</button>
+                <h4 class="modal-title">Contact Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_KeyContactDateContactLookup.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ContactModal_KCD_Close" id="ContactModal_KCD_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Account  Modal -->
+<div id="AccountModal_KCD" class="modal fade AccountModal_KCD" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close AccountModal_KCD_Close">&times;</button>
+                <h4 class="modal-title">Account Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_KeyContactDateAccountLookup.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default AccountModal_KCD_Close" id="AccountModal_KCD_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
      var kendoAutoCompleteService_By_Name = null;
@@ -125,5 +196,32 @@
             }
         });
         kendoAutoCompleteService_By_Name.setDataSource(dataSource);
+    });
+
+    $(document).ready(function () {
+        $(".AccountModal_KCD_Close").click(function () {
+            $("#AccountModal_KCD").modal("hide");
+        });
+
+        $(".ContactModal_KCD_Close").click(function () {
+            $("#ContactModal_KCD_NEW").modal("hide");
+
+        });
+
+        $(".KeyContactDetailModalClose").click(function () {
+            $("#H_Claimsid_KCD").val("");
+            $("#Contactid_KCD").val("");
+            $("#Accountid_KCD").val("");
+            $("#Claim_Ref_No_KCD").val("");
+            $("#Description_KCD").val("");
+            $("#Contact_Name_KCD").val("");
+            $("#Account_Name_KCD").val("");
+            $("#Email_Address_KCD").val("");
+            $("#Phone_KCD").val("");
+            $("#Address_KCD").val("");
+            $("#Notes_KCD").val("");
+            $("#Description").val("");
+        });
+        
     });
 </script>
