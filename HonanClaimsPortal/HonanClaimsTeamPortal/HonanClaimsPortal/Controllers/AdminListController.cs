@@ -222,11 +222,12 @@ namespace HonanClaimsPortal.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public FileResult ManualClaimFormDownload(string fileName, string path)
         {
-            if (System.IO.File.Exists(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName))
+            if (System.IO.File.Exists(path + "/" + fileName))
             {
-                byte[] fileBytes = System.IO.File.ReadAllBytes(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path + "/" + fileName);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName.Substring(13, fileName.Length - 13));
             }
             // return File(new byte[0],"");
