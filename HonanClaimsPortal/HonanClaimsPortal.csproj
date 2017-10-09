@@ -1354,6 +1354,8 @@
     <Content Include="Views\Shared\_TimeslipDetail.cshtml" />
     <Content Include="Views\Shared\_KeyContactsDates.cshtml" />
     <Content Include="Views\Shared\_KeyContactDetail.cshtml" />
+    <Content Include="Views\Shared\_KeyContactDateAccountLookup.cshtml" />
+    <Content Include="Views\Shared\_KeyContactDateContactLookup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

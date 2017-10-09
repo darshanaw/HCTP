@@ -298,7 +298,8 @@ namespace HonanClaimsWebApi.Services
                     {
                         if (invoice != null && invoice.Count() > 0)
                         {
-                            formData.Add(new StreamContent(invoice.FirstOrDefault().InputStream), "invoice", invoice.FirstOrDefault().FileName);
+                            var t = invoice.FirstOrDefault().InputStream;
+                            formData.Add(new StreamContent(invoice.FirstOrDefault().InputStream), "invoice", invoice.ToList()[0].FileName);
                         }
                      
                         var jsonString = JsonConvert.SerializeObject(payment);
@@ -308,7 +309,7 @@ namespace HonanClaimsWebApi.Services
                         formData.Add(content, "payment");
                         formData.Add(content_userId, "userId");
 
-
+                        
                         var postResult = await client.PostAsync(apiUrl, formData);
                         string resultContent = await postResult.Content.ReadAsStringAsync();
                         exeReult.IsSuccess = Convert.ToBoolean(resultContent);
