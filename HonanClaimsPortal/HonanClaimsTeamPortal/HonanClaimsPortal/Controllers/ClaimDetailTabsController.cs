@@ -234,11 +234,12 @@ namespace HonanClaimsPortal.Controllers
             return Json(fileNote, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult _KeyContactsDates(string claimId)
+        public ActionResult _KeyContactsDates(string claimId,string claimRefNo)
         {
             KeyContactDateTabModel model = new KeyContactDateTabModel();
             ViewData["claimId"] = claimId;
-            model.ClaimId = claimId;
+            model.ClaimId_KCD_Tab = claimId;
+            model.Claim_Ref_No_KCD_Tab = claimRefNo;
             return PartialView(model);
         }
 
@@ -387,6 +388,16 @@ namespace HonanClaimsPortal.Controllers
         {
             KeyContact model = new KeyContact();
 
+            pickListServices = new PicklistServicecs();
+            model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult _KeyContactDetail(KeyContact model)
+        {
             pickListServices = new PicklistServicecs();
             model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
 

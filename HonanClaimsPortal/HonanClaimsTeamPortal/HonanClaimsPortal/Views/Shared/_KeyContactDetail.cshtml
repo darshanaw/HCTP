@@ -1,7 +1,10 @@
 ﻿@model HonanClaimsWebApi.Models.Claim.KeyContact
 
 
-@Html.HiddenFor(o => o.H_Claimsid,new {@id = "H_Claimsid_KCD"})
+
+@using (Ajax.BeginForm("_KeyContactDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmKeyContactDetail", enctype = "multipart/form-data" }))
+{
+@Html.HiddenFor(o => o.H_Claimsid, new { @id = "H_Claimsid_KCD" })
 @Html.HiddenFor(o => o.Contactid, new { @id = "Contactid_KCD" })
 @Html.HiddenFor(o => o.Accountid, new { @id = "Accountid_KCD" })
 
@@ -13,7 +16,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Claim #</label>
                     <div class="col-sm-9">
-                        @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id="Claim_Ref_No_KCD", @class = "form-control input-sm" })
+                        @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id = "Claim_Ref_No_KCD", @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
@@ -22,7 +25,7 @@
                     <label class="col-sm-3 control-label input-sm">Description</label>
                     <div class="col-sm-9">
                         @Html.DropDownListFor(model => model.Description, new SelectList(Model.DescriptionList, "Text", "Text"), "",
-                                        new {@class = "form-control input-sm" })
+                         new { @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
@@ -62,7 +65,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Email Address</label>
                     <div class="col-sm-9">
-                        @Html.TextBoxFor(o => o.Email_Address, new {@id= "Email_Address_KCD",  @class = "form-control input-sm" })
+                        @Html.TextBoxFor(o => o.Email_Address, new { @id = "Email_Address_KCD", @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
@@ -71,7 +74,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Phone</label>
                     <div class="col-sm-9">
-                        @Html.TextBoxFor(o => o.Phone, new {@id= "Phone_KCD", @class = "form-control input-sm", @type = "number" })
+                        @Html.TextBoxFor(o => o.Phone, new { @id = "Phone_KCD", @class = "form-control input-sm", @type = "number" })
                     </div>
                 </div>
             </div>
@@ -80,7 +83,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Address</label>
                     <div class="col-sm-9">
-                        @Html.TextAreaFor(o => o.Address, new {@id= "Address_KCD", @class = "form-control input-sm" })
+                        @Html.TextAreaFor(o => o.Address, new { @id = "Address_KCD", @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
@@ -89,7 +92,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-3 control-label input-sm">Notes</label>
                     <div class="col-sm-9">
-                        @Html.TextAreaFor(o => o.Notes, new {@id= "Notes_KCD", @class = "form-control input-sm" })
+                        @Html.TextAreaFor(o => o.Notes, new { @id = "Notes_KCD", @class = "form-control input-sm" })
                     </div>
                 </div>
             </div>
@@ -97,13 +100,14 @@
         <div class="col-md-12 top-padding-eight">
             <div class="text-right">
                 <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default KeyContactDetailModalClose">Discard Changes</button>
-                <button type="button" onclick="ConvertToClaim()" class="mb-sm btn btn-primary">Save Changes</button>
+                <button type="submit" onclick="ConvertToClaim()" class="mb-sm btn btn-primary">Save Changes</button>
             </div>
         </div>
 
     </div>
 </div>
 
+}
 
 
 <!-- Contact Modal -->

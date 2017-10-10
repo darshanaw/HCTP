@@ -142,8 +142,8 @@ namespace HonanClaimsPortal.Controllers
                 string assignId = client.UserId;
 
                 TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
-                var res = await timelistcheckrepo.MarkAsNonBillable(billingIdList,assignId);
-                return Json(res, JsonRequestBehavior.AllowGet);
+                //var res = await timelistcheckrepo.MarkAsNonBillable(billingIdList,assignId);
+                return Json(null, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

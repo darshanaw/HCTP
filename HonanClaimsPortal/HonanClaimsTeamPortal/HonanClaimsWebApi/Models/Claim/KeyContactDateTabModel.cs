@@ -8,7 +8,8 @@ namespace HonanClaimsWebApi.Models.Claim
 {
     public class KeyContactDateTabModel
     {
-        public string ClaimId { get; set; }
+        public string ClaimId_KCD_Tab { get; set; }
+        public string Claim_Ref_No_KCD_Tab { get; set; }
         public KeyContact KeyContact { get; set; }
         public KeyDate KeyDate { get; set; }
     }

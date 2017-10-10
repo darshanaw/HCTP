@@ -67,7 +67,7 @@
         $("#grdKeyContacts").kendoGrid({
             dataSource: {
                 transport: {
-                    read: "/ClaimDetailTabs/AjaxGetKeyContacts?claimId=" + "@Model.ClaimId",
+                    read: "/ClaimDetailTabs/AjaxGetKeyContacts?claimId=" + "@Model.ClaimId_KCD_Tab",
                 },
                 pageSize: 100,
                 parameterMap: function (options, operation) {
@@ -118,7 +118,7 @@
 
         var ds = new kendo.data.DataSource({
                 transport: {
-                    read: "/ClaimDetailTabs/AjaxGetKeyDates?claimId=" + "@Model.ClaimId",
+                    read: "/ClaimDetailTabs/AjaxGetKeyDates?claimId=" + "@Model.ClaimId_KCD_Tab",
                 },
                 pageSize: 100,
                 parameterMap: function (options, operation) {
@@ -172,6 +172,11 @@
              $("#Description").val("");
          });
 
+         $('#btnAddKeyContact').click(function () {
+             $('#Claim_Ref_No_KCD').val("@Model.Claim_Ref_No_KCD_Tab");
+             $('#H_Claimsid_KCD').val("@Model.ClaimId_KCD_Tab");
+         });
+
     })
 
     function addKeyDate() {
@@ -203,7 +208,7 @@
                 error: function (response) {
                     alert("Failed to Update");
 
-                    
+
                 }
             });
         }
