@@ -71,5 +71,23 @@ namespace HonanClaimsPortal.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult RedirectToDetail(string claimId, string claimTeam, string tab)
+        {
+            switch (claimTeam)
+            {
+                case ClaimTeams.RisksmartGCC:
+                    return RedirectToAction("DetailRisksmartGccClaim", "RisksmartGccClaim", new { id = claimId, tab = tab });
+                case ClaimTeams.RisksmartProperty:
+                    return RedirectToAction("DetailRisksmartPropertyClaim", "RisksmartPropertyClaim", new { id = claimId, tab = tab });
+                case ClaimTeams.PropertyClaims:
+                    return RedirectToAction("DetailPropertyClaim", "PropertyClaim", new { id = claimId, tab = tab });
+                case ClaimTeams.GCCClaims:
+                    return RedirectToAction("DetailGccClaim", "GccClaim", new { id = claimId, tab = tab });
+                default:
+                    return RedirectToAction("Index", "ClaimList");
+
+            }
+        }
     }
 }
