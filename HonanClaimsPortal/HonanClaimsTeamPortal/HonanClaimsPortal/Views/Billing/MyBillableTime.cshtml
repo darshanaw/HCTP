@@ -5,6 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .BillingDetailModal {
+        max-height: calc(1000vh - 2000px);
+        overflow-y: auto;
+    }
+</style>
+
 <!-- MOMENT JS-->
 <script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
 
@@ -134,6 +141,26 @@
 
     <div id="grid"></div>
 </div>
+
+<!-- Modal -->
+<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Timeslip</h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderAction("_TimeslipDetail", "Billing");}
+
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         $('#datetimepicker1').datetimepicker({
@@ -214,7 +241,8 @@
            {
                field: "ClaimRefNo",
                title: "Claims Ref #",
-               template: "<a href='/Billing/TimeslipDetail?BillingId=#= BillingId #'>#= ClaimRefNo #</a>",
+               //template: "<a href='/Billing/TimeslipDetail?BillingId=#= BillingId #'>#= ClaimRefNo #</a>",
+               template: "<a href='javascript:void(0);' onclick=\"loadBillingDetail('#= BillingId #')\" '>#= ClaimRefNo #</a>"
            },
            {
                field: "Customer",
@@ -223,7 +251,8 @@
            {
                field: "ServiceBy",
                title: "Service By",
-               template: "<a href='/Billing/TimeslipDetail?BillingId=#= BillingId #'>#= ServiceBy #</a>",
+              // template: "<a href='/Billing/TimeslipDetail?BillingId=#= BillingId #'>#= ServiceBy #</a>",
+               template: "<a href='javascript:void(0);' onclick=\"loadBillingDetail('#= BillingId #')\" '>#= ServiceBy #</a>"
            },
            {
                field: "ServiceDate",
@@ -261,6 +290,59 @@
                 }
                 $("#TotalQ").val(subTotal);
         }
+    }
 
+    function loadBillingDetail(BillingId) {
+        $.ajax({
+            url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
+
+
+                var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
+                var month = Checked_Date.getMonth() + 1;
+                var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+
+
+
+                debugger;
+
+                $("#H_Billingsid").val(result.H_Billingsid);
+                $("#H_Claimsid").val(result.H_Claimsid);
+                $("#Service_By").val(result.Service_By);
+                $("#Is_Billable").val(result.Is_Billable);
+                $("#Claim_No").val(result.Claim_No);
+                $("#ActivityId").val(result.ActivityId);
+                $("#Activity_Name").val(result.Activity_Name);
+                $("#Policyid").val(result.Policyid);
+                $("#Policy_Name").val(result.Policy_Name);
+                $("#ClientId").val(result.ClientId);
+                $("#Client_Name").val(result.Client_Name);
+                $("#Service_Date").val(result.Service_Date);
+                $("#Start_Time_HH").val(result.Start_Time_HH);
+                $("#Start_Time_MM").val(result.Start_Time_MM);
+                $("#End_Time_HH").val(result.End_Time_HH);
+                $("#End_Time_MM").val(result.End_Time_MM);
+                $("#Qty_Mins").val(result.Qty_Mins);
+                $("#Rate").val(result.Rate);
+                $("#Billable").val(result.Billable);
+                $("#Timeslip_Checked").val(result.Timeslip_Checked);
+                $("#Checked_By").val(result.Checked_By);
+                $("#Checked_Date").val(rChecked_Date);
+                $("#Invoice_Processed").val(result.Invoice_Processed);
+                $("#Invoice_Processed_By").val(result.Invoice_Processed_By);
+                $("#Invoice_Processed_Date").val(result.Invoice_Processed_Date);
+                $("#Invoice_No").val(result.Invoice_No);
+                $("#Invoice_Date").val(result.Invoice_Date);
+                $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
+                $("#Units").val(result.Units);
+                $("#Work_Done").val(result.Work_Done);
+                $("#Service_By_Name").val(result.Service_By_Name);
+                $("#Quarter").val(result.Quarter);
+                $("#IsNew").val(result.IsNew);
+                $('#BillingDetailModal').modal('show');
+            }
+        });
+        $("#btnNewFileNote").click(function () {
+            clearFileNoteControls();
+        });
     }
 </script>

@@ -86,8 +86,8 @@
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3">Start Time</label>
                     <div class="col-md-4">
-                        <label class="col-md-1">HH</label>
-                        <div class="col-md-11">
+                        <label>HH</label>
+                        <div>
                             @Html.DropDownListFor(m => m.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                  SelectListItem
                        {
@@ -99,8 +99,8 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label class="col-md-1">Min</label>
-                        <div class="col-md-11">
+                        <label>Min</label>
+                        <div>
                             @Html.DropDownListFor(m => m.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
                                 SelectListItem
                        {
@@ -116,8 +116,8 @@
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3">End Time</label>
                     <div class="col-md-4">
-                        <label class="col-md-1">HH</label>
-                        <div class="col-md-11">
+                        <label>HH</label>
+                        <div>
                             @Html.DropDownListFor(m => m.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                  SelectListItem
                        {
@@ -129,8 +129,8 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label class="col-md-1">Min</label>
-                        <div class="col-md-11">
+                        <label>Min</label>
+                        <div>
                             @Html.DropDownListFor(m => m.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
                                 SelectListItem
                        {
@@ -140,8 +140,8 @@
                             @Html.ValidationMessageFor(o => o.End_Time_MM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                         </div>
                     </div>
-                </div>
-
+                </div> 
+                
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3">Rate P/Hr ($)</label>
                     <div class="col-md-9">
@@ -168,6 +168,9 @@
                         @Html.ValidationMessageFor(o => o.Billable, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-6">
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3">Timeslip Checked</label>
                     <div class="col-md-9">
@@ -206,9 +209,6 @@
                     </div>
                 </div>
 
-
-
-
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3">Invoice</label>
                     <div class="col-md-9">
@@ -221,8 +221,7 @@
                         @Html.TextBoxFor(c => c.Invoice_Date, new { @readonly = true, @class = "form-control" })
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
+
                 <div class="form-group col-md-12 col-sm-12">
                     <label>Work Done</label>
                     <div>
