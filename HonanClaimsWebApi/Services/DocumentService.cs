@@ -49,6 +49,12 @@ namespace HonanClaimsWebApi.Services
         private const string getPaymentDetailById = "api/Payment/GetPayment?paymentId=";
         private const string param_paymentId = "&paymentId=";
 
+        private const string getActivityTasks = "api/Activity/GetActivities?claimId=";
+        private const string param_incompleteOnly = "&incompleteOnly=";
+        private const string param_completedOnly = "&completedOnly=";
+        private const string param_showOverDue = "&showOverDue=";
+        private const string param_owner = "&owner=";
+
         ExecutionResult exeReult;
 
         public bool CreateClaimAttachmentCustomerDoc(ClaimAttachmentSimple attachment, out string fileCreateId)
@@ -397,6 +403,41 @@ namespace HonanClaimsWebApi.Services
             {
                 throw e;
             }
+        }
+
+       
+        public List<ActivityTask> GetActivityTasks(string claimId, bool incompleteOnly, bool completedOnly, bool showOverDue, string owner)
+        {
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getActivityTasks + claimId + param_incompleteOnly + incompleteOnly + param_completedOnly + completedOnly + param_showOverDue + showOverDue + param_owner + owner);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<ActivityTask>>(response);
+                        }
+                    }
+                }
+
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
 
     }

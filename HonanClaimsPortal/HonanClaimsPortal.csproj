@@ -1357,6 +1357,8 @@
     <Content Include="Views\Shared\_KeyContactDetail.cshtml" />
     <Content Include="Views\Shared\_KeyContactDateAccountLookup.cshtml" />
     <Content Include="Views\Shared\_KeyContactDateContactLookup.cshtml" />
+    <Content Include="Views\Shared\_ActivityTasks.cshtml" />
+    <Content Include="Views\Shared\_ActivityTaskDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

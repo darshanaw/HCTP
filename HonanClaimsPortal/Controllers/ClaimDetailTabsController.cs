@@ -265,6 +265,37 @@ namespace HonanClaimsPortal.Controllers
             return Json(KeyDate, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult _ActivityTasks(string claimId)
+        {
+            //ActivityTask model = new ActivityTask();
+            pickListServices = new PicklistServicecs();
+            ViewData["OwnerType"] = pickListServices.GetPickListItems("Honan Task Owner Type");          
+
+            return PartialView();
+        }
+
+        public ActionResult _ActivityTaskDetail(string claimId)
+        {
+            ActivityTask model = new ActivityTask();
+            documentService = new DocumentService();
+            List<ActivityTask> activityTasks = new List<ActivityTask>();
+            activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
+
+            ViewData["Sequence"] = activityTasks.Select(o => o.Seq_Act).Distinct();
+            ViewData["Stage"] = activityTasks.Select(o => o.Stage_Act).Distinct();
+            model.ClaimId_Act = claimId;
+
+            return PartialView(model);
+        }
+
+        public ActionResult AjaxActivityTasksLoad(string claimId, string incompleteOnly, string completedOnly, string showOverDue, string owner)
+        {
+            documentService = new DocumentService();
+            List<ActivityTask> activityTasks = new List<ActivityTask>();
+            activityTasks = documentService.GetActivityTasks(claimId, incompleteOnly == "true" ? true : false, completedOnly == "true" ? true : false, showOverDue == "true" ? true : false, owner);
+            return Json(activityTasks, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult _PaymentDetail(string claimId, string Claim_Reference_Num)
         {
