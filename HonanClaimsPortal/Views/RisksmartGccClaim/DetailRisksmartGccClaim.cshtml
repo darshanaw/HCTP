@@ -1016,7 +1016,7 @@
     </div>
     <div class="tab-pane" id="tabKey_Contacts_Dates">
         @*@Html.Partial("~/Views/Shared/_KeyContactsDates.cshtml", null)*@
-        @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
+        @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid, claimRefNo= Model.Claim_Reference_Num });}
     </div>
     <div class="tab-pane" id="tabAttachments">
 
