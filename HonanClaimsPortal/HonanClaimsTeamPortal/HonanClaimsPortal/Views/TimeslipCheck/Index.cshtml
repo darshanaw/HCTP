@@ -400,19 +400,20 @@
 
         //if (id != null && id != "" && Claimid != null && Claimid != "") {
 
-            var ids = [];
+            var ids="";
             var grid = $("#grid1").data("kendoGrid");
             grid.select().each(function () {
                 var dataItem = grid.dataItem($(this));
-                ids.push(dataItem.BillingId);
+                ids = dataItem.BillingId+","+ids;
             });
 
-            $.get("/TimeslipCheck/MarkAsCheckedPost?billingIdList=" + ids, function (data) {
+            $.get("/TimeslipCheck/MarkAsCheckedPost?billingIds=" + ids, function (data) {
 
                 if (data == false) {
                     bootbox.alert("Error in Updating mark as checked");
                 } else {
-                    bootbox.alert("mark as checked");
+                    $("#grid1").data("kendoGrid").dataSource.read();
+                    bootbox.alert("mark as checked");                   
                 }
             });
        // }
@@ -429,19 +430,20 @@
         var endTimeHH = $('#InnerModeL_End_Time_HH').val();
         var endTimeMM = $('#InnerModeL_End_Time_MM').val();
 
-        var ids = [];
+        var ids = "";
         var grid = $("#grid1").data("kendoGrid");
         grid.select().each(function () {
             var dataItem = grid.dataItem($(this));
-            ids.push(dataItem.BillingId);
+            ids = dataItem.BillingId + "," + ids;
         });
 
        // if (id != null && id != "" && Claimid != null && Claimid != "") {
-            $.get("/TimeslipCheck/MarkAsNonBillablePost?billingIdList=" + ids, function (data) {
+        $.get("/TimeslipCheck/MarkAsNonBillablePost?billingIds=" + ids, function (data) {
 
                 if (data == false) {
                     bootbox.alert("Error in Updating Non billable");
                 } else {
+                    $("#grid1").data("kendoGrid").dataSource.read();
                     bootbox.alert("mark as Non Billable");
                 }
             });
