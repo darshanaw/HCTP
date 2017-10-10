@@ -81,6 +81,7 @@
              $("#Address_KCD").val("");
              $("#Notes_KCD").val("");
              $("#Description").val("");
+             $("#H_Keycontactsid").val("");
          });
 
          $('#btnAddKeyContact').click(function () {
@@ -194,6 +195,7 @@
                 {
                     field: "Description",
                     title: "Description",
+                    template: "<a  href='javascript:void(0);' onclick=\"loadKeyContactDetail('#= H_Keycontactsid #')\" '>#=Description#</a>"
                 },
                 {
                     field: "Account_Name",
@@ -257,6 +259,29 @@
                     template: '#= kendo.toString(kendo.parseDate(Key_Date), "dd/MM/yyyy")#'
                 }
             ]
+        });
+    }
+
+    function loadKeyContactDetail(keyContactId) {
+        $.ajax({
+            url: "/ClaimDetailTabs/GetKeyContactById?keyContactId=" + keyContactId, success: function (result) {
+
+                $("#H_Claimsid_KCD").val(result.H_Claimsid);
+                $("#Contactid_KCD").val(result.Contactid);
+                $("#Accountid_KCD").val(result.Accountid);
+                $("#Claim_Ref_No_KCD").val(result.Claim_Ref_No);
+                $("#Description_KCD").val(result.Description);
+                $("#Contact_Name_KCD").val(result.Contact_Name);
+                $("#Account_Name_KCD").val(result.Account_Name);
+                $("#Email_Address_KCD").val(result.Email_Address);
+                $("#Phone_KCD").val(result.Phone);
+                $("#Address_KCD").val(result.Address);
+                $("#Notes_KCD").val(result.Notes);
+                $("#Description").val(result.Description);
+                $("#H_Keycontactsid").val(result.H_Keycontactsid);
+
+                $('#KeyContactDetailModal').modal('show');
+            }
         });
     }
 
