@@ -425,6 +425,18 @@ namespace HonanClaimsPortal.Controllers
             return PartialView(model);
         }
 
+
+        public ActionResult GetKeyContactById(string keyContactId)
+        {
+            KeyContactDateServices service = new KeyContactDateServices();
+            KeyContact model = service.GetKeyContact(keyContactId);
+
+            pickListServices = new PicklistServicecs();
+            model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [AjaxOnly]
         public async Task<ActionResult> _KeyContactDetail(KeyContact model)
@@ -434,9 +446,17 @@ namespace HonanClaimsPortal.Controllers
             {
                 ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
                 KeyContactDateServices service = new KeyContactDateServices();
-                bool result = await service.InsertKeyContact(model, login.UserId);
-                if(result)
+
+                bool result; 
+
+                if (string.IsNullOrEmpty(model.H_Keycontactsid))
+                    result = await service.InsertKeyContact(model, login.UserId);
+                else
+                    result = await service.UpdateKeyContact(model, login.UserId);
+
+                if (result)
                     return Json("success", JsonRequestBehavior.AllowGet);
+
             }
             pickListServices = new PicklistServicecs();
             model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
