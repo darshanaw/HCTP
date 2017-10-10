@@ -222,7 +222,7 @@ namespace HonanClaimsPortal.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
+        [HttpGet]
         public FileResult ManualClaimFormDownload(string fileName, string path)
         {
             if (System.IO.File.Exists(path + "/" + fileName))
