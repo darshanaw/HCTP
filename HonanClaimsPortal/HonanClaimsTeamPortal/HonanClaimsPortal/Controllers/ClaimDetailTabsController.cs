@@ -396,8 +396,17 @@ namespace HonanClaimsPortal.Controllers
 
         [HttpPost]
         [AjaxOnly]
-        public ActionResult _KeyContactDetail(KeyContact model)
+        public async Task<ActionResult> _KeyContactDetail(KeyContact model)
         {
+
+            if (ModelState.IsValid)
+            {
+                ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+                KeyContactDateServices service = new KeyContactDateServices();
+                bool result = await service.InsertKeyContact(model, login.UserId);
+                if(result)
+                    return Json("success", JsonRequestBehavior.AllowGet);
+            }
             pickListServices = new PicklistServicecs();
             model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
 
