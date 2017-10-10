@@ -114,11 +114,14 @@ namespace HonanClaimsPortal.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult> MarkAsCheckedPost(List<string> billingIdList)
+        public async Task<ActionResult> MarkAsCheckedPost(string billingIds)
         {
             try
             {
+                List<string> billingIdList = new List<string>();
+                billingIdList = billingIds.Split(',').ToList();
+                billingIdList = billingIdList.Where(x => !string.IsNullOrEmpty(x)).ToList();
+
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 string assignId = client.UserId;
 
@@ -133,17 +136,21 @@ namespace HonanClaimsPortal.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<ActionResult> MarkAsNonBillablePost(List<string> billingIdList)
+
+        public async Task<ActionResult> MarkAsNonBillablePost(string billingIds)
         {
             try
             {
+                List<string> billingIdList = new List<string>();
+                billingIdList = billingIds.Split(',').ToList();
+                billingIdList = billingIdList.Where(x => !string.IsNullOrEmpty(x)).ToList();
+
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 string assignId = client.UserId;
 
                 TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
-                //var res = await timelistcheckrepo.MarkAsNonBillable(billingIdList,assignId);
-                return Json(null, JsonRequestBehavior.AllowGet);
+                var res = await timelistcheckrepo.MarkAsNonBillablePost(billingIdList,assignId);
+                return Json(res, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

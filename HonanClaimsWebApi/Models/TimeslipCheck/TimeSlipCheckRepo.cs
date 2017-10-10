@@ -181,47 +181,102 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
         }
 
 
+
         public async Task<bool> MarkAsCheckedPost(List<string> billingIdList, string UserId)
         {
-            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = string.Empty;
-            var json = JsonConvert.SerializeObject(billingIdList);
-            bool result = false;
-            apiUrl = SiteUrl + "api/Billing/TeamBulkMarkAsChecked?billingIdList=" + json + "&userId=" + UserId;
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var result = false;
+            var templist = new List<string>();
 
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
+                string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+                string apiUrl = SiteUrl + "api/Billing/TeamBulkMarkAsChecked";
+                using (HttpClient client = new HttpClient())
                 {
-                    result = true;
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        client.BaseAddress = new Uri(apiUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                }
-            }
+
+                        var toList = JsonConvert.SerializeObject(billingIdList);
+                        var userId = JsonConvert.SerializeObject(UserId);
+
+                        var content = new StringContent(toList, System.Text.Encoding.UTF8, "application/json");
+                        var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+ 
+                        formData.Add(content, "billingIdList");
+                        formData.Add(content2, "userId");
+                        HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var data = await response.Content.ReadAsStringAsync();
+                            result = Convert.ToBoolean(data);
+                        }
+                    }
+                }            
             return result;
         }
 
-        public async Task<bool> MarkAsNonBillablePost(List<string> billingIdList,string userId)
+
+
+
+        //public async Task<bool> MarkAsNonBillablePost(List<string> billingIdList,string userId)
+        //{
+        //    string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+        //    bool result = true;
+
+        //    string apiUrl = SiteUrl + "api/Billing/TeamBulkMarkAsNonBillable?billingIdList=" + billingIdList + "&userId=" + userId;
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(apiUrl);
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        //        HttpResponseMessage response = await client.GetAsync(apiUrl);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var data = await response.Content.ReadAsStringAsync();
+        //            result = Convert.ToBoolean(data);
+        //        }
+        //    }
+        //    return result;
+        //}
+
+
+
+        public async Task<bool> MarkAsNonBillablePost(List<string> billingIdList, string UserId)
         {
+            var result = false;
+            var templist = new List<string>();
+
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
 
-            bool result = true;
-
-            string apiUrl = SiteUrl + "api/Billing/TeamBulkMarkAsNonBillable?billingIdList=" + billingIdList + "&userId=" + userId;
+            string apiUrl = SiteUrl + "api/Billing/TeamBulkMarkAsNonBillable";
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
+                using (var formData = new MultipartFormDataContent())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    result = Convert.ToBoolean(data);
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                    var toList = JsonConvert.SerializeObject(billingIdList);
+                    var userId = JsonConvert.SerializeObject(UserId);
+
+                    var content = new StringContent(toList, System.Text.Encoding.UTF8, "application/json");
+                    var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+
+                    formData.Add(content, "billingIdList");
+                    formData.Add(content2, "userId");
+                    HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        result = Convert.ToBoolean(data);
+                    }
                 }
             }
             return result;
