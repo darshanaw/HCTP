@@ -35,7 +35,10 @@
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tabClaimDetail" data-toggle="tab" aria-expanded="true">Claim Detail</a></li>
-    <li><a href="#tabActivityTasks" data-toggle="tab">Activity Tasks</a></li>
+    @if (Model.Claim_Type == HonanClaimsPortal.Helpers.ClaimType.Claim.ToString())
+    {
+        <li><a href="#tabActivityTasks" data-toggle="tab">Activity Tasks</a></li>
+    }
     <li><a href="#tabKey_Contacts_Dates" data-toggle="tab">Key Contacts\Dates </a></li>
     <li><a href="#tabAttachments" data-toggle="tab">Attachments</a></li>
     <li><a href="#tabCustomerDocs" data-toggle="tab">Customer Docs</a></li>
@@ -132,7 +135,7 @@
                                                 else
                                                 {
                                                     @Html.TextBoxFor(o => o.Assigned_User_Name, new { @class = "form-control input-sm disabled", @readonly = true })
-                                                     @Html.HiddenFor(o => o.Assigned_User)
+                                                    @Html.HiddenFor(o => o.Assigned_User)
                                                 }
                                             </div>
                                         </div>
@@ -857,7 +860,7 @@
                                                         </div>
                                                     </div>
 
-                                                   
+
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Panel Lawyers Retained</label>
@@ -877,104 +880,104 @@
 
                                     @if (Model.Claim_Type == "Claim")
                                     {
-                                    <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
-                                        <div class="panel panel-primary">
-                                            <div id="headingThree" role="tab" class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="True" aria-controls="collapseThree">Financials</a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseThree" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse in">
-                                                <div class="panel-body">
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Liab/Def Res. Source</label>
-                                                            <div class="col-sm-9">
-                                                                <span id="ssss" class="input-group-btn btn-outline">
-                                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px" data-toggle="modal" data-target="#ExrtaFieldModal">
-                                                                        <i class="fa fa-dollar"></i>
-                                                                    </button>
-                                                                </span>
+                                        <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
+                                            <div class="panel panel-primary">
+                                                <div id="headingThree" role="tab" class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="True" aria-controls="collapseThree">Financials</a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseThree" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse in">
+                                                    <div class="panel-body">
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Liab/Def Res. Source</label>
+                                                                <div class="col-sm-9">
+                                                                    <span id="ssss" class="input-group-btn btn-outline">
+                                                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px" data-toggle="modal" data-target="#ExrtaFieldModal">
+                                                                            <i class="fa fa-dollar"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
-                                                                @Html.HiddenFor(o => o.Liability_Reserve)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
+                                                                    @Html.HiddenFor(o => o.Liability_Reserve)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Defence Reserve $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
-                                                                @Html.HiddenFor(o => o.Defence_Reserve)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Defence Reserve $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
+                                                                    @Html.HiddenFor(o => o.Defence_Reserve)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    @*Start*@
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Total Reserve $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
-                                                                @Html.HiddenFor(o => o.Total_Reserve)
+                                                        @*Start*@
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Total Reserve $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
+                                                                    @Html.HiddenFor(o => o.Total_Reserve)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Net Paid Liability $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
-                                                                @Html.HiddenFor(o => o.Net_Paid_Liability)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Net Paid Liability $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
+                                                                    @Html.HiddenFor(o => o.Net_Paid_Liability)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Net Paid Defence $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
-                                                                @Html.HiddenFor(o => o.Net_Paid_Defence)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Net Paid Defence $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
+                                                                    @Html.HiddenFor(o => o.Net_Paid_Defence)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Gross Paid to Date $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
-                                                                @Html.HiddenFor(o => o.Gross_Paid_To_Date)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Gross Paid to Date $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
+                                                                    @Html.HiddenFor(o => o.Gross_Paid_To_Date)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Total Incurred $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
-                                                                @Html.HiddenFor(o => o.Total_Incurred)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Total Incurred $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
+                                                                    @Html.HiddenFor(o => o.Total_Incurred)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Current Exposure</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
-                                                                @Html.HiddenFor(o => o.Current_Exposure)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Current Exposure</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
+                                                                    @Html.HiddenFor(o => o.Current_Exposure)
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     }
                                     else
                                     {
@@ -1009,19 +1012,19 @@
         }
     </div>
 
-
-    <div class="tab-pane" id="tabActivityTasks">
-    </div>
-    <div class="tab-pane" id="tabActivityTasks">
-    </div>
+    @if (Model.Claim_Type == HonanClaimsPortal.Helpers.ClaimType.Claim.ToString())
+    {
+        <div class="tab-pane" id="tabActivityTasks">
+            @{Html.RenderAction("_ActivityTasks", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
+        </div>
+    }
     <div class="tab-pane" id="tabKey_Contacts_Dates">
         @*@Html.Partial("~/Views/Shared/_KeyContactsDates.cshtml", null)*@
-        @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid, claimRefNo= Model.Claim_Reference_Num });}
+        @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
     </div>
+
     <div class="tab-pane" id="tabAttachments">
-
         @Html.Partial("~/Views/Shared/_Attachments.cshtml", null)
-
     </div>
     <div class="tab-pane" id="tabCustomerDocs">
         @Html.Partial("~/Views/Shared/_CustomerDocs.cshtml", null)
@@ -1033,7 +1036,7 @@
         @Html.Partial("~/Views/Shared/_Payments.cshtml", new ViewDataDictionary { { "claimId", Model.H_Claimsid }, { "Claim_Reference_Num", Model.Claim_Reference_Num } })
     </div>
     <div class="tab-pane" id="tabFileNotes">
-        @Html.Partial("~/Views/Shared/_FileNotes.cshtml", new ViewDataDictionary { { "claimId" , Model.H_Claimsid },{ "Claim_Reference_Num", Model.Claim_Reference_Num } })
+        @Html.Partial("~/Views/Shared/_FileNotes.cshtml", new ViewDataDictionary { { "claimId", Model.H_Claimsid }, { "Claim_Reference_Num", Model.Claim_Reference_Num } })
     </div>
 </div>
 <!-- Modal -->
@@ -1194,11 +1197,11 @@
                 <h4 class="modal-title">Convert To Claim</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_ConvertToClaimLookup.cshtml", null, new ViewDataDictionary { { "Accountid", Model.Accountid },{ "TeamName", "Risksmart GCC Team" },{"ClaimId",Model.H_Claimsid} })
+                @Html.Partial("~/Views/Shared/_ConvertToClaimLookup.cshtml", null, new ViewDataDictionary { { "Accountid", Model.Accountid }, { "TeamName", "Risksmart GCC Team" }, { "ClaimId", Model.H_Claimsid } })
             </div>
             @*<div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>*@
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
         </div>
     </div>
 </div>
@@ -1211,8 +1214,6 @@
 </script>
 
 <!-- Covert to Claim Modal End-->
-
-
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
