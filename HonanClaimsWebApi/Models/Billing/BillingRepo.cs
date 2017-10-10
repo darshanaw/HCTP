@@ -177,24 +177,31 @@ namespace HonanClaimsWebApi.Models.Billing
 
         public async Task<bool> TeamUpdateTimeslip(BillingModel model, string UserId)
         {
-            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = string.Empty;
-            var json = JsonConvert.SerializeObject(model);
-            bool result = false;
-            apiUrl = SiteUrl + "api/Billing/TeamUpdateBilling?billing="+json+"&userId="+ UserId;
-            using (HttpClient client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
+                string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+                string apiUrl = string.Empty;
+                var json = JsonConvert.SerializeObject(model);
+                bool result = false;
+                apiUrl = SiteUrl + "api/Billing/TeamUpdateBilling?billing=" + json + "&userId=" + UserId;
+                using (HttpClient client = new HttpClient())
                 {
-                    result = true;
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        result = true;
+                    }
                 }
+                return result;
             }
-            return result;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }
