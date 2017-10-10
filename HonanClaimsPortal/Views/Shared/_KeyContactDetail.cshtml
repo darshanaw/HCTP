@@ -2,7 +2,7 @@
 
 
 
-@using (Ajax.BeginForm("_KeyContactDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmKeyContactDetail", enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("_KeyContactDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_KCD" }, new { @id = "frmKeyContactDetail", enctype = "multipart/form-data" }))
 {
 @Html.HiddenFor(o => o.H_Claimsid, new { @id = "H_Claimsid_KCD" })
 @Html.HiddenFor(o => o.Contactid, new { @id = "Contactid_KCD" })
@@ -228,4 +228,29 @@
         });
         
     });
+
+    function GetResult_KCD(data) {
+        $("#H_Claimsid_KCD").val("");
+        $("#Contactid_KCD").val("");
+        $("#Accountid_KCD").val("");
+        $("#Claim_Ref_No_KCD").val("");
+        $("#Description_KCD").val("");
+        $("#Contact_Name_KCD").val("");
+        $("#Account_Name_KCD").val("");
+        $("#Email_Address_KCD").val("");
+        $("#Phone_KCD").val("");
+        $("#Address_KCD").val("");
+        $("#Notes_KCD").val("");
+        $("#Description").val("");
+
+        $.LoadingOverlay("hide");
+        $('#grdKeyDates').data('kendoGrid').dataSource.read();
+        $('#grdKeyDates').data('kendoGrid').refresh();
+
+        generateKeyContactsGrid();
+
+        if ($('#KeyContactDetailModal').length > 0) {
+            $('#KeyContactDetailModal').modal('hide');
+        }
+    }
 </script>

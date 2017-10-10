@@ -64,98 +64,9 @@
 
 <script>
     $(document).ready(function () {
-        $("#grdKeyContacts").kendoGrid({
-            dataSource: {
-                transport: {
-                    read: "/ClaimDetailTabs/AjaxGetKeyContacts?claimId=" + "@Model.ClaimId_KCD_Tab",
-                },
-                pageSize: 100,
-                parameterMap: function (options, operation) {
-                    if (operation !== "read" && options.models) {
-                        return { models: kendo.stringify(options.models) };
-                    }
-                },
-                batch: false,
-            },
-            filterable: true,
-            pageSize: 20,
-            navigatable: true,
-            pageable: true,
-            sortable: true,
-            selectable: "row",
-            //dataBound: onDataBound,
-            columns: [
+        generateKeyContactsGrid();
 
-                //{
-                //    field: "H_Keycontactsid",
-                //    visible: false
-                //},
-                {
-                    field: "Description",
-                    title: "Description",
-                },
-                {
-                    field: "Account_Name",
-                    title: "Account",
-                    template: "<a href='/AccountList/AccountDetail?AccountId=#=Accountid#'>#= Account_Name #</a>"
-                    //template: '#= kendo.toString(kendo.parseDate(ServiceDate), "dd/MM/yyyy")#'
-                },
-                {
-                    field: "Contact_Name",
-                    title: "Contact",
-                    template: "<a href='/Contact/ContactDetail?ContactId=#=Contactid#'>#= Contact_Name #</a>"
-                },
-                {
-                    field: "Phone",
-                    title: "Phone"
-                },
-                {
-                    field: "Email_Address",
-                    title: "Email"
-                }
-            ]
-        });
-
-        var ds = new kendo.data.DataSource({
-                transport: {
-                    read: "/ClaimDetailTabs/AjaxGetKeyDates?claimId=" + "@Model.ClaimId_KCD_Tab",
-                },
-                pageSize: 100,
-                parameterMap: function (options, operation) {
-                    if (operation !== "read" && options.models) {
-                        return { models: kendo.stringify(options.models) };
-                    }
-                },
-                batch: false,
-        });
-
-
-         $("#grdKeyDates").kendoGrid({
-             dataSource: ds,
-            filterable: true,
-            pageSize: 20,
-            navigatable: true,
-            pageable: true,
-            sortable: true,
-            selectable: "row",
-            //dataBound: onDataBound,
-            columns: [
-
-                {
-                    field: "Seq",
-                    title: "Seq",
-                },
-                {
-                    field: "Key_Date_Description",
-                    title: "Description",
-                },
-                {
-                    field: "Key_Date",
-                    title: "Date",
-                    template: '#= kendo.toString(kendo.parseDate(Key_Date), "dd/MM/yyyy")#'
-                }
-            ]
-        });
+        generateKeyDateGrid();
 
          $(".KeyContactDetailModalClose").click(function () {
              $("#H_Claimsid_KCD").val("");
@@ -176,6 +87,10 @@
              $('#Claim_Ref_No_KCD').val("@Model.Claim_Ref_No_KCD_Tab");
              $('#H_Claimsid_KCD').val("@Model.ClaimId_KCD_Tab");
          });
+
+         $('#grdKeyContacts').on('hidden.bs.modal', function () {
+             generateKeyContactsGrid();
+         })
 
     })
 
@@ -247,6 +162,102 @@
 
     function addNewContact() {
         $('#KeyContactDetailModal').modal('show');
+    }
+
+    function generateKeyContactsGrid() {
+         $("#grdKeyContacts").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxGetKeyContacts?claimId=" + "@Model.ClaimId_KCD_Tab",
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 20,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            selectable: "row",
+            //dataBound: onDataBound,
+            columns: [
+
+                //{
+                //    field: "H_Keycontactsid",
+                //    visible: false
+                //},
+                {
+                    field: "Description",
+                    title: "Description",
+                },
+                {
+                    field: "Account_Name",
+                    title: "Account",
+                    template: "<a href='/AccountList/AccountDetail?AccountId=#=Accountid#'>#= Account_Name #</a>"
+                    //template: '#= kendo.toString(kendo.parseDate(ServiceDate), "dd/MM/yyyy")#'
+                },
+                {
+                    field: "Contact_Name",
+                    title: "Contact",
+                    template: "<a href='/Contact/ContactDetail?ContactId=#=Contactid#'>#= Contact_Name #</a>"
+                },
+                {
+                    field: "Phone",
+                    title: "Phone"
+                },
+                {
+                    field: "Email_Address",
+                    title: "Email"
+                }
+            ]
+        });
+    }
+
+    function generateKeyDateGrid() {
+        var ds = new kendo.data.DataSource({
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxGetKeyDates?claimId=" + "@Model.ClaimId_KCD_Tab",
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+        });
+
+         $("#grdKeyDates").kendoGrid({
+             dataSource: ds,
+            filterable: true,
+            pageSize: 20,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            selectable: "row",
+            //dataBound: onDataBound,
+            columns: [
+
+                {
+                    field: "Seq",
+                    title: "Seq",
+                },
+                {
+                    field: "Key_Date_Description",
+                    title: "Description",
+                },
+                {
+                    field: "Key_Date",
+                    title: "Date",
+                    template: '#= kendo.toString(kendo.parseDate(Key_Date), "dd/MM/yyyy")#'
+                }
+            ]
+        });
     }
 
 </script>
