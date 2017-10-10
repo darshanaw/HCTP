@@ -181,8 +181,13 @@ namespace HonanClaimsPortal.Controllers
             var model = new BillingModel();
             if (BillingId == null)
             {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string UserId = client.UserId;
+
                 model.IsNew = true;
                 model.Is_Billable = true;
+                model.Service_By = UserId;
+                model.Service_By_Name = client.FirstName + " " + client.LastName;
                 return PartialView(model);
             }
             model.IsNew = false;
@@ -201,8 +206,13 @@ namespace HonanClaimsPortal.Controllers
             var model = new BillingModel();
             if (BillingId == null || BillingId == "null" || BillingId == "undefined" || BillingId == "")
             {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string UserId = client.UserId;
+
                 model.IsNew = true;
                 model.Is_Billable = true;
+                model.Service_By = UserId;
+                model.Service_By_Name = client.FirstName + " " + client.LastName;
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
             model.IsNew = false;
