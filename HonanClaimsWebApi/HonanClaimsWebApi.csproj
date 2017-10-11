@@ -111,6 +111,7 @@
     <Compile Include="Models\Contact\ContactAccountRepo.cs" />
     <Compile Include="Models\Contact\ContactModel.cs" />
     <Compile Include="Models\Contact\ContactRepo.cs" />
+    <Compile Include="Models\CurrentLoggedUserModel.cs" />
     <Compile Include="Models\ExecutionResult.cs" />
     <Compile Include="Models\LookupModel\CRMContactSimple.cs" />
     <Compile Include="Models\LookupModel\CRMOCNumSimple.cs" />
