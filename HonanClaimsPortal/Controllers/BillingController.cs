@@ -244,18 +244,23 @@ namespace HonanClaimsPortal.Controllers
                     var result = billingRepo.TeamInsertTimeslip(model, client.UserId).Result;
                     if (result)
                     {
-                        return PartialView(model);
+                        return RedirectToAction("MyBillableTime", "Billing");
                     }
-                    return PartialView(model);
+                    return RedirectToAction("MyBillableTime", "Billing");
                 }
                 else
                 {
                     var result = billingRepo.TeamUpdateTimeslip(model, client.UserId).Result;
                     if (result)
                     {
-                        return PartialView(model);
+                        //if (Request.IsAjaxRequest())
+                        //return PartialView("_TimeslipDetail", model);
+                        //return View(model);
+                        //return Json(new { error = true, message = RenderViewToString(PartialView("_TimeslipDetail", model)) });
+                        //return PartialView(model);
+                        return RedirectToAction("MyBillableTime", "Billing");
                     }
-                    return PartialView(model);
+                    return RedirectToAction("MyBillableTime", "Billing");
                 }
             }
             catch (Exception ex)

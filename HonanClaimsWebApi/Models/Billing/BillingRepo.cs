@@ -201,7 +201,7 @@ namespace HonanClaimsWebApi.Models.Billing
 
                     formData.Add(content, "billing");
                     formData.Add(content2, "userId");
-                    HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+                    HttpResponseMessage response =  client.PostAsync(apiUrl, formData).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         var data = await response.Content.ReadAsStringAsync();
@@ -241,40 +241,47 @@ namespace HonanClaimsWebApi.Models.Billing
         //    }
         //}
 
-        public async Task<bool> TeamUpdateTimeslip(BillingModel model, string UserId)
+
+        public async Task<bool> TeamUpdateTimeslip(BillingModel model, string userId)
         {
-            var result = false;
-            var templist = new List<string>();
-
-            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-
-            string apiUrl = SiteUrl + "api/Billing/TeamUpdateBilling";
-            using (HttpClient client = new HttpClient())
+            try
             {
-                using (var formData = new MultipartFormDataContent())
+                var result = false;
+                var templist = new List<string>();
+
+                string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+                string apiUrl = SiteUrl + "api/Billing/TeamUpdateBilling";
+                using (HttpClient client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(apiUrl);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-
-                    var toList = JsonConvert.SerializeObject(model);
-                    var userId = JsonConvert.SerializeObject(UserId);
-
-                    var content = new StringContent(toList, System.Text.Encoding.UTF8, "application/json");
-                    var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
-
-                    formData.Add(content, "billing");
-                    formData.Add(content2, "userId");
-                    HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
-                    if (response.IsSuccessStatusCode)
+                    using (var formData = new MultipartFormDataContent())
                     {
-                        var data = await response.Content.ReadAsStringAsync();
-                        result = Convert.ToBoolean(data);
+                        client.BaseAddress = new Uri(apiUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                   
+                        var billing = JsonConvert.SerializeObject(model);
+                        var jsonuserId = JsonConvert.SerializeObject(userId);
+                        var content = new StringContent(billing, System.Text.Encoding.UTF8, "application/json");
+                        var content2 = new StringContent(jsonuserId, System.Text.Encoding.UTF8, "application/json");
+
+                        formData.Add(content, "billing");
+                        formData.Add(content2, "userId");
+                        HttpResponseMessage response =  client.PostAsync(apiUrl, formData).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var data = await response.Content.ReadAsStringAsync();
+                            result = Convert.ToBoolean(data);
+                        }
                     }
                 }
+                return result;
             }
-            return result;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }          
         }
     }
 }
