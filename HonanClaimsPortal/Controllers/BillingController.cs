@@ -232,10 +232,10 @@ namespace HonanClaimsPortal.Controllers
         {
             try
             {
-                if(model.H_Billingsid==null)
-                {
-                    return PartialView(model);
-                }
+                //if(model.H_Billingsid==null)
+                //{
+                //    return PartialView(model);
+                //}
                 BillingRepo billingRepo = new BillingRepo();
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 if (model.IsNew)
