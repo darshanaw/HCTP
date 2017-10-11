@@ -1,5 +1,6 @@
 ﻿using HonanClaimsPortal.Helpers;
 using HonanClaimsPortal.Models.LookupModel;
+using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApiAccess1.LoginServices;
@@ -261,6 +262,17 @@ namespace HonanClaimsPortal.Controllers
             {
                 throw ex;
             }          
+        }
+
+
+        public async Task<ActionResult> GetCurrentUser()
+        {
+            var model = new CurrentLoggedUserModel();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+            model.Name = client.FirstName + "" + client.LastName;
+            model.Date = DateTime.Now;
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

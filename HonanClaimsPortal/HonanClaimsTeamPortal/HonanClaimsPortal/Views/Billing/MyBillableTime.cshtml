@@ -296,10 +296,13 @@
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
 
-
-                var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
-                var month = Checked_Date.getMonth() + 1;
-                var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+                if (result.Checked_Date != null)
+                {
+                    var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
+                    var month = Checked_Date.getMonth() + 1;
+                    var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+                }
+               
 
 
 
