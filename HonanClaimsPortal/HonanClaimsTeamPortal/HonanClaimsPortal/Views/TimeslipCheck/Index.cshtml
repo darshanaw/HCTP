@@ -388,6 +388,27 @@
         });
     }
 
+    function clearTextFileds() {
+        $('#InnerModeL_H_Billingsid').val('');
+        $('#InnerModeL_Service_By').val('');
+        $('#InnerModeL_Is_Billable').val('');
+        $('#InnerModeL_H_Claimsid').val('');
+        if (data.Is_Billable) { $('#InnerModeL_Is_Billable').prop("checked", true); } else { $('#InnerModeL_Is_Billable').prop("checked", false); }
+        $('#InnerModeL_Rate').val('');
+        $('#InnerModeL_Claim_No').val('');
+        if (data.Service_Date != null && data.Service_Date != "") {
+            $("#InnerModeL_Service_Date").val('');
+        }
+
+        $('#InnerModeL_Start_Time_HH').val('');
+        $('#InnerModeL_Start_Time_MM').val('');
+        $('#InnerModeL_End_Time_HH').val('');
+        $('#InnerModeL_End_Time_MM').val('');
+
+        $('#InnerModeL_Qty_Mins').val('');
+        $('#InnerModeL_Billable').val('');
+    }
+
     $('#Markaschecked').click(function () {
         var id = $('#InnerModeL_H_Billingsid').val();
         var Claimid = $('#InnerModeL_H_Claimsid').val();
@@ -398,31 +419,46 @@
         var endTimeHH = $('#InnerModeL_End_Time_HH').val();
         var endTimeMM = $('#InnerModeL_End_Time_MM').val();
 
-        //if (id != null && id != "" && Claimid != null && Claimid != "") {
 
-            var ids="";
+        var ids = "";
+        var count = 0;
             var grid = $("#grid1").data("kendoGrid");
             grid.select().each(function () {
                 var dataItem = grid.dataItem($(this));
-                ids = dataItem.BillingId+","+ids;
+                ids = dataItem.BillingId + "," + ids;
+                count = count + 1;
             });
-
-            $.get("/TimeslipCheck/MarkAsCheckedPost?billingIds=" + ids, function (data) {
-
-                if (data == false) {
-                    bootbox.alert("Error in Updating mark as checked");
-                } else {
-                    $("#grid1").data("kendoGrid").dataSource.read();
-                    bootbox.alert("mark as checked");                   
+            if (count == 1) {
+                if (id != null && id != "" && Claimid != null && Claimid != "") {
+                    $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId, function (data) {
+                        if (data == false) {
+                            bootbox.alert("Error in Updating mark as checked");
+                        } else {
+                            $("#grid1").data("kendoGrid").dataSource.read();
+                            bootbox.alert("mark as checked");
+                            clearTextFileds();
+                        }
+                    });
                 }
-            });
+            }
+            else {
+                $.get("/TimeslipCheck/MarkAsCheckedPost?billingIds=" + ids, function (data) {
+                    if (data == false) {
+                        bootbox.alert("Error in Updating mark as checked");
+                    } else {
+                        $("#grid1").data("kendoGrid").dataSource.read();
+                        bootbox.alert("mark as checked");
+                    }
+                });
+            }
+
        // }
     })
 
 
     $('#nonbillable').click(function () {
         var id = $('#InnerModeL_H_Billingsid').val();
-        var Claimid = $('#InnerModeL_H_Claimsid').val();
+        var claimId = $('#InnerModeL_H_Claimsid').val();
         var serviceDate = $('#InnerModeL_Service_Date').val();
 
         var startTimeHH = $('#InnerModeL_Start_Time_HH').val();
@@ -431,14 +467,29 @@
         var endTimeMM = $('#InnerModeL_End_Time_MM').val();
 
         var ids = "";
+        var count = 0;
         var grid = $("#grid1").data("kendoGrid");
         grid.select().each(function () {
             var dataItem = grid.dataItem($(this));
             ids = dataItem.BillingId + "," + ids;
+            count = count + 1;
         });
 
-       // if (id != null && id != "" && Claimid != null && Claimid != "") {
-        $.get("/TimeslipCheck/MarkAsNonBillablePost?billingIds=" + ids, function (data) {
+        if (count == 1) {
+            if (id != null && id != "" && Claimid != null && Claimid != "") {
+                $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId, function (data) {
+                    if (data == false) {
+                        bootbox.alert("Error in Updating mark as checked");
+                    } else {
+                        $("#grid1").data("kendoGrid").dataSource.read();
+                        bootbox.alert("mark as checked");
+                        clearTextFileds();
+                    }
+                });
+            }
+        }
+        else {
+            $.get("/TimeslipCheck/MarkAsNonBillablePost?billingIds=" + ids, function (data) {
 
                 if (data == false) {
                     bootbox.alert("Error in Updating Non billable");
@@ -447,7 +498,7 @@
                     bootbox.alert("mark as Non Billable");
                 }
             });
-        //}
+        }
     })
 
     $('#skipnext').click(function () {
