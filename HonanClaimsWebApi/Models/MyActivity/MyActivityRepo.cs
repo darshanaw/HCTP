@@ -126,5 +126,49 @@ namespace HonanClaimsWebApi.Models.MyActivity
             }
             return newlist;
         }
+
+        public async Task<bool> UpdateDuedate(string activityId, string userId, string datetime)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Activity/UpdateDueDate?activityTaskId=" + activityId + "&userId=" + userId + "&dueDate=" + datetime;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    return Convert.ToBoolean(data);
+
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateAsComplete(string activityId, string action, string claimId, string userId)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Activity/CompleteActivityTask?activityTaskId=" + activityId + "&action=" + action.ToString() + "&claimId=" + claimId + "&userId=" + userId;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    return Convert.ToBoolean(data);
+
+                }
+            }
+
+            return false;
+        }
     }
 }

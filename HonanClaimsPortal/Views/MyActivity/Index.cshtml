@@ -69,12 +69,12 @@
                         new SelectList(Model.Activityusers, "Code", "Text"),
                         "--Select--",
                         new { @class = "form-control", @onchange = "comboChange()" })
-                            }
-                            else
-                            {
-                                <select disabled class="form-control" id="Activityusers"></select>
-                            }
                         }
+                        else
+                        {
+                            <select disabled class="form-control" id="Activityusers"></select>
+                        }
+                    }
                 </div>
             </div>
             <div class="cust-search">
@@ -105,6 +105,28 @@
     });
 
     function loadactivity() {
+
+        var customDateEditor = function (container, options) {
+            $('<input />')
+                .appendTo(container)
+                .kendoDatePicker({
+                    format: "dd/MMM/yyyy",
+                    change: function () {
+                        var value = this.value();
+                        console.log(value); //value is the selected date in the datepicker
+                        var dataItem = null
+                        var grid = $("#grid").data("kendoGrid");
+                        grid.select().each(function () {
+                            dataItem = grid.dataItem($(this));
+                        });
+
+                        if (dataItem != null && value != null) {
+                            callDueDateEdit(dataItem.ActivityTaskId, value);
+                        }
+
+                    }
+                });
+        };
 
         var overdue = true;
         var nextfiveday = false;
@@ -140,19 +162,37 @@
                 transport: {
                     read: "/MyActivity/GetMyActivity?overdue=" + overdue + "&nextfiveday=" + nextfiveday + "&showwithdate=" + showwithdate + "&claimId=" + claimId + "&owner=" + owner + "&customerId=" + customerId + "&searchtext=" + search + "&assignId=" + assignId
                 },
+                schema: {
+                    model: {
+                        id: "ActivityTaskId",
+                        fields: {
+                            ClaimRefNo: { editable: false },
+                            Customer: { editable: false },
+                            Seq: { editable: false },
+                            Stage: { editable: false },
+                            Action: { editable: false },
+                            Owner: { editable: false },
+                            Contact: { editable: false },
+                            SLADays: { editable: false },
+                            Complete: { editable: false }
+                        }
+                    }
+                }
                 //pageSize: 10,
                 //serverPaging: false,
             },
-            filterable: true,         
+            filterable: true,
             serverPaging: false,
             navigatable: true,
             height: 550,
             sortable: true,
-            //pageable: true,
+            editable: true,
+            selectable: "single",
             columns: [{
                 hidden: true,
                 field: "ActivityTaskId",
                 title: "ActivityTaskId"
+
             },
             {
                 field: "ClaimRefNo",
@@ -172,24 +212,80 @@
                 field: "Action",
                 title: "Action",
             },
-             {
-                 field: "Owner",
-                 title: "Owner",
-             },
-             {
-                 field: "Contact",
-                 title: "Contact",
-             },
-             {
-                 field: "SLADays",
-                 title: "SLA(Days)",
-             },
-             {
-                 field: "DueDate",
-                 title: "DueDate",
-                 template: "#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #"
-             }
-            ]
+            {
+                field: "Owner",
+                title: "Owner",
+            },
+            {
+                field: "Contact",
+                title: "Contact",
+            },
+            {
+                field: "SLADays",
+                title: "SLA(Days)",
+            },
+            {
+                field: "DueDate",
+                format: "dd/MMM/yyyy",
+                template: "#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                editor: customDateEditor
+            },
+            {
+                field: "Complete",
+                template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
+            },
+            ],
+            dataBound: function (e) {
+                // get the index of the UnitsInStock cell
+                var columns = e.sender.columns;
+                var columnIndex = this.wrapper.find(".k-grid-header [data-field=" + "ActivityTaskId" + "]").index();
+                var today = new Date().setHours(0, 0, 0, 0);
+                var todayminus = new Date().setDate(new Date().getDate() - 1);
+                // iterate the data items and apply row styles where necessary
+                var dataItems = e.sender.dataSource.view();
+                for (var j = 0; j < dataItems.length; j++) {
+
+                    var datecol = dataItems[j].get("DueDate");
+                    var compltecol = dataItems[j].get("Complete");
+                    var date = new Date(parseInt(datecol.substr(6))).setHours(0, 0, 0, 0);
+                    var rid = dataItems[j].uid;
+                    var row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']");
+                    if (today >= date && compltecol == false) {
+                        row.removeClass("Oneday");
+                        row.addClass("OverDue");
+                    }
+
+                    if (todayminus == date && compltecol == false) {
+                        row.removeClass("OverDue");
+                        row.addClass("Oneday");
+                    }
+                }
+            }
+        });
+
+        function callDueDateEdit(activityId, datetime) {
+
+            var month = datetime.getMonth() + 1;
+            var date = datetime.getDate();
+            var year = datetime.getFullYear();
+            var dateonly = date + "/" + month + "/" + year;
+
+            $.get("/MyActivity/UpdateDueDate?activityId=" + activityId + "&dateTime=" + dateonly, function (data) {
+                $('#grid').data('kendoGrid').dataSource.read();
+                $('#grid').data('kendoGrid').refresh();
+            });
+        }
+
+        
+
+        $("#grid .k-grid-content").on("change", "input.chkbx", function (e) {
+            var grid = $("#grid").data("kendoGrid"),
+                dataItem = grid.dataItem($(e.target).closest("tr"));
+            $.get("/MyActivity/UpdateasComplete?activityId=" + dataItem.ActivityTaskId + "&actionis=" + true + "&claimId=" + dataItem.ClaimId, function (data) {
+                $('#grid').data('kendoGrid').dataSource.read();
+                $('#grid').data('kendoGrid').refresh();
+            });
+
         });
     }
 
@@ -224,3 +320,12 @@
 
 
 </script>
+<style>
+    .OverDue {
+        background-color: #ff6699 !important;
+    }
+
+    .Oneday {
+        background-color: #ffcc99 !important;
+    }
+</style>

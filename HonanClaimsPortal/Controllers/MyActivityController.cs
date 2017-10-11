@@ -121,5 +121,25 @@ namespace HonanClaimsPortal.Controllers
             }
 
         }
+
+        [HttpGet]
+        public async Task<bool> UpdateDueDate(string activityId, string dateTime)
+        {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+
+            MyActivityRepo protalLoginAccountsRepo = new MyActivityRepo();
+            return await protalLoginAccountsRepo.UpdateDuedate(activityId, UserId, dateTime);
+        }
+
+        [HttpGet]
+        public async Task<bool> UpdateasComplete(string activityId, string actionis, string claimId)
+        {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+
+            MyActivityRepo protalLoginAccountsRepo = new MyActivityRepo();
+            return await protalLoginAccountsRepo.UpdateAsComplete(activityId, actionis, claimId, UserId);
+        }
     }
 }
