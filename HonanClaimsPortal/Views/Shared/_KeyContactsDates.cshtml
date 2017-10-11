@@ -55,9 +55,23 @@
                 @{Html.RenderAction("_KeyContactDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"], keyContactId = "" });}
 
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>*@
+        </div>
+    </div>
+</div>
+
+
+<!-- Key Date Modal -->
+<div id="KeyDateDetailModal" class="modal fade KeyDateDetailModal" role="dialog" data-backdrop="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Key Date Detail</h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderAction("_KeyDateDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"]});}
+
+            </div>
         </div>
     </div>
 </div>
@@ -95,9 +109,6 @@
 
     })
 
-    function addKeyDate() {
-        $("#grdKeyDates").data("kendoGrid").addRow();
-    }
 
     function removeKeyContact() {
         var grid = $("#grdKeyContacts").data("kendoGrid");
@@ -163,6 +174,31 @@
 
     function addNewContact() {
         $('#KeyContactDetailModal').modal('show');
+    }
+
+    function addKeyDate() {
+
+        $.ajax({
+            url: "/ClaimDetailTabs/AjaxGetKeyDateNextSequence?claimId=" + "@Model.ClaimId_KCD_Tab", success: function (result) {
+                $("#Seq_KCD_Date").val(result);
+                $("#MaxSeq").val(result);
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                $("#Key_Date").val(dd + '/' + mm + '/' + yyyy);
+            }
+        });
+        $('#H_Claimsid_KCD_Date').val("@Model.ClaimId_KCD_Tab");
+        $("#H_Keydatesid").val("");
+        $('#KeyDateDetailModal').modal('show');
     }
 
     function generateKeyContactsGrid() {
@@ -252,6 +288,7 @@
                 {
                     field: "Key_Date_Description",
                     title: "Description",
+                    template: "<a  href='javascript:void(0);' onclick=\"loadKeyDateDetail('#= H_Keydatesid #')\" '>#=Key_Date_Description#</a>"
                 },
                 {
                     field: "Key_Date",
@@ -281,6 +318,34 @@
                 $("#H_Keycontactsid").val(result.H_Keycontactsid);
 
                 $('#KeyContactDetailModal').modal('show');
+            }
+        });
+    }
+
+    function loadKeyDateDetail(keyDateId) {
+        $.ajax({
+            url: "/ClaimDetailTabs/GetKeyDateById?keyDateId=" + keyDateId, success: function (result) {
+
+                $("#H_Claimsid_KCD_Date").val(result.H_Claimsid);
+                $("#H_Keydatesid").val(result.H_Keydatesid);
+                $("#Seq_KCD_Date").val(result.Seq);
+                $("#Key_Date_Description").val(result.Key_Date_Description);
+
+                var dateString = result.Key_Date.substr(6);
+                var currentTime = new Date(parseInt(dateString));
+                var month = currentTime.getMonth() + 1;
+                var day = currentTime.getDate();
+                var year = currentTime.getFullYear();
+                var date = day + "/" + month + "/" + year;
+                $("#Key_Date").val(date);
+
+                $.ajax({
+                    url: "/ClaimDetailTabs/AjaxGetKeyDateNextSequence?claimId=" + "@Model.ClaimId_KCD_Tab", success: function (result) {
+                        $("#MaxSeq").val(result - 1);
+                    }
+                });
+
+                $('#KeyDateDetailModal').modal('show');
             }
         });
     }

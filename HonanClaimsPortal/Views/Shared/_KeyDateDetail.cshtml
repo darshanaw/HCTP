@@ -1,0 +1,104 @@
+﻿@model HonanClaimsWebApi.Models.Claim.KeyDate
+
+
+<!-- MOMENT JS-->
+<script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+<!-- DATETIMEPICKER-->
+<link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+<script>
+    $(function () {
+
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+    })
+</script>
+
+@using (Ajax.BeginForm("_KeyDateDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_KeyDate" }, new { @id = "frmKeyContactDetail", enctype = "multipart/form-data" }))
+{
+
+    @Html.HiddenFor(o => o.H_Claimsid, new { @id = "H_Claimsid_KCD_Date" })
+    @Html.HiddenFor(o => o.MaxSeq)
+    @Html.HiddenFor(o => o.H_Keydatesid)
+
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="form-group mb">
+                        <label class="col-sm-3 control-label input-sm">Seq</label>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(o => o.Seq, new { @id = "Seq_KCD_Date", @class = "form-control input-sm",@type="number" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group mb">
+                        <label class="col-sm-3 control-label input-sm">Description</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(model => model.Key_Date_Description, new SelectList(Model.Key_Date_Description_List, "Text", "Text"), "",
+          new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="form-group mb">
+                        <label class="col-sm-3 control-label input-sm">Date</label>
+                        <div class="col-sm-9">
+                            <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                @Html.TextBoxFor(o => o.Key_Date, new { @class = "form-control input-sm" })
+                                <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 top-padding-eight">
+                    <div class="text-right">
+                        <button type="button" onclick="CancelKCD_Date()" class="mb-sm btn btn-default">Discard Changes</button>
+                        <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    function GetResult_KeyDate(data) {
+        $("#H_Claimsid_KCD_Date").val("");
+        $("#Seq_KCD_Date").val("");
+        $("#Key_Date_Description").val("");
+        $("#Key_Date").val("");
+
+        $.LoadingOverlay("hide");
+        generateKeyDateGrid();
+
+        if ($('#KeyDateDetailModal').length > 0) {
+            $('#KeyDateDetailModal').modal('hide');
+        }
+    }
+
+    function CancelKCD_Date() {
+        $("#H_Claimsid_KCD_Date").val("");
+        $("#Seq_KCD_Date").val("");
+        $("#Key_Date_Description").val("");
+        $("#Key_Date").val("");
+        $('#KeyDateDetailModal').modal('hide');
+    }
+
+    $(document).ready(function () {
+        $("#Seq_KCD_Date").change(function () {
+            if ($("#Seq_KCD_Date").val() > $("#MaxSeq").val()) {
+                $("#Seq_KCD_Date").val($("#MaxSeq").val())
+            }
+        });
+
+    });
+</script>

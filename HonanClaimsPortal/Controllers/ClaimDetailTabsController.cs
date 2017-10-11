@@ -471,6 +471,61 @@ namespace HonanClaimsPortal.Controllers
             List<CRMPicklistItem> items = claimServices.GetClaimsForUser(login.UserId).Where(x => x.Text.Contains(claimNo)).ToList();
             return Json(items, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult _KeyDateDetail(string claimId)
+        {
+            KeyDate model = new KeyDate();
+            model.H_Claimsid = claimId;
+            pickListServices = new PicklistServicecs();
+            model.Key_Date_Description_List = pickListServices.GetPickListItems("Key Date Description");
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public async Task<ActionResult> _KeyDateDetail(KeyDate model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+                KeyContactDateServices service = new KeyContactDateServices();
+
+                bool result;
+
+                if (string.IsNullOrEmpty(model.H_Keydatesid))
+                    result = await service.InsertKeyDate(model, login.UserId);
+                else
+                    result = await service.UpdateKeyDate(model, login.UserId);
+
+                if (result)
+                    return Json("success", JsonRequestBehavior.AllowGet);
+
+            }
+            pickListServices = new PicklistServicecs();
+            model.Key_Date_Description_List = pickListServices.GetPickListItems("Key Date Description");
+
+            return PartialView(model);
+        }
+
+        public ActionResult AjaxGetKeyDateNextSequence(string claimId)
+        {
+            KeyContactDateServices service = new KeyContactDateServices();
+            return Json(service.GetKeyDateNextSequnce(claimId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetKeyDateById(string keyDateId)
+        {
+            KeyContactDateServices service = new KeyContactDateServices();
+            KeyDate model = service.GetKeyDate(keyDateId);
+
+            pickListServices = new PicklistServicecs();
+            model.Key_Date_Description_List = pickListServices.GetPickListItems("Key Date Description");
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
     }
 
 }
