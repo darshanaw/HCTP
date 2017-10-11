@@ -343,12 +343,12 @@
                 $.ajax({
                     url: "/Billing/GetCurrentUser", success: function (result) {
 
-                        var Checked_Date = new Date(parseInt(result.Date.substr(6)));
-                        var month = Checked_Date.getMonth() + 1;
-                        var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+                        var Invoice_Processed_Date = new Date(parseInt(result.Date.substr(6)));
+                        var month = Invoice_Processed_Date.getMonth() + 1;
+                        var rInvoice_Processed_Date = Invoice_Processed_Date.getDate() + "/" + month + "/" + Invoice_Processed_Date.getFullYear();
 
                         $("#Invoice_Processed_By").val(result.Name);
-                        $("#Invoice_Processed_Date").val(rChecked_Date);
+                        $("#Invoice_Processed_Date").val(rInvoice_Processed_Date);
 
                     }
                 });
@@ -356,6 +356,29 @@
             } else {
                 $("#Invoice_Processed_By").val('');
                 $("#Invoice_Processed_Date").val('');
+            }
+        });
+
+
+        $('#Timeslip_Checked').change(function () {
+            if (this.checked) {
+
+                $.ajax({
+                    url: "/Billing/GetCurrentUser", success: function (result) {
+
+                        var Checked_Date = new Date(parseInt(result.Date.substr(6)));
+                        var month = Checked_Date.getMonth() + 1;
+                        var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+
+                        $("#Checked_By").val(result.Name);
+                        $("#Checked_Date").val(rChecked_Date);
+
+                    }
+                });
+
+            } else {
+                $("#Checked_By").val('');
+                $("#Checked_Date").val('');
             }
         });
 
