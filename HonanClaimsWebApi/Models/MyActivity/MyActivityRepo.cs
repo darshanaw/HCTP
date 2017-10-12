@@ -129,8 +129,16 @@ namespace HonanClaimsWebApi.Models.MyActivity
 
         public async Task<bool> UpdateDuedate(string activityId, string userId, string datetime)
         {
+            
+            if (string.IsNullOrEmpty(datetime))
+            {
+                return false;
+            }
+            DateTime dudate = Convert.ToDateTime(datetime);
+
+
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/Activity/UpdateDueDate?activityTaskId=" + activityId + "&userId=" + userId + "&dueDate=" + datetime;
+            string apiUrl = SiteUrl + "api/Activity/UpdateDueDate?activityTaskId=" + activityId + "&userId=" + userId + "&dueDate=" + dudate;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);

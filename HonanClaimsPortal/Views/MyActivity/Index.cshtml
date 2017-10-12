@@ -234,13 +234,17 @@
                 field: "Complete",
                 template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
             },
+            {
+                field: "CompletedDate",
+                template: "#if(CompletedDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(CompletedDate), 'dd-MM-yyyy') #  #}#"
+            },
             ],
             dataBound: function (e) {
                 // get the index of the UnitsInStock cell
                 var columns = e.sender.columns;
                 var columnIndex = this.wrapper.find(".k-grid-header [data-field=" + "ActivityTaskId" + "]").index();
                 var today = new Date().setHours(0, 0, 0, 0);
-                var todayminus = new Date().setDate(new Date().getDate() - 1);
+                //var todayminus = new Date().setDate(new Date().getDate() - 1);
                 // iterate the data items and apply row styles where necessary
                 var dataItems = e.sender.dataSource.view();
                 for (var j = 0; j < dataItems.length; j++) {
@@ -248,6 +252,9 @@
                     var datecol = dataItems[j].get("DueDate");
                     var compltecol = dataItems[j].get("Complete");
                     var date = new Date(parseInt(datecol.substr(6))).setHours(0, 0, 0, 0);
+
+                    var dueminus = new Date(parseInt(datecol.substr(6))).setDate(-1);
+
                     var rid = dataItems[j].uid;
                     var row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']");
                     if (today >= date && compltecol == false) {
@@ -255,7 +262,17 @@
                         row.addClass("OverDue");
                     }
 
-                    if (todayminus == date && compltecol == false) {
+                    //var dayDiff = new Date(parseInt(datecol.substr(6))).getDate() - new Date().getDate();
+                    var dMonth = new Date(parseInt(datecol.substr(6))).getMonth() + 1;
+                    var dYear = new Date(parseInt(datecol.substr(6))).getFullYear();
+                    var dDay = new Date(parseInt(datecol.substr(6))).getDate();
+
+                    var cDay = new Date().getDate();
+                    var cMonth = new Date().getMonth() + 1;
+                    var cYear = new Date().getFullYear();
+                    var dif = dDay - cDay;
+
+                    if (dYear == cYear && dMonth == cMonth && dif == 1 && compltecol == false){
                         row.removeClass("OverDue");
                         row.addClass("Oneday");
                     }
@@ -268,7 +285,7 @@
             var month = datetime.getMonth() + 1;
             var date = datetime.getDate();
             var year = datetime.getFullYear();
-            var dateonly = date + "/" + month + "/" + year;
+            var dateonly = month + "/" + date + "/" + year;
 
             $.get("/MyActivity/UpdateDueDate?activityId=" + activityId + "&dateTime=" + dateonly, function (data) {
                 $('#grid').data('kendoGrid').dataSource.read();

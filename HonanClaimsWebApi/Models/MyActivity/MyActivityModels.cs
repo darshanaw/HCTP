@@ -21,6 +21,6 @@ namespace HonanClaimsWebApi.Models.MyActivity
         public int SLADays { get; set; }
         public bool Complete { get; set; }
         public DateTime DueDate { get; set; }
-
+        public DateTime? CompletedDate { get; set; }
     }
 }
