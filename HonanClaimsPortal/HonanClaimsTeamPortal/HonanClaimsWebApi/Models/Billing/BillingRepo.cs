@@ -183,7 +183,7 @@ namespace HonanClaimsWebApi.Models.Billing
 
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
 
-            string apiUrl = SiteUrl + "api/Billing/TeamInsertTimeslip";
+            string apiUrl = "http://localhost:7535/" + "api/Billing/TeamInsertTimeslip";
             using (HttpClient client = new HttpClient())
             {
                 using (var formData = new MultipartFormDataContent())
@@ -251,7 +251,7 @@ namespace HonanClaimsWebApi.Models.Billing
 
                 string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
 
-                string apiUrl = SiteUrl + "api/Billing/TeamUpdateBilling";
+                string apiUrl = "http://localhost:7535/" + "api/Billing/TeamUpdateBilling";
                 using (HttpClient client = new HttpClient())
                 {
                     using (var formData = new MultipartFormDataContent())
