@@ -269,23 +269,50 @@ namespace HonanClaimsPortal.Controllers
         {
             //ActivityTask model = new ActivityTask();
             pickListServices = new PicklistServicecs();
-            ViewData["OwnerType"] = pickListServices.GetPickListItems("Honan Task Owner Type");          
+            ViewData["OwnerType"] = pickListServices.GetPickListItems("Honan Task Owner Type");
+            ViewData["claimId"] = claimId;
 
             return PartialView();
         }
 
         public ActionResult _ActivityTaskDetail(string claimId)
         {
-            ActivityTask model = new ActivityTask();
+            claimServices = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            ActivityTaskDetail model = new ActivityTaskDetail();
             documentService = new DocumentService();
+            pickListServices = new PicklistServicecs();
+
+            ViewBag.OwnerType = pickListServices.GetPickListItems("Honan Task Owner Type");
+            ViewBag.CurrentUser = client.FirstName + " " + client.LastName;
+            ViewBag.CurrentUserId = client.UserId;
+            ViewBag.Sequence = documentService.GetActivitySequences(claimId, true)
+                 .Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() })
+                 .ToList();
+
+            ViewBag.Stage = documentService.GetStages();
+            model.H_Claimsid_Dtl = claimId;
+
             List<ActivityTask> activityTasks = new List<ActivityTask>();
             activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
+            ViewBag.MaxDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
+           
+            model.H_Claimsid_Dtl_List = claimServices.GetClaimsForUser(client.UserId);
 
-            ViewData["Sequence"] = activityTasks.Select(o => o.Seq_Act).Distinct();
-            ViewData["Stage"] = activityTasks.Select(o => o.Stage_Act).Distinct();
-            model.ClaimId_Act = claimId;
 
             return PartialView(model);
+        }
+
+        [HttpPost]
+        [AjaxOnly]
+        public ActionResult _ActivityTasksDetail(ActivityTaskDetail model)
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
+
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AjaxActivityTasksLoad(string claimId, string incompleteOnly, string completedOnly, string showOverDue, string owner)
@@ -293,9 +320,17 @@ namespace HonanClaimsPortal.Controllers
             documentService = new DocumentService();
             List<ActivityTask> activityTasks = new List<ActivityTask>();
             activityTasks = documentService.GetActivityTasks(claimId, incompleteOnly == "true" ? true : false, completedOnly == "true" ? true : false, showOverDue == "true" ? true : false, owner);
+            var maxDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
             return Json(activityTasks, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult AjaxActivityWorkFlowLoad(string claimId, int completingActionSeq)
+        {
+            documentService = new DocumentService();
+            List<ActivityTask> activityTasks = new List<ActivityTask>();
+            activityTasks = documentService.GetActivitiesForWorkFlow(claimId, completingActionSeq);
+            return Json(activityTasks, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult _PaymentDetail(string claimId, string Claim_Reference_Num)
         {
