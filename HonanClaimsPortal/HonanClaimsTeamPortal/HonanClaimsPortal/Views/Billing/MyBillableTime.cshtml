@@ -312,7 +312,14 @@
                     var month = Checked_Date.getMonth() + 1;
                     var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
                 }
-               
+
+
+                if (result.Service_Date == null)
+                {
+                    var ssDate = new Date();
+                    var dmonth = ssDate.getMonth() + 1;
+                    result.Service_Date = ssDate.getDate() + "/" + dmonth + "/" + ssDate.getFullYear();
+                }
                 debugger;
 
                 $("#H_Billingsid").val(result.H_Billingsid);

@@ -189,6 +189,7 @@ namespace HonanClaimsPortal.Controllers
                 model.Is_Billable = true;
                 model.Service_By = UserId;
                 model.Service_By_Name = client.FirstName + " " + client.LastName;
+                model.Service_Date = DateTime.Now.ToString();
                 return PartialView(model);
             }
             model.IsNew = false;
