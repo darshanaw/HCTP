@@ -85,9 +85,10 @@
 
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3">Start Time</label>
-                    <div class="col-md-4">
-                        <label>HH</label>
-                        <div>
+                    <div class="col-md-9">
+                        @*<label>HH</label>*@
+                        @Html.TextBoxFor(m=>m.Start_Time_MM)
+                        @*<div>
                             @Html.DropDownListFor(m => m.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                  SelectListItem
                        {
@@ -95,10 +96,10 @@
                            Value = i.ToString().PadLeft(2, '0')
                        }), "HH", new { @class = "form-control" })
                             @Html.ValidationMessageFor(o => o.Start_Time_HH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                        </div>
+                        </div>*@
                     </div>
 
-                    <div class="col-md-4">
+                    @*<div class="col-md-4">
                         <label>Min</label>
                         <div>
                             @Html.DropDownListFor(m => m.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
@@ -109,15 +110,16 @@
                        }), "MM", new { @class = "form-control" })
                             @Html.ValidationMessageFor(o => o.Start_Time_MM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                         </div>
-                    </div>
+                    </div>*@
                 </div>
 
 
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3">End Time</label>
                     <div class="col-md-4">
-                        <label>HH</label>
-                        <div>
+                        @*<label>HH</label>*@
+                        @Html.TextBoxFor(m => m.End_Time_HH)
+                        @*<div>
                             @Html.DropDownListFor(m => m.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                  SelectListItem
                        {
@@ -125,10 +127,10 @@
                            Value = i.ToString().PadLeft(2, '0')
                        }), "HH", new { @class = "form-control" })
                             @Html.ValidationMessageFor(o => o.End_Time_HH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                        </div>
+                        </div>*@
                     </div>
 
-                    <div class="col-md-4">
+                    @*<div class="col-md-4">
                         <label>Min</label>
                         <div>
                             @Html.DropDownListFor(m => m.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
@@ -139,7 +141,7 @@
                        }), "MM", new { @class = "form-control" })
                             @Html.ValidationMessageFor(o => o.End_Time_MM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                         </div>
-                    </div>
+                    </div>*@
                 </div> 
                 
                 <div class="form-group col-md-12 col-sm-12">
@@ -273,6 +275,158 @@
 
 
 <script>
+    $(document).ready(function () {
+        $("#Start_Time_MM").kendoTimePicker({
+            interval: 1,
+            change:onStartChange
+        });
+    });
+
+    function onStartChange(e){
+        var sDate = new Date(e.sender.value());
+        var SH = sDate.getHours();//parseInt($("#Start_Time_HH").val());
+        var SM = sDate.getMinutes();//parseInt($("#Start_Time_MM").val());
+
+        var datetimepicker = $("#End_Time_HH").data("kendoTimePicker");
+        var eDate = new Date(datetimepicker._value);
+        var EH = eDate.getHours();//parseInt($("#End_Time_HH").val());
+        var EM = eDate.getMinutes();//parseInt($("#End_Time_MM").val());
+
+        if (EH == EH) {
+            if (EM != 0 && SM > EM) {
+                bootbox.alert("Start time cannot be later than end time");
+                $("#Start_Time_MM").val(EM);
+                //$("#End_Time_MM").val(EM);
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
+                if (totalMi < 0) {
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+                //return false;
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+            }
+
+        } else {
+            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+            if (totalMi < 0) {
+                e.preventDefault;
+                return false;
+            }
+            var mode = totalMi % 6;
+            var Unit = 0;
+            if (mode <= 2) {
+                Unit = Math.floor(totalMi / 6);
+            } else {
+                Unit = Math.ceil(totalMi / 6);
+            }
+            $("#Units").val(Unit);
+            var RatePUNIT = $("#Rate_Per_Unit").val();
+            var val = (RatePUNIT * Unit).toFixed(2);
+            $("#Billable").val(val);
+        }
+    }
+
+    $(document).ready(function () {
+        $("#End_Time_HH").kendoTimePicker({
+            interval: 1,
+            change: onEndChange
+        });
+    });
+
+    function onEndChange(e) {
+
+        var datetimepicker = $("#Start_Time_MM").data("kendoTimePicker");
+        var sDate = new Date(datetimepicker._value);
+        var SH = sDate.getHours();//parseInt($("#Start_Time_HH").val());
+        var SM = sDate.getMinutes();//parseInt($("#Start_Time_MM").val());
+
+        var eDate = new Date(e.sender.value());
+        var EH = eDate.getHours();//parseInt($("#End_Time_HH").val());
+        var EM = eDate.getMinutes();//parseInt($("#End_Time_MM").val());
+
+        if (EH == EH) {
+            if (SM > EM) {
+                bootbox.alert("Start time cannot be later than end time");
+                $("#End_Time_MM").val(SM);
+                // return false;
+                var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+            }
+
+        } else {
+            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+            if (totalMi < 0) {
+                e.preventDefault;
+                return false;
+            }
+            var mode = totalMi % 6;
+            var Unit = 0;
+            if (mode <= 2) {
+                Unit = Math.floor(totalMi / 6);
+            } else {
+                Unit = Math.ceil(totalMi / 6);
+            }
+            $("#Units").val(Unit);
+            var RatePUNIT = $("#Rate_Per_Unit").val();
+            var val = (RatePUNIT * Unit).toFixed(2);
+            $("#Billable").val(val);
+        }
+    }
+
     $("#cancel").on("click", function () {
         $('#BillingDetailModal').modal('hide');
     });
@@ -393,130 +547,130 @@
             }
         });
 
-        $("#Start_Time_HH").change(function (e) {
-            var SH = parseInt($("#Start_Time_HH").val());
-            var SM = parseInt($("#Start_Time_MM").val());
-            var EH = parseInt($("#End_Time_HH").val());
-            var EM = parseInt($("#End_Time_MM").val());
+        //$("#Start_Time_HH").change(function (e) {
+        //    var SH = parseInt($("#Start_Time_HH").val());
+        //    var SM = parseInt($("#Start_Time_MM").val());
+        //    var EH = parseInt($("#End_Time_HH").val());
+        //    var EM = parseInt($("#End_Time_MM").val());
 
-            if (EH != 0 && SH > EH) {
-                bootbox.alert("Start time cannot be later than end time");
-                $("#Start_Time_HH").val("00");
-                return false;
-            } else {
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units").val(Unit);
-                var RatePUNIT = $("#Rate_Per_Unit").val();
-                var val = (RatePUNIT * Unit).toFixed(2);
-                $("#Billable").val(val);
+        //    if (EH != 0 && SH > EH) {
+        //        bootbox.alert("Start time cannot be later than end time");
+        //        $("#Start_Time_HH").val("00");
+        //        return false;
+        //    } else {
+        //        var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+        //        if (totalMi < 0) {
+        //            return false;
+        //        }
+        //        var mode = totalMi % 6;
+        //        var Unit = 0;
+        //        if (mode <= 2) {
+        //            Unit = Math.floor(totalMi / 6);
+        //        } else {
+        //            Unit = Math.ceil(totalMi / 6);
+        //        }
+        //        $("#Units").val(Unit);
+        //        var RatePUNIT = $("#Rate_Per_Unit").val();
+        //        var val = (RatePUNIT * Unit).toFixed(2);
+        //        $("#Billable").val(val);
 
-            }
-        });
+        //    }
+        //});
 
         $("#Start_Time_MM").change(function (e) {
-            var SH = parseInt($("#Start_Time_HH").val());
-            var SM = parseInt($("#Start_Time_MM").val());
-            var EH = parseInt($("#End_Time_HH").val());
-            var EM = parseInt($("#End_Time_MM").val());
+            //var SH = parseInt($("#Start_Time_HH").val());
+            //var SM = parseInt($("#Start_Time_MM").val());
+            //var EH = parseInt($("#End_Time_HH").val());
+            //var EM = parseInt($("#End_Time_MM").val());
 
-            if (EH == EH) {
-                if (EM != 0 && SM > EM) {
-                    bootbox.alert("Start time cannot be later than end time");
-                    $("#Start_Time_MM").val(EM);
-                    //$("#End_Time_MM").val(EM);
-                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
-                    if (totalMi < 0) {
-                        return false;
-                    }
-                    var mode = totalMi % 6;
-                    var Unit = 0;
-                    if (mode <= 2) {
-                        Unit = Math.floor(totalMi / 6);
-                    } else {
-                        Unit = Math.ceil(totalMi / 6);
-                    }
-                    $("#Units").val(Unit);
-                    var RatePUNIT = $("#Rate_Per_Unit").val();
-                    var val = (RatePUNIT * Unit).toFixed(2);
-                    $("#Billable").val(val);
-                    //return false;
-                } else {
-                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                    if (totalMi < 0) {
-                        return false;
-                    }
-                    var mode = totalMi % 6;
-                    var Unit = 0;
-                    if (mode <= 2) {
-                        Unit = Math.floor(totalMi / 6);
-                    } else {
-                        Unit = Math.ceil(totalMi / 6);
-                    }
-                    $("#Units").val(Unit);
-                    var RatePUNIT = $("#Rate_Per_Unit").val();
-                    var val = (RatePUNIT * Unit).toFixed(2);
-                    $("#Billable").val(val);
-                }
+            //if (EH == EH) {
+            //    if (EM != 0 && SM > EM) {
+            //        bootbox.alert("Start time cannot be later than end time");
+            //        $("#Start_Time_MM").val(EM);
+            //        //$("#End_Time_MM").val(EM);
+            //        var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
+            //        if (totalMi < 0) {
+            //            return false;
+            //        }
+            //        var mode = totalMi % 6;
+            //        var Unit = 0;
+            //        if (mode <= 2) {
+            //            Unit = Math.floor(totalMi / 6);
+            //        } else {
+            //            Unit = Math.ceil(totalMi / 6);
+            //        }
+            //        $("#Units").val(Unit);
+            //        var RatePUNIT = $("#Rate_Per_Unit").val();
+            //        var val = (RatePUNIT * Unit).toFixed(2);
+            //        $("#Billable").val(val);
+            //        //return false;
+            //    } else {
+            //        var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+            //        if (totalMi < 0) {
+            //            return false;
+            //        }
+            //        var mode = totalMi % 6;
+            //        var Unit = 0;
+            //        if (mode <= 2) {
+            //            Unit = Math.floor(totalMi / 6);
+            //        } else {
+            //            Unit = Math.ceil(totalMi / 6);
+            //        }
+            //        $("#Units").val(Unit);
+            //        var RatePUNIT = $("#Rate_Per_Unit").val();
+            //        var val = (RatePUNIT * Unit).toFixed(2);
+            //        $("#Billable").val(val);
+            //    }
 
-            } else {
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    e.preventDefault;
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units").val(Unit);
-                var RatePUNIT = $("#Rate_Per_Unit").val();
-                var val = (RatePUNIT * Unit).toFixed(2);
-                $("#Billable").val(val);
-            }
+            //} else {
+            //    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+            //    if (totalMi < 0) {
+            //        e.preventDefault;
+            //        return false;
+            //    }
+            //    var mode = totalMi % 6;
+            //    var Unit = 0;
+            //    if (mode <= 2) {
+            //        Unit = Math.floor(totalMi / 6);
+            //    } else {
+            //        Unit = Math.ceil(totalMi / 6);
+            //    }
+            //    $("#Units").val(Unit);
+            //    var RatePUNIT = $("#Rate_Per_Unit").val();
+            //    var val = (RatePUNIT * Unit).toFixed(2);
+            //    $("#Billable").val(val);
+            //}
         });
 
 
 
         $("#End_Time_HH").change(function (e) {
-            var SH = parseInt($("#Start_Time_HH").val());
-            var SM = parseInt($("#Start_Time_MM").val());
-            var EH = parseInt($("#End_Time_HH").val());
-            var EM = parseInt($("#End_Time_MM").val());
+            //var SH = parseInt($("#Start_Time_HH").val());
+            //var SM = parseInt($("#Start_Time_MM").val());
+            //var EH = parseInt($("#End_Time_HH").val());
+            //var EM = parseInt($("#End_Time_MM").val());
 
-            if (SH > EH) {
-                bootbox.alert("End time cannot be earlier than start time");
-                $("#End_Time_HH").val("00");
-                return false;
-            } else {
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units").val(Unit);
-                var RatePUNIT = $("#Rate_Per_Unit").val();
-                var val = (RatePUNIT * Unit).toFixed(2);
-                $("#Billable").val(val);
-            }
+            //if (SH > EH) {
+            //    bootbox.alert("End time cannot be earlier than start time");
+            //    $("#End_Time_HH").val("00");
+            //    return false;
+            //} else {
+            //    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+            //    if (totalMi < 0) {
+            //        return false;
+            //    }
+            //    var mode = totalMi % 6;
+            //    var Unit = 0;
+            //    if (mode <= 2) {
+            //        Unit = Math.floor(totalMi / 6);
+            //    } else {
+            //        Unit = Math.ceil(totalMi / 6);
+            //    }
+            //    $("#Units").val(Unit);
+            //    var RatePUNIT = $("#Rate_Per_Unit").val();
+            //    var val = (RatePUNIT * Unit).toFixed(2);
+            //    $("#Billable").val(val);
+            //}
         });
 
         $("#End_Time_MM").change(function (e) {
