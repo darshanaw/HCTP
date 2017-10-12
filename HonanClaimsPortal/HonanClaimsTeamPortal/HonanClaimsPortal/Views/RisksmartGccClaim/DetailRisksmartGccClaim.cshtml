@@ -1225,6 +1225,8 @@
 <script>
     $(document).ready(function () {
 
+        showBanner();
+
         $('#formRisksmartGccClaim').submit(function () {
             if ($(this).valid()) {
                 $.LoadingOverlay("show");
@@ -1435,6 +1437,66 @@
 
         $(window).off('beforeunload');
         window.location.href = '/ClaimList/Index';
+    }
+
+
+    function showBanner() {
+
+    }
+
+    window.onload = function () {
+          @{
+            bool showBanner = false;
+            if (string.IsNullOrEmpty(Model.Policy_No))
+            {
+                showBanner = true;
+            }
+            else if(string.IsNullOrEmpty(Model.Period_From) && string.IsNullOrEmpty(Model.Period_To))
+            {
+                showBanner = true;
+            }
+            else if(Model.Incident_Date != null && !(Model.Incident_Date >= DateTime.Parse(Model.Period_From) && Model.Incident_Date <= DateTime.Parse(Model.Period_To)))
+            {
+                showBanner = true;
+            }
+            else if(Model.Policy_Status != "Active")
+            {
+                showBanner = true;
+            }
+            else if (string.IsNullOrEmpty(Model.InsurerName))
+            {
+                showBanner = true;
+            }
+            else if (Model.Excess == 0)
+            {
+                showBanner = true;
+            }
+        }
+
+        if ("@showBanner" == "True") {
+            var dialog = bootbox.dialog({
+                title: 'A custom dialog with buttons and callbacks',
+                message: "<p>This dialog has buttons. Each button has it's own callback function.</p>",
+                buttons: {
+                    cancel: {
+                        label: "Hide & Never Show On This Claim",
+                        className: 'btn-info',
+                        callback: function () {
+                            alert("Hide Clicked");
+                        }
+                    },
+                    ok: {
+                        label: "Hide",
+                        className: 'btn-primary',
+                        callback: function () {
+                            alert("Ok Clicked");
+                        }
+                    }
+                }
+            });
+
+            dialog.show();
+        }
     }
 
 </script>

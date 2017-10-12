@@ -1204,6 +1204,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     <div class="tab-pane" id="tabActivityTasks">
     </div>
     <div class="tab-pane" id="tabKey_Contacts_Dates">
+        @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid, claimRefNo = Model.Claim_Reference_Num });}
     </div>
     <div class="tab-pane" id="tabAttachments">
         @Html.Partial("~/Views/Shared/_Attachments.cshtml", null)
