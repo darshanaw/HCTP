@@ -13,7 +13,7 @@ namespace HonanClaimsPortal.Controllers
 {
     public class ClaimGeneralController : Controller
     {
-        public ActionResult AjaxShowBanner(string claimId)
+        public ActionResult AjaxDoNotShowBanner(string claimId)
         {
             ClaimServices service = new ClaimServices();
             return Json(service.ShowClaimWarningBanner(claimId), JsonRequestBehavior.AllowGet);
