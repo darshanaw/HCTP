@@ -295,7 +295,7 @@
                     var End_Time = new Date(parseInt(result.End_Time.substr(6)));
                     var h = End_Time.getHours(), m = End_Time.getMinutes();
                     var _time = (h > 12) ? (h - 12 + ':' + m + ' PM') : (h + ':' + m + ' AM');
-                    result.End_Time = _time;
+                    result.sEnd_Time = _time;
                 }
 
 
@@ -303,7 +303,7 @@
                     var Start_Time = new Date(parseInt(result.Start_Time.substr(6)));
                     var h = Start_Time.getHours(), m = Start_Time.getMinutes();
                     var _time = (h > 12) ? (h - 12 + ':' + m + ' PM') : (h + ':' + m + ' AM');
-                    result.Start_Time = _time;
+                    result.sStart_Time = _time;
                 }
 
 
@@ -320,9 +320,9 @@
                 $("#ClientId").val(result.ClientId);
                 $("#Client_Name").val(result.Client_Name);
                 $("#Service_Date").val(result.Service_Date);
-                $("#Start_Time").val(result.Start_Time);
+                $("#sStart_Time").val(result.sStart_Time);
                 //$("#Start_Time_MM").val(result.Start_Time_MM);
-                $("#End_Time").val(result.End_Time);
+                $("#sEnd_Time").val(result.sEnd_Time);
                 //$("#End_Time_MM").val(result.End_Time_MM);
                 $("#Qty_Mins").val(result.Qty_Mins);
                 $("#Rate").val(result.Rate);
