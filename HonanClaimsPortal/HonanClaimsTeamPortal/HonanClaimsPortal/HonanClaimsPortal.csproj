@@ -1370,6 +1370,8 @@
     <Content Include="Views\Shared\_ActivityTasks.cshtml" />
     <Content Include="Views\Shared\_ActivityTaskDetail.cshtml" />
     <Content Include="Views\Shared\_KeyDateDetail.cshtml" />
+    <Content Include="Views\Shared\_ActivityTaskAccountLookUp.cshtml" />
+    <Content Include="Views\Shared\_ActivityTaskContactLookUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

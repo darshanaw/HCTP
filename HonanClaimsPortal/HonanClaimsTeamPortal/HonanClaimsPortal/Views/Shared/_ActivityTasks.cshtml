@@ -60,7 +60,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Activity Tasks Detail</h4>
             </div>
-            <div class="modal-body PaymentDetail_">
+            <div class="modal-body PaymentDetail_" style="height:500px">
                 @{Html.RenderAction("_ActivityTaskDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"] });}
 
             </div>
@@ -97,7 +97,6 @@
             sortable: true,
             //dataBound: onPaymentDataBound,
             columns: [
-
                 {
                     field: "Seq_Act",
                     title: "Seq"
@@ -150,6 +149,13 @@
             RefreshActivityTasksGrid();
 
         });
+
+        $("#btnActivityTasksAddNew").click(function () {
+
+            $('#ActivityTasksDetailModal').modal('show');
+
+        });
+
     });
 
     function RefreshActivityTasksGrid() {

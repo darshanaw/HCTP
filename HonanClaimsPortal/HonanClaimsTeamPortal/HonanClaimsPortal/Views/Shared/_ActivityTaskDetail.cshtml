@@ -1,1 +1,521 @@
 ﻿
+@model HonanClaimsWebApi.Models.Claim.ActivityTaskDetail
+
+
+<script>
+    $(function () {
+
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+    });
+
+
+    function GetResult_AT(data) {
+
+        if ($('#ActivityTasksDetailModal').length > 0) {
+            $('#ActivityTasksDetailModal').modal('hide');
+        }
+
+        $.LoadingOverlay("hide");
+        RefreshActivityTasksGrid();
+    }
+
+
+</script>
+
+<style>
+    #gridActivityWorkFlowNextSteps .k-grid-content.k-auto-scrollable {
+        height: 150px;
+    }
+</style>
+
+
+@using (Ajax.BeginForm("_ActivityTasksDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
+{
+
+    @Html.HiddenFor(o => o.H_Claimsid_Dtl)
+    @Html.HiddenFor(o => o.Owner_Company_Dtl)
+    @Html.HiddenFor(o => o.Owner_Contact_Dtl)
+
+    <div style="display:none" id="divFakeActivityTask"></div>
+
+    <div class="col-md-6">
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Seq</label>
+                <div class="col-sm-3">
+                    @{
+                        string selectedVal = "";
+                        var list = (List<System.Web.Mvc.SelectListItem>)ViewBag.Sequence;
+                    }
+
+                      
+                    @if (string.IsNullOrEmpty(Model.H_Activitytasksid_Dtl))
+                    {
+                        Model.Seq_Dtl = Convert.ToInt32(list.Last().Value.ToString());
+                    }
+
+                    @Html.DropDownListFor(model => model.Seq_Dtl, new SelectList(list, "Value", "Text",selectedVal), "",
+                   new { @class = "form-control input-sm" })
+                </div>
+                <label class="col-sm-1 control-label input-sm">Stage</label>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.Stage_Dtl, new SelectList(ViewBag.Stage, "Value", "Text"), "", new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Action</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Actionid_Dtl, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-4 control-label input-sm">Details</label>
+                <div class="col-sm-8 tabm">
+                    @Html.TextAreaFor(o => o.Details_Dtl, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-4 control-label input-sm">Owner Type</label>
+                <div class="col-sm-8 tabm">
+                    @Html.DropDownListFor(o => o.Owner_Dtl, new SelectList(ViewBag.OwnerType, "Text", "Text"), "", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Owner Account</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.Owner_Company_Name_Dtl, new { @class = "form-control input-sm", @maxlength = 100 })
+                        <span id="spnAccountNoModal_OwnerAccount" class="input-group-btn" data-toggle="modal" data-target="#AccountModal_ActivityTask">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Owner Contact</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.Owner_Contact_Name_Dtl, new { @class = "form-control input-sm", @maxlength = 100 })
+                        <span id="spnContactModal_ActivityTask" class="input-group-btn" data-toggle="modal" data-target="#ActivityTaskContactModal">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Phone</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Phone_Dtl, new { @class = "form-control input-sm", @maxlength = 100 })
+                </div>
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Email</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.Email_Dtl, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+
+                        <a id="aEmailClaimant_ActivityTask" class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-envelope"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">SLA (Days)</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm", @maxlength = 100, @type = "number" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="rowLastTask">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Last Task Completed</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Last_Task_Completed_Dtl, new { @class = "form-control input-sm disabled", @readonly = true, @maxlength = 100 })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">This Task Due Date</label>
+                <div class="col-sm-8">
+                    <div class="input-group date dateCalendar" style="width:100%">
+                        @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm"></label>
+                <div class="col-sm-8">
+                    <label class="col-sm-3 control-label input-sm">Completed</label>
+                    <div class="col-sm-1">
+                        @Html.CheckBoxFor(o => o.Completed_Dtl)
+                    </div>
+                    <label class="col-sm-3 control-label input-sm">Skipped</label>
+                    <div class="col-sm-1">
+                        @Html.CheckBoxFor(o => o.Skipped_Dtl)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Completed By</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Completed_By_Name_Dtl, new { @class = "form-control input-sm disabled", @readonly = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Completed Date</label>
+                <div class="col-sm-8">
+                    <div class="input-group date dateCalendar" style="width:100%">
+                        @Html.TextBoxFor(o => o.Completed_Date_Dtl, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Update Key Contacts</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(o => o.Update_Key_Contacts_Dtl)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">               
+                <label class="col-sm-4 control-label input-sm">Update Key Date</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(o => o.Update_Key_Date_Dtl)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Claim #</label>
+                <div class="col-sm-8">
+                    @if (string.IsNullOrEmpty(Model.H_Claimsid_Dtl))
+                    {
+                        @Html.DropDownListFor(model => model.H_Claimsid_Dtl, new SelectList(Model.H_Claimsid_Dtl_List, "Value", "Text"), "",
+                                        new { @class = "form-control input-sm" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(o => o.H_ClaimsRefid_Dtl, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12" style="padding-top:100px">
+        <div class="footer text-right">
+            <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
+            <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
+        </div>
+    </div>
+
+}
+
+
+
+<!-- Modal -->
+<div id="AccountModal_ActivityTask" class="modal fade AccountModal_ActivityTask" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close AccountModal_ActivityTask_Close">&times;</button>
+                <h4 class="modal-title">Owner Account</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_ActivityTaskAccountLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default AccountModal_ActivityTask_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="ActivityTaskContactModal" class="modal fade ActivityTaskContactModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ActivityTaskContactModal_Close">&times;</button>
+                <h4 class="modal-title">Owner Contact</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_ActivityTaskContactLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ActivityTaskContactModal_Close" id="ActivityTaskContactModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="ActivityWorkFlowModal" class="modal fade ActivityWorkFlowModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" style="width:850px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ActivityWorkFlowModal_Close">&times;</button>
+                <h4 class="modal-title">Activity Workflow Next Steps</h4>
+            </div>
+            <div class="modal-body">
+               <div id="gridActivityWorkFlowNextSteps"></div>
+                <br />
+                <div class="col-md-12" style="padding-right:0px;margin-right:0px">
+                    <div class="col-md-4"></div>
+                        <div class="col-md-3">Deadline for Selected Task</div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="txtWorkFlowCompletedDAte" disabled />
+                        </div>
+                        <div class="col-md-2" style="padding-right:0px;margin-right:0px">
+                            <input type="button" class="btn btn-primary pull-right" value="Complete" id="btnWorkFlowComplete" />
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ActivityWorkFlowModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    $(function () {
+
+       
+        $("#H_ClaimsRefid_Dtl").val($("#Claim_Reference_Num").val());
+
+        if (!$(this).is(":checked")) {
+
+            $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+            $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+        }
+
+        $('#aEmailClaimant_ActivityTask').click(function () {
+            this.href = "mailto:" + $('#Email_Dtl').val();
+        });
+
+        $(".AccountModal_ActivityTask_Close").click(function () {
+            $("#AccountModal_ActivityTask").modal("hide");
+        });
+        
+        $(".ActivityTaskContactModal_Close").click(function () {
+            $("#ActivityTaskContactModal").modal("hide");
+        });
+
+        $(".ActivityWorkFlowModal_Close").click(function () {
+            $("#ActivityWorkFlowModal").modal("hide");
+        });
+
+        $("#spnContactModal_ActivityTask").click(function () {
+            $('#tbContact_ActivityTask').DataTable().ajax.reload(null, false);
+        });
+
+        $("#Skipped_Dtl").change(function () {
+
+            if ($(this).is(":checked")) {
+
+                $("#Completed_Date_Dtl").val("");
+                $("#Completed_By_Dtl").val("");
+                $("#Completed_By_Name_Dtl").val('');
+                $("#Completed_Dtl").prop("checked", false);
+                $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+                $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+            }
+        });
+
+        $("#Completed_Dtl").change(function () {
+
+            if ($(this).is(":checked")) {
+
+                $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+                $("#Update_Key_Date_Dtl").prop("disabled", false);
+                $("#Completed_Date_Dtl").val('@DateTime.Now.ToString("dd/MM/yyyy")');
+                $("#Completed_By_Name_Dtl").val('@ViewBag.CurrentUser');
+                $("#Completed_By_Dtl").val('@ViewBag.CurrentUserId');
+                $("#Skipped_Dtl").prop("checked", false);
+                LoadgridActivityWorkFlowNextSteps(true);
+                
+            }
+            else {
+                $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+                $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+                $("#Completed_Date_Dtl").val("");
+                $("#Completed_By_Dtl").val("");
+                $("#Completed_By_Name_Dtl").val('');
+            }
+
+        });
+
+        $("#Seq_Dtl").change(function () {
+
+            if ($(this).val() == "1")
+            {
+                $("#Last_Task_Completed_Dtl").val("");
+                $("#rowLastTask").hide();
+            }
+            else
+            {
+                $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
+                $("#rowLastTask").show();
+            }
+        });
+
+        if ($("#Seq_Dtl").val() == "1")
+        {
+            $("#Last_Task_Completed_Dtl").val("");
+            $("#rowLastTask").hide();
+        }
+        else
+        {
+            $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
+            $("#rowLastTask").show();
+
+        }
+
+    });
+
+    
+    function LoadgridActivityWorkFlowNextSteps(showpopUp)
+    {
+        
+        $("#gridActivityWorkFlowNextSteps").kendoGrid({
+
+            dataSource: {
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + $("#Seq_Dtl").val(),
+                },
+                pageSize: 5,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            selectable: "row",
+            filterable: true,
+            pageSize: 5,
+            navigatable: true,
+            pageable: false,
+            scrollable: true,
+            sortable: true,
+            dataBound: function (data) {
+                var cnt = $('#gridActivityWorkFlowNextSteps').data('kendoGrid').dataSource.total();
+                if (cnt > 0 && showpopUp)
+                {
+                    $("#ActivityWorkFlowModal").modal("show");
+                }
+            },
+            change: function (e) {
+                var selectedRows = this.select();
+                var selectedDataItems = [];
+                for (var i = 0; i < selectedRows.length; i++) {
+                    var dataItem = this.dataItem(selectedRows[i]);
+                    console.log(dataItem);
+                    $("#txtWorkFlowCompletedDAte").val(dataItem.DueDate_Act);
+                }
+                // selectedDataItems contains all selected data items
+            },
+            columns: [
+                {
+                    field: "DueDate_Act",
+                    title: "DueDate_Act",
+                    hidden: true
+                },
+                {
+                    field: "Seq_Act",
+                    title: "Seq"
+                },
+                {
+                    field: "Stage_Act",
+                    title: "Stage"
+                },
+                {
+                    field: "Action_Act",
+                    title: "Action",
+                    template: "<div style='cursor: pointer;color:blue'>#= Action_Act #</div>"
+                },
+                {
+                    field: "Owner_Act",
+                    title: "Owner"
+                },
+                {
+                    field: "Contact_Act",
+                    title: "Contact"
+                },
+                {
+                    field: "SLADays_Act",
+                    title: "SLA (Days)"
+                }
+            ]
+        });
+
+        
+        
+    }
+
+</script>
+

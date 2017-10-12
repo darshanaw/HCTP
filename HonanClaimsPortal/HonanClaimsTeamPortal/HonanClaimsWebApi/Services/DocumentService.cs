@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
 namespace HonanClaimsWebApi.Services
@@ -54,6 +55,12 @@ namespace HonanClaimsWebApi.Services
         private const string param_completedOnly = "&completedOnly=";
         private const string param_showOverDue = "&showOverDue=";
         private const string param_owner = "&owner=";
+
+        private const string getSequense = "api/Activity/TeamGetActivitySequences?claimId=";
+        private const string param_state = "&isInsert=";
+
+        private const string getActivitiesForWorkFlow = "api/Activity/TeamGetActivitiesForWorkFlow?claimId=";
+        private const string param_completingActionSeq = "&completingActionSeq=";
 
         ExecutionResult exeReult;
 
@@ -438,6 +445,95 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
 
+        }
+        
+
+        public List<ActivityTask> GetActivitiesForWorkFlow(string claimId, int completingActionSeq)
+        {
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getActivitiesForWorkFlow + claimId + param_completingActionSeq + completingActionSeq);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<ActivityTask>>(response);
+                        }
+                    }
+                }
+
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        public List<int> GetActivitySequences(string claimId, bool isInsert)
+        {
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getSequense + claimId + param_state + isInsert);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<int>>(response);
+                        }
+                    }
+                }
+
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        public List<SelectListItem> GetStages()
+        {
+            return new List<SelectListItem>()
+            {
+                new SelectListItem() { Text = "Received", Value = "Received" },
+                new SelectListItem() { Text = "Acknowledged", Value = "Acknowledged" },
+                new SelectListItem() { Text = "Review", Value = "Review" },
+                new SelectListItem() { Text = "Settlement", Value = "Settlement" },
+                new SelectListItem() { Text = "Declined", Value = "Declined" },
+                new SelectListItem() { Text = "Approved", Value = "Approved" },
+                new SelectListItem() { Text = "Not Lodged", Value = "Not Lodged" },
+                new SelectListItem() { Text = "Lodged", Value = "Lodged" },
+                new SelectListItem() { Text = "Assessor Appointed", Value = "Assessor Appointed" },
+                new SelectListItem() { Text = "Expert Appointed", Value = "Expert Appointed" },
+                new SelectListItem() { Text = "Indemnity Granted", Value = "Indemnity Granted" },
+                new SelectListItem() { Text = "Partial Indemnity Granted", Value = "Partial Indemnity Granted" }
+
+            };
         }
 
     }
