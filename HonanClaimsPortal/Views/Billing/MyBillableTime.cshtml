@@ -257,7 +257,8 @@
            },
            {
                field: "ServiceDate",
-               title: "Service Date",
+               //title: "Service Date",
+               template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
 
            },
            {
