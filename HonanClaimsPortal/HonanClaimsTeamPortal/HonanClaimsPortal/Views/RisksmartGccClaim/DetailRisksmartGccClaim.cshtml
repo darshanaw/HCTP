@@ -1463,7 +1463,7 @@
             {
                 showBanner = true;
             }
-            else if (string.IsNullOrEmpty(Model.InsurerName))
+            else if (string.IsNullOrEmpty(Model.Insurer_Name))
             {
                 showBanner = true;
             }
@@ -1472,30 +1472,63 @@
                 showBanner = true;
             }
         }
-
         if ("@showBanner" == "True") {
-            var dialog = bootbox.dialog({
-                title: 'A custom dialog with buttons and callbacks',
-                message: "<p>This dialog has buttons. Each button has it's own callback function.</p>",
-                buttons: {
-                    cancel: {
-                        label: "Hide & Never Show On This Claim",
-                        className: 'btn-info',
-                        callback: function () {
-                            alert("Hide Clicked");
-                        }
-                    },
-                    ok: {
-                        label: "Hide",
-                        className: 'btn-primary',
-                        callback: function () {
-                            alert("Ok Clicked");
-                        }
+
+            $.ajax({
+                type: "POST",
+                url: "/ClaimGeneral/AjaxDoNotShowBanner",
+                data: '{claimId: "' + "@Model.H_Claimsid" + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response == false) {
+                        var dialog = bootbox.dialog({
+                            title: '<p class="text-center text-danger">Warning !!!</p>',
+                            message: "<p>There is one or more potential problems with the data in this claim. Please review the list below </p><br>" +
+                            "<p># Missing or Wrong Policy #</p> <p># Policy Period conflicts with this claim</p> <p># The Policy Status does not appear to be active</p>" +
+                            " <p># The Insurer is missing</p>",
+                            buttons: {
+                                cancel: {
+                                    label: "Hide & Never Show On This Claim",
+                                    className: 'btn-info',
+                                    callback: function () {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/ClaimGeneral/AjaxHideBanner",
+                                            data: '{claimId: "' + "@Model.H_Claimsid" + '" }',
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                            },
+                                            failure: function (response) {
+                                                bootbox.alert("Error Updating Notification Status");
+                                            },
+                                            error: function (response) {
+                                                bootbox.alert("Error Updating Notification Status");
+                                            }
+                                        });
+                                    }
+                                },
+                                ok: {
+                                    label: "Hide",
+                                    className: 'btn-primary',
+                                    callback: function () {
+                                    }
+                                }
+                            }
+                        });
+
+                        dialog.show();
                     }
+
+                },
+                failure: function (response) {
+                    bootbox.alert("Error Updating Notification Status");
+                },
+                error: function (response) {
+                    bootbox.alert("Error Updating Notification Status");
                 }
             });
-
-            dialog.show();
         }
     }
 
