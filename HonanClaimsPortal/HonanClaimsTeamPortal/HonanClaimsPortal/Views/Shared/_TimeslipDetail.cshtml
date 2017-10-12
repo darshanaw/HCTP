@@ -298,7 +298,9 @@
         if (EH == EH) {
             if (EM != 0 && SM > EM) {
                 bootbox.alert("Start time cannot be later than end time");
-                $("#sStart_Time").val(EM);
+                var h = eDate.getHours(), m = eDate.getMinutes();
+                var _time = (h > 12) ? (h - 12 + ':' + m + ' PM') : (h + ':' + m + ' AM');
+                $("#sStart_Time").val(_time);
                 //$("#End_Time_MM").val(EM);
                 var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
                 if (totalMi < 0) {
@@ -376,7 +378,10 @@
         if (EH == EH) {
             if (SM > EM) {
                 bootbox.alert("Start time cannot be later than end time");
-                $("#sEnd_Time").val(SM);
+
+                var h = sDate.getHours(), m = sDate.getMinutes();
+                var _time = (h > 12) ? (h - 12 + ':' + m + ' PM') : (h + ':' + m + ' AM');
+                $("#sEnd_Time").val(_time);
                 // return false;
                 var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
                 if (totalMi < 0) {
@@ -686,7 +691,7 @@
             if (EH == EH) {
                 if (SM > EM) {
                     bootbox.alert("Start time cannot be later than end time");
-                    $("#End_Time_MM").val(SM);
+                    $("#sEnd_Time").val(SM);
                     // return false;
                     var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
                     if (totalMi < 0) {
