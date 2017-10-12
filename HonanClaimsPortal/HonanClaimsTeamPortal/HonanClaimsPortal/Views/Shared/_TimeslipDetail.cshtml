@@ -902,10 +902,10 @@
             //get policy Id
             $.ajax({
                 url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid").val(),
-                success: function (data) {
+                success: function (result) {
                     debugger;
-                    $('#Policyid').val(dataItem.Code);
-                    $("#Policy_Name").val(dataItem.Text);
+                    $('#Policyid').val(result[0].Code);
+                    $("#Policy_Name").val(result[0].Text);
                 }
             });
 
