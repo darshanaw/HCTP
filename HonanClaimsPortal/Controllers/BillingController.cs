@@ -237,6 +237,17 @@ namespace HonanClaimsPortal.Controllers
                 //{
                 //    return PartialView(model);
                 //}
+
+                if(model.sStart_Time!=null)
+                {
+                    model.Start_Time = Convert.ToDateTime(model.sStart_Time);
+                }
+
+                if(model.sEnd_Time!=null)
+                {
+                    model.End_Time = Convert.ToDateTime(model.sEnd_Time);
+                }
+
                 BillingRepo billingRepo = new BillingRepo();
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 if (model.IsNew)

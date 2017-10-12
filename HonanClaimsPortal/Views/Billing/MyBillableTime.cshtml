@@ -316,6 +316,21 @@
                 }
                 debugger;
 
+                if (result.End_Time != null) {
+                    var End_Time = new Date(parseInt(result.End_Time.substr(6)));
+                    var h = End_Time.getHours(), m = End_Time.getMinutes();
+                    var _time = (h > 12) ? (h - 12 + ':' + m + ' PM') : (h + ':' + m + ' AM');
+                    result.sEnd_Time = _time;
+                }
+
+
+                if (result.Start_Time != null) {
+                    var Start_Time = new Date(parseInt(result.Start_Time.substr(6)));
+                    var h = Start_Time.getHours(), m = Start_Time.getMinutes();
+                    var _time = (h > 12) ? (h - 12 + ':' + m + ' PM') : (h + ':' + m + ' AM');
+                    result.sStart_Time = _time;
+                }
+
                 $("#H_Billingsid").val(result.H_Billingsid);
                 $("#H_Claimsid").val(result.H_Claimsid);
                 $("#Service_By").val(result.Service_By);
@@ -328,19 +343,38 @@
                 $("#ClientId").val(result.ClientId);
                 $("#Client_Name").val(result.Client_Name);
                 $("#Service_Date").val(result.Service_Date);
-                $("#Start_Time_HH").val(result.Start_Time_HH);
-                $("#Start_Time_MM").val(result.Start_Time_MM);
-                $("#End_Time_HH").val(result.End_Time_HH);
-                $("#End_Time_MM").val(result.End_Time_MM);
+                $("#sStart_Time").val(result.sStart_Time);
+                //$("#Start_Time_MM").val(result.Start_Time_MM);
+                $("#sEnd_Time").val(result.sEnd_Time);
+                //$("#End_Time_MM").val(result.End_Time_MM);
                 $("#Qty_Mins").val(result.Qty_Mins);
                 $("#Rate").val(result.Rate);
                 $("#Billable").val(result.Billable);
+
+
+                if (result.Timeslip_Checked) {
+                    $("#Timeslip_Checked").prop('checked', true);
+                } else {
+                    $("#Timeslip_Checked").prop('checked', false);
+                }
                 $("#Timeslip_Checked").val(result.Timeslip_Checked);
+
+
                 $("#Checked_By").val(result.Checked_By);
                 $("#Checked_Date").val(rChecked_Date);
+                $("#Checked_By_Name").val(result.Checked_By_Name);
+
+                if (result.Invoice_Processed) {
+                    $("#Invoice_Processed").prop('checked', true);
+                } else {
+                    $("#Invoice_Processed").prop('checked', false);
+                }
                 $("#Invoice_Processed").val(result.Invoice_Processed);
+
                 $("#Invoice_Processed_By").val(result.Invoice_Processed_By);
                 $("#Invoice_Processed_Date").val(result.Invoice_Processed_Date);
+                $("#Invoice_Processed_By_Name").val(result.Invoice_Processed_By_Name);
+
                 $("#Invoice_No").val(result.Invoice_No);
                 $("#Invoice_Date").val(result.Invoice_Date);
                 $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
@@ -350,6 +384,7 @@
                 $("#Quarter").val(result.Quarter);
                 $("#IsNew").val(result.IsNew);
                 $('#BillingDetailModal').modal('show');
+                debugger;
             }
         });
         $("#btnNewFileNote").click(function () {

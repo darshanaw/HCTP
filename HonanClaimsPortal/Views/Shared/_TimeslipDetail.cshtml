@@ -87,7 +87,7 @@
                     <label class="col-md-3">Start Time</label>
                     <div class="col-md-9">
                         @*<label>HH</label>*@
-                        @Html.TextBoxFor(m=>m.Start_Time_MM)
+                        @Html.TextBoxFor(m=>m.sStart_Time)
                         @*<div>
                             @Html.DropDownListFor(m => m.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                  SelectListItem
@@ -118,7 +118,7 @@
                     <label class="col-md-3">End Time</label>
                     <div class="col-md-4">
                         @*<label>HH</label>*@
-                        @Html.TextBoxFor(m => m.End_Time_HH)
+                        @Html.TextBoxFor(m => m.sEnd_Time)
                         @*<div>
                             @Html.DropDownListFor(m => m.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                  SelectListItem
@@ -182,7 +182,8 @@
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3"></label>
                     <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Checked_By, new { @readonly = true, @class = "form-control" })
+                        @Html.TextBoxFor(c => c.Checked_By_Name, new { @readonly = true, @class = "form-control" })
+                        @Html.HiddenFor(c=>c.Checked_By)
                     </div>
                 </div>
                 <div class="form-group col-md-12 col-sm-12">
@@ -201,7 +202,8 @@
                 <div class="form-group col-md-12 col-sm-12">
                     <label class="col-md-3"></label>
                     <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Invoice_Processed_By, new { @readonly = true, @class = "form-control" })
+                        @Html.TextBoxFor(c => c.Invoice_Processed_By_Name, new { @readonly = true, @class = "form-control" })
+                        @Html.HiddenFor(c=>c.Invoice_Processed_By)
                     </div>
                 </div>
                 <div class="form-group col-md-12 col-sm-12">
@@ -276,9 +278,10 @@
 
 <script>
     $(document).ready(function () {
-        $("#Start_Time_MM").kendoTimePicker({
+        $("#sStart_Time").kendoTimePicker({
             interval: 1,
-            change:onStartChange
+            change: onStartChange,
+            Format:("hh:mm tt")
         });
     });
 
@@ -287,7 +290,7 @@
         var SH = sDate.getHours();//parseInt($("#Start_Time_HH").val());
         var SM = sDate.getMinutes();//parseInt($("#Start_Time_MM").val());
 
-        var datetimepicker = $("#End_Time_HH").data("kendoTimePicker");
+        var datetimepicker = $("#sEnd_Time").data("kendoTimePicker");
         var eDate = new Date(datetimepicker._value);
         var EH = eDate.getHours();//parseInt($("#End_Time_HH").val());
         var EM = eDate.getMinutes();//parseInt($("#End_Time_MM").val());
@@ -295,7 +298,7 @@
         if (EH == EH) {
             if (EM != 0 && SM > EM) {
                 bootbox.alert("Start time cannot be later than end time");
-                $("#Start_Time_MM").val(EM);
+                $("#sStart_Time").val(EM);
                 //$("#End_Time_MM").val(EM);
                 var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
                 if (totalMi < 0) {
@@ -352,15 +355,16 @@
     }
 
     $(document).ready(function () {
-        $("#End_Time_HH").kendoTimePicker({
+        $("#sEnd_Time").kendoTimePicker({
             interval: 1,
-            change: onEndChange
+            change: onEndChange,
+            Format: ("hh:mm tt")
         });
     });
 
     function onEndChange(e) {
 
-        var datetimepicker = $("#Start_Time_MM").data("kendoTimePicker");
+        var datetimepicker = $("#sStart_Time").data("kendoTimePicker");
         var sDate = new Date(datetimepicker._value);
         var SH = sDate.getHours();//parseInt($("#Start_Time_HH").val());
         var SM = sDate.getMinutes();//parseInt($("#Start_Time_MM").val());
@@ -372,7 +376,7 @@
         if (EH == EH) {
             if (SM > EM) {
                 bootbox.alert("Start time cannot be later than end time");
-                $("#End_Time_MM").val(SM);
+                $("#sEnd_Time").val(SM);
                 // return false;
                 var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
                 if (totalMi < 0) {
@@ -501,14 +505,14 @@
                         var month = Invoice_Processed_Date.getMonth() + 1;
                         var rInvoice_Processed_Date = Invoice_Processed_Date.getDate() + "/" + month + "/" + Invoice_Processed_Date.getFullYear();
 
-                        $("#Invoice_Processed_By").val(result.Name);
+                        $("#Invoice_Processed_By_Name").val(result.Name);
                         $("#Invoice_Processed_Date").val(rInvoice_Processed_Date);
 
                     }
                 });
 
             } else {
-                $("#Invoice_Processed_By").val('');
+                $("#Invoice_Processed_By_Name").val('');
                 $("#Invoice_Processed_Date").val('');
             }
         });
@@ -524,14 +528,14 @@
                         var month = Checked_Date.getMonth() + 1;
                         var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
 
-                        $("#Checked_By").val(result.Name);
+                        $("#Checked_By_Name").val(result.Name);
                         $("#Checked_Date").val(rChecked_Date);
 
                     }
                 });
 
             } else {
-                $("#Checked_By").val('');
+                $("#Checked_By_Name").val('');
                 $("#Checked_Date").val('');
             }
         });

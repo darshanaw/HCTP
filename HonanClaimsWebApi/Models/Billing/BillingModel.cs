@@ -53,5 +53,14 @@ namespace HonanClaimsWebApi.Models.Billing
         
         public string Work_Done_Short { get; set; }
         public bool IsNew { get; set; }
+
+        public DateTime Start_Time { get; set; }
+        public DateTime End_Time { get; set; }
+
+        public string sStart_Time { get; set; }
+        public string sEnd_Time { get; set; }
+
+        public string Checked_By_Name { get; set; }
+        public string Invoice_Processed_By_Name { get; set; }
     }
 }
