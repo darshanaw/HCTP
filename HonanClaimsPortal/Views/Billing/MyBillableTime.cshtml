@@ -35,7 +35,8 @@
             </div>
             <div class="action-btn-3">
                 <div class="pull-right mt-25">
-                    <button id="addNew" type="button" class="btn btn-primary">Add New Billing Time</button>
+                    <button id="addNew" onclick="loadBillingDetail('')" type="button" class="btn btn-primary">Add New Billing Time</button>
+                    
                 </div>
             </div>
         </div>
@@ -203,9 +204,9 @@
         loadMyBill();
     });
 
-    $("#addNew").click(function () {
+    @*$("#addNew").click(function () {
         window.location.replace('@Url.Action("TimeslipDetail", "Billing", new { id = "" })');
-    });
+    });*@
 
     function loadMyBill() {
         var showMe = null;
@@ -303,9 +304,6 @@
                     var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
                 }
                
-
-
-
                 debugger;
 
                 $("#H_Billingsid").val(result.H_Billingsid);
