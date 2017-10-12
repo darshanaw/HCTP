@@ -378,6 +378,19 @@
                 $("#InnerModeL_Service_Date").val(data.Service_Date);
             }
 
+            if (data.Start_Time_HH == "1") {
+                data.Start_Time_HH = "01";
+            }
+            if (data.Start_Time_MM == "1") {
+                data.Start_Time_MM = "01";
+            }
+            if (data.End_Time_HH == "1") {
+                data.End_Time_HH = "01";
+            }
+            if (data.End_Time_MM == "1") {
+                data.End_Time_MM = "01";
+            }
+
             $('#InnerModeL_Start_Time_HH').val(data.Start_Time_HH);
             $('#InnerModeL_Start_Time_MM').val(data.Start_Time_MM);
             $('#InnerModeL_End_Time_HH').val(data.End_Time_HH);
@@ -411,7 +424,7 @@
 
     $('#Markaschecked').click(function () {
         var id = $('#InnerModeL_H_Billingsid').val();
-        var Claimid = $('#InnerModeL_H_Claimsid').val();
+        var claimId = $('#InnerModeL_H_Claimsid').val();
         var serviceDate = $('#InnerModeL_Service_Date').val();
 
         var startTimeHH = $('#InnerModeL_Start_Time_HH').val();
@@ -429,7 +442,7 @@
                 count = count + 1;
             });
             if (count == 1) {
-                if (id != null && id != "" && Claimid != null && Claimid != "") {
+                if (id != null && id != "" && claimId != null && claimId != "" && (startTimeHH != null && startTimeHH != "") && (startTimeMM != "" && startTimeMM != null) && (endTimeHH != "" && endTimeHH != null) && (endTimeMM != "" && endTimeMM != null)) {
                     $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId, function (data) {
                         if (data == false) {
                             bootbox.alert("Error in Updating mark as checked");
@@ -439,6 +452,9 @@
                             clearTextFileds();
                         }
                     });
+                }
+                else {
+                    bootbox.alert("Please fill all the data ");
                 }
             }
             else {
@@ -476,7 +492,7 @@
         });
 
         if (count == 1) {
-            if (id != null && id != "" && Claimid != null && Claimid != "") {
+            if (id != null && id != "" && claimId != null && claimId != "" && (startTimeHH != null && startTimeHH != "") && (startTimeMM != "" && startTimeMM != null) && (endTimeHH != "" && endTimeHH != null) && (endTimeMM != "" && endTimeMM != null)) {
                 $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId, function (data) {
                     if (data == false) {
                         bootbox.alert("Error in Updating mark as checked");
