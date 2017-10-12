@@ -406,18 +406,14 @@
         $('#InnerModeL_Service_By').val('');
         $('#InnerModeL_Is_Billable').val('');
         $('#InnerModeL_H_Claimsid').val('');
-        if (data.Is_Billable) { $('#InnerModeL_Is_Billable').prop("checked", true); } else { $('#InnerModeL_Is_Billable').prop("checked", false); }
+        $('#InnerModeL_Is_Billable').prop("checked", false);       
         $('#InnerModeL_Rate').val('');
         $('#InnerModeL_Claim_No').val('');
-        if (data.Service_Date != null && data.Service_Date != "") {
-            $("#InnerModeL_Service_Date").val('');
-        }
-
+        $("#InnerModeL_Service_Date").val('');      
         $('#InnerModeL_Start_Time_HH').val('');
         $('#InnerModeL_Start_Time_MM').val('');
         $('#InnerModeL_End_Time_HH').val('');
         $('#InnerModeL_End_Time_MM').val('');
-
         $('#InnerModeL_Qty_Mins').val('');
         $('#InnerModeL_Billable').val('');
     }
