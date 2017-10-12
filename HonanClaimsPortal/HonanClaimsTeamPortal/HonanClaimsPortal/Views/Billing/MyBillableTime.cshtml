@@ -257,17 +257,11 @@
            },
            {
                field: "ServiceDate",
-<<<<<<< .mine
                format: "dd/MMM/yyyy",
-               template: "#= kendo.toString(kendo.parseDate(ServiceDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+               //template: "#= kendo.toString(kendo.parseDate(ServiceDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
                title: "Service Date",
-||||||| .r683
-               title: "Service Date",
-=======
                //title: "Service Date",
                template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
->>>>>>> .r692
-
            },
            {
                field: "StartTime",

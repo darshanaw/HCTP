@@ -279,6 +279,18 @@
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
 
+                if (result.Checked_Date != null) {
+                    var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
+                    var month = Checked_Date.getMonth() + 1;
+                    var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+                }
+
+                if (result.Service_Date == null) {
+                    var ssDate = new Date();
+                    var dmonth = ssDate.getMonth() + 1;
+                    result.Service_Date = ssDate.getDate() + "/" + dmonth + "/" + ssDate.getFullYear();
+                }
+
                 $("#H_Billingsid").val(result.H_Billingsid);
                 $("#H_Claimsid").val(result.H_Claimsid);
                 $("#Service_By").val(result.Service_By);
