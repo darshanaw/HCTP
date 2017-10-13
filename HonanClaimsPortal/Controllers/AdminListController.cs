@@ -213,6 +213,20 @@ namespace HonanClaimsPortal.Controllers
             }
         }
 
+
+        
+       [HttpPost]
+        public async Task<ActionResult> UpdateAdminLogin(AdminLoginsModel model)
+        {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+
+            AdminLogindetailRepo loginrepo = new AdminLogindetailRepo();
+            var result = await loginrepo.UpdateAdminLoginRecord(model, UserId);
+            return Json(result, JsonRequestBehavior.AllowGet);
+            
+        }
+
         [HttpGet]
         public async Task<ActionResult> GetContactNames(string accountId)
         {

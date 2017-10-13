@@ -116,6 +116,36 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
             }
         }
 
+
+        public async Task<bool> UpdateAdminLoginRecord(AdminLoginsModel model, string userId)
+        {
+
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = string.Empty;
+            apiUrl = SiteUrl + "api/AccountAndReg/TeamUpdateCustomerPortalLogin";
+
+            using (var client = new HttpClient())
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    var jsonString = JsonConvert.SerializeObject(model);
+                    var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                    var content1 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+                    formData.Add(content, "portalLogin");
+                    formData.Add(content1, "userId");
+
+                    var result = await client.PostAsync(apiUrl, formData);
+                    string resultContent = await result.Content.ReadAsStringAsync();
+                    if(resultContent == "true")
+                    {
+                        return true;
+                    }
+                    return false;
+
+                }
+            }
+        }
+
         public async Task<List<ContactModel>> GetContactNames(string AccountId)
         {
             List<ContactModel> list = new List<ContactModel>();

@@ -231,7 +231,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" id="closeLoginDataModal">&times;</button>
                 <h4 class="modal-title">Login Detail</h4>
             </div>
 
@@ -239,7 +239,7 @@
                 <input id="portalLoginId" style="display:none" />
                 <input type="text" class="form-control" style="display:none" id="ContactId">
                 <div id="error" style="display:none;" class="alert alert-danger">
-                    <strong>Error</strong> <span id="Errormsg"></span>
+                    <strong></strong> <span id="Errormsg"></span>
                 </div>
                 <div class="form-group">
                     <input id="isactive" type="checkbox" checked value="">
@@ -260,15 +260,16 @@
                     <label>Password</label>
                     <input type="text" class="form-control" id="Password">
                 </div>
-                <a style="float:right;" id="GenaratePassword">Genarate Password</a>
+                <a href="" style="float:right;" id="GenaratePassword">Generate Password</a>
                 <div class="form-group">
                     <label>Email</label>
                     <input type="text" class="form-control" id="Email">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default mr-20" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default mr-20" id="closeLoginDataModalbtn">Cancel</button>
                 <button id="Addlogin" type="button" class="btn btn-primary">Save</button>
+                <button id="Updatelogin" type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>
@@ -368,8 +369,9 @@
                     field: "ContactName",
                     title: "Contact Name",
                 }, {
-                    field: "UserName",
+                    //field: "UserName",
                     title: "User Name",
+                    template: "<a href='javascript:void(0);' onclick=\"OpenLogingModel('#= H_PortalLoginId #','#= ActiveLogin #', '#= ContactName #', '#= Password #','#= H_PortalLoginId #', '#= UserName #', '#= Email #')\" '>#= UserName #</a>"
                 }, {
                     field: "Password",
                     title: "Password",
@@ -382,6 +384,26 @@
             });
         }
     });
+
+
+    function OpenLogingModel(H_PortalLoginId,ActiveLogin,ContactName,Password,H_PortalLoginId,UserName,Email){
+        $("#Addlogin").hide();
+        $("#Updatelogin").show();
+
+        var accId = $('#Account_Id').val();
+        LoadContacts(accId);
+        $("#products").val(ContactName);
+        $("#username").val(UserName);
+        $("#Password").val(Password);
+        $("#Email").val(Email);
+        $("#portalLoginId").val(H_PortalLoginId);
+        if(ActiveLogin=="T"){
+            $("#isactive").attr('checked',true);
+        }else{
+            $("#isactive").attr('checked',true);
+        }
+        $("#LoginDataModal").modal('show');
+    }
 
     $("#Accsearch").keyup(function () {
         var val = $('#Accsearch').val();
@@ -468,12 +490,79 @@
         if (accId == null || accId == "") { return; };
         LoadContacts(accId);
         $('#LoginDataModal').modal('show');
+        $("#Addlogin").show();
+        $("#Updatelogin").hide();
     })
+
+    $("#closeLoginDataModal,#closeLoginDataModalbtn").click(function(){
+        $("#products").val('');
+        $("#username").val('');
+        $("#Password").val('');
+        $("#Email").val('');
+        $("#isactive").attr('checked',true);
+        $("#LoginDataModal").modal('hide');
+        setError("", false);
+    });
 
     $('#GenaratePassword').click(function () {
         var random = Math.random().toString(36).substring(6);
         $('#Password').val(random);
     })
+
+
+    $("#Updatelogin").click(function(){
+        var loginNew = false;
+        var adminId = $("#H_Customerportaladminid").val();
+        if (adminId == null || adminId=="") {
+            setError("Please Add Admin record", true);
+            return;
+        }
+
+
+        if($('#username').val()==null ||$('#username').val()==""){
+            setError("User Name Mandatory",true);
+            return false;
+        }
+        if($("#Password").val()==null || $("#Password").val()==""){
+            setError("Password Mandatory",true);
+            return false;
+        }
+        if($("#Email").val()==null || $("#Email").val()==""){
+            setError("Email Mandatory",true);
+            return false;
+        }
+
+        setError("", false);
+        var portalId = $('#portalLoginId').val();
+        var model = {
+            H_PortalLoginId: portalId,
+            H_PortalLoginAdminId: adminId,
+            ActiveLogin: $('#isactive').val(),
+            ContactName: $('#ContactName').val(),
+            ContactId: $('#ContactId').val(),
+            UserName: $('#username').val(),
+            Password: $('#Password').val(),
+            Email: $('#Email').val(),
+            IsNew: loginNew
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/AdminList/UpdateAdminLogin",
+            data: model,
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: updating login detail", true);
+                } else {
+                    $('#loginGrid').data('kendoGrid').dataSource.read();
+                    $('#loginGrid').data('kendoGrid').refresh();
+                    setError("", false);
+                    $('#LoginDataModal').modal('hide');
+                }
+            }
+        });
+    });
+
 
     $('#Addlogin').click(function () {
         var loginNew = false;
@@ -481,6 +570,19 @@
         if (adminId == null || adminId=="") {
             setError("Please Add Admin record", true);
             return;
+        }
+
+        if($('#username').val()==null ||$('#username').val()==""){
+            setError("User Name Mandatory",true);
+            return false;
+        }
+        if($("#Password").val()==null || $("#Password").val()==""){
+            setError("Password Mandatory",true);
+            return false;
+        }
+        if($("#Email").val()==null || $("#Email").val()==""){
+            setError("Email Mandatory",true);
+            return false;
         }
 
         setError("", false);
@@ -506,7 +608,7 @@
             data: model,
             success: function (resultData) {
                 if (resultData == false) {
-                    setError("Error adding login detail", true);
+                    setError("Error: adding login detail", true);
                 } else {
                     $('#loginGrid').data('kendoGrid').dataSource.read();
                     $('#loginGrid').data('kendoGrid').refresh();
