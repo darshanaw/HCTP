@@ -19,128 +19,143 @@
 <link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="main-container">
-    <div class="row mt-20">
+
+
+
+<div class="content-wrapper">
+    <h3>
+        My Billable Time
+    </h3>
+
+    <div class="row mb">
         <div class="col-md-12">
-            <div class="cust-search-2 mt-10">
-                <h3 class="mt-20">My Billable Time</h3>
-            </div>
-            <div class="search-box-2">
-                <div class="form-group mb-0">
-                    <label for="sel1">Services User</label>
-                    @Html.DropDownListFor(m => m.ServicesUserModel,
+            <div class="col-md-4">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Service User</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ServicesUserModel,
                     new SelectList(Model.ServicesUserModel, "Code", "Text"),
-                    new { @class = "form-control", @onchange = "comboChange()" })
+                    new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                    </div>
                 </div>
             </div>
-            <div class="action-btn-3">
-                <div class="pull-right mt-25">
-                    <button id="addNew" onclick="loadBillingDetail('')" type="button" class="btn btn-primary">Add New Billing Time</button>
-                    
+            <div class="col-md-4">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Show Me</label>
+                    <div class="col-sm-8">
+                        @{
+                            List<SelectListItem> listItems = new List<SelectListItem>();
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Today",
+                                Value = "Today"
+                            });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "This Week",
+                                Value = "This Week",
+                            });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Last Week",
+                                Value = "Last Week",
+                            });
+
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "This Month",
+                                Value = "This Month"
+                            });
+
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "This Quarter",
+                                Value = "This Quarter"
+                            });
+
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Last Quarter",
+                                Value = "Last Quarter"
+                            });
+
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "This Year",
+                                Value = "This Year"
+                            });
+                        }
+                        @Html.DropDownListFor(model => model.ShowMe, listItems, "This Week", new { @class = "form-control", @onchange = "comboChange()" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Customer</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.CustomerUserModel,
+                    new SelectList(Model.CustomerUserModel, "Code", "Text"),
+
+                    new { @class = "form-control", @onchange = "comboChange()" })
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb">
         <div class="col-md-12">
-            <div class="cust-search-2">
-                <div class="form-group mb-0">
-                    @{
-                        List<SelectListItem> listItems = new List<SelectListItem>();
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Today",
-                            Value = "Today"
-                        });
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "This Week",
-                            Value = "This Week",
-                        });
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Last Week",
-                            Value = "Last Week",
-                        });
-
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "This Month",
-                            Value = "This Month"
-                        });
-
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "This Quarter",
-                            Value = "This Quarter"
-                        });
-
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Last Quarter",
-                            Value = "Last Quarter"
-                        });
-
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "This Year",
-                            Value = "This Year"
-                        });
-                    }
-                    <label for="Team">Show Me</label>
-                    @Html.DropDownListFor(model => model.ShowMe, listItems, "This Week", new { @class = "form-control", @onchange = "comboChange()" })
-                </div>
-            </div>
-            <div class="search-box-2">
-                <div class="form-group mb-0">
-                    <label>Services Date From</label>
-                    <div id="datetimepicker1" class="input-group">
-                        @Html.TextBoxFor(o => o.ServiceFromDate, new { @class = "form-control" })
-                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+            <div class="col-md-4">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Service Date From</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.ServiceFromDate, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
                     </div>
-                    @*@Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                 </div>
             </div>
-            <div class="action-btn-3">
-                <div class="pull-right mt-25">
+            <div class="col-md-4">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Service Date To</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.ServiceToDate, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Total Qty(Mins)</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.TotalQ, new { @class = "form-control input-sm", @readonly = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb">
+        <div class="col-md-12 text-right">
+            <div class="col-md-12 text-right">
+                <div class="col-md-12 text-right">
+                    <button id="addNew" onclick="loadBillingDetail('')" type="button" class="btn btn-primary mr-20">Add New Billing Time</button>
                     <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
                     <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row mb-15">
+    <div class="row mb top-padding-eight">
         <div class="col-md-12">
-            <div class="cust-search-2">
-                <div class="form-group mb-0">
-                    <label for="sel1">Customer</label>
-                    @Html.DropDownListFor(m => m.CustomerUserModel,
-                    new SelectList(Model.CustomerUserModel, "Code", "Text"),
-
-                    new { @class = "form-control", @onchange = "comboChange()" })
-                </div>
-            </div>
-            <div class="search-box-2">
-                <div class="form-group mb-0">
-                    <label>Services Date To</label>
-                    <div id="datetimepicker2" class="input-group">
-                        @Html.TextBoxFor(o => o.ServiceToDate, new { @class = "form-control input-sm" })
-                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                    </div>
-                    @*@Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                </div>
-            </div>
-            <div class="action-btn-3">
-                <div class="pull-right">
-                    <label>Total Qty(Mins)</label>
-                    @Html.TextBoxFor(m => m.TotalQ, new { @class = "form-control input-sm", @readonly = true })
-                </div>
-            </div>
+            <div id="grid"></div>
         </div>
     </div>
-
-    <div id="grid"></div>
 </div>
 
 <!-- Modal -->
@@ -164,24 +179,29 @@
 
 <script>
     $(document).ready(function () {
-        $('#datetimepicker1').datetimepicker({
+
+        $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
         });
 
-        $('#datetimepicker2').datetimepicker({
-            format: 'DD/MM/YYYY'
-        });
+        ////$('#datetimepicker1').datetimepicker({
+        ////    format: 'DD/MM/YYYY'
+        ////});
 
-        $("#datetimepicker1").on("dp.change", function (e) {
-            var tdate = $("#datetimepicker1").data().date;
-            $("#ServiceFromDate").val(tdate);
-        });
+        ////$('#datetimepicker2').datetimepicker({
+        ////    format: 'DD/MM/YYYY'
+        ////});
+
+        //$("#datetimepicker1").on("dp.change", function (e) {
+        //    var tdate = $("#datetimepicker1").data().date;
+        //    $("#ServiceFromDate").val(tdate);
+        //});
 
 
-        $("#datetimepicker2").on("dp.change", function (e) {
-            var tdate = $("#datetimepicker2").data().date;
-            $("#ServiceToDate").val(tdate);
-        });
+        //$("#datetimepicker2").on("dp.change", function (e) {
+        //    var tdate = $("#datetimepicker2").data().date;
+        //    $("#ServiceToDate").val(tdate);
+        //});
         $("#ShowMe").val("This Week");
         loadMyBill();
     });
