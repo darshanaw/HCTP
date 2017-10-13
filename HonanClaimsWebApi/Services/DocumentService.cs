@@ -65,6 +65,9 @@ namespace HonanClaimsWebApi.Services
         private const string insertActivityTask = "api/Activity/InsertActivityDetail";
         private const string updateActivityTask = "api/Activity/UpdtateActivityDetail";
 
+        private const string getGetActivityTaskDetailById = "api/Activity/TeamGetActivityTaskDetail?activityId=";
+        
+
         ExecutionResult exeReult;
 
         public bool CreateClaimAttachmentCustomerDoc(ClaimAttachmentSimple attachment, out string fileCreateId)
@@ -549,7 +552,7 @@ namespace HonanClaimsWebApi.Services
             {
                 string apiUrl = string.Empty;
 
-                if (isNew)
+                if (activityTask.IsNew)
                 {
                     apiUrl = ConfigurationManager.AppSettings["apiurl"] + insertActivityTask;
                 }
@@ -584,6 +587,41 @@ namespace HonanClaimsWebApi.Services
                 exeReult.IsFailure = true;
                 exeReult.IsSuccess = false;
 
+                throw e;
+            }
+
+        }
+
+      
+        public ActivityTaskDetail GetGetActivityTaskDetailById(string activityId)
+        {
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getGetActivityTaskDetailById + activityId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<ActivityTaskDetail>(response);
+                        }
+                    }
+                }
+
+
+                return null;
+            }
+            catch (Exception e)
+            {
                 throw e;
             }
 

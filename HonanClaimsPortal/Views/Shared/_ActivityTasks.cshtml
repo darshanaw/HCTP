@@ -74,7 +74,7 @@
     //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
     $(function () {
 
-
+        $("#IsNew").val("true");
 
         $("#gridActivityTasks").kendoGrid({
 
@@ -107,7 +107,8 @@
                 },
                 {
                     field: "Action_Act",
-                    title: "Action"
+                    title: "Action",
+                    template: "<a  href='javascript:void(0);' onclick=\"loadActivityTaskDetail('#= ActivityTaskId #')\" '>#=Action_Act#</a>"
                 },
                 {
                     field: "Owner_Act",
@@ -152,11 +153,30 @@
 
         $("#btnActivityTasksAddNew").click(function () {
 
+            refreshSequence();
+            clearActivityTaskDetails();
             $('#ActivityTasksDetailModal').modal('show');
 
         });
 
     });
+
+    function refreshSequence() {
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetSequencyList?claimId=" + $("#H_Claimsid").val() +"&isNew=true", success: function (result) {
+
+                var options = $("#Seq_Dtl");
+                options.empty();
+                options.append(new Option("", ""));
+                $.each(result, function () {
+                    options.append(new Option(this.Text, this.Value));
+                });
+
+                $("#Seq_Dtl option:last").prop("selected", "selected");
+            }
+        });
+    }
 
     function RefreshActivityTasksGrid() {
 
@@ -171,6 +191,46 @@
         $("#gridActivityTasks").data("kendoGrid").dataSource.read({
             incompleteOnly: incompleteOnly, completedOnly: completedOnly, showOverDue: showOverDue, owner: owner
         });
+    }
+
+    function loadActivityTaskDetail(activityId)
+    {
+        $("#H_Activitytasksid_Dtl").val(activityId);
+
+        clearActivityTaskDetails();
+        refreshSequence();
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetGetActivityTaskDetailById?activityId=" + activityId, success: function (result) {
+
+                $("#Seq_Dtl").val(result.Seq_Dtl);
+                $("#Stage_Dtl").val(result.Stage_Dtl);
+                $("#Actionid_Dtl").val(result.Actionid_Dtl);
+                $("#Details_Dtl").val(result.Details_Dtl);
+                $("#Owner_Dtl").val(result.Owner_Dtl);
+                $("#Owner_Company_Name_Dtl").val(result.Owner_Company_Name_Dtl);
+                $("#Owner_Company_Dtl").val(result.Owner_Company_Dtl);
+                $("#Owner_Contact_Name_Dtl").val(result.Owner_Contact_Name_Dtl);
+                $("#Owner_Contact_Dtl").val(result.Owner_Contact_Dtl);
+                $("#Phone_Dtl").val(result.Phone_Dtl);
+                $("#Email_Dtl").val(result.Email_Dtl);
+                $("#Sla_Days_Dtl").val(result.Sla_Days_Dtl);
+                $("#Last_Task_Completed_Dtl_String").val(result.Last_Task_Completed_Dtl_String);
+                $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate(result.Last_Task_Completed_Dtl), 'dd/MM/yyyy'));
+                $("#This_Task_Due_Date_Dtl").val(kendo.toString(kendo.parseDate(result.This_Task_Due_Date_Dtl), 'dd/MM/yyyy'));
+                $("#Completed_Dtl").prop("checked", result.Completed_Dtl);
+                $("#Skipped_Dtl").prop("checked", result.Skipped_Dtl);
+                $("#Completed_By_Name_Dtl").val(result.Completed_By_Name_Dtl);
+                $("#Completed_By_Dtl").val(result.Completed_By_Dtl);
+                $("#Completed_Date_Dtl").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
+                $("#dummyCompletedDate").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));             
+                $("#Update_Key_Contacts_Dtl").prop("checked", result.Update_Key_Contacts_Dtl);
+                $("#Update_Key_Date_Dtl").prop("checked", result.Update_Key_Date_Dtl);
+                $("#IsNew").val("false");
+            }
+        });
+
+        $('#ActivityTasksDetailModal').modal('show');
     }
 
 </script>

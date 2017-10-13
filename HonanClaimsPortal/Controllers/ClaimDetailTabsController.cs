@@ -296,7 +296,7 @@ namespace HonanClaimsPortal.Controllers
             List<ActivityTask> activityTasks = new List<ActivityTask>();
             activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
             ViewBag.MaxDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
-            model.Last_Task_Completed_Dtl_String = ViewBag.MaxDate;
+            model.Last_Task_Completed_Dtl_String = ViewBag.MaxDate.ToString();
             model.Last_Task_Completed_Dtl = !string.IsNullOrEmpty(ViewBag.MaxDate) ? Convert.ToDateTime(ViewBag.MaxDate): null;
 
 
@@ -304,6 +304,26 @@ namespace HonanClaimsPortal.Controllers
 
 
             return PartialView(model);
+        }
+
+        public ActionResult GetSequencyList(string claimId,bool isNew)
+        {
+            documentService = new DocumentService();
+           var list =  documentService.GetActivitySequences(claimId, isNew)
+                .Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() })
+                .ToList();
+
+            return Json(list , JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetLast_Task_CompletedDate(string claimId)
+        {
+            documentService = new DocumentService();
+            List<ActivityTask> activityTasks = new List<ActivityTask>();
+            activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
+            string maxDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
+
+            return Json(maxDate, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult getThisTaskDueDate(string date,int slaCount)
@@ -334,6 +354,7 @@ namespace HonanClaimsPortal.Controllers
         [AjaxOnly]
         public async Task<ActionResult> _ActivityTasksDetail(ActivityTaskDetail model)
         {
+            
             if(ModelState.IsValid)
             {
                 exeResult = new ExecutionResult();
@@ -366,6 +387,15 @@ namespace HonanClaimsPortal.Controllers
             List<ActivityTask> activityTasks = new List<ActivityTask>();
             activityTasks = documentService.GetActivitiesForWorkFlow(claimId, completingActionSeq);
             return Json(activityTasks, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetGetActivityTaskDetailById(string activityId)
+        {
+            documentService = new DocumentService();
+            ActivityTaskDetail activityTask = new ActivityTaskDetail();
+            activityTask = documentService.GetGetActivityTaskDetailById(activityId);
+            activityTask.Last_Task_Completed_Dtl_String = activityTask.Last_Task_Completed_Dtl.HasValue ? activityTask.Last_Task_Completed_Dtl.Value.ToString("dd/MM/yyyy") : "";
+            return Json(activityTask, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult _PaymentDetail(string claimId, string Claim_Reference_Num)
