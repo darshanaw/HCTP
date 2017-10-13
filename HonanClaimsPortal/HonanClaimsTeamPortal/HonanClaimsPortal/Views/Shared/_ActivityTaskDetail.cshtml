@@ -17,6 +17,8 @@
             }
         });
 
+       
+
     });
 
 
@@ -28,6 +30,8 @@
 
         $.LoadingOverlay("hide");
         RefreshActivityTasksGrid();
+        $("#Last_Task_Completed_Dtl_String").val("");
+        lastTaskCompletedDate();
     }
 
     function GetResult_AT_Failure(data)
@@ -49,6 +53,7 @@
 
 @using (Ajax.BeginForm("_ActivityTasksDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", OnFailure= "GetResult_AT_Failure", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
 {
+    @*@Html.ValidationSummary(false)*@
 
     @Html.HiddenFor(o => o.H_Claimsid_Dtl)
     @Html.HiddenFor(o => o.Owner_Company_Dtl)
@@ -56,6 +61,8 @@
     @Html.HiddenFor(o=> o.Last_Task_Completed_Dtl)
     @Html.HiddenFor(o=>o.Next_Seq_Dtl)
     @Html.HiddenFor(o=>o.Completed_By_Dtl)
+    @Html.HiddenFor(o => o.H_Activitytasksid_Dtl)
+    @Html.HiddenFor(o=>o.IsNew)
 
     <input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
 
@@ -110,7 +117,7 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label input-sm">Owner Type</label>
                 <div class="col-sm-8 tabm">
-                    @Html.DropDownListFor(o => o.Owner_Dtl, new SelectList(ViewBag.OwnerType, "Text", "Text"), "", new { @class = "form-control" })
+                    @Html.DropDownListFor(o => o.Owner_Dtl, new SelectList(ViewBag.OwnerType, "Text", "Text"), "", new { @class = "form-control  input-sm" })
                 </div>
             </div>
         </div>
@@ -236,12 +243,13 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Completed Date</label>
                 <div class="col-sm-8">
-                    <div class="input-group date dateCalendar" style="width:100%">
+                    <div class="input-group date dateCalendar" style="width:100%" id="actualCompletedDate">
                         @Html.TextBoxFor(o => o.Completed_Date_Dtl, new { @class = "form-control input-sm" })
                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                             <span class="fa fa-calendar"></span>
                         </span>
                     </div>
+                    <input type="text" class="form-control input-sm" id="dummyCompletedDate" disabled />
                 </div>
             </div>
         </div>
@@ -360,7 +368,7 @@
 </div>
 
 <script>
-   
+
     $(function () {
 
         loadThisTaskDueDate();
@@ -411,10 +419,25 @@
             }
         });
 
+
+        if ($("#Completed_Dtl").is(":checked"))
+        {
+            $("#actualCompletedDate").show();
+            $("#dummyCompletedDate").hide();
+        }
+        else
+        {
+            $("#actualCompletedDate").hide();
+            $("#dummyCompletedDate").show();
+        }
+
+
         $("#Completed_Dtl").change(function () {
 
             if ($(this).is(":checked")) {
-
+                               
+                $("#actualCompletedDate").show();
+                $("#dummyCompletedDate").hide();
                 $("#Update_Key_Contacts_Dtl").prop("disabled", false);
                 $("#Update_Key_Date_Dtl").prop("disabled", false);
                 $("#Completed_Date_Dtl").val('@DateTime.Now.ToString("dd/MM/yyyy")');
@@ -430,6 +453,8 @@
                 $("#Completed_Date_Dtl").val("");
                 $("#Completed_By_Dtl").val("");
                 $("#Completed_By_Name_Dtl").val('');
+                $("#actualCompletedDate").hide();
+                $("#dummyCompletedDate").show();
             }
 
         });
@@ -472,7 +497,7 @@
 
         })
 
-               
+
 
     });
 
@@ -485,7 +510,19 @@
             url: "/ClaimDetailTabs/getThisTaskDueDate?date=" + date + "&slaCount=" + slaCount, success: function (result) {
 
                 $("#This_Task_Due_Date_Dtl").val(result);
-                
+
+            }
+        });
+    }
+
+    function lastTaskCompletedDate()
+    {
+        $.ajax({
+            url: "/ClaimDetailTabs/GetLast_Task_CompletedDate?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+
+                $("#Last_Task_Completed_Dtl_String").val(result);
+                $("#Last_Task_Completed_Dtl").val(result);
+
             }
         });
     }
@@ -527,7 +564,7 @@
                 var selectedDataItems = [];
                 for (var i = 0; i < selectedRows.length; i++) {
                     var dataItem = this.dataItem(selectedRows[i]);
-                    
+
                     $("#txtWorkFlowCompletedDAte").val(dataItem.DueDate_Act);
                     $("#Next_Seq_Dtl_Temp").val(dataItem.Seq_Act);
                 }
@@ -571,5 +608,37 @@
 
     }
 
-</script>
+    function clearActivityTaskDetails()
+    {
+        $("#Stage_Dtl").val("");
+        $("#Actionid_Dtl").val("");
+        $("#Details_Dtl").val("");
+        $("#Owner_Dtl").val("");
+        $("#Owner_Company_Name_Dtl").val("");
+        $("#Owner_Company_Dtl").val("");
+        $("#Owner_Contact_Name_Dtl").val("");
+        $("#Owner_Contact_Dtl").val("");
+        $("#Phone_Dtl").val("");
+        $("#Email_Dtl").val("");
+        $("#Sla_Days_Dtl").val("0");
 
+       // lastTaskCompletedDate();
+        loadThisTaskDueDate();
+        $("#Completed_Dtl").prop("checked", false);
+        $("#Skipped_Dtl").prop("checked", false);
+        $("#Completed_By_Name_Dtl").val("");
+        $("#Completed_By_Dtl").val("");
+        $("#Completed_Date_Dtl").val("");
+        $("#Update_Key_Contacts_Dtl").prop("checked", false);
+        $("#Update_Key_Date_Dtl").prop("checked", false);
+        $("#actualCompletedDate").hide();
+        $("#dummyCompletedDate").show();
+        $("#Next_Seq_Dtl").val("0");
+        $("#H_Activitytasksid_Dtl").val("");
+        //$("#Last_Task_Completed_Dtl_String").val("");
+        $("#dummyCompletedDate").val("");
+    }
+
+    
+
+</script>
