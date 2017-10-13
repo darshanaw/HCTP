@@ -68,6 +68,12 @@
         </div>
     </div>
 </div>
+<div id="windowActivity"></div>
+<script type="text/x-kendo-template" id="windowTemplate">
+
+    <button class="k-button" id="yesButton">Yes</button>
+    <button class="k-button" id="noButton"> No</button>
+</script>
 
 <script>
 
@@ -75,6 +81,8 @@
     $(function () {
 
         $("#IsNew").val("true");
+
+        var windowTemplate = kendo.template($("#windowTemplate").html());
 
         $("#gridActivityTasks").kendoGrid({
 
@@ -97,6 +105,11 @@
             sortable: true,
             //dataBound: onPaymentDataBound,
             columns: [
+                {
+                    field: "ActivityTaskId",
+                    title: "ActivityTaskId",
+                    hidden: true
+                },
                 {
                     field: "Seq_Act",
                     title: "Seq"
@@ -129,7 +142,8 @@
                 },
                 {
                     field: "Skipped_Act",
-                    title: "Skipped"
+                    title: "Skipped",
+                    //template: "<input type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
                 },
                 {
                     field: "Complete_Act",
@@ -141,10 +155,46 @@
                     title: "Completed Date",
                     //template: '#= kendo.toString(kendo.parseDate(CompletedDate_Act), "dd/MM/yyyy")#',
                     template: "#= (CompletedDate_Act == null) ? '': kendo.toString(kendo.parseDate(CompletedDate_Act), 'dd/MM/yyyy') #"
+                },
+                {
+                    command: {
+                        name: "Delete",
+                        click: function (e) {  //add a click event listener on the delete button
+                            e.preventDefault(); //prevent page scroll reset
+                            var tr = $(e.target).closest("tr"); //get the row for deletion
+                            var data = this.dataItem(tr); //get the row data so it can be referred later
+                            window.content(windowTemplate(data)); //send the row data object to the template and render it
+                            window.center().open();
+
+                            $("#yesButton").click(function () {
+
+                                $.ajax({
+                                    url: "/ClaimDetailTabs/DeleteActivity?claimId=" + $("#H_Claimsid").val() + "&activityId=" + data.ActivityTaskId + "&seq=" + data.Seq_Act, success: function (result) {
+
+                                        window.close();
+                                        RefreshActivityTasksGrid();
+                                    }
+                                });
+                                                               
+                            })
+                            $("#noButton").click(function () {
+                                window.close();
+                            })
+                        }
+                    }
                 }
             ]
         });
 
+        var window = $("#windowActivity").kendoWindow({
+            title: "Delete this record?",
+            visible: false, //the window will not appear before its .open method is called
+            width: "300px",
+            height: "100px",
+
+        }).data("kendoWindow");
+
+       
         $("#btnActivityTasksFilter").click(function () {
 
             RefreshActivityTasksGrid();
@@ -198,7 +248,7 @@
         $("#H_Activitytasksid_Dtl").val(activityId);
 
         clearActivityTaskDetails();
-        refreshSequence();
+        //refreshSequence();
 
         $.ajax({
             url: "/ClaimDetailTabs/GetGetActivityTaskDetailById?activityId=" + activityId, success: function (result) {
