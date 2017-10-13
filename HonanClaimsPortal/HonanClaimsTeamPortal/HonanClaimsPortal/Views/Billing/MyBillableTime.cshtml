@@ -343,17 +343,27 @@
 
                 if (result.End_Time != null) {
                     var End_Time = new Date(parseInt(result.End_Time.substr(6)));
-                    var h = End_Time.getHours(), m = End_Time.getMinutes();
-                    var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
-                    result.sEnd_Time = _time;
+                    var year = End_Time.getFullYear();
+                    if (year == 1) {
+                        result.sEnd_Time = "";
+                    } else {
+                        var h = End_Time.getHours(), m = End_Time.getMinutes();
+                        var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                        result.sEnd_Time = _time;
+                    }               
                 }
 
 
                 if (result.Start_Time != null) {
                     var Start_Time = new Date(parseInt(result.Start_Time.substr(6)));
-                    var h = Start_Time.getHours(), m = Start_Time.getMinutes();
-                    var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
-                    result.sStart_Time = _time;
+                    var yesr = Start_Time.getFullYear();
+                    if (year == 1) {
+                        result.sStart_Time = "";
+                    } else {
+                        var h = Start_Time.getHours(), m = Start_Time.getMinutes();
+                        var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                        result.sStart_Time = _time;
+                    }
                 }
 
                 $("#H_Billingsid").val(result.H_Billingsid);

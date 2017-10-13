@@ -57,7 +57,9 @@ namespace HonanClaimsWebApi.Models.Billing
         public DateTime Start_Time { get; set; }
         public DateTime End_Time { get; set; }
 
+        [Required(ErrorMessage = "Start Time Required")]
         public string sStart_Time { get; set; }
+        [Required(ErrorMessage = "End Time Required")]
         public string sEnd_Time { get; set; }
 
         public string Checked_By_Name { get; set; }
