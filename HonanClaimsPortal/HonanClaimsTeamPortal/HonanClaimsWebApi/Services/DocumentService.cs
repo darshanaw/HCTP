@@ -66,7 +66,10 @@ namespace HonanClaimsWebApi.Services
         private const string updateActivityTask = "api/Activity/UpdtateActivityDetail";
 
         private const string getGetActivityTaskDetailById = "api/Activity/TeamGetActivityTaskDetail?activityId=";
-        
+        private const string deleteRecord = "api/Activity/DeleteActivity?claimId=";
+        private const string param_activityId = "&activityId=";
+        private const string param_seq = "&seq=";
+
 
         ExecutionResult exeReult;
 
@@ -619,6 +622,44 @@ namespace HonanClaimsWebApi.Services
 
 
                 return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        //private const string deleteRecord = "api/Activity/DeleteActivity?claimId=";
+        //private const string param_activityId = "&activityId=";
+        //private const string param_seq = "&seq=";
+
+        public bool DeleteActivity(string claimId, string activityId, int seq)
+        {
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + deleteRecord + claimId + param_activityId + activityId + param_seq + seq);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<bool>(response);
+                        }
+                    }
+                }
+
+
+                return false;
             }
             catch (Exception e)
             {

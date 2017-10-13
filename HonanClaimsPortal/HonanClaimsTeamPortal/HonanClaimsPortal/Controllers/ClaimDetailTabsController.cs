@@ -326,6 +326,13 @@ namespace HonanClaimsPortal.Controllers
             return Json(maxDate, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult DeleteActivity(string claimId, string activityId, int seq)
+        {
+            documentService = new DocumentService();
+            bool res = documentService.DeleteActivity(claimId, activityId, seq);
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult getThisTaskDueDate(string date,int slaCount)
         {
             DateTime res = DateTime.Now;
