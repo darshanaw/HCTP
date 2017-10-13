@@ -35,6 +35,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Phone_Dtl { get; set; }
         public string Email_Dtl { get; set; }
         public DateTime? Last_Task_Completed_Dtl { get; set; }
+        public string Last_Task_Completed_Dtl_String { get; set; }
         public DateTime? This_Task_Due_Date_Dtl { get; set; }
         public bool Completed_Dtl { get; set; }
         public DateTime? Completed_Date_Dtl { get; set; }

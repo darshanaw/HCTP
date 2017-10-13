@@ -296,20 +296,56 @@ namespace HonanClaimsPortal.Controllers
             List<ActivityTask> activityTasks = new List<ActivityTask>();
             activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
             ViewBag.MaxDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
-           
+            model.Last_Task_Completed_Dtl_String = ViewBag.MaxDate;
+            model.Last_Task_Completed_Dtl = !string.IsNullOrEmpty(ViewBag.MaxDate) ? Convert.ToDateTime(ViewBag.MaxDate): null;
+
+
             model.H_Claimsid_Dtl_List = claimServices.GetClaimsForUser(client.UserId);
 
 
             return PartialView(model);
         }
 
+        public ActionResult getThisTaskDueDate(string date,int slaCount)
+        {
+            DateTime res = DateTime.Now;
+            if(!string.IsNullOrEmpty(date) && DateTime.TryParse(date, out res))
+            {
+                if(slaCount < 1)
+                    return Json("", JsonRequestBehavior.AllowGet);
+
+                while (slaCount > 0)
+                {
+                    res = res.AddDays(1);
+
+                    if (res.DayOfWeek != DayOfWeek.Saturday && res.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        slaCount -= 1;
+                    }
+                }
+
+                return Json(res.ToString("dd/MM/yyyy"), JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [AjaxOnly]
-        public ActionResult _ActivityTasksDetail(ActivityTaskDetail model)
+        public async Task<ActionResult> _ActivityTasksDetail(ActivityTaskDetail model)
         {
             if(ModelState.IsValid)
             {
+                exeResult = new ExecutionResult();
 
+                if (!string.IsNullOrEmpty(model.Last_Task_Completed_Dtl_String))
+                    model.Last_Task_Completed_Dtl = Convert.ToDateTime(model.Last_Task_Completed_Dtl_String);
+
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+                documentService = new DocumentService();
+                exeResult = await documentService.SaveActivityDetail(model, client.UserId, true);
+                
             }
 
             return Json("success", JsonRequestBehavior.AllowGet);
