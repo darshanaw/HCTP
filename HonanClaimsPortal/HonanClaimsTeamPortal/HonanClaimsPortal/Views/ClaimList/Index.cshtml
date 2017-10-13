@@ -15,62 +15,70 @@
     <div class="row">
             <div class="main-container">
                 <div class="row mb-15">
-                    <div class="col-md-12">
-                        <div class="search-box-1">
-                            <div class="form-group mt-20">
-                                <label>Search My Claims</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="searchTxt">
-                                    <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    <div class="col-md-12 top-padding-eight">
+                        <div class="col-md-4">
+                            <div class="form-group mb">
+                                <label class="col-sm-4 control-label input-sm">Search My Claims</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control input-sm" id="searchTxt">
+
                                 </div>
-                                @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                             </div>
                         </div>
-                        <div class="cust-search">
-                            <div class="form-group mt-20">
-                                <label>Customer</label>
-                                @Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), "--select--", new { @class = "form-control" })
+
+                        <div class="col-md-4">
+                            <div class="form-group mb">
+                                <label class="col-sm-4 control-label input-sm">Customer</label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), "--select--", new { @class = "form-control input-sm" })
+                                </div>
                             </div>
                         </div>
-                        <div class="action-btn-1">
-                            <div class="pull-right mt-45">
-                                <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
-                                <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
+
+                        <div class="col-md-4">
+                            <div class="form-group mb">
+                                <div class="col-sm-12">
+                                    <div class="pull-right">
+                                        <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
+                                        <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="row mb-15 claim-filterration">
                     <div class="col-md-4">
                         <div class="radioset-1">
                             <div class="radio">
-                                <label><input type="radio" id="myclaim" value="true" name="allormy">My Claims</label>
+                                <label class="input-sm"><input type="radio" id="myclaim" value="true" name="allormy">My Claims</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" id="allclaim" value="false" name="allormy">All Claims</label>
+                                <label class="input-sm"><input type="radio" id="allclaim" value="false" name="allormy">All Claims</label>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="radioset-2">
                             <div class="radio">
-                                <label><input type="radio" id="openclaim" value="true" name="openclose">Open Claims</label>
+                                <label class="input-sm"><input type="radio" id="openclaim" value="true" name="openclose">Open Claims</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" id="closeclaim" value="false" name="openclose">Close Claims</label>
+                                <label class="input-sm"><input type="radio" id="closeclaim" value="false" name="openclose">Close Claims</label>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="radioset-3">
                             <div class="radio">
-                                <label><input value="All" id="typeall" type="radio" name="claimtype">All</label>
+                                <label class="input-sm"><input value="All" id="typeall" type="radio" name="claimtype">All</label>
                             </div>
                             <div class="radio">
-                                <label><input value="Claims" id="typeclaim" type="radio" name="claimtype">Claims</label>
+                                <label class="input-sm"><input value="Claims" id="typeclaim" type="radio" name="claimtype">Claims</label>
                             </div>
                             <div class="radio">
-                                <label><input value="Notification" id="typenoti" type="radio" name="claimtype">Notification</label>
+                                <label class="input-sm"><input value="Notification" id="typenoti" type="radio" name="claimtype">Notification</label>
                             </div>
                         </div>
                     </div>
