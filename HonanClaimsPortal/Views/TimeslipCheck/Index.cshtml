@@ -94,7 +94,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Service By</label>
-                        @Html.TextBoxFor(m => m.InnerModeL.Service_By, new { @class = "form-control", disabled = "disabled" })
+                        @Html.TextBoxFor(m => m.InnerModeL.Service_By_Name, new { @class = "form-control", disabled = "disabled" })
                         @Html.HiddenFor(m => m.InnerModeL.H_Billingsid)
                         @Html.HiddenFor(m => m.InnerModeL.H_Claimsid)
                     </div>
@@ -262,7 +262,6 @@
         LoadGridDetail();
 
         $('#clearFilter').click(function () {
-            debugger
             $('#ClaimTeam').val("");
             $('#ServiceBy').val("")
             $('#Claim').val("");
@@ -277,7 +276,6 @@
     })
 
     function LoadGridDetail() {
-        debugger;
         var claimTeam = null;
         var accountId = null;
         var serviceBy = null;
@@ -330,8 +328,9 @@
                 field: "ServiceBy",
                 title: "Service By",
             }, {
-                field: "ServiceDate",
+                //field: "ServiceDate",
                 title: "Service Date",
+                template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
             }, {
                 field: "StartTime",
                 title: "Start Time",
@@ -368,29 +367,33 @@
     function setTextFields(dataItem) {
         $.get("/TimeslipCheck/GetBillingRecords?billingId=" + dataItem.BillingId, function (data) {
             $('#InnerModeL_H_Billingsid').val(data.H_Billingsid);
-            $('#InnerModeL_Service_By').val(data.Service_By);
+            $('#InnerModeL_Service_By_Name').val(data.Service_By_Name);
             $('#InnerModeL_Is_Billable').val(data.Is_Billable);
             $('#InnerModeL_H_Claimsid').val(data.H_Claimsid);
             if (data.Is_Billable) { $('#InnerModeL_Is_Billable').prop("checked", true); } else { $('#InnerModeL_Is_Billable').prop("checked", false); }
             $('#InnerModeL_Rate').val(data.Rate);
             $('#InnerModeL_Claim_No').val(data.Claim_No);
+
+
             if (data.Service_Date != null && data.Service_Date != "") {
+                var date = new Date(data.Service_Date);
+                var month = date.getMonth() + 1;
+                data.Service_Date = date.getDate() + "/" + month + "/" + date.getFullYear();
                 $("#InnerModeL_Service_Date").val(data.Service_Date);
             }
 
-            if (data.Start_Time_HH == "1") {
-                data.Start_Time_HH = "01";
+            if (0 <= data.Start_Time_HH && data.Start_Time_HH <= 9) {
+                data.Start_Time_HH = "0" + data.Start_Time_HH;
             }
-            if (data.Start_Time_MM == "1") {
-                data.Start_Time_MM = "01";
+            if (0 <= data.Start_Time_MM && data.Start_Time_MM <=9) {
+                data.Start_Time_MM = "0" + data.Start_Time_MM;
             }
-            if (data.End_Time_HH == "1") {
-                data.End_Time_HH = "01";
+            if (0 <= data.End_Time_HH && data.End_Time_HH <=9) {
+                data.End_Time_HH = "0" + data.End_Time_HH;
             }
-            if (data.End_Time_MM == "1") {
+            if (0 <= data.End_Time_MM && data.End_Time_MM <=9) {
                 data.End_Time_MM = "01";
             }
-
             $('#InnerModeL_Start_Time_HH').val(data.Start_Time_HH);
             $('#InnerModeL_Start_Time_MM').val(data.Start_Time_MM);
             $('#InnerModeL_End_Time_HH').val(data.End_Time_HH);
@@ -403,7 +406,7 @@
 
     function clearTextFileds() {
         $('#InnerModeL_H_Billingsid').val('');
-        $('#InnerModeL_Service_By').val('');
+        $('#InnerModeL_Service_By_Name').val('');
         $('#InnerModeL_Is_Billable').val('');
         $('#InnerModeL_H_Claimsid').val('');
         $('#InnerModeL_Is_Billable').prop("checked", false);       
@@ -469,6 +472,8 @@
 
 
     $('#nonbillable').click(function () {
+               
+        $("#InnerModeL_Is_Billable").attr('checked', false);
         var id = $('#InnerModeL_H_Billingsid').val();
         var claimId = $('#InnerModeL_H_Claimsid').val();
         var serviceDate = $('#InnerModeL_Service_Date').val();
@@ -514,18 +519,25 @@
     })
 
     $('#skipnext').click(function () {
+
+        //clearTextFileds();
         var Hid = $('#InnerModeL_H_Billingsid').val();
         if (Hid != null && Hid != "") {
             var grid = $("#grid1").data("kendoGrid");
             var selectedRow = grid.select();
             var index = selectedRow.index();
+
             if (index != -1) {
                 var data = $("#grid1").data("kendoGrid").dataSource.view();
                 var newind = index + 1;
+
+                $(selectedRow).removeClass("k-state-selected");
+
                 if (data.length >= newind) {
                     var id = data[newind].uid;
                     grid.select("tr:eq(" + newind + ")")
                     setTextFields(data[newind]);
+                    debugger;
                 }
             }
         }
