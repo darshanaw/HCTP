@@ -23,5 +23,6 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
         public decimal Billable { get; set; }
         public string Work_Done { get; set; }
         public string H_Claimsid { get; set; }
+        public string Service_By_Name { get; set; }
     }
 }
