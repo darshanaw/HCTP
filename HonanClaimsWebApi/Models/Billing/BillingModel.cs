@@ -21,7 +21,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public string ClientId { get; set; }
         public string Client_Name { get; set; }//added
         [Required(ErrorMessage = "Service Date Required")]
-        public string Service_Date { get; set; }
+        public DateTime Service_Date { get; set; }
         [Required(ErrorMessage = "Start Time Required")]
         public string Start_Time_HH { get; set; }
         [Required(ErrorMessage = "Start Time Required")]
@@ -39,7 +39,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public DateTime? Checked_Date { get; set; }
         public bool Invoice_Processed { get; set; }//change type to bool
         public string Invoice_Processed_By { get; set; }
-        public string Invoice_Processed_Date { get; set; }
+        public DateTime? Invoice_Processed_Date { get; set; }
         public string Invoice_No { get; set; }
         public string Invoice_Date { get; set; }
         public decimal Rate_Per_Unit { get; set; }

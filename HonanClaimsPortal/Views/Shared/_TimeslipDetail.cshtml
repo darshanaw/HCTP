@@ -12,265 +12,254 @@
 
     <div id="divFake" style="display:none"></div>
     <div class="main-container timedetail">
-        <div class="row mb-15">
-            <div class="col-md-12">
-                <div class="page-title">
-                    <h3>Timeslip</h3>
+        @Html.HiddenFor(m => m.H_Billingsid)
+        <div class="col-md-6">
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Is Billable</label>
+                    <div class="col-sm-8">
+                        @Html.CheckBoxFor(c => c.Is_Billable)
+                    </div>
                 </div>
             </div>
-        </div>
-        @Html.HiddenFor(m => m.H_Billingsid)
-        <div class="row timeslip">
-            <div class="col-md-6">
-                @Html.CheckBoxFor(c => c.Is_Billable)<label class="col-md-3 ml-15">Is Billable</label>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Services By</label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(m => m.Service_By_Name, new { @class = "form-control" })
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Services By</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Service_By_Name, new { @class = "form-control input-sm" })
                         @Html.ValidationMessageFor(o => o.Service_By_Name, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                         @Html.HiddenFor(h => h.Service_By)
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Claim</label>
-                    <div class="col-md-9">
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.Claim_No, new { @class = "form-control" })
-                            @Html.HiddenFor(m => m.H_Claimsid)
-                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Claim</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Claim_No, new { @class = "form-control input-sm" })
+                        @Html.HiddenFor(m => m.H_Claimsid)
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Activity</label>
-                    <div class="col-md-9">
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.Activity_Name, new { @class = "form-control" })
-                            @Html.HiddenFor(m => m.ActivityId)
-                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Activity</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Activity_Name, new { @class = "form-control input-sm" })
+                        @Html.HiddenFor(m => m.ActivityId)
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Policy</label>
-                    <div class="col-md-9">
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.Policy_Name, new { @class = "form-control" })
-                            @Html.HiddenFor(m => m.Policyid)
-                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Policy</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Policy_Name, new { @class = "form-control input-sm" })
+                        @Html.HiddenFor(m => m.Policyid)
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Client</label>
-                    <div class="col-md-9">
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Client</label>
+                    <div class="col-sm-8">
                         <div class="input-group">
-                            @Html.TextBoxFor(m => m.Client_Name, new { @class = "form-control" })
+                            @Html.TextBoxFor(o => o.Client_Name, new { @class = "form-control input-sm", @maxlength = 100 })
                             @Html.HiddenFor(m => m.ClientId)
-                            <span class="input-group-addon" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+
+                            <span class="input-group-btn" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Services Date</label>
-                    <div class="col-md-9">
-                        <div class="input-group" id="datetimepicker1">
-                            @Html.TextBoxFor(o => o.Service_Date, new { @class = "form-control" })
-                            <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Service Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.Service_Date, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
                         </div>
-                        @Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
-
-
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Start Time</label>
-                    <div class="col-md-9">
-                        @*<label>HH</label>*@
-                        @Html.TextBoxFor(m=>m.sStart_Time)
-                        @*<div>
-                            @Html.DropDownListFor(m => m.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
-                                 SelectListItem
-                       {
-                           Text = i.ToString().PadLeft(2, '0'),
-                           Value = i.ToString().PadLeft(2, '0')
-                       }), "HH", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(o => o.Start_Time_HH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                        </div>*@
-                    </div>
-
-                    @*<div class="col-md-4">
-                        <label>Min</label>
-                        <div>
-                            @Html.DropDownListFor(m => m.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
-                                SelectListItem
-                       {
-                           Text = i.ToString().PadLeft(2, '0'),
-                           Value = i.ToString().PadLeft(2, '0')
-                       }), "MM", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(o => o.Start_Time_MM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                        </div>
-                    </div>*@
-                </div>
-
-
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">End Time</label>
-                    <div class="col-md-4">
-                        @*<label>HH</label>*@
-                        @Html.TextBoxFor(m => m.sEnd_Time)
-                        @*<div>
-                            @Html.DropDownListFor(m => m.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
-                                 SelectListItem
-                       {
-                           Text = i.ToString().PadLeft(2, '0'),
-                           Value = i.ToString().PadLeft(2, '0')
-                       }), "HH", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(o => o.End_Time_HH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                        </div>*@
-                    </div>
-
-                    @*<div class="col-md-4">
-                        <label>Min</label>
-                        <div>
-                            @Html.DropDownListFor(m => m.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
-                                SelectListItem
-                       {
-                           Text = i.ToString().PadLeft(2, '0'),
-                           Value = i.ToString().PadLeft(2, '0')
-                       }), "MM", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(o => o.End_Time_MM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                        </div>
-                    </div>*@
-                </div> 
-                
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Rate P/Hr ($)</label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control" })
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Start Time</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.sStart_Time, new { @style = "width:100%" })
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Rate P/Unit ($)</label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(m => m.Rate_Per_Unit, new { @type = "number", @class = "form-control" })
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">End Time</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.sEnd_Time, new { @style = "width:100%" })
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Unit</label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(m => m.Units, new { @type = "number", @class = "form-control" })
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Rate P/Hr ($)</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Rate P/Unit ($)</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Rate_Per_Unit, new { @type = "number", @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Unit</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Units, new { @type = "number", @class = "form-control input-sm" })
                         @Html.ValidationMessageFor(o => o.Units, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Billable ($)</label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(m => m.Billable, new { @class = "form-control", @readonly = true })
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Billable ($)</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Billable, new { @class = "form-control input-sm", @readonly = true })
                         @Html.ValidationMessageFor(o => o.Billable, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Timeslip Checked</label>
-                    <div class="col-md-9">
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Timeslip Checked</label>
+                    <div class="col-sm-8">
                         @Html.CheckBoxFor(c => c.Timeslip_Checked)
                     </div>
                 </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3"></label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Checked_By_Name, new { @readonly = true, @class = "form-control" })
-                        @Html.HiddenFor(c=>c.Checked_By)
-                    </div>
-                </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3"></label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Checked_Date, new { @readonly = true, @class = "form-control" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Invoice Processed</label>
-                    <div class="col-md-9">
-                        @Html.CheckBoxFor(c => c.Invoice_Processed)
-                    </div>
-                </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3"></label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Invoice_Processed_By_Name, new { @readonly = true, @class = "form-control" })
-                        @Html.HiddenFor(c=>c.Invoice_Processed_By)
-                    </div>
-                </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3"></label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Invoice_Processed_Date, new { @readonly = true, @class = "form-control" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Invoice</label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Invoice_No, new { @readonly = true, @class = "form-control" })
-                    </div>
-                </div>
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Invoice Date</label>
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(c => c.Invoice_Date, new { @readonly = true, @class = "form-control" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-12 col-sm-12">
-                    <label>Work Done</label>
-                    <div>
-                        @Html.TextAreaFor(c => c.Work_Done, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(o => o.Work_Done, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm"></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(c => c.Checked_By_Name, new { @readonly = true, @class = "form-control input-sm" })
+                        @Html.HiddenFor(c => c.Checked_By)
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm"></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(c => c.Checked_Date, new { @readonly = true, @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Invoice Processed</label>
+                    <div class="col-sm-8">
+                        @Html.CheckBoxFor(c => c.Invoice_Processed)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm"></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(c => c.Invoice_Processed_By_Name, new { @readonly = true, @class = "form-control input-sm" })
+                        @Html.HiddenFor(c => c.Invoice_Processed_By)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm"></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(c => c.Invoice_Processed_Date, new { @readonly = true, @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Invoice #</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(c => c.Invoice_No, new { @readonly = true, @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Invoice Date</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(c => c.Invoice_Date, new { @readonly = true, @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Work Done</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(c => c.Work_Done, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(o => o.Work_Done, String.Empty, new { @class = "parsley-errors-list", @style = "color:red" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="footer text-right">
+            @Html.HiddenFor(m => m.IsNew)
+            <button type="button" id="cancel" class="mb-sm btn btn-default mr-20">Cancel</button>
+            <button type="submit" class="mb-sm btn btn-primary">Save</button>
+            @*@if (Model.IsNew)
+            {
+                <button type="submit" class="btn btn-primary">Add</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary">Save</button>
+            }*@
         </div>
     </div>
 
     <hr />
-    @Html.HiddenFor(m => m.IsNew)
-    <div class="main-container">
-        <button type="button" id="cancel" class="btn btn-default mr-20">Cancel</button>
-        @if (Model.IsNew)
-        {
-            <button type="submit" class="btn btn-primary">Add</button>
-        }
-        else
-        {
-            <button type="submit" class="btn btn-primary">Save</button>
-        }
+            
+            <div class="main-container">
 
-    </div>
 
-        <!--Modal-->
-    <div id="ClientModal" class="modal fade ClientModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Client # Lookup</h4>
-                </div>
+            </div>
 
-                <div class="modal-body">
-                    <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
-                    <div id="lookupClientGrid"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <!--Modal-->
+            <div id="ClientModal" class="modal fade ClientModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Client # Lookup</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
+                            <div id="lookupClientGrid"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
 }
 
@@ -281,11 +270,15 @@
         $("#sStart_Time").kendoTimePicker({
             interval: 1,
             change: onStartChange,
-            Format:("hh:mm tt")
+            Format: ("hh:mm tt")
         });
+
+
+        
+
     });
 
-    function onStartChange(e){
+    function onStartChange(e) {
         var sDate = new Date(e.sender.value());
         var SH = sDate.getHours();//parseInt($("#Start_Time_HH").val());
         var SM = sDate.getMinutes();//parseInt($("#Start_Time_MM").val());
@@ -464,6 +457,10 @@
     });
 
     $(document).ready(function () {
+
+        jQuery.validator.methods["date"] = function (value, element) { return true; }
+
+
         //var Timeslip_Checked = $("#Timeslip_Checked").is(":checked");
         //if (Timeslip_Checked == false)
         //{
@@ -512,13 +509,16 @@
 
                         $("#Invoice_Processed_By_Name").val(result.Name);
                         $("#Invoice_Processed_Date").val(rInvoice_Processed_Date);
-
+                        $("#Invoice_Processed_By").val(result.UserId);
+                        $("#Invoice_Processed").val(true);
                     }
                 });
 
             } else {
                 $("#Invoice_Processed_By_Name").val('');
+                $("#Invoice_Processed_By").val('');
                 $("#Invoice_Processed_Date").val('');
+                $("#Invoice_Processed").val(false);
             }
         });
 
@@ -534,14 +534,17 @@
                         var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
 
                         $("#Checked_By_Name").val(result.Name);
+                        $("#Checked_By").val(result.UserId);
                         $("#Checked_Date").val(rChecked_Date);
-
+                        $("#Timeslip_Checked").val(true);
                     }
                 });
 
             } else {
                 $("#Checked_By_Name").val('');
                 $("#Checked_Date").val('');
+                $("#Checked_By").val('');
+                $("#Timeslip_Checked").val(false);
             }
         });
 
@@ -851,6 +854,10 @@
             $('#Service_By').val(dataItem.Code);
             $('#Service_By_Name').val(dataItem.Text)
         }
+
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
     });
 
     $('#Service_By_Name').keyup(function () {
