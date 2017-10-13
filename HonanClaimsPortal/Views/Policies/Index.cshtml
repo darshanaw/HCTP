@@ -162,16 +162,17 @@
                 {
                     field: "InceptionDate",
                     //title: "Inception Date",
-                    template: "#if(InceptionDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(InceptionDate), 'dd-MM-yyyy') #  #}#"
+                    template: "#if(InceptionDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(InceptionDate), 'dd-MM-yyyy') #  #}#"
                 },
                 {
                     field: "ExpiryDate",
                     //title: "Expiry Date",
-                    template: '#= kendo.toString(kendo.parseDate(ExpiryDate), "dd/MM/yyyy")#'
+                    template: "#if(ExpiryDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(ExpiryDate), 'dd-MM-yyyy') #  #}#"
                 },
                 {
                     field: "Associate",
-                    template: "#if(ExpiryDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ExpiryDate), 'dd-MM-yyyy') #  #}#"
+                    title: "Associate",
+                    
                 },
                 {
                     field: "Underwriter",

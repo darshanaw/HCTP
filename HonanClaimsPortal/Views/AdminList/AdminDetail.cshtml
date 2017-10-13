@@ -412,7 +412,7 @@
     function OnchangeLogoImage(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-            var _validFileExtensions = [".jpeg", ".bmp", ".tiff"];
+            var _validFileExtensions = [".jpeg", ".bmp", ".tiff",".png","jpg"];
             debugger;
             var f = input.files[0]
             var sFileName = f.name;
