@@ -94,6 +94,7 @@
                     <label class="col-sm-4 control-label input-sm">Start Time</label>
                     <div class="col-sm-8">
                         @Html.TextBoxFor(m => m.sStart_Time, new { @style = "width:100%" })
+                        @Html.ValidationMessageFor(o => o.sStart_Time, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
             </div>
@@ -102,6 +103,7 @@
                     <label class="col-sm-4 control-label input-sm">End Time</label>
                     <div class="col-sm-8">
                         @Html.TextBoxFor(m => m.sEnd_Time, new { @style = "width:100%" })
+                        @Html.ValidationMessageFor(o => o.sEnd_Time, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
             </div>
