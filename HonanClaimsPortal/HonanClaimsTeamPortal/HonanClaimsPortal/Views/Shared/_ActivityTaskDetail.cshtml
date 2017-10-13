@@ -9,6 +9,14 @@
             format: 'DD/MM/YYYY'
         });
 
+
+        $('#frmActivityTask').submit(function (e) {
+
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
+
     });
 
 
@@ -22,6 +30,13 @@
         RefreshActivityTasksGrid();
     }
 
+    function GetResult_AT_Failure(data)
+    {
+        RefreshActivityTasksGrid();
+        $.LoadingOverlay("hide");
+        bootbox.alert("Error occured.");
+    }
+
 
 </script>
 
@@ -32,12 +47,17 @@
 </style>
 
 
-@using (Ajax.BeginForm("_ActivityTasksDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("_ActivityTasksDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", OnFailure= "GetResult_AT_Failure", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
 {
 
     @Html.HiddenFor(o => o.H_Claimsid_Dtl)
     @Html.HiddenFor(o => o.Owner_Company_Dtl)
     @Html.HiddenFor(o => o.Owner_Contact_Dtl)
+    @Html.HiddenFor(o=> o.Last_Task_Completed_Dtl)
+    @Html.HiddenFor(o=>o.Next_Seq_Dtl)
+    @Html.HiddenFor(o=>o.Completed_By_Dtl)
+
+    <input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
 
     <div style="display:none" id="divFakeActivityTask"></div>
 
@@ -168,7 +188,7 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Last Task Completed</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(o => o.Last_Task_Completed_Dtl, new { @class = "form-control input-sm disabled", @readonly = true, @maxlength = 100 })
+                    @Html.TextBoxFor(o => o.Last_Task_Completed_Dtl_String, new { @class = "form-control input-sm disabled", @readonly = true, @maxlength = 100 })
                 </div>
             </div>
         </div>
@@ -266,7 +286,7 @@
     <div class="col-md-12" style="padding-top:100px">
         <div class="footer text-right">
             <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
-            <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
+            <button type="submit" class="mb-sm btn btn-primary" id="btnSaveActivityDetail">Save Changes</button>
         </div>
     </div>
 
@@ -340,11 +360,16 @@
 </div>
 
 <script>
-
-
+   
     $(function () {
 
-       
+        loadThisTaskDueDate();
+
+        $('#Sla_Days_Dtl').change(function () {
+
+            loadThisTaskDueDate();
+        });
+
         $("#H_ClaimsRefid_Dtl").val($("#Claim_Reference_Num").val());
 
         if (!$(this).is(":checked")) {
@@ -360,7 +385,7 @@
         $(".AccountModal_ActivityTask_Close").click(function () {
             $("#AccountModal_ActivityTask").modal("hide");
         });
-        
+
         $(".ActivityTaskContactModal_Close").click(function () {
             $("#ActivityTaskContactModal").modal("hide");
         });
@@ -397,7 +422,7 @@
                 $("#Completed_By_Dtl").val('@ViewBag.CurrentUserId');
                 $("#Skipped_Dtl").prop("checked", false);
                 LoadgridActivityWorkFlowNextSteps(true);
-                
+
             }
             else {
                 $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
@@ -414,11 +439,13 @@
             if ($(this).val() == "1")
             {
                 $("#Last_Task_Completed_Dtl").val("");
+                $("#Last_Task_Completed_Dtl_String").val("");
                 $("#rowLastTask").hide();
             }
             else
             {
                 $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
+               // $("#Last_Task_Completed_Dtl_String").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
                 $("#rowLastTask").show();
             }
         });
@@ -426,21 +453,47 @@
         if ($("#Seq_Dtl").val() == "1")
         {
             $("#Last_Task_Completed_Dtl").val("");
+            $("#Last_Task_Completed_Dtl_String").val("");
             $("#rowLastTask").hide();
         }
         else
         {
             $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
-            $("#rowLastTask").show();
+               // $("#Last_Task_Completed_Dtl_String").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
+                $("#rowLastTask").show();
 
         }
 
+        $("#btnWorkFlowComplete").click(function () {
+
+            $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
+
+            $("#ActivityWorkFlowModal").modal('hide');
+
+        })
+
+               
+
     });
 
-    
+    function loadThisTaskDueDate() {
+
+        var date = $("#Last_Task_Completed_Dtl_String").val();
+        var slaCount = $("#Sla_Days_Dtl").val();
+
+        $.ajax({
+            url: "/ClaimDetailTabs/getThisTaskDueDate?date=" + date + "&slaCount=" + slaCount, success: function (result) {
+
+                $("#This_Task_Due_Date_Dtl").val(result);
+                
+            }
+        });
+    }
+
+
     function LoadgridActivityWorkFlowNextSteps(showpopUp)
     {
-        
+
         $("#gridActivityWorkFlowNextSteps").kendoGrid({
 
             dataSource: {
@@ -474,8 +527,9 @@
                 var selectedDataItems = [];
                 for (var i = 0; i < selectedRows.length; i++) {
                     var dataItem = this.dataItem(selectedRows[i]);
-                    console.log(dataItem);
+                    
                     $("#txtWorkFlowCompletedDAte").val(dataItem.DueDate_Act);
+                    $("#Next_Seq_Dtl_Temp").val(dataItem.Seq_Act);
                 }
                 // selectedDataItems contains all selected data items
             },
@@ -513,8 +567,8 @@
             ]
         });
 
-        
-        
+
+
     }
 
 </script>

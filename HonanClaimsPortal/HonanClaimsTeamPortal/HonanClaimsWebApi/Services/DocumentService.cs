@@ -62,6 +62,9 @@ namespace HonanClaimsWebApi.Services
         private const string getActivitiesForWorkFlow = "api/Activity/TeamGetActivitiesForWorkFlow?claimId=";
         private const string param_completingActionSeq = "&completingActionSeq=";
 
+        private const string insertActivityTask = "api/Activity/InsertActivityDetail";
+        private const string updateActivityTask = "api/Activity/UpdtateActivityDetail";
+
         ExecutionResult exeReult;
 
         public bool CreateClaimAttachmentCustomerDoc(ClaimAttachmentSimple attachment, out string fileCreateId)
@@ -534,6 +537,56 @@ namespace HonanClaimsWebApi.Services
                 new SelectListItem() { Text = "Partial Indemnity Granted", Value = "Partial Indemnity Granted" }
 
             };
+        }
+
+        
+        public async Task<ExecutionResult> SaveActivityDetail(ActivityTaskDetail activityTask, string userId, bool isNew)
+        {
+            exeReult = new ExecutionResult();
+            string result = "";
+            
+            try
+            {
+                string apiUrl = string.Empty;
+
+                if (isNew)
+                {
+                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + insertActivityTask;
+                }
+                else
+                    apiUrl = ConfigurationManager.AppSettings["apiurl"] + updateActivityTask;
+
+                using (var client = new HttpClient())
+                {
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        
+                        var jsonString = JsonConvert.SerializeObject(activityTask);
+                        var jsonString_userId = JsonConvert.SerializeObject(userId);
+                        var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                        var content_userId = new StringContent(jsonString_userId, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "activityTask");
+                        formData.Add(content_userId, "userId");
+
+
+                        var postResult = await client.PostAsync(apiUrl, formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                        exeReult.IsSuccess = Convert.ToBoolean(resultContent);
+                    }
+                }
+
+                exeReult.ResultObject = result;
+                exeReult.IsFailure = false;
+                return exeReult;
+            }
+            catch (Exception e)
+            {
+                exeReult.IsFailure = true;
+                exeReult.IsSuccess = false;
+
+                throw e;
+            }
+
         }
 
     }
