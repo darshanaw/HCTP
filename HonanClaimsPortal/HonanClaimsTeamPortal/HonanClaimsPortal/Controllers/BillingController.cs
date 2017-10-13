@@ -189,7 +189,7 @@ namespace HonanClaimsPortal.Controllers
                 model.Is_Billable = true;
                 model.Service_By = UserId;
                 model.Service_By_Name = client.FirstName + " " + client.LastName;
-                model.Service_Date = DateTime.Now.ToString();
+                model.Service_Date = DateTime.Today;
                 return PartialView(model);
             }
             model.IsNew = false;
@@ -215,6 +215,7 @@ namespace HonanClaimsPortal.Controllers
                 model.Is_Billable = true;
                 model.Service_By = UserId;
                 model.Service_By_Name = client.FirstName + " " + client.LastName;
+                model.Service_Date = DateTime.Today;
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
             model.IsNew = false;
@@ -289,6 +290,7 @@ namespace HonanClaimsPortal.Controllers
             string UserId = client.UserId;
             model.Name = client.FirstName + "" + client.LastName;
             model.Date = DateTime.Now;
+            model.UserId = UserId;
             return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
