@@ -95,14 +95,25 @@
     $('#IsActive').change(function () {
         if (this.checked) {
             $("#IsActive").val(true);
+            $("#IsActive").attr('checked', true);
         } else {
             $("#IsActive").val(false);
+            $("#IsActive").attr('checked', false);
         }
     });
 
     $("#clearFilter").click(function () {
         $("#AccountName").val('');
         $("#AccountType").val('');
+        $("#IsActive").val(true);
+        $("#IsActive").attr('checked', true);
+        $("#PolicyNumber").val('');
+        $("#Associate").val('');
+        $("#Customer").val('');
+        $("#Underwriter").val('');
+        $("#PolicyType").val('');
+        $("#PolicyClass").val('');
+
         loadPolicy();
     });
 
@@ -112,8 +123,8 @@
     });
 
     $(document).ready(function () {
-        loadPolicy();
-        $("#IsActive").val(false);
+        $("#IsActive").attr('checked', true);
+        loadPolicy();       
     });
 
 
@@ -161,18 +172,15 @@
 
                 {
                     field: "InceptionDate",
-                    //title: "Inception Date",
                     template: "#if(InceptionDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(InceptionDate), 'dd-MM-yyyy') #  #}#"
                 },
                 {
                     field: "ExpiryDate",
-                    //title: "Expiry Date",
                     template: "#if(ExpiryDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(ExpiryDate), 'dd-MM-yyyy') #  #}#"
                 },
                 {
-                    field: "Associate",
                     title: "Associate",
-                    
+                    template: "<a href='/AccountList/AccountDetail?AccountId=#= CustomerId #'>#= Associate #</a>",
                 },
                 {
                     field: "Underwriter",
