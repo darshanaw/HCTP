@@ -5,73 +5,89 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="main-container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-title-1">
-                <h3 class="mt-50">Policies</h3>
-            </div>
-            <div class="search-box-1">
-                <div class="form-group mt-20">
-                    <label>Policy No.</label>
-                    @Html.TextBoxFor(m => m.PolicyNumber, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="cust-search">
-                <div class="form-group mt-20">
-                    <label>Customer</label>
-                    @Html.TextBoxFor(m => m.Customer, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="cust-search">
-                <div class="form-group mt-20">
-                    <label>Policy Type</label>
-                    @Html.DropDownListFor(m => m.PolicyType, new SelectList(Model.PolicyType, "Code", "Text"), "--select--", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="action-btn-2">
-                <div class="pull-right mt-45">
-                    <button id="filterList" type="button" class="btn btn-primary">Filter Policies</button>
+<div class="content-wrapper">
+    <h3>
+        Policies
+    </h3>
+
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Policy No</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.PolicyNumber, new { @class = "form-control input-sm" })
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row mb-15">
-        <div class="col-md-12">
-            <div class="search-box-1">
-                <div class="form-group mt-30">
-                    @Html.CheckBoxFor(m => m.IsActive)
-                    <label class="ml-15">Active Only</label>
-                </div>
-            </div>
-            <div class="search-box-1">
-                <div class="form-group">
-                    <label>Associate</label>
-                    @Html.TextBoxFor(m => m.Associate, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="cust-search">
-                <div class="form-group">
-                    <label>Underwriter</label>
-                    @Html.TextBoxFor(m => m.Underwriter, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="cust-search">
-                <div class="form-group">
-                    <label>Policy Class</label>
-                    @Html.DropDownListFor(m => m.PolicyClass, new SelectList(Model.PolicyClass, "Code", "Text"), "--select--", new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="action-btn-2">
-                <div class="pull-right mt-25">
-                    <button id="clearFilter" type="button" class="btn btn-default">Clear Filters</button>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Customer</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.Customer, new { @class = "form-control input-sm" })
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Policy Type</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(m => m.PolicyType, new SelectList(Model.PolicyType, "Code", "Text"), "--select--", new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb text-center">
+                @Html.CheckBoxFor(m => m.IsActive)
+                <label class="ml-15 input-sm">Active Only</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Associate</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.Associate, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Underwriter</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.Underwriter, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Policy Class</label>
+                <div class="col-sm-8">
+                   @Html.DropDownListFor(m => m.PolicyClass, new SelectList(Model.PolicyClass, "Code", "Text"), "--select--", new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb">
+        <div class="pull-right">
+            <button id="clearFilter" type="button" class="btn btn-default  mr-20">Clear Filters</button>
+            <button id="filterList" type="button" class="btn btn-primary">Filter Policies</button>
+        </div>
+    </div>
 
-    <div id="grid"></div>
+    <div class="col-md-12 top-padding-eight">
+        <div id="grid"></div>
+    </div>
 </div>
 
 <script>
