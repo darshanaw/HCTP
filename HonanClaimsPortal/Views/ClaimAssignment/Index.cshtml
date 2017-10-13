@@ -3,29 +3,35 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="main-container">
-    <div class="row mb-15">
-        <div class="col-md-12">
-            <div class="page-title-1">
-                <h3 class="mt-50">Claims Assignment</h3>
-            </div>
-            <div class="search-box-1">
-                <div class="form-group mt-20">
-                    <label>Assign Selected New Claims To</label>
-                    <select class="form-control" id="DropList" name="DropList"><option selected="selected"></option></select>
+
+<div class="content-wrapper">
+    <h3>
+        Claims Assignment
+    </h3>
+
+    <div class="col-md-6 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Assign Selected New Claims To</label>
+                <div class="col-sm-8">
+                    <select class="form-control input-sm" id="DropList" name="DropList"><option selected="selected"></option></select>
                 </div>
-            </div>
-            <div class="action-btn">
-                <div class="pull-right mt-45">
-                    <button type="submit" id="btnAssignNow" class="btn btn-primary">Assign Now</button>
-                </div>
+               
             </div>
         </div>
     </div>
-    <p>Below is a list of claims created from the customer Protal. Please assign these claims to Clam team members</p>
+    <div class="col-md-6">
+        <button type="submit" id="btnAssignNow" class="btn btn-sm btn-primary">Assign Now</button>
+    </div>
+    <div class="col-md-12">
+        <label class="control-label input-sm">Below is a list of claims created from the customer Protal. Please assign these claims to Clam team members</label>
+    </div>
 
-    <div id="ClaimsAssignmentGrid"></div>
+    <div class="col-md-12">
+        <div id="ClaimsAssignmentGrid"></div>
+    </div>
 </div>
+
 <script>
     $(document).ready(function () {
         var ClaimIds = [];
