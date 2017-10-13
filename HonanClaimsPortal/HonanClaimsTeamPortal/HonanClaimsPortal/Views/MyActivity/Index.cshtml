@@ -4,71 +4,51 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="main-container">
-    <div class="row mt-20">
-        <div class="col-md-12">
-            <div class="cust-search-1 mt-10">
-                <h3 class="mt-20">My Activity Deadlines</h3>
-            </div>
-            <div class="search-box-1">
-                <div class="form-group">
-                    <label for="sel1">Claim</label>
+
+<div class="content-wrapper">
+    <h3>
+        My Activity Deadlines
+    </h3>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Claim</label>
+                <div class="col-sm-8">
                     @Html.DropDownListFor(m => m.ActivityClaim,
                     new SelectList(Model.ActivityClaim, "Code", "Text"),
                     "--Select--",
-                    new { @class = "form-control", @onchange = "comboChange()" })
-                </div>
-            </div>
-            <div class="cust-search">
-                <div class="form-group">
-                    <label for="sel1">Activity owner</label>
-                    @Html.DropDownListFor(m => m.OwnerList,
-                    new SelectList(Model.OwnerList, "Code", "Text"),
-                    "--Select--",
-                    new { @class = "form-control", @onchange = "comboChange()" })
-                </div>
-            </div>
-            <div class="action-btn-2">
-                <div class="pull-right mt-25">
-                    <button id="filterList" type="button" class="btn btn-primary">Filter Accounts</button>
+                    new { @class = "form-control input-sm", @onchange = "comboChange()" })
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="cust-search-1">
-                <div class="form-group mb-0">
-                    <input id="overdue" type="checkbox" value="true">
-                    <label class="ml-10">Show OverDue</label>
-                </div>
-                <div class="form-group mb-0">
-                    <input id="fivedays" type="checkbox" value="true">
-                    <label class="ml-10">Due next 5 days</label>
-                </div>
-                <div class="form-group mb-0">
-                    <input id="ShowDue" type="checkbox" value="true">
-                    <label class="ml-10">Show with Due date</label>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for" id="searchTxt" aria-describedby="basic-addon2">
-                        <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
-                    </div>
-                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Activity Owner</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(m => m.OwnerList,
+                    new SelectList(Model.OwnerList, "Code", "Text"),
+                    "--Select--",
+                    new { @class = "form-control input-sm", @onchange = "comboChange()" })
                 </div>
             </div>
-            <div class="search-box-1">
-                <div class="form-group">
-                    <label for="sel1">User</label>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">User</label>
+                <div class="col-sm-8">
                     @{
                         if (Model.Activityusers.Count > 0)
                         {
                             @Html.DropDownListFor(m => m.Activityusers,
                         new SelectList(Model.Activityusers, "Code", "Text"),
                         "--Select--",
-                        new { @class = "form-control", @onchange = "comboChange()" })
+                        new { @class = "form-control input-sm", @onchange = "comboChange()" })
                         }
                         else
                         {
@@ -77,24 +57,87 @@
                     }
                 </div>
             </div>
-            <div class="cust-search">
-                <div class="form-group">
-                    <label for="sel1">Customer</label>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Customer</label>
+                <div class="col-sm-8">
                     @Html.DropDownListFor(m => m.CustomerList,
                     new SelectList(Model.CustomerList, "Code", "Text"),
                     "--Select--",
-                    new { @class = "form-control", @onchange = "comboChange()" })
+                    new { @class = "form-control input-sm", @onchange = "comboChange()" })
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb">
+        <div class="input-group">
+            <input type="text" class="form-control  input-sm" placeholder="Search for" id="searchTxt" aria-describedby="basic-addon2">
+            <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+    </div>
+    <div class="col-md-6 mb">
+        <div class="form-inline">
+            <div class="form-group mb-0">
+                <input id="overdue" type="checkbox" value="true">
+                <label class="ml-10 input-sm">Show OverDue</label>
+            </div>
+            <div class="form-group mb-0">
+                <input id="fivedays" type="checkbox" value="true">
+                <label class="ml-10 input-sm">Due next 5 days</label>
+            </div>
+            <div class="form-group mb-0">
+                <input id="ShowDue" type="checkbox" value="true">
+                <label class="ml-10 input-sm">Show with Due date</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb">
+        <div class="pull-right">
+            <button id="clearFilter" type="button" class="btn btn-sm btn-default mr-20">Clear Filter</button>
+            <button id="filterList" type="button" class="btn btn-sm btn-primary">Filter Accounts</button>
+        </div>
+    </div>
+       <div class="col-md-12 top-padding-eight">
+           <div id="grid"></div>
+       </div>
+</div>
+
+<div class="main-container">
+    <div class="row mt-20">
+        <div class="col-md-12">
+            <div class="cust-search-1 mt-10">
+                <h3 class="mt-20"></h3>
+            </div>
+
             <div class="action-btn-2">
                 <div class="pull-right mt-25">
-                    <button id="clearFilter" type="button" class="btn btn-default">Clear Filter</button>
+                    
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="grid"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="cust-search-1">
+
+                
+            </div>
+
+
+            <div class="action-btn-2">
+                <div class="pull-right mt-25">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
 </div>
 
 <script>
@@ -272,7 +315,7 @@
                     var cYear = new Date().getFullYear();
                     var dif = dDay - cDay;
 
-                    if (dYear == cYear && dMonth == cMonth && dif == 1 && compltecol == false){
+                    if (dYear == cYear && dMonth == cMonth && dif == 1 && compltecol == false) {
                         row.removeClass("OverDue");
                         row.addClass("Oneday");
                     }
@@ -293,7 +336,7 @@
             });
         }
 
-        
+
 
         $("#grid .k-grid-content").on("change", "input.chkbx", function (e) {
             var grid = $("#grid").data("kendoGrid"),
