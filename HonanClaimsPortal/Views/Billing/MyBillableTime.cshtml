@@ -319,7 +319,7 @@
     function loadBillingDetail(BillingId) {
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
-
+                alert("IN");
                 if (result.Checked_Date != null)
                 {
                     var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));

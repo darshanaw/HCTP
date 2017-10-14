@@ -66,10 +66,6 @@
                         <div class="brand-logo user-block-picture">
                             <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
 
-                            @*<img src="@Url.Content(" ~/clientlogo/" + System.IO.Path.GetFileName(@userObj.LogoPath))"
-                                alt="App Logo" class="img-responsive">*@
-
-
                         </div>
                         <div class="brand-logo-collapsed">
                             <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
@@ -144,6 +140,54 @@
                         <!-- START Alert menu-->
                         <li class="dropdown dropdown-list">
                             <a href="#" data-toggle="dropdown">
+                                <em class="icon-plus"></em>
+                                @*<div class="label label-danger">11</div>*@
+                            </a>
+                            <!-- START Dropdown menu-->
+                            <ul class="dropdown-menu animated flipInX">
+                                <li>
+                                    <!-- START list group-->
+                                    <div class="list-group">
+                                        <!-- list item-->
+                                        <a href="/NewClaim/Index" class="list-group-item">
+                                            <small>New Claim</small>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <small>New Billable Timeslip</small>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <small>New Claim Payment</small>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <small>New Key Contact</small>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <small>New File Note</small>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <small>New Activity Task</small>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <small>New Key Date</small>
+                                        </a>
+                                        <a href="/NewContactAccount/Index" class="list-group-item">
+                                            <small>New Contact/Account</small>
+                                        </a>
+                                        <a  id="emialclick"  class="list-group-item">
+                                            <small>New Email</small>
+                                        </a>
+
+                                    </div>
+                                    <!-- END list group-->
+                                </li>
+                            </ul>
+                            <!-- END Dropdown menu-->
+
+                        </li>
+                        <!-- END Alert menu-->
+
+                        <li class="dropdown dropdown-list">
+                            <a href="#" data-toggle="dropdown">
                                 <em class="icon-user"></em>
                                 @*<div class="label label-danger">11</div>*@
                             </a>
@@ -160,45 +204,9 @@
                                                 </div>
                                                 <div class="media-box-body clearfix">
                                                     <p class="m-sm">Sign Out</p>
-                                                    @*<p class="m0 text-muted">
-                                                            <small>1 new follower</small>
-                                                        </p>*@
                                                 </div>
                                             </div>
                                         </a>
-                                        @*<!-- list item-->
-                                            <a href="#" class="list-group-item">
-                                                <div class="media-box">
-                                                    <div class="pull-left">
-                                                        <em class="fa fa-envelope fa-2x text-warning"></em>
-                                                    </div>
-                                                    <div class="media-box-body clearfix">
-                                                        <p class="m0">New e-mails</p>
-                                                        <p class="m0 text-muted">
-                                                            <small>You have 10 new emails</small>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <!-- list item-->
-                                            <a href="#" class="list-group-item">
-                                                <div class="media-box">
-                                                    <div class="pull-left">
-                                                        <em class="fa fa-tasks fa-2x text-success"></em>
-                                                    </div>
-                                                    <div class="media-box-body clearfix">
-                                                        <p class="m0">Pending Tasks</p>
-                                                        <p class="m0 text-muted">
-                                                            <small>11 pending task</small>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <!-- last list item-->
-                                            <a href="#" class="list-group-item">
-                                                <small>More notifications</small>
-                                                <span class="label label-danger pull-right">14</span>
-                                            </a>*@
                                     </div>
                                     <!-- END list group-->
                                 </li>
@@ -206,7 +214,6 @@
                             <!-- END Dropdown menu-->
 
                         </li>
-                        <!-- END Alert menu-->
                         <!-- START Offsidebar button-->
                         <li>
                             <div>
@@ -241,19 +248,21 @@
                         <li class="has-user-block">
                             <div id="user-block" class="collapse in">
                                 <div class="item user-block">
-                                    <!-- User picture-->
-                                    <!-- Name and Job-->
-                                    <div class="user-block-info visible-sm visible-xs">
-                                        <span class="user-block-name"></span>
-                                        <span class="user-block-name"></span>
+                                   
+                                    @*<div class="user-block-picture">
+
+                                        <div class="user-block-status">
+                                            <img src="~/Content/app/img/honanWbn.png" alt=""  width="100" height="50"/>
+                                        </div>
+
                                     </div>
-                                    <div class="user-block-picture">
 
-                                        @*<img src="@Url.Action(@userObj.LogoPath.ToString())" alt="Person Image" />*@
-                                        @*<img src="@userObj.LogoPath.ToString()" alt="Person Image" />*@
-                                        <img src="#" alt="" />
+                                    <div class="brand-logo user-block-picture">
+                                        <img src="~/Content/app/img/honanWbn.png" alt="Home" class="img-responsive">
 
-
+                                    </div>*@
+                                    <div class="brand-logo-collapsed">
+                                        <img src="~/Content/app/img/HonanLogo.png" alt="Home" class="img-responsive">
                                     </div>
 
                                 </div>
@@ -264,31 +273,131 @@
                         <li class="nav-heading ">
                             @*<span data-localize="sidebar.heading.HEADER">Main Navigation</span>*@
                         </li>
+
+                      
                         <li class=" ">
-                            <a href="/AdminList/AdminList" title="Admin">
-                                <em class="icon-speech"></em>
-                                <span>Admin</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/Notification/ViewNotifications" title="View Notifications">
-                                <em class="icon-speech"></em>
-                                <span>Test 2</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/NewClaim/Index" title="New Claim">
-                                <em class="icon-speech"></em>
-                                <span>New Claim</span>
+                            <a href="/AdminList/AdminList" title="Portal Admin">
+                                <em class="icon-user"></em>
+                                <span>Portal Admin</span>
                             </a>
                         </li>
                         <li class=" ">
                             <a href="/claimassignment/Index" title="Claim Assignment">
-                                <em class="icon-speech"></em>
+                                <em class="icon-login"></em>
                                 <span>Claim Assignment</span>
                             </a>
                         </li>
-                        
+                        <li class=" ">
+                            <a href="/TimeslipCheck/Index" title="Billing Check">
+                                <em class="icon-check"></em>
+                                <span>Billing Check</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/claimlist/Index" title="Claims">
+                                <em class="icon-briefcase"></em>
+                                <span>Claims</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/Myactivity/Index" title="My Activity Deadlines">
+                                <em class="icon-eyeglass"></em>
+                                <span>My Activity Deadlines</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/Billing/MyBillableTime" title="MyBillable Time">
+                                <em class="icon-clock"></em>
+                                <span>MyBillable Time</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/Policies/Index" title="Policies">
+                                <em class="icon-notebook"></em>
+                                <span>Policies</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/AccountList/Index" title="Accounts">
+                                <em class="icon-globe"></em>
+                                <span>Accounts</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/Contact/Index" title="Contacts">
+                                <em class="icon-people"></em>
+                                <span>Contacts</span>
+                            </a>
+                            
+                        </li>
+
+                        <li class=" ">
+                            <a href="#addNew" data-toggle="collapse" title="Add New">
+                                <em class="icon-plus"></em>
+                                <span>Add New</span>
+                            </a>
+                            <ul id="addNew" class="nav sidebar-subnav collapse" >
+                                <li class=" ">
+                                    <a href="/NewClaim/Index" title="New Claim">
+                                        <span>New Claim</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="#" title="New Billable Timeslip">
+                                        <span>New Billable Timeslip</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="#" title="New Claim Payment">
+                                        <span>New Claim Payment</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="#" title="New Key Contact">
+                                        <span>New Key Contact</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="#" title="New File Note">
+                                        <span>New File Note</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="#" title="New Activity Task">
+                                        <span>New Activity Task</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="#" title="New Key Date">
+                                        <span>New Key Date</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="/NewContactAccount/Index" title="New Contact/Account">
+                                        <span>New Contact/Account</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a id="emialclick" title="New Email">
+                                        <span>New Email</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        @*<li class=" ">
+                            <a href="/Notification/ViewNotifications" title="View Notifications">
+                                <em class="icon-speech"></em>
+                                <span>Test 2</span>
+                            </a>
+                        </li>*@
 
                         @*
                             <li class=" ">
@@ -303,62 +412,8 @@
                                 <span>View Notifications</span>
                             </a>
                         </li>*@
-                        <li class=" ">
-                            <a href="/Myactivity/Index" title="My Activity">
-                                <em class="icon-speech"></em>
-                                <span>My Activity Deadlines</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/claimlist/Index" title="My Claim List">
-                                <em class="icon-speech"></em>
-                                <span>My Claim List</span>
-                            </a>
-                        </li>
-
-                        <li class=" ">
-                            <a href="/AccountList/Index" title="Account">
-                                <em class="icon-speech"></em>
-                                <span>Account</span>
-                            </a>
-                        </li>
-
-                        <li class=" ">
-                            <a href="/Contact/Index" title="Contact">
-                                <em class="icon-speech"></em>
-                                <span>Contact</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/TimeslipCheck/Index" title="TimeSlip Check">
-                                <em class="icon-speech"></em>
-                                <span>TimeSlip Check</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/NewContactAccount/Index" title="Risksmart Gcc">
-                                <em class="icon-speech"></em>
-                                <span>New Contact/Account</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/Policies/Index" title="Policy">
-                                <em class="icon-speech"></em>
-                                <span>Policy</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a id="emialclick" title="Policy">
-                                <em class="icon-speech"></em>
-                                <span>Send Email</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/Billing/MyBillableTime" title="Claim Assignment">
-                                <em class="icon-speech"></em>
-                                <span>MyBillable Time</span>
-                            </a>
-                        </li>
+                       
+                        
                     </ul>
                     <!-- END sidebar nav-->
                 </nav>

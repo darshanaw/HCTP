@@ -65,9 +65,9 @@
                                 <label class="col-sm-2 control-label input-sm">Account Name</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto" })
                                         <span id="accountNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
-                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
                                                 <i class="fa fa-binoculars"></i>
                                             </button>
                                         </span>
@@ -86,9 +86,9 @@
                                 <label class="col-sm-2 control-label input-sm">OC#</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        @Html.TextBoxFor(o => o.Oc_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                                        @Html.TextBoxFor(o => o.Oc_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto" })
                                         <span id="spanAccountOcModal" class="input-group-btn" data-toggle="modal" data-target="#AccountOcModal">
-                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
                                                 <i class="fa fa-binoculars"></i>
                                             </button>
                                         </span>
@@ -100,9 +100,9 @@
                                 <label class="col-sm-2 control-label input-sm">Policy #</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12, @style = "z-index: auto" })
                                         <span id="spnPolicyModal" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
-                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="z-index:auto" >
                                                 <i class="fa fa-binoculars"></i>
                                             </button>
                                         </span>
@@ -114,9 +114,9 @@
                                 <label class="col-sm-2 control-label input-sm">Assigned To</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        @Html.TextBoxFor(o => o.Assigned_To, new { @class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Assigned_To, new { @class = "form-control input-sm", @maxlength = 200, @style = "z-index: auto" })
                                         <span id="spnAssignTo" class="input-group-btn" data-toggle="modal" data-target="#AssignToModal">
-                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="z-index:auto">
                                                 <i class="fa fa-binoculars"></i>
                                             </button>
                                         </span>
