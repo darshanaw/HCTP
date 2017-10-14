@@ -224,6 +224,7 @@
     <Compile Include="Controllers\PoliciesController.cs" />
     <Compile Include="Controllers\PropertyClaimController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TimeslipCheckController.cs" />
     <Compile Include="Controllers\RisksmartPropertyClaimController.cs" />
     <Compile Include="Controllers\ViewPagesController.cs" />
@@ -1374,6 +1375,7 @@
     <Content Include="Views\Shared\_KeyDateDetail.cshtml" />
     <Content Include="Views\Shared\_ActivityTaskAccountLookUp.cshtml" />
     <Content Include="Views\Shared\_ActivityTaskContactLookUp.cshtml" />
+    <Content Include="Views\Shared\_CommonSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
