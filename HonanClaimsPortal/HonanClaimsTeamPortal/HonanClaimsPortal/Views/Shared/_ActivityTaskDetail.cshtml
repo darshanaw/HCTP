@@ -374,6 +374,7 @@
         });
 
         $(".ActivityWorkFlowModal_Close").click(function () {
+            RefreshActivityTasksGrid();
             $("#ActivityWorkFlowModal").modal("hide");
         });
 
@@ -538,7 +539,6 @@
                 transport: {
                     read: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + seqId,
                 },
-                pageSize: 5,
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
                         return { models: kendo.stringify(options.models) };
@@ -548,7 +548,6 @@
             },
             selectable: "row",
             filterable: true,
-            pageSize: 5,
             navigatable: true,
             pageable: false,
             scrollable: true,
