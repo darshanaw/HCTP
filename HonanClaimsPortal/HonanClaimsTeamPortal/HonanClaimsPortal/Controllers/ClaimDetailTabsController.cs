@@ -297,7 +297,7 @@ namespace HonanClaimsPortal.Controllers
             activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
             ViewBag.MaxActDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
             model.Last_Task_Completed_Dtl_String = ViewBag.MaxActDate.ToString();
-            model.Last_Task_Completed_Dtl = !string.IsNullOrEmpty(ViewBag.MaxActDate) ? Convert.ToDateTime(ViewBag.MaxActDate) : null;
+            model.Last_Task_Completed_Dtl =!string.IsNullOrEmpty(ViewBag.MaxActDate) ? DateTime.ParseExact(ViewBag.MaxActDate, "dd/MM/yyyy", null)  : null;
 
 
             model.H_Claimsid_Dtl_List = claimServices.GetClaimsForUser(client.UserId);

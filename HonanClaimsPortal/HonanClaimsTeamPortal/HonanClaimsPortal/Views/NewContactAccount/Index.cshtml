@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("AddNewContact", "NewContactAccount", FormMethod.Post, new { @class = "", role = "form" }))
+@using (Html.BeginForm("Index", "NewContactAccount", FormMethod.Post, new { @class = "", role = "form" }))
 {
 
 
@@ -13,7 +13,7 @@
             New Contact/Account
         </h3>
         <div class="panel panel-default">
-
+                @ViewBag.Message
             <div class="panel-body">
                 <div class="form-horizontal">
                     <div class="col-md-12">
@@ -216,7 +216,7 @@
                     </div>
                     <div class="col-md-12 mb">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-default mr-20">Cancel</button>
+                            <button type="button"id="Cancel" class="btn btn-default mr-20">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
@@ -250,7 +250,58 @@
 
 <script>
 
+    @*$(document).read(function () {
+        if(@ViewBag.Message==""|| @ViewBag.Message=="Success: Save successful"){
+            clearFileds();
+        }else{
+            clearFileds();
+        }
+    });*@
 
+    $("#Cancel").click(function () {
+        clearFileds();
+    });
+
+    function clearFileds() {
+        $("#Contact").val('');
+        $("#Phone").val('');
+        $("#Account").val('');
+        $("#Email").val('');
+        $("#Website").val('');
+        $("#Address1").val('');
+        $("#Address2").val('');
+        $("#City").val('');
+        $("#State").val('');
+        $("#PostCode").val('');
+        $("#PickTitle").val('');
+        $("#ContactWorkPhone").val('');
+        $("#ContactMobile").val('');
+        $("#ContactFax").val('');
+        $("#AccountPhone").val('');
+        $("#AccountFax").val('');
+        $("#PickTypes").val('');
+
+    }
+
+    $("#Accsearch").keyup(function () {
+        var val = $('#Accsearch').val();
+        $("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
+            logic: "or",
+            filters: [
+                {
+                    field: "AccountName",
+                    operator: "contains",
+                    value: val,
+                },
+                {
+                    field: "AccountType",
+                    operator: "contains",
+                    value: val
+                },
+
+            ]
+        });
+    });
 
     $(document).ready(function () {
         LoadMagaer();
