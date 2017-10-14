@@ -245,9 +245,8 @@
 
     function loadActivityTaskDetail(activityId)
     {
-        $("#H_Activitytasksid_Dtl").val(activityId);
-
         clearActivityTaskDetails();
+        $("#H_Activitytasksid_Dtl").val(activityId);
         //refreshSequence();
 
         $.ajax({
