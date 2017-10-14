@@ -329,11 +329,11 @@ namespace HonanClaimsPortal.Controllers
         public ActionResult UpdateNextActivityWorkFlow(string activityTaskId, string action, int actionSeq, int nextSeq,
             string nextActivityId, string nextActivityDue, string claimId)
         {
-            DateTime nextActivityDue_ = DateTime.Now;
+            //DateTime nextActivityDue_ = Convert.ToDateTime(nextActivityDue); //DateTime.Now;
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             documentService = new DocumentService();
             bool res = documentService.CompleteActivityTaskWithNextAction(activityTaskId, action, actionSeq, nextSeq,
-             nextActivityId, nextActivityDue_, claimId, client.UserId);
+             nextActivityId, nextActivityDue, claimId, client.UserId);
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
