@@ -170,11 +170,11 @@
                                         <a href="#" class="list-group-item">
                                             <small>New Key Date</small>
                                         </a>
+                                        <a id="emialclick" class="list-group-item">
+                                            <small>New Email</small>
+                                        </a>
                                         <a href="/NewContactAccount/Index" class="list-group-item">
                                             <small>New Contact/Account</small>
-                                        </a>
-                                        <a  id="emialclick"  class="list-group-item">
-                                            <small>New Email</small>
                                         </a>
 
                                     </div>
@@ -248,19 +248,19 @@
                         <li class="has-user-block">
                             <div id="user-block" class="collapse in">
                                 <div class="item user-block">
-                                   
+
                                     @*<div class="user-block-picture">
 
-                                        <div class="user-block-status">
-                                            <img src="~/Content/app/img/honanWbn.png" alt=""  width="100" height="50"/>
+                                            <div class="user-block-status">
+                                                <img src="~/Content/app/img/honanWbn.png" alt=""  width="100" height="50"/>
+                                            </div>
+
                                         </div>
 
-                                    </div>
+                                        <div class="brand-logo user-block-picture">
+                                            <img src="~/Content/app/img/honanWbn.png" alt="Home" class="img-responsive">
 
-                                    <div class="brand-logo user-block-picture">
-                                        <img src="~/Content/app/img/honanWbn.png" alt="Home" class="img-responsive">
-
-                                    </div>*@
+                                        </div>*@
                                     <div class="brand-logo-collapsed">
                                         <img src="~/Content/app/img/HonanLogo.png" alt="Home" class="img-responsive">
                                     </div>
@@ -274,25 +274,41 @@
                             @*<span data-localize="sidebar.heading.HEADER">Main Navigation</span>*@
                         </li>
 
-                      
-                        <li class=" ">
-                            <a href="/AdminList/AdminList" title="Portal Admin">
-                                <em class="icon-user"></em>
-                                <span>Portal Admin</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/claimassignment/Index" title="Claim Assignment">
-                                <em class="icon-login"></em>
-                                <span>Claim Assignment</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/TimeslipCheck/Index" title="Billing Check">
-                                <em class="icon-check"></em>
-                                <span>Billing Check</span>
-                            </a>
-                        </li>
+                        @{
+
+                            HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel login = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as
+                                HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
+                        }
+
+                        @if (login.IsPortalAdmin == true)
+                        {
+                            <li class=" ">
+                                <a href="/AdminList/AdminList" title="Portal Admin">
+                                    <em class="icon-user"></em>
+                                    <span>Portal Admin</span>
+                                </a>
+                            </li>
+                        }
+
+                        @if (login.IsManager == true)
+                        {
+                            <li class=" ">
+                                <a href="/claimassignment/Index" title="Claim Assignment">
+                                    <em class="icon-login"></em>
+                                    <span>Claim Assignment</span>
+                                </a>
+                            </li>
+                        }
+
+                        @if (login.IsTimeslipChecker == true)
+                        {
+                            <li class=" ">
+                                <a href="/TimeslipCheck/Index" title="Billing Check">
+                                    <em class="icon-check"></em>
+                                    <span>Billing Check</span>
+                                </a>
+                            </li>
+                        }
 
                         <li class=" ">
                             <a href="/claimlist/Index" title="Claims">
@@ -302,9 +318,9 @@
                         </li>
 
                         <li class=" ">
-                            <a href="/Myactivity/Index" title="My Activity Deadlines">
-                                <em class="icon-eyeglass"></em>
-                                <span>My Activity Deadlines</span>
+                            <a href="/Myactivity/Index" title="My Activities">
+                                <em class="icon-energy"></em>
+                                <span>My Activities</span>
                             </a>
                         </li>
 
@@ -333,15 +349,15 @@
                                 <em class="icon-people"></em>
                                 <span>Contacts</span>
                             </a>
-                            
+
                         </li>
 
-                        <li class=" ">
+                        @*<li class=" ">
                             <a href="#addNew" data-toggle="collapse" title="Add New">
                                 <em class="icon-plus"></em>
                                 <span>Add New</span>
                             </a>
-                            <ul id="addNew" class="nav sidebar-subnav collapse" >
+                            <ul id="addNew" class="nav sidebar-subnav collapse">
                                 <li class=" ">
                                     <a href="/NewClaim/Index" title="New Claim">
                                         <span>New Claim</span>
@@ -389,31 +405,31 @@
                                 </li>
 
                             </ul>
-                        </li>
+                        </li>*@
 
 
                         @*<li class=" ">
-                            <a href="/Notification/ViewNotifications" title="View Notifications">
-                                <em class="icon-speech"></em>
-                                <span>Test 2</span>
-                            </a>
-                        </li>*@
+                                <a href="/Notification/ViewNotifications" title="View Notifications">
+                                    <em class="icon-speech"></em>
+                                    <span>Test 2</span>
+                                </a>
+                            </li>*@
 
                         @*
+                                <li class=" ">
+                                <a href="/ViewPages/ViewClaims" title="View Claims">
+                                    <em class="icon-speech"></em>
+                                    <span>View Claims</span>
+                                </a>
+                            </li>
                             <li class=" ">
-                            <a href="/ViewPages/ViewClaims" title="View Claims">
-                                <em class="icon-speech"></em>
-                                <span>View Claims</span>
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/ViewPages/ViewNotifications" title="View Notifications">
-                                <em class="icon-speech"></em>
-                                <span>View Notifications</span>
-                            </a>
-                        </li>*@
-                       
-                        
+                                <a href="/ViewPages/ViewNotifications" title="View Notifications">
+                                    <em class="icon-speech"></em>
+                                    <span>View Notifications</span>
+                                </a>
+                            </li>*@
+
+
                     </ul>
                     <!-- END sidebar nav-->
                 </nav>
@@ -795,41 +811,41 @@
         </aside>
         <section>
             @*@{
-                List<SelectListItem> Navigation = new List<SelectListItem>();
-                Navigation.Add(new SelectListItem
-                {
-                    Text = "Risksmart GCC Manager",
-                    Value = "Risksmart GCC Manager"
-                });
-                Navigation.Add(new SelectListItem
-                {
-                    Text = "Risksmart Property Manager",
-                    Value = "Risksmart Property Manager",
-                });
-                Navigation.Add(new SelectListItem
-                {
-                    Text = "GCC Claims Manager",
-                    Value = "GCC Claims Manager",
-                });
-                Navigation.Add(new SelectListItem
-                {
-                    Text = "Property Claims Manager",
-                    Value = "Property Claims Manager",
-                });
-            }
+                    List<SelectListItem> Navigation = new List<SelectListItem>();
+                    Navigation.Add(new SelectListItem
+                    {
+                        Text = "Risksmart GCC Manager",
+                        Value = "Risksmart GCC Manager"
+                    });
+                    Navigation.Add(new SelectListItem
+                    {
+                        Text = "Risksmart Property Manager",
+                        Value = "Risksmart Property Manager",
+                    });
+                    Navigation.Add(new SelectListItem
+                    {
+                        Text = "GCC Claims Manager",
+                        Value = "GCC Claims Manager",
+                    });
+                    Navigation.Add(new SelectListItem
+                    {
+                        Text = "Property Claims Manager",
+                        Value = "Property Claims Manager",
+                    });
+                }
 
-            <div class="col-md-4">
-                <div class="form-group">
-                    @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="searchbox" placeholder="Search for">
-                        <span class="input-group-addon pointer" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
-                    </div>         
-            </div>*@
+                <div class="col-md-4">
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchbox" placeholder="Search for">
+                            <span class="input-group-addon pointer" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                </div>*@
 
             @RenderBody()
         </section>
@@ -882,15 +898,15 @@
                             </div>
                             <button id="sendemail" class="btn btn-default">Send</button>
                         </div>
-                <div class="modal-footer">
-                    <div class="pull-right">
-                        <button class="btn btn-primary">Send</button>
+                        <div class="modal-footer">
+                            <div class="pull-right">
+                                <button class="btn btn-primary">Send</button>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
-
-        </div>
-    </div>
         </div>
     </div>
 
@@ -1047,7 +1063,7 @@
 
         function loadEmails(dataItem, IsRemove) {
             if (IsRemove) {
-                if (list.length > 0) {    
+                if (list.length > 0) {
                     list = jQuery.grep(list, function (value) {
                         return value != dataItem.Code;
                     });
@@ -1127,8 +1143,8 @@
                     if (CClist.length > 0) {
                         CClist = jQuery.grep(CClist, function (value) {
                             return value != dataItem.Code;
-            });
-        }
+                        });
+                    }
                 }
 
             } else {

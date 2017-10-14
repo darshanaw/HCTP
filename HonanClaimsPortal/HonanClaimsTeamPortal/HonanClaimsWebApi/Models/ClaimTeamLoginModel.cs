@@ -13,5 +13,8 @@ namespace HonanClaimsWebApiAccess1.LoginServices
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<string> Teams { get; set; }
+        public bool IsPortalAdmin { get; set; }
+        public bool IsManager { get; set; }
+        public bool IsTimeslipChecker { get; set; }
     }
 }
