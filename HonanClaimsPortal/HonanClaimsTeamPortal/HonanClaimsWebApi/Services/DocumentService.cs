@@ -679,7 +679,7 @@ namespace HonanClaimsWebApi.Services
         
 
         public bool CompleteActivityTaskWithNextAction(string activityTaskId, string action, int actionSeq, int nextSeq,
-            string nextActivityId, DateTime nextActivityDue, string claimId, string userId)
+            string nextActivityId, string nextActivityDue, string claimId, string userId)
         {
 
             try
