@@ -27,7 +27,7 @@ namespace HonanClaimsWebApi.Services
         private const string createClaimAttachApiGet7 = "&IsCustomerDoc=";
         private const string createClaimAttachApiGet8 = "api/claim/TeamGetDocs?ClaimId=";
         private const string createClaimAttachApiGet9 = "&isCustomerDocs=";
-     
+
         private const string createFileNote = "api/FileNote/CreateFileNoteRecord?userId=";
         private const string updateFileNote = "api/FileNote/TeamUpdateFileNoteRecord?userId=";
         private const string param_shortDes = "&shortDescription=";
@@ -69,6 +69,18 @@ namespace HonanClaimsWebApi.Services
         private const string deleteRecord = "api/Activity/DeleteActivity?claimId=";
         private const string param_activityId = "&activityId=";
         private const string param_seq = "&seq=";
+
+        private const string completeActivityTask = "api/Activity/CompleteActivityTaskWithNextAction?activityTaskId=";
+        private const string param_action = "&action=";
+        private const string param_actionSeq = "&actionSeq=";
+        private const string param_nextSeq = "&nextSeq=";
+        private const string param_nextActivity = "&nextActivityId=";
+        private const string param_nextDue = "&nextActivityDue=";
+        private const string param_user = "&userId=";
+        private const string param_claim = "&claimId=";
+
+
+        private const string getNextTaskDueDate_ = "api/Activity/TeamGetNextActivityDueDate?nextTaskId=";
 
 
         ExecutionResult exeReult;
@@ -304,7 +316,7 @@ namespace HonanClaimsWebApi.Services
             string result = "";
 
             try
-            {              
+            {
                 string apiUrl = string.Empty;
 
                 if (payment.IsNew && string.IsNullOrEmpty(payment.H_Paymentsid))
@@ -323,7 +335,7 @@ namespace HonanClaimsWebApi.Services
                             var t = invoice.FirstOrDefault().InputStream;
                             formData.Add(new StreamContent(invoice.FirstOrDefault().InputStream), "invoice", invoice.ToList()[0].FileName);
                         }
-                     
+
                         var jsonString = JsonConvert.SerializeObject(payment);
                         var jsonString_userId = JsonConvert.SerializeObject(userId);
                         var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
@@ -331,7 +343,7 @@ namespace HonanClaimsWebApi.Services
                         formData.Add(content, "payment");
                         formData.Add(content_userId, "userId");
 
-                        
+
                         var postResult = await client.PostAsync(apiUrl, formData);
                         string resultContent = await postResult.Content.ReadAsStringAsync();
                         exeReult.IsSuccess = Convert.ToBoolean(resultContent);
@@ -352,7 +364,7 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-       
+
 
         public List<PaymentSimple> GetPaymentDetails(string claimId, string payeeId, string invoicedDate, string status, string invoiceNo)
         {
@@ -387,7 +399,7 @@ namespace HonanClaimsWebApi.Services
             }
 
         }
-        
+
 
         public Payment getPaymentById(string paymentId)
         {
@@ -421,7 +433,7 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
-       
+
         public List<ActivityTask> GetActivityTasks(string claimId, bool incompleteOnly, bool completedOnly, bool showOverDue, string owner)
         {
 
@@ -455,7 +467,7 @@ namespace HonanClaimsWebApi.Services
             }
 
         }
-        
+
 
         public List<ActivityTask> GetActivitiesForWorkFlow(string claimId, int completingActionSeq)
         {
@@ -545,12 +557,12 @@ namespace HonanClaimsWebApi.Services
             };
         }
 
-        
+
         public async Task<ExecutionResult> SaveActivityDetail(ActivityTaskDetail activityTask, string userId, bool isNew)
         {
             exeReult = new ExecutionResult();
             string result = "";
-            
+
             try
             {
                 string apiUrl = string.Empty;
@@ -566,7 +578,7 @@ namespace HonanClaimsWebApi.Services
                 {
                     using (var formData = new MultipartFormDataContent())
                     {
-                        
+
                         var jsonString = JsonConvert.SerializeObject(activityTask);
                         var jsonString_userId = JsonConvert.SerializeObject(userId);
                         var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
@@ -595,7 +607,7 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-      
+
         public ActivityTaskDetail GetGetActivityTaskDetailById(string activityId)
         {
 
@@ -630,10 +642,7 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        //private const string deleteRecord = "api/Activity/DeleteActivity?claimId=";
-        //private const string param_activityId = "&activityId=";
-        //private const string param_seq = "&seq=";
-
+       
         public bool DeleteActivity(string claimId, string activityId, int seq)
         {
 
@@ -667,6 +676,77 @@ namespace HonanClaimsWebApi.Services
             }
 
         }
+        
 
+        public bool CompleteActivityTaskWithNextAction(string activityTaskId, string action, int actionSeq, int nextSeq,
+            string nextActivityId, DateTime nextActivityDue, string claimId, string userId)
+        {
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + completeActivityTask + activityTaskId + param_action + action + param_actionSeq + actionSeq 
+                    + param_nextSeq + nextSeq + param_nextActivity + nextActivityId + param_nextDue + nextActivityDue + param_user + userId + param_claim + claimId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<bool>(response);
+                        }
+                    }
+                }
+
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        public string GetNextTaskDueDate(string nextTaskId)
+        {
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getNextTaskDueDate_ + nextTaskId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<string>(response);
+                        }
+                    }
+                }
+                
+                return "";
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        
     }
 }

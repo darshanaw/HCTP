@@ -295,9 +295,9 @@ namespace HonanClaimsPortal.Controllers
 
             List<ActivityTask> activityTasks = new List<ActivityTask>();
             activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
-            ViewBag.MaxDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
-            model.Last_Task_Completed_Dtl_String = ViewBag.MaxDate.ToString();
-            model.Last_Task_Completed_Dtl = !string.IsNullOrEmpty(ViewBag.MaxDate) ? Convert.ToDateTime(ViewBag.MaxDate): null;
+            ViewBag.MaxActDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
+            model.Last_Task_Completed_Dtl_String = ViewBag.MaxActDate.ToString();
+            model.Last_Task_Completed_Dtl = !string.IsNullOrEmpty(ViewBag.MaxActDate) ? Convert.ToDateTime(ViewBag.MaxActDate) : null;
 
 
             model.H_Claimsid_Dtl_List = claimServices.GetClaimsForUser(client.UserId);
@@ -324,6 +324,17 @@ namespace HonanClaimsPortal.Controllers
             string maxDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
 
             return Json(maxDate, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdateNextActivityWorkFlow(string activityTaskId, string action, int actionSeq, int nextSeq,
+            string nextActivityId, string nextActivityDue, string claimId)
+        {
+            DateTime nextActivityDue_ = DateTime.Now;
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            documentService = new DocumentService();
+            bool res = documentService.CompleteActivityTaskWithNextAction(activityTaskId, action, actionSeq, nextSeq,
+             nextActivityId, nextActivityDue_, claimId, client.UserId);
+            return Json("", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DeleteActivity(string claimId, string activityId, int seq)
@@ -394,6 +405,13 @@ namespace HonanClaimsPortal.Controllers
             List<ActivityTask> activityTasks = new List<ActivityTask>();
             activityTasks = documentService.GetActivitiesForWorkFlow(claimId, completingActionSeq);
             return Json(activityTasks, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetNextTaskDueDate(string nextTaskId)
+        {
+            documentService = new DocumentService();
+            string dueDate = documentService.GetNextTaskDueDate(nextTaskId);
+            return Json(dueDate, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetGetActivityTaskDetailById(string activityId)

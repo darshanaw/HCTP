@@ -1,5 +1,27 @@
 ﻿
 
+<input type="hidden" id="isActivityCompletionGrid" name="isActivityCompletionGrid" />
+
+
+<input type="hidden" id="activityTaskId_wf" name="activityTaskId_wf" />
+<input type="hidden" id="action_wf" name="action_wf" />
+<input type="hidden" id="actionSeq_wf" name="actionSeq_wf" />
+<input type="hidden" id="nextSeq_wf" name="nextSeq_wf" />
+<input type="hidden" id="nextActivityId_wf" name="nextActivityId_wf" />
+<input type="hidden" id="nextActivityDue_wf" name="nextActivityDue_wf" />
+
+<style>
+
+    .gridOrange {
+        color: #FFA268;
+    }
+
+    .gridRed {
+        color: #FF1329
+    }
+
+</style>
+    
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
@@ -68,6 +90,36 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="ActivityWorkFlowModal" class="modal fade ActivityWorkFlowModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" style="width:850px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ActivityWorkFlowModal_Close">&times;</button>
+                <h4 class="modal-title">Activity Workflow Next Steps</h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridActivityWorkFlowNextSteps"></div>
+                <br />
+                <div class="col-md-12" style="padding-right:0px;margin-right:0px">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">Deadline for Selected Task</div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control disabled" readonly id="txtWorkFlowCompletedDAte" />
+                    </div>
+                    <div class="col-md-2" style="padding-right:0px;margin-right:0px">
+                        <input type="button" class="btn btn-primary pull-right" value="Complete" id="btnWorkFlowComplete" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ActivityWorkFlowModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="windowActivity"></div>
 <script type="text/x-kendo-template" id="windowTemplate">
 
@@ -103,7 +155,19 @@
             navigatable: true,
             pageable: true,
             sortable: true,
-            //dataBound: onPaymentDataBound,
+            dataBound: function (e) {
+                var items = this._data;
+                var tableRows = $(this.table).find("tr");
+                tableRows.each(function (index) {
+                    var row = $(this);
+                    var Item = items[index];
+                    if (Item.RowColor_Act == "Red") {
+                        row.addClass("gridRed");
+                    } else if (Item.RowColor_Act == "Orange"){
+                        row.addClass("gridOrange");
+                    }
+                })
+            },
             columns: [
                 {
                     field: "ActivityTaskId",
@@ -143,12 +207,14 @@
                 {
                     field: "Skipped_Act",
                     title: "Skipped",
-                    //template: "<input type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
+                    template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
                 },
                 {
                     field: "Complete_Act",
                     title: "Completed",
-                    template: "#if(Complete_Act==true){ #Yes# } else { #No# }#"
+                    //template: "#if(Complete_Act==true){ #Yes# } else { #No# }#"
+                    template: "<input onclick=\"InvokeNextSteps(this,'#= Seq_Act #','#= ActivityTaskId #','#= Action_Act #');\" type='checkbox' #if(Complete_Act==true){ #checked disabled# } else { ## }# />"
+                    
                 },
                 {
                     field: "CompletedDate_Act",
@@ -175,7 +241,7 @@
                                         RefreshActivityTasksGrid();
                                     }
                                 });
-                                                               
+
                             })
                             $("#noButton").click(function () {
                                 window.close();
@@ -194,7 +260,7 @@
 
         }).data("kendoWindow");
 
-       
+
         $("#btnActivityTasksFilter").click(function () {
 
             RefreshActivityTasksGrid();
@@ -206,10 +272,34 @@
             refreshSequence();
             clearActivityTaskDetails();
             $('#ActivityTasksDetailModal').modal('show');
-
+            lastTaskCompletedDate()
         });
 
     });
+
+    function InvokeNextSteps(chkBox, seqId, activityTaskId_wf, action_wf)
+    {
+        
+        if (!$(chkBox).is(":checked"))
+        {
+            $(chkBox).prop("checked", false);
+        }
+        else
+        {
+            $("#isActivityCompletionGrid").val("true");
+
+            $("#activityTaskId_wf").val(activityTaskId_wf);
+            $("#action_wf").val(action_wf);
+            $("#actionSeq_wf").val(seqId);
+           
+            $("#ActivityWorkFlowModal").modal("show");
+            $("#txtWorkFlowCompletedDAte").val("");
+            LoadgridActivityWorkFlowNextSteps(true, seqId);
+            
+        }
+    }
+
+  
 
     function refreshSequence() {
 
@@ -272,7 +362,7 @@
                 $("#Completed_By_Name_Dtl").val(result.Completed_By_Name_Dtl);
                 $("#Completed_By_Dtl").val(result.Completed_By_Dtl);
                 $("#Completed_Date_Dtl").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
-                $("#dummyCompletedDate").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));             
+                $("#dummyCompletedDate").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
                 $("#Update_Key_Contacts_Dtl").prop("checked", result.Update_Key_Contacts_Dtl);
                 $("#Update_Key_Date_Dtl").prop("checked", result.Update_Key_Date_Dtl);
                 $("#IsNew").val("false");
