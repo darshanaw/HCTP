@@ -5,33 +5,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="main-container">
-    <div class="row mb-15">
-        <div class="col-md-12">
-            <div class="page-title-1">
-                <h3 class="mt-50">Contact</h3>
-            </div>
-            <div class="search-box-1">
-                <div class="form-group mt-20">
-                    <label>Contact Name</label>
-                    @Html.TextBoxFor(m => m.ConatctName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="cust-search">
-                <div class="form-group mt-20">
-                    <label>Account Name</label>
-                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="action-btn-1">
-                <div class="pull-right mt-45">
-                    <button id="clearFilter" style="width:120px" type="button" class="btn btn-default mr-20">Clear Filter</button>
-                    <button id="filterList" style="width:120px" type="button" class="btn btn-primary">Filter Accounts</button>
+
+<div class="content-wrapper">
+    <h3>
+        Contacts
+    </h3>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Contact Name</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.ConatctName, new { @class = "form-control input-sm"})
                 </div>
             </div>
         </div>
     </div>
-    <div id="grid"></div>
+
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Account Name</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb">
+        <div class="pull-right">
+            <button id="clearFilter" style="width:120px" type="button" class="btn btn-default mr-20">Clear Filter</button>
+            <button id="filterList" style="width:120px" type="button" class="btn btn-primary">Filter Accounts</button>
+        </div>
+    </div>
+
+    <div class="col-md-12 top-padding-eight">
+        <div id="grid"></div>
+    </div>
 </div>
 
 <script>
