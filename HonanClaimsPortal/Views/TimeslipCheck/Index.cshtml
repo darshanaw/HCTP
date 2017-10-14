@@ -11,196 +11,233 @@
 <link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="main-container">
+
+
+
+<div class="content-wrapper">
+    <h3>
+        Check Billable Time
+    </h3>
     <div class="row">
         <div class="col-md-12">
-            <div class="cust-search-1">
-                <h3 class="mt-20">Check Billable Time</h3>
-            </div>
-            <div class="action-btn">
-                <div class="pull-right mt-15">
-                    <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
-                    <button id="filterList" type="button" class="btn btn-primary">Filter Billable</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Claim Team</label>
-                        @Html.DropDownListFor(m => m.ClaimTeam,
+            <fieldset class="mb-0">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label input-sm">Claim Team</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.ClaimTeam,
                             new SelectList(Model.ClaimTeam, "Code", "Text"),
                             "--Select--",
-                            new { @class = "form-control", @onchange = "comboChange()" })
+                            new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Service by</label>
-                        @Html.DropDownListFor(m => m.ServiceBy,
+                    <div class="col-md-4 mb">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label input-sm">Service by</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.ServiceBy,
                             new SelectList(Model.ServiceBy, "Code", "Text"),
                             "--Select--",
-                            new { @class = "form-control", @onchange = "comboChange()" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Date from</label>
-                        <div id="datetimepicker1" class="input-group date">
-                            @Html.TextBoxFor(o => o.Datefrom, new { @class = "form-control input-sm" })
-                            <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                            <span style="color:red;" id="errorDate"></span>
+                            new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Account</label>
-                        @Html.DropDownListFor(m => m.Account,
-                            new SelectList(Model.Account, "Code", "Text"),
-                            "--Select--",
-                            new { @class = "form-control", @onchange = "comboChange()" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Claim</label>
-                        @Html.DropDownListFor(m => m.Claim,
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label input-sm">Claim</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.Claim,
                             new SelectList(Model.Claim, "Code", "Text"),
                             "--Select--",
-                            new { @class = "form-control", @onchange = "comboChange()" })
+                            new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label input-sm">Account</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.Account,
+                            new SelectList(Model.Account, "Code", "Text"),
+                            "--Select--",
+                            new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label input-sm">Date from</label>
+                            <div class="col-sm-9">
+                                <div id="datetimepicker1" class="input-group date">
+                                    @Html.TextBoxFor(o => o.Datefrom, new { @class = "form-control input-sm" })
+                                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                    <span style="color:red;" id="errorDate"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label input-sm">Date to</label>
+                            <div class="col-sm-9">
+                                <div id="datetimepicker2" class="input-group date">
+                                    @Html.TextBoxFor(o => o.Dateto, new { @class = "form-control input-sm" })
+                                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12 ">
+                            <div class="pull-right">
+                                <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
+                                <button id="filterList" type="button" class="btn btn-primary">Filter Billable</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+
+        <div class="col-md-12">
+            <fieldset>
+                <div class="col-md-8">
+                    <div id="grid1"></div>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Date to</label>
-                        <div id="datetimepicker2" class="input-group date">
-                            @Html.TextBoxFor(o => o.Dateto, new { @class = "form-control input-sm" })
-                            <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="grid1"></div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Service By</label>
-                        @Html.TextBoxFor(m => m.InnerModeL.Service_By_Name, new { @class = "form-control", disabled = "disabled" })
-                        @Html.HiddenFor(m => m.InnerModeL.H_Billingsid)
-                        @Html.HiddenFor(m => m.InnerModeL.H_Claimsid)
-                    </div>
-                    <div class="form-group">
-                        <label>Claim</label>
-                        @Html.TextBoxFor(m => m.InnerModeL.Claim_No, new { @class = "form-control", disabled = "disabled" })
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Is Billable</label>
+                    <div class="row mb">
+                        <div class="col-md-12">
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Service By</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.InnerModeL.Service_By_Name, new { @class = "form-control input-sm", disabled = "disabled" })
+                                        @Html.HiddenFor(m => m.InnerModeL.H_Billingsid)
+                                        @Html.HiddenFor(m => m.InnerModeL.H_Claimsid)
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="form-group mb-0">
-                                @Html.CheckBoxFor(m => m.InnerModeL.Is_Billable)
-                                <label class="ml-15" l>Rate p/Hr</label>
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Claim</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.InnerModeL.Claim_No, new { @class = "form-control input-sm", disabled = "disabled" })
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                @Html.TextBoxFor(m => m.InnerModeL.Rate, new { @class = "form-control", disabled = "disabled" })
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Is Billable</label>
+                                    <div class="col-sm-9">
+                                        @Html.CheckBoxFor(m => m.InnerModeL.Is_Billable, new { @class = "input-sm" })
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Rate P/Hr</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.InnerModeL.Rate, new { @class = "form-control input-sm", disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Service Date</label>
+                                    <div class="col-sm-9">
+                                        <div id="datetimepicker3" class="input-group date">
+                                            @Html.TextBoxFor(o => o.InnerModeL.Service_Date, new { @class = "form-control input-sm" })
+                                            <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="sel1">Service Date</label>
-                        <div id="datetimepicker3" class="input-group date">
-                            @Html.TextBoxFor(o => o.InnerModeL.Service_Date, new { @class = "form-control input-sm" })
-                            <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-0">
-                        <label>Start Time</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.DropDownListFor(m => m.InnerModeL.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Start Time</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.InnerModeL.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                     SelectListItem
-                           {
-                               Text = i.ToString().PadLeft(2, '0'),
-                               Value = i.ToString().PadLeft(2, '0')
-                           }), new { @class = "form-control" })
-                            </div>
-                        </div>
+                                   {
+                                       Text = i.ToString().PadLeft(2, '0'),
+                                       Value = i.ToString().PadLeft(2, '0')
+                                   }), new { @class = "form-control input-sm" })
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.DropDownListFor(m => m.InnerModeL.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
+                                        @Html.DropDownListFor(m => m.InnerModeL.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
                                          SelectListItem
-                           {
-                               Text = i.ToString().PadLeft(2, '0'),
-                               Value = i.ToString().PadLeft(2, '0')
-                           }), new { @class = "form-control" })
+                                   {
+                                       Text = i.ToString().PadLeft(2, '0'),
+                                       Value = i.ToString().PadLeft(2, '0')
+                                   }), new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-group mb-0">
-                        <label>End Time</label>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                @Html.DropDownListFor(m => m.InnerModeL.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">End Time</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.InnerModeL.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
                                     SelectListItem
-                           {
-                               Text = i.ToString().PadLeft(2, '0'),
-                               Value = i.ToString().PadLeft(2, '0')
-                           }), new { @class = "form-control input-sm" })
+                                   {
+                                       Text = i.ToString().PadLeft(2, '0'),
+                                       Value = i.ToString().PadLeft(2, '0')
+                                   }), new { @class = "form-control input-sm" })
+
+                                        @Html.DropDownListFor(m => m.InnerModeL.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
+                                SelectListItem
+                                   {
+                                       Text = i.ToString().PadLeft(2, '0'),
+                                       Value = i.ToString().PadLeft(2, '0')
+                                   }), new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Qty(Mins)</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.InnerModeL.Qty_Mins, new { @class = "form-control input-sm", disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label input-sm">Billable</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.InnerModeL.Billable, new { @class = "form-control input-sm", disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb">
+                                <div class="form-group">
+                                    @Html.TextAreaFor(m => m.InnerModeL.Work_Done, new { @class = "form-control input-sm resize-block billable-txtarea" })
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <button id="Markaschecked" type="button" class="btn btn-default">Mark as Checked</button>
+                                <button id="nonbillable" type="button" class="btn btn-default">Mark as Non Billable</button>
+                                <button id="skipnext" type="button" class="btn btn-default">Skip Next One</button>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            @Html.DropDownListFor(m => m.InnerModeL.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
-                                SelectListItem
-                       {
-                           Text = i.ToString().PadLeft(2, '0'),
-                           Value = i.ToString().PadLeft(2, '0')
-                       }), new { @class = "form-control input-sm" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Qty(Mins)</label>
-                        @Html.TextBoxFor(m => m.InnerModeL.Qty_Mins, new { @class = "form-control", disabled = "disabled" })
-                    </div>
-                    <div class="form-group">
-                        <label>Billable</label>
-                        @Html.TextBoxFor(m => m.InnerModeL.Billable, new { @class = "form-control", disabled = "disabled" })
-                    </div>
-
-                    <div class="form-group">
-                        @Html.TextAreaFor(m => m.InnerModeL.Work_Done, new { @class = "form-control resize-block billable-txtarea" })
-                    </div>
-                    <div class="pull-right">
-                        <button id="Markaschecked" type="button" class="btn btn-default mr-20">Mark as Checked</button>
-                        <button id="nonbillable" type="button" class="btn btn-default mr-20">Mark as Non Billable</button>
-                        <button id="skipnext" type="button" class="btn btn-default">Skip Next One</button>
                     </div>
                 </div>
-            </div>
+            </fieldset>
         </div>
     </div>
 </div>
-<input type="button" value="test" id="test"/>
+
+@*<input type="button" value="test" id="test" />*@
 <script>
     $("#test").on("click", function () {
         var ids = [];
@@ -320,29 +357,29 @@
                     field: "BillingId",
                     title: "BillingId"
                 },
-            {
-                field: "ClaimRefNo",
-                title: "Claims Ref ",
-            },
-            {
-                field: "ServiceBy",
-                title: "Service By",
-            }, {
-                //field: "ServiceDate",
-                title: "Service Date",
-                template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
-            }, {
-                field: "StartTime",
-                title: "Start Time",
-            },
-            {
-                field: "Qty",
-                title: "Qty(Mins)",
-            },
-            {
-                field: "Billable",
-                title: "Billable $$",
-            }],    
+                {
+                    field: "ClaimRefNo",
+                    title: "Claims Ref ",
+                },
+                {
+                    field: "ServiceBy",
+                    title: "Service By",
+                }, {
+                    //field: "ServiceDate",
+                    title: "Service Date",
+                    template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
+                }, {
+                    field: "StartTime",
+                    title: "Start Time",
+                },
+                {
+                    field: "Qty",
+                    title: "Qty(Mins)",
+                },
+                {
+                    field: "Billable",
+                    title: "Billable $$",
+                }],
             dataBound: function () {
                 $(".checkbox").bind("change", function (e) {
                     $(e.target).closest("tr").toggleClass("k-state-selected");
@@ -385,13 +422,13 @@
             if (0 <= data.Start_Time_HH && data.Start_Time_HH <= 9) {
                 data.Start_Time_HH = "0" + data.Start_Time_HH;
             }
-            if (0 <= data.Start_Time_MM && data.Start_Time_MM <=9) {
+            if (0 <= data.Start_Time_MM && data.Start_Time_MM <= 9) {
                 data.Start_Time_MM = "0" + data.Start_Time_MM;
             }
-            if (0 <= data.End_Time_HH && data.End_Time_HH <=9) {
+            if (0 <= data.End_Time_HH && data.End_Time_HH <= 9) {
                 data.End_Time_HH = "0" + data.End_Time_HH;
             }
-            if (0 <= data.End_Time_MM && data.End_Time_MM <=9) {
+            if (0 <= data.End_Time_MM && data.End_Time_MM <= 9) {
                 data.End_Time_MM = "01";
             }
             $('#InnerModeL_Start_Time_HH').val(data.Start_Time_HH);
@@ -409,10 +446,10 @@
         $('#InnerModeL_Service_By_Name').val('');
         $('#InnerModeL_Is_Billable').val('');
         $('#InnerModeL_H_Claimsid').val('');
-        $('#InnerModeL_Is_Billable').prop("checked", false);       
+        $('#InnerModeL_Is_Billable').prop("checked", false);
         $('#InnerModeL_Rate').val('');
         $('#InnerModeL_Claim_No').val('');
-        $("#InnerModeL_Service_Date").val('');      
+        $("#InnerModeL_Service_Date").val('');
         $('#InnerModeL_Start_Time_HH').val('');
         $('#InnerModeL_Start_Time_MM').val('');
         $('#InnerModeL_End_Time_HH').val('');
@@ -434,45 +471,45 @@
 
         var ids = "";
         var count = 0;
-            var grid = $("#grid1").data("kendoGrid");
-            grid.select().each(function () {
-                var dataItem = grid.dataItem($(this));
-                ids = dataItem.BillingId + "," + ids;
-                count = count + 1;
-            });
-            if (count == 1) {
-                if (id != null && id != "" && claimId != null && claimId != "" && (startTimeHH != null && startTimeHH != "") && (startTimeMM != "" && startTimeMM != null) && (endTimeHH != "" && endTimeHH != null) && (endTimeMM != "" && endTimeMM != null)) {
-                    $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId, function (data) {
-                        if (data == false) {
-                            bootbox.alert("Error in Updating mark as checked");
-                        } else {
-                            $("#grid1").data("kendoGrid").dataSource.read();
-                            bootbox.alert("mark as checked");
-                            clearTextFileds();
-                        }
-                    });
-                }
-                else {
-                    bootbox.alert("Please fill all the data ");
-                }
-            }
-            else {
-                $.get("/TimeslipCheck/MarkAsCheckedPost?billingIds=" + ids, function (data) {
+        var grid = $("#grid1").data("kendoGrid");
+        grid.select().each(function () {
+            var dataItem = grid.dataItem($(this));
+            ids = dataItem.BillingId + "," + ids;
+            count = count + 1;
+        });
+        if (count == 1) {
+            if (id != null && id != "" && claimId != null && claimId != "" && (startTimeHH != null && startTimeHH != "") && (startTimeMM != "" && startTimeMM != null) && (endTimeHH != "" && endTimeHH != null) && (endTimeMM != "" && endTimeMM != null)) {
+                $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId, function (data) {
                     if (data == false) {
                         bootbox.alert("Error in Updating mark as checked");
                     } else {
                         $("#grid1").data("kendoGrid").dataSource.read();
                         bootbox.alert("mark as checked");
+                        clearTextFileds();
                     }
                 });
             }
+            else {
+                bootbox.alert("Please fill all the data ");
+            }
+        }
+        else {
+            $.get("/TimeslipCheck/MarkAsCheckedPost?billingIds=" + ids, function (data) {
+                if (data == false) {
+                    bootbox.alert("Error in Updating mark as checked");
+                } else {
+                    $("#grid1").data("kendoGrid").dataSource.read();
+                    bootbox.alert("mark as checked");
+                }
+            });
+        }
 
-       // }
+        // }
     })
 
 
     $('#nonbillable').click(function () {
-               
+
         $("#InnerModeL_Is_Billable").attr('checked', false);
         var id = $('#InnerModeL_H_Billingsid').val();
         var claimId = $('#InnerModeL_H_Claimsid').val();
