@@ -21,7 +21,7 @@ namespace HonanClaimsWebApi.Models.Contact
 
                 var json = JsonConvert.SerializeObject(model);
 
-                string apiUrl = SiteUrl + "api/Account/CreateContactAccount?contactAccountObjStr=" + json + "&userId=" + userId;
+                string apiUrl = SiteUrl + "api/Account/CreateContactAccount";
                 using (HttpClient client = new HttpClient())
                 {
                     using (var formData = new MultipartFormDataContent())

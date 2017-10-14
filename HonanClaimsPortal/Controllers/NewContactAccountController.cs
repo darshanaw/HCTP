@@ -23,17 +23,33 @@ namespace HonanClaimsPortal.Controllers
             model.PickTitle = await GetPickListData("Title");
             model.PickTypes = await GetPickListData("Account Type");
             model.AccountManagerId = UserId;
+            ViewBag.Message = "";
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddNewContact(ContactAccountModel model)
+        public async Task<ActionResult> Index(ContactAccountModel model)
         {
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
             ContactAccountRepo conrepo = new ContactAccountRepo();
             var result = await conrepo.AddContactAccount(model, UserId);
-            return RedirectToAction("Index");
+
+            ContactAccountModel rmodel = new ContactAccountModel();
+            rmodel.PickTitle = await GetPickListData("Title");
+            rmodel.PickTypes = await GetPickListData("Account Type");
+            rmodel.AccountManagerId = UserId;
+
+            if (result)
+            {
+                ViewBag.Message = "Success: Save successful";
+            }
+            else
+            {
+                ViewBag.Message = "Error: Save unsuccessful";
+            }
+            return View(rmodel);
+            //return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> GetAccount()

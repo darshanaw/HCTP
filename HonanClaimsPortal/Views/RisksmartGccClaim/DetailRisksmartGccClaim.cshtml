@@ -1446,31 +1446,31 @@
 
     window.onload = function () {
           @{
-            bool showBanner = false;
-            if (string.IsNullOrEmpty(Model.Policy_No))
+              bool showBanner = false;
+              if (string.IsNullOrEmpty(Model.Policy_No))
+              {
+                  showBanner = true;
+              }
+              else if(string.IsNullOrEmpty(Model.Period_From) && string.IsNullOrEmpty(Model.Period_To))
+              {
+                  showBanner = true;
+              }
+              else if(Model.Incident_Date != null && !(Model.Incident_Date >= DateTime.ParseExact(Model.Period_From, "dd/MM/yyyy", null) && Model.Incident_Date <= DateTime.ParseExact(Model.Period_To, "dd/MM/yyyy", null)))
             {
-                showBanner = true;
-            }
-            else if(string.IsNullOrEmpty(Model.Period_From) && string.IsNullOrEmpty(Model.Period_To))
-            {
-                showBanner = true;
-            }
-            else if(Model.Incident_Date != null && !(Model.Incident_Date >= DateTime.Parse(Model.Period_From) && Model.Incident_Date <= DateTime.Parse(Model.Period_To)))
-            {
-                showBanner = true;
-            }
+                  showBanner = true;
+              }
             else if(Model.Policy_Status != "Active")
-            {
-                showBanner = true;
-            }
-            else if (string.IsNullOrEmpty(Model.Insurer_Name))
-            {
-                showBanner = true;
-            }
-            else if (Model.Excess == 0)
-            {
-                showBanner = true;
-            }
+              {
+                  showBanner = true;
+              }
+              else if (string.IsNullOrEmpty(Model.Insurer_Name))
+              {
+                  showBanner = true;
+              }
+              else if (Model.Excess == 0)
+              {
+                  showBanner = true;
+              }
         }
         if ("@showBanner" == "True") {
 
