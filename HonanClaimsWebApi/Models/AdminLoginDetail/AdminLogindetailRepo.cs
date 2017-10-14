@@ -36,6 +36,29 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
             return list;
         }
 
+
+        public async Task<AdminLoginsModel> GetAdminLogin(string portalLoginId)
+        {
+           AdminLoginsModel list = new AdminLoginsModel();
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/AccountAndReg/TeamGetCustomerPortalLogin?portalLoginId=" + portalLoginId;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    list = Newtonsoft.Json.JsonConvert.DeserializeObject<AdminLoginsModel>(data);
+
+                }
+            }
+            return list;
+        }
+
         public async Task<CustomerPortalAdminModel> GetAdminRecord(string adminId)
         {
             CustomerPortalAdminModel list = new CustomerPortalAdminModel();

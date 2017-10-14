@@ -371,7 +371,7 @@
                 }, {
                     //field: "UserName",
                     title: "User Name",
-                    template: "<a href='javascript:void(0);' onclick=\"OpenLogingModel('#= H_PortalLoginId #','#= ActiveLogin #', '#= ContactName #', '#= Password #','#= H_PortalLoginId #', '#= UserName #', '#= Email #')\" '>#= UserName #</a>"
+                    template: "<a href='javascript:void(0);' onclick=\"OpenLogingModel('#= ContactId #','#= H_PortalLoginId #','#= ActiveLogin #', '#= ContactName #', '#= Password #','#= H_PortalLoginId #', '#= UserName #', '#= Email #')\" '>#= UserName #</a>"
                 }, {
                     field: "Password",
                     title: "Password",
@@ -386,23 +386,38 @@
     });
 
 
-    function OpenLogingModel(H_PortalLoginId,ActiveLogin,ContactName,Password,H_PortalLoginId,UserName,Email){
-        $("#Addlogin").hide();
-        $("#Updatelogin").show();
+    function OpenLogingModel(ContactId,H_PortalLoginId,ActiveLogin,ContactName,Password,H_PortalLoginId,UserName,Email){
 
-        var accId = $('#Account_Id').val();
-        LoadContacts(accId);
-        $("#products").val(ContactName);
-        $("#username").val(UserName);
-        $("#Password").val(Password);
-        $("#Email").val(Email);
-        $("#portalLoginId").val(H_PortalLoginId);
-        if(ActiveLogin=="T"){
-            $("#isactive").attr('checked',true);
-        }else{
-            $("#isactive").attr('checked',true);
-        }
-        $("#LoginDataModal").modal('show');
+        $.ajax({
+            type: 'GET',
+            url: "/AdminList/GetAdminLoginAccount?portalLoginId="+H_PortalLoginId,
+      
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: updating login detail", true);
+                } else {
+                    $("#Addlogin").hide();
+                    $("#Updatelogin").show();
+
+                    var accId = $('#Account_Id').val();
+                    LoadContacts(accId);
+                    $('#ContactId').val(resultData.ContactId),
+                    $("#products").val(resultData.ContactName);
+                    $("#username").val(resultData.UserName);
+                    $("#Password").val(resultData.Password);
+                    $("#Email").val(resultData.Email);
+                    $("#portalLoginId").val(resultData.H_PortalLoginId);
+                    if(resultData.ActiveLogin=="T"){
+                        $("#isactive").attr('checked',true);
+                    }else{
+                        $("#isactive").attr('checked',true);
+                    }
+                    $("#LoginDataModal").modal('show');
+                }
+            }
+        });
+
+      
     }
 
     $("#Accsearch").keyup(function () {
@@ -495,6 +510,10 @@
     })
 
     $("#closeLoginDataModal,#closeLoginDataModalbtn").click(function(){
+        ClearLoging();
+    });
+
+    function ClearLoging(){
         $("#products").val('');
         $("#username").val('');
         $("#Password").val('');
@@ -502,7 +521,7 @@
         $("#isactive").attr('checked',true);
         $("#LoginDataModal").modal('hide');
         setError("", false);
-    });
+    }
 
     $('#GenaratePassword').click(function () {
         var random = Math.random().toString(36).substring(6);
@@ -538,7 +557,7 @@
             H_PortalLoginId: portalId,
             H_PortalLoginAdminId: adminId,
             ActiveLogin: $('#isactive').val(),
-            ContactName: $('#ContactName').val(),
+            ContactName: $('#products').val(),
             ContactId: $('#ContactId').val(),
             UserName: $('#username').val(),
             Password: $('#Password').val(),
@@ -558,6 +577,7 @@
                     $('#loginGrid').data('kendoGrid').refresh();
                     setError("", false);
                     $('#LoginDataModal').modal('hide');
+                    ClearLoging();
                 }
             }
         });
@@ -594,7 +614,7 @@
             H_PortalLoginId: loginNew == true ? null : portalId,
             H_PortalLoginAdminId: adminId,
             ActiveLogin: $('#isactive').val(),
-            ContactName: $('#ContactName').val(),
+            ContactName: $('#products').val(),
             ContactId: $('#ContactId').val(),
             UserName: $('#username').val(),
             Password: $('#Password').val(),
@@ -614,6 +634,7 @@
                     $('#loginGrid').data('kendoGrid').refresh();
                     setError("", false);
                     $('#LoginDataModal').modal('hide');
+                    ClearLoging();
                 }
             }
         });

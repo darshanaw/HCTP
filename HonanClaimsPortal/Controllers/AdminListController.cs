@@ -163,6 +163,15 @@ namespace HonanClaimsPortal.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAdminLoginAccount(string portalLoginId)
+        {
+            AdminLoginsModel list = new AdminLoginsModel();
+            AdminLogindetailRepo accountLookupRepo = new AdminLogindetailRepo();
+            list = await accountLookupRepo.GetAdminLogin(portalLoginId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
         private async Task<CustomerPortalAdminModel> AdminPortalRecord(string adminId)
         {
             CustomerPortalAdminModel list = new CustomerPortalAdminModel();
