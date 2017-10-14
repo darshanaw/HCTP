@@ -65,6 +65,8 @@
     @Html.HiddenFor(o=>o.IsNew)
 
     <input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
+   
+
 
     <div style="display:none" id="divFakeActivityTask"></div>
 
@@ -338,34 +340,7 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div id="ActivityWorkFlowModal" class="modal fade ActivityWorkFlowModal" role="dialog" data-backdrop="false">
-    <div class="modal-dialog modal-lg" style="width:850px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close ActivityWorkFlowModal_Close">&times;</button>
-                <h4 class="modal-title">Activity Workflow Next Steps</h4>
-            </div>
-            <div class="modal-body">
-               <div id="gridActivityWorkFlowNextSteps"></div>
-                <br />
-                <div class="col-md-12" style="padding-right:0px;margin-right:0px">
-                    <div class="col-md-4"></div>
-                        <div class="col-md-3">Deadline for Selected Task</div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="txtWorkFlowCompletedDAte" disabled />
-                        </div>
-                        <div class="col-md-2" style="padding-right:0px;margin-right:0px">
-                            <input type="button" class="btn btn-primary pull-right" value="Complete" id="btnWorkFlowComplete" />
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default ActivityWorkFlowModal_Close">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
 
@@ -412,6 +387,7 @@
 
                 $("#Completed_Date_Dtl").val("");
                 $("#Completed_By_Dtl").val("");
+                $("#dummyCompletedDate").val("");
                 $("#Completed_By_Name_Dtl").val('');
                 $("#Completed_Dtl").prop("checked", false);
                 $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
@@ -424,18 +400,20 @@
         {
             $("#actualCompletedDate").show();
             $("#dummyCompletedDate").hide();
+            $("#isActivityCompletionGrid").val("false");
         }
         else
         {
             $("#actualCompletedDate").hide();
             $("#dummyCompletedDate").show();
+            $("#isActivityCompletionGrid").val("false");
         }
 
 
         $("#Completed_Dtl").change(function () {
 
             if ($(this).is(":checked")) {
-                               
+                         
                 $("#actualCompletedDate").show();
                 $("#dummyCompletedDate").hide();
                 $("#Update_Key_Contacts_Dtl").prop("disabled", false);
@@ -444,7 +422,7 @@
                 $("#Completed_By_Name_Dtl").val('@ViewBag.CurrentUser');
                 $("#Completed_By_Dtl").val('@ViewBag.CurrentUserId');
                 $("#Skipped_Dtl").prop("checked", false);
-                LoadgridActivityWorkFlowNextSteps(true);
+                LoadgridActivityWorkFlowNextSteps(true, $("#Seq_Dtl").val());
 
             }
             else {
@@ -469,8 +447,8 @@
             }
             else
             {
-                $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
-               // $("#Last_Task_Completed_Dtl_String").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
+                $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxActDate'), 'dd/MM/yyyy'));
+               // $("#Last_Task_Completed_Dtl_String").val(kendo.toString(kendo.parseDate('@ViewBag.MaxActDate'), 'dd/MM/yyyy'));
                 $("#rowLastTask").show();
             }
         });
@@ -483,8 +461,8 @@
         }
         else
         {
-            $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
-               // $("#Last_Task_Completed_Dtl_String").val(kendo.toString(kendo.parseDate('@ViewBag.MaxDate'), 'dd/MM/yyyy'));
+            $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate('@ViewBag.MaxActDate'), 'dd/MM/yyyy'));
+               // $("#Last_Task_Completed_Dtl_String").val(kendo.toString(kendo.parseDate('@ViewBag.MaxActDate'), 'dd/MM/yyyy'));
                 $("#rowLastTask").show();
 
         }
@@ -492,6 +470,30 @@
         $("#btnWorkFlowComplete").click(function () {
 
             $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
+
+            $("#nextSeq_wf").val($("#Next_Seq_Dtl_Temp").val());
+          
+            if ($("#isActivityCompletionGrid").val() == 'true')
+            {
+                
+                $.LoadingOverlay("show");
+
+                $.ajax({
+
+                    url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&action=" + $("#action_wf").val()
+                    + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
+                    + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid").val(), success: function (result) {
+
+                        
+                    },
+                    complete: function () {
+
+                        $.LoadingOverlay("hide");
+                    }
+                });
+
+                RefreshActivityTasksGrid();
+            }
 
             $("#ActivityWorkFlowModal").modal('hide');
 
@@ -522,20 +524,19 @@
 
                 $("#Last_Task_Completed_Dtl_String").val(result);
                 $("#Last_Task_Completed_Dtl").val(result);
-
             }
         });
     }
 
 
-    function LoadgridActivityWorkFlowNextSteps(showpopUp)
+    function LoadgridActivityWorkFlowNextSteps(showpopUp, seqId)
     {
 
         $("#gridActivityWorkFlowNextSteps").kendoGrid({
 
             dataSource: {
                 transport: {
-                    read: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + $("#Seq_Dtl").val(),
+                    read: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + seqId,
                 },
                 pageSize: 5,
                 parameterMap: function (options, operation) {
@@ -557,6 +558,7 @@
                 if (cnt > 0 && showpopUp)
                 {
                     $("#ActivityWorkFlowModal").modal("show");
+                    $("#txtWorkFlowCompletedDAte").val("");
                 }
             },
             change: function (e) {
@@ -565,12 +567,22 @@
                 for (var i = 0; i < selectedRows.length; i++) {
                     var dataItem = this.dataItem(selectedRows[i]);
 
-                    $("#txtWorkFlowCompletedDAte").val(dataItem.DueDate_Act);
+                    var dCurrentId = "";
+                    
+                    getNextTaskDueDate(dataItem.ActivityTaskId);
+                    
                     $("#Next_Seq_Dtl_Temp").val(dataItem.Seq_Act);
+                    $("#nextActivityId_wf").val(dataItem.ActivityTaskId);
+                    $("#nextActivityDue_wf").val(dataItem.DueDate_Act);
                 }
                 // selectedDataItems contains all selected data items
             },
             columns: [
+                {
+                    field: "ActivityTaskId",
+                    title: "ActivityTaskId",
+                    hidden: true
+                },
                 {
                     field: "DueDate_Act",
                     title: "DueDate_Act",
@@ -608,8 +620,26 @@
 
     }
 
+    function getNextTaskDueDate(nextTaskId) {
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetNextTaskDueDate?nextTaskId=" + nextTaskId, success: function (result) {
+                $("#txtWorkFlowCompletedDAte").val(result);
+                return result;
+            }
+        });
+    }
+
     function clearActivityTaskDetails()
     {
+        $("#txtWorkFlowCompletedDAte").val("");
+        $("#activityTaskId_wf").val("");
+        $("#action_wf").val("");
+        $("#actionSeq_wf").val("");
+        $("#nextSeq_wf").val("");
+        $("#nextActivityId_wf").val("");
+        $("#nextActivityDue").val("");
+
         $("#Stage_Dtl").val("");
         $("#Actionid_Dtl").val("");
         $("#Details_Dtl").val("");
@@ -635,8 +665,9 @@
         $("#dummyCompletedDate").show();
         $("#Next_Seq_Dtl").val("0");
         $("#H_Activitytasksid_Dtl").val("");
-        //$("#Last_Task_Completed_Dtl_String").val("");
+        $("#Last_Task_Completed_Dtl_String").val("");
         $("#dummyCompletedDate").val("");
+        $("#isActivityCompletionGrid").val("false");
     }
 
     

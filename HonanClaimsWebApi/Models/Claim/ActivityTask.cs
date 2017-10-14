@@ -24,5 +24,6 @@ namespace HonanClaimsWebApi.Models.Claim
         public string ContactId_Act { get; set; }
         public bool Skipped_Act { get; set; }
         public DateTime? CompletedDate_Act { get; set; }
+        
     }
 }
