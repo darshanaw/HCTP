@@ -35,7 +35,7 @@
 <script>
     $(document).ready(function () {
         var ClaimIds = [];
-
+        var ClaimNames = [];
         var grid = $("#ClaimsAssignmentGrid").kendoGrid({
             dataSource: {
                 transport: {
@@ -100,7 +100,7 @@
 
         grid.table.on("click", ".checkbox", selectRow);
         var checkedIds = {};
-        var ClaimNames = [];
+
 
         function selectRow() {
             var checked = this.checked,
@@ -181,6 +181,8 @@
                 dataType: 'json',
                 success: function (result) {
                     if (result) {
+                        ClaimNames = [];
+                        var ClaimIds = [];
                         $('#ClaimsAssignmentGrid').data('kendoGrid').dataSource.read();
                         $('#ClaimsAssignmentGrid').data('kendoGrid').refresh();
                     }
