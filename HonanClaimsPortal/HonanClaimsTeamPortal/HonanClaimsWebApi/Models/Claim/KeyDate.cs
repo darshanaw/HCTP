@@ -11,6 +11,7 @@ namespace HonanClaimsWebApi.Models.Claim
     {
         public string H_Keydatesid { get; set; }
         public string H_Claimsid { get; set; }
+        public string H_ClaimNo_KCD_Date { get; set; }
         public int Seq { get; set; }
         public int MaxSeq { get; set; }
         public string Key_Date_Description { get; set; }

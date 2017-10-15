@@ -170,7 +170,7 @@
                                         <a href="#" class="list-group-item">
                                             <small>New Activity Task</small>
                                         </a>
-                                        <a href="#" class="list-group-item">
+                                        <a href="#" id="addNewKeyDate" class="list-group-item">
                                             <small>New Key Date</small>
                                         </a>
                                         <a id="emialclick" class="list-group-item">
@@ -1260,6 +1260,10 @@
 
         $('#addNewFileNote').click(function () {
             window.location.href = '/NewRecord/NewFileNote';
+        });
+
+        $('#addNewKeyDate').click(function () {
+            window.location.href = '/NewRecord/NewKeyDate';
         });
         
     });
