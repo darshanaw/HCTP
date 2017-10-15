@@ -23,15 +23,23 @@
 </style>
 
 <script>
+
     $(function () {
 
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
         });
-    })
+            
+    });
+
+   
 </script>
 
 <br />
+
+@{ 
+    HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
+}
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tabClaimDetail" data-toggle="tab" aria-expanded="true">Claim Detail</a></li>
@@ -45,6 +53,10 @@
     <li><a href="#tabBillings" data-toggle="tab">Billings</a></li>
     <li><a href="#tabPayments" data-toggle="tab">Payments</a></li>
     <li><a href="#tabFileNotes" data-toggle="tab">File Notes</a></li>
+    @if (client.Teams.Contains("Billable Lawyers") && Model.BillingMethod == "Per Hour")
+    {
+        <li>@Html.Partial("~/Views/Shared/_Timer.cshtml", null)</li>
+    }
 </ul>
 
 
@@ -1204,6 +1216,21 @@
                 </div>*@
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+        <div class="modal-dialog  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Timeslip</h4>
+                </div>
+                <div class="modal-body">
+                    @{Html.RenderAction("_TimeslipDetail", "Billing");}
+                </div>
+            </div>
+        </div>
 </div>
 
 <script>

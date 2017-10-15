@@ -10,14 +10,14 @@ namespace HonanClaimsWebApi.Models.Billing
     public class BillingModel
     {
         public string H_Billingsid { get; set; }
-        public string H_Claimsid { get; set; }
+        public string H_Claimsid_Billing { get; set; }
         public string Service_By { get; set; }
         public bool Is_Billable { get; set; }
         public string Claim_No { get; set; }
         public string ActivityId { get; set; }
         public string Activity_Name { get; set; }//added
-        public string Policyid { get; set; }
-        public string Policy_Name { get; set; }//added
+        public string Policyid_Billing { get; set; }
+        public string Policy_Name_Billing { get; set; }//added
         public string ClientId { get; set; }
         public string Client_Name { get; set; }//added
         [Required(ErrorMessage = "Service Date Required")]
