@@ -594,7 +594,7 @@ namespace HonanClaimsPortal.Controllers
         {
             ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
             claimServices = new ClaimServices();
-            List<CRMPicklistItem> items = claimServices.GetClaimsForUser(login.UserId).Where(x => x.Text.Contains(claimNo)).ToList();
+            List<CRMPicklistItem> items = claimServices.GetClaimsForUser(login.UserId).Where(x => x.Text.ToLower().Contains(claimNo.ToLower())).ToList();
             return Json(items, JsonRequestBehavior.AllowGet);
         }
 

@@ -221,6 +221,7 @@
     <Compile Include="Controllers\MyActivityController.cs" />
     <Compile Include="Controllers\NewClaimController.cs" />
     <Compile Include="Controllers\NewContactAccountController.cs" />
+    <Compile Include="Controllers\NewRecordController.cs" />
     <Compile Include="Controllers\PoliciesController.cs" />
     <Compile Include="Controllers\PropertyClaimController.cs" />
     <Compile Include="Controllers\RisksmartGccClaimController.cs" />
@@ -1377,6 +1378,7 @@
     <Content Include="Views\Shared\_ActivityTaskContactLookUp.cshtml" />
     <Content Include="Views\Shared\_CommonSearch.cshtml" />
     <Content Include="Views\Search\SearchResults.cshtml" />
+    <Content Include="Views\NewRecord\NewPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
