@@ -34,6 +34,7 @@
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 @Html.TextBoxFor(m => m.Account, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(o => o.Account, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                                                 @Html.HiddenFor(m => m.AccountId)
                                                 <span class="input-group-btn" id="Accountlookup" data-toggle="modal" data-target="#PolicyModal">
                                                     <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
@@ -57,6 +58,7 @@
                                         <label class="col-sm-3 control-label input-sm">Email</label>
                                         <div class="col-sm-9">
                                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-sm" })
+                                            @Html.ValidationMessageFor(o => o.Email, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                                         </div>
                                     </div>
                                 </div>
