@@ -1376,6 +1376,7 @@
     <Content Include="Views\Shared\_ActivityTaskAccountLookUp.cshtml" />
     <Content Include="Views\Shared\_ActivityTaskContactLookUp.cshtml" />
     <Content Include="Views\Shared\_CommonSearch.cshtml" />
+    <Content Include="Views\Search\SearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
