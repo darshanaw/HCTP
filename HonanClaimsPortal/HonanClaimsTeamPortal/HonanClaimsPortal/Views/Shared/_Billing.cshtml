@@ -346,11 +346,11 @@
 
                 $("#sEnd_Time").val(result.sEnd_Time);
                 var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
-                Endtimepicker.value(data.sEnd_Time);
+                Endtimepicker.value(result.sEnd_Time);
 
                 $("#sStart_Time").val(result.sStart_Time);
                 var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
-                Starttimepicker.value(data.sStart_Time);
+                Starttimepicker.value(result.sStart_Time);
 
                 if (result.Timeslip_Checked) {
                     $("#Timeslip_Checked").prop('checked', true);
