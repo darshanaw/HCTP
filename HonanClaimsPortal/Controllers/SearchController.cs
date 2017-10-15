@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.Search;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,33 +10,40 @@ using System.Web.Mvc;
 
 namespace HonanClaimsPortal.Controllers
 {
+    [AuthorizeUser]
     public class SearchController : Controller
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        public ActionResult _CommonSearch()
         {
-            return new string[] { "value1", "value2" };
+            SearchModel searchModel = new SearchModel();
+            searchModel.ClaimPropertyList = new List<SelectListItem>() {
+                new SelectListItem(){Text = "Search All",Value = "Search All"},
+                new SelectListItem(){Text = "Claims",Value = "Claims"},
+                new SelectListItem(){Text = "Policies",Value = "Policies"},
+                new SelectListItem(){Text = "Accounts",Value = "Accounts"},
+                new SelectListItem(){Text = "Contacts",Value = "Contacts"}};
+
+            if (TempData["SearchField"] != null)
+                searchModel.CommonSearchProperty = TempData["SearchField"] as string;
+
+            if (TempData["SearchValue"] != null)
+                searchModel.CommonSearchText = TempData["SearchValue"] as string;
+
+            return PartialView(searchModel);
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        public ActionResult SearchResults()
         {
-            return "value";
+            return View();
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        [System.Web.Mvc.HttpPost]
+        public ActionResult SearchResults(SearchModel model)
         {
+            TempData["SearchField"] = model.CommonSearchProperty;
+            TempData["SearchValue"] = model.CommonSearchText;
+            return View(model);
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
     }
 }
