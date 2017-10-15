@@ -161,7 +161,7 @@
                                         <a href="#" id="addNewPayment" class="list-group-item">
                                             <small>New Claim Payment</small>
                                         </a>
-                                        <a href="#" class="list-group-item">
+                                        <a href="#" id="addNewKeyContact" class="list-group-item">
                                             <small>New Key Contact</small>
                                         </a>
                                         <a href="#" class="list-group-item">
@@ -1249,6 +1249,10 @@
 
         $('#addNewPayment').click(function () {
             window.location.href = '/NewRecord/NewPayment';
+        });
+
+        $('#addNewKeyContact').click(function () {
+            window.location.href = '/NewRecord/NewKeyContact';
         });
     });
 </script>
