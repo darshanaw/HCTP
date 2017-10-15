@@ -168,7 +168,7 @@ namespace HonanClaimsPortal.Controllers
                 List<BillingSimpleModel> list = new List<BillingSimpleModel>();
                 BillingSimpleRepo billingSimpleRepo = new BillingSimpleRepo();
                 list = await billingSimpleRepo.TeamGetMyBillableTimes(showMe, customerId, serviceUserId, serviceFromDate, serviceToDate);
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return Json(new { d = list, total = list.Count }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

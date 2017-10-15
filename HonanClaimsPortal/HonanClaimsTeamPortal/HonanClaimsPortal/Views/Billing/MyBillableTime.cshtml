@@ -54,6 +54,7 @@
                             {
                                 Text = "This Week",
                                 Value = "This Week",
+                                Selected = true,
                             });
                             listItems.Add(new SelectListItem
                             {
@@ -85,7 +86,7 @@
                                 Value = "This Year"
                             });
                         }
-                        @Html.DropDownListFor(model => model.ShowMe, listItems, "This Week", new { @class = "form-control", @onchange = "comboChange()" })
+                        @Html.DropDownListFor(model => model.ShowMe, listItems, new { @class = "form-control", @onchange = "comboChange()" })
                     </div>
                 </div>
             </div>
@@ -228,6 +229,8 @@
         window.location.replace('@Url.Action("TimeslipDetail", "Billing", new { id = "" })');
     });*@
 
+
+
     function loadMyBill() {
         var showMe = null;
         var customerId = null;
@@ -242,19 +245,38 @@
         serviceFromDate = $("#ServiceFromDate").val();
         serviceToDate = $("#ServiceToDate").val();
 
-
+        debugger
         //load grid list
+        //var dataSource = new kendo.data.DataSource({
+        //    transport: {
+        //        read: "/Billing/TeamGetMyBillableTimes?showMe=" + showMe + "&customerId=" + customerId + "&serviceUserId=" + serviceUserId + "&serviceFromDate=" + serviceFromDate + "&serviceToDate=" + serviceToDate
+        //    },
+        //    pageSize: 10,
+        //    pageable: true,
+        //    schema: {
+        //        data: "d", //root element that contains data array
+        //        total: "total" //total amount of records
+        //    }
+        //});
+
         $("#grid").kendoGrid({
             dataSource: {
+                serverPaging: false,
                 transport: {
                     read: "/Billing/TeamGetMyBillableTimes?showMe=" + showMe + "&customerId=" + customerId + "&serviceUserId=" + serviceUserId + "&serviceFromDate=" + serviceFromDate + "&serviceToDate=" + serviceToDate
                 },
-                pageSize: 10
+                //pageSize: 10,            
+                schema: {
+                    data: "d",
+                    total: "total"
+                },
             },
+            //serverPaging: false,
+            //serverOperation: false,
             filterable: true,
-            pageSize: 10,
+            //pageSize: 10,
             navigatable: true,
-            pageable: true,
+            //pageable: true,
             height: 450,
             sortable: true,
             dataBound: ondatebound,
@@ -262,7 +284,6 @@
            {
                field: "ClaimRefNo",
                title: "Claims Ref #",
-               //template: "<a href='/Billing/TimeslipDetail?BillingId=#= BillingId #'>#= ClaimRefNo #</a>",
                template: "<a href='javascript:void(0);' onclick=\"loadBillingDetail('#= BillingId #')\" '>#= ClaimRefNo #</a>"
            },
            {
@@ -272,15 +293,12 @@
            {
                field: "ServiceBy",
                title: "Service By",
-              // template: "<a href='/Billing/TimeslipDetail?BillingId=#= BillingId #'>#= ServiceBy #</a>",
                template: "<a href='javascript:void(0);' onclick=\"loadBillingDetail('#= BillingId #')\" '>#= ServiceBy #</a>"
            },
            {
                field: "ServiceDate",
                format: "dd/MMM/yyyy",
-               //template: "#= kendo.toString(kendo.parseDate(ServiceDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
                title: "Service Date",
-               //title: "Service Date",
                template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
            },
            {
@@ -308,11 +326,11 @@
 
         function ondatebound(e) {
             var gridData = e.sender.dataSource.view();
-                var subTotal = 0;
-                for (var i = 0; i < gridData.length; i++) {
-                    subTotal = subTotal + gridData[i].Qty;
-                }
-                $("#TotalQ").val(subTotal);
+            var subTotal = 0;
+            for (var i = 0; i < gridData.length; i++) {
+                subTotal = subTotal + gridData[i].Qty;
+            }
+            $("#TotalQ").val(subTotal);
         }
     }
 
@@ -320,8 +338,7 @@
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
                 //alert("IN");
-                if (result.Checked_Date != null)
-                {
+                if (result.Checked_Date != null) {
                     var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
                     var month = Checked_Date.getMonth() + 1;
                     var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
@@ -334,8 +351,7 @@
                 }
 
 
-                if (result.Service_Date == null)
-                {
+                if (result.Service_Date == null) {
                     var ssDate = new Date();
                     var dmonth = ssDate.getMonth() + 1;
                     result.Service_Date = ssDate.getDate() + "/" + dmonth + "/" + ssDate.getFullYear();
@@ -350,7 +366,7 @@
                         var h = End_Time.getHours(), m = End_Time.getMinutes();
                         var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
                         result.sEnd_Time = _time;
-                    }               
+                    }
                 }
 
 
