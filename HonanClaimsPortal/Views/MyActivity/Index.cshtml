@@ -135,12 +135,184 @@
                 </div>
             </div>
         </div>
-    </div>
-
-  
+    </div> 
 </div>
 
+
+<!-- Modal -->
+<div id="ActivityWorkFlowModal" class="modal fade ActivityWorkFlowModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" style="width:850px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ActivityWorkFlowModal_Close">&times;</button>
+                <h4 class="modal-title">Activity Workflow Next Steps</h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridActivityWorkFlowNextSteps"></div>
+                <br />
+                <div class="col-md-12" style="padding-right:0px;margin-right:0px">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">Deadline for Selected Task</div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control disabled" readonly id="txtWorkFlowCompletedDAte" />
+                    </div>
+                    <div class="col-md-2" style="padding-right:0px;margin-right:0px">
+                        <input type="button" class="btn btn-primary pull-right" value="Complete" id="btnWorkFlowComplete" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ActivityWorkFlowModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
+<input type="hidden" id="activityTaskId_wf" name="activityTaskId_wf" />
+<input type="hidden" id="action_wf" name="action_wf" />
+<input type="hidden" id="actionSeq_wf" name="actionSeq_wf" />
+<input type="hidden" id="nextSeq_wf" name="nextSeq_wf" />
+<input type="hidden" id="nextActivityId_wf" name="nextActivityId_wf" />
+<input type="hidden" id="nextActivityDue_wf" name="nextActivityDue_wf" />
+<input type="hidden" id="hdnClaimId" name="hdnClaimId" />
+<input type="hidden" id="isActivityCompletionGrid" name="isActivityCompletionGrid" />
 <script>
+
+    $(".ActivityWorkFlowModal_Close").click(function () {
+        RefreshActivityTasksGrid();
+        $("#ActivityWorkFlowModal").modal("hide");
+    });
+
+    $("#btnWorkFlowComplete").click(function () {
+        debugger;
+        $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
+
+        $("#nextSeq_wf").val($("#Next_Seq_Dtl_Temp").val());
+        var val = $("#isActivityCompletionGrid").val();
+        if ($("#isActivityCompletionGrid").val() == 'true') {
+
+            $.LoadingOverlay("show");
+
+            $.ajax({
+
+                url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&action=" + $("#action_wf").val()
+                + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
+                + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#hdnClaimId").val(), success: function (result) {
+
+
+                },
+                complete: function () {
+
+                    $.LoadingOverlay("hide");
+                }
+            });
+            RefreshActivityTasksGrid();
+        }
+        $("#ActivityWorkFlowModal").modal('hide');
+    })
+
+
+    function RefreshActivityTasksGrid() {
+        loadactivity();
+    }
+
+    function LoadgridActivityWorkFlowNextSteps(showpopUp, seqId, ClaimId) {
+        debugger;
+        $("#gridActivityWorkFlowNextSteps").kendoGrid({
+
+            dataSource: {
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + ClaimId + "&completingActionSeq=" + seqId,
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            selectable: "row",
+            filterable: true,
+            navigatable: true,
+            pageable: false,
+            scrollable: true,
+            sortable: true,
+            dataBound: function (data) {
+                var cnt = $('#gridActivityWorkFlowNextSteps').data('kendoGrid').dataSource.total();
+                if (cnt > 0 && showpopUp) {
+                    $("#ActivityWorkFlowModal").modal("show");
+                    $("#txtWorkFlowCompletedDAte").val("");
+                }
+            },
+            change: function (e) {
+                var selectedRows = this.select();
+                var selectedDataItems = [];
+                for (var i = 0; i < selectedRows.length; i++) {
+                    var dataItem = this.dataItem(selectedRows[i]);
+
+                    var dCurrentId = "";
+
+                    getNextTaskDueDate(dataItem.ActivityTaskId);
+
+                    $("#Next_Seq_Dtl_Temp").val(dataItem.Seq_Act);
+                    $("#nextActivityId_wf").val(dataItem.ActivityTaskId);
+                    $("#nextActivityDue_wf").val(dataItem.DueDate_Act);
+                }
+                // selectedDataItems contains all selected data items
+            },
+            columns: [
+                {
+                    field: "ActivityTaskId",
+                    title: "ActivityTaskId",
+                    hidden: true
+                },
+                {
+                    field: "DueDate_Act",
+                    title: "DueDate_Act",
+                    hidden: true
+                },
+                {
+                    field: "Seq_Act",
+                    title: "Seq"
+                },
+                {
+                    field: "Stage_Act",
+                    title: "Stage"
+                },
+                {
+                    field: "Action_Act",
+                    title: "Action",
+                    template: "<div style='cursor: pointer;color:blue'>#= Action_Act #</div>"
+                },
+                {
+                    field: "Owner_Act",
+                    title: "Owner"
+                },
+                {
+                    field: "Contact_Act",
+                    title: "Contact"
+                },
+                {
+                    field: "SLADays_Act",
+                    title: "SLA (Days)"
+                }
+            ]
+        });
+    }
+
+    function getNextTaskDueDate(nextTaskId) {
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetNextTaskDueDate?nextTaskId=" + nextTaskId, success: function (result) {
+                $("#txtWorkFlowCompletedDAte").val(result);
+                return result;
+            }
+        });
+    }
+
+
+
+    //===================================
     $(document).ready(function () {
         $('#overdue').prop("checked", true);
         $('#ShowDue').prop("checked", true);
@@ -244,10 +416,12 @@
             {
                 field: "Customer",
                 title: "Customer",
-            }, {
+            }, 
+            {
                 field: "Seq",
                 title: "Seq",
-            }, {
+            }, 
+            {
                 field: "Stage",
                 title: "Stage",
             },
@@ -275,7 +449,8 @@
             },
             {
                 field: "Complete",
-                template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
+                //template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
+                template: "<input onclick=\"InvokeNextSteps(this,'#= Seq #','#= ActivityTaskId #','#= Action #', '#= ClaimId #');\" type='checkbox' #if(Complete==true){ #checked disabled# } else { ## }# />"
             },
             {
                 field: "CompletedDate",
@@ -336,17 +511,37 @@
             });
         }
 
+        //$("#grid .k-grid-content").on("change", "input.chkbx", function (e) {
+        //    var grid = $("#grid").data("kendoGrid"),
+        //        dataItem = grid.dataItem($(e.target).closest("tr"));
 
+        //    LoadgridActivityWorkFlowNextSteps(true, dataItem.Seq, dataItem.ClaimId);
+        //    //$.get("/MyActivity/UpdateasComplete?activityId=" + dataItem.ActivityTaskId + "&actionis=" + true + "&claimId=" + dataItem.ClaimId, function (data) {
+        //    //    $('#grid').data('kendoGrid').dataSource.read();
+        //    //    $('#grid').data('kendoGrid').refresh();
+        //    //});
 
-        $("#grid .k-grid-content").on("change", "input.chkbx", function (e) {
-            var grid = $("#grid").data("kendoGrid"),
-                dataItem = grid.dataItem($(e.target).closest("tr"));
-            $.get("/MyActivity/UpdateasComplete?activityId=" + dataItem.ActivityTaskId + "&actionis=" + true + "&claimId=" + dataItem.ClaimId, function (data) {
-                $('#grid').data('kendoGrid').dataSource.read();
-                $('#grid').data('kendoGrid').refresh();
-            });
+        //});
+    }
 
-        });
+    //123
+    function InvokeNextSteps(chkBox, seqId, activityTaskId_wf, action_wf, ClaimId) {
+
+        if (!$(chkBox).is(":checked")) {
+            $(chkBox).prop("checked", false);
+        }
+        else {
+            $("#isActivityCompletionGrid").val("true");
+
+            $("#activityTaskId_wf").val(activityTaskId_wf);
+            $("#action_wf").val(action_wf);
+            $("#actionSeq_wf").val(seqId);
+            $("#hdnClaimId").val(ClaimId);
+            $("#ActivityWorkFlowModal").modal("show");
+            $("#txtWorkFlowCompletedDAte").val("");
+            LoadgridActivityWorkFlowNextSteps(true, seqId, ClaimId);
+
+        }
     }
 
     function comboChange() {
