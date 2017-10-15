@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,11 @@ namespace HonanClaimsWebApi.Models
     public class ContactAccountModel
     {
         public string Contact { get; set; }
+        [Required(ErrorMessage = "Account Required")]
         public string Account { get; set; }
         public string AccountId { get; set; }
         public string Phone { get; set; }
+        [Required(ErrorMessage = "Email Required")]
         public string Email { get; set; }
         public string Website { get; set; }
         public string Address1 { get; set; }
