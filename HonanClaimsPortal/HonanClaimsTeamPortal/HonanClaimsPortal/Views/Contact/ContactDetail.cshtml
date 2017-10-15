@@ -5,166 +5,172 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="main-container">
+<div class="content-wrapper">
+    <h3>Contact Detail</h3>
+
     <div class="row">
+        <div class="col-md-6">
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Contact Name</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Account</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Account, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Title</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Address</label>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Work Phone</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.WorkPhone, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Mobile</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Fax</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Home Phone</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Homephone, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">E-mail</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Website</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Preferred Contact</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Preferred_Contact, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-8">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.PrimaryContactForAccount, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Primary contact for account</label>
+            </div>
+
+
+            <div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotSolicit, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not solicit</label><div class="col-md-9">
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-8">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.AuthorizedServiceContact, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Authorized service contact</label>
+            </div>
+            <div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotEmail, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not email</label>
+            </div>
+
+
+            <div class="form-group col-md-8">
+            </div>
+            <div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotCall, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not call</label>
+
+            </div>
+            <div class="form-group col-md-8">
+            </div>
+            <div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotMail, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not mail</label>
+
+            </div>
+            <div class="form-group col-md-8">
+            </div>
+            <div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotFax, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not fax</label>
+            </div>
+           
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Contact Type</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Type, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Contact Statu</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Account Type</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.AccountType, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Account Status</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.AccountStatus, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12">
-            <div class="page-title">
-                <h3>Contact</h3>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
-                <label class="col-md-3">Contact Name</label>
-                <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-
-            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
-                <label class="col-md-3">Account</label>
-                <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Account, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
-                <label class="col-md-3">Title</label>
-                <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
-                <label class="col-md-3">Address</label>
-                <div class="col-md-9">
-                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
-                <label class="col-md-3">Work Phone</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.WorkPhone, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Mobile</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Fax</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Home Phone</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Homephone, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">E-mail</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Website</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-                <div class="form-group col-md-12 col-sm-12">
-                    <label class="col-md-3">Preferred Contact</label><div class="col-md-9">
-                        @Html.TextBoxFor(m => m.Preferred_Contact, new { @class = "form-control", @readonly = true })
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" onclick="Cancel()" class="btn btn-default">Cancel</button>
                     </div>
-                </div>
-       
-
-            <div class="form-group col-md-8">
-                <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.PrimaryContactForAccount, new { @readonly = true })
-                </div>            
-                <label class="col-md-9">Primary contact for account</label>
-            </div>
-           
-           
-             <div class="form-group col-md-4">
-                 <div class="col-md-3">
-                     @Html.CheckBoxFor(m => m.DoNotSolicit, new { @readonly = true })
-                 </div>
-                <label class="col-md-9">Do not solicit</label><div class="col-md-9">
-                </div>
-            </div>
-
-
-            <div class="form-group col-md-8">
-                <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.AuthorizedServiceContact, new { @readonly = true })
-                </div>
-                <label class="col-md-9">Authorized service contact</label>
-            </div>
-            <div class="form-group col-md-4">
-                <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.DoNotEmail, new { @readonly = true })
-                </div>
-                    <label class="col-md-9">Do not email</label>           
-            </div>
-
-
-            <div class="form-group col-md-8">
-            </div>
-            <div class="form-group col-md-4">
-                <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.DoNotCall, new { @readonly = true })
-                </div>
-                    <label class="col-md-9">Do not call</label>
-                
-            </div>
-            <div class="form-group col-md-8">
-            </div>
-            <div class="form-group col-md-4">
-                <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.DoNotMail, new { @readonly = true })
-                </div>
-                    <label class="col-md-9">Do not mail</label>
-               
-            </div>
-            <div class="form-group col-md-8">
-            </div>
-            <div class="form-group col-md-4">
-                <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.DoNotFax, new { @readonly = true })
-                </div>
-                    <label class="col-md-9">Do not fax</label>             
-            </div>
-            <div class='row'>
-                <div class='col-md-6 col-lg-offset-2'>
-                    <hr>
-                </div>
-            </div>
-
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Contact Type</label>
-                <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Type, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Contact Statu</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Account Type</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.AccountType, new { @class = "form-control", @readonly = true })
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label class="col-md-3">Account Status</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.AccountStatus, new { @class = "form-control", @readonly = true })
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function Cancel() {
+        window.location.href = '/Contact/Index';
+    }
+
+</script>
