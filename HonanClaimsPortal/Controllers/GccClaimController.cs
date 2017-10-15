@@ -7,6 +7,7 @@ using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -251,7 +252,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult DetailGccClaim(GccClaim model, IEnumerable<string> Incident_Category)
+        public async Task<ActionResult> DetailGccClaim(GccClaim model, IEnumerable<string> Incident_Category)
         {
             Session[SessionHelper.StoreobjectList] = null;
             PicklistServicecs picklistService = new PicklistServicecs();
@@ -269,9 +270,9 @@ namespace HonanClaimsPortal.Controllers
             if (ModelState.IsValid)
             {
                 claims = new ClaimServices();
-                var result = claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
+                var result = await claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
 
-                if (result.Result)
+                if (result)
                 {
 
                     return RedirectToAction("Index", "ClaimList");
