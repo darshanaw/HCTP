@@ -76,5 +76,40 @@ namespace HonanClaimsPortal.Controllers
             return View(model);
             //return Json(new { success = true });
         }
+
+        public ActionResult NewKeyContact()
+        {
+            TempData["FromURL"] = Request.UrlReferrer;
+            KeyContact model = new KeyContact();
+            PicklistServicecs pickListServices = new PicklistServicecs();
+            model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
+
+            return View(model);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public async Task<ActionResult> NewKeyContact(KeyContact model)
+        {
+            if (ModelState.IsValid)
+            {
+                ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+                KeyContactDateServices service = new KeyContactDateServices();
+
+                bool result;
+
+                if (string.IsNullOrEmpty(model.H_Keycontactsid))
+                    result = await service.InsertKeyContact(model, login.UserId);
+                else
+                    result = await service.UpdateKeyContact(model, login.UserId);
+
+                if (result)
+                    return Redirect(TempData["FromURL"].ToString());
+
+            }
+            PicklistServicecs pickListServices = new PicklistServicecs();
+            model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
+
+            return View(model);
+        }
     }
 }
