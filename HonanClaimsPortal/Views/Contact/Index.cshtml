@@ -43,6 +43,11 @@
     </div>
 </div>
 
+
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+
 <script>
     $("#clearFilter").click(function () {
         $("#AccountName").val('');
@@ -56,7 +61,9 @@
 
 
     $(document).ready(function () {
+        $.LoadingOverlay("show");
         loadContacts();
+        $.LoadingOverlay("hide");
     });
 
 
