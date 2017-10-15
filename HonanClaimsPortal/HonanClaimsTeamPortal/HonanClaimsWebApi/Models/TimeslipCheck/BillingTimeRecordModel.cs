@@ -29,5 +29,6 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
         public DateTime End_Time { get; set; }
         public int Units { get; set; }
         public Decimal Rate_Per_Unit { get; set; }
+        public string H_Claimsid_Billing { get; set; }
     }
 }
