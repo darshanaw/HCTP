@@ -1380,6 +1380,7 @@
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\NewRecord\NewPayment.cshtml" />
     <Content Include="Views\NewRecord\NewKeyContact.cshtml" />
+    <Content Include="Views\NewRecord\NewFileNote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
