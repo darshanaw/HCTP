@@ -112,7 +112,7 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             return list;
         }
 
-        public async Task<bool> MarkAsChecked(string billingId, string userId, string serviceDate, string startTimeHH, string startTimeMM, string endTimeHH, string endTimeMM, string claimId)
+        public async Task<bool> MarkAsChecked(string billingId,string userId, string serviceDate, string sStart_Time, string sEnd_Time, string claimId)
         {
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
 
@@ -123,13 +123,20 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
                 return false;
             }
 
-            serviceDate = serviceDate == "" ? string.Empty : serviceDate;
-            startTimeHH = startTimeHH == "" ? string.Empty : startTimeHH;
-            startTimeMM = startTimeMM == "" ? string.Empty : startTimeMM;
-            endTimeHH = endTimeHH == "" ? string.Empty : endTimeHH;
-            endTimeMM = endTimeMM == "" ? string.Empty : endTimeMM;
+            if (sStart_Time != null)
+            {
+                sStart_Time = Convert.ToDateTime(sStart_Time).ToString();
+            }
 
-            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsChecked?userId=" + userId + "&billingId=" + billingId + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId;
+            if (sEnd_Time != null)
+            {
+                sEnd_Time = Convert.ToDateTime(sEnd_Time).ToString();
+            }
+
+            serviceDate = serviceDate == "" ? string.Empty : serviceDate;
+
+
+            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsChecked?userId=" + userId + "&billingId=" + billingId + "&serviceDate=" + serviceDate + "&startTime=" + sStart_Time + "&endTime=" + sEnd_Time +  "&claimId=" + claimId;
 
             using (HttpClient client = new HttpClient())
             {
@@ -147,7 +154,7 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
             return result;
         }
 
-        public async Task<bool> MarkAsNonBillable(string billingId, string userId, string serviceDate, string startTimeHH, string startTimeMM, string endTimeHH, string endTimeMM, string claimId)
+        public async Task<bool> MarkAsNonBillable(string billingId, string userId, string serviceDate, string sStart_Time, string sEnd_Time, string claimId)
         {
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
 
@@ -158,12 +165,18 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
                 return false;
             }
 
+            if (sStart_Time != null)
+            {
+                sStart_Time = Convert.ToDateTime(sStart_Time).ToString();
+            }
+
+            if (sEnd_Time != null)
+            {
+                sEnd_Time = Convert.ToDateTime(sEnd_Time).ToString();
+            }
             serviceDate = serviceDate == "" ? string.Empty : serviceDate;
-            startTimeHH = startTimeHH == "" ? string.Empty : startTimeHH;
-            startTimeMM = startTimeMM == "" ? string.Empty : startTimeMM;
-            endTimeHH = endTimeHH == "" ? string.Empty : endTimeHH;
-            endTimeMM = endTimeMM == "" ? string.Empty : endTimeMM;
-            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsNonBillable?userId=" + userId + "&billingId=" + billingId + "&serviceDate=" + serviceDate + "&startTimeHH=" + startTimeHH + "&startTimeMM=" + startTimeMM + "&endTimeHH=" + endTimeHH + "&endTimeMM=" + endTimeMM + "&claimId=" + claimId;
+
+            string apiUrl = SiteUrl + "api/Billing/TeamMarkBillableTimeAsNonBillable?userId=" + userId + "&billingId=" + billingId + "&serviceDate=" + serviceDate + "&startTime=" + sStart_Time + "&endTime=" + sEnd_Time + "&claimId=" + claimId;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);

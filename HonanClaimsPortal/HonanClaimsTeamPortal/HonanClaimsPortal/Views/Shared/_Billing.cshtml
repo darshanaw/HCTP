@@ -330,13 +330,17 @@
                 $("#ClientId").val(result.ClientId);
                 $("#Client_Name").val(result.Client_Name);
                 $("#Service_Date").val(result.Service_Date);
-                $("#sStart_Time").val(result.sStart_Time);
-                //$("#Start_Time_MM").val(result.Start_Time_MM);
-                $("#sEnd_Time").val(result.sEnd_Time);
-                //$("#End_Time_MM").val(result.End_Time_MM);
                 $("#Qty_Mins").val(result.Qty_Mins);
                 $("#Rate").val(result.Rate);
                 $("#Billable").val(result.Billable);
+
+                $("#sEnd_Time").val(result.sEnd_Time);
+                var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
+                Endtimepicker.value(data.sEnd_Time);
+
+                $("#sStart_Time").val(result.sStart_Time);
+                var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
+                Starttimepicker.value(data.sStart_Time);
 
                 if (result.Timeslip_Checked) {
                     $("#Timeslip_Checked").prop('checked', true);
@@ -344,7 +348,6 @@
                     $("#Timeslip_Checked").prop('checked', false);
                 }
                 $("#Timeslip_Checked").val(result.Timeslip_Checked);
-
 
                 $("#Checked_By").val(result.Checked_By);
                 $("#Checked_Date").val(rChecked_Date);
@@ -369,7 +372,6 @@
                 $("#Service_By_Name").val(result.Service_By_Name);
                 $("#Quarter").val(result.Quarter);
                 $("#IsNew").val(result.IsNew);
-                debugger;
                 $('#BillingDetailModal').modal('show');
             }
         });
