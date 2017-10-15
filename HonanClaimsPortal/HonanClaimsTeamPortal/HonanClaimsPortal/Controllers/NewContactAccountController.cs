@@ -48,6 +48,7 @@ namespace HonanClaimsPortal.Controllers
             {
                 ViewBag.Message = "Error: Save unsuccessful";
             }
+            ModelState.Clear();
             return View(rmodel);
             //return RedirectToAction("Index");
         }
