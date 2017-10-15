@@ -321,14 +321,47 @@
                 }
 
                 $("#H_Billingsid").val(result.H_Billingsid);
-                $("#H_Claimsid_Billing").val(result.H_Claimsid_Billing);
+                $("#H_Claimsid_Billing").val($("#H_Claimsid").val());
                 $("#Service_By").val(result.Service_By);
                 $("#Is_Billable").val(result.Is_Billable);
 
                 if (!result.Claim_No)
-                {
-                    $('#Claim_No').data('kendoAutoComplete').select($("#Claim_Reference_Num").val());
-                    $("#Claim_No").data("kendoAutoComplete").trigger("change");
+                {                    
+                    $('#Claim_No').data('kendoAutoComplete').value($("#Claim_Reference_Num").val());
+
+                   // $('#Claim_No').val($("#Claim_Reference_Num").val());
+                    $("#H_Claimsid_Billing").val(result.H_Claimsid_Billing);
+
+
+                    //get ClientId
+                    $.ajax({
+                        url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + $("#H_Claimsid").val(),
+                        success: function (data) {
+                            debugger;
+                            $('#Client_Name').val(data.Text);
+                            $("#ClientId").val(data.Code);
+                            
+                            if (data.Order != null) {
+                                var RatePHR = data.Order;
+                                var RatePUNIT = (RatePHR / 60 * 6);
+                                $("#Rate").val(data.Order);
+                                $("#Rate_Per_Unit").val(RatePUNIT);
+                            }
+                        }
+                    });
+
+
+                    //get policy Id
+                    $.ajax({
+                        url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid").val(),
+                        success: function (result) {
+                            
+                            $('#Policyid_Billing').val(result[0].Code);
+                            $("#Policy_Name_Billing").val(result[0].Text);
+                        }
+                    });
+
+                    //$("#Claim_No").data("kendoAutoComplete").trigger("select");
                  }
                 else
                     $("#Claim_No").val(result.Claim_No);
