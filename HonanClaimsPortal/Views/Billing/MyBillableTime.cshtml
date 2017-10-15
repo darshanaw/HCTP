@@ -319,7 +319,7 @@
     function loadBillingDetail(BillingId) {
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
-                alert("IN");
+                //alert("IN");
                 if (result.Checked_Date != null)
                 {
                     var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
@@ -378,13 +378,17 @@
                 $("#ClientId").val(result.ClientId);
                 $("#Client_Name").val(result.Client_Name);
                 $("#Service_Date").val(result.Service_Date);
-                $("#sStart_Time").val(result.sStart_Time);
-                //$("#Start_Time_MM").val(result.Start_Time_MM);
-                $("#sEnd_Time").val(result.sEnd_Time);
-                //$("#End_Time_MM").val(result.End_Time_MM);
                 $("#Qty_Mins").val(result.Qty_Mins);
                 $("#Rate").val(result.Rate);
                 $("#Billable").val(result.Billable);
+
+                $("#sEnd_Time").val(result.sEnd_Time);
+                var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
+                Endtimepicker.value(result.sEnd_Time);
+
+                $("#sStart_Time").val(result.sStart_Time);
+                var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
+                Starttimepicker.value(result.sStart_Time);
 
 
                 if (result.Timeslip_Checked) {
