@@ -7,10 +7,32 @@
 <link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-@using (Ajax.BeginForm("_TimeslipDetail", "Billing", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Fn", UpdateTargetId = "divFake" }))
+<script>
+
+    function GetResult_Billing()
+    {
+        if ($('#BillingDetailModal').length > 0) {
+            $('#BillingDetailModal').modal('hide');
+        }
+
+        RefreshGrid();
+        $.LoadingOverlay("hide");
+        
+    }
+
+    $('#frmBillingForm').submit(function (e) {
+
+        if ($(this).valid()) {
+            $.LoadingOverlay("show");
+        }
+    });
+
+</script>
+
+@using (Ajax.BeginForm("_TimeslipDetail", "Billing", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Billing", UpdateTargetId = "divFakeBilling",  }, new { @id = "frmBillingForm" }))
 {
 
-    <div id="divFake" style="display:none"></div>
+    <div id="divFakeBilling" style="display:none"></div>
     <div class="main-container timedetail">
         @Html.HiddenFor(m => m.H_Billingsid)
         <div class="col-md-6">
@@ -381,12 +403,6 @@
     });
 
 
-    function GetResult_Fn(data) {
-        if ($('#BillingDetailModal').length > 0) {
-            $('#BillingDetailModal').modal('hide');
-            RefreshGrid();
-        }
-    }
 
     $("#Rate_Per_Unit").bind('keyup mouseup', function () {
         var RatePUNIT = $("#Rate_Per_Unit").val();

@@ -299,7 +299,36 @@ namespace HonanClaimsWebApi.Services
         }
 
 
-        public bool TeamUpdateClaimNotification(ClaimGeneral claim, string userId)
+        //public bool TeamUpdateClaimNotification(ClaimGeneral claim, string userId)
+        //{
+        //    string responseClaimId = "";
+
+        //    try
+        //    {
+        //        string jsonClaim = new JavaScriptSerializer().Serialize(claim);
+        //        claim.UserId = userId;
+        //        var dataString = JsonConvert.SerializeObject(claim);
+
+        //        using (var client = new WebClient())
+        //        {
+        //            client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+        //            string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + updateClaimNotificationApiGet1), "POST", dataString);
+        //            return bool.Parse(response);
+        //        }
+
+        //        return true;
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return false;
+        //        throw e;
+        //    }
+
+
+        //}
+
+        public async Task<bool> TeamUpdateClaimNotification(ClaimGeneral claim, string userId)
         {
             string responseClaimId = "";
 
@@ -309,11 +338,25 @@ namespace HonanClaimsWebApi.Services
                 claim.UserId = userId;
                 var dataString = JsonConvert.SerializeObject(claim);
 
-                using (var client = new WebClient())
+                using (var client = new HttpClient())
                 {
-                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                    string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + updateClaimNotificationApiGet1), "POST", dataString);
-                    return bool.Parse(response);
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        //client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                        //string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + updateClaimNotificationApiGet1), "POST", dataString);
+                        //return bool.Parse(response);
+
+                        var jsonString = JsonConvert.SerializeObject(claim);
+                        var jsonString_userId = JsonConvert.SerializeObject(userId);
+                        var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                        var content_userId = new StringContent(jsonString_userId, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "claim");
+                        //formData.Add(content_userId, "userId");
+
+
+                        var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + updateClaimNotificationApiGet1, formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                    }
                 }
 
                 return true;

@@ -261,7 +261,7 @@ namespace HonanClaimsPortal.Controllers
             {
                 claims = new ClaimServices();
                 var result = claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
-                if (result)
+                if (result.Result)
                 {
                     
                     return RedirectToAction("Index", "ClaimList");
