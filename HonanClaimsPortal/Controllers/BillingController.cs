@@ -284,6 +284,53 @@ namespace HonanClaimsPortal.Controllers
         }
 
 
+        //[HttpPost]
+        //public ActionResult _TimeslipDetail123(BillingModel model)
+        //{
+        //    try
+        //    {
+        //        if (model.sStart_Time != null)
+        //        {
+        //            model.Start_Time = Convert.ToDateTime(model.sStart_Time);
+        //        }
+
+        //        if (model.sEnd_Time != null)
+        //        {
+        //            model.End_Time = Convert.ToDateTime(model.sEnd_Time);
+        //        }
+
+        //        BillingRepo billingRepo = new BillingRepo();
+        //        ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+        //        if (model.IsNew)
+        //        {
+
+        //            var result = billingRepo.TeamInsertTimeslip(model, client.UserId).Result;
+        //            if (result)
+        //            {
+        //                return null;
+        //                //return PartialView("~/Views/Shared/_TimeslipDetail", model);
+        //            }
+        //            return null;
+        //            //return PartialView("~/Views/Shared/_TimeslipDetail", model);
+        //        }
+        //        else
+        //        {
+        //            var result = billingRepo.TeamUpdateTimeslip(model, client.UserId).Result;
+        //            if (result)
+        //            {
+        //                return null;
+        //                //return PartialView("~/Views/Shared/_TimeslipDetail", model);
+        //            }
+        //            return null;
+        //            //return PartialView("~/Views/Shared/_TimeslipDetail", model);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
         public async Task<ActionResult> GetCurrentUser()
         {
             var model = new CurrentLoggedUserModel();

@@ -474,12 +474,12 @@
                 $('#InnerModeL_H_Billingsid').val(data.H_Billingsid);
                 $('#InnerModeL_Service_By_Name').val(data.Service_By_Name);
                 $('#InnerModeL_Is_Billable').val(data.Is_Billable);
-                $('#InnerModeL_H_Claimsid').val(data.H_Claimsid);
+                $('#InnerModeL_H_Claimsid').val(data.H_Claimsid_Billing);
                 if (data.Is_Billable) { $('#InnerModeL_Is_Billable').prop("checked", true); } else { $('#InnerModeL_Is_Billable').prop("checked", false); }
                 $('#InnerModeL_Rate').val(data.Rate);
                 $('#InnerModeL_Claim_No').val(data.Claim_No);
 
-
+                debugger;
                 if (data.Service_Date != null && data.Service_Date != "") {
                     var date = new Date(data.Service_Date);
                     var month = date.getMonth() + 1;
@@ -567,6 +567,7 @@
                 count = count + 1;
             });
             if (count == 1) {
+                debugger;
                 if (id != null && id != "" && claimId != null && claimId != "" && (sStart_Time != null && sStart_Time != "") && (sEnd_Time != "" && sEnd_Time != null)) {
                     $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&sStart_Time=" + sStart_Time + "&sEnd_Time=" + sEnd_Time + "&claimId=" + claimId, function (data) {
                         if (data == false) {
