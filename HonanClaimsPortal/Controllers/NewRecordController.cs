@@ -111,5 +111,28 @@ namespace HonanClaimsPortal.Controllers
 
             return View(model);
         }
+
+
+        public ActionResult NewFileNote()
+        {
+            TempData["FromURL"] = Request.UrlReferrer;
+            FileNoteDetailModal model = new FileNoteDetailModal();
+            ClaimServices claimServices = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            model.CreatedDate_Fn = DateTime.Now;
+            model.CreatedBy_Id_Fn = client.UserId;
+            model.CreatedBy_Fn = client.FirstName + " " + client.LastName;
+            model.RefnuberList_Fn = claimServices.GetClaimsForUser(client.UserId);
+
+            return View(model);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult NewFileNote(FileNoteDetailModal model)
+        {
+            DocumentService documentService = new DocumentService();
+            documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
+            return Redirect(TempData["FromURL"].ToString());
+        }
     }
 }
