@@ -35,7 +35,10 @@
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tabClaimDetail" data-toggle="tab" aria-expanded="true">Claim Detail</a></li>
-    <li><a href="#tabActivityTasks" data-toggle="tab">Activity Tasks</a></li>
+    @if (Model.Claim_Type == HonanClaimsPortal.Helpers.ClaimType.Claim.ToString())
+    {
+        <li><a href="#tabActivityTasks" data-toggle="tab">Activity Tasks</a></li>
+    }
     <li><a href="#tabKey_Contacts_Dates" data-toggle="tab">Key Contacts\Dates </a></li>
     <li><a href="#tabAttachments" data-toggle="tab">Attachments</a></li>
     <li><a href="#tabCustomerDocs" data-toggle="tab">Customer Docs</a></li>
@@ -669,10 +672,12 @@
     </div>
 
 
-    <div class="tab-pane" id="tabActivityTasks">
-    </div>
-    <div class="tab-pane" id="tabActivityTasks">
-    </div>
+    @if (Model.Claim_Type == HonanClaimsPortal.Helpers.ClaimType.Claim.ToString())
+    {
+        <div class="tab-pane" id="tabActivityTasks">
+            @{Html.RenderAction("_ActivityTasks", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
+        </div>
+    }
     <div class="tab-pane" id="tabKey_Contacts_Dates">
         @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid, claimRefNo = Model.Claim_Reference_Num });}
     </div>

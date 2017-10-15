@@ -4,12 +4,12 @@
     string display = "";
 }
 
-<style>
+@*<style>
     .BillingDetailModal {
         max-height: calc(100vh - 200px);
         overflow-y: auto;
     }
-</style>
+</style>*@
 
 
 <div class="panel panel-default">
@@ -122,11 +122,12 @@
             </div>
         </div>
 
+
     </div>
 </div>
 
 <!-- Modal -->
-<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+@*<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -137,12 +138,9 @@
                 @{Html.RenderAction("_TimeslipDetail", "Billing");}
 
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>*@
         </div>
     </div>
-</div>
+</div>*@
 
 
 <div id="gridBillableTimes"></div>
@@ -274,16 +272,22 @@
         //$("#txtCurrentPageSum").val(curretpagesum);
     }
 
-
-    function loadBillingDetail(BillingId) {
+    function loadBillingDetail(BillingId,startTime, endTime) {
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
-
+               
                 if (result.Checked_Date != null) {
                     var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
                     var month = Checked_Date.getMonth() + 1;
                     var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
                 }
+
+                if (result.Invoice_Processed_Date != null) {
+                    var Invoice_Processed_Date = new Date(parseInt(result.Invoice_Processed_Date.substr(6)));
+                    var month = Invoice_Processed_Date.getMonth() + 1;
+                    var rInvoice_Processed_Date = Invoice_Processed_Date.getDate() + "/" + month + "/" + Invoice_Processed_Date.getFullYear();
+                }
+
 
                 if (result.Service_Date == null) {
                     var ssDate = new Date();
@@ -316,17 +320,23 @@
                     }
                 }
 
-
-
                 $("#H_Billingsid").val(result.H_Billingsid);
-                $("#H_Claimsid").val(result.H_Claimsid);
+                $("#H_Claimsid_Billing").val(result.H_Claimsid_Billing);
                 $("#Service_By").val(result.Service_By);
                 $("#Is_Billable").val(result.Is_Billable);
-                $("#Claim_No").val(result.Claim_No);
+
+                if (!result.Claim_No)
+                {
+                    $('#Claim_No').data('kendoAutoComplete').select($("#Claim_Reference_Num").val());
+                    $("#Claim_No").data("kendoAutoComplete").trigger("change");
+                 }
+                else
+                    $("#Claim_No").val(result.Claim_No);
+
                 $("#ActivityId").val(result.ActivityId);
                 $("#Activity_Name").val(result.Activity_Name);
-                $("#Policyid").val(result.Policyid);
-                $("#Policy_Name").val(result.Policy_Name);
+                $("#Policyid_Billing").val(result.Policyid_Billing);
+                $("#Policy_Name_Billing").val(result.Policy_Name_Billing);
                 $("#ClientId").val(result.ClientId);
                 $("#Client_Name").val(result.Client_Name);
                 $("#Service_Date").val(result.Service_Date);
@@ -361,28 +371,154 @@
                 $("#Invoice_Processed").val(result.Invoice_Processed);
 
                 $("#Invoice_Processed_By").val(result.Invoice_Processed_By);
-                $("#Invoice_Processed_Date").val(result.Invoice_Processed_Date);
+                $("#Invoice_Processed_Date").val(rInvoice_Processed_Date);
                 $("#Invoice_Processed_By_Name").val(result.Invoice_Processed_By_Name);
 
                 $("#Invoice_No").val(result.Invoice_No);
-                $("#Invoice_Date").val(result.Invoice_Date); 
+                $("#Invoice_Date").val(result.Invoice_Date);
                 $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
                 $("#Units").val(result.Units);
                 $("#Work_Done").val(result.Work_Done);
                 $("#Service_By_Name").val(result.Service_By_Name);
                 $("#Quarter").val(result.Quarter);
                 $("#IsNew").val(result.IsNew);
+
+                var dateString = $("#Service_Date").val().substr(6);
+                var currentTime = new Date(parseInt(dateString));
+                var month = currentTime.getMonth() + 1;
+                var day = currentTime.getDate();
+                var year = currentTime.getFullYear();
+                var date = day + "/" + month + "/" + year;
+                $("#Service_Date").val(date);
+
+                if (startTime && typeof startTime !== "undefined")
+                    $("#sStart_Time").val(startTime);
+
+                if (endTime && typeof endTime !== "undefined")
+                    $("#sEnd_Time").val(endTime);
+                
                 $('#BillingDetailModal').modal('show');
             }
         });
-
-
         $("#btnNewFileNote").click(function () {
-
             clearFileNoteControls();
-
         });
-
     }
+
+    //function loadBillingDetail(BillingId) {
+    //    $.ajax({
+    //        url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
+
+    //            if (result.Checked_Date != null) {
+    //                var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
+    //                var month = Checked_Date.getMonth() + 1;
+    //                var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+    //            }
+
+    //            if (result.Service_Date == null) {
+
+    //                var ssDate = new Date();
+    //                var dmonth = ssDate.getMonth() + 1;
+    //                result.Service_Date = ssDate.getDate() + "/" + dmonth + "/" + ssDate.getFullYear();
+                  
+    //            }
+               
+               
+    //            if (result.End_Time != null) {
+    //                var End_Time = new Date(parseInt(result.End_Time.substr(6)));
+    //                var year = End_Time.getFullYear();
+    //                if (year == 1) {
+    //                    result.sEnd_Time = "";
+    //                } else {
+    //                    var h = End_Time.getHours(), m = End_Time.getMinutes();
+    //                    var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+    //                    result.sEnd_Time = _time;
+    //                }
+    //            }
+
+
+    //            if (result.Start_Time != null) {
+    //                var Start_Time = new Date(parseInt(result.Start_Time.substr(6)));
+    //                var yesr = Start_Time.getFullYear();
+    //                if (year == 1) {
+    //                    result.sStart_Time = "";
+    //                } else {
+    //                    var h = Start_Time.getHours(), m = Start_Time.getMinutes();
+    //                    var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+    //                    result.sStart_Time = _time;
+    //                }
+    //            }
+
+
+
+    //            $("#H_Billingsid").val(result.H_Billingsid);
+    //            $("#H_Claimsid").val(result.H_Claimsid);
+    //            $("#Service_By").val(result.Service_By);
+    //            $("#Is_Billable").val(result.Is_Billable);
+    //            if (!result.Claim_No)
+    //            {
+    //                $('#Claim_No').data('kendoAutoComplete').select($("#Claim_Reference_Num").val());
+    //                //$('#Claim_No').data('kendoAutoComplete').value($("#Claim_Reference_Num").val());
+    //             }
+    //            else
+    //                $("#Claim_No").val(result.Claim_No);
+    //            $("#ActivityId").val(result.ActivityId);
+    //            $("#Activity_Name").val(result.Activity_Name);
+    //            $("#Policyid").val(result.Policyid);
+    //            $("#Policy_Name").val(result.Policy_Name);
+    //            $("#ClientId").val(result.ClientId);
+    //            $("#Client_Name").val(result.Client_Name);
+    //            $("#Service_Date").val(result.Service_Date);
+    //            $("#sStart_Time").val(result.sStart_Time);
+    //            //$("#Start_Time_MM").val(result.Start_Time_MM);
+    //            $("#sEnd_Time").val(result.sEnd_Time);
+    //            //$("#End_Time_MM").val(result.End_Time_MM);
+    //            $("#Qty_Mins").val(result.Qty_Mins);
+    //            $("#Rate").val(result.Rate);
+    //            $("#Billable").val(result.Billable);
+
+    //            if (result.Timeslip_Checked) {
+    //                $("#Timeslip_Checked").prop('checked', true);
+    //            } else {
+    //                $("#Timeslip_Checked").prop('checked', false);
+    //            }
+    //            $("#Timeslip_Checked").val(result.Timeslip_Checked);
+
+
+    //            $("#Checked_By").val(result.Checked_By);
+    //            $("#Checked_Date").val(rChecked_Date);
+    //            $("#Checked_By_Name").val(result.Checked_By_Name);
+
+    //            if (result.Invoice_Processed) {
+    //                $("#Invoice_Processed").prop('checked', true);
+    //            } else {
+    //                $("#Invoice_Processed").prop('checked', false);
+    //            }
+    //            $("#Invoice_Processed").val(result.Invoice_Processed);
+
+    //            $("#Invoice_Processed_By").val(result.Invoice_Processed_By);
+    //            $("#Invoice_Processed_Date").val(result.Invoice_Processed_Date);
+    //            $("#Invoice_Processed_By_Name").val(result.Invoice_Processed_By_Name);
+
+    //            $("#Invoice_No").val(result.Invoice_No);
+    //            $("#Invoice_Date").val(result.Invoice_Date); 
+    //            $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
+    //            $("#Units").val(result.Units);
+    //            $("#Work_Done").val(result.Work_Done);
+    //            $("#Service_By_Name").val(result.Service_By_Name);
+    //            $("#Quarter").val(result.Quarter);
+    //            $("#IsNew").val(result.IsNew);
+    //            $('#BillingDetailModal').modal('show');
+    //        }
+    //    });
+
+
+    //    $("#btnNewFileNote").click(function () {
+
+    //        clearFileNoteControls();
+
+    //    });
+
+    //}
 
 </script>
