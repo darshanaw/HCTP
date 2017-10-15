@@ -134,5 +134,41 @@ namespace HonanClaimsPortal.Controllers
             documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
             return Redirect(TempData["FromURL"].ToString());
         }
+
+        public ActionResult NewKeyDate()
+        {
+            TempData["FromURL"] = Request.UrlReferrer;
+            KeyDate model = new KeyDate();
+            PicklistServicecs pickListServices = new PicklistServicecs();
+            model.Key_Date_Description_List = pickListServices.GetPickListItems("Key Date Description");
+
+            return View(model);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public async Task<ActionResult> NewKeyDate(KeyDate model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+                KeyContactDateServices service = new KeyContactDateServices();
+
+                bool result;
+
+                if (string.IsNullOrEmpty(model.H_Keydatesid))
+                    result = await service.InsertKeyDate(model, login.UserId);
+                else
+                    result = await service.UpdateKeyDate(model, login.UserId);
+
+                if (result)
+                    return Redirect(TempData["FromURL"].ToString());
+
+            }
+            PicklistServicecs pickListServices = new PicklistServicecs();
+            model.Key_Date_Description_List = pickListServices.GetPickListItems("Key Date Description");
+
+            return View(model);
+        }
     }
 }

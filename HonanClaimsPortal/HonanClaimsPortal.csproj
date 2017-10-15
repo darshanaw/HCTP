@@ -1395,6 +1395,7 @@
     <Content Include="Views\NewRecord\NewPayment.cshtml" />
     <Content Include="Views\NewRecord\NewKeyContact.cshtml" />
     <Content Include="Views\NewRecord\NewFileNote.cshtml" />
+    <Content Include="Views\NewRecord\NewKeyDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
