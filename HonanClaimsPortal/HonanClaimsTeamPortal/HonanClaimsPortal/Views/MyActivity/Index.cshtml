@@ -410,8 +410,13 @@
 
             },
             {
+                
                 field: "ClaimRefNo",
                 title: "Claims Ref #",
+            },
+            {
+                field: "RowColor",
+                title: "RowColor",
             },
             {
                 field: "Customer",
@@ -458,43 +463,59 @@
             },
             ],
             dataBound: function (e) {
-                // get the index of the UnitsInStock cell
-                var columns = e.sender.columns;
-                var columnIndex = this.wrapper.find(".k-grid-header [data-field=" + "ActivityTaskId" + "]").index();
-                var today = new Date().setHours(0, 0, 0, 0);
-                //var todayminus = new Date().setDate(new Date().getDate() - 1);
-                // iterate the data items and apply row styles where necessary
+
                 var dataItems = e.sender.dataSource.view();
                 for (var j = 0; j < dataItems.length; j++) {
 
-                    var datecol = dataItems[j].get("DueDate");
-                    var compltecol = dataItems[j].get("Complete");
-                    var date = new Date(parseInt(datecol.substr(6))).setHours(0, 0, 0, 0);
-
-                    var dueminus = new Date(parseInt(datecol.substr(6))).setDate(-1);
-
-                    var rid = dataItems[j].uid;
-                    var row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']");
-                    if (today >= date && compltecol == false) {
-                        row.removeClass("Oneday");
+                    if (dataItems[j].RowColor == "Orange") {
+                        var rid = dataItems[j].uid;
+                        var row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']");
+                         row.addClass("Oneday");
+                    }
+                    if (dataItems[j].RowColor == "Red") {
+                        var rid = dataItems[j].uid;
+                        var row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']");
                         row.addClass("OverDue");
-                    }
-
-                    //var dayDiff = new Date(parseInt(datecol.substr(6))).getDate() - new Date().getDate();
-                    var dMonth = new Date(parseInt(datecol.substr(6))).getMonth() + 1;
-                    var dYear = new Date(parseInt(datecol.substr(6))).getFullYear();
-                    var dDay = new Date(parseInt(datecol.substr(6))).getDate();
-
-                    var cDay = new Date().getDate();
-                    var cMonth = new Date().getMonth() + 1;
-                    var cYear = new Date().getFullYear();
-                    var dif = dDay - cDay;
-
-                    if (dYear == cYear && dMonth == cMonth && dif == 1 && compltecol == false) {
-                        row.removeClass("OverDue");
-                        row.addClass("Oneday");
-                    }
+                    }                  
                 }
+
+                //// get the index of the UnitsInStock cell
+                //var columns = e.sender.columns;
+                //var columnIndex = this.wrapper.find(".k-grid-header [data-field=" + "ActivityTaskId" + "]").index();
+                //var today = new Date().setHours(0, 0, 0, 0);
+                ////var todayminus = new Date().setDate(new Date().getDate() - 1);
+                //// iterate the data items and apply row styles where necessary
+                //var dataItems = e.sender.dataSource.view();
+                //for (var j = 0; j < dataItems.length; j++) {
+
+                //    var datecol = dataItems[j].get("DueDate");
+                //    var compltecol = dataItems[j].get("Complete");
+                //    var date = new Date(parseInt(datecol.substr(6))).setHours(0, 0, 0, 0);
+
+                //    var dueminus = new Date(parseInt(datecol.substr(6))).setDate(-1);
+
+                //    var rid = dataItems[j].uid;
+                //    var row = e.sender.tbody.find("[data-uid='" + dataItems[j].uid + "']");
+                //    if (today >= date && compltecol == false) {
+                //        row.removeClass("Oneday");
+                //        row.addClass("OverDue");
+                //    }
+
+                //    //var dayDiff = new Date(parseInt(datecol.substr(6))).getDate() - new Date().getDate();
+                //    var dMonth = new Date(parseInt(datecol.substr(6))).getMonth() + 1;
+                //    var dYear = new Date(parseInt(datecol.substr(6))).getFullYear();
+                //    var dDay = new Date(parseInt(datecol.substr(6))).getDate();
+
+                //    var cDay = new Date().getDate();
+                //    var cMonth = new Date().getMonth() + 1;
+                //    var cYear = new Date().getFullYear();
+                //    var dif = dDay - cDay;
+
+                //    if (dYear == cYear && dMonth == cMonth && dif == 1 && compltecol == false) {
+                //        row.removeClass("OverDue");
+                //        row.addClass("Oneday");
+                //    }
+                //}
             }
         });
 
