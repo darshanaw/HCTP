@@ -1,0 +1,655 @@
+﻿@model HonanClaimsWebApi.Models.Claim.Payment
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- MOMENT JS-->
+<script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+<!-- DATETIMEPICKER-->
+<link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
+<script>
+    $(function () {
+
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#frmPaymentDetailNew').submit(function () {
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
+
+    });
+
+    function GetResult_Pd(data) {
+
+        //if ($('#PaymentDetailModal').length > 0) {
+        //    $('#PaymentDetailModal').modal('hide');
+        //}
+
+        //$.LoadingOverlay("hide");
+        //RefreshPaymentDetailsGrid();
+
+        window.close();
+    }
+
+    function clearPaymentFiles() {
+        $(".k-upload-files > li").remove();
+    }
+
+</script>
+
+<style>
+    .k-upload.k-header {
+        width: 100%;
+    }
+
+    .k-upload-status.k-upload-status-total {
+        display: none;
+    }
+</style>
+
+
+@using (Html.BeginForm("NewPayment", "NewRecord", new { @id = "frmPaymentDetailNew", enctype = "multipart/form-data" }))
+{
+
+    @Html.HiddenFor(o => o.Payee_Account)
+    @Html.HiddenFor(o => o.Payee_Contact)
+    @Html.HiddenFor(o => o.Payment_To)
+    @Html.HiddenFor(o => o.Sent_To_Contact)
+    @Html.HiddenFor(o => o.Invoice_Attached)
+    @Html.HiddenFor(o => o.H_Claimsid)
+    @Html.HiddenFor(o => o.IsNew)
+    @Html.HiddenFor(o => o.H_Paymentsid)
+
+    <div style="display:none" id="divFakePayment"></div>
+    <div class="content-wrapper">
+        <h3> New Payment</h3>
+
+        <div class="col-md-6">
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Claim Ref</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.ClaimRefNo_Payment, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Reserve Type</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(model => model.Reserve_Type, new SelectList(Model.Reserve_Type_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
+                        @Html.HiddenFor(x => x.Reserve_Type, new { @class = "Reserve_Type_Class" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Date Received</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.Date_Invoice_Received, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Invoice Ref.</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.Invoice_Reference, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    @*<label class="col-sm-4 control-label input-sm">Invoice Attach</label>*@
+                    <div class="col-sm-12 mb">
+                        <input type="file" name="files" id="uploadInvoiceAttach" />
+                        <a href='#' id="paymentDetailAttachmentName" class="pull-right"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payee Type</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(model => model.Payee_Type, new SelectList(Model.Payee_Type_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payee Acct</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            @Html.TextBoxFor(o => o.Payee_Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                            <span id="AccountNoModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#AccountBrokerModal_Pd">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payee Contact</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            @Html.TextBoxFor(o => o.Payee_Contact_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                            <span id="ContactModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#ContactBrokerModal_Pd">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Total Gross</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.Total_Gross, new { @class = "form-control input-sm", @type = "number" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm"></label>
+                    <div class="col-sm-8">
+                        GST Inc >>  @Html.CheckBoxFor(o => o.Gst_Included)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">GST (%)</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.Gst, new { @class = "form-control input-sm", @type = "number" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Total Net GST</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.Total_Net, "{0:n2}", new { @class = "form-control input-sm", @type = "number" })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Date Sent for Payment</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.Date_Sent_For_Payment, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payment To</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            @Html.TextBoxFor(o => o.Payment_To_Name, new { @class = "form-control input-sm", @maxlength = 100, @style= "z-index: auto;" })
+                            <span id="Payment_To_Name_Pd" class="input-group-btn" data-toggle="modal" data-target="#Payment_To_Name_Modal_Pd">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index: auto">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Send To Contact</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            @Html.TextBoxFor(o => o.Sent_To_Contact_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto;" })
+                            <span id="Sent_To_Contact_Name_Pd" class="input-group-btn" data-toggle="modal" data-target="#Sent_To_Contact_Name_Modal_Pd">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index: auto">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Phone #</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_phone" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Email</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.Email, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_email" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payment Status</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(model => model.Payment_Status, new SelectList(Model.Payment_Status_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Date Invoice Paid</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.Date_Invoice_Paid, new { @class = "form-control input-sm", @style = "z-index: auto;" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payment Type</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(model => model.Payment_Type, new SelectList(Model.Payment_Type_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payment Method</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(model => model.Payment_Method, new SelectList(Model.Payment_Method_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Settlement Payment</label>
+                    <div class="col-sm-8">
+                        @Html.CheckBoxFor(o => o.Is_Settlement)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Amount</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(o => o.Payment_Amount, new { @class = "form-control input-sm", @type = "number" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Payment Date</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.Payment_Date, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group mb">
+                    <label class="col-sm-4 control-label input-sm">Notes</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(o => o.Payment_Note, new { @class = "form-control input-sm" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-12">
+            <div class="footer text-right">
+                <button type="button" class="mb-sm btn btn-default" onclick="CloseNewPayment()" data-dismiss="modal">Discard Changes</button>
+                <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+<!-- Modal -->
+<div id="AccountBrokerModal_Pd" class="modal fade AccountBrokerModal_Pd" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close AccountBrokerModal_Pd_Close">&times;</button>
+                <h4 class="modal-title">Account Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_PaymentAccountLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default AccountBrokerModal_Pd_Close" id="AccountBrokerModal_Pd_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="ContactBrokerModal_Pd" class="modal fade ContactBrokerModal_Pd" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ContactBrokerModal_Close_Pd">&times;</button>
+                <h4 class="modal-title">Contact Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_PaymentContactLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ContactBrokerModal_Close_Pd" id="ContactBrokerModal_Close_Pd">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="Payment_To_Name_Modal_Pd" class="modal fade Payment_To_Name_Modal_Pd" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close Payment_To_Name_Pd_Close">&times;</button>
+                <h4 class="modal-title">Payment To Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_PaymentTo.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default Payment_To_Name_Pd_Close" id="Payment_To_Name_Pd_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="Sent_To_Contact_Name_Modal_Pd" class="modal fade Sent_To_Contact_Name_Modal_Pd" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close Sent_To_Contact_Name_Close_Pd">&times;</button>
+                <h4 class="modal-title">Send To Contact Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_SendToContact.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default Sent_To_Contact_Name_Close_Pd" id="Sent_To_Contact_Name_Close_Pd">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var kendoAutoCompleteService_By_Name = null;
+    $(document).ready(function () {
+        kendoAutoCompleteService_By_Name = $("#ClaimRefNo_Payment").kendoAutoComplete({
+            dataTextField: "Text",
+            //dataValueField: "ID",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
+                }
+            },
+            filter: "contains",
+            select: onSelectService_By_Name,
+        }).data("kendoAutoComplete");
+
+        function onSelectService_By_Name(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#H_Claimsid').val(dataItem.Code);
+            $('#ClaimRefNo_Payment').val(dataItem.Text)
+        }
+    });
+
+    $('#ClaimRefNo_Payment').keyup(function () {
+        var dd = $("#ClaimRefNo_Payment").val();
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=" + $("#ClaimRefNo_Payment").val(),
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteService_By_Name.setDataSource(dataSource);
+    });
+
+    function CheckPaymentData()
+    {
+        if ($("#Liability_Reserve").length > 0) {
+            var val1 = $("#Liability_Reserve").val();
+            var val2 = $("#Payment_Amount").val();
+
+            if (val1 < val2) {
+
+                bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
+                return false;
+            }
+        }
+    }
+
+    $(function () {
+
+
+        jQuery.validator.methods["date"] = function (value, element) { return true; }
+
+        $('#frmPaymentDetailNew').submit(function (e) {
+
+            dynamicValidations_Payment();
+
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
+
+        $("#uploadInvoiceAttach").kendoUpload({
+
+            multiple: false,
+            async: {
+                saveUrl: '@Url.Action("UploadPaymentFile", "ClaimDetailTabs")',
+                autoUpload: true
+            }
+        });
+
+        $("#uploadInvoiceAttach").closest(".k-upload-button")
+            .find("span")
+            .text("Attach Invoice");
+
+
+        $(".AccountBrokerModal_Pd_Close").click(function () {
+            $("#AccountBrokerModal_Pd").modal("hide");
+        });
+
+        $(".ContactBrokerModal_Close_Pd").click(function () {
+            $("#ContactBrokerModal_Pd").modal("hide");
+        });
+
+        //$("#AccountNoModal_Pd").click(function () {
+        //    $('#tbPaymentAccount').DataTable().ajax.reload(null, false);
+        //});
+
+        $("#ContactModal_Pd").click(function () {
+            $('#tbContact_Pd').DataTable().ajax.reload(null, false);
+        });
+
+        $("#Gst_Included").change(function () {
+
+            claculateGst();
+
+            if ($("#Gst_Included").is(":checked")) {
+                $("#Gst_Included").val(true);
+            }
+            else
+                $("#Gst_Included").val(false);
+
+        });
+
+        $("#Total_Gross").change(function () {
+            claculateGst();
+        });
+
+        $('#Gst').on('input', function () {
+            claculateGst();
+        });
+
+        $(".Payment_To_Name_Pd_Close").click(function () {
+            $("#Payment_To_Name_Modal_Pd").modal("hide");
+        });
+
+        $(".Sent_To_Contact_Name_Close_Pd").click(function () {
+            $("#Sent_To_Contact_Name_Modal_Pd").modal("hide");
+        });
+
+        //$("#Payment_To_Name_Pd").click(function () {
+
+        //    $('#tbPaymentTo').DataTable().ajax.reload(null, false);
+        //});
+
+        $("#Sent_To_Contact_Name_Pd").click(function () {
+            $('#tbSendToContact_Pd').DataTable().ajax.reload(null, false);
+        });
+
+        $("#Is_Settlement").change(function () {
+
+            dynamicValidations_Payment();
+
+            if ($("#Is_Settlement").is(":checked")) {
+                $("#Is_Settlement").val(true);
+            }
+            else
+                $("#Is_Settlement").val(false);
+
+        });
+
+
+
+    });
+
+    function dynamicValidations_Payment()
+    {
+        if ($("#Is_Settlement").is(":checked")) {
+
+            $("#Reserve_Type").val("Liability Reserve");
+            $("#Reserve_Type").prop("disabled", true);
+            $(".Reserve_Type_Class").val("Liability Reserve");
+
+            $("#Gst_Included").prop("checked", true);
+            $("#Date_Invoice_Received").rules("remove", "required");
+            $("#Payee_Type").rules("remove", "required");
+            $("#Payee_Account_Name").rules("remove", "required");
+            $("#Payment_Amount").rules("add", "required");
+            $("#Payment_Date").rules("add", "required");
+        }
+        else {
+            //$("#Reserve_Type").val("");
+            $("#Reserve_Type").prop("disabled", false);
+            $("#Date_Invoice_Received").rules("add", "required");
+            $("#Payee_Type").rules("add", "required");
+            $("#Payee_Account_Name").rules("add", "required");
+            $("#Payment_Amount").rules("remove", "required");
+            $("#Payment_Date").rules("remove", "required");
+        }
+    }
+
+    function claculateGst()
+    {
+        if ($("#Gst_Included").is(':checked'))
+        {
+            var gst = ($("#Gst").val() / 100) * $("#Total_Gross").val();
+            $("#Total_Net").val(gst.toFixed(2));
+        }
+        else {
+            $("#Total_Net").val("");
+        }
+
+    }
+
+    function onCompleteInvoiceUpload() {
+
+
+    }
+
+    function CloseNewPayment() {
+        @{
+            var url = TempData["FromURL"].ToString();
+        }
+        window.location.href = "@url";
+    }
+
+</script>
+
+

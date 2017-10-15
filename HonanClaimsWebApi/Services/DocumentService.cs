@@ -365,7 +365,6 @@ namespace HonanClaimsWebApi.Services
         }
 
 
-
         public List<PaymentSimple> GetPaymentDetails(string claimId, string payeeId, string invoicedDate, string status, string invoiceNo)
         {
 

@@ -158,7 +158,7 @@
                                         <a href="#" class="list-group-item">
                                             <small>New Billable Timeslip</small>
                                         </a>
-                                        <a href="#" class="list-group-item">
+                                        <a href="#" id="addNewPayment" class="list-group-item">
                                             <small>New Claim Payment</small>
                                         </a>
                                         <a href="#" class="list-group-item">
@@ -1245,6 +1245,10 @@
 
 
 
+        });
+
+        $('#addNewPayment').click(function () {
+            window.location.href = '/NewRecord/NewPayment';
         });
     });
 </script>
