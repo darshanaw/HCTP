@@ -64,7 +64,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewGccClaim(GccClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category)
+        public async Task<ActionResult> NewGccClaim(GccClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace HonanClaimsPortal.Controllers
                     generalClaim.Claim_Team_Name = claim.Claim_Team;
                     generalClaim.Accountid = claim.Accountid;
                     generalClaim.Account_Name = claim.Account_Name;
-                    var result = claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
+                    var result = await claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
 
                     if (result.IsSuccess)
                     {

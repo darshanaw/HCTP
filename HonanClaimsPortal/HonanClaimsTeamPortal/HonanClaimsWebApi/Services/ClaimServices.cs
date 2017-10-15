@@ -78,7 +78,45 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
-        public ExecutionResult TeamInsertClaimNotification(ClaimGeneral claim, string userId)
+        //public ExecutionResult TeamInsertClaimNotification(ClaimGeneral claim, string userId)
+        //{
+        //    string responseClaimId = "";
+        //    exeReult = new ExecutionResult();
+        //    try
+        //    {
+        //        string jsonClaim = new JavaScriptSerializer().Serialize(claim);
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+        //            ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1 + jsonClaim +
+        //            insertClaimNotificationApiGet2 + userId);
+
+        //        claim.UserId = userId;
+        //        var dataString = JsonConvert.SerializeObject(claim);
+
+        //        using (var client = new WebClient())
+        //        {
+        //            client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+        //            string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1), "POST", dataString);
+        //            responseClaimId = response;
+        //        }
+
+        //        exeReult.ResultObject = responseClaimId;
+        //        exeReult.IsSuccess = true;
+        //        exeReult.IsFailure = false;
+        //        return exeReult;
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        exeReult.IsFailure = true;
+        //        exeReult.IsSuccess = false;
+        //        throw e;
+        //    }
+
+
+        //}
+
+
+        public async Task<ExecutionResult> TeamInsertClaimNotification(ClaimGeneral claim, string userId)
         {
             string responseClaimId = "";
             exeReult = new ExecutionResult();
@@ -92,13 +130,36 @@ namespace HonanClaimsWebApi.Services
                 claim.UserId = userId;
                 var dataString = JsonConvert.SerializeObject(claim);
 
-                using (var client = new WebClient())
+                //using (var client = new WebClient())
+                //{
+                //    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                //    string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1), "POST", dataString);
+                //    responseClaimId = response;
+                //}
+
+
+                using (var client = new HttpClient())
                 {
-                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                    string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1), "POST", dataString);
-                    responseClaimId = response;
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        //client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                        //string response = client.UploadString(new Uri(ConfigurationManager.AppSettings["apiurl"] + updateClaimNotificationApiGet1), "POST", dataString);
+                        //return bool.Parse(response);
+
+                        var jsonString = JsonConvert.SerializeObject(claim);
+                        var jsonString_userId = JsonConvert.SerializeObject(userId);
+                        var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                        var content_userId = new StringContent(jsonString_userId, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "claim");
+                        //formData.Add(content_userId, "userId");
+
+
+                        var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1, formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                    }
                 }
-                
+
+
                 exeReult.ResultObject = responseClaimId;
                 exeReult.IsSuccess = true;
                 exeReult.IsFailure = false;
