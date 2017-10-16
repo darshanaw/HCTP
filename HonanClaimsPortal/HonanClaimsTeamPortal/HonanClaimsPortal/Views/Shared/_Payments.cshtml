@@ -199,7 +199,6 @@
         var balance = (Number($("#Deductible_Filter").val().replace(/[^0-9\.-]+/g, ""))) - (Number($("#Net_Incurred_On_Deductible").val().replace(/[^0-9\.-]+/g, "")))   
 
         $("#Balance_On_Deductible_Remaining").val('$' + parseFloat(balance, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-
         $("#paymentsCount").text(datalength);
     }
 
