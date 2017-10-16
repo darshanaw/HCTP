@@ -296,7 +296,6 @@
         $("#btnPolicyLookup").click(function () {
 
             var text = $('#Accsearch').val();
-            debugger;
             $.get("/AdminList/GetLookupAccounts?accountName=" + text, function (data) {
                 listofAccountdata = data;
                 loadGridData();
