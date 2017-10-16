@@ -441,27 +441,18 @@
             $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
                 debugger
                 listofAccountdata = data;           
-                $("#lookupAccountGrid").data("kendoGrid").dataSource.read();
-                $('#lookupAccountGrid').data('kendoGrid').refresh();
+                loadGridData();
             });
+        } else {
+            if (val == null || val == "") {
+                listofAccountdata = [];
+                $.get("/AdminList/GetLookupAccounts?accountName=", function (data) {
+                    listofAccountdata = data;
+                    loadgrid();
+                });
+            }
         }
 
-        //$("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
-        //    logic: "or",
-        //    filters: [
-        //        {
-        //            field: "AccountName",
-        //            operator: "contains",
-        //            value: val,
-        //        },
-        //        {
-        //            field: "AccountType",
-        //            operator: "contains",
-        //            value: val
-        //        },
-
-        //    ]
-        //});
 
     });
     function accountClick(e) {
