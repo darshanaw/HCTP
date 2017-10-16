@@ -181,6 +181,16 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Broker_Account { get; set; }
         public string Broker_Account_Id { get; set; }
 
+        //New Fields
+        public string Insured_Work_Phone { get; set; }
+        public string Insured_Mobile_Phone { get; set; }
+        public string Insured_Email { get; set; }
+        public string Insured_Address { get; set; }
+        public bool Converted_From_Notification { get; set; }
+        public string Notification_Conversion_Date { get; set; }
+        public string Special_Instructions { get; set; }
+        public string Work_Related { get; set; }
+
         public string UserId { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
