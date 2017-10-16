@@ -2,6 +2,7 @@
 using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.Contact;
 using HonanClaimsWebApiAccess1.LoginServices;
+using HonanClaimsWebApiAccess1.Models.TeamGetPortalRegistration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace HonanClaimsPortal.Controllers
     public class NewContactAccountController : Controller
     {
         // GET: NewContactAccount
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string ContactName,string Phone,string Email,string portalRegRequestId, bool ajax = false)
         {
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
@@ -24,8 +25,29 @@ namespace HonanClaimsPortal.Controllers
             model.PickTypes = await GetPickListData("Account Type");
             model.AccountManagerId = UserId;
             ViewBag.Message = "";
+
+            if(ContactName!=null && ContactName!="null")
+            {
+                model.Contact = ContactName;
+            }
+            if(Phone!=null && Phone !="null")
+            {
+                model.Phone = Phone;
+            }
+            if(Email!=null && Email!="null")
+            {
+                model.Email = Email;
+            }
+            if(portalRegRequestId!=null && portalRegRequestId!="null")
+            {
+                ViewBag.portalRegRequestId = portalRegRequestId;
+            }
+
+            if (ajax) return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
             return View(model);
         }
+
+
 
         [HttpPost]
         public async Task<ActionResult> Index(ContactAccountModel model)
