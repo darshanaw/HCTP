@@ -287,6 +287,7 @@
                         {
                             <li class=" ">
                                 <a href="/AdminList/AdminList" title="Portal Admin">
+                                    <div id="portalRegCount" class="pull-right label label-success"></div>
                                     <em class="icon-user"></em>
                                     <span>Portal Admin</span>
                                 </a>
@@ -297,6 +298,7 @@
                         {
                             <li class=" ">
                                 <a href="/claimassignment/Index" title="Claim Assignment">
+                                    <div id="claimAssignemntCount" class="pull-right label label-success"></div>
                                     <em class="icon-login"></em>
                                     <span>Claim Assignment</span>
                                 </a>
@@ -1265,6 +1267,24 @@
         $('#addNewKeyDate').click(function () {
             window.location.href = '/NewRecord/NewKeyDate';
         });
-        
+
+        getPortalRegistrationCount();
+        getClaimAssigmentCount();
     });
+
+    function getPortalRegistrationCount() {
+        $.ajax({
+            url: "/Home/GetPortalRegistrationCount", success: function (result) {
+                $("#portalRegCount").text(result);
+            }
+        });
+    }
+
+    function getClaimAssigmentCount() {
+        $.ajax({
+            url: "/Home/GetClaimAssigmentCount", success: function (result) {
+                $("#claimAssignemntCount").text(result);
+            }
+        });
+    }
 </script>

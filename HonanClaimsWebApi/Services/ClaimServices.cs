@@ -553,5 +553,66 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
         }
+
+        public int GetPortalRegistrationCount()
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/AccountAndReg/TeamGetPortalRegistrationCount");
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<int>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return 0;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public int GetClaimAssigmentCount(List<string> teamList)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(teamList);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamGetClaimAssigmentCount?teamList=" + json);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<int>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return 0;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
+
+
 }

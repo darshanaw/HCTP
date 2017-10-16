@@ -1,5 +1,6 @@
 ﻿using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.SendEmail;
+using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
@@ -74,5 +75,20 @@ namespace HonanClaimsPortal.Controllers
             var result = await rep.SendEmail(filee, UserId, dicimod);
             return Json(null, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetPortalRegistrationCount()
+        {
+            ClaimServices services = new ClaimServices();
+            return Json(services.GetPortalRegistrationCount(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetClaimAssigmentCount()
+        {
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            ClaimServices services = new ClaimServices();
+            return Json(services.GetClaimAssigmentCount(login.Teams), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

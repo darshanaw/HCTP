@@ -200,6 +200,7 @@
 
         $("#Balance_On_Deductible_Remaining").val('$' + parseFloat(balance, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
 
+        $("#paymentsCount").text(datalength);
     }
 
     function RefreshPaymentDetailsGrid() {
