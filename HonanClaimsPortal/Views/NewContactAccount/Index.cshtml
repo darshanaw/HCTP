@@ -285,17 +285,7 @@
 
     }
 
-    $("#Accsearch").keyup(function () {
-        var val = $('#Accsearch').val();
-        if (val.length > 2) {
-            listofAccountdata = [];
-            $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
-                AccountList = data;
-                $("#lookupAccountGrid").data("kendoGrid").dataSource.read();
-                $('#lookupAccountGrid').data('kendoGrid').refresh();
-            });
-        }
-    });
+  
 
     $(document).ready(function () {
         LoadMagaer();
@@ -355,6 +345,25 @@
             });
 
         }
+
+        $("#Accsearch").keyup(function () {
+            var val = $('#Accsearch').val();
+            if (val.length > 2) {
+                AccountList = [];
+                $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
+                    AccountList = data;
+                    loadgrid();
+                });
+            } else {
+                if (val == null || val == "") {
+                    AccountList = [];
+                    $.get("/AdminList/GetLookupAccounts?accountName=", function (data) {
+                        AccountList = data;
+                        loadgrid();
+                    });
+                }
+            }
+        });
 
     })
 
