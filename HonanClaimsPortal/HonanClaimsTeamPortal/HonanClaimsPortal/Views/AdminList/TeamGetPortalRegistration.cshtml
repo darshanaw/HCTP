@@ -47,7 +47,8 @@
     <div class="row">
         <div class="col-md-12">
             <h3>CRM Matching Contacts</h3>
-            <table class="table table table-bordered">
+            <div id="ContactGrid"></div>
+            @*<table class="table table table-bordered">
                 <thead>
                     <tr>
                         <th>Contact ID</th>
@@ -70,7 +71,7 @@
                         }
                     }
                 </tbody>
-            </table>
+            </table>*@
         </div>
     </div>
 
@@ -88,14 +89,45 @@
     </div>
 
     <input type="hidden" id="ContactId" />
+
 </div>
 <script>
-    $(".click-row").click(function () {
-        var $row = $(this).closest("tr");    // Find the row
-        var text = $row.find(".nr").text(); // Find the text
-        $("#ContactId").val(text);
-        debugger;
+
+
+    $(document).ready(function() {
+
+        var lines = @Html.Raw(Json.Encode(Model.MatchingContacts));
+
+        var grid = $("#ContactGrid").kendoGrid({
+            columns: [
+                {
+                    field: "AccountName",
+                    title: "AccountName"
+                },
+                {
+                    field: "FirstName",
+                    title: "FirstName"
+                },
+                {
+                    field: "LastName",
+                    title: "LastName"
+                }
+            ],
+            dataSource: {
+                data:lines
+            },
+            selectable: "row",
+        });
+
     });
+
+
+    //$(".click-row").click(function () {
+    //    var $row = $(this).closest("tr");    // Find the row
+    //    var text = $row.find(".nr").text(); // Find the text
+    //    $("#ContactId").val(text);
+    //    debugger;
+    //});
 
 
 
@@ -117,8 +149,27 @@
         });
     });
 
-    $("#btnSaveCreate").click(function () {
+    $("#btnSaveCreate").click(function () { 
+        var data = [];
+        var grid = $("#ContactGrid").data("kendoGrid");
+        grid.select().each(function () {
+            var dataItem = grid.dataItem($(this));
+            data.push(dataItem);
+        });
         var portalRegRequestId = @Html.Raw(Json.Encode(@ViewBag.portalRegRequestId));
+        var URL = "/NewContactAccount/Index?ajax=true&ContactName=" + data[0].ContactName + "&Phone=" + data[0].Phone + "&Email=" + data[0].Email + "&portalRegRequestId=" + portalRegRequestId;
+        $.ajax({
+            url: URL,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                window.location.href = "/NewContactAccount/Index?ajax=false&ContactName=" + data[0].ContactName + "&Phone=" + data[0].Phone + "&Email=" + data[0].Email + "&portalRegRequestId=" + portalRegRequestId;
+            }
+        });
+
+        @*var portalRegRequestId = @Html.Raw(Json.Encode(@ViewBag.portalRegRequestId));
         var URL = "/AdminList/TeamInsertPortalLoginByContact";
         $.ajax({
             url: URL,
@@ -131,7 +182,7 @@
             success: function (result) {
                 window.location.href = '/AdminList/AdminList';
             }
-        });
+        });*@
     });
 
     $("#btnSaveDelete").click(function () {
