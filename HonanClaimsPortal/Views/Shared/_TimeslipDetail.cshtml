@@ -11,26 +11,22 @@
 
     function GetResult_Billing()
     {
+       
         if ($('#BillingDetailModal').length > 0) {
             $('#BillingDetailModal').modal('hide');
         }
-
+       
         RefreshGrid();
         $.LoadingOverlay("hide");
         
     }
 
-    $('#frmBillingForm').submit(function (e) {
-
-        if ($(this).valid()) {
-            $.LoadingOverlay("show");
-        }
-    });
-
+  
 </script>
 
-@using (Ajax.BeginForm("_TimeslipDetail", "Billing", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Billing", UpdateTargetId = "divFakeBilling",  }, new { @id = "frmBillingForm" }))
+@using (Ajax.BeginForm("_TimeslipDetail", "Billing", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Billing", UpdateTargetId = "divFakeBilling"  }, new { @id = "frmBillingForm" }))
 {
+    @Html.HiddenFor(o=>o.PageType)
 
     <div id="divFakeBilling" style="display:none"></div>
     <div class="main-container timedetail">
@@ -244,7 +240,7 @@
     </div>
     <div class="col-md-12">
         <div class="footer text-right">
-            @Html.HiddenFor(m => m.IsNew)
+            @Html.HiddenFor(m => m.IsNew_Billable)
             <button type="button" id="cancel" class="mb-sm btn btn-default mr-20">Cancel</button>
             <button type="submit" class="mb-sm btn btn-primary">Save</button>
             @*@if (Model.IsNew)
@@ -297,6 +293,13 @@
 
     //--------------Start Time-----------------------------
     $(document).ready(function () {
+
+        $('#frmBillingForm').submit(function (e) {
+
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
       
         $("#sStart_Time").kendoTimePicker({
             interval: 1,

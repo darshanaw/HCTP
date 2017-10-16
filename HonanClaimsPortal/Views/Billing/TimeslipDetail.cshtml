@@ -239,10 +239,10 @@
     </div>
 
     <hr />
-    @Html.HiddenFor(m=>m.IsNew)
+    @Html.HiddenFor(m=>m.IsNew_Billable)
     <div class="main-container">
         <button type="button" id="cancel"  class="btn btn-default mr-20">Cancel</button>
-        @if (Model.IsNew)
+        @if (Model.IsNew_Billable)
         {
             <button type="submit" class="btn btn-primary">Add</button>
         }

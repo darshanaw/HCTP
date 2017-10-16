@@ -52,8 +52,8 @@ namespace HonanClaimsWebApi.Models.Billing
         public string Quarter { get; set; }
         
         public string Work_Done_Short { get; set; }
-        public bool IsNew { get; set; }
-
+        public bool IsNew_Billable { get; set; }
+        public string PageType { get; set; }
         public DateTime Start_Time { get; set; }
         public DateTime End_Time { get; set; }
 

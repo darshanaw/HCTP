@@ -28,11 +28,11 @@ namespace HonanClaimsPortal.Controllers
             var model = new BillingModel();
             if (BillingId == null)
             {
-                model.IsNew = true;
+                model.IsNew_Billable = true;
                 model.Is_Billable = true;
                 return View(model);
             }
-            model.IsNew = false;
+            model.IsNew_Billable = false;
             BillingRepo billingRepo = new BillingRepo();
             model = await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
 
@@ -113,7 +113,7 @@ namespace HonanClaimsPortal.Controllers
         {
             BillingRepo billingRepo = new BillingRepo();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
-            if (model.IsNew)
+            if (model.IsNew_Billable)
             {
 
                 var result = await billingRepo.TeamInsertTimeslip(model, client.UserId);
@@ -178,7 +178,8 @@ namespace HonanClaimsPortal.Controllers
         }
 
         //Partial view
-        public ActionResult _TimeslipDetail(string BillingId)
+        [HttpGet]
+        public ActionResult _TimeslipDetail(string BillingId, string page)
         {
             var model = new BillingModel();
             if (BillingId == null)
@@ -186,14 +187,18 @@ namespace HonanClaimsPortal.Controllers
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 string UserId = client.UserId;
 
-                model.IsNew = true;
+                model.IsNew_Billable = true;
                 model.Is_Billable = true;
                 model.Service_By = UserId;
                 model.Service_By_Name = client.FirstName + " " + client.LastName;
                 model.Service_Date = DateTime.Today;
+
+                if (!string.IsNullOrEmpty(page))
+                    model.PageType = page;
+
                 return PartialView(model);
             }
-            model.IsNew = false;
+            model.IsNew_Billable = false;
             BillingRepo billingRepo = new BillingRepo();
             model =  billingRepo.GetTeamGetBillableTimeRecord(BillingId).Result;
 
@@ -212,14 +217,14 @@ namespace HonanClaimsPortal.Controllers
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 string UserId = client.UserId;
 
-                model.IsNew = true;
+                model.IsNew_Billable = true;
                 model.Is_Billable = true;
                 model.Service_By = UserId;
                 model.Service_By_Name = client.FirstName + " " + client.LastName;
                 model.Service_Date = DateTime.Today;
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
-            model.IsNew = false;
+            model.IsNew_Billable = false;
             BillingRepo billingRepo = new BillingRepo();
             model = await billingRepo.GetTeamGetBillableTimeRecord(BillingId);
 
@@ -231,6 +236,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
+        [AjaxOnly]
         public ActionResult _TimeslipDetail(BillingModel model)
         {
             try
@@ -252,29 +258,49 @@ namespace HonanClaimsPortal.Controllers
 
                 BillingRepo billingRepo = new BillingRepo();
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
-                if (model.IsNew)
+                if (model.IsNew_Billable)
                 {
 
                     var result = billingRepo.TeamInsertTimeslip(model, client.UserId).Result;
-                    if (result)
+
+                    if (model.PageType == "claimDetail")
                     {
-                        return RedirectToAction("MyBillableTime", "Billing");
+                        return Json("success", JsonRequestBehavior.AllowGet);
                     }
-                    return RedirectToAction("MyBillableTime", "Billing");
+                    else
+                    {
+                        //if (result)
+                        //{
+                        //    return RedirectToAction("MyBillableTime", "Billing");
+                        //}
+                        //return RedirectToAction("MyBillableTime", "Billing");
+                        return JavaScript("location.reload(true)");
+                    }
                 }
                 else
                 {
                     var result = billingRepo.TeamUpdateTimeslip(model, client.UserId).Result;
-                    if (result)
+
+                    if (model.PageType == "claimDetail")
                     {
-                        //if (Request.IsAjaxRequest())
-                        //return PartialView("_TimeslipDetail", model);
-                        //return View(model);
-                        //return Json(new { error = true, message = RenderViewToString(PartialView("_TimeslipDetail", model)) });
-                        //return PartialView(model);
-                        return RedirectToAction("MyBillableTime", "Billing");
+                        return Json("success", JsonRequestBehavior.AllowGet);
                     }
-                    return RedirectToAction("MyBillableTime", "Billing");
+                    else
+                    {
+                        if (result)
+                        {
+                            //if (Request.IsAjaxRequest())
+                            //return PartialView("_TimeslipDetail", model);
+                            //return View(model);
+                            //return Json(new { error = true, message = RenderViewToString(PartialView("_TimeslipDetail", model)) });
+                            //return PartialView(model);
+                           // return RedirectToAction("MyBillableTime", "Billing");
+                        }
+                        //return RedirectToAction("MyBillableTime", "Billing");
+
+                        return JavaScript("location.reload(true)");
+
+                    }
                 }
             }
             catch (Exception ex)
