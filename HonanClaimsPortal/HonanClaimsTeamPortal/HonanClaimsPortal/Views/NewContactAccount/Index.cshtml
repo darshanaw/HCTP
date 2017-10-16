@@ -235,7 +235,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button id="cancelBtn" type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Account Lookup</h4>
             </div>
 
@@ -287,39 +287,48 @@
 
     $("#Accsearch").keyup(function () {
         var val = $('#Accsearch').val();
-        $("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
-            logic: "or",
-            filters: [
-                {
-                    field: "AccountName",
-                    operator: "contains",
-                    value: val,
-                },
-                {
-                    field: "AccountType",
-                    operator: "contains",
-                    value: val
-                },
-
-            ]
-        });
+        if (val.length > 2) {
+            listofAccountdata = [];
+            $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
+                AccountList = data;
+                $("#lookupAccountGrid").data("kendoGrid").dataSource.read();
+                $('#lookupAccountGrid').data('kendoGrid').refresh();
+            });
+        }
     });
 
     $(document).ready(function () {
         LoadMagaer();
+        var AccountList = [];
 
         $('#Accountlookup').click(function () {
 
+            var text = $('#Accsearch').val();
+            $.get("/AdminList/GetLookupAccounts?accountName=" + text, function (data) {
+                AccountList = data;
+                loadgrid();
+            });
+           
+        });
+
+        $('#cancelBtn').click(function () {
+            $('#Accsearch').val('');
+            AccountList = [];
+        })
+
+        function loadgrid() {
             $("#lookupAccountGrid").kendoGrid({
                 dataSource: {
                     type: "json",
-                    transport: {
-                        read: "/AdminList/GetLookupAccounts"
-                    },
+                    data: AccountList,
                     pageSize: 10
                 },
                 dataBound: function (e) {
-                    $('#AccountModal').modal('show');
+                    if ($('#AccountModal').hasClass('in')) {
+
+                    } else {
+                        $('#AccountModal').modal('show');
+                    }
                 },
                 height: 550,
                 sortable: true,
@@ -345,9 +354,7 @@
                 ]
             });
 
-
-
-        });
+        }
 
     })
 
@@ -355,6 +362,7 @@
         $('#AccountId').val(e.id);
         $("#Account").val(e.text);
         $('#AccountModal').modal('hide');
+        $('#Accsearch').val('');
     }
 
     function comboTypeChange() {
