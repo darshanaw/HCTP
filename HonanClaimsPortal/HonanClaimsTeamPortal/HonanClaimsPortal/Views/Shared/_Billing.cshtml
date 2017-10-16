@@ -127,7 +127,7 @@
 </div>
 
 <!-- Modal -->
-<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+@*<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -135,12 +135,12 @@
                 <h4 class="modal-title">Timeslip</h4>
             </div>
             <div class="modal-body">
-                @*@{Html.RenderAction("_TimeslipDetail", "Billing");}*@
+                @{Html.RenderAction("_TimeslipDetail", "Billing");}
 
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 <div id="gridBillableTimes"></div>
@@ -276,7 +276,7 @@
     function loadBillingDetail(BillingId,startTime, endTime) {
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
-                debugger;
+               
                 if (result.Checked_Date != null) {
                     var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
                     var month = Checked_Date.getMonth() + 1;
@@ -378,13 +378,19 @@
                 $("#Rate").val(result.Rate);
                 $("#Billable").val(result.Billable);
 
-                $("#sEnd_Time").val(result.sEnd_Time);
-                var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
-                Endtimepicker.value(result.sEnd_Time);
+                if (startTime != '' && typeof startTime !== "undefined")
+                    result.sStart_Time = startTime;
 
                 $("#sStart_Time").val(result.sStart_Time);
                 var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
                 Starttimepicker.value(result.sStart_Time);
+
+                if (endTime != '' && typeof endTime !== "undefined")
+                    result.sEnd_Time = endTime;
+
+                $("#sEnd_Time").val(result.sEnd_Time);
+                var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
+                Endtimepicker.value(result.sEnd_Time);
 
                 if (result.Timeslip_Checked) {
                     $("#Timeslip_Checked").prop('checked', true);
@@ -415,8 +421,12 @@
                 $("#Work_Done").val(result.Work_Done);
                 $("#Service_By_Name").val(result.Service_By_Name);
                 $("#Quarter").val(result.Quarter);
-                $("#IsNew").val(result.IsNew);
-                debugger;
+
+                if (BillingId)
+                    $("#IsNew_Billable").val(false);
+                else
+                    $("#IsNew_Billable").val(true);
+               
                 //var dateString = $("#Service_Date").val().substr(6);
                 //var currentTime = new Date(parseInt(dateString));
                 //var month = currentTime.getMonth() + 1;
