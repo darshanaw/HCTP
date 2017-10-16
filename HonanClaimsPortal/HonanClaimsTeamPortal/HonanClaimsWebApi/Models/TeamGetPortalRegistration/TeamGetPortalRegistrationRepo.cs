@@ -1,5 +1,6 @@
 ﻿using HonanClaimsPortal.Models.ProtalLogingRequest;
 using HonanClaimsWebApiAccess1.Models.TeamGetPortalRegistration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,18 +30,6 @@ namespace HonanClaimsWebApiAccess1.Models.ProtalLogingRequest
                 {
                     var data = await response.Content.ReadAsStringAsync();
                     obj = Newtonsoft.Json.JsonConvert.DeserializeObject<TeamGetPortalRegistrationModel>(data);
-                    //List<MatchingContactsModel> temp = new List<MatchingContactsModel>();
-
-                    //temp.Add(new MatchingContactsModel()
-                    //{
-                    //    FirstName = "Krishan",
-                    //    LastName = "Manjula",
-                    //    ContactId = "0001",
-                    //    ContactName = "Kris",
-                    //    Phone = "0766828898",
-                    //    AccountName = "Acc",
-                    //});
-                    //obj.MatchingContacts = temp;
                 }
             }
             return obj;
@@ -71,18 +60,27 @@ namespace HonanClaimsWebApiAccess1.Models.ProtalLogingRequest
         public async Task<bool> TeamDiscardLoginRequest(string portalRegRequestId)
         {
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/AccountAndReg/TeamDiscardLoginRequest?portalRegRequestId=" + portalRegRequestId;
+            string apiUrl = SiteUrl + "api/AccountAndReg/TeamDiscardLoginRequest";
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
+                using (var formData = new MultipartFormDataContent())
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    return true;
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                    var portalRegRequest = JsonConvert.SerializeObject(portalRegRequestId);
+                    var content = new StringContent(portalRegRequest, System.Text.Encoding.UTF8, "application/json");
+    
+                    formData.Add(content, "portalRegRequestId");
+
+                    HttpResponseMessage response = client.PostAsync(apiUrl, formData).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        return true;
+                    }
                 }
             }
             return false;

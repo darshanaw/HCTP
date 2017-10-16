@@ -16,7 +16,7 @@ namespace HonanClaimsPortal.Controllers
     public class NewContactAccountController : Controller
     {
         // GET: NewContactAccount
-        public async Task<ActionResult> Index(string ContactName,string Phone,string Email,string portalRegRequestId, bool ajax = false)
+        public async Task<ActionResult> Index(string ContactName, string Phone, string Email, string portalRegRequestId, bool ajax = false, bool fromProtal = false)
         {
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
@@ -26,23 +26,30 @@ namespace HonanClaimsPortal.Controllers
             model.AccountManagerId = UserId;
             ViewBag.Message = "";
 
-            if(ContactName!=null && ContactName!="null")
+            if (fromProtal)
             {
-                model.Contact = ContactName;
+                if (ContactName != null && ContactName != "null")
+                {
+                    model.Contact = ContactName;
+                }
+                if (Phone != null && Phone != "null")
+                {
+                    model.Phone = Phone;
+                }
+                if (Email != null && Email != "null")
+                {
+                    model.Email = Email;
+                }
+                if (portalRegRequestId != null && portalRegRequestId != "null")
+                {
+                    model.portalRegRequestId = portalRegRequestId;
+                }
+                model.FromProtal = true;
             }
-            if(Phone!=null && Phone !="null")
+            else
             {
-                model.Phone = Phone;
+                model.FromProtal = false;
             }
-            if(Email!=null && Email!="null")
-            {
-                model.Email = Email;
-            }
-            if(portalRegRequestId!=null && portalRegRequestId!="null")
-            {
-                ViewBag.portalRegRequestId = portalRegRequestId;
-            }
-
             if (ajax) return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
             return View(model);
         }
@@ -71,7 +78,16 @@ namespace HonanClaimsPortal.Controllers
                 ViewBag.Message = "Error: Save unsuccessful";
             }
             ModelState.Clear();
-            return View(rmodel);
+
+            if (model.FromProtal)
+            {
+                return RedirectToAction("TeamGetPortalRegistration", "AdminList", new { portalRegRequestId = model.portalRegRequestId });
+            }
+            else
+            {
+                return View(rmodel);
+            }
+           
             //return RedirectToAction("Index");
         }
 

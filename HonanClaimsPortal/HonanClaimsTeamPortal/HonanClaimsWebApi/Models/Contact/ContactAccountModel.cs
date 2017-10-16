@@ -33,6 +33,9 @@ namespace HonanClaimsWebApi.Models
         public string AccountManagerId { get; set; }
         public List<PickListData> PickTitle { get; set; }
         public List<PickListData> PickTypes { get; set; }
+
+        public bool FromProtal { get; set; }
+        public string portalRegRequestId { get; set; }
     }
 
     public class Account

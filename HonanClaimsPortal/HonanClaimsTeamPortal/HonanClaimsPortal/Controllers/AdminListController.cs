@@ -181,7 +181,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> portalRegRequestId(string portalRegRequestId)
+        public async Task<ActionResult> TeamDiscardLoginRequest(string portalRegRequestId)
         {
             TeamGetPortalRegistrationRepo teamGetPortalRegistrationRepo = new TeamGetPortalRegistrationRepo();
             var result = await teamGetPortalRegistrationRepo.TeamDiscardLoginRequest(portalRegRequestId);
