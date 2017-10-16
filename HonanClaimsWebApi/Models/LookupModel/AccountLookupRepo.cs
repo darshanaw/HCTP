@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace HonanClaimsWebApiAccess1.Models.LookupModel
 {
-   public class AccountLookupRepo
+    public class AccountLookupRepo
     {
-        public async Task<List<AccountLookup>> GetProtalLogingAccount()
+        public async Task<List<AccountLookup>> GetProtalLogingAccount(string accountName)
         {
             List<AccountLookup> list = new List<AccountLookup>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/General/GetAccountLookup?accountName=&type=";
+            string apiUrl = SiteUrl + "api/General/GetAccountLookup?accountName=" + accountName + "&type=";
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
@@ -33,6 +33,6 @@ namespace HonanClaimsWebApiAccess1.Models.LookupModel
             }
             return list;
         }
-    
+
     }
 }

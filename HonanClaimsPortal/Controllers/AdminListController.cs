@@ -127,11 +127,11 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetLookupAccounts()
+        public async Task<ActionResult> GetLookupAccounts(string accountName)
         {
             List<AccountLookup> list = new List<AccountLookup>();
             AccountLookupRepo accountLookupRepo = new AccountLookupRepo();
-            list = await accountLookupRepo.GetProtalLogingAccount();
+            list = await accountLookupRepo.GetProtalLogingAccount(accountName);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -140,7 +140,7 @@ namespace HonanClaimsPortal.Controllers
         {
             List<AccountLookup> list = new List<AccountLookup>();
             AccountLookupRepo accountLookupRepo = new AccountLookupRepo();
-            list = await accountLookupRepo.GetProtalLogingAccount();
+            list = await accountLookupRepo.GetProtalLogingAccount("");
             var filterList = list.Where(s => s.AccountName == Name).Select(x => new { billing = x.BillingMethod }).ToList();
             return Json(filterList, JsonRequestBehavior.AllowGet);
         }
@@ -150,7 +150,7 @@ namespace HonanClaimsPortal.Controllers
         {
             List<AccountLookup> list = new List<AccountLookup>();
             AccountLookupRepo accountLookupRepo = new AccountLookupRepo();
-            list = await accountLookupRepo.GetProtalLogingAccount();
+            list = await accountLookupRepo.GetProtalLogingAccount("");
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
