@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HonanClaimsWebApiAccess1.Models.ProtalLogingRequest;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -44,6 +45,12 @@ namespace HonanClaimsWebApi.Models.Contact
 
                     }
 
+                }
+
+                if(model.FromProtal && model.portalRegRequestId != null)
+                {
+                    TeamGetPortalRegistrationRepo teamGetPortalRegistrationRepo = new TeamGetPortalRegistrationRepo();
+                   var rs = await teamGetPortalRegistrationRepo.TeamDiscardLoginRequest(model.portalRegRequestId);
                 }
 
             }
