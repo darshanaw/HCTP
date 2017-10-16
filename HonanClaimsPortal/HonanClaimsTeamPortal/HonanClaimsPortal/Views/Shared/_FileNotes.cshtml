@@ -59,6 +59,14 @@
 
     $(function () {
 
+        function fileNotesLoaded(arg) {
+            var grid = $("#gridFileNotes").data("kendoGrid");
+            var dataSource = grid.dataSource;
+            var recordsOnCurrentView = dataSource.view().length;
+            var totalRecords = dataSource.total();
+            $("#fileNotesCount").text(totalRecords);
+        }
+
         $("#gridFileNotes").kendoGrid({
 
             dataSource: {
@@ -78,6 +86,7 @@
             navigatable: true,
             pageable: true,
             sortable: true,
+            dataBound: fileNotesLoaded,
             columns: [
 
                 {
@@ -109,6 +118,8 @@
         $("#gridFileNotes").data("kendoGrid").dataSource.read({
             searchText: $("#FileNotessearchTxt").val()
         });
+
+        
     }
 
     function clearFileNoteControls()
@@ -150,6 +161,8 @@
             clearFileNoteControls();
            
         });
+
+       
         
     }
 

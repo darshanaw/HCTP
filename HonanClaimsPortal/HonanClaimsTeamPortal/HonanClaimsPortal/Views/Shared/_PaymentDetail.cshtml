@@ -552,7 +552,6 @@
     function dynamicValidations_Payment()
     {
         if ($("#Is_Settlement").is(":checked")) {
-            alert("In If");
             $("#Reserve_Type").val("Liability Reserve");
             $("#Reserve_Type").prop("disabled", true);
             $(".Reserve_Type_Class").val("Liability Reserve");
@@ -566,7 +565,6 @@
         }
         else {
             //$("#Reserve_Type").val("");
-            alert("In Else");
             $("#Reserve_Type").prop("disabled", false);
             $("#Date_Invoice_Received").rules("add", "required");
             $("#Payee_Type").rules("add", "required");
