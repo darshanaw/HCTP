@@ -1353,6 +1353,12 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
     $(document).ready(function () {
 
+        $('#Property_Suburb').select2({ width: '100%' });
+
+        if ($("#Property_Suburb").length > 0) {
+            $("#Property_Suburb").val($("#Property_Suburb").val()).trigger('change.select2');;
+        }
+
         $('#formRisksmartDetailPropertyClaim').submit(function () {
             if ($(this).valid()) {
                 $.LoadingOverlay("show");

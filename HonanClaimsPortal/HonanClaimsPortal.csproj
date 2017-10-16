@@ -1267,6 +1267,7 @@
     <Content Include="Content\vendor\weather-icons\font\weathericons-regular-webfont.woff2" />
     <Content Include="Content\CountDownTimer\src\.jshintrc" />
     <Content Include="Content\CountDownTimer\test\.jshintrc" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\globalize.js" />
