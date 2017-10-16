@@ -1482,11 +1482,12 @@
               {
                   showBanner = true;
               }
-              else if(Model.Incident_Date != null && !(Model.Incident_Date >= DateTime.ParseExact(Model.Period_From, "dd/MM/yyyy", null) && Model.Incident_Date <= DateTime.ParseExact(Model.Period_To, "dd/MM/yyyy", null)))
-            {
+              //else if (Model.Incident_Date != null && !(Model.Incident_Date >= DateTime.ParseExact(Model.Period_From, "dd/MM/yyyy", null) && Model.Incident_Date <= DateTime.ParseExact(Model.Period_To, "dd/MM/yyyy", null)))
+              else if (Model.Incident_Date != null && !(Model.Incident_Date >= DateTime.Parse(Model.Period_From) && Model.Incident_Date <= DateTime.Parse(Model.Period_To)))
+              {
                   showBanner = true;
               }
-            else if(Model.Policy_Status != "Active")
+              else if(Model.Policy_Status != "Active")
               {
                   showBanner = true;
               }

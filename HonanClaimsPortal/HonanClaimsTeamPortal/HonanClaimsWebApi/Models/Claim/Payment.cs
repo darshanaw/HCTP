@@ -65,9 +65,9 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool Is_Settlement { get; set; }
         public DateTime? Settlement_Invoice_Received { get; set; }
         public bool Imported { get; set; }
-        [Required(ErrorMessage = "Payment_Amount Required")]
+        //[Required(ErrorMessage = "Payment_Amount Required")]
         public double? Payment_Amount { get; set; }
-        [Required(ErrorMessage = "Payment_Date")]
+        //[Required(ErrorMessage = "Payment_Date")]
         public DateTime? Payment_Date { get; set; }
         public bool IsNew { get; set; }
         public string AttachmentName { get; set; }
