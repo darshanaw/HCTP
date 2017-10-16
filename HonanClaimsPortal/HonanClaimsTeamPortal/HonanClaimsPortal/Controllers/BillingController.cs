@@ -104,7 +104,7 @@ namespace HonanClaimsPortal.Controllers
         {
             List<AccountLookup> list = new List<AccountLookup>();
             AccountLookupRepo accountLookupRepo = new AccountLookupRepo();
-            list = await accountLookupRepo.GetProtalLogingAccount();
+            list = await accountLookupRepo.GetProtalLogingAccount("");
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 

@@ -6,13 +6,13 @@
 }
 
 @using (Html.BeginForm("AddPortalAdminRecord", "AdminList", FormMethod.Post,
-                                        new
-                                        {
-                                            enctype = "multipart/form-data",
-                                            id = "FileUploadForm",
-                                            name = "ImgForm",
-                                            //target = "UploadTarget",
-                                        }))
+                                                    new
+                                                    {
+                                                        enctype = "multipart/form-data",
+                                                        id = "FileUploadForm",
+                                                        name = "ImgForm",
+                                                        //target = "UploadTarget",
+                                                    }))
 {
 
     @Html.HiddenFor(m => m.H_Customerportaladminid)
@@ -22,142 +22,142 @@
             Admin Detail
         </h3>
     </div>
-        <div class="main-container">
+    <div class="main-container">
 
-            <div class="row">
-                <div class="col-md-4 detail-section">
-                    <div class="form-group">
-                        <label>Account Name</label>
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.Accountname, new { @class = "form-control", @readonly = true })
-                            @Html.HiddenFor(m => m.Account_Id)
-                            @Html.HiddenFor(m => m.IsNew)
-                            <span class="input-group-addon pointer" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        </div>
-                        @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+        <div class="row">
+            <div class="col-md-4 detail-section">
+                <div class="form-group">
+                    <label>Account Name</label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Accountname, new { @class = "form-control", @readonly = true })
+                        @Html.HiddenFor(m => m.Account_Id)
+                        @Html.HiddenFor(m => m.IsNew)
+                        <span class="input-group-addon pointer" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
                     </div>
-                    @{
-                        List<SelectListItem> listItems = new List<SelectListItem>();
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Risksmart GCC",
-                            Value = "Risksmart GCC"
-                        });
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Risksmart Property",
-                            Value = "Risksmart Property",
-                        });
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Property Claims",
-                            Value = "Property Claims",
-                        });
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Risksmart GCC",
+                        Value = "Risksmart GCC"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Risksmart Property",
+                        Value = "Risksmart Property",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Property Claims",
+                        Value = "Property Claims",
+                    });
 
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "GCC Claims",
-                            Value = "GCC Claims"
-                        });
-                    }
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "GCC Claims",
+                        Value = "GCC Claims"
+                    });
+                }
+                <div class="form-group">
+                    <label for="Team">Claim Team</label>
+                    @Html.DropDownListFor(model => model.Claim_Team, listItems, "-- Select Claim --", new { @class = "form-control" })
+                </div>
+                @{
+                    List<SelectListItem> OnlineClaims = new List<SelectListItem>();
+                    OnlineClaims.Add(new SelectListItem
+                    {
+                        Text = "Yes",
+                        Value = "Yes"
+                    });
+                    OnlineClaims.Add(new SelectListItem
+                    {
+                        Text = "No",
+                        Value = "No",
+                    });
+                }
+                <div class="form-group">
+                    <label for="email">Can add Online Claims</label>
+                    @Html.DropDownListFor(model => model.Account_Can_Add_Claims, OnlineClaims, "-- Select --", new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label for="email">Mannual Claim Form</label>
                     <div class="form-group">
-                        <label for="Team">Claim Team</label>
-                        @Html.DropDownListFor(model => model.Claim_Team, listItems, "-- Select Claim --", new { @class = "form-control" })
-                    </div>
-                    @{
-                        List<SelectListItem> OnlineClaims = new List<SelectListItem>();
-                        OnlineClaims.Add(new SelectListItem
-                        {
-                            Text = "Yes",
-                            Value = "Yes"
-                        });
-                        OnlineClaims.Add(new SelectListItem
-                        {
-                            Text = "No",
-                            Value = "No",
-                        });
-                    }
-                    <div class="form-group">
-                        <label for="email">Can add Online Claims</label>
-                        @Html.DropDownListFor(model => model.Account_Can_Add_Claims, OnlineClaims, "-- Select --", new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Mannual Claim Form</label>
-                        <div class="form-group">
-                            <a id="downloadfile" download>@Model.Manualclaim_Form</a>
-                            @Html.HiddenFor(m => m.Manualclaim_Form)
-                            @Html.HiddenFor(m => m.Manualclaim_Form_Path)
-                            <input name="claimupload" id="claimupload" type="file">
-                        </div>
-                    </div>
-                    @{
-                        List<SelectListItem> BillingMethod = new List<SelectListItem>();
-                        BillingMethod.Add(new SelectListItem
-                        {
-                            Text = "Per Hour",
-                            Value = "Per Hour"
-                        });
-                        BillingMethod.Add(new SelectListItem
-                        {
-                            Text = "Per Claim",
-                            Value = "Per Claim",
-                        });
-                        BillingMethod.Add(new SelectListItem
-                        {
-                            Text = "Per Annul",
-                            Value = "Per Annul",
-                        });
-                        BillingMethod.Add(new SelectListItem
-                        {
-                            Text = "No Billing",
-                            Value = "No Billing",
-                        });
-                    }
-
-                    <div class="form-group">
-                        <label for="email">Billing Method</label>
-                        @Html.DropDownListFor(model => model.Billing_Method, BillingMethod, "-- Select Method --", new { @class = "form-control" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Fee Per Hour ($)</label>
-                        @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control", @type = "number" })
-                        @Html.ValidationMessageFor(o => o.Fee_Per_Hour, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Fee Per Billing Method ($)</label>
-                        @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control", @type = "number" })
-                        @Html.ValidationMessageFor(o => o.Fee_Per_Billing_Method, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        <a id="downloadfile" download>@Model.Manualclaim_Form</a>
+                        @Html.HiddenFor(m => m.Manualclaim_Form)
+                        @Html.HiddenFor(m => m.Manualclaim_Form_Path)
+                        <input name="claimupload" id="claimupload" type="file">
                     </div>
                 </div>
-                <div class="col-md-8 img-upload-section">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <input onchange="OnchangeLogoImage(this)" id="logoimgupload" accept="image/bmp,image/tiff,image/jpeg" name="logoimgupload" type="file">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="pull-right">
-                                <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
-                            </div>
+                @{
+                    List<SelectListItem> BillingMethod = new List<SelectListItem>();
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Hour",
+                        Value = "Per Hour"
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Claim",
+                        Value = "Per Claim",
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Annul",
+                        Value = "Per Annul",
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "No Billing",
+                        Value = "No Billing",
+                    });
+                }
+
+                <div class="form-group">
+                    <label for="email">Billing Method</label>
+                    @Html.DropDownListFor(model => model.Billing_Method, BillingMethod, "-- Select Method --", new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Fee Per Hour ($)</label>
+                    @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(o => o.Fee_Per_Hour, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                </div>
+                <div class="form-group">
+                    <label for="email">Fee Per Billing Method ($)</label>
+                    @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(o => o.Fee_Per_Billing_Method, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                </div>
+            </div>
+            <div class="col-md-8 img-upload-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input onchange="OnchangeLogoImage(this)" id="logoimgupload" accept="image/bmp,image/tiff,image/jpeg" name="logoimgupload" type="file">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
                         </div>
                     </div>
-                    <div>
-                        @if (Model.IsNew)
-                        {
-                            <div class="img-logo-preview-wraper">
-                                <img id="logoImg" class="img-logo-preview">
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="img-logo-preview-wraper">
-                                <img id="logoImg" src="data:image/png;base64,@Model.Customer_Logo" class="img-logo-preview">
-                            </div>
-                        }
-                    </div>
+                </div>
+                <div>
+                    @if (Model.IsNew)
+                    {
+                        <div class="img-logo-preview-wraper">
+                            <img id="logoImg" class="img-logo-preview">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="img-logo-preview-wraper">
+                            <img id="logoImg" src="data:image/png;base64,@Model.Customer_Logo" class="img-logo-preview">
+                        </div>
+                    }
                 </div>
             </div>
         </div>
+    </div>
         <div class="main-container">
             <div class="row mt-15 mb-15">
                 <div class="col-md-12">
@@ -166,7 +166,7 @@
                 </div>
             </div>
         </div>
-                        }
+                    }
 <hr />
 <div class="main-container">
     <div class="row mt-15 mb-15">
@@ -187,7 +187,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button id="closeacc" type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Admin Lookup</h4>
             </div>
 
@@ -216,7 +216,7 @@
             </div>
 
             <div class="modal-body">
-                <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AccsearchCon">
                 <div id="lookupAccountGrid"></div>
             </div>
             <div class="modal-footer">
@@ -285,7 +285,7 @@
 
     $(document).ready(function () {
 
-
+        var listofAccountdata=[];
         $("#Fee_Per_Hour").change(function () {
             if ($("#Billing_Method").val() == "Per Hour") {
                 $("#Fee_Per_Billing_Method").val($("#Fee_Per_Hour").val())
@@ -294,17 +294,31 @@
 
 
         $("#btnPolicyLookup").click(function () {
-            $('#Accsearch').val('');
+
+            var text = $('#Accsearch').val();
+            debugger;
+            $.get("/AdminList/GetLookupAccounts?accountName=" + text, function (data) {
+                listofAccountdata = data;
+                loadGridData();
+            });
+
+        });
+
+        function loadGridData() {
+
             $("#lookupAccountGrid").kendoGrid({
                 dataSource: {
                     type: "json",
-                    transport: {
-                        read: "/AdminList/GetLookupAccounts"
-                    },
+                    data: listofAccountdata,
                     pageSize: 10
                 },
                 dataBound: function (e) {
-                    $('#OcModal').modal('show');
+                    if ($('#OcModal').hasClass('in')) {
+
+                    } else {
+                        $('#OcModal').modal('show');
+                    }
+
                 },
                 height: 550,
                 sortable: true,
@@ -330,7 +344,8 @@
                 ]
             });
 
-        });
+        }
+
 
         $("#claimupload").change(function (input) {
             var file1 = $('#claimupload').get(0).files;
@@ -391,7 +406,7 @@
         $.ajax({
             type: 'GET',
             url: "/AdminList/GetAdminLoginAccount?portalLoginId="+H_PortalLoginId,
-      
+
             success: function (resultData) {
                 if (resultData == false) {
                     setError("Error: updating login detail", true);
@@ -417,33 +432,44 @@
             }
         });
 
-      
+
     }
 
     $("#Accsearch").keyup(function () {
         var val = $('#Accsearch').val();
-        $("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
-            logic: "or",
-            filters: [
-                {
-                    field: "AccountName",
-                    operator: "contains",
-                    value: val,
-                },
-                {
-                    field: "AccountType",
-                    operator: "contains",
-                    value: val
-                },
+        if (val.length > 2) {
+            listofAccountdata = [];
+            $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
+                debugger
+                listofAccountdata = data;           
+                $("#lookupAccountGrid").data("kendoGrid").dataSource.read();
+                $('#lookupAccountGrid').data('kendoGrid').refresh();
+            });
+        }
 
-            ]
-        });
+        //$("#lookupAccountGrid").data("kendoGrid").dataSource.filter({
+        //    logic: "or",
+        //    filters: [
+        //        {
+        //            field: "AccountName",
+        //            operator: "contains",
+        //            value: val,
+        //        },
+        //        {
+        //            field: "AccountType",
+        //            operator: "contains",
+        //            value: val
+        //        },
+
+        //    ]
+        //});
 
     });
     function accountClick(e) {
         $('#AccountId').val(e.id);
         $("#Accountname").val(e.text);
         $('#OcModal').modal('hide');
+        $('#Accsearch').val('');
     }
 
     function OnchangeLogoImage(input) {
@@ -696,6 +722,11 @@
 
     $('#downloadfile').click(function () {
         downloadfile();
+    })
+
+    $('#closeacc').click(function () {
+        listofAccountdata = [];
+        $('#Accsearch').val('');
     })
 
     function downloadfile() {
