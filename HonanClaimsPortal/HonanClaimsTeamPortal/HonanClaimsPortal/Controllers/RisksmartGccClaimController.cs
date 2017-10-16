@@ -259,6 +259,9 @@ namespace HonanClaimsPortal.Controllers
             model.Litigated = model.Litigated == null || model.Litigated == false ? false : true;
             model.Claim_Closed = model.Claim_Closed == null || model.Claim_Closed == false ? false : true;
 
+            model.IncidentTypeList = pickListServices.GetPickListItems("Risksmart GCC Incident Type");
+            model.YesNoList = new List<string>() { "", "Yes", "No" };
+
         }
 
         [HttpPost]

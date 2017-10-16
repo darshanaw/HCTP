@@ -130,7 +130,7 @@ namespace HonanClaimsPortal.Controllers
         {
             pickListServices = new PicklistServicecs();
 
-            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager))
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartPropertyManager))
                 model.Assigned_User_List = claimServices.GetUsers(new List<string>() { "Risksmart Property Manager" });
 
             model.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
