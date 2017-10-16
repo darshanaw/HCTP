@@ -29,18 +29,18 @@ namespace HonanClaimsWebApiAccess1.Models.ProtalLogingRequest
                 {
                     var data = await response.Content.ReadAsStringAsync();
                     obj = Newtonsoft.Json.JsonConvert.DeserializeObject<TeamGetPortalRegistrationModel>(data);
-                    List<MatchingContactsModel> temp = new List<MatchingContactsModel>();
+                    //List<MatchingContactsModel> temp = new List<MatchingContactsModel>();
 
-                    temp.Add(new MatchingContactsModel()
-                    {
-                        FirstName = "Krishan",
-                        LastName = "Manjula",
-                        ContactId = "0001",
-                        ContactName = "Kris",
-                        Phone = "0766828898",
-                        AccountName = "Acc",
-                    });
-                    obj.MatchingContacts = temp;
+                    //temp.Add(new MatchingContactsModel()
+                    //{
+                    //    FirstName = "Krishan",
+                    //    LastName = "Manjula",
+                    //    ContactId = "0001",
+                    //    ContactName = "Kris",
+                    //    Phone = "0766828898",
+                    //    AccountName = "Acc",
+                    //});
+                    //obj.MatchingContacts = temp;
                 }
             }
             return obj;
