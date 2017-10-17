@@ -62,7 +62,7 @@
             <nav role="navigation" class="navbar topnavbar">
                 <!-- START navbar header-->
                 <div class="navbar-header">
-                    <a href="/Home/Index" class="navbar-brand">
+                    <a href="/ClaimList/Index" class="navbar-brand">
                         <div class="brand-logo user-block-picture">
                             <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
 
@@ -98,7 +98,7 @@
                         <!-- END User avatar toggle-->
                         <!-- START lock screen-->
 
-                      
+
                         <li>
                             @*<a href="lock.html" title="Lock screen">
                                     <em class="icon-lock"></em>
@@ -249,7 +249,7 @@
                     <ul class="nav">
                         <!-- START user info-->
                         <li class="has-user-block">
-                            <div id="user-block" class="collapse in">
+                            <div id="user-block">
                                 <div class="item user-block">
 
                                     @*<div class="user-block-picture">
@@ -283,40 +283,10 @@
                                 HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
                         }
 
-                        @if (login.IsPortalAdmin == true)
-                        {
-                            <li class=" ">
-                                <a href="/AdminList/AdminList" title="Portal Admin">
-                                    <div id="portalRegCount" class="pull-right label label-success"></div>
-                                    <em class="icon-user"></em>
-                                    <span>Portal Admin</span>
-                                </a>
-                            </li>
-                        }
-
-                        @if (login.IsManager == true)
-                        {
-                            <li class=" ">
-                                <a href="/claimassignment/Index" title="Claim Assignment">
-                                    <div id="claimAssignemntCount" class="pull-right label label-success"></div>
-                                    <em class="icon-login"></em>
-                                    <span>Claim Assignment</span>
-                                </a>
-                            </li>
-                        }
-
-                        @if (login.IsTimeslipChecker == true)
-                        {
-                            <li class=" ">
-                                <a href="/TimeslipCheck/Index" title="Billing Check">
-                                    <em class="icon-check"></em>
-                                    <span>Billing Check</span>
-                                </a>
-                            </li>
-                        }
 
                         <li class=" ">
                             <a href="/claimlist/Index" title="Claims">
+                                <div id="assignedClaimCount" class="pull-right label label-success"></div>
                                 <em class="icon-briefcase"></em>
                                 <span>Claims</span>
                             </a>
@@ -324,15 +294,16 @@
 
                         <li class=" ">
                             <a href="/Myactivity/Index" title="My Activities">
+                                <div id="activityCount" class="pull-right label label-success"></div>
                                 <em class="icon-energy"></em>
                                 <span>My Activities</span>
                             </a>
                         </li>
 
                         <li class=" ">
-                            <a href="/Billing/MyBillableTime" title="MyBillable Time">
+                            <a href="/Billing/MyBillableTime" title="My Billable Time">
                                 <em class="icon-clock"></em>
-                                <span>MyBillable Time</span>
+                                <span>My Billable Time</span>
                             </a>
                         </li>
 
@@ -356,602 +327,647 @@
                             </a>
 
                         </li>
-                                              
-                        @*<li class=" ">
-                            <a href="#addNew" data-toggle="collapse" title="Add New">
-                                <em class="icon-plus"></em>
-                                <span>Add New</span>
-                            </a>
-                            <ul id="addNew" class="nav sidebar-subnav collapse">
-                                <li class=" ">
-                                    <a href="/NewClaim/Index" title="New Claim">
-                                        <span>New Claim</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="#" title="New Billable Timeslip">
-                                        <span>New Billable Timeslip</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="#" title="New Claim Payment">
-                                        <span>New Claim Payment</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="#" title="New Key Contact">
-                                        <span>New Key Contact</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="#" title="New File Note">
-                                        <span>New File Note</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="#" title="New Activity Task">
-                                        <span>New Activity Task</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="#" title="New Key Date">
-                                        <span>New Key Date</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a href="/NewContactAccount/Index" title="New Contact/Account">
-                                        <span>New Contact/Account</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a id="emialclick" title="New Email">
-                                        <span>New Email</span>
-                                    </a>
-                                </li>
 
-                            </ul>
-                        </li>*@
+                        @if (login.IsPortalAdmin == true || login.IsManager == true || login.IsTimeslipChecker == true)
+                        {
 
-
-                        @*<li class=" ">
-                                <a href="/Notification/ViewNotifications" title="View Notifications">
-                                    <em class="icon-speech"></em>
-                                    <span>Test 2</span>
+                            <li class=" ">
+                                <a href="#admin" data-toggle="collapse" title="Admin Functions">
+                                    <em class="icon-user"></em>
+                                    <span>Admin Functions</span>
                                 </a>
+                                <ul id="admin" class="nav sidebar-subnav collapse">
+                                    @if (login.IsPortalAdmin == true)
+                                    {
+                                        <li class=" ">
+                                            <a href="/AdminList/AdminList" title="Portal Admin">
+                                                <div id="portalRegCount" class="pull-right label label-success"></div>
+                                                <span>Portal Admin</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (login.IsManager == true)
+                                    {
+                                        <li class=" ">
+                                            <a href="/claimassignment/Index" title="Claim Assignment">
+                                                <div id="claimAssignemntCount" class="pull-right label label-success"></div>
+                                                <span>Claim Assignment</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (login.IsTimeslipChecker == true)
+                                    {
+                                        <li class=" ">
+                                            <a href="/TimeslipCheck/Index" title="Billing Check">
+                                                <span>Billing Check</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+
+                        }
+
+
+
+                        @*<li class=" ">
+                                <a href="#addNew" data-toggle="collapse" title="Add New">
+                                    <em class="icon-plus"></em>
+                                    <span>Add New</span>
+                                </a>
+                                <ul id="addNew" class="nav sidebar-subnav collapse">
+                                    <li class=" ">
+                                        <a href="/NewClaim/Index" title="New Claim">
+                                            <span>New Claim</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Billable Timeslip">
+                                            <span>New Billable Timeslip</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Claim Payment">
+                                            <span>New Claim Payment</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Key Contact">
+                                            <span>New Key Contact</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New File Note">
+                                            <span>New File Note</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Activity Task">
+                                            <span>New Activity Task</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Key Date">
+                                            <span>New Key Date</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="/NewContactAccount/Index" title="New Contact/Account">
+                                            <span>New Contact/Account</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a id="emialclick" title="New Email">
+                                            <span>New Email</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
                             </li>*@
 
-                        @*
+
+                            @*<li class=" ">
+                                    <a href="/Notification/ViewNotifications" title="View Notifications">
+                                        <em class="icon-speech"></em>
+                                        <span>Test 2</span>
+                                    </a>
+                                </li>*@
+
+                            @*
+                                    <li class=" ">
+                                    <a href="/ViewPages/ViewClaims" title="View Claims">
+                                        <em class="icon-speech"></em>
+                                        <span>View Claims</span>
+                                    </a>
+                                </li>
                                 <li class=" ">
-                                <a href="/ViewPages/ViewClaims" title="View Claims">
-                                    <em class="icon-speech"></em>
-                                    <span>View Claims</span>
+                                    <a href="/ViewPages/ViewNotifications" title="View Notifications">
+                                        <em class="icon-speech"></em>
+                                        <span>View Notifications</span>
+                                    </a>
+                                </li>*@
+
+
+                        </ul>
+                        <!-- END sidebar nav-->
+                    </nav>
+                </div>
+                <!-- END Sidebar (left)-->
+            </aside>
+            <!-- offsidebar-->
+            <aside class="offsidebar hide">
+                <!-- START Off Sidebar (right)-->
+                <nav>
+                    <div role="tabpanel">
+                        <!-- Nav tabs-->
+                        <ul role="tablist" class="nav nav-tabs nav-justified">
+                            <li role="presentation" class="active">
+                                <a href="#app-settings" aria-controls="app-settings" role="tab" data-toggle="tab">
+                                    <em class="icon-equalizer fa-lg"></em>
                                 </a>
                             </li>
-                            <li class=" ">
-                                <a href="/ViewPages/ViewNotifications" title="View Notifications">
-                                    <em class="icon-speech"></em>
-                                    <span>View Notifications</span>
+                            <li role="presentation">
+                                <a href="#app-chat" aria-controls="app-chat" role="tab" data-toggle="tab">
+                                    <em class="icon-user fa-lg"></em>
                                 </a>
-                            </li>*@
-
-
-                    </ul>
-                    <!-- END sidebar nav-->
-                </nav>
-            </div>
-            <!-- END Sidebar (left)-->
-        </aside>
-        <!-- offsidebar-->
-        <aside class="offsidebar hide">
-            <!-- START Off Sidebar (right)-->
-            <nav>
-                <div role="tabpanel">
-                    <!-- Nav tabs-->
-                    <ul role="tablist" class="nav nav-tabs nav-justified">
-                        <li role="presentation" class="active">
-                            <a href="#app-settings" aria-controls="app-settings" role="tab" data-toggle="tab">
-                                <em class="icon-equalizer fa-lg"></em>
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#app-chat" aria-controls="app-chat" role="tab" data-toggle="tab">
-                                <em class="icon-user fa-lg"></em>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- Tab panes-->
-                    <div class="tab-content">
-                        <div id="app-settings" role="tabpanel" class="tab-pane fade in active">
-                            <h3 class="text-center text-thin">Settings</h3>
-                            <div class="p">
-                                <h4 class="text-muted text-thin">Themes</h4>
-                                <div class="table-grid mb">
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-a.css">
-                                                <input type="radio" name="setting-theme" checked="checked">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-info"></span>
-                                                    <span class="color bg-info-light"></span>
-                                                </span>
-                                                <span class="color bg-white"></span>
+                            </li>
+                        </ul>
+                        <!-- Tab panes-->
+                        <div class="tab-content">
+                            <div id="app-settings" role="tabpanel" class="tab-pane fade in active">
+                                <h3 class="text-center text-thin">Settings</h3>
+                                <div class="p">
+                                    <h4 class="text-muted text-thin">Themes</h4>
+                                    <div class="table-grid mb">
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-a.css">
+                                                    <input type="radio" name="setting-theme" checked="checked">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-info"></span>
+                                                        <span class="color bg-info-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-b.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-green"></span>
+                                                        <span class="color bg-green-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-c.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-purple"></span>
+                                                        <span class="color bg-purple-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-d.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-danger"></span>
+                                                        <span class="color bg-danger-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-grid mb">
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-e.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-info-dark"></span>
+                                                        <span class="color bg-info"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-f.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-green-dark"></span>
+                                                        <span class="color bg-green"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-g.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-purple-dark"></span>
+                                                        <span class="color bg-purple"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-h.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-danger-dark"></span>
+                                                        <span class="color bg-danger"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p">
+                                    <h4 class="text-muted text-thin">Layout</h4>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Fixed</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-fixed" type="checkbox" data-toggle-state="layout-fixed">
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-b.css">
-                                                <input type="radio" name="setting-theme">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-green"></span>
-                                                    <span class="color bg-green-light"></span>
-                                                </span>
-                                                <span class="color bg-white"></span>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Boxed</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-boxed" type="checkbox" data-toggle-state="layout-boxed">
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-c.css">
-                                                <input type="radio" name="setting-theme">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-purple"></span>
-                                                    <span class="color bg-purple-light"></span>
-                                                </span>
-                                                <span class="color bg-white"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-d.css">
-                                                <input type="radio" name="setting-theme">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-danger"></span>
-                                                    <span class="color bg-danger-light"></span>
-                                                </span>
-                                                <span class="color bg-white"></span>
+                                    <div class="clearfix">
+                                        <p class="pull-left">RTL</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-rtl" type="checkbox">
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="table-grid mb">
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-e.css">
-                                                <input type="radio" name="setting-theme">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-info-dark"></span>
-                                                    <span class="color bg-info"></span>
-                                                </span>
-                                                <span class="color bg-gray-dark"></span>
+                                <div class="p">
+                                    <h4 class="text-muted text-thin">Aside</h4>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Collapsed</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-collapsed" type="checkbox" data-toggle-state="aside-collapsed">
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-f.css">
-                                                <input type="radio" name="setting-theme">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-green-dark"></span>
-                                                    <span class="color bg-green"></span>
-                                                </span>
-                                                <span class="color bg-gray-dark"></span>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Collapsed Text</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-collapsed-text" type="checkbox" data-toggle-state="aside-collapsed-text">
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-g.css">
-                                                <input type="radio" name="setting-theme">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-purple-dark"></span>
-                                                    <span class="color bg-purple"></span>
-                                                </span>
-                                                <span class="color bg-gray-dark"></span>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Float</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-float" type="checkbox" data-toggle-state="aside-float">
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col mb">
-                                        <div class="setting-color">
-                                            <label data-load-css="css/theme-h.css">
-                                                <input type="radio" name="setting-theme">
-                                                <span class="icon-check"></span>
-                                                <span class="split">
-                                                    <span class="color bg-danger-dark"></span>
-                                                    <span class="color bg-danger"></span>
-                                                </span>
-                                                <span class="color bg-gray-dark"></span>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Hover</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-hover" type="checkbox" data-toggle-state="aside-hover">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Show Scrollbar</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-hover" type="checkbox" data-toggle-state="show-scrollbar" data-target=".sidebar">
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p">
-                                <h4 class="text-muted text-thin">Layout</h4>
-                                <div class="clearfix">
-                                    <p class="pull-left">Fixed</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-fixed" type="checkbox" data-toggle-state="layout-fixed">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="pull-left">Boxed</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-boxed" type="checkbox" data-toggle-state="layout-boxed">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="pull-left">RTL</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-rtl" type="checkbox">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p">
-                                <h4 class="text-muted text-thin">Aside</h4>
-                                <div class="clearfix">
-                                    <p class="pull-left">Collapsed</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-collapsed" type="checkbox" data-toggle-state="aside-collapsed">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="pull-left">Collapsed Text</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-collapsed-text" type="checkbox" data-toggle-state="aside-collapsed-text">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="pull-left">Float</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-float" type="checkbox" data-toggle-state="aside-float">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="pull-left">Hover</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-hover" type="checkbox" data-toggle-state="aside-hover">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="clearfix">
-                                    <p class="pull-left">Show Scrollbar</p>
-                                    <div class="pull-right">
-                                        <label class="switch">
-                                            <input id="chk-hover" type="checkbox" data-toggle-state="show-scrollbar" data-target=".sidebar">
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="app-chat" role="tabpanel" class="tab-pane fade">
-                            <h3 class="text-center text-thin">Connections</h3>
-                            <ul class="nav">
-                                <!-- START list title-->
-                                <li class="p">
-                                    <small class="text-muted">ONLINE</small>
-                                </li>
-                                <!-- END list title-->
-                                <li>
-                                    <!-- START User status-->
+                            <div id="app-chat" role="tabpanel" class="tab-pane fade">
+                                <h3 class="text-center text-thin">Connections</h3>
+                                <ul class="nav">
+                                    <!-- START list title-->
+                                    <li class="p">
+                                        <small class="text-muted">ONLINE</small>
+                                    </li>
+                                    <!-- END list title-->
+                                    <li>
+                                        <!-- START User status-->
 
-                                    <a href="#" class="media-box p mt0">
-                                        <!-- Contact info-->
-                                        <span class="media-box-body">
-                                            <span class="media-box-heading">
-                                                <strong>Juan Sims</strong>
-                                                <br>
-                                                <small class="text-muted">Designeer</small>
+                                        <a href="#" class="media-box p mt0">
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Juan Sims</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designeer</small>
+                                                </span>
                                             </span>
-                                        </span>
-                                    </a>
-                                    <!-- END User status-->
-                                    <!-- START User status-->
-                                    <a href="#" class="media-box p mt0">
-                                        <span class="pull-right">
-                                            <span class="circle circle-success circle-lg"></span>
-                                        </span>
-                                        <span class="pull-left">
-                                            <!-- Contact avatar-->
-                                            <img src="img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                                        </span>
-                                        <!-- Contact info-->
-                                        <span class="media-box-body">
-                                            <span class="media-box-heading">
-                                                <strong>Maureen Jenkins</strong>
-                                                <br>
-                                                <small class="text-muted">Designeer</small>
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <!-- END User status-->
-                                    <!-- START User status-->
-                                    <a href="#" class="media-box p mt0">
-                                        <span class="pull-right">
-                                            <span class="circle circle-danger circle-lg"></span>
-                                        </span>
-                                        <span class="pull-left">
-                                            <!-- Contact avatar-->
-                                            <img src="img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                                        </span>
-                                        <!-- Contact info-->
-                                        <span class="media-box-body">
-                                            <span class="media-box-heading">
-                                                <strong>Billie Dunn</strong>
-                                                <br>
-                                                <small class="text-muted">Designeer</small>
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <!-- END User status-->
-                                    <!-- START User status-->
-                                    <a href="#" class="media-box p mt0">
-                                        <span class="pull-right">
-                                            <span class="circle circle-warning circle-lg"></span>
-                                        </span>
-                                        <span class="pull-left">
-                                            <!-- Contact avatar-->
-                                            <img src="img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                                        </span>
-                                        <!-- Contact info-->
-                                        <span class="media-box-body">
-                                            <span class="media-box-heading">
-                                                <strong>Tomothy Roberts</strong>
-                                                <br>
-                                                <small class="text-muted">Designer</small>
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <!-- END User status-->
-                                </li>
-                                <!-- START list title-->
-                                <li class="p">
-                                    <small class="text-muted">OFFLINE</small>
-                                </li>
-                                <!-- END list title-->
-                                <li>
-                                    <!-- START User status-->
-                                    <a href="#" class="media-box p mt0">
-                                        <span class="pull-right">
-                                            <span class="circle circle-lg"></span>
-                                        </span>
-                                        <span class="pull-left">
-                                            <!-- Contact avatar-->
-                                            <img src="img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                                        </span>
-                                        <!-- Contact info-->
-                                        <span class="media-box-body">
-                                            <span class="media-box-heading">
-                                                <strong>Lawrence Robinson</strong>
-                                                <br>
-                                                <small class="text-muted">Developer</small>
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <!-- END User status-->
-                                    <!-- START User status-->
-                                    <a href="#" class="media-box p mt0">
-                                        <span class="pull-right">
-                                            <span class="circle circle-lg"></span>
-                                        </span>
-                                        <span class="pull-left">
-                                            <!-- Contact avatar-->
-                                            <img src="img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
-                                        </span>
-                                        <!-- Contact info-->
-                                        <span class="media-box-body">
-                                            <span class="media-box-heading">
-                                                <strong>Tyrone Owens</strong>
-                                                <br>
-                                                <small class="text-muted">Designer</small>
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <!-- END User status-->
-                                </li>
-                                <li>
-                                    <div class="p-lg text-center">
-                                        <!-- Optional link to list more users-->
-                                        <a href="#" title="See more contacts" class="btn btn-purple btn-sm">
-                                            <strong>Load more..</strong>
                                         </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-success circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Maureen Jenkins</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designeer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-danger circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Billie Dunn</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designeer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-warning circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Tomothy Roberts</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                    </li>
+                                    <!-- START list title-->
+                                    <li class="p">
+                                        <small class="text-muted">OFFLINE</small>
+                                    </li>
+                                    <!-- END list title-->
+                                    <li>
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Lawrence Robinson</strong>
+                                                    <br>
+                                                    <small class="text-muted">Developer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Tyrone Owens</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                    </li>
+                                    <li>
+                                        <div class="p-lg text-center">
+                                            <!-- Optional link to list more users-->
+                                            <a href="#" title="See more contacts" class="btn btn-purple btn-sm">
+                                                <strong>Load more..</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- Extra items-->
+                                <div class="p">
+                                    <p>
+                                        <small class="text-muted">Tasks completion</small>
+                                    </p>
+                                    <div class="progress progress-xs m0">
+                                        <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-success progress-80">
+                                            <span class="sr-only">80% Complete</span>
+                                        </div>
                                     </div>
-                                </li>
-                            </ul>
-                            <!-- Extra items-->
-                            <div class="p">
-                                <p>
-                                    <small class="text-muted">Tasks completion</small>
-                                </p>
-                                <div class="progress progress-xs m0">
-                                    <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-success progress-80">
-                                        <span class="sr-only">80% Complete</span>
+                                </div>
+                                <div class="p">
+                                    <p>
+                                        <small class="text-muted">Upload quota</small>
+                                    </p>
+                                    <div class="progress progress-xs m0">
+                                        <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-warning progress-40">
+                                            <span class="sr-only">40% Complete</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p">
-                                <p>
-                                    <small class="text-muted">Upload quota</small>
-                                </p>
-                                <div class="progress progress-xs m0">
-                                    <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-warning progress-40">
-                                        <span class="sr-only">40% Complete</span>
-                                    </div>
+                        </div>
+                    </div>
+                </nav>
+                <!-- END Off Sidebar (right)-->
+            </aside>
+            <section>
+                @*@{
+                        List<SelectListItem> Navigation = new List<SelectListItem>();
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "Risksmart GCC Manager",
+                            Value = "Risksmart GCC Manager"
+                        });
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "Risksmart Property Manager",
+                            Value = "Risksmart Property Manager",
+                        });
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "GCC Claims Manager",
+                            Value = "GCC Claims Manager",
+                        });
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "Property Claims Manager",
+                            Value = "Property Claims Manager",
+                        });
+                    }
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchbox" placeholder="Search for">
+                                <span class="input-group-addon pointer" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            </div>
+                    </div>*@
+
+                @RenderBody()
+            </section>
+            @*<footer>
+                    <span>&copy; 2017 - HonanCCP</span>
+                </footer>*@
+        </div>
+        <!-- Modal -->
+        <div id="sendEmailModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="closemod" type="button" class="close">&times;</button>
+                        <h4 class="modal-title">Send a Question</h4>
+                    </div>
+                    <input name="EmailTattchment" id="emailattach" type="file" multiple>
+                    <div class="modal-body">
+                        <div id="errormsg" class="alert alert-danger">
+                            <strong></strong> <span id="error"></span>
+                        </div>
+                        <div id="successshow" class="alert alert-success">
+                            <strong></strong> <span id="success"></span>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <div class="form-group">
+                                    <ul id="ul"></ul>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="usr">Claim:</label>
+                                    <select id="claim"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usr">To</label>
+                                    <select id="Tolist" class="form-control"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usr">CC</label>
+                                    <select id="CClist" class="form-control"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usr">Subject</label>
+                                    <input class="form-control" id="subject" />
+                                </div>
+                                <div id="EmailEdit">
+                                    <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor"></textarea>
+                                </div>
+                                <button id="sendemail" class="btn btn-default">Send</button>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="pull-right">
+                                    <button class="btn btn-primary">Send</button>
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                </div>
-            </nav>
-            <!-- END Off Sidebar (right)-->
-        </aside>
-        <section>
-            @*@{
-                    List<SelectListItem> Navigation = new List<SelectListItem>();
-                    Navigation.Add(new SelectListItem
-                    {
-                        Text = "Risksmart GCC Manager",
-                        Value = "Risksmart GCC Manager"
-                    });
-                    Navigation.Add(new SelectListItem
-                    {
-                        Text = "Risksmart Property Manager",
-                        Value = "Risksmart Property Manager",
-                    });
-                    Navigation.Add(new SelectListItem
-                    {
-                        Text = "GCC Claims Manager",
-                        Value = "GCC Claims Manager",
-                    });
-                    Navigation.Add(new SelectListItem
-                    {
-                        Text = "Property Claims Manager",
-                        Value = "Property Claims Manager",
-                    });
-                }
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="searchbox" placeholder="Search for">
-                            <span class="input-group-addon pointer" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
-                        </div>
-                </div>*@
-
-            @RenderBody()
-        </section>
-        @*<footer>
-                <span>&copy; 2017 - HonanCCP</span>
-            </footer>*@
-    </div>
-    <!-- Modal -->
-    <div id="sendEmailModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button id="closemod" type="button" class="close">&times;</button>
-                    <h4 class="modal-title">Send a Question</h4>
-                </div>
-                <input name="EmailTattchment" id="emailattach" type="file" multiple>
-                <div class="modal-body">
-                    <div id="errormsg" class="alert alert-danger">
-                        <strong></strong> <span id="error"></span>
-                    </div>
-                    <div id="successshow" class="alert alert-success">
-                        <strong></strong> <span id="success"></span>
-                    </div>
-                    <div class="row">
-                        <div>
-                            <div class="form-group">
-                                <ul id="ul"></ul>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="usr">Claim:</label>
-                                <select id="claim"></select>
-                            </div>
-                            <div class="form-group">
-                                <label for="usr">To</label>
-                                <select id="Tolist" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
-                                <label for="usr">CC</label>
-                                <select id="CClist" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
-                                <label for="usr">Subject</label>
-                                <input class="form-control" id="subject" />
-                            </div>
-                            <div id="EmailEdit">
-                                <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor"></textarea>
-                            </div>
-                            <button id="sendemail" class="btn btn-default">Send</button>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="pull-right">
-                                <button class="btn btn-primary">Send</button>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- =============== VENDOR SCRIPTS ===============-->
-    <!-- MODERNIZR-->
-    <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
-    <!-- MATCHMEDIA POLYFILL-->
-    <script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
+        <!-- =============== VENDOR SCRIPTS ===============-->
+        <!-- MODERNIZR-->
+        <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
+        <!-- MATCHMEDIA POLYFILL-->
+        <script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
 
-    <!-- BOOTSTRAP-->
-    <script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- STORAGE API-->
-    <script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
-    <!-- JQUERY EASING-->
-    <script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
-    <!-- ANIMO-->
-    <script src="~/Content/vendor/animo.js/animo.js"></script>
-    <!-- SLIMSCROLL-->
-    <script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- SCREENFULL-->
-    <script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
-    <!-- LOCALIZE-->
-    <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
-    <!-- RTL demo-->
-    <script src="~/Content/app/js/demo/demo-rtl.js"></script>
-    @*@Scripts.Render("~/bundles/jqueryval")*@
-    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
-    <!-- =============== APP SCRIPTS ===============-->
-    <script src="~/Content/app/js/app.js"></script>
+        <!-- BOOTSTRAP-->
+        <script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- STORAGE API-->
+        <script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+        <!-- JQUERY EASING-->
+        <script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
+        <!-- ANIMO-->
+        <script src="~/Content/vendor/animo.js/animo.js"></script>
+        <!-- SLIMSCROLL-->
+        <script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+        <!-- SCREENFULL-->
+        <script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
+        <!-- LOCALIZE-->
+        <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+        <!-- RTL demo-->
+        <script src="~/Content/app/js/demo/demo-rtl.js"></script>
+        @*@Scripts.Render("~/bundles/jqueryval")*@
+        <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+        <!-- =============== APP SCRIPTS ===============-->
+        <script src="~/Content/app/js/app.js"></script>
 
 
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    @*
-        <script src="~/Scripts/globalize.js"></script>
-        <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    @*
-        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
-    
-</body>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        @*
+            <script src="~/Scripts/globalize.js"></script>
+            <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        @*
+            <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+    </body>
 </html>
 <script>
 
@@ -1270,6 +1286,8 @@
 
         getPortalRegistrationCount();
         getClaimAssigmentCount();
+        getAssignedClaimCount();
+        getMyActivityCount();
     });
 
     function getPortalRegistrationCount() {
@@ -1284,6 +1302,22 @@
         $.ajax({
             url: "/Home/GetClaimAssigmentCount", success: function (result) {
                 $("#claimAssignemntCount").text(result);
+            }
+        });
+    }
+
+    function getAssignedClaimCount() {
+        $.ajax({
+            url: "/Home/GetAssignedClaimCount", success: function (result) {
+                $("#assignedClaimCount").text(result);
+            }
+        });
+    }
+
+    function getMyActivityCount() {
+        $.ajax({
+            url: "/Home/GetMyActivityCount", success: function (result) {
+                $("#activityCount").text(result);
             }
         });
     }

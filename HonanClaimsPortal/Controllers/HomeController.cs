@@ -89,6 +89,20 @@ namespace HonanClaimsPortal.Controllers
             return Json(services.GetClaimAssigmentCount(login.Teams), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetAssignedClaimCount()
+        {
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            ClaimServices services = new ClaimServices();
+            return Json(services.TeamGetAssignedClaimCount(login.UserId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetMyActivityCount()
+        {
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            ClaimServices services = new ClaimServices();
+            return Json(services.TeamGetMyActivityCount(login.UserId), JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }

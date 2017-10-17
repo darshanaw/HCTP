@@ -55,7 +55,7 @@
 @{
     var message = TempData["SuccessMsg"];
 }
-
+<div style="background-image: url('../../Content/app/img/backdrop2.jpg'); background-size:100% 100%; background-repeat: no-repeat; background-position: left top; height: 100%">
     <div class="block-center  wd-xl" style="padding-top: 10%">
         <!-- START panel-->
         <div class="panel panel-dark">
@@ -63,7 +63,18 @@
                 Claims Team Portal
             </div>
             <div class="panel-body">
-              
+
+                <div class="col-md-12 clearfix">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <img src="@Url.Content("~/Content/app/img/honanWbn.png")" alt="" style=" width: 100%; display: block;" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <img src="@Url.Content("~/Content/app/img/riskmart-logo.jpg")" alt="" style="width: 100%; display: block;" />
+                    </div>
+                </div>
+                <br />
+                <br />
+
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                     @Html.AntiForgeryToken()
@@ -96,6 +107,7 @@
                             </label>
                         </div>
                     </div>
+                    <br />
                     @*</div>
                         <div class="clearfix">
                             <div class="checkbox">
@@ -112,15 +124,15 @@
 
 
                 @*<p class="pt-lg text-center">Need to Signup?</p>*@
-                <a href="/Account/Register" class="btn btn-block btn-default">New Login Registration</a>
+                @*<a href="/Account/Register" class="btn btn-block btn-default">New Login Registration</a>*@
                 <br />
                 @@ All Rights Reserved Honan Insurance Group
                 <br />
 
 
-                <div class="container-fluid" style="padding-left: 0px;text-align: center">
+                @*<div class="container-fluid" style="padding-left: 0px;text-align: center">
                     <a href="" style="text-align: center" data-toggle="modal" data-target="#termsModal" ng-dialog-class="ngdialog-theme-default">Terms and Conditions \ Discliamer</a>
-                </div>
+                </div>*@
 
                 <br />
 
@@ -133,59 +145,59 @@
     </div>
 
 
-<!-- Modal -->
-<div id="termsModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <!-- Modal -->
+    <div id="termsModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Terms \ Conditions Disclaimer </h4>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Terms \ Conditions Disclaimer </h4>
+                </div>
+                <div class="modal-body">
+                    @*@Html.Partial("Terms_Conditions")*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-body">
-                @*@Html.Partial("Terms_Conditions")*@
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
-<!-- =============== VENDOR SCRIPTS ===============-->
-<!-- MODERNIZR-->
-<script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
-<!-- MATCHMEDIA POLYFILL-->
-<script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
-<!-- JQUERY-->
-<script src="~/Content/vendor/jquery/dist/jquery.js"></script>
-<!-- BOOTSTRAP-->
-<script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
-<!-- STORAGE API-->
-<script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
-<!-- JQUERY EASING-->
-<script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
-<!-- ANIMO-->
-<script src="~/Content/vendor/animo.js/animo.js"></script>
-<!-- SLIMSCROLL-->
-<script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- SCREENFULL-->
-<script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
-<!-- LOCALIZE-->
-<script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
-<!-- RTL demo-->
-<script src="~/Content/app/js/demo/demo-rtl.js"></script>
-<!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- MATCHMEDIA POLYFILL-->
+    <script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
+    <!-- JQUERY-->
+    <script src="~/Content/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/Content/vendor/animo.js/animo.js"></script>
+    <!-- SLIMSCROLL-->
+    <script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+    <!-- RTL demo-->
+    <script src="~/Content/app/js/demo/demo-rtl.js"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
 
 
-<script src="~/Scripts/notify.js"></script>
+    <script src="~/Scripts/notify.js"></script>
 
-<script src="~/Scripts/loadingoverlay.min.js"></script>
-<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+    <script src="~/Scripts/loadingoverlay.min.js"></script>
+    <script src="~/Scripts/loadingoverlay_progress.min.js"></script>
 
-<script>
+    <script>
     $(document).ready(function () {
 
         $("#btnSubmit").click(function () {
@@ -199,4 +211,4 @@
         $.notify(message, "success");
     }
 
-</script>
+    </script>
