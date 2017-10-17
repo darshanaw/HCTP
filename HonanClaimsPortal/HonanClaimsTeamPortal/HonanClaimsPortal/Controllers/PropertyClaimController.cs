@@ -227,6 +227,8 @@ namespace HonanClaimsPortal.Controllers
                 model.Incident_TimeH = time.Split(':')[0].PadLeft(2, '0');
                 model.Incident_TimeM = time.Split(':')[1].PadLeft(2, '0');
             }
+
+            model.IncidentTypeList = pickListServices.GetPickListItems("Property Claims Incident Type");
         }
 
         public ActionResult DetailPropertyClaim(string id)
