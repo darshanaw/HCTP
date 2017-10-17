@@ -180,6 +180,8 @@
                         <div class="col-md-12">
                             <div class="col-md-6">
                                 <fieldset>
+                                                                     
+
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Reported Date</label>
                                         <div class="col-sm-9">
@@ -192,22 +194,22 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">Reported Time</label>
-                                        <label class="col-sm-1 control-label input-sm text-right">HH</label>
-                                        <div class="col-sm-3">
-                                            @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
-                                    SelectListItem
-                                       { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
-                                        </div>
-                                        <label class="col-sm-1 control-label input-sm text-center">-</label>
-                                        <label class="col-sm-1 control-label input-sm text-right">Min</label>
-                                        <div class="col-sm-3">
-                                            @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                    SelectListItem
-                                       { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
-                                        </div>
-                                    </div>
+                                    @*<div class="form-group mb">
+                                            <label class="col-sm-3 control-label input-sm">Reported Time</label>
+                                            <label class="col-sm-1 control-label input-sm text-right">HH</label>
+                                            <div class="col-sm-3">
+                                                @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
+                                        SelectListItem
+                                           { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                            </div>
+                                            <label class="col-sm-1 control-label input-sm text-center">-</label>
+                                            <label class="col-sm-1 control-label input-sm text-right">Min</label>
+                                            <div class="col-sm-3">
+                                                @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
+                                        SelectListItem
+                                           { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                            </div>
+                                        </div>*@
 
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Reported By</label>
@@ -323,6 +325,21 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             @Html.TextAreaFor(o => o.Details_Of_Responsible_3Rd_Pty, new { @class = "form-control input-sm", @maxlength = 400 })
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label input-sm">Phone # Report</label>
+                                        <div class="col-sm-9" style="margin-bottom: 5px">
+                                            @Html.TextBoxFor(o => o.Reported_By_Contact_Phone_Num, new { @class = "form-control input-sm", @maxlength = 32 })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Special Instructions</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextAreaFor(o => o.Special_Instructions, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                        </div>
+                                    </div>
+
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Payment Dtls - Account #</label>
                                         <div class="col-sm-9">
@@ -438,6 +455,17 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                         <span class="fa fa-calendar"></span>
                                                     </span>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">From Notification</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    @Html.CheckBoxFor(o => o.Converted_From_Notification, new { @readonly = true, @disabled = "disabled" })
+                                                </span>
+                                                @Html.TextBoxFor(o => o.Notification_Conversion_Date, new { @class = "form-control input-sm", @readonly = true })
                                             </div>
                                         </div>
                                     </div>
@@ -642,6 +670,40 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group mb">
+                                                            <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
+                                                            <div class="col-sm-9">
+                                                                @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group mb">
+                                                            <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
+                                                            <div class="col-sm-9">
+                                                                @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group mb">
+                                                            <label class="col-sm-3 control-label input-sm">Insured Email</label>
+                                                            <div class="col-sm-9">
+                                                                @Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group mb">
+                                                            <label class="col-sm-3 control-label input-sm">Insured Address</label>
+                                                            <div class="col-sm-9">
+                                                                @Html.TextAreaFor(o => o.Insured_Address, new { @class = "form-control input-sm" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Property Claim Ref</label>
@@ -688,133 +750,133 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     </div>
                                 </fieldset>
                                 <fieldset>
-                                @if (Model.Claim_Type == "Claim")
-                                {
-                                    <div id="accordionFinance" role="tablist" aria-multiselectable="true" class="panel-group">
-                                        <div class="panel panel-primary">
-                                            <div id="headingThree" role="tab" class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordionFinance" href="#collapseThree" aria-expanded="True" aria-controls="collapseThree">Financials</a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseThree" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse in">
+                                    @if (Model.Claim_Type == "Claim")
+                                    {
+                                        <div id="accordionFinance" role="tablist" aria-multiselectable="true" class="panel-group">
+                                            <div class="panel panel-primary">
+                                                <div id="headingThree" role="tab" class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordionFinance" href="#collapseThree" aria-expanded="True" aria-controls="collapseThree">Financials</a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseThree" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse in">
 
-                                                <div class="panel-body">
+                                                    <div class="panel-body">
 
-                                                    <div class="col-md-12 col-sm-12" style="display:none">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Liability Resource $</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Liability_Res_Source, new { @type = "number", @class = "form-control input-sm" })
+                                                        <div class="col-md-12 col-sm-12" style="display:none">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Liability Resource $</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Liability_Res_Source, new { @type = "number", @class = "form-control input-sm" })
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12" style="display:none">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Defence Ressource $</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Defence_Res_Source, new { @type = "number", @class = "form-control input-sm" })
+                                                        <div class="col-md-12 col-sm-12" style="display:none">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Defence Ressource $</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Defence_Res_Source, new { @type = "number", @class = "form-control input-sm" })
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
 
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Liab/Def Res. Source</label>
-                                                            <div class="col-sm-9">
-                                                                <span id="ssss" class="input-group-btn btn-outline">
-                                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px" data-toggle="modal" data-target="#ExrtaFieldModal">
-                                                                        <i class="fa fa-dollar"></i>
-                                                                    </button>
-                                                                </span>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Liab/Def Res. Source</label>
+                                                                <div class="col-sm-9">
+                                                                    <span id="ssss" class="input-group-btn btn-outline">
+                                                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px" data-toggle="modal" data-target="#ExrtaFieldModal">
+                                                                            <i class="fa fa-dollar"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
-                                                                @Html.HiddenFor(o => o.Liability_Reserve)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
+                                                                    @Html.HiddenFor(o => o.Liability_Reserve)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Defence Reserve $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
-                                                                @Html.HiddenFor(o => o.Defence_Reserve)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Defence Reserve $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
+                                                                    @Html.HiddenFor(o => o.Defence_Reserve)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    @*Start*@
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Total Reserve $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
-                                                                @Html.HiddenFor(o => o.Total_Reserve)
+                                                        @*Start*@
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Total Reserve $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
+                                                                    @Html.HiddenFor(o => o.Total_Reserve)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Net Paid Liability $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
-                                                                @Html.HiddenFor(o => o.Net_Paid_Liability)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Net Paid Liability $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
+                                                                    @Html.HiddenFor(o => o.Net_Paid_Liability)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Net Paid Defence $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
-                                                                @Html.HiddenFor(o => o.Net_Paid_Defence)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Net Paid Defence $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
+                                                                    @Html.HiddenFor(o => o.Net_Paid_Defence)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Gross Paid to Date $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
-                                                                @Html.HiddenFor(o => o.Gross_Paid_To_Date)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Gross Paid to Date $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
+                                                                    @Html.HiddenFor(o => o.Gross_Paid_To_Date)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Total Incurred $</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
-                                                                @Html.HiddenFor(o => o.Total_Incurred)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Total Incurred $</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
+                                                                    @Html.HiddenFor(o => o.Total_Incurred)
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Current Exposure</label>
-                                                            <div class="col-sm-9">
-                                                                <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
-                                                                @Html.HiddenFor(o => o.Current_Exposure)
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Current Exposure</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
+                                                                    @Html.HiddenFor(o => o.Current_Exposure)
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="col-md-12 text-center">
-                                        <input id="btnConvertToClaim" type="button" class="btn btn-info btn-xl" value="Convert To Claim" data-toggle="modal" data-target="#convertToClaimModel" />
-                                    </div>
-                                }
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-12 text-center">
+                                            <input id="btnConvertToClaim" type="button" class="btn btn-info btn-xl" value="Convert To Claim" data-toggle="modal" data-target="#convertToClaimModel" />
+                                        </div>
+                                    }
                                 </fieldset>
                                 <fieldset>
                                     <div class="form-group mb">
@@ -1038,6 +1100,15 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         new { @class = "form-control input-sm", @multiple = "multiple", @name = "Incident_Category", @style = "width:100%" })
                                                         </div>
                                                     </div>
+
+                                                    <div class="form-group mb">
+                                                        <label class="col-sm-3 control-label input-sm">Incident Type</label>
+                                                        <div class="col-sm-9">
+                                                            @Html.DropDownListFor(o => o.Incident_Type, new SelectList(Model.IncidentTypeList, "Text", "Text"), "", new { @class = "form-control input-sm" })
+
+                                                        </div>
+                                                    </div>
+
                                                     <div class="form-group mb">
                                                         <label class="col-sm-3 control-label input-sm">Claimant Firstname</label>
                                                         <div class="col-sm-9">
@@ -1125,7 +1196,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         <div class="tab-pane" id="tabActivityTasks">
             @{Html.RenderAction("_ActivityTasks", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
         </div>
-    }
+                }
     <div class="tab-pane" id="tabKey_Contacts_Dates">
         @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid, claimRefNo = Model.Claim_Reference_Num });}
     </div>
@@ -1340,7 +1411,6 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 </script>
 
 <!-- Covert to Claim Modal End-->
-
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
