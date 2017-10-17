@@ -147,10 +147,10 @@ namespace HonanClaimsWebApi.Models.Claim
         public DateTime? Reported_Date { get; set; }
         public DateTime? Reported_Time { get; set; }
 
-        [Required(ErrorMessage = "Reported Time Required")]
+        //[Required(ErrorMessage = "Reported Time Required")]
         public string Reported_TimeH { get; set; }
 
-        [Required(ErrorMessage = "Reported Time Required")]
+        //[Required(ErrorMessage = "Reported Time Required")]
         public string Reported_TimeM { get; set; }
         //[Required(ErrorMessage = "Incident Date Required")]
         public DateTime? Incident_Date { get; set; }
@@ -215,6 +215,19 @@ namespace HonanClaimsWebApi.Models.Claim
         public decimal Basic_Excess { get; set; }
         public DateTime? AcctPeriod1 { get; set; }//New field
         public DateTime? AcctPeriod2 { get; set; }//New field
+
+
+        //New Fieldss
+        public string Insured_Work_Phone { get; set; }
+        public string Insured_Mobile_Phone { get; set; }
+        public string Insured_Email { get; set; }
+        public string Insured_Address { get; set; }
+        public bool Converted_From_Notification { get; set; }
+        public string Notification_Conversion_Date { get; set; }
+        public string Special_Instructions { get; set; }
+        public string Work_Related { get; set; }
+
+
         public List<PicklistItem> Policy_Class_List { get; set; }
         public List<PicklistItem> Causation_List { get; set; }
         public List<PicklistItem> Client_Group_List { get; set; }
@@ -223,6 +236,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
         public List<PicklistItem> RegionList { get; set; }
+        public List<PicklistItem> IncidentTypeList { get; set; }
         public List<PicklistItem> IncidentCategoryList { get; set; }
         public List<string> JuristictionList { get; set; }
         public List<string> GenderList { get; set; }

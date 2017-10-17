@@ -227,6 +227,8 @@ namespace HonanClaimsPortal.Controllers
             model.Claim_Not_Lodged = model.Claim_Not_Lodged == null || model.Claim_Not_Lodged == false ? false : true;
             model.Claim_Approved = model.Claim_Approved == null || model.Claim_Approved == false ? false : true;
             model.Claim_Declined = model.Claim_Declined == null || model.Claim_Declined == false ? false : true;
+
+            model.IncidentTypeList = pickListServices.GetPickListItems("Risksmart Property Incident Type");
         }
 
         [HttpPost]
