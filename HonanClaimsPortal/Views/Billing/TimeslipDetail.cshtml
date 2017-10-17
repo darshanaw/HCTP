@@ -480,7 +480,7 @@
 
             if (EH == EH) {
                 if (SM > EM) {
-                    bootbox.alert("Start time cannot be later than end time");
+                    bootbox.alert("End time cannot be earlier than start time");
                     $("#End_Time_MM").val(SM);
                     // return false;
                     var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
