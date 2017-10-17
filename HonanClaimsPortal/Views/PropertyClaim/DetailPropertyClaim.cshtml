@@ -189,25 +189,24 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12 col-sm-12">
-                                            <div class="form-group mb">
-                                                <label class="col-sm-3 control-label input-sm">Reported Time</label>
-                                                <label class="col-sm-1 control-label input-sm text-right">HH</label>
-                                                <div class="col-sm-3">
-                                                    @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
-                                    SelectListItem
-                                               { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
-                                                </div>
-                                                <label class="col-sm-1 control-label input-sm text-center">-</label>
-                                                <label class="col-sm-1 control-label input-sm text-right">Min</label>
-                                                <div class="col-sm-3">
-                                                    @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                    SelectListItem
-                                               { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        @*<div class="col-md-12 col-sm-12">
+                                                    <div class="form-group mb">
+                                                        <label class="col-sm-3 control-label input-sm">Reported Time</label>
+                                                        <label class="col-sm-1 control-label input-sm text-right">HH</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
+                                            SelectListItem
+                                                       { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                        </div>
+                                                        <label class="col-sm-1 control-label input-sm text-center">-</label>
+                                                        <label class="col-sm-1 control-label input-sm text-right">Min</label>
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
+                                            SelectListItem
+                                                       { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                        </div>
+                                                    </div>
+                                                </div>*@
 
                                         <div class="col-md-12 col-sm-12">
                                             <div class="form-group mb">
@@ -359,6 +358,14 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group mb">
+                                                <label class="col-sm-3 control-label input-sm">Special Instructions</label>
+                                                <div class="col-sm-9">
+                                                    @Html.TextAreaFor(o => o.Special_Instructions, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="col-md-12 col-sm-12">
                                             <div class="form-group mb">
@@ -500,6 +507,18 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="form-group mb">
+                                            <label class="col-sm-3 control-label input-sm">From Notification</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        @Html.CheckBoxFor(o => o.Converted_From_Notification, new { @readonly = true, @disabled = "disabled" })
+                                                    </span>
+                                                    @Html.TextBoxFor(o => o.Notification_Conversion_Date, new { @class = "form-control input-sm", @readonly = true })
+                                                </div>
+                                            </div>
+                                        </div>
                                     </fieldset>
                                     <fieldset>
                                         <div id="accordion" role="tablist" aria-multiselectable="true" class="panel-group">
@@ -607,15 +626,6 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
                                                         <div class="col-md-12 col-sm-12">
                                                             <div class="form-group mb">
-                                                                <label class="col-sm-3 control-label input-sm">Insured Name</label>
-                                                                <div class="col-sm-9">
-                                                                    @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-12 col-sm-12">
-                                                            <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Insurer</label>
                                                                 <div class="col-sm-9">
                                                                     <div class="input-group">
@@ -636,6 +646,48 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <label class="col-sm-3 control-label input-sm">Insurer Ref</label>
                                                                 <div class="col-sm-9">
                                                                     @Html.TextBoxFor(o => o.Insurer_Ref, new { @class = "form-control input-sm" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Insured Name</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Insured Email</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Insured Address</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextAreaFor(o => o.Insured_Address, new { @class = "form-control input-sm" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1067,7 +1119,15 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group mb">
+                                                            <label class="col-sm-3 control-label input-sm">Incident Type</label>
+                                                            <div class="col-sm-9">
+                                                                @Html.DropDownListFor(o => o.Incident_Type, new SelectList(Model.IncidentTypeList, "Text", "Text"), "", new { @class = "form-control input-sm" })
 
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Witness</label>
@@ -1207,7 +1267,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         <div class="tab-pane" id="tabActivityTasks">
             @{Html.RenderAction("_ActivityTasks", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
         </div>
-    }
+                }
 
     <div class="tab-pane" id="tabKey_Contacts_Dates">
         @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid, claimRefNo = Model.Claim_Reference_Num });}
