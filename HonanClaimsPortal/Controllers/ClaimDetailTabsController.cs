@@ -198,7 +198,8 @@ namespace HonanClaimsPortal.Controllers
             model.ClaimId_Fn = claimId;
             model.ClaimRefNo_Fn = Claim_Reference_Num;
             model.RefnuberList_Fn = claimServices.GetClaimsForUser(client.UserId);
-
+            model.FileNoteDate_Fn = DateTime.Now;
+            ViewBag.CurrentDate = DateTime.Now.ToString("dd/MM/yyyy");
             return PartialView(model);
         }
 
