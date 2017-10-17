@@ -308,6 +308,9 @@
     <Content Include="Content\app\help-center.html" />
     <Content Include="Content\app\icons-font.html" />
     <Content Include="Content\app\icons-weather.html" />
+    <Content Include="Content\app\img\backdrop-min.jpg" />
+    <Content Include="Content\app\img\backdrop.jpg" />
+    <Content Include="Content\app\img\backdrop2.jpg" />
     <Content Include="Content\app\img\bg1.jpg" />
     <Content Include="Content\app\img\bg10.jpg" />
     <Content Include="Content\app\img\bg2.jpg" />
@@ -328,6 +331,7 @@
     <Content Include="Content\app\img\mb-sample.jpg" />
     <Content Include="Content\app\img\mockup.png" />
     <Content Include="Content\app\img\profile-bg.jpg" />
+    <Content Include="Content\app\img\riskmart-logo.jpg" />
     <Content Include="Content\app\img\user\01.jpg" />
     <Content Include="Content\app\img\user\02.jpg" />
     <Content Include="Content\app\img\user\03.jpg" />

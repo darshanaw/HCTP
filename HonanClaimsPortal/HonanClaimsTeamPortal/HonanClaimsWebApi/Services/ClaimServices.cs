@@ -612,6 +612,64 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
         }
+
+        public int TeamGetAssignedClaimCount(string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamGetAssignedClaimCount?userId=" + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<int>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return 0;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public int TeamGetMyActivityCount(string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamGetMyActivityCount?userId=" + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<int>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return 0;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 
 

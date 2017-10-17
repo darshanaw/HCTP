@@ -111,7 +111,7 @@ namespace HonanClaimsPortal.Controllers
                         Response.Cookies[CookieHelper.CookieObject_][CookieHelper.Password_] = model.Password;
                         Response.Cookies[CookieHelper.CookieObject_].Expires = DateTime.Now.AddDays(30);
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "ClaimList");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
