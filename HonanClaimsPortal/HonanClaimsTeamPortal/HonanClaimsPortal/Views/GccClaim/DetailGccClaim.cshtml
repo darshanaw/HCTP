@@ -28,6 +28,7 @@
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
         });
+
     })
 </script>
 
@@ -1114,6 +1115,7 @@
 
     $(document).ready(function () {
 
+     
 
         $('#formGccClaim').submit(function () {
             if ($(this).valid()) {
@@ -1329,6 +1331,8 @@
             $('#Assigned_Date').val(getTodaysDate());
         });
 
+        $.LoadingOverlay("hide");
+
     })
 
     function SetExtraFields() {
@@ -1430,4 +1434,5 @@
             });
         }
     }
+
 </script>
