@@ -57,7 +57,7 @@
                             <div class="form-group mb">
                                 <label class="col-sm-2 control-label input-sm">Claim Team</label>
                                 <div class="col-sm-9">
-                                    @Html.DropDownListFor(o => o.Claim_Team, new SelectList(Model.Claim_Team_List, "Text", "Value"), "", new { @class = "form-control input-sm" })
+                                    @Html.DropDownListFor(o => o.Claim_Team, new SelectList(Model.Claim_Team_List, "Text", "Value"),new { @class = "form-control input-sm" })
                                 </div>
                             </div>
 

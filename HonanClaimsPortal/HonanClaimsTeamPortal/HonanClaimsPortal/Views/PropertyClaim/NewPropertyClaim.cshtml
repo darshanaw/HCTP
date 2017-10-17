@@ -100,7 +100,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Reported Date</label>
                                 <div class="col-sm-9">
-                                    <div id="datetimepicker1" class="input-group dateCalendar">
+                                    <div id="dtpReportedDate" class="input-group dateCalendar">
                                         @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -278,7 +278,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Incident Date</label>
                                 <div class="col-sm-9">
-                                    <div id="datetimepicker2" class="input-group dateCalendar">
+                                    <div id="dtpIncidentDate" class="input-group dateCalendar">
                                         @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -323,14 +323,14 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12 form-group top-padding">
+                            @*<div class="col-md-12 col-sm-12 form-group top-padding">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Witnesses</label>
                                     <div class="col-sm-9">
                                         @Html.TextAreaFor(o => o.Witnesses, new { @class = "form-control input-sm", @maxlength = 400 })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-md-12 col-sm-12 form-group top-padding">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Firstname</label>
@@ -368,7 +368,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">DoB</label>
                                     <div class="col-sm-9">
-                                        <div id="datetimepicker3" class="input-group dateCalendar">
+                                        <div id="dtpDob" class="input-group dateCalendar">
                                             @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
                                             <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                 <span class="fa fa-calendar"></span>
@@ -589,7 +589,7 @@
                         <div class="col-md-6 col-sm-12 m0 p0">
                             <fieldset>
                                 
-                                <div class="col-md-12 col-sm-12">
+                                @*<div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                         <div class="col-sm-9">
@@ -608,7 +608,7 @@
                                             }
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
 
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
@@ -882,6 +882,39 @@
 
         });
 
+        $('#dtpReportedDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpReportedDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Reported Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpIncidentDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpIncidentDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Incident Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpDob').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpDob').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "DoB cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
     });
 
  function Cancel() {
@@ -889,5 +922,20 @@
         $(window).off('beforeunload');
         window.location.href = '/claimlist/Index';
     }
+
+    var firstOpen = true;
+    $(function () {
+        $('#dtpDob').datetimepicker({
+            viewMode: 'years',
+            format: 'DD/MM/YYYY',
+        }).on("dp.show", function () {
+            console.log("dtp open");
+            if (firstOpen == true) {
+                var year = new Date().getFullYear() - 18;
+                $(this).data('DateTimePicker').date("01/01/" + year);
+                firstOpen = false;
+            }
+        });
+    });
 
 </script>

@@ -50,13 +50,33 @@ namespace HonanClaimsPortal.Controllers
 
         private void InitializeModel(NewClaimModel model)
         {
-            model.Claim_Team_List = new List<SelectListItem>()
-            {
-                new SelectListItem(){ Text = ClaimTeams.RisksmartGCC, Value=ClaimTeams.RisksmartGCC},
-                new SelectListItem(){ Text = ClaimTeams.RisksmartProperty, Value=ClaimTeams.RisksmartProperty},
-                new SelectListItem(){ Text = ClaimTeams.PropertyClaims, Value=ClaimTeams.PropertyClaims},
-                new SelectListItem(){ Text = ClaimTeams.GCCClaims, Value=ClaimTeams.GCCClaims}
-            };
+
+            model.Claim_Team_List = new List<SelectListItem>();
+
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager) ||
+                ClaimHelper.IsMemberOfTeam(HonanClaimsPortal.Helpers.ClaimTeamsByTeamNames.RisksmartGCC))
+                model.Claim_Team_List.Add(new SelectListItem() { Text = ClaimTeams.RisksmartGCC, Value = ClaimTeams.RisksmartGCC });
+
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartPropertyManager) ||
+                ClaimHelper.IsMemberOfTeam(HonanClaimsPortal.Helpers.ClaimTeamsByTeamNames.RisksmartProperty))
+                model.Claim_Team_List.Add(new SelectListItem() { Text = ClaimTeams.RisksmartProperty, Value = ClaimTeams.RisksmartProperty });
+
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.PropertyClaimsManager) ||
+                ClaimHelper.IsMemberOfTeam(HonanClaimsPortal.Helpers.ClaimTeamsByTeamNames.PropertyClaims))
+                model.Claim_Team_List.Add(new SelectListItem() { Text = ClaimTeams.PropertyClaims, Value = ClaimTeams.PropertyClaims });
+
+            if (ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.GCCClaimsManager) ||
+                ClaimHelper.IsMemberOfTeam(HonanClaimsPortal.Helpers.ClaimTeamsByTeamNames.GCCClaims))
+                model.Claim_Team_List.Add(new SelectListItem() { Text = ClaimTeams.GCCClaims, Value = ClaimTeams.GCCClaims });
+
+
+            //model.Claim_Team_List = new List<SelectListItem>()
+            //{
+            //    new SelectListItem(){ Text = ClaimTeams.RisksmartGCC, Value=ClaimTeams.RisksmartGCC},
+            //    new SelectListItem(){ Text = ClaimTeams.RisksmartProperty, Value=ClaimTeams.RisksmartProperty},
+            //    new SelectListItem(){ Text = ClaimTeams.PropertyClaims, Value=ClaimTeams.PropertyClaims},
+            //    new SelectListItem(){ Text = ClaimTeams.GCCClaims, Value=ClaimTeams.GCCClaims}
+            //};
 
             model.Claim_Type_List = new List<SelectListItem>()
             {

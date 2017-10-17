@@ -50,6 +50,8 @@ namespace HonanClaimsPortal.Controllers
             model.Property_Postalcode = newClaimModel.Property_Postalcode;
             model.Property_State = newClaimModel.Property_State;
             model.Property_Suburb = newClaimModel.Property_Suburb;
+            model.Insurer = newClaimModel.Insurer;
+            model.InsurerName = newClaimModel.InsurerName;
 
             // Get Claim Reference #
             model.Claim_Reference_Num = claimServices.GenerateClaimRefNo(model.Claim_Team);
@@ -229,6 +231,9 @@ namespace HonanClaimsPortal.Controllers
             model.Claim_Declined = model.Claim_Declined == null || model.Claim_Declined == false ? false : true;
 
             model.IncidentTypeList = pickListServices.GetPickListItems("Risksmart Property Incident Type");
+
+            model.Bodily_Location_List = pickListServices.GetPickListItems("Honan Claims Bodily Location");
+            model.Bodily_Location_List.Insert(0, new PicklistItem());
         }
 
         [HttpPost]
