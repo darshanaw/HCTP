@@ -11,5 +11,6 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public string AccountStoreId { get; set; }
         public string StoreName { get; set; }
         public string Address { get; set; }
+        public string Region { get; set; }
     }
 }

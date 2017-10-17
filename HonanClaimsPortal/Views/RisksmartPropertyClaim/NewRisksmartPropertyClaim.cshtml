@@ -102,7 +102,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">* Reported Date</label>
                                 <div class="col-sm-9">
-                                    <div id="datetimepicker1" class="input-group dateCalendar">
+                                    <div id="dtpReportedDate" class="input-group dateCalendar">
                                         @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -295,7 +295,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Incident Date</label>
                                 <div class="col-sm-9">
-                                    <div id="datetimepicker2" class="input-group dateCalendar">
+                                    <div id="dtpIncidentDate" class="input-group dateCalendar">
                                         @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -416,7 +416,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                             <div class="col-md-12 col-sm-12 form-group top-padding">
                                 <label class="col-sm-3 control-label input-sm">Bodily Location</label>
                                 <div class="col-sm-9">
-                                    @Html.TextBoxFor(o => o.Bodily_Location, new { @class = "form-control input-sm", @maxlength = 200 })
+                                    @Html.DropDownListFor(model => model.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"),
+                                            new { @class = "form-control input-sm" })
                                 </div>
                             </div>
 
@@ -644,7 +645,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                 </div>
                             </div>
 
-                            <div class="col-md-12 col-sm-12">
+                            @*<div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                     <div class="col-sm-9">
@@ -663,7 +664,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         }
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
@@ -987,11 +988,18 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     $(document).ready(function () {
 
 
+
         $('#Property_Suburb').select2({ width: '100%' });
 
         if ($("#Property_Suburb").length > 0) {
             $("#Property_Suburb").val($("#Property_Suburb").val()).trigger('change.select2');;
         }
+
+        $("#Bodily_Location").select2({
+            //multiple: true,
+            tags: true,
+            theme: "bootstrap"
+        });
 
 
         $('#Incident_Category').select2({
@@ -1027,6 +1035,28 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         $(document).on("submit", "form", function (event) {
             // disable unload warning
             $(window).off('beforeunload');
+        });
+
+        $('#dtpReportedDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpReportedDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Reported Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpIncidentDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpIncidentDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Incident Date cannot be a future date",
+                    size: 'small'
+                });
+            }
         });
 
     });

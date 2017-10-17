@@ -226,6 +226,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<string> YesNoList { get; set; }
         public List<PicklistItem> PropertySuburbList { get; set; }
         public NextAction NextAction { get; set; }
-
+        public List<PicklistItem> Client_Group_List { get; set; }
+        
     }
 }

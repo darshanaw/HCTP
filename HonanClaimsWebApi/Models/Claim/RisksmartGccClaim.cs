@@ -243,5 +243,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<string> PanelLawyersRetainedList { get; set; }
         public List<PicklistItem> PropertySuburbList { get; set; }
         public NextAction NextAction { get; set; }
+        public List<PicklistItem> Bodily_Location_List { get; set; }
+        public List<PicklistItem> Client_Group_List { get; set; }
+
     }
 }

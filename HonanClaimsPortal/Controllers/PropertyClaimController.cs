@@ -54,6 +54,8 @@ namespace HonanClaimsPortal.Controllers
             claim.Property_State = newClaimModel.Property_State;
             claim.Property_Suburb = newClaimModel.Property_Suburb;
             claim.Account_Manager_Property = newClaimModel.AccountManager;
+            claim.Insurer = newClaimModel.Insurer;
+            claim.InsurerName = newClaimModel.InsurerName;
 
             //claim.Claim_Team = login.ClaimTeam;
             //claim.Claim_Type = string.IsNullOrEmpty(Request.QueryString[QueryStringHelper.PageType]) ? Session[SessionHelper.Page].ToString() : Request.QueryString[QueryStringHelper.PageType];

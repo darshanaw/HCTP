@@ -54,6 +54,8 @@ namespace HonanClaimsPortal.Controllers
             model.Property_Postalcode = newClaimModel.Property_Postalcode;
             model.Property_State = newClaimModel.Property_State;
             model.Property_Suburb = newClaimModel.Property_Suburb;
+            model.Insurer = newClaimModel.Insurer;
+            model.InsurerName = newClaimModel.InsurerName;
 
             // Get Claim Reference #
             model.Claim_Reference_Num = claimServices.GenerateClaimRefNo(model.Claim_Team);
@@ -185,8 +187,8 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
             model.Policy_Class_List.Insert(0, new PicklistItem());
 
-            model.ClientGroupList = pickListServices.GetPickListItems("Risksmart GCC Client Group");
-            model.ClientGroupList.Insert(0, new PicklistItem());
+            model.Client_Group_List = pickListServices.GetPickListItems("Risksmart GCC Client Group");
+            model.Client_Group_List.Insert(0, new PicklistItem());
 
             if (model.Reported_Time != null)
             {
@@ -262,6 +264,8 @@ namespace HonanClaimsPortal.Controllers
             model.IncidentTypeList = pickListServices.GetPickListItems("Risksmart GCC Incident Type");
             model.YesNoList = new List<string>() { "", "Yes", "No" };
 
+            model.Bodily_Location_List = pickListServices.GetPickListItems("Honan Claims Bodily Location");
+            model.Bodily_Location_List.Insert(0, new PicklistItem());
         }
 
         [HttpPost]

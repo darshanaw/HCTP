@@ -28,7 +28,11 @@
 
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
-        });
+        })
+        //    .on('dp.change', function (e) {
+        //    debugger;
+        //    alert(e);
+        //});;
             
     });
 
@@ -1334,6 +1338,17 @@
 <script>
     $(document).ready(function () {
 
+        //$('#datetimepicker3').on('dp.change', function (e) {
+        //    var today = new Date();
+        //    if (e.date._d > today) {
+        //        $('#datetimepicker3').data("DateTimePicker").date(new Date())
+        //        bootbox.alert({
+        //            message: "Reported Date cannot be a future date",
+        //            size: 'small'
+        //        });
+        //    }
+        //})
+        
         showBanner();
 
         $('#formRisksmartGccClaim').submit(function () {
@@ -1646,5 +1661,6 @@
             });
         }
     }
+       
 
 </script>

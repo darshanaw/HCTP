@@ -33,5 +33,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Property_State { get; set; }
         public string Property_Postalcode { get; set; }
         public string AccountManager { get; set; }
+        public string InsurerName { get; set; }
+        public string Insurer { get; set; }
     }
 }

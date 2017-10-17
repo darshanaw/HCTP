@@ -14,6 +14,12 @@ namespace HonanClaimsPortal.Helpers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)HttpContext.Current.Session[SessionHelper.claimTeamLogin];
             return client.Teams.Contains(teamName);
         }
+
+        public static bool IsMemberOfTeam(string teamName)
+        {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)HttpContext.Current.Session[SessionHelper.claimTeamLogin];
+            return client.Teams.IndexOf(teamName) != -1 ? true : false;
+        }
     }
 
     public class ClaimTeamManagers
@@ -31,4 +37,14 @@ namespace HonanClaimsPortal.Helpers
         public const string RisksmartGCC = "Risksmart GCC";//"Risksmart GCC Team";
         public const string RisksmartProperty = "Risksmart Property"; //"Risksmart Property Team"
     }
+
+
+    public class ClaimTeamsByTeamNames
+    {
+        public const string GCCClaims = "GCC Claim Team"; 
+        public const string PropertyClaims = "Property Claims Team"; 
+        public const string RisksmartGCC = "Risksmart GCC Team";
+        public const string RisksmartProperty = "Risksmart Property Team"; 
+    }
+
 }

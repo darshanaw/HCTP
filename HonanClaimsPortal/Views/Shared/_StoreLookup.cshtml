@@ -83,7 +83,7 @@
                     "sName": "StoreName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a id="txtRRNo" href="javascript:void(0);" onclick="closeStoreModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\');">' + oObj[0] + '</a>';
+                        return '<a id="txtRRNo" href="javascript:void(0);" onclick="closeStoreModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[2] + '\');">' + oObj[0] + '</a>';
                         //return "<a  onclick='closeStoreModal(this," + oObj[0] + ");' href='#/'  return false;>" + oObj[0] + "</a>";
                     }
                 },
@@ -93,14 +93,19 @@
         });
     });
 
-    function closeStoreModal(storeName,address)
+    function closeStoreModal(storeName,address,region)
     {
+        alert(region);
         //var text = $(val).text();
         $("#Storeid_Name").val(storeName);
-
+                
         if ($("#Incident_Address").length > 0) {
 
             $("#Incident_Address").val(address);
+        }
+        if ($("#Region").length > 0) {
+
+            $("#Region").val(region);
         }
 
         $('#StoresModal').modal('toggle');

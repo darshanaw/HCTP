@@ -96,7 +96,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mb">
+                            @*<div class="form-group mb">
                                 <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                 <div class="col-sm-9">
                                     @if (string.IsNullOrEmpty(Model.Policy_No))
@@ -113,7 +113,7 @@
                      new { @class = "form-control input-sm" })
                                     }
                                 </div>
-                            </div>
+                            </div>*@
 
                         </div>
 
@@ -155,7 +155,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Reported Date</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group dateCalendar">
+                                        <div id="dtpReportedDate" class="input-group dateCalendar">
                                             @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                             <span id="spnReportedDate" class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                 <span class="fa fa-calendar"></span>
@@ -204,16 +204,6 @@
 
                             <div class="col-md-12">
                                 <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Region</label>
-                                    <div class="col-sm-9">
-                                        @Html.DropDownListFor(model => model.Region, new SelectList(Model.RegionList, "Text", "Text"), "",
-         new { @class = "form-control input-sm", @name = "Region", @style = "width:100%" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">* Store</label>
                                     <div class="col-sm-9">
                                         <div class="input-group">
@@ -228,6 +218,15 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Region</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(model => model.Region, new SelectList(Model.RegionList, "Text", "Text"), "",
+         new { @class = "form-control input-sm", @name = "Region", @style = "width:100%" })
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-md-12">
                                 <div class="form-group mb">
@@ -282,7 +281,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Incident Date</label>
                                     <div class="col-sm-9">
-                                        <div id="datetimepicker2" class="input-group dateCalendar">
+                                        <div id="dtpIncidentDate" class="input-group dateCalendar">
                                             @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
                                             <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                 <span class="fa fa-calendar"></span>
@@ -376,7 +375,8 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Bodily Location</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Bodily_Location, new { @class = "form-control input-sm ", @maxlength = 200 })
+                                        @Html.DropDownListFor(model => model.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"),
+                                            new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -389,14 +389,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 col-sm-12">
+                            @*<div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Witnesses</label>
                                     <div class="col-sm-9">
                                         @Html.TextAreaFor(o => o.Treatment_Given, new { @class = "form-control input-sm tabm" })
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="col-md-12">
                                 <div class="form-group mb">
@@ -486,7 +486,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">DoB</label>
                                     <div class="col-sm-9">
-                                        <div id="datetimepicker1" class="input-group dateCalendar">
+                                        <div id="dtpDob" class="input-group dateCalendar">
                                             @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
                                             <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                 <span class="fa fa-calendar"></span>
@@ -588,7 +588,8 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Client Group</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Client_Group, new { @class = "form-control input-sm" })
+                                        @Html.DropDownListFor(model => model.Client_Group, new SelectList(Model.Client_Group_List, "Text", "Text"),
+                        new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -864,7 +865,14 @@ new { @class = "form-control input-sm" })
         //To get rid of date format validation error
         jQuery.validator.methods["date"] = function (value, element) { return true; }
 
-        $("#Region").select2({
+        //$("#Region").select2({
+        //    //multiple: true,
+        //    tags: true,
+        //    theme: "bootstrap"
+        //});
+
+
+        $("#Bodily_Location").select2({
             //multiple: true,
             tags: true,
             theme: "bootstrap"
@@ -897,6 +905,39 @@ new { @class = "form-control input-sm" })
             $(window).off('beforeunload');
         });
 
+        $('#dtpReportedDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpReportedDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Reported Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpIncidentDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpIncidentDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Incident Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpDob').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpDob').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "DoB cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
     });
 
     function Cancel() {
@@ -904,4 +945,19 @@ new { @class = "form-control input-sm" })
         $(window).off('beforeunload');
         window.location.href = '/claimlist/Index';
     }
+
+    var firstOpen = true;
+    $(function () {
+        $('#dtpDob').datetimepicker({
+            viewMode: 'years',
+            format: 'DD/MM/YYYY',
+        }).on("dp.show", function () {
+            console.log("dtp open");
+            if (firstOpen == true) {
+                var year = new Date().getFullYear() - 18;
+                $(this).data('DateTimePicker').date("01/01/" + year);
+                firstOpen = false;
+            }
+        });
+    });
 </script>

@@ -426,7 +426,7 @@ namespace HonanClaimsPortal.Controllers
 
             foreach (StoreSimple item in filteredRecords)
             {
-                string[] arry = new string[] { item.StoreName, item.Address };
+                string[] arry = new string[] { item.StoreName, item.Address,item.Region };
                 aData.Add(arry);
             }
 
