@@ -114,6 +114,8 @@ namespace HonanClaimsPortal.Controllers
             TeamGetPortalRegistrationRepo teamGetPortalRegistrationRepo = new TeamGetPortalRegistrationRepo();
             obj = await teamGetPortalRegistrationRepo.GetTeamGetPortalRegistration(portalRegRequestId);
             ViewBag.portalRegRequestId = portalRegRequestId.ToString();
+            //obj.Account_Id = "A6UJ9A0019K8";
+
             return View(obj);
             //return Json(obj, JsonRequestBehavior.AllowGet);
         }

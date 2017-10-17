@@ -16,7 +16,7 @@ namespace HonanClaimsPortal.Controllers
     public class NewContactAccountController : Controller
     {
         // GET: NewContactAccount
-        public async Task<ActionResult> Index(string ContactName, string Phone, string Email, string portalRegRequestId, bool ajax = false, bool fromProtal = false)
+        public async Task<ActionResult> Index(string FirstName,string LastName, string Phone, string EmailAddress, string portalRegRequestId, bool ajax = false, bool fromProtal = false)
         {
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
@@ -28,17 +28,15 @@ namespace HonanClaimsPortal.Controllers
 
             if (fromProtal)
             {
-                if (ContactName != null && ContactName != "null")
-                {
-                    model.Contact = ContactName;
-                }
+                model.Contact = FirstName+" "+ LastName;
+                
                 if (Phone != null && Phone != "null")
                 {
                     model.Phone = Phone;
                 }
-                if (Email != null && Email != "null")
+                if (EmailAddress != null && EmailAddress != "null")
                 {
-                    model.Email = Email;
+                    model.Email = EmailAddress;
                 }
                 if (portalRegRequestId != null && portalRegRequestId != "null")
                 {
