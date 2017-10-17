@@ -1581,6 +1581,11 @@
               {
                   showBanner = true;
               }
+
+              if (Model.Claim_Status == "Closed" || Model.Claim_Type == HonanClaimsPortal.Helpers.ClaimType.Notification.ToString())
+              {
+                  showBanner = false;
+              }
         }
         if ("@showBanner" == "True") {
 

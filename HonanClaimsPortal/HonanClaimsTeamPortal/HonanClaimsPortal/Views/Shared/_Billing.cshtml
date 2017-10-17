@@ -273,7 +273,7 @@
         //$("#txtCurrentPageSum").val(curretpagesum);
     }
 
-    function loadBillingDetail(BillingId,startTime, endTime) {
+    function loadBillingDetail(BillingId, startTime, endTime, timeDiff) {
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
                
@@ -325,6 +325,16 @@
                 $("#H_Claimsid_Billing").val($("#H_Claimsid").val());
                 $("#Service_By").val(result.Service_By);
                 $("#Is_Billable").val(result.Is_Billable);
+                $("#Billable").val(result.Billable);
+                $("#Units").val(result.Units);
+
+                if (timeDiff != '' && typeof timeDiff !== "undefined" && timeDiff != 'NaN') {
+                    if (timeDiff < 6) {
+
+                        $("#Units").val("1");
+
+                    }
+                }
 
                 if (!result.Claim_No)
                 {                    
@@ -338,7 +348,7 @@
                     $.ajax({
                         url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + $("#H_Claimsid").val(),
                         success: function (data) {
-                            debugger;
+                           
                             $('#Client_Name').val(data.Text);
                             $("#ClientId").val(data.Code);
                             
@@ -347,6 +357,10 @@
                                 var RatePUNIT = (RatePHR / 60 * 6);
                                 $("#Rate").val(data.Order);
                                 $("#Rate_Per_Unit").val(RatePUNIT);
+                                
+                                var Rate_ = $("#Rate_Per_Unit").val();
+                                var val_ = (Rate_ * $("#Units").val()).toFixed(2);
+                                $("#Billable").val(val_);
                             }
                         }
                     });
@@ -376,8 +390,7 @@
                 $("#Service_Date").val(result.Service_Date);
                 $("#Qty_Mins").val(result.Qty_Mins);
                 $("#Rate").val(result.Rate);
-                $("#Billable").val(result.Billable);
-
+               
                 if (startTime != '' && typeof startTime !== "undefined")
                     result.sStart_Time = startTime;
 
@@ -388,6 +401,7 @@
                 if (endTime != '' && typeof endTime !== "undefined")
                     result.sEnd_Time = endTime;
 
+                                
                 $("#sEnd_Time").val(result.sEnd_Time);
                 var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
                 Endtimepicker.value(result.sEnd_Time);
@@ -417,7 +431,8 @@
                 $("#Invoice_No").val(result.Invoice_No);
                 $("#Invoice_Date").val(result.Invoice_Date);
                 $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
-                $("#Units").val(result.Units);
+                
+
                 $("#Work_Done").val(result.Work_Done);
                 $("#Service_By_Name").val(result.Service_By_Name);
                 $("#Quarter").val(result.Quarter);

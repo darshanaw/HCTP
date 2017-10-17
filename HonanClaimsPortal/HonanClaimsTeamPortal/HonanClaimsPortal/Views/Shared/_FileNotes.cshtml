@@ -1,10 +1,10 @@
 ﻿
 <style>
 
-    .FileNoteDetailModal {
+    /*.FileNoteDetailModal {
         max-height: calc(100vh - 200px);
         overflow-y: auto;
-    }
+    }*/
 
 </style>
 
@@ -119,24 +119,23 @@
             searchText: $("#FileNotessearchTxt").val()
         });
 
-        
+
     }
 
-    function clearFileNoteControls()
-    {
+    function clearFileNoteControls() {
+
         //$("#CreatedBy_Id_Fn").val("");
         //$("#ClaimId_Fn").val("");
         //$("#ClaimRefNo_Fn").val("");
-        $("#FileNoteDate_Fn").val("");
+        $("#FileNoteDate_Fn").val('@DateTime.Now.ToString("dd/MM/yyyy")');
         //$("#CreatedBy_Fn").val("");
-        //$("#CreatedDate_Fn").val("");
+        $("#CreatedDate_Fn").val('@DateTime.Now.ToString("dd/MM/yyyy")');
         $("#ShortDescription_Fn").val("");
         $("#Detail_Fn").val("");
         $("#H_FileNotesId_Fn").val("");
     }
 
-    function loadFileNoteDetail(fileNoteId)
-    {
+    function loadFileNoteDetail(fileNoteId) {
         $.ajax({
             url: "/ClaimDetailTabs/getFuleNoteById?fileNoteId=" + fileNoteId, success: function (result) {
 
@@ -159,11 +158,11 @@
         $("#btnNewFileNote").click(function () {
 
             clearFileNoteControls();
-           
+
         });
 
-       
-        
+
+
     }
 
 </script>
