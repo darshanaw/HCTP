@@ -289,7 +289,7 @@
             var eDate = new Date(e.sender.value());
 
             if (sDate > eDate) {
-                bootbox.alert("Start time cannot be later than end time");
+                bootbox.alert("End time cannot be earlier than start time");
                 var Endtimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
                 Endtimepicker.value(preEndOpenTime);
 
