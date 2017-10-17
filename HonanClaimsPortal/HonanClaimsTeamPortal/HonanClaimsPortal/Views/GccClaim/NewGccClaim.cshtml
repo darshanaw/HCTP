@@ -134,7 +134,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 col-sm-12 form-group">
+                            @*<div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">* Reported Time</label>
                                 <label class="col-sm-1 control-label input-sm text-right">HH</label>
                                 <div class="col-sm-3">
@@ -145,7 +145,6 @@
                                    Text = i.ToString().PadLeft(2, '0'),
                                    Value = i.ToString().PadLeft(2, '0')
                                }), new { @class = "form-control input-sm" })
-                                    @*@Html.ValidationMessageFor(o => o.Reported_TimeH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                                 </div>
                                 <label class="col-sm-1 control-label input-sm text-center">-</label>
                                 <label class="col-sm-1 control-label input-sm text-right">Min</label>
@@ -156,9 +155,8 @@
                                    Text = i.ToString().PadLeft(2, '0'),
                                    Value = i.ToString().PadLeft(2, '0')
                                }), new { @class = "form-control input-sm" })
-                                    @*@Html.ValidationMessageFor(o => o.Reported_TimeM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">* Reported By</label>
@@ -294,6 +292,12 @@
                                     @Html.TextBoxFor(o => o.Email_Address, new { @class = "form-control input-sm", @maxlength = 200 })
                                 </div>
                             </div>
+                            <div class="col-md-12 col-sm-12 form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Special Instructions</label>
+                                <div class="col-sm-9">
+                                    @Html.TextAreaFor(o => o.Special_Instructions, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                </div>
+                            </div>
 
                         </fieldset>
 
@@ -310,14 +314,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Insured Name</label>
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm" })
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Insurer</label>
@@ -338,6 +335,47 @@
                                     <label class="col-sm-3 control-label input-sm">Insurer Ref</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(o => o.Insurer_Ref, new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Insured Name</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Insured Email</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Insured Address</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(o => o.Insured_Address, new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>

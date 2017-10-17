@@ -199,7 +199,7 @@ namespace HonanClaimsPortal.Controllers
             claim.CCTVViewedList = new List<string>() { "", "Yes", "No" };
 
             //claim.PanelLawyersRetainedList = new List<string>() { "", "Yes", "No" };
-            
+
 
             claim.Total_Incurred = claim.Total_Reserve + claim.Net_Paid_Liability + claim.Net_Paid_Defence;
 
@@ -237,7 +237,7 @@ namespace HonanClaimsPortal.Controllers
             if (claim.Total_Reserve < claim.Excess)
                 claim.Current_Exposure = claim.Total_Reserve;
             else
-                claim.Current_Reserve = claim.Excess - claim.Net_Paid_Liability - claim.Net_Paid_Defence;
+                claim.Current_Exposure = claim.Excess - claim.Net_Paid_Liability - claim.Net_Paid_Defence;
 
 
             claim.Claim_Closed = claim.Claim_Closed == null || claim.Claim_Closed == false ? false : true;

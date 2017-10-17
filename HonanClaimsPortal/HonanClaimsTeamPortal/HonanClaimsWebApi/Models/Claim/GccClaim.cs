@@ -133,9 +133,9 @@ namespace HonanClaimsWebApi.Models.Claim
         [Required(ErrorMessage = "Required Reported_Date")]
         public DateTime? Reported_Date { get; set; }
         public DateTime? Reported_Time { get; set; }
-        [Required(ErrorMessage = "Required Reported_TimeH")]
+        //[Required(ErrorMessage = "Required Reported_TimeH")]
         public string Reported_TimeH { get; set; }
-        [Required(ErrorMessage = "Required Reported_TimeM")]
+        //[Required(ErrorMessage = "Required Reported_TimeM")]
         public string Reported_TimeM { get; set; }
         [Required(ErrorMessage = "Required Incident_Date")]
         public DateTime? Incident_Date { get; set; }
@@ -200,10 +200,22 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Policy_Class_Selection { get; set; }
         //New fields end
 
+
+        //New Fieldss
+        public string Insured_Work_Phone { get; set; }
+        public string Insured_Mobile_Phone { get; set; }
+        public string Insured_Email { get; set; }
+        public string Insured_Address { get; set; }
+        public bool Converted_From_Notification { get; set; }
+        public string Notification_Conversion_Date { get; set; }
+        public string Special_Instructions { get; set; }
+        public string Work_Related { get; set; }
+
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> Outcome_List { get; set; }
         public List<PicklistItem> Claim_Status_List { get; set; }
         public List<PicklistItem> IncidentPartyTypeList { get; set; }
+        public List<PicklistItem> IncidentTypeList { get; set; }
         public List<PicklistItem> RegionList { get; set; }
         public List<PicklistItem> IncidentCategoryList { get; set; }
         public List<PicklistItem> Assigned_User_List { get; set; }
