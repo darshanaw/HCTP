@@ -51,13 +51,6 @@ namespace HonanClaimsWebApi.Models.Billing
                 }
             }
 
-            var tem = new ServicesUserModel();
-            tem.Code = "0001";
-            tem.Text = "";
-            tem.Text = "Krishan";
-
-            list.Add(tem);
-
             return list;
         }
 
