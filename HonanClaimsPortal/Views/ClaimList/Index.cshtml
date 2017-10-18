@@ -60,12 +60,15 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="radioset-2">
+                    <div class="radioset-3">
                         <div class="radio">
-                            <label class="input-sm"><input type="radio" id="openclaim" value="true" name="openclose">Open Claims</label>
+                            <label class="input-sm"><input type="radio" id="allclaimStatus" value="All" name="openclose">All</label>
                         </div>
                         <div class="radio">
-                            <label class="input-sm"><input type="radio" id="closeclaim" value="false" name="openclose">Close Claims</label>
+                            <label class="input-sm"><input type="radio" id="openclaim" value="Open" name="openclose">Open Claims</label>
+                        </div>
+                        <div class="radio">
+                            <label class="input-sm"><input type="radio" id="closeclaim" value="Closed" name="openclose">Closed Claims</label>
                         </div>
                     </div>
                 </div>
@@ -116,7 +119,7 @@
                 //set value when start
                 $('#myclaim').prop("checked", true)
                 //set value when start
-                $('#openclaim').prop("checked", true)
+                $('#allclaimStatus').prop("checked", true)
                 //set value when start
                 $('#typeall').prop("checked", true)
 
@@ -151,13 +154,12 @@
                             },
                             pageSize: 20
                         },
-                        height: 600,
                         sortable: true,
                         filterable: true,
                         pageable: {
                             refresh: true,
-                            pageSizes: true,
-                            buttonCount: 5
+                            pageSizes: [10, 20, 50,100],
+                            buttonCount: 10
                         },
                         columns: [{
                             hidden: true,
@@ -195,13 +197,14 @@
                     //set value when start
                     $('#myclaim').prop("checked", true)
                     //set value when start
-                    $('#openclaim').prop("checked", true)
+                    $('#allclaimStatus').prop("checked", true)
                     //set value when start
                     $('#typeall').prop("checked", true)
 
                     $('#searchTxt').val("");
                     $('#CustomerList').val("");
-                    $("#customer").data("kendoAutoComplete").value("");
+                    //$("#customer").data("kendoAutoComplete").value("");
+                    //$("#grid1").data("kendoGrid").dataSource.filter({});
                     LoadClaimGrid();
 
                 })
@@ -211,7 +214,7 @@
                 //    alert(ClaimTeam);
                 //}
 
-                $('#allclaim, #myclaim, #openclaim, #closeclaim, #typeall, #typeclaim, #typenoti').change(function () {
+                $('#allclaim, #myclaim, #allclaimStatus, #openclaim, #closeclaim, #typeall, #typeclaim, #typenoti').change(function () {
                     LoadClaimGrid();
                 });
 
