@@ -53,10 +53,10 @@
     <br />
     <div class="row">
         <div class="col-md-12">
-            @if (Model.MatchingContacts != null)
+            @*@if (Model.MatchingContacts != null)
             {
                 <button type="submit" id="btnSaveSelected" class="btn btn-primary mr-20">Use Selected Contact<i class="fa fa-angle-double-right ml-10 mr-10" aria-hidden="true"></i>New Loging</button>
-            }
+            }*@
             <button type="submit" id="btnSaveDelete" class="btn btn-default">Discard Login Requestion (Delete)</button>
             <div class="pull-right">
                 <button type="submit" id="btnSaveCreate" class="btn btn-primary">Create New Contact</button>
@@ -115,8 +115,8 @@
         </div>
     </div>
 </div>
-@Html.HiddenFor(m => m.Account_Id)
-@Html.HiddenFor(m=>m.H_Customerportaladminid)
+@*@Html.HiddenFor(m => m.Account_Id)
+@Html.HiddenFor(m=>m.H_Customerportaladminid)*@
 <script>
 
     function OpenLogingModel(H_PortalLoginId){
