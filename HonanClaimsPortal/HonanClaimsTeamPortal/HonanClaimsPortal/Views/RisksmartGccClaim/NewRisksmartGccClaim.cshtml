@@ -85,7 +85,7 @@
                                 <label class="col-sm-3 control-label input-sm">Policy #</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
                                         <span class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
 
                                             <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
@@ -936,6 +936,15 @@ new { @class = "form-control input-sm" })
                     size: 'small'
                 });
             }
+        });
+
+        $("#Broker_Account").change(function () {
+            if ($("#Broker_Account").val() == "") {
+                $("#Broker_Account_Id").val("");
+                $("#Broker_Name").val("");
+                $("#Broker_Name_Id").val("");
+            }
+         
         });
 
     });

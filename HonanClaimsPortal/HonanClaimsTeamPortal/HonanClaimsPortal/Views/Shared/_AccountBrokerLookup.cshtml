@@ -59,7 +59,7 @@
         $('#tbAccountBroker').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/AccountAjaxHandler",
+            "sAjaxSource": "/Lookup/BrokerAjaxHandler",
             "paging": false,
             "bProcessing": false,
             "bsearch": false,
@@ -99,6 +99,8 @@
             $("#Broker_Account_Id").val(ocNum);
         }
 
+        $("#Broker_Name").val("");
+        $("#Broker_Name_Id").val("");
         
 
         $('#AccountBrokerModal').modal('toggle');

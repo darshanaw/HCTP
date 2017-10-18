@@ -25,5 +25,6 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public Decimal Excess { get; set; }
         public string UnderwriterId { get; set; }
         public string UnderwriterName { get; set; }
+        public string Insured_Name { get; set; }
     }
 }
