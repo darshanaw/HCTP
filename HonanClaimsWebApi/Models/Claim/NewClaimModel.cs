@@ -35,5 +35,6 @@ namespace HonanClaimsWebApi.Models.Claim
         public string AccountManager { get; set; }
         public string InsurerName { get; set; }
         public string Insurer { get; set; }
+        public string Insured_Name { get; set; }
     }
 }

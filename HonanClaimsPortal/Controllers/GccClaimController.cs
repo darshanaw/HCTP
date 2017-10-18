@@ -55,6 +55,7 @@ namespace HonanClaimsPortal.Controllers
             claim.Property_Suburb = newClaimModel.Property_Suburb;
             claim.Insurer = newClaimModel.Insurer;
             claim.InsurerName = newClaimModel.InsurerName;
+            claim.Insured_Name = newClaimModel.Insured_Name;
 
             // Get Claim Reference #
             claim.Claim_Reference_Num = claimServices.GenerateClaimRefNo(claim.Claim_Team);

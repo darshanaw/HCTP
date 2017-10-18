@@ -294,7 +294,7 @@ namespace HonanClaimsPortal.Controllers
             {
                 string[] arry = new string[] { item.PolicyId, item.PolicyNo, item.PolicyClass, item.PolicyStatus, item.Address1, item.Address2, item.Suburb, item.State, item.Postcode, item.PolicyExpiry, item.AccountManager,
                     item.PeriodFrom != null ? DateTime.Parse(item.PeriodFrom.ToString()).ToShortDateString() : "" 
-                    , item.PeriodTo != null ? DateTime.Parse(item.PeriodTo.ToString()).ToShortDateString() : "", item.Excess.ToString(),item.UnderwriterId,item.UnderwriterName};
+                    , item.PeriodTo != null ? DateTime.Parse(item.PeriodTo.ToString()).ToShortDateString() : "", item.Excess.ToString(),item.UnderwriterId,item.UnderwriterName,item.Insured_Name};
 
                 aData.Add(arry);
             }
@@ -449,7 +449,7 @@ namespace HonanClaimsPortal.Controllers
             List<CRMContactSimple> objectList = new List<CRMContactSimple>();
 
             objectList =
-                lookupServices.GetContactLookup("", accountId);
+                lookupServices.GetContactLookup(param.sSearch == null ? "" : param.sSearch, accountId);
 
 
             IEnumerable<CRMContactSimple> filteredRecords = objectList;
@@ -521,6 +521,63 @@ namespace HonanClaimsPortal.Controllers
             HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
             ClaimServices claimServices = new ClaimServices();
             return Json(claimServices.ConvertNotificationToClaim(login.UserId, claimId, policyNo, assignedUserId, teamName), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult BrokerAjaxHandler(jQueryDataTableParamModel param)
+        {
+            lookupServices = new LookupServices();
+            List<AccountSimpleModel> objectList = new List<AccountSimpleModel>();
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                objectList = lookupServices.GetAccounts(param.sSearch, "");
+            }
+
+            IEnumerable<AccountSimpleModel> filteredRecords = objectList;
+
+            var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+            Func<AccountSimpleModel, string> orderingFunction = (c => sortColumnIndex == 1 ? c.AccountId :
+                                                                sortColumnIndex == 2 ? c.AccountName :
+                                                                sortColumnIndex == 3 ? c.AccountType :
+                                                                sortColumnIndex == 4 ? c.AccountManager :
+                                                                c.AccountName);
+
+            var sortDirection = Request["sSortDir_0"]; // asc or desc
+            if (sortDirection == "asc")
+                filteredRecords = filteredRecords.OrderBy(orderingFunction);
+            else
+                filteredRecords = filteredRecords.OrderByDescending(orderingFunction);
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filteredRecords = filteredRecords
+                            .Where(c => c.AccountName.ToUpper().Contains(param.sSearch.ToUpper()));
+                //           ||
+                //           c.Town.Contains(param.sSearch));
+            }
+
+
+
+            List<string[]> aData = new List<string[]>();
+
+            foreach (AccountSimpleModel item in filteredRecords)
+            {
+                string[] arry = new string[] { item.AccountId, item.AccountName, item.AccountType, item.AccountManager, item.BillingMethod };
+                aData.Add(arry);
+            }
+
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = 97,
+                iTotalDisplayRecords = 3,
+                aaData = aData
+
+            },
+
+            JsonRequestBehavior.AllowGet);
+
         }
 
 

@@ -1059,6 +1059,15 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             }
         });
 
+        $("#Broker_Account").change(function () {
+            if ($("#Broker_Account").val() == "") {
+                $("#Broker_Account_Id").val("");
+                $("#Broker_Name").val("");
+                $("#Broker_Name_Id").val("");
+            }
+
+        });
+
     });
 
     function Cancel() {
