@@ -148,6 +148,15 @@ namespace HonanClaimsPortal.Controllers
 
                 var CustomerList = await billingSimpleRepo.GetCustomerList(UserId);
                 var ServeiceUserList = await billingSimpleRepo.GetServeiceUserList();
+
+                var removeitem = ServeiceUserList.Single(r => r.Code == UserId);
+                if (removeitem != null)
+                {
+                    ServeiceUserList.Remove(removeitem);
+                }
+
+                ServeiceUserList.Insert(0, removeitem);
+
                 CustomerList.Insert(0, new CustomerUserModel());
                 returnModel.CustomerUserModel = CustomerList;
                 returnModel.ServicesUserModel = ServeiceUserList;
