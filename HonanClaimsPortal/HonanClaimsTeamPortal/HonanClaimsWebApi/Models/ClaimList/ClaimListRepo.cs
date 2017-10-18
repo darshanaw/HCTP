@@ -56,5 +56,27 @@ namespace HonanClaimsWebApi.Models.ClaimList
             return list;
         }
 
+        public async Task<List<ClaimListModel>> getClaimListSearchTextOnly(string userId,string searchText)
+        {
+            List<ClaimListModel> list = new List<ClaimListModel>();
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Claim/TeamGetMyClaimListSearchAllOnly?assignedToId=" + userId + "&searchText=" + searchText;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ClaimListModel>>(data);
+
+                }
+            }
+            return list;
+        }
+
     }
 }

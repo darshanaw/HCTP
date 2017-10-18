@@ -39,7 +39,7 @@
                         <div class="form-group mb">
                             <div class="col-sm-12">
                                 <div class="pull-right">
-                                    <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
+                                    <button id="clearFilter" type="button" class="btn btn-default mr-10">Clear Filter</button>
                                     <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
                                 </div>
                             </div>
@@ -219,7 +219,13 @@
                     LoadClaimGrid();
                 });
 
-               
+
+                $('#searchTxt').keydown(function (e) {
+                    if (e.keyCode == 13) {
+                        LoadClaimGrid();
+                    }
+                })
+
 
             });
 
