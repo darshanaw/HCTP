@@ -181,6 +181,9 @@ namespace HonanClaimsPortal.Controllers
             claim.Client_Group_List = pickListServices.GetPickListItems("Honan Claims Client Group");
             claim.Client_Group_List.Insert(0, new PicklistItem());
 
+            claim.Notification_Status_List = pickListServices.GetPickListItems("Honan Notification Status");
+            claim.Notification_Status_List.Insert(0, new PicklistItem());
+
             if (claim.Reported_Time != null)
             {
                 string time = DateTime.Parse(claim.Reported_Time.ToString()).ToString("HH:mm");

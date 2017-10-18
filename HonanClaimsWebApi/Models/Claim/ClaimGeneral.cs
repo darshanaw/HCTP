@@ -190,6 +190,9 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Notification_Conversion_Date { get; set; }
         public string Special_Instructions { get; set; }
         public string Work_Related { get; set; }
+        public string Notification_Status { get; set; }
+        public string Assigned_User_Name { get; set; }
+
 
         public string UserId { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }

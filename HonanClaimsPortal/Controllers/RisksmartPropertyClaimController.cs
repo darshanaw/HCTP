@@ -165,6 +165,9 @@ namespace HonanClaimsPortal.Controllers
             //model.ClientGroupList = pickListServices.GetPickListItems("Risksmart GCC Client Group");
             //model.ClientGroupList.Insert(0, new PicklistItem());
 
+            model.Notification_Status_List = pickListServices.GetPickListItems("Honan Notification Status");
+            model.Notification_Status_List.Insert(0, new PicklistItem());
+
             model.YesNoList = new List<string>() { "", "Yes", "No" };
 
             model.Liability_Reserve = model.Liability_Res_Source;
