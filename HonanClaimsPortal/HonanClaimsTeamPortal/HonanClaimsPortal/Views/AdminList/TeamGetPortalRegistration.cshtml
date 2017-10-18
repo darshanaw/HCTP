@@ -44,12 +44,12 @@
 
 <hr />
 <div class="main-container">
-    <div class="row">
+    @*<div class="row">
         <div class="col-md-12">
             <h3>CRM Matching Contacts</h3>
             <div id="ContactGrid"></div>
         </div>
-    </div>
+    </div>*@
     <br />
     <div class="row">
         <div class="col-md-12">
@@ -330,9 +330,9 @@
     }
 
 
-    $(document).ready(function() {
+    @*$(document).ready(function() {
 
-        var lines = @Html.Raw(Json.Encode(Model.MatchingContacts));
+        //var lines = @Html.Raw(Json.Encode(Model.MatchingContacts));
 
         var grid = $("#ContactGrid").kendoGrid({
             columns: [
@@ -361,7 +361,7 @@
             selectable: "row",
         });
 
-    });
+    });*@
 
 
 

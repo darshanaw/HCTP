@@ -60,27 +60,18 @@ namespace HonanClaimsWebApiAccess1.Models.ProtalLogingRequest
         public async Task<bool> TeamDiscardLoginRequest(string portalRegRequestId)
         {
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/AccountAndReg/TeamDiscardLoginRequest";
+            string apiUrl = SiteUrl + "api/AccountAndReg/TeamDiscardLoginRequest?portalRegRequestId="+ portalRegRequestId;
             using (HttpClient client = new HttpClient())
             {
-                using (var formData = new MultipartFormDataContent())
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
                 {
-                    client.BaseAddress = new Uri(apiUrl);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-
-                    var portalRegRequest = JsonConvert.SerializeObject(portalRegRequestId);
-                    var content = new StringContent(portalRegRequest, System.Text.Encoding.UTF8, "application/json");
-    
-                    formData.Add(content, "portalRegRequestId");
-
-                    HttpResponseMessage response = client.PostAsync(apiUrl, formData).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var data = await response.Content.ReadAsStringAsync();
-                        return true;
-                    }
+                    var data = await response.Content.ReadAsStringAsync();
+                    return true;
                 }
             }
             return false;

@@ -79,7 +79,7 @@ namespace HonanClaimsPortal.Controllers
 
             if (model.FromProtal)
             {
-                return RedirectToAction("TeamGetPortalRegistration", "AdminList", new { portalRegRequestId = model.portalRegRequestId });
+                return RedirectToAction("AdminList", "AdminList");
             }
             else
             {
