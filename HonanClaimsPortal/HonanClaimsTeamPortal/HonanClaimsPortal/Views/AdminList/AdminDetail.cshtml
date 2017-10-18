@@ -161,7 +161,7 @@
         <div class="main-container">
             <div class="row mt-15 mb-15">
                 <div class="col-md-12">
-                    <input type="submit" class="btn btn-primary" value="Submit" />
+                    <input type="submit" class="btn btn-primary" value="Save" />
                     <input type="button" id="btncancel" class="btn btn-primary" value="Cancel" />
                 </div>
             </div>
@@ -292,17 +292,6 @@
             }
         });
 
-
-        $("#btnPolicyLookup").click(function () {
-
-            var text = $('#Accsearch').val();
-            $.get("/AdminList/GetLookupAccounts?accountName=" + text, function (data) {
-                listofAccountdata = data;
-                loadGridData();
-            });
-
-        });
-
         function loadGridData() {
 
             $("#lookupAccountGrid").kendoGrid({
@@ -345,6 +334,36 @@
 
         }
 
+        $("#btnPolicyLookup").click(function () {
+
+            var text = $('#Accsearch').val();
+            $.get("/AdminList/GetLookupAccounts?accountName=" + text, function (data) {
+                listofAccountdata = data;
+                loadGridData();
+            });
+
+        });
+
+        $("#Accsearch").keyup(function () {
+            var val = $('#Accsearch').val();
+            if (val.length > 2) {
+                listofAccountdata = [];
+                $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
+
+                    listofAccountdata = data;
+                    loadGridData();
+                });
+            } else {
+                if (val == null || val == "") {
+                    listofAccountdata = [];
+                    $.get("/AdminList/GetLookupAccounts?accountName=", function (data) {
+                        listofAccountdata = data;
+                        loadGridData();
+                    });
+                }
+            }
+
+        });
 
         $("#claimupload").change(function (input) {
             var file1 = $('#claimupload').get(0).files;
@@ -397,6 +416,20 @@
                 ]
             });
         }
+
+        $('#newLogin').click(function () {
+            var accId = $('#Account_Id').val();
+            if (accId == null || accId == "")
+            {
+                bootbox.alert("Please add Account detail first");
+                return;
+            };
+            LoadContacts(accId);
+            $('#LoginDataModal').modal('show');
+            $("#Addlogin").show();
+            $("#Updatelogin").hide();
+        });
+
     });
 
 
@@ -434,26 +467,7 @@
 
     }
 
-    $("#Accsearch").keyup(function () {
-        var val = $('#Accsearch').val();
-        if (val.length > 2) {
-            listofAccountdata = [];
-            $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
-                debugger
-                listofAccountdata = data;           
-                loadGridData();
-            });
-        } else {
-            if (val == null || val == "") {
-                listofAccountdata = [];
-                $.get("/AdminList/GetLookupAccounts?accountName=", function (data) {
-                    listofAccountdata = data;
-                    loadgrid();
-                });
-            }
-        }
-
-    });
+   
 
     function accountClick(e) {
         $('#AccountId').val(e.id);
@@ -516,14 +530,7 @@
 
     });
 
-    $('#newLogin').click(function () {
-        var accId = $('#Account_Id').val();
-        if (accId == null || accId == "") { return; };
-        LoadContacts(accId);
-        $('#LoginDataModal').modal('show');
-        $("#Addlogin").show();
-        $("#Updatelogin").hide();
-    })
+  
 
     $("#closeLoginDataModal,#closeLoginDataModalbtn").click(function(){
         ClearLoging();

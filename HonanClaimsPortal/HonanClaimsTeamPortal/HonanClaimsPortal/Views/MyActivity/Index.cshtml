@@ -7,7 +7,7 @@
 
 <div class="content-wrapper">
     <h3>
-        My Activity Deadlines
+        My Activities
     </h3>
     <div class="col-md-3 mb">
         <div class="row">
@@ -89,7 +89,7 @@
                 <input id="fivedays" type="checkbox" value="true">
                 <label class="ml-10 input-sm">Due next 5 days</label>
             </div>
-            <div class="form-group mb-0">
+            <div style="display:none;" class="form-group mb-0">
                 <input id="ShowDue" type="checkbox" value="true">
                 <label class="ml-10 input-sm">Show with Due date</label>
             </div>
@@ -98,7 +98,7 @@
     <div class="col-md-3 mb">
         <div class="pull-right">
             <button id="clearFilter" type="button" class="btn btn-sm btn-default mr-20">Clear Filter</button>
-            <button id="filterList" type="button" class="btn btn-sm btn-primary">Filter Accounts</button>
+            <button id="filterList" type="button" class="btn btn-sm btn-primary">Filter Activities</button>
         </div>
     </div>
        <div class="col-md-12 top-padding-eight">
@@ -314,8 +314,8 @@
 
     //===================================
     $(document).ready(function () {
-        $('#overdue').prop("checked", true);
-        $('#ShowDue').prop("checked", true);
+        $('#overdue').prop("checked", false);
+        $('#ShowDue').prop("checked", false);
         loadactivity();
     });
 
@@ -413,10 +413,7 @@
                 
                 field: "ClaimRefNo",
                 title: "Claims Ref #",
-            },
-            {
-                field: "RowColor",
-                title: "RowColor",
+                //template: "<a href='/AccountList/AccountDetail?AccountId=#= AccountId #'>#= ClaimRefNo #</a>",
             },
             {
                 field: "Customer",
@@ -453,7 +450,6 @@
                 editor: customDateEditor
             },
             {
-                field: "Complete",
                 //template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
                 template: "<input onclick=\"InvokeNextSteps(this,'#= Seq #','#= ActivityTaskId #','#= Action #', '#= ClaimId #');\" type='checkbox' #if(Complete==true){ #checked disabled# } else { ## }# />"
             },
