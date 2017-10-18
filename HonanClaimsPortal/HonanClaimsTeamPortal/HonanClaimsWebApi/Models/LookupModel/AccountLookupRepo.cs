@@ -16,7 +16,7 @@ namespace HonanClaimsWebApiAccess1.Models.LookupModel
         {
             List<AccountLookup> list = new List<AccountLookup>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/General/GetAccountLookup?accountName=" + accountName + "&type=";
+            string apiUrl = SiteUrl + "api/General/GetAccountLookup?accountName=" + accountName + "&type=Customer";
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
