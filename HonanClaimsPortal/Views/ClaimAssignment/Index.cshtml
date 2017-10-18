@@ -41,7 +41,8 @@
                 transport: {
                     read: "/ClaimAssignment/TeamGetClaimAssigmentList/",
                 },
-                pageSize: 11,
+                pageSize: 10,
+                pageSizes: [10, 20, 50,100],
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
                         return { models: kendo.stringify(options.models) };
@@ -55,8 +56,8 @@
             sortable: true,
             pageable: {
                 refresh: true,
-                pageSizes: true,
-                buttonCount: 5
+                pageSizes: [10, 20, 50, 100],
+                buttonCount: 10
             },
             height: 450,
             columns: [
@@ -169,7 +170,7 @@
         $("#btnAssignNow").click(function () {
             var e = document.getElementById("DropList");
             var UserId = e.options[e.selectedIndex].value;
-            debugger;
+
             if (UserId == null || UserId == "") {
                 bootbox.alert("Please select user");
                 return false;

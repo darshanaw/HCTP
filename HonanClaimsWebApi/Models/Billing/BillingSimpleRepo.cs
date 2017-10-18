@@ -50,6 +50,14 @@ namespace HonanClaimsWebApi.Models.Billing
                     list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ServicesUserModel>>(data);
                 }
             }
+
+            var tem = new ServicesUserModel();
+            tem.Code = "0001";
+            tem.Text = "";
+            tem.Text = "Krishan";
+
+            list.Add(tem);
+
             return list;
         }
 
