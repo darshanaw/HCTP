@@ -16,8 +16,8 @@ namespace HonanClaimsWebApiAccess1.Models.TeamGetPortalRegistration
         public string EmailAddress { get; set; }
         public string Phone { get; set; }
         public string RegistrationDate { get; set; }
-        public string Account_Id { get; set; }
-        public string H_Customerportaladminid { get; set; }
+        //public string Account_Id { get; set; }
+        //public string H_Customerportaladminid { get; set; }
         public List<MatchingContactsModel> MatchingContacts { get; set; }
     }
 
