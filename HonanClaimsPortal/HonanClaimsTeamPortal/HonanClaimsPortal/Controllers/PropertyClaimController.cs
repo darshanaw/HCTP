@@ -169,6 +169,9 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_Section_List = pickListServices.GetPickListItems("Property Claims Policy Section");
             model.Policy_Section_List.Insert(0, new PicklistItem());
 
+            model.Notification_Status_List = pickListServices.GetPickListItems("Honan Notification Status");
+            model.Notification_Status_List.Insert(0, new PicklistItem());
+
 
             model.Claim_Received = model.Claim_Received == null || model.Claim_Received ==  false ? false : true;
             model.Claim_Acknowledged = model.Claim_Acknowledged == null || model.Claim_Acknowledged == false ? false : true;

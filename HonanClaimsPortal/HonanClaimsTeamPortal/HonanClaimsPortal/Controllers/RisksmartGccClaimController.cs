@@ -191,6 +191,9 @@ namespace HonanClaimsPortal.Controllers
             model.Client_Group_List = pickListServices.GetPickListItems("Risksmart GCC Client Group");
             model.Client_Group_List.Insert(0, new PicklistItem());
 
+            model.Notification_Status_List = pickListServices.GetPickListItems("Honan Notification Status");
+            model.Notification_Status_List.Insert(0, new PicklistItem());
+
             if (model.Reported_Time != null)
             {
                 string time = DateTime.Parse(model.Reported_Time.ToString()).ToString("HH:mm");

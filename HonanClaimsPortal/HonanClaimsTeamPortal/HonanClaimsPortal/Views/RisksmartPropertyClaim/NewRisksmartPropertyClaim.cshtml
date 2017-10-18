@@ -99,6 +99,19 @@
 
                         <fieldset>
 
+                            @if (Model.Claim_Type == "Notification")
+                            {
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Notification Status</label>
+                                        <div class="col-sm-9">
+                                            @Html.DropDownListFor(model => model.Notification_Status, new SelectList(Model.Notification_Status_List, "Text", "Text"),
+                        new { @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">* Reported Date</label>
                                 <div class="col-sm-9">
@@ -1066,6 +1079,17 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 $("#Broker_Name_Id").val("");
             }
 
+        });
+
+        $("#btnSubmit").click(function (e) {
+
+            if ($("#Claim_Type").val() == "Notification" && $("#Notification_Status").val() == '') {
+                $("#Notification_Status").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else {
+                $("#Notification_Status").removeClass("input-validation-error");
+            }
         });
 
     });

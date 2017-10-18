@@ -97,23 +97,23 @@
                             </div>
 
                             @*<div class="form-group mb">
-                                <label class="col-sm-3 control-label input-sm">Policy Class</label>
-                                <div class="col-sm-9">
-                                    @if (string.IsNullOrEmpty(Model.Policy_No))
-                                    {
-                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                    }
-                                    else if (!string.IsNullOrEmpty(Model.Policy_Class))
-                                    {
-                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                    }
-                                    else
-                                    {
-                                        @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
-                     new { @class = "form-control input-sm" })
-                                    }
-                                </div>
-                            </div>*@
+                                           <label class="col-sm-3 control-label input-sm">Policy Class</label>
+                                           <div class="col-sm-9">
+                                               @if (string.IsNullOrEmpty(Model.Policy_No))
+                                               {
+                                                   @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                               }
+                                               else if (!string.IsNullOrEmpty(Model.Policy_Class))
+                                               {
+                                                   @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                               }
+                                               else
+                                               {
+                                                   @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
+                                new { @class = "form-control input-sm" })
+                                               }
+                                           </div>
+                                       </div>*@
 
                         </div>
 
@@ -151,6 +151,19 @@
 
                         <fieldset>
 
+                            @if (Model.Claim_Type == "Notification")
+                            {
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Notification Status</label>
+                                        <div class="col-sm-9">
+                                            @Html.DropDownListFor(model => model.Notification_Status, new SelectList(Model.Notification_Status_List, "Text", "Text"),
+                        new { @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Reported Date</label>
@@ -166,21 +179,21 @@
                             </div>
 
                             @*<div class="col-md-12 col-sm-12 form-group mb">
-                                <label class="col-sm-3 control-label input-sm">* Reported Time</label>
-                                <label class="col-sm-1 control-label input-sm text-right">HH</label>
-                                <div class="col-sm-3">
-                                    @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
-         SelectListItem
-                               { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
-                                </div>
-                                <label class="col-sm-1 control-label input-sm text-center"> - </label>
-                                <label class="col-sm-1 control-label input-sm text-right">Min</label>
-                                <div class="col-sm-3">
-                                    @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
-         SelectListItem
-                               { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
-                                </div>
-                            </div>*@
+                                                       <label class="col-sm-3 control-label input-sm">* Reported Time</label>
+                                                       <label class="col-sm-1 control-label input-sm text-right">HH</label>
+                                                       <div class="col-sm-3">
+                                                           @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
+                                SelectListItem
+                                                      { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                       </div>
+                                                       <label class="col-sm-1 control-label input-sm text-center"> - </label>
+                                                       <label class="col-sm-1 control-label input-sm text-right">Min</label>
+                                                       <div class="col-sm-3">
+                                                           @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
+                                SelectListItem
+                                                      { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                       </div>
+                                                   </div>*@
 
 
 
@@ -390,13 +403,13 @@
                             </div>
 
                             @*<div class="col-md-12 col-sm-12">
-                                <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Witnesses</label>
-                                    <div class="col-sm-9">
-                                        @Html.TextAreaFor(o => o.Treatment_Given, new { @class = "form-control input-sm tabm" })
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Witnesses</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextAreaFor(o => o.Treatment_Given, new { @class = "form-control input-sm tabm" })
+                                        </div>
                                     </div>
-                                </div>
-                            </div>*@
+                                </div>*@
 
                             <div class="col-md-12">
                                 <div class="form-group mb">
@@ -570,7 +583,7 @@ new { @class = "form-control input-sm" })
                                         @if (Model.Litigated == null)
                                         {
                                             Model.Litigated = false;
-                                        }                                        
+                                        }
                                         @Html.CheckBoxFor(o => o.Litigated)
                                     </div>
                                 </div>
@@ -721,7 +734,7 @@ new { @class = "form-control input-sm" })
                 </div>
                 <div class="panel-footer text-right">
                     <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                    <button type="submit" class="mb-sm btn btn-primary">Save</button>
+                    <button id="btnSubmit" type="submit" class="mb-sm btn btn-primary">Save</button>
                 </div>
             </div>
         }
@@ -944,7 +957,19 @@ new { @class = "form-control input-sm" })
                 $("#Broker_Name").val("");
                 $("#Broker_Name_Id").val("");
             }
-         
+
+        });
+
+
+        $("#btnSubmit").click(function (e) {
+
+            if ($("#Claim_Type").val() == "Notification" && $("#Notification_Status").val() == '') {
+                $("#Notification_Status").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else {
+                $("#Notification_Status").removeClass("input-validation-error");
+            }
         });
 
     });

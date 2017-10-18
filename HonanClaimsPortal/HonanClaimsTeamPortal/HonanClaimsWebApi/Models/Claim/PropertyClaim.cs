@@ -217,6 +217,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Notification_Conversion_Date { get; set; }
         public string Special_Instructions { get; set; }
         public string Work_Related { get; set; }
+        public string Notification_Status { get; set; }
 
 
         public List<PicklistItem> ReportedByTypeList { get; set; }
@@ -238,5 +239,6 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<PicklistItem> Outcome_List { get; set; }
         public List<PicklistItem> Assigned_User_List { get; set; }
         public List<PicklistItem> Claim_Status_List { get; set; }
+        public List<PicklistItem> Notification_Status_List { get; set; }
     }
 }
