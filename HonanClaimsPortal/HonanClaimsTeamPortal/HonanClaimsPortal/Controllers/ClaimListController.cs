@@ -28,7 +28,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetClaimList(bool myclaimsOnly, bool isopenClaim, string claimType, string searchText, string cutomerId)
+        public async Task<ActionResult> GetClaimList(bool myclaimsOnly, string isopenClaim, string claimType, string searchText, string cutomerId)
         {
             try
             {

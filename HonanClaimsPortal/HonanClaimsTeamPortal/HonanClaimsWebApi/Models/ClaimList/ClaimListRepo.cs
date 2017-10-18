@@ -10,7 +10,7 @@ namespace HonanClaimsWebApi.Models.ClaimList
 {
     public class ClaimListRepo
     {
-        public async Task<List<ClaimListModel>> getClaimList(string userId, bool myclaimsOnly, bool isopenClaim, string claimType, string searchText, string cutomerId)
+        public async Task<List<ClaimListModel>> getClaimList(string userId, bool myclaimsOnly, string isopenClaim, string claimType, string searchText, string cutomerId)
         {
             List<ClaimListModel> list = new List<ClaimListModel>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
