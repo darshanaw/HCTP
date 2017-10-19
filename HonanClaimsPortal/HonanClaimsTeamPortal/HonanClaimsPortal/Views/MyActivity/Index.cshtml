@@ -447,7 +447,7 @@
                 title: "Due Date",
                 //field: "DueDate",
                 format: "dd/MMM/yyyy",
-                template: "#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                template: "#if(DueDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(DueDate), 'dd/MM/yyyy') #  #}#",
                 editor: customDateEditor
             },
             {
