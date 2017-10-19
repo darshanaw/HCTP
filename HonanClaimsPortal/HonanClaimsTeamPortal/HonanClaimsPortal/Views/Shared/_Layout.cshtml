@@ -167,9 +167,9 @@
                                         <a href="#" id="addNewFileNote" class="list-group-item">
                                             <small>New File Note</small>
                                         </a>
-                                        <a href="#" class="list-group-item">
+                                        @*<a href="#" class="list-group-item">
                                             <small>New Activity Task</small>
-                                        </a>
+                                        </a>*@
                                         <a href="#" id="addNewKeyDate" class="list-group-item">
                                             <small>New Key Date</small>
                                         </a>
@@ -1003,6 +1003,8 @@
             widget2.setDataSource(emptyemailnew);
             filearray = [];
             $('#ul').empty();
+
+            $("#sendEmailModal").modal('hide');
         }
 
 
