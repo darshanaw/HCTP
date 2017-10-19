@@ -455,7 +455,7 @@
             },
             {
                 field: "CompletedDate",
-                template: "#if(CompletedDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(CompletedDate), 'dd-MM-yyyy') #  #}#"
+                template: "#if(CompletedDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(CompletedDate), 'dd/MM/yyyy') #  #}#"
             },
             ],
             dataBound: function (e) {
