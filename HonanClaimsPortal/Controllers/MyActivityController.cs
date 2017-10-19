@@ -33,11 +33,20 @@ namespace HonanClaimsPortal.Controllers
             {
                 ActivityUserModel tem = new ActivityUserModel();
                 tem.Code = UserId;
-                tem.Text = client.FirstName + "" + client.LastName;
+                tem.Text = client.FirstName + " " + client.LastName;
                 tem.Order = "";
                 activityuser.Add(tem);
             }
+            else
+            {
+                var removeitem = activityuser.SingleOrDefault(r => r.Code == UserId);
+                if (removeitem != null)
+                {
+                    activityuser.Remove(removeitem);
+                }
+                activityuser.Insert(0, removeitem);
 
+            }
 
             returnModel.CustomerList = customerList;
             returnModel.OwnerList = ownerlist;
