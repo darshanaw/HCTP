@@ -132,7 +132,7 @@
                                                 </div>*@
                                             <div class="col-xs-8 pv-xs">
                                                 <div class="h3 m0 text-bold">Claim Reference #</div>
-                                                <div class="text-uppercase">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
+                                                <div class="h3 m0 text-uppercase">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
                                             </div>
                                         </div>
                                     </div>
@@ -530,7 +530,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @type = "number", @class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
                                 </div>
                             </div>
@@ -539,7 +539,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @type = "number", @class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Home_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
 
                                     </div>
                                 </div>
@@ -549,7 +549,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @type = "number", @class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
 
                                     </div>
                                 </div>
@@ -650,7 +650,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                        @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm"})
                                     </div>
                                 </div>
                             </div>
@@ -659,7 +659,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                        @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
