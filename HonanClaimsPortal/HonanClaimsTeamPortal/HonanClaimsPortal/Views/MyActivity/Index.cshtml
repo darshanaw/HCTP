@@ -377,6 +377,7 @@
                 transport: {
                     read: "/MyActivity/GetMyActivity?overdue=" + overdue + "&nextfiveday=" + nextfiveday + "&showwithdate=" + showwithdate + "&claimId=" + claimId + "&owner=" + owner + "&customerId=" + customerId + "&searchtext=" + search + "&assignId=" + assignId
                 },
+                pageSize: 20,
                 schema: {
                     model: {
                         id: "ActivityTaskId",
@@ -397,9 +398,13 @@
                 //serverPaging: false,
             },
             filterable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 20, 50, 100],
+                buttonCount: 10
+            },
             serverPaging: false,
             navigatable: true,
-            height: 550,
             sortable: true,
             editable: true,
             selectable: "single",
@@ -444,11 +449,11 @@
                 title: "SLA(Days)",
             },
             {
+                field: "DueDate",
                 title: "Due Date",
-                //field: "DueDate",
-                format: "dd/MMM/yyyy",
-                template: "#if(DueDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(DueDate), 'dd/MM/yyyy') #  #}#",
-                editor: customDateEditor
+                //format: "dd/MMM/yyyy",
+                //template: "#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
+                //editor: customDateEditor
             },
             {
                 //template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
@@ -456,6 +461,7 @@
             },
             {
                 field: "CompletedDate",
+                title: "Completed Date",
                 template: "#if(CompletedDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(CompletedDate), 'dd/MM/yyyy') #  #}#"
             },
             ],
