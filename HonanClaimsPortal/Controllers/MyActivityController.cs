@@ -28,10 +28,24 @@ namespace HonanClaimsPortal.Controllers
             var ownerlist = await getOwnerList();
             var activityclaim = await GetActivityClaims(UserId);
             var activityuser = await GetUsers(client.Teams);
+
+            if (activityuser.Count == 0)
+            {
+                ActivityUserModel tem = new ActivityUserModel();
+                tem.Code = UserId;
+                tem.Text = client.FirstName + "" + client.LastName;
+                tem.Order = "";
+                activityuser.Add(tem);
+            }
+
+
             returnModel.CustomerList = customerList;
             returnModel.OwnerList = ownerlist;
             returnModel.ActivityClaim = activityclaim;
             returnModel.Activityusers = activityuser;
+
+
+
 
             return View(returnModel);
         }
