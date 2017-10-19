@@ -40,7 +40,7 @@
                     <div class="col-md-9">
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.Claim_No, new { @class = "form-control" })
-                            @Html.HiddenFor(m => m.H_Claimsid)
+                            @Html.HiddenFor(m => m.H_Claimsid_Billing)
                             <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -59,8 +59,8 @@
                     <label class="col-md-3">Policy</label>
                     <div class="col-md-9">
                         <div class="input-group">
-                            @Html.TextBoxFor(m => m.Policy_Name, new { @class = "form-control" })
-                            @Html.HiddenFor(m => m.Policyid)
+                            @Html.TextBoxFor(m => m.Policy_Name_Billing, new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.Policyid_Billing)
                             <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -678,11 +678,11 @@
         function onSelectClaim_No(e) {
             var dataItem = this.dataItem(e.item.index());
             $('#Claim_No').val(dataItem.Text);
-            $("#H_Claimsid").val(dataItem.Code);
+            $("#H_Claimsid_Billing").val(dataItem.Code);
 
             //get ClientId
             $.ajax({
-                url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + $("#H_Claimsid").val(),
+                url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
                 success: function (data) {
                     debugger;
                     $('#Client_Name').val(data.Text);
@@ -723,7 +723,7 @@
             dataSource: {
                 type: "json",
                 transport: {
-                    read: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid").val(),
+                    read: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid_Billing").val(),
                 }
             },
             filter: "contains",
@@ -741,7 +741,7 @@
         var dataSource = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid").val(),
+                    url: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid_Billing").val(),
                     dataType: "json"
                 }
             }
@@ -756,13 +756,13 @@
 <script>
     var kendoAutoCompletePolicy_Name = null;
     $(document).ready(function () {
-        kendoAutoCompletePolicy_Name = $("#Policy_Name").kendoAutoComplete({
+        kendoAutoCompletePolicy_Name = $("#Policy_Name_Billing").kendoAutoComplete({
             dataTextField: "Text",
             minLength: 2,
             dataSource: {
                 type: "json",
                 transport: {
-                    read: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid").val(),
+                    read: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
                 }
             },
             filter: "contains",
@@ -771,16 +771,16 @@
 
         function onSelectPolicy_Name(e) {
             var dataItem = this.dataItem(e.item.index());
-            $('#Policyid').val(dataItem.Code);
-            $("#Policy_Name").val(dataItem.Text);
+            $('#Policyid_Billing').val(dataItem.Code);
+            $("#Policy_Name_Billing").val(dataItem.Text);
         }
     });
 
-    $('#Policy_Name').keyup(function () {
+    $('#Policy_Name_Billing').keyup(function () {
         var dataSource = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid").val(),
+                    url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
                     dataType: "json"
                 }
             }
