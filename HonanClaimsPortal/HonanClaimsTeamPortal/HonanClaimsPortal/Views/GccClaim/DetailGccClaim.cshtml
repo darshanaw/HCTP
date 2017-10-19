@@ -376,7 +376,7 @@
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
                                             <div class="col-sm-9">
-                                                @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @type = "number", @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Work_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -386,7 +386,7 @@
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
                                             <div class="col-sm-9">
 
-                                                @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @type = "number", @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Home_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -395,7 +395,7 @@
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                             <div class="col-sm-9">
-                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @type = "number", @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -709,7 +709,7 @@
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                                                @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm"})
                                                             </div>
                                                         </div>
                                                     </div>
@@ -718,7 +718,7 @@
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm", @type = "number" })
+                                                                @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm"})
                                                             </div>
                                                         </div>
                                                     </div>

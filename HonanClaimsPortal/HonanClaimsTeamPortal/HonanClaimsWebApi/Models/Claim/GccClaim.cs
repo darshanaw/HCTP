@@ -32,8 +32,11 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Claimant_Address { get; set; }
         public string Date_Of_Birth { get; set; }
         public string Gender { get; set; }
+        [RegularExpression(@"^[\+\d]+(?:[\d-.\s()]*)$", ErrorMessage = "Not a valid Phone number")]
         public string Claimant_Work_Phone { get; set; }
+        [RegularExpression(@"^[\+\d]+(?:[\d-.\s()]*)$", ErrorMessage = "Not a valid Phone number")]
         public string Claimant_Home_Phone { get; set; }
+        [RegularExpression(@"^[\+\d]+(?:[\d-.\s()]*)$", ErrorMessage = "Not a valid Phone number")]
         public string Claimant_Mobile_Phone { get; set; }
         public string Email_Address { get; set; }
         public string Incident_Name { get; set; }
@@ -183,6 +186,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Panel_Lawyers_Retained { get; set; }
         public string Oc_Num { get; set; }
         public string Oc_Id { get; set; }
+        [RegularExpression(@"^[\+\d]+(?:[\d-.\s()]*)$", ErrorMessage = "Not a valid Phone number")]
         public string Reported_By_Contact_Phone_Num { get; set; }
         public DateTime? Incident_Time { get; set; }
         [Required(ErrorMessage = "Required Incident_TimeH")]
@@ -202,7 +206,9 @@ namespace HonanClaimsWebApi.Models.Claim
 
 
         //New Fieldss
+        [RegularExpression(@"^[\+\d]+(?:[\d-.\s()]*)$", ErrorMessage = "Not a valid Phone number")]
         public string Insured_Work_Phone { get; set; }
+        [RegularExpression(@"^[\+\d]+(?:[\d-.\s()]*)$", ErrorMessage = "Not a valid Phone number")]
         public string Insured_Mobile_Phone { get; set; }
         public string Insured_Email { get; set; }
         public string Insured_Address { get; set; }
