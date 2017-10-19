@@ -172,22 +172,27 @@
                             template: '<a id="linkToDetail" href="/NewClaim/RedirectToDetail?claimId=#=ClaimsId#&claimTeam=#=ClaimTeam#&tab=detail">#=ClaimRefNo#</a>'
                         },
                         {
+                            field: "InsuredAccount",
+                            title: "Insured",
+                        }, {
+                            field: "Claimant",
+                            title: "Claimant",
+                        }, {
                             field: "DateOfLoss",
-                            title: "Date of Loss",
-                        }, {
-                            field: "Contact",
-                            title: "Contact",
-                        }, {
+                            title: "Date Of Loss",
+                        },
+                        {
+                            field: "Category",
+                            title: "Category",
+                        },
+                        {
                             field: "ClaimStage",
-                            title: "Claim Stage",
-                        },
+                            title: "Stage",
+                        }
+                         ,
                         {
-                            field: "Status",
-                            title: "Status",
-                        },
-                        {
-                            field: "ClaimType",
-                            title: "Type",
+                            field: "NextAction",
+                            title: "Next Action",
                         }
                         ]
                     });
