@@ -23,6 +23,7 @@ namespace HonanClaimsPortal.Helpers
         public static string loginCounter = "loginCounter";
         public static string StoreobjectList = "StoreobjectList";
         public static string PaymentAttachment = "PaymentAttachment";
+        public static string ShowTimer = "ShowTimer";
     }
 
     public class TempDataHelper

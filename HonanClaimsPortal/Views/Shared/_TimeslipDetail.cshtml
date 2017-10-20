@@ -9,16 +9,17 @@
 
 <script>
 
-    function GetResult_Billing()
+    function GetResult_Billing(data)
     {
-       
+      
         if ($('#BillingDetailModal').length > 0) {
             $('#BillingDetailModal').modal('hide');
         }
-       
+               
         RefreshGrid();
-        $.LoadingOverlay("hide");
         
+        $.LoadingOverlay("hide");
+
     }
 
   
@@ -29,6 +30,7 @@
     @Html.HiddenFor(o=>o.PageType)
 
     <div id="divFakeBilling" style="display:none"></div>
+   
     <div class="main-container timedetail">
         @Html.HiddenFor(m => m.H_Billingsid)
         <div class="col-md-6">

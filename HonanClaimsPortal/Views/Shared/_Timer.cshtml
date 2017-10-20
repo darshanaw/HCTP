@@ -1,17 +1,16 @@
-﻿
-@*http://www.jqueryscript.net/time-clock/Count-Up-Timer-Stopwatch-jQuery-Countimer.html*@
-    @*<link href="~/Content/TimerAssets/countup/jquery.countup.css" rel="stylesheet" />
-        <script src="~/Content/TimerAssets/countup/jquery.countup.js"></script>
-        <script src="~/Content/TimerAssets/js/script.js"></script>
+﻿@*http://www.jqueryscript.net/time-clock/Count-Up-Timer-Stopwatch-jQuery-Countimer.html*@
+@*<link href="~/Content/TimerAssets/countup/jquery.countup.css" rel="stylesheet" />
+    <script src="~/Content/TimerAssets/countup/jquery.countup.js"></script>
+    <script src="~/Content/TimerAssets/js/script.js"></script>
 
-        <div id="countdown" style="padding-top:6%;margin-left:6px"></div>
+    <div id="countdown" style="padding-top:6%;margin-left:6px"></div>
 *@
 
 <div id="floatingTimerWindow" style="display:none">
-<div style="font-size:25px;font-weight:bold"><span id="countDownNumberTimer"></span> Seconds</div>
-<br />
-<input type="button" class="btn btn-primary" id="btnTimerBillNow" value="Bill Now" />   
-<input type="button" class="btn btn-default" id="btnTimerNoBill" value="No Bill" />  
+    <div style="font-size:25px;font-weight:bold"><span id="countDownNumberTimer"></span> Seconds</div>
+    <br />
+    <input type="button" class="btn btn-primary" id="btnTimerBillNow" value="Bill Now" />
+    <input type="button" class="btn btn-default" id="btnTimerNoBill" value="No Bill" />
 </div>
 
 
@@ -26,7 +25,7 @@
 @*<div class="inline">Stop Timer</div>*@
 <div class="list-group-item" id="timerBlock" style="padding:0px 15px;background-color:transparent;border:none;display:none">
     <div class="media-box">
-        <div class="pull-left" style="margin-right:0px">
+        <div class="pull-left" style="margin-right:0px;line-height:35px">
             <span class="fa-stack">
                 <em class="fa fa-circle fa-stack-2x text-danger" style="line-height:40px"></em>
                 <em class="fa fa-clock-o fa-stack-1x fa-inverse text-white" style="line-height:40px"></em>
@@ -35,12 +34,15 @@
         <div class="media-box-body clearfix">
             <div class="media-box-heading">
                 <div class="timer inline" id="timerCoutDiv" style="padding-top:0%;margin-left:6px;font-size:25px;font-weight:bold"></div>
-                <a href="javascript:void(0);" id="btnStopTimer"  class="text-danger m0">Stop Timer</a>
-            </div>            
+                <a href="javascript:void(0);" id="btnStopTimer" class="text-danger m0">Stop Timer</a>
+                <a href="javascript:void(0);" id="btnTimerClaim" class="text-dark m0"></a>
+                <input type="hidden" id="hdnTimerClaimId" />
+                <input type="hidden" id="hdnTimerClaimRef" />
+            </div>
         </div>
     </div>
 </div>
-    @*<p>
+@*<p>
         <button class="btn btn-default" onClick="$('.timer').countimer('start');">Start</button>
         <button class="btn btn-warning" onClick="$('.timer').countimer('stop');">Stop</button>
         <button class="btn btn-success" onClick="$('.timer').countimer('resume');">Resume</button>
@@ -48,17 +50,30 @@
 
 <script type="text/javascript">
 
-    function onTimerTimeSlip()
-    {
-        //loadBillingDetail('');
-        //$("#ActivityTasksDetailModal").modal("show");
+    timerFunctions = new timerFunctions();
+
+    function isTimerAllowedFunc() {
+
+        var isTimerAllowed = false;
+        var TimerAllowed = $("#isTimerAllowed").val();
+
+        if (TimerAllowed != '' && typeof TimerAllowed !== 'undefined' && TimerAllowed != 'NaN' && TimerAllowed == "true") {
+            isTimerAllowed = true;
+        }
+        else {
+            isTimerAllowed = false;
+        }
+
+        return isTimerAllowed;
+
     }
-    
+
     $(document).ready(function () {
 
+        
         $("#hdnStateOfTimer").val("nutral");
         $("#btnStopTimer").hide();
-      
+
         var myWindow = $("#floatingTimerWindow");
         myWindow.css('display', 'block');
         $("#timerBlock").css("display", "block");
@@ -73,24 +88,42 @@
                 //"Maximize",
                 //"Close"
             ]
-        }).data("kendoWindow").center().open();
+        }).data("kendoWindow").center();
+
+       
+              
+        //https://stackoverflow.com/questions/1191865/code-for-a-simple-javascript-countdown-timer/11336046
 
         var myCounter = new Countdown({
             seconds: 30,  // number of seconds to count down
             onUpdateStatus: function (sec) { $("#countDownNumberTimer").html(sec) }, // callback for each second console.log(sec);
             onCounterEnd: function () {
-
-                if ($("#hdnStateOfTimer").val() == "nutral") {
+               
+                if ($("#hdnStateOfTimer").val() == "nutral" && !timerFunctions.hasActiveTimer() && timerFunctions.isUserOnClaimDetailPage() && isTimerAllowedFunc()) {
                     startBilling(myWindow);
                 }
             } // final action
         });
 
-        myWindow.data("kendoWindow").open();
+        timerFunctions.hasActiveTimer(myCounter);
+       
+        
+        @{ 
+            ViewBag.diffHours = ViewBag.diffHours == null ? 00 : ViewBag.diffHours;
+            ViewBag.diffMinutes = ViewBag.diffMinutes == null ? 00 : ViewBag.diffMinutes;
+            ViewBag.diffSeconds = ViewBag.diffSeconds == null ? 00 : ViewBag.diffSeconds;
+        }
 
         $('.timer').countimer({
-            autoStart: false
+
+            autoStart: false,
+            initHours: @ViewBag.diffHours,
+            initMinutes: @ViewBag.diffMinutes,
+            initSeconds: @ViewBag.diffSeconds
+
         });
+
+       
 
         $("#btnTimerBillNow").click(function () {
 
@@ -103,53 +136,62 @@
             $('#timerCoutDiv').countimer('stop');
             myCounter.stop();
             myWindow.data("kendoWindow").close();
-            
+
 
         });
 
         $("#btnStopTimer").click(function () {
-          
-             stopBilling(myWindow);           
+
+             stopBilling(myWindow);
         });
-             
-     
-        myCounter.start();
+
+
+       // myCounter.start();
 
     });
 
 
+
     function startBilling(myWindow)
-    {
+    {       
         $("#hdnStateOfTimer").val("started");
         $("#btnStopTimer").show();
         var dt = new Date();
        // var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-
         $("#hdnHiddenStartTime").val(dt);
-      
+
+        timerFunctions.insertStartTimer();
+
         $('#timerCoutDiv').countimer('start');
         myWindow.data("kendoWindow").close();
     }
 
     function stopBilling(myWindow)
-    {    
-       
+    {
+
         var dt = new Date();
        // var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
 
         if ($("#hdnStateOfTimer").val() != "ended")
             $("#hdnHiddenEndTime").val(dt);
 
-        $("#hdnStateOfTimer").val("ended");       
-           
+        $("#hdnStateOfTimer").val("ended");
+
         $('#timerCoutDiv').countimer('stop');
         $("#btnStopTimer").hide();
             //Set start time
 
-            
 
-            var dtStart = new Date($("#hdnHiddenStartTime").val());
+        @{ 
 
+            var date = ViewBag.lastEscapeTimer == null ? DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[0] : ViewBag.lastEscapeTimer.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[0];
+            var month = ViewBag.lastEscapeTimer == null ? DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[1] : ViewBag.lastEscapeTimer.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[1];
+            var year = ViewBag.lastEscapeTimer == null ? DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[2].Split(' ')[0] : ViewBag.lastEscapeTimer.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[2].Split(' ')[0];
+            var time = ViewBag.lastEscapeTimer == null ? DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[2].Split(' ')[1] : ViewBag.lastEscapeTimer.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[2].Split(' ')[1];
+         }
+
+        var dtStart = new Date(@year,@month, @date,@time.Split(':')[0],@time.Split(':')[1],@time.Split(':')[2]);//new Date($("#hdnHiddenStartTime").val());
+        
             var hours = dtStart.getHours() % 12;
             hours = hours ? hours : 12;
             var mid = "";
@@ -173,14 +215,14 @@
 
             //Set end time
             var end_time = new Date($("#hdnHiddenEndTime").val());
-            
+
 
             var hours_end = end_time.getHours() % 12;
-            hours_end = hours_end ? hours_end : 12; 
+            hours_end = hours_end ? hours_end : 12;
             var mid_end = "";
             if (end_time.getHours() > 11)
                  mid_end = 'PM';
-            else 
+            else
                  mid_end = 'AM';
             //var hours_end = (end_time.getHours() + 24 - 2) % 24;
             //var mid_end = 'AM';
@@ -195,10 +237,12 @@
             var endTimerVal = pad(hours_end, 2) + ":" + pad(end_time.getMinutes(), 2) + " " + mid_end;
 
             var diff = (new Date("1970-1-1 " + pad(hours_end, 2) + ":" + pad(end_time.getMinutes(), 2) + ":" + pad(end_time.getSeconds(), 2) + " " + mid_end) - new Date("1970-1-1 " + pad(hours, 2) + ":" + pad(dtStart.getMinutes(), 2) + ":" + pad(dtStart.getSeconds(), 2) + " " + mid)) / 1000 / 60;
-            
-            loadBillingDetail('', startTime, endTimerVal, diff.toFixed(2));
 
-        
+           
+
+            loadBillingDetail('', $("#hdnTimerClaimId").val(), startTime, endTimerVal, diff.toFixed(2), $("#hdnTimerClaimRef").val());
+
+
     }
 
     function pad(num, size) {
@@ -206,6 +250,91 @@
         return s.substr(s.length - size);
     }
 
+    function timerFunctions()
+    {
+        this.isUserOnClaimDetailPage = function () {
+
+            var claimId = $("#H_Claimsid").val();
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN') {
+                return true;
+            }
+            else
+                return false;
+        };
+
+        this.hasActiveTimer = function (myCounter) {
+          
+            $.ajax({
+
+                url: "/Billing/GetTimerStart",
+
+                success: function (result) {
+
+                   
+                    var clmRes = false;
+                    
+
+                    var claimId = $("#H_Claimsid").val();
+                    if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN') {
+                        clmRes = true;
+                    }
+                    else
+                        clmRes = false;
+                    
+                    if (result == "notimer" && clmRes && isTimerAllowedFunc() && $("#hdnStateOfTimer").val() == "nutral") {
+                        
+                        $("#floatingTimerWindow").data("kendoWindow").open();
+                        if (typeof myCounter != 'undefined')
+                            myCounter.start();
+                    }
+
+                    
+
+                    if (result.IsTimerActive) {
+
+                        $("#btnStopTimer").show();
+                        $("#btnTimerClaim").html("[" + result.ClaimRefNo + "]");
+                        $("#hdnTimerClaimId").val(result.ClaimId);
+                        $("#hdnTimerClaimRef").val(result.ClaimRefNo);
+                        $("#btnTimerClaim").prop('href', '/RisksmartGccClaim/DetailRisksmartGccClaim/' + result.ClaimId+'?tab=detail');                        
+                        $("#hdnStateOfTimer").val("started");
+                        $('.timer').countimer('start');
+                        $("#btnStopTimer").show();
+                    }
+                    return result.IsTimerActive;
+                },
+                complete: function () {
+
+                },
+                error: function(){
+
+                    return false;
+                }
+            });
+        };
+
+      
+        this.insertStartTimer = function () {
+
+            var claimId = $("#H_Claimsid").val();
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN') {
+
+                $.ajax({
+
+                    url: "/Billing/InsertStartTime?claimId=" + claimId,
+                    success: function (result) {
+
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+            }
+        }
+    }
+
+ 
     function Countdown(options) {
 
         var timer,
@@ -234,5 +363,5 @@
             clearInterval(timer);
         };
     }
-  
+
 </script>
