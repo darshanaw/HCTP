@@ -296,7 +296,9 @@ namespace HonanClaimsPortal.Controllers
                 var result = await claims.TeamUpdateClaimNotification(generalClaim, login.UserId);
                 if (result)
                 {
-                    return RedirectToAction("Index", "ClaimList");
+                    //return RedirectToAction("Index", "ClaimList");
+                    TempData["ClaimSaved"] = Messages.ClaimSaved;
+                    return Redirect(Request.UrlReferrer.ToString());
                 }
                 else
                     TempData["ErrorMsg"] = Messages.errorMessage;
