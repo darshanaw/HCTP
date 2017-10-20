@@ -59,6 +59,12 @@
 
     $(function () {
 
+        $("#btnNewFileNote").click(function () {
+
+            clearFileNoteControls();
+
+        });
+
         function fileNotesLoaded(arg) {
             var grid = $("#gridFileNotes").data("kendoGrid");
             var dataSource = grid.dataSource;
@@ -123,7 +129,6 @@
     }
 
     function clearFileNoteControls() {
-
         //$("#CreatedBy_Id_Fn").val("");
         //$("#ClaimId_Fn").val("");
         //$("#ClaimRefNo_Fn").val("");
@@ -155,11 +160,7 @@
         });
 
 
-        $("#btnNewFileNote").click(function () {
-
-            clearFileNoteControls();
-
-        });
+      
 
 
 
