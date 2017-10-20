@@ -39,6 +39,15 @@
     HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
 }
 
+<div class="col-md-12" style="text-align: center; font-size: small;">
+    <div class="panel widget bg-info">
+        <div class="row row-table">
+            <div class="col-xs-12 pv-xs">
+                <div class="h3 m0 text-bold">Claim Ref # @Html.DisplayFor(item => item.Claim_Reference_Num) - @Html.DisplayFor(item => item.Account_Name) </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tabClaimDetail" data-toggle="tab" aria-expanded="true">Claim Detail</a></li>
@@ -52,7 +61,7 @@
     <li><a href="#tabBillings" data-toggle="tab">Billings</a></li>
     <li><a href="#tabPayments" data-toggle="tab"><div id="paymentsCount" class="pull-right label label-success ml-10"></div><span>Payments</span></a></li>
     <li><a href="#tabFileNotes" data-toggle="tab"><div id="fileNotesCount" class="pull-right label label-success ml-10"></div><span>File Notes</span></a></li>
-    
+
 </ul>
 
 @if (client.Teams.Contains("Billable Lawyers") && Model.BillingMethod.ToLower() == "per hour" && Model.Claim_Type != HonanClaimsPortal.Helpers.ClaimType.Notification.ToString())
@@ -90,7 +99,7 @@ else
             @Html.HiddenFor(o => o.Broker_Account_Id)
             @Html.HiddenFor(o => o.Broker_Name_Id)
             @Html.HiddenFor(o => o.Claim_Team)
-
+            @Html.HiddenFor(o => o.Claim_Reference_Num)
             @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
             <div class="panel panel-default">
 
@@ -100,9 +109,19 @@ else
                         <div class="col-md-12 m0 p0">
                             <br />
 
+
+
                             <fieldset>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <div class="text-right">
+                                            <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
+                                            <button type="submit" class="mb-sm btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
-                                    <div class="col-md-4"></div>
+                                    @*<div class="col-md-4"></div>
                                     <div class="col-md-6">
                                         <div class="col-md-12" style="text-align: center; font-size: small;">
                                             <div class="panel widget bg-primary">
@@ -113,10 +132,10 @@ else
                                                     </div>
                                                 </div>
                                             </div>
-                                            @Html.HiddenFor(o => o.Claim_Reference_Num)
+
                                         </div>
                                     </div>
-                                    <div class="col-md-2"></div>
+                                    <div class="col-md-2"></div>*@
                                     <div class="form-group" style="padding-bottom:4px">
                                         <label for="input-id-1" class="col-sm-3 control-label input-sm">Account Name</label>
                                         <div class="col-sm-9">
@@ -154,10 +173,7 @@ else
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="text-right">
-                                        <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                                        <button type="submit" class="mb-sm btn btn-primary">Save</button>
-                                    </div>
+
                                     <div class="form-group mb top-padding-eight">
                                         <label class="col-sm-3 control-label input-sm">Claim Status</label>
                                         <div class="col-sm-9">
@@ -675,7 +691,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
                                                                 <div class="col-sm-9">
-                                                                    @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm"})
+                                                                    @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -684,7 +700,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
                                                                 <div class="col-sm-9">
-                                                                    @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm"})
+                                                                    @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1200,7 +1216,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Claimant_Work_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1219,7 +1235,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
                                                             </div>
                                                         </div>
                                                     </div>

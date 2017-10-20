@@ -33,18 +33,27 @@
         //    debugger;
         //    alert(e);
         //});;
-            
+
     });
 
-   
+
 </script>
 
 <br />
 
-@{ 
+@{
     HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
 }
 
+<div class="col-md-12" style="text-align: center; font-size: small;">
+    <div class="panel widget bg-info">
+        <div class="row row-table">
+            <div class="col-xs-12 pv-xs">
+                <div class="h3 m0 text-bold">Claim Ref # @Html.DisplayFor(item => item.Claim_Reference_Num) - @Html.DisplayFor(item => item.Account_Name) </div>
+            </div>
+        </div>
+    </div>
+</div>
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tabClaimDetail" data-toggle="tab" aria-expanded="true">Claim Detail</a></li>
     @if (Model.Claim_Type == HonanClaimsPortal.Helpers.ClaimType.Claim.ToString())
@@ -56,12 +65,12 @@
     <li><a href="#tabCustomerDocs" data-toggle="tab">Customer Docs</a></li>
     <li><a href="#tabBillings" data-toggle="tab">Billings</a></li>
     <li><a href="#tabPayments" data-toggle="tab"><div id="paymentsCount" class="pull-right label label-success ml-10"></div><span>Payments</span></a></li>
-    <li><a href="#tabFileNotes" data-toggle="tab"><div id="fileNotesCount" class="pull-right label label-success ml-10"></div><span>File Notes</span></a></li>   
+    <li><a href="#tabFileNotes" data-toggle="tab"><div id="fileNotesCount" class="pull-right label label-success ml-10"></div><span>File Notes</span></a></li>
 </ul>
 
 @if (client.Teams.Contains("Billable Lawyers") && Model.BillingMethod.ToLower() == "per hour" && Model.Claim_Type != HonanClaimsPortal.Helpers.ClaimType.Notification.ToString())
 {
-    @Html.Hidden("isTimerAllowed","true")
+    @Html.Hidden("isTimerAllowed", "true")
 }
 else
 {
@@ -100,6 +109,7 @@ else
             @Html.HiddenFor(o => o.Liability_Res_Source)
             @Html.HiddenFor(o => o.Defence_Res_Source)
             @Html.HiddenFor(o => o.H_Claimsid)
+            @Html.HiddenFor(o => o.Claim_Reference_Num)
 
             <div class="panel panel-default">
 
@@ -108,24 +118,32 @@ else
                         <div class="col-md-12">
                             <fieldset>
                                 <br />
-                                <div class="col-md-6">
-                                    <div class="col-md-4"></div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb">
-                                            <div class="col-md-12" style="text-align: center; font-size: small;">
-                                                <div class="panel widget bg-primary">
-                                                    <div class="row row-table">
-                                                        <div class="col-xs-12 pv-xs">
-                                                            <div class="h3 m0 text-bold">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
-                                                            <div class="text-uppercase">Claim Ref #</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @Html.HiddenFor(o => o.Claim_Reference_Num)
-                                            </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <div class="text-right">
+                                            <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
+                                            <button type="submit" class="mb-sm btn btn-primary">Save</button>
                                         </div>
                                     </div>
-                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    @*<div class="col-md-4"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb">
+                                                <div class="col-md-12" style="text-align: center; font-size: small;">
+                                                    <div class="panel widget bg-primary">
+                                                        <div class="row row-table">
+                                                            <div class="col-xs-12 pv-xs">
+                                                                <div class="h3 m0 text-bold">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
+                                                                <div class="text-uppercase">Claim Ref #</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2"></div>*@
 
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group mb">
@@ -173,12 +191,7 @@ else
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="col-md-12">
-                                        <div class="text-right">
-                                            <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                                            <button type="submit" class="mb-sm btn btn-primary">Save</button>
-                                        </div>
-                                    </div>
+
 
                                     <div class="col-md-12 col-sm-12 top-padding">
                                         <div class="form-group mb">
@@ -238,23 +251,23 @@ else
                                     </div>
 
                                     @*<div class="col-md-12 col-sm-12">
-                                        <div class="form-group mb">
-                                            <label class="col-sm-3 control-label input-sm">Reported Time</label>
-                                            <label class="col-sm-1 control-label input-sm text-right">HH</label>
-                                            <div class="col-sm-3">
-                                                @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
-                                    SelectListItem
-                                           { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                            <div class="form-group mb">
+                                                <label class="col-sm-3 control-label input-sm">Reported Time</label>
+                                                <label class="col-sm-1 control-label input-sm text-right">HH</label>
+                                                <div class="col-sm-3">
+                                                    @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
+                                        SelectListItem
+                                               { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                </div>
+                                                <label class="col-sm-1 control-label input-sm text-center">-</label>
+                                                <label class="col-sm-1 control-label input-sm text-right">Min</label>
+                                                <div class="col-sm-3">
+                                                    @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
+                                        SelectListItem
+                                               { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                </div>
                                             </div>
-                                            <label class="col-sm-1 control-label input-sm text-center">-</label>
-                                            <label class="col-sm-1 control-label input-sm text-right">Min</label>
-                                            <div class="col-sm-3">
-                                                @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                    SelectListItem
-                                           { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
-                                            </div>
-                                        </div>
-                                    </div>*@
+                                        </div>*@
 
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group mb">
@@ -575,7 +588,7 @@ else
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
                                             <div class="col-sm-9">
 
-                                                @Html.TextBoxFor(o => o.Claimant_Home_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -584,7 +597,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                             <div class="col-sm-9">
-                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -878,7 +891,7 @@ else
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insurer Conduct</label>
@@ -901,7 +914,7 @@ else
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm"})
+                                                                @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -918,7 +931,7 @@ else
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Email</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm"})
+                                                                @Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1120,7 +1133,7 @@ else
         <div class="tab-pane" id="tabActivityTasks">
             @{Html.RenderAction("_ActivityTasks", "ClaimDetailTabs", new { claimId = Model.H_Claimsid });}
         </div>
-    }
+                }
     <div class="tab-pane" id="tabKey_Contacts_Dates">
         @*@Html.Partial("~/Views/Shared/_KeyContactsDates.cshtml", null)*@
         @{Html.RenderAction("_KeyContactsDates", "ClaimDetailTabs", new { claimId = Model.H_Claimsid, claimRefNo = Model.Claim_Reference_Num });}
@@ -1311,17 +1324,17 @@ else
 
 <!-- Modal -->
 <div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
-        <div class="modal-dialog  modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Timeslip</h4>
-                </div>
-                <div class="modal-body">
-                    @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = "claimDetail" });}
-                </div>
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Timeslip</h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = "claimDetail" });}
             </div>
         </div>
+    </div>
 </div>
 
 <script>
@@ -1353,7 +1366,7 @@ else
         //        });
         //    }
         //})
-        
+
         showBanner();
 
         $('#formRisksmartGccClaim').submit(function () {
@@ -1667,6 +1680,6 @@ else
             });
         }
     }
-       
+
 
 </script>
