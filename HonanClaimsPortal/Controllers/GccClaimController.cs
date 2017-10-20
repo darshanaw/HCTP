@@ -135,7 +135,7 @@ namespace HonanClaimsPortal.Controllers
             claim.IncidentPartyTypeList = pickListServices.GetPickListItems("GCC Incident Type");
             claim.IncidentPartyTypeList.Insert(0, new PicklistItem());
 
-            claim.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
+            claim.Policy_Class_List = pickListServices.GetPickListItems("GCC Policy Class");
             claim.Policy_Class_List.Insert(0, new PicklistItem());
 
             claim.YesNoList = new List<string>() { "", "Yes", "No" };

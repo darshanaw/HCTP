@@ -185,7 +185,7 @@ namespace HonanClaimsPortal.Controllers
             model.Outcome_List = pickListServices.GetPickListItems("Risksmart GCC Outcome");
             model.Outcome_List.Insert(0, new PicklistItem());
 
-            model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
+            model.Policy_Class_List = pickListServices.GetPickListItems("Risksmart GCC Policy Class");
             model.Policy_Class_List.Insert(0, new PicklistItem());
 
             model.Client_Group_List = pickListServices.GetPickListItems("Risksmart GCC Client Group");
