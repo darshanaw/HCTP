@@ -70,7 +70,7 @@
 
     $(document).ready(function () {
 
-        
+
         $("#hdnStateOfTimer").val("nutral");
         $("#btnStopTimer").hide();
 
@@ -90,15 +90,15 @@
             ]
         }).data("kendoWindow").center();
 
-       
-              
+
+
         //https://stackoverflow.com/questions/1191865/code-for-a-simple-javascript-countdown-timer/11336046
 
         var myCounter = new Countdown({
             seconds: 30,  // number of seconds to count down
             onUpdateStatus: function (sec) { $("#countDownNumberTimer").html(sec) }, // callback for each second console.log(sec);
             onCounterEnd: function () {
-               
+
                 if ($("#hdnStateOfTimer").val() == "nutral" && !timerFunctions.hasActiveTimer() && timerFunctions.isUserOnClaimDetailPage() && isTimerAllowedFunc()) {
                     startBilling(myWindow);
                 }
@@ -106,9 +106,9 @@
         });
 
         timerFunctions.hasActiveTimer(myCounter);
-       
-        
-        @{ 
+
+
+        @{
             ViewBag.diffHours = ViewBag.diffHours == null ? 00 : ViewBag.diffHours;
             ViewBag.diffMinutes = ViewBag.diffMinutes == null ? 00 : ViewBag.diffMinutes;
             ViewBag.diffSeconds = ViewBag.diffSeconds == null ? 00 : ViewBag.diffSeconds;
@@ -123,7 +123,7 @@
 
         });
 
-       
+
 
         $("#btnTimerBillNow").click(function () {
 
@@ -153,7 +153,7 @@
 
 
     function startBilling(myWindow)
-    {       
+    {
         $("#hdnStateOfTimer").val("started");
         $("#btnStopTimer").show();
         var dt = new Date();
@@ -169,6 +169,16 @@
     function stopBilling(myWindow)
     {
 
+        @*@{
+
+            var date_st = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[0];
+            var month_st = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[1];
+            var year_st =  DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[2].Split(' ')[0];
+            var time_st = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[2].Split(' ')[1];
+         }
+
+        var dt = new Date(@year_st,@month_st, @date_st,@time_st.Split(':')[0],@time_st.Split(':')[1],@time_st.Split(':')[2]);*@
+
         var dt = new Date();
        // var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
 
@@ -182,7 +192,7 @@
             //Set start time
 
 
-        @{ 
+        @{
 
             var date = ViewBag.lastEscapeTimer == null ? DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[0] : ViewBag.lastEscapeTimer.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[0];
             var month = ViewBag.lastEscapeTimer == null ? DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[1] : ViewBag.lastEscapeTimer.ToString("dd/MM/yyyy HH:mm:ss").Split('/')[1];
@@ -191,7 +201,7 @@
          }
 
         var dtStart = new Date(@year,@month, @date,@time.Split(':')[0],@time.Split(':')[1],@time.Split(':')[2]);//new Date($("#hdnHiddenStartTime").val());
-        
+
             var hours = dtStart.getHours() % 12;
             hours = hours ? hours : 12;
             var mid = "";
@@ -238,7 +248,14 @@
 
             var diff = (new Date("1970-1-1 " + pad(hours_end, 2) + ":" + pad(end_time.getMinutes(), 2) + ":" + pad(end_time.getSeconds(), 2) + " " + mid_end) - new Date("1970-1-1 " + pad(hours, 2) + ":" + pad(dtStart.getMinutes(), 2) + ":" + pad(dtStart.getSeconds(), 2) + " " + mid)) / 1000 / 60;
 
-           
+            $("#timerMessage").html("");
+
+            if (dt.getHours() < dtStart.getHours())
+            {
+                endTimerVal = '';
+                $("#timerMessage").html("Timer has been running for extended hors.");
+            }
+                  
 
             loadBillingDetail('', $("#hdnTimerClaimId").val(), startTime, endTimerVal, diff.toFixed(2), $("#hdnTimerClaimRef").val());
 
@@ -263,16 +280,16 @@
         };
 
         this.hasActiveTimer = function (myCounter) {
-          
+
             $.ajax({
 
                 url: "/Billing/GetTimerStart",
 
                 success: function (result) {
 
-                   
+
                     var clmRes = false;
-                    
+
 
                     var claimId = $("#H_Claimsid").val();
                     if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN') {
@@ -280,15 +297,15 @@
                     }
                     else
                         clmRes = false;
-                    
+
                     if (result == "notimer" && clmRes && isTimerAllowedFunc() && $("#hdnStateOfTimer").val() == "nutral") {
-                        
+
                         $("#floatingTimerWindow").data("kendoWindow").open();
                         if (typeof myCounter != 'undefined')
                             myCounter.start();
                     }
 
-                    
+
 
                     if (result.IsTimerActive) {
 
@@ -296,7 +313,7 @@
                         $("#btnTimerClaim").html("[" + result.ClaimRefNo + "]");
                         $("#hdnTimerClaimId").val(result.ClaimId);
                         $("#hdnTimerClaimRef").val(result.ClaimRefNo);
-                        $("#btnTimerClaim").prop('href', '/RisksmartGccClaim/DetailRisksmartGccClaim/' + result.ClaimId+'?tab=detail');                        
+                        $("#btnTimerClaim").prop('href', '/RisksmartGccClaim/DetailRisksmartGccClaim/' + result.ClaimId+'?tab=detail');
                         $("#hdnStateOfTimer").val("started");
                         $('.timer').countimer('start');
                         $("#btnStopTimer").show();
@@ -313,7 +330,7 @@
             });
         };
 
-      
+
         this.insertStartTimer = function () {
 
             var claimId = $("#H_Claimsid").val();
@@ -334,7 +351,7 @@
         }
     }
 
- 
+
     function Countdown(options) {
 
         var timer,
