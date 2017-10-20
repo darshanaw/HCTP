@@ -280,8 +280,8 @@ namespace HonanClaimsPortal.Controllers
 
                 if (result)
                 {
-
-                    return RedirectToAction("Index", "ClaimList");
+                    TempData["ClaimSaved"] = Messages.ClaimSaved;
+                    return Redirect(Request.UrlReferrer.ToString());
                 }
                 else
                     TempData["ErrorMsg"] = Messages.errorMessage;

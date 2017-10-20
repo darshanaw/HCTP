@@ -1540,6 +1540,18 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 <script>
     $(document).ready(function () {
 
+        @{
+            var saved = TempData["ClaimSaved"] != null ? TempData["ClaimSaved"].ToString() : "";
+         }
+
+        if ("@saved" != "")
+        {
+            bootbox.alert({
+                message: "@saved",
+                size: 'small'
+            });
+        }
+
         $('#Property_Suburb').select2({ width: '100%' });
 
         if ($("#Property_Suburb").length > 0) {
@@ -1763,6 +1775,26 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             $('#Assigned_Date').val(getTodaysDate());
         });
 
+        // Warning
+        $(window).on('beforeunload', function () {
+            if (fieldsUpdated) {
+                return "Any changes will be lost";
+            }
+        });
+
+        $('.form-control').change(function () {
+            fieldsUpdated = true;
+        });
+
+        $('.datebtn').click(function () {
+            fieldsUpdated = true;
+        });
+
+        // Form Submit
+        $(document).on("submit", "form", function (event) {
+            // disable unload warning
+            $(window).off('beforeunload');
+        });
     })
 
     function SetExtraFields() {

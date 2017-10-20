@@ -1367,6 +1367,18 @@ else
         //    }
         //})
 
+         @{
+            var saved = TempData["ClaimSaved"] != null ? TempData["ClaimSaved"].ToString() : "";
+         }
+
+        if ("@saved" != "")
+        {
+            bootbox.alert({
+                message: "@saved",
+                size: 'small'
+            });
+        }
+
         showBanner();
 
         $('#formRisksmartGccClaim').submit(function () {
@@ -1566,6 +1578,27 @@ else
 
         $("#Assigned_User").change(function () {
             $('#Assigned_Date').val(getTodaysDate());
+        });
+
+        // Warning
+        $(window).on('beforeunload', function () {
+            if (fieldsUpdated) {
+                return "Any changes will be lost";
+            }
+        });
+
+        $('.form-control').change(function () {
+            fieldsUpdated = true;
+        });
+
+        $('.datebtn').click(function () {
+            fieldsUpdated = true;
+        });
+
+        // Form Submit
+        $(document).on("submit", "form", function (event) {
+            // disable unload warning
+            $(window).off('beforeunload');
         });
     })
 
