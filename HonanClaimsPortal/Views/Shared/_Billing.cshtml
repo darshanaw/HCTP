@@ -126,6 +126,8 @@
     </div>
 </div>
 
+
+
 <!-- Modal -->
 @*<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
     <div class="modal-dialog  modal-lg">
@@ -148,6 +150,11 @@
 <script>
 
     $(function () {
+
+        $("#btnNewTimeSlip").click(function () {
+
+            $("#timerMessage").html("");
+        });
 
         if ($("#BillingMethod").val() != "Per Hour") {
 
