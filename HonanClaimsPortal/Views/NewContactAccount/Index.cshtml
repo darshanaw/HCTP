@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 @using (Html.BeginForm("Index", "NewContactAccount", FormMethod.Post, new { @class = "", role = "form" }))
 {
 
@@ -13,7 +17,7 @@
             New Contact/Account
         </h3>
         <div class="panel panel-default">
-                @ViewBag.Message
+            @ViewBag.Message
             <div class="panel-body">
                 <div class="form-horizontal">
                     <div class="col-md-12">
@@ -91,27 +95,39 @@
                                     </div>
                                 </div>
 
+                                @*<div class="row">
+                                        <div class="form-group mb">
+                                            <label class="col-sm-3 control-label input-sm">City</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextBoxFor(m => m.City, new { @class = "form-control input-sm" })
+                                            </div>
+                                        </div>
+                                    </div>*@
+
                                 <div class="row">
-                                    <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">City</label>
-                                        <div class="col-sm-9">
-                                            @Html.TextBoxFor(m => m.City, new { @class = "form-control input-sm" })
+                                        <div class="form-group mb">
+                                            <label class="col-sm-3 control-label input-sm">Suburb</label>
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(model => model.City, new SelectList(Model.PropertySuburbList, "Code", "Text"),
+                                                    new { @class = "form-control input-sm" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">State</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(m => m.State, new { @class = "form-control input-sm" })
+                                            @Html.DropDownListFor(model => model.State,
+new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new SelectListItem { Value = "NSW", Text = "NSW" }, new SelectListItem { Value = "SA", Text = "SA" }
+,new SelectListItem { Value = "TAS", Text = "TAS" },new SelectListItem { Value = "VIC", Text = "VIC" },new SelectListItem { Value = "WA", Text = "WA" },new SelectListItem { Value = "QLD", Text = "QLD" }},
+                                            new { @class = "form-control input-sm", @placeholder = "State" })
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">PostCode</label>
+                                        <label class="col-sm-3 control-label input-sm">Postal Code</label>
                                         <div class="col-sm-9">
                                             @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control input-sm" })
                                         </div>
@@ -141,7 +157,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">Work Phone</label>
+                                        <label class="col-sm-3 control-label input-sm">Direct Phone</label>
                                         <div class="col-sm-9">
                                             @Html.TextBoxFor(m => m.ContactWorkPhone, new { @class = "form-control input-sm", @type = "number" })
                                         </div>
@@ -157,14 +173,14 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">Fax</label>
-                                        <div class="col-sm-9">
-                                            @Html.TextBoxFor(m => m.ContactFax, new { @class = "form-control input-sm" })
+                                @*<div class="row">
+                                        <div class="form-group mb">
+                                            <label class="col-sm-3 control-label input-sm">Fax</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextBoxFor(m => m.ContactFax, new { @class = "form-control input-sm" })
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div>*@
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
@@ -192,8 +208,8 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Type</label>
                                         <div class="col-sm-9">
-                                            @Html.HiddenFor(m => m.AccountType)
-                                            @Html.DropDownListFor(m => m.PickTypes,
+                                            @*@Html.HiddenFor(m => m.AccountType)*@
+                                            @Html.DropDownListFor(m => m.AccountType,
                                             new SelectList(Model.PickTypes, "Code", "Text"),
                                             "--Select--",
                                             new { @class = "form-control input-sm" })
@@ -205,12 +221,21 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Account Manager</label>
                                         <div class="col-sm-9">
-                                            @Html.HiddenFor(m => m.AccountManagerName)
-                                            @Html.HiddenFor(m => m.AccountManagerId)
-                                            <input id="Manager" class="form-control input-sm" />
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.AccountManagerName, new { @class = "form-control input-sm" })
+                                                @Html.HiddenFor(m => m.AccountManagerId)
+                                                @*<input id="Manager" class="form-control input-sm" />*@
+                                                <span class="input-group-btn" id="AccountManagerlookup" data-toggle="modal" data-target="#PolicyModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
 
                         </fieldset>
@@ -218,7 +243,7 @@
                     </div>
                     <div class="col-md-12 mb">
                         <div class="pull-right">
-                            <button type="button"id="Cancel" class="btn btn-default mr-20">Cancel</button>
+                            <button type="button" id="Cancel" class="btn btn-default mr-20">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
@@ -227,9 +252,10 @@
             </div>
         </div>
     </div>
-@Html.HiddenFor(m=>m.FromProtal)
-@Html.HiddenFor(m=>m.portalRegRequestId)
+    @Html.HiddenFor(m => m.FromProtal)
+    @Html.HiddenFor(m => m.portalRegRequestId)
 }
+
 
 <!--Modal-->
 <div id="AccountModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
@@ -251,7 +277,35 @@
     </div>
 </div>
 
+
+<!--Modal-->
+<div id="AccountManagerModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="cancelManagerBtn" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Account Manager Lookup</h4>
+            </div>
+
+            <div class="modal-body">
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearch">
+                <div id="lookupAccountManagerGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    //$(document).read(function () {
+    //    $('#City').select2({ width: '100%' });
+
+    //    if ($("#City").length > 0) {
+    //        $("#City").val($("#City").val()).trigger('change.select2');;
+    //    }
+    //})
 
     @*$(document).read(function () {
         if(@ViewBag.Message==""|| @ViewBag.Message=="Success: Save successful"){
@@ -260,6 +314,12 @@
             clearFileds();
         }
     });*@
+
+    $("#Phone").keyup(function () {
+        var Phone = $("#Phone").val();
+        $("#ContactWorkPhone").val(Phone);
+        $("#AccountPhone").val(Phone);
+    });
 
     $("#Cancel").click(function () {
         clearFileds();
@@ -286,10 +346,10 @@
 
     }
 
-  
+
 
     $(document).ready(function () {
-        LoadMagaer();
+        //LoadMagaer();
         var AccountList = [];
 
         $('#Accountlookup').click(function () {
@@ -299,7 +359,7 @@
                 AccountList = data;
                 loadgrid();
             });
-           
+
         });
 
         $('#cancelBtn').click(function () {
@@ -335,7 +395,8 @@
                     title: "AccountId"
                 },
                 {
-                    template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
+                    //template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
+                    template: '<a id="#= AccountId #" onclick="accountClickUser(this)">#= AccountName #</a>',
                     title: "Account Name",
                 },
                 {
@@ -365,16 +426,103 @@
                 }
             }
         });
+    });
 
-    })
-
-    function accountClick(e) {
+    function accountClickUser(e) {
         $('#AccountId').val(e.id);
         $("#Account").val(e.text);
         $('#AccountModal').modal('hide');
         $('#Accsearch').val('');
     }
 
+
+
+    //=============================================
+    $(document).ready(function () {
+        //LoadMagaer();
+        var AccountManagerList = [];
+
+        $('#AccountManagerlookup').click(function () {
+
+            var text = $('#AMccsearch').val();
+            $.get("/NewContactAccount/GetManagerList?userName=" + text, function (data) {
+                AccountManagerList = data;
+                loadgrManagerid();
+            });
+
+        });
+
+        $('#cancelManagerBtn').click(function () {
+            $('#AMccsearch').val('');
+            AccountManagerList = [];
+        })
+
+        function loadgrManagerid() {
+            $("#lookupAccountManagerGrid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    data: AccountManagerList,
+                    pageSize: 10
+                },
+                dataBound: function (e) {
+                    if ($('#AccountManagerModal').hasClass('in')) {
+
+                    } else {
+                        $('#AccountManagerModal').modal('show');
+                    }
+                },
+                height: 550,
+                sortable: true,
+                serverPaging: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 10
+                },
+                columns: [{
+                    hidden: true,
+                    field: "Code",
+                    title: "Code"
+                },
+                {
+                    template: '<a id="#= Code #" onclick="accountManagerClick(this)">#= Text #</a>',
+                    title: "Account Name",
+                }
+                ]
+            });
+
+        }
+
+        $("#AMccsearch").keyup(function () {
+            var val = $('#AMccsearch').val();
+            if (val.length > 2) {
+                AccountList = [];
+                $.get("/NewContactAccount/GetManagerList?userName=" + val, function (data) {
+                    AccountManagerList = data;
+                    loadgrManagerid();
+                });
+            } else {
+                if (val == null || val == "") {
+                    AccountList = [];
+                    $.get("/NewContactAccount/GetManagerList?userName=", function (data) {
+                        AccountManagerList = data;
+                        loadgrManagerid();
+                    });
+                }
+            }
+        });
+
+    });
+
+    function accountManagerClick(e) {
+        debugger;
+        $('#AccountId').val(e.id);
+        $("#AccountManagerName").val(e.text);
+        $('#AccountManagerModal').modal('hide');
+        $('#AMccsearch').val('');
+    }
+
+    ///======================================================
     function comboTypeChange() {
         $('#AccountType').val($('#PickTypes').val());
     }
@@ -383,43 +531,43 @@
         $('#Title').val($('#PickTitle').val());
     }
 
-    function LoadMagaer() {
-        debugger;
-        var AccountId = $('#AccountManagerId').val();
-        if (AccountId != null && AccountId != "") {
-            $.get("/NewContactAccount/GetManagerList", function (data) {
-                $("#Manager").kendoAutoComplete({
-                    dataTextField: "Text",
-                    filter: "contains",
-                    minLength: 2,
-                    dataSource: data,
-                    select: onSelect
-                });
+    //function LoadMagaer() {
+    //    debugger;
+    //    var AccountId = $('#AccountManagerId').val();
+    //    if (AccountId != null && AccountId != "") {
+    //        $.get("/NewContactAccount/GetManagerList", function (data) {
+    //            $("#Manager").kendoAutoComplete({
+    //                dataTextField: "Text",
+    //                filter: "contains",
+    //                minLength: 2,
+    //                dataSource: data,
+    //                select: onSelect
+    //            });
 
-                var text = getdisplayText(data, AccountId);
-                $('#AccountManagerName').val(text);
-                $("#Manager").data("kendoAutoComplete").value(text);
+    //            var text = getdisplayText(data, AccountId);
+    //            $('#AccountManagerName').val(text);
+    //            $("#Manager").data("kendoAutoComplete").value(text);
 
-            });
-        }
+    //        });
+    //    }
 
-        function getdisplayText(listItems, Code) {
-            var text = null;
-            for (var i = 0; i < listItems.length; i++) {
-                if (listItems[i].Code == Code) {
-                    text = listItems[i].Text;
-                    break;
-                }
-            }
-            return text;
-        }
+    //    function getdisplayText(listItems, Code) {
+    //        var text = null;
+    //        for (var i = 0; i < listItems.length; i++) {
+    //            if (listItems[i].Code == Code) {
+    //                text = listItems[i].Text;
+    //                break;
+    //            }
+    //        }
+    //        return text;
+    //    }
 
-        function onSelect(e) {
-            var dataItem = this.dataItem(e.item.index());
-            $('#AccountManagerId').val(dataItem.Code);
-            $('#AccountManagerName').val(dataItem.Text);
+    //    function onSelect(e) {
+    //        var dataItem = this.dataItem(e.item.index());
+    //        $('#AccountManagerId').val(dataItem.Code);
+    //        $('#AccountManagerName').val(dataItem.Text);
 
-        }
-    }
+    //    }
+    //}
 
 </script>

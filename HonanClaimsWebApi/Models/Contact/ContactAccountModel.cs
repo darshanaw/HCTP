@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HonanClaimsWebApi.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -36,6 +37,8 @@ namespace HonanClaimsWebApi.Models
 
         public bool FromProtal { get; set; }
         public string portalRegRequestId { get; set; }
+        public List<PicklistItem> PropertySuburbList { get; set; }
+        public List<PicklistItem> PropertyStateList { get; set; }
     }
 
     public class Account

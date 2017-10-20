@@ -109,12 +109,12 @@ namespace HonanClaimsWebApi.Models.Contact
 
         }
 
-        public async Task<List<PickListData>> GetManagerList()
+        public async Task<List<PickListData>> GetManagerList(string accountManagerClick)
         {
 
             List<PickListData> list = new List<PickListData>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/General/GetUserLookup?userName=";
+            string apiUrl = SiteUrl + "api/General/GetAllUsers?userName="+ accountManagerClick;
 
 
             using (HttpClient client = new HttpClient())

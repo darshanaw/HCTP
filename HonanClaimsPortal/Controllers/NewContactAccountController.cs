@@ -1,6 +1,8 @@
 ﻿using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models;
+using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApi.Models.Contact;
+using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
 using HonanClaimsWebApiAccess1.Models.TeamGetPortalRegistration;
 using System;
@@ -15,6 +17,8 @@ namespace HonanClaimsPortal.Controllers
     [AuthorizeUser]
     public class NewContactAccountController : Controller
     {
+        PicklistServicecs pickListServices;
+        PicklistServicecs PropertyStateList;
         // GET: NewContactAccount
         public async Task<ActionResult> Index(string FirstName,string LastName, string Phone, string EmailAddress, string portalRegRequestId, bool ajax = false, bool fromProtal = false)
         {
@@ -48,7 +52,22 @@ namespace HonanClaimsPortal.Controllers
             {
                 model.FromProtal = false;
             }
-            if (ajax) return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+            if (ajax)
+            {
+                return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Get Suburbs
+            pickListServices = new PicklistServicecs();
+            model.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
+            model.PropertySuburbList.Insert(0, new PicklistItem());
+
+
+            //Get Suburbs
+            PropertyStateList = new PicklistServicecs();
+            model.PropertyStateList = pickListServices.GetPickListItems("H_State");
+            model.PropertyStateList.Insert(0, new PicklistItem());
+
             return View(model);
         }
 
@@ -66,6 +85,16 @@ namespace HonanClaimsPortal.Controllers
             rmodel.PickTitle = await GetPickListData("Title");
             rmodel.PickTypes = await GetPickListData("Account Type");
             rmodel.AccountManagerId = UserId;
+
+            pickListServices = new PicklistServicecs();
+            rmodel.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
+            rmodel.PropertySuburbList.Insert(0, new PicklistItem());
+
+
+            //Get Suburbs
+            PropertyStateList = new PicklistServicecs();
+            rmodel.PropertyStateList = pickListServices.GetPickListItems("H_State");
+            rmodel.PropertyStateList.Insert(0, new PicklistItem());
 
             if (result)
             {
@@ -104,10 +133,10 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetManagerList()
+        public async Task<ActionResult> GetManagerList(string userName)
         {
             ContactAccountRepo conrepo = new ContactAccountRepo();
-            var result = await conrepo.GetManagerList();
+            var result = await conrepo.GetManagerList(userName);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
