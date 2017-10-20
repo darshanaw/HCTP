@@ -73,7 +73,7 @@ namespace HonanClaimsPortal.Controllers
             string UserId = client.UserId;
             SendEmailRepo rep = new SendEmailRepo();
             var result = await rep.SendEmail(filee, UserId, dicimod);
-            return Json(null, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetPortalRegistrationCount()
