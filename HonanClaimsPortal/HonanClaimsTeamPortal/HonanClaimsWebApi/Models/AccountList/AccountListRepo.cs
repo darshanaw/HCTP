@@ -37,7 +37,7 @@ namespace HonanClaimsWebApi.Models.AccountList
         {
             List<AccountListModel> list = new List<AccountListModel>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/Account/GetAccounts?accountName="+AccountName+"&type="+Type;
+            string apiUrl = SiteUrl + "api/Account/GetAccounts?accountName="+AccountName+"&type="+Type+"&pageSize="+10+"&pageNo="+1;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);

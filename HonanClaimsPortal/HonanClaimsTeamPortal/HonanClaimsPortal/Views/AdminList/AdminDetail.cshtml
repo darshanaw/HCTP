@@ -138,33 +138,50 @@
                         @Html.ValidationMessageFor(o => o.Fee_Per_Billing_Method, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
-            </div>
-            <div class="col-md-7 img-upload-section">
-                <div class="row">
-                    <div class="col-md-6">
-                        <input onchange="OnchangeLogoImage(this)" id="logoimgupload" accept="image/bmp,image/tiff,image/jpeg" name="logoimgupload" type="file">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="pull-right">
-                            <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
+
+                <br />
+                <br />
+                <div class="form-group">
+                    <div class="col-md-7 img-upload-section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input onchange="OnchangeLogoImage(this)" id="logoimgupload" accept="image/bmp,image/tiff,image/jpeg" name="logoimgupload" type="file">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="pull-right">
+                                    <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            @if (Model.IsNew)
+                            {
+                                <div class="img-logo-preview-wraper">
+                                    <img id="logoImg" class="img-logo-preview">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="img-logo-preview-wraper">
+                                    <img id="logoImg" src="data:image/png;base64,@Model.Customer_Logo" class="img-logo-preview">
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-                <div>
-                    @if (Model.IsNew)
-                    {
-                        <div class="img-logo-preview-wraper">
-                            <img id="logoImg" class="img-logo-preview">
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="img-logo-preview-wraper">
-                            <img id="logoImg" src="data:image/png;base64,@Model.Customer_Logo" class="img-logo-preview">
-                        </div>
-                    }
+            </div>
+
+            <div class="col-md-7">
+                <div class="col-md-12">
+                    <div class="pull-right mb-15">
+                        <button type="button" id="newLogin" class="btn btn-primary">New Login</button>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div id="loginGrid"></div>
                 </div>
             </div>
+
         </div>
     </div>
     <div class="main-container">
@@ -177,18 +194,7 @@
     </div>
                     }
 <hr />
-<div class="main-container">
-    <div class="row mt-15 mb-15">
-        <div class="col-md-12">
-            <div class="pull-right mb-15">
-                <button type="button" id="newLogin" class="btn btn-primary">New Login</button>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div id="loginGrid"></div>
-        </div>
-    </div>
-</div>
+
 
 
 <!--Modal-->
@@ -396,7 +402,7 @@
                     },
                     pageSize: 10
                 },
-                height: 200,
+                height: 575,
                 sortable: true,
                 columns: [{
                     hidden: true,
