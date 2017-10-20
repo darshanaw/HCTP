@@ -38,7 +38,15 @@
     HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
 }
 
-
+<div class="col-md-12" style="text-align: center; font-size: small;">
+    <div class="panel widget bg-info">
+        <div class="row row-table">
+            <div class="col-xs-12 pv-xs">
+                <div class="h3 m0 text-bold">Claim Ref # @Html.DisplayFor(item => item.Claim_Reference_Num) - @Html.DisplayFor(item => item.Account_Name) </div>
+            </div>
+        </div>
+    </div>
+</div>
 <ul class="nav nav-tabs">
     <li class="active"><a href="#tabClaimDetail" data-toggle="tab" aria-expanded="true">Claim Detail</a></li>
     @if (Model.Claim_Type == HonanClaimsPortal.Helpers.ClaimType.Claim.ToString())
@@ -94,7 +102,7 @@ else
             @Html.HiddenFor(o => o.Liability_Res_Source)
             @Html.HiddenFor(o => o.Defence_Res_Source)
             @Html.HiddenFor(o => o.H_Claimsid)
-
+            @Html.HiddenFor(o => o.Claim_Reference_Num)
 
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             <div class="panel panel-default">
@@ -104,8 +112,16 @@ else
                         <div class="col-md-12">
                             <fieldset>
                                 <br />
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <div class="text-right">
+                                            <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
+                                            <button type="submit" class="mb-sm btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
-                                    <div class="col-md-4"></div>
+                                    @*<div class="col-md-4"></div>
                                     <div class="col-md-6">
                                         <div class="form-group mb">
                                             <div class="col-md-12" style="text-align: center; font-size: small;">
@@ -117,11 +133,10 @@ else
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @Html.HiddenFor(o => o.Claim_Reference_Num)
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2"></div>
+                                    <div class="col-md-2"></div>*@
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group mb">
                                             <label for="input-id-1" class="col-sm-3 control-label input-sm">Account Name</label>
@@ -167,13 +182,7 @@ else
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="col-md-12">
-                                        <div class="text-right">
-                                            <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                                            <button type="submit" class="mb-sm btn btn-primary">Save</button>
-                                        </div>
-                                    </div>
-
+                                   
                                     <div class="col-md-12 col-sm-12 top-padding">
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Claim Status</label>
@@ -382,7 +391,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
                                             <div class="col-sm-9">
-                                                @Html.TextBoxFor(o => o.Claimant_Work_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -392,7 +401,7 @@ else
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
                                             <div class="col-sm-9">
 
-                                                @Html.TextBoxFor(o => o.Claimant_Home_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -401,7 +410,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                             <div class="col-sm-9">
-                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
                                             </div>
                                         </div>
                                     </div>
@@ -715,7 +724,7 @@ else
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm"})
+                                                                @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -724,7 +733,7 @@ else
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm"})
+                                                                @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1145,7 +1154,7 @@ else
 
     $(document).ready(function () {
 
-     
+
 
         $('#formGccClaim').submit(function () {
             if ($(this).valid()) {
