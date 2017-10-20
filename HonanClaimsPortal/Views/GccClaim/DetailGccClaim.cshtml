@@ -142,13 +142,34 @@ else
                                             <label for="input-id-1" class="col-sm-3 control-label input-sm">Account Name</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                    @if (string.IsNullOrEmpty(Model.Account_Name))
+                                                    {
+                                                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+
+                                                        <span id="ocNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
+
+                                                            <button type="button" class="mb-sm btn btn-danger btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                <i class="fa fa-binoculars"></i>
+                                                            </button>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm disabled", @maxlength = 100, @readonly = true })
+                                                        <span id="ocNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
+
+                                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                <i class="fa fa-binoculars"></i>
+                                                            </button>
+                                                        </span>
+                                                    }
+                                                    @*@Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
 
                                                     <span id="ocNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
                                                         <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                             <i class="fa fa-binoculars"></i>
                                                         </button>
-                                                    </span>
+                                                    </span>*@
                                                 </div>
                                             </div>
                                         </div>
