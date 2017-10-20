@@ -142,7 +142,7 @@
                 <br />
                 <br />
                 <div class="form-group">
-                    <div class="col-md-7 img-upload-section">
+                    <div class="col-md-12 img-upload-section">
                         <div class="row">
                             <div class="col-md-6">
                                 <input onchange="OnchangeLogoImage(this)" id="logoimgupload" accept="image/bmp,image/tiff,image/jpeg" name="logoimgupload" type="file">
@@ -262,8 +262,13 @@
                 </div>
                 <div class="form-group">
                     <label>Contact Name</label>
-                    <div class="demo-section k-content">
-                        <input id="products" style="width: 100%;" />
+                    <div class="input-group">
+                        <input id="products" class="form-control input-sm" />
+                        <span class="input-group-btn" id="AccountManagerlookup" data-toggle="modal" data-target="#PolicyModal">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
                     </div>
                     @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
                 </div>
@@ -290,9 +295,124 @@
     </div>
 </div>
 
+<!--Modal-->
+<div id="AccountManagerModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="cancelManagerBtn" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Contact Lookup</h4>
+            </div>
+
+            <div class="modal-body">
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearch">
+                <div id="lookupAccountManagerGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
+    //=============================================
+    $(document).ready(function () {
+        //LoadMagaer();
+        var AccountManagerList = [];
 
+        $('#AccountManagerlookup').click(function () {
+            var accId = $('#Account_Id').val();
+            var text = $('#AMccsearch').val();
+            $.get("/AdminList/GetContactNames?accountId=" + accId, function (data) {
+            //$.get("/NewContactAccount/GetManagerList?userName=" + text, function (data) {
+                AccountManagerList = data;
+                loadgrManagerid();
+            });
+
+        });
+
+        $('#cancelManagerBtn').click(function () {
+            $('#AMccsearch').val('');
+            AccountManagerList = [];
+        })
+
+        function loadgrManagerid() {
+            $("#lookupAccountManagerGrid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    data: AccountManagerList,
+                    pageSize: 10
+                },
+                dataBound: function (e) {
+                    if ($('#AccountManagerModal').hasClass('in')) {
+
+                    } else {
+                        $('#AccountManagerModal').modal('show');
+                    }
+                },
+                height: 550,
+                sortable: true,
+                serverPaging: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 10
+                },
+                columns: [{
+                    hidden: true,
+                    field: "ContactId",
+                    title: "ContactId"
+                },
+                {
+                    hidden: true,
+                    field: "AccountName",
+                    title: "AccountName"
+                },
+                {
+                    template: "<a href='javascript:void(0);' onclick=\"accountLookupClick('#= ContactId #','#= Email #','#= ContactName #')\" '>#= ContactName #</a>",
+                    //template: '<a id="#= ContactId #", class="#= Email #" onclick="accountLookupClick(this)">#= ContactName #</a>',
+                    title: "Account Name",
+                },
+                {
+                    field:"Email",
+                    title:"Email"
+                }
+                ]
+            });
+
+        }
+
+        $("#AMccsearch").keyup(function () {
+            var accId = $('#Account_Id').val();
+            if (accId.length > 2) {
+                AccountList = [];
+                $.get("/AdminList/GetContactNames?accountId=" + accId, function (data) {
+                    AccountManagerList = data;
+                    loadgrManagerid();
+                });
+            } else {
+                if (val == null || val == "") {
+                    AccountList = [];
+                    $.get("/AdminList/GetContactNames?accountId=" + accId, function (data) {
+                        AccountManagerList = data;
+                        loadgrManagerid();
+                    });
+                }
+            }
+        });
+
+    });
+
+    function accountLookupClick(ContactId,Email,ContactName) {
+        debugger;
+        $('#products').val(ContactName);
+        $("#ContactId").val(ContactId);
+        $("#Email").val(Email);
+        $('#AccountManagerModal').modal('hide');
+        $('#AMccsearch').val('');
+    }
+    //==============================================================
     $("#btncancel").click(function () {
         window.location.replace('@Url.Action("AdminList", "AdminList", new { id = "" })');
     });
@@ -337,7 +457,7 @@
                     title: "AccountId"
                 },
                 {
-                    template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
+                    template: '<a id="#= AccountId #" onclick="accountClickAdmin(this)">#= AccountName #</a>',
                     title: "Account Name",
                 },
                 {
@@ -439,7 +559,7 @@
                 bootbox.alert("Please add Account detail first");
                 return;
             };
-            LoadContacts(accId);
+            //LoadContacts(accId);
             $('#LoginDataModal').modal('show');
             $("#Addlogin").show();
             $("#Updatelogin").hide();
@@ -462,7 +582,7 @@
                     $("#Updatelogin").show();
 
                     var accId = $('#Account_Id').val();
-                    LoadContacts(accId);
+                    //LoadContacts(accId);
                     $('#ContactId').val(resultData.ContactId),
                     $("#products").val(resultData.ContactName);
                     $("#username").val(resultData.UserName);
@@ -484,7 +604,7 @@
 
 
 
-    function accountClick(e) {
+    function accountClickAdmin(e) {
         $('#AccountId').val(e.id);
         $("#Accountname").val(e.text);
         $('#OcModal').modal('hide');
