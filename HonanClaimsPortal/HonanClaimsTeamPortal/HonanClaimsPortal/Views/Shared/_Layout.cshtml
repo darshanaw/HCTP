@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
     <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-bootstrap.min.css">
     <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.bootstrap.min.css">
-    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/jquery.min.js"></script>
+    @*<script src="https://kendo.cdn.telerik.com/2017.3.913/js/jquery.min.js"></script>*@
     <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
 
 
@@ -46,7 +46,36 @@
     <!-- Loading gif-->
     <script src="~/Scripts/loadingoverlay.min.js"></script>
     <script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+    <!-- MOMENT JS-->
+    <script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
 
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- MATCHMEDIA POLYFILL-->
+    <script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
+
+    <!-- BOOTSTRAP-->
+    <script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/Content/vendor/animo.js/animo.js"></script>
+    <!-- SLIMSCROLL-->
+    <script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+    <!-- RTL demo-->
+    <script src="~/Content/app/js/demo/demo-rtl.js"></script>
+
+    <script src="~/Content/app/js/app.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
     <div class="overlay">
@@ -113,6 +142,31 @@
                     <!-- END Left navbar-->
                     <!-- START Right Navbar-->
                     <ul class="nav navbar-nav navbar-right">
+                        @*if (Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] != null && (bool)Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer])*@
+                        @{
+
+                            var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
+                            //if (lastEscapeTimer.IsTimerActive)
+                            //{
+                            var currentTimer = DateTime.Now;
+                            ViewBag.lastEscapeTimer = lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime;
+                            ViewBag.diffHours = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Hours.ToString().PadLeft(2, '0');
+                            ViewBag.diffMinutes = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Minutes.ToString().PadLeft(2, '0');
+                            ViewBag.diffSeconds = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Seconds.ToString().PadLeft(2, '0');
+                                                      
+
+                            ////}
+                            ////else
+                            ////{
+                            ////    var currentTimer = DateTime.Now;
+                            ////    ViewBag.lastEscapeTimer = lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime;
+                            ////    ViewBag.diffHours = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Hours.ToString().PadLeft(2, '0');
+                            ////    ViewBag.diffMinutes = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Minutes.ToString().PadLeft(2, '0');
+                            ////    ViewBag.diffSeconds = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Seconds.ToString().PadLeft(2, '0');
+                            ////}
+
+                            <li  class="user-block-status visible-md visible-lg" style="line-height:45px">@Html.Partial("~/Views/Shared/_Timer.cshtml", null)</li>
+                        }
                         <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
                             <a href="#">Hello, @userObj.FirstName</a>
                         </li>
@@ -200,7 +254,7 @@
                                     <!-- START list group-->
                                     <div class="list-group">
                                         <!-- list item-->
-                                        <a href="/Account/LogOff" class="list-group-item">
+                                        <a href="javascript:void(0);" onclick="return noTimerRunning();" class="list-group-item">
                                             <div class="media-box">
                                                 <div class="pull-left">
                                                     <em class="fa fa-user fa-2x text-warning"></em>
@@ -931,46 +985,267 @@
             </div>
         </div>
 
-        <!-- =============== VENDOR SCRIPTS ===============-->
-        <!-- MODERNIZR-->
-        <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
-        <!-- MATCHMEDIA POLYFILL-->
-        <script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
 
-        <!-- BOOTSTRAP-->
-        <script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
-        <!-- STORAGE API-->
-        <script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
-        <!-- JQUERY EASING-->
-        <script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
-        <!-- ANIMO-->
-        <script src="~/Content/vendor/animo.js/animo.js"></script>
-        <!-- SLIMSCROLL-->
-        <script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
-        <!-- SCREENFULL-->
-        <script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
-        <!-- LOCALIZE-->
-        <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
-        <!-- RTL demo-->
-        <script src="~/Content/app/js/demo/demo-rtl.js"></script>
-        @*@Scripts.Render("~/bundles/jqueryval")*@
-        <!-- =============== PAGE VENDOR SCRIPTS ===============-->
-        <!-- =============== APP SCRIPTS ===============-->
-        <script src="~/Content/app/js/app.js"></script>
+    <!-- Modal -->
+    <div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+        <div class="modal-dialog  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Timeslip</h4>
+                </div>
+                <div class="modal-body">
 
+                    @{
+                        string CurrentURL = Request.Url.AbsoluteUri;
+                        string pageName = "";
 
-        <script src="~/Scripts/jquery.validate.min.js"></script>
+                        if (CurrentURL.Contains("Billing/MyBillableTime"))
+                        {
+                            pageName = "MyBillable";
+                        }
+                        else if (CurrentURL.Contains("DetailRisksmartGccClaim") || CurrentURL.Contains("DetailGccClaim") || CurrentURL.Contains("DetailRisksmartPropertyClaim")
+                            || CurrentURL.Contains("DetailPropertyClaim"))
+                        {
+                            pageName = "claimDetail";
+                        }
+                        else
+                        {
+                            pageName = "Other";
+                        }
+                    }
+
+                    @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = pageName });}
+                </div>
+            </div>
+        </div>
+    </div>
+
+            
         @*
             <script src="~/Scripts/globalize.js"></script>
             <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-        @*
-            <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+       
+        
+            <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
     </body>
 </html>
 <script>
 
+    function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
+
+        var newClaimRef = "";
+        var newClaimId = "";
+
+        if (ClaimId != '' && typeof ClaimId !== 'undefined' && ClaimId != 'NaN') {
+            newClaimId = ClaimId;
+        }
+        else
+            newClaimId = $("#H_Claimsid").val();
+
+        if (hdnTimerClaimRef != '' && typeof hdnTimerClaimRef !== 'undefined' && hdnTimerClaimRef != 'NaN') {
+            newClaimRef = hdnTimerClaimRef;
+        }
+        else {
+
+            if ($("#Claim_Reference_Num").val() != '' && typeof $("#Claim_Reference_Num").val() != 'undefined' && $("#Claim_Reference_Num").val() != 'NaN') {
+
+                newClaimRef = $("#Claim_Reference_Num").val();
+            }
+            else {
+                newClaimRef = $("#hdnTimerClaimRef").val();
+            }
+        }
+
+        $.ajax({
+            url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
+
+                if (result.Checked_Date != null) {
+                    var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
+                    var month = Checked_Date.getMonth() + 1;
+                    var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+                }
+
+                if (result.Invoice_Processed_Date != null) {
+                    var Invoice_Processed_Date = new Date(parseInt(result.Invoice_Processed_Date.substr(6)));
+                    var month = Invoice_Processed_Date.getMonth() + 1;
+                    var rInvoice_Processed_Date = Invoice_Processed_Date.getDate() + "/" + month + "/" + Invoice_Processed_Date.getFullYear();
+                }
+
+
+                if (result.Service_Date != null) {
+                    var ssDate = new Date(parseInt(result.Service_Date.substr(6)));
+                    var dmonth = ssDate.getMonth() + 1;
+                    result.Service_Date = ssDate.getDate() + "/" + dmonth + "/" + ssDate.getFullYear();
+                }
+
+                if (result.End_Time != null) {
+                    var End_Time = new Date(parseInt(result.End_Time.substr(6)));
+                    var year = End_Time.getFullYear();
+                    if (year == 1) {
+                        result.sEnd_Time = "";
+                    } else {
+                        var h = End_Time.getHours(), m = End_Time.getMinutes();
+                        var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                        result.sEnd_Time = _time;
+                    }
+                }
+
+
+                if (result.Start_Time != null) {
+                    var Start_Time = new Date(parseInt(result.Start_Time.substr(6)));
+                    var yesr = Start_Time.getFullYear();
+                    if (year == 1) {
+                        result.sStart_Time = "";
+                    } else {
+                        var h = Start_Time.getHours(), m = Start_Time.getMinutes();
+                        var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                        result.sStart_Time = _time;
+                    }
+                }
+
+                $("#H_Billingsid").val(result.H_Billingsid);
+                $("#H_Claimsid_Billing").val(newClaimId);
+                $("#Service_By").val(result.Service_By);
+                $("#Is_Billable").val(result.Is_Billable);
+                $("#Billable").val(result.Billable);
+                $("#Units").val(result.Units);
+                
+                if (timeDiff != '' && typeof timeDiff !== "undefined" && timeDiff != 'NaN') {
+                    if (timeDiff < 6) {
+
+                        $("#Units").val("1");
+
+                    }
+                }
+
+                if (!result.Claim_No) {
+                   
+                    $('#Claim_No').data('kendoAutoComplete').value(newClaimRef);
+
+                    // $('#Claim_No').val($("#Claim_Reference_Num").val());
+                    $("#H_Claimsid_Billing").val(newClaimId);
+
+
+                    //get ClientId
+                    $.ajax({
+                        url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + newClaimId,
+                        success: function (data) {
+
+                            $('#Client_Name').val(data.Text);
+                            $("#ClientId").val(data.Code);
+
+                            if (data.Order != null) {
+                                var RatePHR = data.Order;
+                                var RatePUNIT = (RatePHR / 60 * 6);
+                                $("#Rate").val(data.Order);
+                                $("#Rate_Per_Unit").val(RatePUNIT);
+
+                                var Rate_ = $("#Rate_Per_Unit").val();
+                                var val_ = (Rate_ * $("#Units").val()).toFixed(2);
+                                $("#Billable").val(val_);
+                            }
+                        }
+                    });
+
+
+                    //get policy Id
+                    $.ajax({
+                        url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + newClaimId,
+                        success: function (result) {
+
+                            $('#Policyid_Billing').val(result[0].Code);
+                            $("#Policy_Name_Billing").val(result[0].Text);
+                        }
+                    });
+
+                    //$("#Claim_No").data("kendoAutoComplete").trigger("select");
+                }
+                else
+                    $("#Claim_No").val(result.Claim_No);
+
+                $("#ActivityId").val(result.ActivityId);
+                $("#Activity_Name").val(result.Activity_Name);
+                $("#Policyid_Billing").val(result.Policyid_Billing);
+                $("#Policy_Name_Billing").val(result.Policy_Name_Billing);
+                $("#ClientId").val(result.ClientId);
+                $("#Client_Name").val(result.Client_Name);
+                $("#Service_Date").val(result.Service_Date);
+                $("#Qty_Mins").val(result.Qty_Mins);
+                $("#Rate").val(result.Rate);
+
+                if (startTime != '' && typeof startTime !== "undefined")
+                    result.sStart_Time = startTime;
+
+                $("#sStart_Time").val(result.sStart_Time);
+                var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
+                Starttimepicker.value(result.sStart_Time);
+
+                if (endTime != '' && typeof endTime !== "undefined")
+                    result.sEnd_Time = endTime;
+
+
+                $("#sEnd_Time").val(result.sEnd_Time);
+                var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
+                Endtimepicker.value(result.sEnd_Time);
+
+               
+                if (result.Timeslip_Checked) {
+                    $("#Timeslip_Checked").prop('checked', true);
+                } else {
+                    $("#Timeslip_Checked").prop('checked', false);
+                }
+                $("#Timeslip_Checked").val(result.Timeslip_Checked);
+
+                $("#Checked_By").val(result.Checked_By);
+                $("#Checked_Date").val(rChecked_Date);
+                $("#Checked_By_Name").val(result.Checked_By_Name);
+
+                if (result.Invoice_Processed) {
+                    $("#Invoice_Processed").prop('checked', true);
+                } else {
+                    $("#Invoice_Processed").prop('checked', false);
+                }
+                $("#Invoice_Processed").val(result.Invoice_Processed);
+
+                $("#Invoice_Processed_By").val(result.Invoice_Processed_By);
+                $("#Invoice_Processed_Date").val(rInvoice_Processed_Date);
+                $("#Invoice_Processed_By_Name").val(result.Invoice_Processed_By_Name);
+
+                $("#Invoice_No").val(result.Invoice_No);
+                $("#Invoice_Date").val(result.Invoice_Date);
+                $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
+
+
+                $("#Work_Done").val(result.Work_Done);
+                $("#Service_By_Name").val(result.Service_By_Name);
+                $("#Quarter").val(result.Quarter);
+
+                if (BillingId)
+                    $("#IsNew_Billable").val(false);
+                else
+                    $("#IsNew_Billable").val(true);
+
+                //var dateString = $("#Service_Date").val().substr(6);
+                //var currentTime = new Date(parseInt(dateString));
+                //var month = currentTime.getMonth() + 1;
+                //var day = currentTime.getDate();
+                //var year = currentTime.getFullYear();
+                //var date = day + "/" + month + "/" + year;
+                //$("#Service_Date").val(date);
+
+                //if (startTime && typeof startTime !== "undefined")
+                //    $("#sStart_Time").val(startTime);
+
+                //if (endTime && typeof endTime !== "undefined")
+                //    $("#sEnd_Time").val(endTime);
+
+                $('#BillingDetailModal').modal('show');
+            }
+        });
+                
+    }
 
     $(document).ready(function () {
         var list = new Array();
@@ -1320,6 +1595,33 @@
         $.ajax({
             url: "/Home/GetMyActivityCount", success: function (result) {
                 $("#activityCount").text(result);
+            }
+        });
+    }
+
+
+    function noTimerRunning()
+    {
+        $.ajax({
+
+            url: "/Billing/GetTimerStart",
+
+            success: function (result) {
+
+                if (result == "notimer")
+                {
+                    location.href = "/Account/LogOff";
+                    return true;
+                }
+                else
+                {
+                    bootbox.alert("Timer is running. Please log your time.");
+                    return false;
+                }
+            },
+            error: function () {
+
+                return false;
             }
         });
     }

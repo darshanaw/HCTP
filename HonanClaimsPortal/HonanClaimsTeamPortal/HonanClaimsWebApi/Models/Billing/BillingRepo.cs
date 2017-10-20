@@ -3,10 +3,13 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace HonanClaimsWebApi.Models.Billing
 {
@@ -282,6 +285,110 @@ namespace HonanClaimsWebApi.Models.Billing
 
                 throw ex;
             }          
+        }
+
+        private static string insertTimer = "api/ClaimTimer/StartTimer?userId=";
+        private static string param_claimId = "&claimId=";
+
+        public string InsertTimerStart(ClaimTimer timer)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + insertTimer + timer.UserId + param_claimId + timer.ClaimId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<string>(response);
+                        }
+                    }
+                }
+                
+                return "";
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+
+        private static string getTimer = "api/ClaimTimer/GetClaimTimer?userId=";
+        public ClaimTimer GetTimerStart(string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + getTimer + userId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<ClaimTimer>(response);
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+
+        private static string endTimer = "api/ClaimTimer/EndTimer?userId=";
+        private static string param_claimTimerId = "&claimTimerId=";
+        public bool endTimerFunc(string userId, string claimTimerId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + endTimer + userId + param_claimTimerId + claimTimerId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<bool>(response);
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
     }
 }

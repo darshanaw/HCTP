@@ -19,7 +19,7 @@
 <link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
 
 <div class="content-wrapper">
@@ -145,7 +145,7 @@
         <div class="col-md-12 text-right">
             <div class="col-md-12 text-right">
                 <div class="col-md-12 text-right">
-                    <button id="addNew" onclick="loadBillingDetail('')" type="button" class="btn btn-primary mr-20">Add New Billing Time</button>
+                    <button id="addNew" onclick="loadBillingDetailOnMyBillable('')" type="button" class="btn btn-primary mr-20">Add New Billing Time</button>
                     <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
                     <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
                 </div>
@@ -160,7 +160,7 @@
 </div>
 
 <!-- Modal -->
-<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+@*<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -171,12 +171,9 @@
                 @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = "MyBillable" });}
 
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>*@
         </div>
     </div>
-</div>
+</div>*@
 
 <script>
     $(document).ready(function () {
@@ -268,7 +265,7 @@
            {
                field: "ClaimRefNo",
                title: "Claims Ref #",
-               template: "<a href='javascript:void(0);' onclick=\"loadBillingDetail('#= BillingId #')\" '>#= ClaimRefNo #</a>"
+               template: "<a href='javascript:void(0);' onclick=\"loadBillingDetailOnMyBillable('#= BillingId #')\" '>#= ClaimRefNo #</a>"
            },
            {
                field: "Customer",
@@ -277,7 +274,7 @@
            {
                field: "ServiceBy",
                title: "Service By",
-               template: "<a href='javascript:void(0);' onclick=\"loadBillingDetail('#= BillingId #')\" '>#= ServiceBy #</a>"
+               template: "<a href='javascript:void(0);' onclick=\"loadBillingDetailOnMyBillable('#= BillingId #')\" '>#= ServiceBy #</a>"
            },
            {
                field: "ServiceDate",
@@ -318,7 +315,7 @@
         }
     }
 
-    function loadBillingDetail(BillingId) {
+    function loadBillingDetailOnMyBillable(BillingId) {
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
                 //alert("IN");
@@ -432,12 +429,9 @@
                 //$("#Service_Date").val(date);
 
                 $('#BillingDetailModal').modal('show');
-                debugger;
             }
         });
-        $("#btnNewFileNote").click(function () {
-            clearFileNoteControls();
-        });
+       
     }
 </script>
 

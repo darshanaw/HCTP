@@ -238,6 +238,7 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\jQueryDataTableParamModel.cs" />
     <Compile Include="Helpers\Messages.cs" />
+    <Compile Include="Helpers\TimerHelper.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />

@@ -1,4 +1,5 @@
-﻿using HonanClaimsWebApi.Models.ClaimList;
+﻿using HonanClaimsWebApi.Models;
+using HonanClaimsWebApi.Models.ClaimList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace HonanClaimsWebApiAccess1.LoginServices
         public bool IsPortalAdmin { get; set; }
         public bool IsManager { get; set; }
         public bool IsTimeslipChecker { get; set; }
+        public ClaimTimer ClaimTimer { get; set; }
     }
 }

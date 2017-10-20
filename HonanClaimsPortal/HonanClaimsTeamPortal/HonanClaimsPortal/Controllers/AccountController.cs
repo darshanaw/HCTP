@@ -105,6 +105,10 @@ namespace HonanClaimsPortal.Controllers
                 case SignInStatus.Success:
                     Session[SessionHelper.loginCounter] = null;
                     Session[SessionHelper.claimTeamLogin] = client;
+                    if(client.ClaimTimer != null && client.ClaimTimer.IsTimerActive)
+                        Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
+                    else
+                        Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
                     if (model.RememberMe)
                     {
                         Response.Cookies[CookieHelper.CookieObject_][CookieHelper.UserCode_] = model.UserCode;
@@ -427,6 +431,9 @@ namespace HonanClaimsPortal.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+
+           
+            var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
 
             LoginService loginService = new LoginService();
             loginService.LogoutUser((Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel).UserId);

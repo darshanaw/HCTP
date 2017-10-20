@@ -187,7 +187,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         //Partial view
-        [HttpGet]
+        //[HttpGet]
         public ActionResult _TimeslipDetail(string BillingId, string page)
         {
             var model = new BillingModel();
@@ -209,7 +209,7 @@ namespace HonanClaimsPortal.Controllers
             }
             model.IsNew_Billable = false;
             BillingRepo billingRepo = new BillingRepo();
-            model =  billingRepo.GetTeamGetBillableTimeRecord(BillingId).Result;
+            model = billingRepo.GetTeamGetBillableTimeRecord(BillingId).Result;
 
 
             model.Billable = (decimal.Round(model.Billable, 2));
@@ -255,12 +255,12 @@ namespace HonanClaimsPortal.Controllers
                 //    return PartialView(model);
                 //}
 
-                if(model.sStart_Time!=null)
+                if (model.sStart_Time != null)
                 {
                     model.Start_Time = Convert.ToDateTime(model.sStart_Time);
                 }
 
-                if(model.sEnd_Time!=null)
+                if (model.sEnd_Time != null)
                 {
                     model.End_Time = Convert.ToDateTime(model.sEnd_Time);
                 }
@@ -271,10 +271,18 @@ namespace HonanClaimsPortal.Controllers
                 {
 
                     var result = billingRepo.TeamInsertTimeslip(model, client.UserId).Result;
+                    var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
+                    if (lastEscapeTimer != null && lastEscapeTimer.IsTimerActive)
+                    {
+                        billingRepo.endTimerFunc(client.UserId, lastEscapeTimer.ClaimTimerId);
+                    }
 
                     if (model.PageType == "claimDetail")
                     {
+
+                        // Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = false;
                         return Json("success", JsonRequestBehavior.AllowGet);
+                        //return JavaScript("location.reload(true)");
                     }
                     else
                     {
@@ -293,6 +301,7 @@ namespace HonanClaimsPortal.Controllers
                     if (model.PageType == "claimDetail")
                     {
                         return Json("success", JsonRequestBehavior.AllowGet);
+                        //return JavaScript("location.reload(true)");
                     }
                     else
                     {
@@ -303,7 +312,7 @@ namespace HonanClaimsPortal.Controllers
                             //return View(model);
                             //return Json(new { error = true, message = RenderViewToString(PartialView("_TimeslipDetail", model)) });
                             //return PartialView(model);
-                           // return RedirectToAction("MyBillableTime", "Billing");
+                            // return RedirectToAction("MyBillableTime", "Billing");
                         }
                         //return RedirectToAction("MyBillableTime", "Billing");
 
@@ -315,7 +324,7 @@ namespace HonanClaimsPortal.Controllers
             catch (Exception ex)
             {
                 throw ex;
-            }          
+            }
         }
 
 
@@ -376,5 +385,31 @@ namespace HonanClaimsPortal.Controllers
             model.UserId = UserId;
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult InsertStartTime(string claimId)
+        {
+            BillingRepo repo = new BillingRepo();
+            var model = new ClaimTimer();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+            model.ClaimId = claimId;
+            model.StartTime = DateTime.Now;
+            model.UserId = UserId;
+            repo.InsertTimerStart(model);
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult GetTimerStart()
+        {
+            BillingRepo repo = new BillingRepo();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            ClaimTimer timer = repo.GetTimerStart(client.UserId);
+            if(timer == null)
+                return Json("notimer", JsonRequestBehavior.AllowGet);
+            else
+            return Json(timer, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

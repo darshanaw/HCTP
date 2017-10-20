@@ -12,4 +12,6 @@ namespace HonanClaimsWebApi.Models
         public DateTime Date { get; set; }
         public string UserId { get; set; }
     }
+
+    
 }
