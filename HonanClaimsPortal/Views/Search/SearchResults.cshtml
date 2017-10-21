@@ -37,49 +37,56 @@
     }
 </style>
 
-<div class="content-wrapper">
+<div class="content-wrapper" style="padding-top:5px">
 
-    @{
-        var searchField = TempData["SearchField"];
-        var tempval = TempData["SearchValue"];
-    }
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-12">
 
-    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Claims")
-    {
-        <h4 class="hmb">Claims</h4>
-        <div class="row">
-            <div id="claimGrid"></div>
+                    @{
+                        var searchField = TempData["SearchField"];
+                        var tempval = TempData["SearchValue"];
+                    }
+
+                    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Claims")
+                    {
+                        <h4 class="hmb">Claims</h4>
+                        <div class="row">
+                            <div id="claimGrid"></div>
+                        </div>
+                    }
+
+                    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Policies")
+                    {
+                        <h4 class="hmb top-padding-eight">Policies</h4>
+                        <div class="row">
+                            <div id="policyGrid"></div>
+                        </div>
+                    }
+
+                    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Accounts")
+                    {
+                        <h4 class="hmb top-padding-eight">Accounts</h4>
+                        <div class="row">
+                            <div id="accountGrid"></div>
+                        </div>
+                    }
+
+                    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Contacts")
+                    {
+                        <h4 class="hmb top-padding-eight">Contacts</h4>
+                        <div class="row">
+                            <div id="contactGrid"></div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
+            </div>
 
-    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Policies")
-    {
-        <h4 class="hmb top-padding-eight">Policies</h4>
-        <div class="row">
-            <div id="policyGrid"></div>
-        </div>
-    }
-
-    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Accounts")
-    {
-        <h4 class="hmb top-padding-eight">Accounts</h4>
-        <div class="row">
-            <div id="accountGrid"></div>
-        </div>
-    }
-
-    @if (searchField.ToString() == "Search All" || searchField.ToString() == "Contacts")
-    {
-        <h4 class="hmb top-padding-eight">Contacts</h4>
-        <div class="row">
-            <div id="contactGrid"></div>
-        </div>
-    }
-
-
-</div>
-
-<script>
+            <script>
     $(document).ready(function () {
 
         $.LoadingOverlay("show");
@@ -331,4 +338,4 @@
         });
     }
 
-</script>
+            </script>
