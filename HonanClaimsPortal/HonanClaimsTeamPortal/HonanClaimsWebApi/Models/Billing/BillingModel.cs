@@ -43,9 +43,9 @@ namespace HonanClaimsWebApi.Models.Billing
         public DateTime? Invoice_Processed_Date { get; set; }
         public string Invoice_No { get; set; }
         public string Invoice_Date { get; set; }
-        [Required(ErrorMessage = "Rate Per Unit Required")]
+        //[Required(ErrorMessage = "Rate Per Unit Required")]
         public decimal Rate_Per_Unit { get; set; }
-        [Required(ErrorMessage = "Units Done Required")]
+        [Required(ErrorMessage = "Units Required")]
         public int Units { get; set; }
         [Required(ErrorMessage = "Work Done Required")]
         public string Work_Done { get; set; }

@@ -377,6 +377,9 @@
                 $("#Service_Date").val(result.Service_Date);
                 $("#Qty_Mins").val(result.Qty_Mins);
                 $("#Rate").val(result.Rate);
+                if (result.Rate != 0) {
+                    document.getElementById("Rate").readOnly = true;
+                }
                 $("#Billable").val(result.Billable);
 
                 $("#sEnd_Time").val(result.sEnd_Time);
@@ -413,6 +416,9 @@
 
                 $("#Invoice_No").val(result.Invoice_No);
                 $("#Invoice_Date").val(result.Invoice_Date);
+
+
+
                 $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
                 $("#Units").val(result.Units);
                 $("#Work_Done").val(result.Work_Done);

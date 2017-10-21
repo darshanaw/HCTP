@@ -146,15 +146,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Rate P/Hr ($)</label>
                     <div class="col-sm-8">
-                        @if (Model.Rate != 0)
-                        {
-                            @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control input-sm", @readonly=true })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control input-sm" })
-                        }
-                        
+                         @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control input-sm" })                                        
                         @Html.ValidationMessageFor(o => o.Rate, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
@@ -163,8 +155,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Rate P/Unit ($)</label>
                     <div class="col-sm-8">
-                        @Html.TextBoxFor(m => m.Rate_Per_Unit, new { @type = "number", @class = "form-control input-sm" })
-                        @Html.ValidationMessageFor(o => o.Rate_Per_Unit, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        @Html.TextBoxFor(m => m.Rate_Per_Unit, new { @type = "number", @class = "form-control input-sm", @readonly = true })
                     </div>
                 </div>
             </div>
