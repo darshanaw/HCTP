@@ -58,7 +58,7 @@
         $('#tbActivityTaskAccount').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/AccountAjaxHandler",
+            "sAjaxSource": "/Lookup/AllAccountAjaxHandler",
             "paging": false,
             "scrollY": '20vh',
             //"pageLength": 15,
@@ -101,6 +101,9 @@
             $("#Owner_Company_Dtl").val(accountId);
         }
 
+        if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
+            $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+        }
 
         $('#AccountModal_ActivityTask').modal('hide');
     }

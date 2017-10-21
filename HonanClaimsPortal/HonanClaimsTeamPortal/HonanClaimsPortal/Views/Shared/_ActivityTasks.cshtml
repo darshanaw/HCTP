@@ -354,6 +354,7 @@
         showOverDue = $("#chkShowOverdue").is(':checked');
         owner = $("#OwnerType_ActivityTask").val();
 
+     
         $("#gridActivityTasks").data("kendoGrid").dataSource.read({
             incompleteOnly: incompleteOnly, completedOnly: completedOnly, showOverDue: showOverDue, owner: owner
         });
@@ -385,6 +386,7 @@
                 $("#This_Task_Due_Date_Dtl").val(kendo.toString(kendo.parseDate(result.This_Task_Due_Date_Dtl), 'dd/MM/yyyy'));
                 $("#Completed_Dtl").prop("checked", result.Completed_Dtl);
                 $("#Skipped_Dtl").prop("checked", result.Skipped_Dtl);
+                $("#High_Priority_Task_Dtl").prop("checked", result.High_Priority_Task_Dtl);
                 $("#Completed_By_Name_Dtl").val(result.Completed_By_Name_Dtl);
                 $("#Completed_By_Dtl").val(result.Completed_By_Dtl);
                 $("#Completed_Date_Dtl").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
@@ -392,6 +394,19 @@
                 $("#Update_Key_Contacts_Dtl").prop("checked", result.Update_Key_Contacts_Dtl);
                 $("#Update_Key_Date_Dtl").prop("checked", result.Update_Key_Date_Dtl);
                 $("#IsNew").val("false");
+
+                if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
+                    $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+                }
+                else {
+                    $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+                }
+
+                if (result.Completed_Dtl)
+                    $("#Update_Key_Date_Dtl").prop("disabled", false);
+                else
+                    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+
             }
         });
 

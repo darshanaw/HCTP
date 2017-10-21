@@ -580,6 +580,62 @@ namespace HonanClaimsPortal.Controllers
 
         }
 
+        public ActionResult AllAccountAjaxHandler(jQueryDataTableParamModel param)
+        {
+            lookupServices = new LookupServices();
+            List<AccountSimpleModel> objectList = new List<AccountSimpleModel>();
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                objectList = lookupServices.GetAccounts(param.sSearch, "");
+            }
+
+            IEnumerable<AccountSimpleModel> filteredRecords = objectList;
+
+            var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+            Func<AccountSimpleModel, string> orderingFunction = (c => sortColumnIndex == 1 ? c.AccountId :
+                                                                sortColumnIndex == 2 ? c.AccountName :
+                                                                sortColumnIndex == 3 ? c.AccountType :
+                                                                sortColumnIndex == 4 ? c.AccountManager :
+                                                                c.AccountName);
+
+            var sortDirection = Request["sSortDir_0"]; // asc or desc
+            if (sortDirection == "asc")
+                filteredRecords = filteredRecords.OrderBy(orderingFunction);
+            else
+                filteredRecords = filteredRecords.OrderByDescending(orderingFunction);
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filteredRecords = filteredRecords
+                            .Where(c => c.AccountName.ToUpper().Contains(param.sSearch.ToUpper()));
+                //           ||
+                //           c.Town.Contains(param.sSearch));
+            }
+
+
+
+            List<string[]> aData = new List<string[]>();
+
+            foreach (AccountSimpleModel item in filteredRecords)
+            {
+                string[] arry = new string[] { item.AccountId, item.AccountName, item.AccountType, item.AccountManager, item.BillingMethod };
+                aData.Add(arry);
+            }
+
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = 97,
+                iTotalDisplayRecords = 3,
+                aaData = aData
+
+            },
+
+            JsonRequestBehavior.AllowGet);
+
+        }
+
 
     }
 }

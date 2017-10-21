@@ -30,6 +30,8 @@
 
         $.LoadingOverlay("hide");
         RefreshActivityTasksGrid();
+        generateKeyContactsGrid();
+        generateKeyDateGrid();
         $("#Last_Task_Completed_Dtl_String").val("");
         lastTaskCompletedDate();
     }
@@ -37,6 +39,8 @@
     function GetResult_AT_Failure(data)
     {
         RefreshActivityTasksGrid();
+        generateKeyContactsGrid();
+        generateKeyDateGrid();
         $.LoadingOverlay("hide");
         bootbox.alert("Error occured.");
     }
@@ -62,7 +66,9 @@
     @Html.HiddenFor(o=>o.Next_Seq_Dtl)
     @Html.HiddenFor(o=>o.Completed_By_Dtl)
     @Html.HiddenFor(o => o.H_Activitytasksid_Dtl)
-    @Html.HiddenFor(o=>o.IsNew)
+    @Html.HiddenFor(o => o.IsNew)
+    @Html.HiddenFor(o=>o.Seq_Dtl)
+    @Html.HiddenFor(o=>o.Stage_Dtl)
 
     <input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
    
@@ -88,11 +94,11 @@
                     }
 
                     @Html.DropDownListFor(model => model.Seq_Dtl, new SelectList(list, "Value", "Text",selectedVal), "",
-                   new { @class = "form-control input-sm" })
+                   new { @class = "form-control input-sm disabled", @disabled = true })
                 </div>
                 <label class="col-sm-1 control-label input-sm">Stage</label>
                 <div class="col-sm-4">
-                    @Html.DropDownListFor(model => model.Stage_Dtl, new SelectList(ViewBag.Stage, "Value", "Text"), "", new { @class = "form-control input-sm" })
+                    @Html.DropDownListFor(model => model.Stage_Dtl, new SelectList(ViewBag.Stage, "Value", "Text"), "", new { @class = "form-control input-sm disabled", @disabled = true })
                 </div>
             </div>
         </div>
@@ -234,6 +240,19 @@
 
         <div class="row">
             <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm"></label>
+                <div class="col-sm-8">
+                    <label class="col-sm-5 control-label input-sm pr0">High Priority</label>
+                    <div class="pl0 col-sm-1">
+                        @Html.CheckBoxFor(o => o.High_Priority_Task_Dtl)
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Completed By</label>
                 <div class="col-sm-8">
                     @Html.TextBoxFor(o => o.Completed_By_Name_Dtl, new { @class = "form-control input-sm disabled", @readonly = true })
@@ -293,7 +312,7 @@
 
     </div>
 
-    <div class="col-md-12" style="padding-top:100px">
+    <div class="col-md-12" style="padding-top:50px">
         <div class="footer text-right">
             <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
             <button type="submit" class="mb-sm btn btn-primary" id="btnSaveActivityDetail">Save Changes</button>
@@ -355,11 +374,11 @@
 
         $("#H_ClaimsRefid_Dtl").val($("#Claim_Reference_Num").val());
 
-        if (!$(this).is(":checked")) {
+        //if (!$(this).is(":checked")) {
 
-            $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
-            $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
-        }
+        //    $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+        //    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+        //}
 
         $('#aEmailClaimant_ActivityTask').click(function () {
             this.href = "mailto:" + $('#Email_Dtl').val();
@@ -375,6 +394,8 @@
 
         $(".ActivityWorkFlowModal_Close").click(function () {
             RefreshActivityTasksGrid();
+            generateKeyContactsGrid();
+            generateKeyDateGrid();
             $("#ActivityWorkFlowModal").modal("hide");
         });
 
@@ -417,7 +438,7 @@
                          
                 $("#actualCompletedDate").show();
                 $("#dummyCompletedDate").hide();
-                $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+                //$("#Update_Key_Contacts_Dtl").prop("disabled", false);
                 $("#Update_Key_Date_Dtl").prop("disabled", false);
                 $("#Completed_Date_Dtl").val('@DateTime.Now.ToString("dd/MM/yyyy")');
                 $("#Completed_By_Name_Dtl").val('@ViewBag.CurrentUser');
@@ -428,7 +449,7 @@
             }
             else {
 
-                $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+                //$("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
                 $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
                 $("#Completed_Date_Dtl").val("");
                 $("#Completed_By_Dtl").val("");
@@ -475,10 +496,9 @@
             $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
 
             $("#nextSeq_wf").val($("#Next_Seq_Dtl_Temp").val());
-          
-            if ($("#isActivityCompletionGrid").val() == 'true')
-            {
-                
+
+            if ($("#isActivityCompletionGrid").val() == 'true') {
+
                 $.LoadingOverlay("show");
 
                 $.ajax({
@@ -487,7 +507,7 @@
                     + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
                     + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid").val(), success: function (result) {
 
-                        
+
                     },
                     complete: function () {
 
@@ -496,13 +516,15 @@
                 });
 
                 RefreshActivityTasksGrid();
+                generateKeyContactsGrid();
+                generateKeyDateGrid();
             }
 
             $("#ActivityWorkFlowModal").modal('hide');
 
-        })
+        });
 
-
+        
 
     });
 

@@ -76,7 +76,7 @@
                     "sName": "LastName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeActivityTaskContactModal(\'' + oObj[5] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' + oObj[4] + '\', \'' + oObj[7] + '\')">' + oObj[0] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeActivityTaskContactModal(\'' + oObj[5] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' + oObj[4] + '\', \'' + oObj[7] + '\', \'' + oObj[6] + '\')">' + oObj[0] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                         //item.LastName, item.FirstName, item.ContactName, item.AccountId,item.AccountName,item.ContactId
                     }
@@ -96,7 +96,7 @@
     });
 
 
-    function closeActivityTaskContactModal(contactId,contactName,accountId,accountName, phone) {
+    function closeActivityTaskContactModal(contactId,contactName,accountId,accountName, phone,email) {
 
         $("#Owner_Contact_Name_Dtl").val(contactName);
 
@@ -113,6 +113,13 @@
 
         if ($("#Phone_Dtl").length > 0)
             $("#Phone_Dtl").val(phone);
+
+        if ($("#Email_Dtl").length > 0)
+            $("#Email_Dtl").val(email);
+
+        if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
+            $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+        }
 
         $('#ActivityTaskContactModal').modal('hide');
     }
