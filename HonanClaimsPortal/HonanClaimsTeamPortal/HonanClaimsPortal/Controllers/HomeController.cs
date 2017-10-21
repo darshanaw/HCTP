@@ -37,9 +37,25 @@ namespace HonanClaimsPortal.Controllers
         [HttpPost]
         public async Task<ActionResult> GetContactList(List<string> claimList)
         {
-            SendEmailRepo repo = new SendEmailRepo();
-            var result = await repo.GetContactList(claimList);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            try
+            {
+                List<string> returnlist = new List<string>();
+                SendEmailRepo repo = new SendEmailRepo();
+                var result = await repo.GetContactList(claimList);
+                foreach (var item in result)
+                {
+                    if (!string.IsNullOrEmpty(item.Code))
+                    {
+                        returnlist.Add(item.Code);
+                    }
+                }
+                return Json(returnlist, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public async Task<ActionResult> GetClaimList()

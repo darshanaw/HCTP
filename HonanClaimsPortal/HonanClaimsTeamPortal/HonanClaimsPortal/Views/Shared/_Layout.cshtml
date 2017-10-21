@@ -153,7 +153,7 @@
                             ViewBag.diffHours = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Hours.ToString().PadLeft(2, '0');
                             ViewBag.diffMinutes = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Minutes.ToString().PadLeft(2, '0');
                             ViewBag.diffSeconds = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Seconds.ToString().PadLeft(2, '0');
-                                                      
+
 
                             ////}
                             ////else
@@ -165,7 +165,7 @@
                             ////    ViewBag.diffSeconds = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Seconds.ToString().PadLeft(2, '0');
                             ////}
 
-                            <li  class="user-block-status visible-md visible-lg" style="line-height:45px">@Html.Partial("~/Views/Shared/_Timer.cshtml", null)</li>
+                            <li class="user-block-status visible-md visible-lg" style="line-height:45px">@Html.Partial("~/Views/Shared/_Timer.cshtml", null)</li>
                         }
                         <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
                             <a href="#">Hello, @userObj.FirstName</a>
@@ -222,8 +222,8 @@
                                             <small>New File Note</small>
                                         </a>
                                         @*<a href="#" class="list-group-item">
-                                            <small>New Activity Task</small>
-                                        </a>*@
+                                                <small>New Activity Task</small>
+                                            </a>*@
                                         <a href="#" id="addNewKeyDate" class="list-group-item">
                                             <small>New Key Date</small>
                                         </a>
@@ -937,6 +937,7 @@
                     <div class="modal-header">
                         <button id="closemod" type="button" class="close">&times;</button>
                         <h4 class="modal-title">Send a Question</h4>
+                        <button id="sendmail" class="btn btn-primary">Send</button>
                     </div>
                     <input name="EmailTattchment" id="emailattach" type="file" multiple>
                     <div class="modal-body">
@@ -958,11 +959,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">To</label>
-                                    <select id="Tolist" class="form-control"></select>
+                                    @*<select id="Tolist" class="form-control"></select>*@
+                                    <input class="form-control" id="Tolist" />
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">CC</label>
-                                    <select id="CClist" class="form-control"></select>
+                                    @*<select id="CClist" class="form-control"></select>*@
+                                    <input class="form-control" id="CClist" />
                                 </div>
                                 <div class="form-group">
                                     <label for="usr">Subject</label>
@@ -975,7 +978,7 @@
                             </div>
                             <div class="modal-footer">
                                 <div class="pull-right">
-                                    <button class="btn btn-primary">Send</button>
+
                                 </div>
                             </div>
                         </div>
@@ -986,48 +989,48 @@
         </div>
 
 
-    <!-- Modal -->
-    <div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
-        <div class="modal-dialog  modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Timeslip</h4>
-                </div>
-                <div class="modal-body">
+        <!-- Modal -->
+        <div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+            <div class="modal-dialog  modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Timeslip</h4>
+                    </div>
+                    <div class="modal-body">
 
-                    @{
-                        string CurrentURL = Request.Url.AbsoluteUri;
-                        string pageName = "";
+                        @{
+                            string CurrentURL = Request.Url.AbsoluteUri;
+                            string pageName = "";
 
-                        if (CurrentURL.Contains("Billing/MyBillableTime"))
-                        {
-                            pageName = "MyBillable";
+                            if (CurrentURL.Contains("Billing/MyBillableTime"))
+                            {
+                                pageName = "MyBillable";
+                            }
+                            else if (CurrentURL.Contains("DetailRisksmartGccClaim") || CurrentURL.Contains("DetailGccClaim") || CurrentURL.Contains("DetailRisksmartPropertyClaim")
+                                || CurrentURL.Contains("DetailPropertyClaim"))
+                            {
+                                pageName = "claimDetail";
+                            }
+                            else
+                            {
+                                pageName = "Other";
+                            }
                         }
-                        else if (CurrentURL.Contains("DetailRisksmartGccClaim") || CurrentURL.Contains("DetailGccClaim") || CurrentURL.Contains("DetailRisksmartPropertyClaim")
-                            || CurrentURL.Contains("DetailPropertyClaim"))
-                        {
-                            pageName = "claimDetail";
-                        }
-                        else
-                        {
-                            pageName = "Other";
-                        }
-                    }
 
-                    @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = pageName });}
+                        @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = pageName });}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-            
+
         @*
             <script src="~/Scripts/globalize.js"></script>
             <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
-       
-        
-            <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
     </body>
 </html>
@@ -1132,7 +1135,7 @@
                 $("#Is_Billable").val(result.Is_Billable);
                 $("#Billable").val(result.Billable);
                 $("#Units").val(result.Units);
-                
+
                 if (timeDiff != '' && typeof timeDiff !== "undefined" && timeDiff != 'NaN') {
                     if (timeDiff < 6) {
 
@@ -1142,7 +1145,7 @@
                 }
 
                 if (!result.Claim_No) {
-                   
+
                     $('#Claim_No').data('kendoAutoComplete').value(newClaimRef);
 
                     // $('#Claim_No').val($("#Claim_Reference_Num").val());
@@ -1211,7 +1214,7 @@
                 var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
                 Endtimepicker.value(result.sEnd_Time);
 
-               
+
                 if (result.Timeslip_Checked) {
                     $("#Timeslip_Checked").prop('checked', true);
                 } else {
@@ -1265,7 +1268,7 @@
                 $('#BillingDetailModal').modal('show');
             }
         });
-                
+
     }
 
     $(document).ready(function () {
@@ -1274,7 +1277,7 @@
 
             $("#ClaimReferenceNumbersModal").modal('hide');
         });
-        
+
 
         var list = new Array();
         var Tolist = new Array();
@@ -1290,8 +1293,8 @@
 
         function clearSelector() {
             var multiselect = $("#claim").data("kendoMultiSelect");
-            var widget = $("#Tolist").getKendoMultiSelect();
-            var widget2 = $("#CClist").getKendoMultiSelect();
+            var widget = $("#Tolist").data("kendoAutoComplete");
+            var widget2 = $("#CClist").data("kendoAutoComplete")
             var editor = $("#editor").data("kendoEditor");
             var emptyemailnew = new Array();
             multiselect.value("");
@@ -1306,7 +1309,11 @@
             widget2.setDataSource(emptyemailnew);
             filearray = [];
             $('#ul').empty();
-
+            list = new Array();
+            Tolist = new Array();
+            CClist = new Array();
+            emptyemail = new Array();
+            filearray = new Array();
             $("#sendEmailModal").modal('hide');
         }
 
@@ -1417,9 +1424,10 @@
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 success: function (data) {
+                    debugger
                     emptyemail = data;
-                    var widget = $("#Tolist").getKendoMultiSelect();
-                    var widget2 = $("#CClist").getKendoMultiSelect();
+                    var widget = $("#Tolist").data("kendoAutoComplete");
+                    var widget2 = $("#CClist").data("kendoAutoComplete");
                     widget.setDataSource(emptyemail);
                     widget2.setDataSource(emptyemail);
                 },
@@ -1431,16 +1439,18 @@
 
         function bindToinputs(data) {
             emptyemail = data;
-            $("#CClist, #Tolist").kendoMultiSelect({
-                dataTextField: "Code",
-                dataValueField: "Code",
-                autoBind: true,
-                deselect: onemailDeselect,
-                select: onemailSelect,
+            $("#CClist, #Tolist").kendoAutoComplete({
+                //dataTextField: "Code",
+                //dataValueField: "Code",
+                //autoBind: true,
+                //deselect: onemailDeselect,
+                separator: ",",
+                //select: onemailSelect,
                 dataSource: emptyemail
             });
 
             function onemailDeselect(e) {
+                debugger
                 var dataItem = e.dataItem;
                 if (e.sender.element[0].id == "Tolist") {
                     addRemoveEmails(dataItem, true, true);
@@ -1484,7 +1494,7 @@
                 }
             }
 
-            BindEmailToInputs();
+            //BindEmailToInputs();
         }
 
 
@@ -1501,11 +1511,21 @@
 
         });
 
-        $('#sendemail').click(function () {
+        $('#sendemail, #sendmail').click(function () {
             $('#successshow').hide();
             var editor = $("#editor").data("kendoEditor");
             var seri = editor.value();
             var subject = $('#subject').val();
+            var autocomplete2 = $("#CClist").data("kendoAutoComplete");
+            var autocomplete1 = $("#Tolist").data("kendoAutoComplete");
+            var listone = autocomplete1.value();
+            var listtwo = autocomplete2.value();
+            if (listone != null && listone != "") {
+                Tolist = separeString(listone);
+            }
+            if (listtwo != null && listtwo != "") {
+                CClist = separeString(listtwo);
+            }
 
             if (list.length <= 0) {
                 $('#error').text("Please select claims");
@@ -1579,8 +1599,7 @@
             var claim_Reference_Num = $("#Claim_Reference_Num").val();
 
             if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
-                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN')
-            {
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
                 window.location.href = '/NewRecord/NewPayment?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
             }
             else
@@ -1667,22 +1686,24 @@
         });
     }
 
+    function separeString(word) {
+        var d = word.split(",");
+        return d;
 
-    function noTimerRunning()
-    {
+    }
+
+    function noTimerRunning() {
         $.ajax({
 
             url: "/Billing/GetTimerStart",
 
             success: function (result) {
 
-                if (result == "notimer")
-                {
+                if (result == "notimer") {
                     location.href = "/Account/LogOff";
                     return true;
                 }
-                else
-                {
+                else {
                     bootbox.alert("Timer is running. Please log your time.");
                     return false;
                 }
