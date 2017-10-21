@@ -506,7 +506,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         </div>
                                     </div>
                                     <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">From Notification</label>
+                                        <label class="col-sm-3 control-label input-sm">Converted From Notification</label>
                                         <div class="col-sm-9">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -534,7 +534,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 @*@Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabledControl", @readonly = true })*@
 
                                                                 <div class="input-group">
-                                                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
+                                                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
                                                                     <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
 
                                                                         <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
@@ -1795,6 +1795,15 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                     size: 'small'
                 });
             }
+        });
+
+        $("#Broker_Account").change(function () {
+            if ($("#Broker_Account").val() == "") {
+                $("#Broker_Account_Id").val("");
+                $("#Broker_Name").val("");
+                $("#Broker_Name_Id").val("");
+            }
+
         });
 
     })
