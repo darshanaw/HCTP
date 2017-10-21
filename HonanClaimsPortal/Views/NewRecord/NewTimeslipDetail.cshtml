@@ -647,23 +647,23 @@
         var kendoAutoCompleteClaim_No_New = null;
         $(document).ready(function () {
 
-
+            
             kendoAutoCompleteClaim_No_New = $("#Claim_No_New").kendoAutoComplete({
                 dataTextField: "Text",
                 minLength: 2,
+                select: onSelectClaim_No_New,
                 dataSource: {
                     type: "json",
                     transport: {
                         read: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By_New").val(),
                     }
                 },
-                filter: "contains",
-                select: onSelectClaim_No_New,
+                filter: "contains"               
             }).data("kendoAutoComplete");
 
 
             function onSelectClaim_No_New(e) {
-
+               
                 var dataItem = this.dataItem(e.item.index());
                 $('#Claim_No_New').val(dataItem.Text);
                 $("#H_Claimsid_Billing_New").val(dataItem.Code);

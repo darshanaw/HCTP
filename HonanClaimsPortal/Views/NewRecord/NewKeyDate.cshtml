@@ -29,65 +29,72 @@
     @Html.HiddenFor(o => o.H_Keydatesid)
 
     <div class="content-wrapper">
-        <h3> New Key Date</h3>
+        <h3 class="hmb"> New Key Date</h3>
 
-        @*<div class="panel panel-default">
-            <div class="panel-body">*@
-                <div class="col-md-6">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
 
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Claim Ref</label>
-                            <div class="col-sm-9">
-                                @Html.TextBoxFor(o => o.H_ClaimNo_KCD_Date, new { @class = "form-control input-sm" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Seq</label>
-                            <div class="col-sm-9">
-                                @Html.TextBoxFor(o => o.Seq, new { @id = "Seq_KCD_Date", @class = "form-control input-sm", @type = "number" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Description</label>
-                            <div class="col-sm-9">
-                                @Html.DropDownListFor(model => model.Key_Date_Description, new SelectList(Model.Key_Date_Description_List, "Text", "Text"), "",
-          new { @class = "form-control input-sm" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Date</label>
-                            <div class="col-sm-9">
-                                <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
-                                    @Html.TextBoxFor(o => o.Key_Date, new { @class = "form-control input-sm" })
-                                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                        <span class="fa fa-calendar"></span>
-                                    </span>
+
+                    @*<div class="panel panel-default">
+                        <div class="panel-body">*@
+                    <div class="col-md-6">
+
+                        <div class="col-md-12">
+                            <div class="form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Claim Ref</label>
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(o => o.H_ClaimNo_KCD_Date, new { @class = "form-control input-sm" })
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-12">
+                            <div class="form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Seq</label>
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(o => o.Seq, new { @id = "Seq_KCD_Date", @class = "form-control input-sm", @type = "number" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Description</label>
+                                <div class="col-sm-9">
+                                    @Html.DropDownListFor(model => model.Key_Date_Description, new SelectList(Model.Key_Date_Description_List, "Text", "Text"), "",
+          new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Date</label>
+                                <div class="col-sm-9">
+                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                        @Html.TextBoxFor(o => o.Key_Date, new { @class = "form-control input-sm" })
+                                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                            <span class="fa fa-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="col-md-12 top-padding-eight">
-                        <div class="text-right">
-                            <button type="button" onclick="CloseNewKeyDate()" class="mb-sm btn btn-default">Discard Changes</button>
-                            <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
+                        <div class="col-md-12 top-padding-eight">
+                            <div class="text-right">
+                                <button type="button" onclick="CloseNewKeyDate()" class="mb-sm btn btn-default">Discard Changes</button>
+                                <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
+                            </div>
                         </div>
                     </div>
+                    @*</div>
+                        </div>*@
+                    </div>
                 </div>
-            @*</div>
-        </div>*@
+            </div>
+                </div>
+                }
 
-    </div>
-}
-
-<script>
+                <script>
     function GetResult_KeyDate(data) {
         $("#H_Claimsid_KCD_Date").val("");
         $("#Seq_KCD_Date").val("");
@@ -183,9 +190,14 @@
     }
 
      function CloseNewKeyDate() {
-        @{
-            var url = TempData["FromURL"].ToString();
+       
+            @{
+            var url = "";
+            if (TempData["FromURL"] != null)
+            {
+                url = TempData["FromURL"].ToString();
+            }
         }
         window.location.href = "@url";
     }
-</script>
+                </script>
