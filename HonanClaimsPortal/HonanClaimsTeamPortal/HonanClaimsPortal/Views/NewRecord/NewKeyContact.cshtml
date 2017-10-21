@@ -20,12 +20,28 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="main-container">
-                        <div class="col-md-12">
-                            <div class="col-md-12">
+                        <div class="col-md-6">
+                            @*<div class="col-md-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claim #</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id = "Claim_Ref_No_KCD", @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>*@
+
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Claim Ref</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id = "Claim_Ref_No_KCD",@class = "form-control input-sm disabled", @readonly = true })
+                                            <span class="input-group-btn" id="storeShow" data-toggle="modal" data-target="#ClaimReferenceNumbersModal">
+                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                                    <i class="fa fa-binoculars"></i>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +124,7 @@
                         </div>
                     </div>
                   
-                    <div class="col-md-12" style="margin-top:1%">
+                    <div class="col-md-6" style="margin-top:1%">
                         <div class="panel-footer text-right">
                             <div class="text-right" style="margin-right:2.5%">
                                 <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default mr-20 KeyContactDetailModalClose">Discard Changes</button>
@@ -182,40 +198,57 @@
 
 <script>
      var kendoAutoCompleteService_By_Name = null;
-    $(document).ready(function () {
-        kendoAutoCompleteService_By_Name = $("#Claim_Ref_No_KCD").kendoAutoComplete({
-            dataTextField: "Text",
-            //dataValueField: "ID",
-            minLength: 2,
-            dataSource: {
-                type: "json",
-                transport: {
-                    read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
-                }
-            },
-            filter: "contains",
-            select: onSelectService_By_Name,
-        }).data("kendoAutoComplete");
+    //$(document).ready(function () {
+    //    kendoAutoCompleteService_By_Name = $("#Claim_Ref_No_KCD").kendoAutoComplete({
+    //        dataTextField: "Text",
+    //        //dataValueField: "ID",
+    //        minLength: 2,
+    //        dataSource: {
+    //            type: "json",
+    //            transport: {
+    //                read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
+    //            }
+    //        },
+    //        filter: "contains",
+    //        select: onSelectService_By_Name,
+    //    }).data("kendoAutoComplete");
 
-        function onSelectService_By_Name(e) {
-            var dataItem = this.dataItem(e.item.index());
-            $('#H_Claimsid_KCD').val(dataItem.Code);
-            $('#Claim_Ref_No_KCD').val(dataItem.Text)
-        }
-    });
+    //    function onSelectService_By_Name(e) {
+    //        var dataItem = this.dataItem(e.item.index());
+    //        $('#H_Claimsid_KCD').val(dataItem.Code);
+    //        $('#Claim_Ref_No_KCD').val(dataItem.Text)
+    //    }
+    //});
 
-    $('#Claim_Ref_No_KCD').keyup(function () {
-        var dd = $("#Claim_Ref_No_KCD").val();
-        var dataSource = new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=" + $("#Claim_Ref_No_KCD").val(),
-                    dataType: "json"
-                }
-            }
-        });
-        kendoAutoCompleteService_By_Name.setDataSource(dataSource);
-    });
+    //$('#Claim_Ref_No_KCD').keyup(function () {
+    //    var dd = $("#Claim_Ref_No_KCD").val();
+    //    var dataSource = new kendo.data.DataSource({
+    //        transport: {
+    //            read: {
+    //                url: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=" + $("#Claim_Ref_No_KCD").val(),
+    //                dataType: "json"
+    //            }
+    //        }
+    //    });
+    //    kendoAutoCompleteService_By_Name.setDataSource(dataSource);
+    //});
+
+     var getUrlParameter = function getUrlParameter(sParam) {
+
+         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+             sURLVariables = sPageURL.split('&'),
+             sParameterName,
+             i;
+
+         for (i = 0; i < sURLVariables.length; i++) {
+             sParameterName = sURLVariables[i].split('=');
+
+             if (sParameterName[0] === sParam) {
+                 return sParameterName[1] === undefined ? true : sParameterName[1];
+             }
+         }
+     };
+
 
     $(document).ready(function () {
         $(".AccountModal_KCD_Close").click(function () {

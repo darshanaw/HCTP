@@ -1597,7 +1597,15 @@
         });
 
         $('#addNewKeyDate').click(function () {
-            window.location.href = '/NewRecord/NewKeyDate';
+            var claimId = $("#H_Claimsid").val();
+            var claim_Reference_Num = $("#Claim_Reference_Num").val();
+
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
+                window.location.href = '/NewRecord/NewKeyDate?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
+            }
+            else
+                window.location.href = '/NewRecord/NewKeyDate';
         });
 
         getPortalRegistrationCount();
