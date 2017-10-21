@@ -216,455 +216,463 @@
 </div>
 @Html.HiddenFor(m => m.InnerModeL.Rate_Per_Unit)
 @Html.HiddenFor(m => m.InnerModeL.Units)
-    <script>
-        //--------------Start Time-----------------------------
-        $(document).ready(function () {
-            $("#InnerModeL_sStart_Time").kendoTimePicker({
-                interval: 1,
-                change: onStartChange,
-                Format: ("hh:mm tt"),
-                open: OnStartOpen,
-            });
+<script>
+    //--------------Start Time-----------------------------
+    $(document).ready(function () {
+        $("#InnerModeL_sStart_Time").kendoTimePicker({
+            interval: 1,
+            change: onStartChange,
+            Format: ("hh:mm tt"),
+            open: OnStartOpen,
+        });
+    });
+
+    var preStartOpenTime = null;
+    function OnStartOpen(e) {
+        preStartOpenTime = e.sender._oldText;
+    }
+
+    function onStartChange(e) {
+        var sDate = new Date(e.sender.value());
+
+        var datetimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
+        var eDate = new Date(datetimepicker._value);
+
+        if (sDate > eDate) {
+            bootbox.alert("Start time cannot be later than end time");
+            var Starttimepicker = $("#InnerModeL_sStart_Time").data("kendoTimePicker");
+            Starttimepicker.value(preStartOpenTime);
+        } else {
+            var SH = sDate.getHours();
+            var SM = sDate.getMinutes();
+
+            var EH = eDate.getHours();
+            var EM = eDate.getMinutes();
+
+            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+            if (totalMi < 0) {
+                e.preventDefault;
+                return false;
+            }
+            var mode = totalMi % 6;
+            var Unit = 0;
+            if (mode <= 2) {
+                Unit = Math.floor(totalMi / 6);
+            } else {
+                Unit = Math.ceil(totalMi / 6);
+            }
+            $("#InnerModeL_Units").val(Unit);
+            var RatePUNIT = $("#InnerModeL_Rate_Per_Unit").val();
+            var val = (RatePUNIT * Unit).toFixed(2);
+            $("#InnerModeL_Billable").val(val);
+        }
+    }
+
+    //------------------------EndTime-------------------------
+    $(document).ready(function () {
+        $("#InnerModeL_sEnd_Time").kendoTimePicker({
+            interval: 1,
+            change: onEndChange,
+            Format: ("hh:mm tt"),
+            open: OnEndOpen,
+        });
+    });
+
+    var preEndOpenTime = null;
+    function OnEndOpen(e) {
+        preEndOpenTime = e.sender._oldText;
+    }
+
+    function onEndChange(e) {
+        var datetimepicker = $("#InnerModeL_sStart_Time").data("kendoTimePicker");
+        var sDate = new Date(datetimepicker._value);
+        var eDate = new Date(e.sender.value());
+
+        if (sDate > eDate) {
+            bootbox.alert("End time cannot be earlier than start time");
+            var Endtimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
+            Endtimepicker.value(preEndOpenTime);
+
+        } else {
+            var SH = sDate.getHours();
+            var SM = sDate.getMinutes();
+
+            var EH = eDate.getHours();
+            var EM = eDate.getMinutes();
+
+            var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+            if (totalMi < 0) {
+                return false;
+            }
+            var mode = totalMi % 6;
+            var Unit = 0;
+            if (mode <= 2) {
+                Unit = Math.floor(totalMi / 6);
+            } else {
+                Unit = Math.ceil(totalMi / 6);
+            }
+            $("#InnerModeL_Units").val(Unit);
+            var RatePUNIT = $("#InnerModeL_Rate_Per_Unit").val();
+            var val = (RatePUNIT * Unit).toFixed(2);
+            $("#InnerModeL_Billable").val(val);
+        }
+    }
+    $(document).ready(function () {
+
+        $("#InnerModeL_Is_Billable").attr('value', 'true');
+
+        $("#InnerModeL_Is_Billable").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(this).attr('value', 'true');
+            } else {
+                $(this).attr('value', 'false');
+            }
+
         });
 
-        var preStartOpenTime = null;
-        function OnStartOpen(e) {
-            preStartOpenTime = e.sender._oldText;
-        }
-
-        function onStartChange(e) {
-            var sDate = new Date(e.sender.value());
-
-            var datetimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
-            var eDate = new Date(datetimepicker._value);
-
-            if (sDate > eDate) {
-                bootbox.alert("Start time cannot be later than end time");
-                var Starttimepicker = $("#InnerModeL_sStart_Time").data("kendoTimePicker");
-                Starttimepicker.value(preStartOpenTime);
-            } else {
-                var SH = sDate.getHours();
-                var SM = sDate.getMinutes();
-
-                var EH = eDate.getHours();
-                var EM = eDate.getMinutes();
-
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    e.preventDefault;
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#InnerModeL_Units").val(Unit);
-                var RatePUNIT = $("#InnerModeL_Rate_Per_Unit").val();
-                var val = (RatePUNIT * Unit).toFixed(2);
-                $("#InnerModeL_Billable").val(val);
-            }
-        }
-
-        //------------------------EndTime-------------------------
-        $(document).ready(function () {
-            $("#InnerModeL_sEnd_Time").kendoTimePicker({
-                interval: 1,
-                change: onEndChange,
-                Format: ("hh:mm tt"),
-                open: OnEndOpen,
-            });
+        $('#datetimepicker1').datetimepicker({
+            format: 'DD/MM/YYYY'
         });
 
-        var preEndOpenTime = null;
-        function OnEndOpen(e) {
-            preEndOpenTime = e.sender._oldText;
-        }
+        $('#datetimepicker2').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
 
-        function onEndChange(e) {
-            var datetimepicker = $("#InnerModeL_sStart_Time").data("kendoTimePicker");
-            var sDate = new Date(datetimepicker._value);
-            var eDate = new Date(e.sender.value());
+        $('#datetimepicker3').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
 
-            if (sDate > eDate) {
-                bootbox.alert("End time cannot be earlier than start time");
-                var Endtimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
-                Endtimepicker.value(preEndOpenTime);
+        $("#datetimepicker1").on("dp.change", function (e) {
+            var tdate = $("#datetimepicker1").data().date;
+            $("#Datefrom").val(tdate);
+        });
 
+        $("#datetimepicker3").on("dp.change", function (e) {
+            var tdate = $("#datetimepicker3").data().date;
+            $("#Service_Date").val(tdate);
+        });
+
+
+        $("#datetimepicker2").on("dp.change", function (e) {
+            var tdate = $("#datetimepicker2").data().date;
+            var tdate1 = $("#datetimepicker1").data().date;
+            $("#Dateto").val(tdate);
+            if (tdate < tdate1) {
+                $("#errorDate").text("From date must be less than To date");
             } else {
-                var SH = sDate.getHours();
-                var SM = sDate.getMinutes();
-
-                var EH = eDate.getHours();
-                var EM = eDate.getMinutes();
-
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#InnerModeL_Units").val(Unit);
-                var RatePUNIT = $("#InnerModeL_Rate_Per_Unit").val();
-                var val = (RatePUNIT * Unit).toFixed(2);
-                $("#InnerModeL_Billable").val(val);
+                $("#errorDate").text("");
+                LoadGridDetail();
             }
-        }
-        $(document).ready(function () {
+        });
 
-            $("#InnerModeL_Is_Billable").attr('value', 'true');
+        LoadGridDetail();
 
-            $("#InnerModeL_Is_Billable").on('change', function () {
-                if ($(this).is(':checked')) {
-                    $(this).attr('value', 'true');
-                } else {
-                    $(this).attr('value', 'false');
-                }
-
-            });
-
-            $('#datetimepicker1').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
-
-            $('#datetimepicker2').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
-
-            $('#datetimepicker3').datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
-
-            $("#datetimepicker1").on("dp.change", function (e) {
-                var tdate = $("#datetimepicker1").data().date;
-                $("#Datefrom").val(tdate);
-            });
-
-            $("#datetimepicker3").on("dp.change", function (e) {
-                var tdate = $("#datetimepicker3").data().date;
-                $("#Service_Date").val(tdate);
-            });
-
-
-            $("#datetimepicker2").on("dp.change", function (e) {
-                var tdate = $("#datetimepicker2").data().date;
-                var tdate1 = $("#datetimepicker1").data().date;
-                $("#Dateto").val(tdate);
-                if (tdate < tdate1) {
-                    $("#errorDate").text("From date must be less than To date");
-                } else {
-                    $("#errorDate").text("");
-                    LoadGridDetail();
-                }
-            });
-
+        $('#clearFilter').click(function () {
+            $('#ClaimTeam').val("");
+            $('#ServiceBy').val("")
+            $('#Claim').val("");
+            $('#Datefrom').val("");
+            $('#Dateto').val("");
             LoadGridDetail();
+        });
 
-            $('#clearFilter').click(function () {
-                $('#ClaimTeam').val("");
-                $('#ServiceBy').val("")
-                $('#Claim').val("");
-                $('#Datefrom').val("");
-                $('#Dateto').val("");
-                LoadGridDetail();
-            });
-
-            $('#filterList').click(function () {
-                LoadGridDetail();
-            })
+        $('#filterList').click(function () {
+            LoadGridDetail();
         })
+    })
 
-        function LoadGridDetail() {
-            var claimTeam = null;
-            var accountId = null;
-            var serviceBy = null;
-            var claimId = null;
-            var fromDate = null;
-            var toDate = null;
+    function LoadGridDetail() {
+        var claimTeam = null;
+        var accountId = null;
+        var serviceBy = null;
+        var claimId = null;
+        var fromDate = null;
+        var toDate = null;
 
-            //Get value list
-            var c = $('#ClaimTeam').val();
-            if (c != null && c != "") { claimTeam = c }
-            var o = $('#Account').val();
-            if (o != null && o != "") { accountId = o }
-            var cl = $('#ServiceBy').val();
-            if (cl != null && cl != "") { serviceBy = cl }
-            var s = $('#Claim').val();
-            if (s != null && s != "") { claimId = s }
-            var a = $('#Datefrom').val();
-            if (a != null && a != "") { fromDate = a }
-            var t = $('#Dateto').val();
-            if (t != null && a != "") { toDate = t }
-            //load grid list
-            $("#grid1").kendoGrid({
-                dataSource: {
-                    type: "json",
-                    transport: {
-                        read: "/TimeslipCheck/GetMyTimeslipCheck?claimTeam=" + claimTeam + "&accountId=" + accountId + "&serviceBy=" + serviceBy + "&claimId=" + claimId + "&fromDate=" + fromDate + "&toDate=" + toDate
-                    },
-                    pageSize: 10
+        //Get value list
+        var c = $('#ClaimTeam').val();
+        if (c != null && c != "") { claimTeam = c }
+        var o = $('#Account').val();
+        if (o != null && o != "") { accountId = o }
+        var cl = $('#ServiceBy').val();
+        if (cl != null && cl != "") { serviceBy = cl }
+        var s = $('#Claim').val();
+        if (s != null && s != "") { claimId = s }
+        var a = $('#Datefrom').val();
+        if (a != null && a != "") { fromDate = a }
+        var t = $('#Dateto').val();
+        if (t != null && a != "") { toDate = t }
+        //load grid list
+        $("#grid1").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/TimeslipCheck/GetMyTimeslipCheck?claimTeam=" + claimTeam + "&accountId=" + accountId + "&serviceBy=" + serviceBy + "&claimId=" + claimId + "&fromDate=" + fromDate + "&toDate=" + toDate
                 },
-                height: 600,
-                sortable: true,
-                selectable: "multiple",
-                change: onChange,
-                pageable: {
-                    refresh: true,
-                    pageSizes: true,
-                    buttonCount: 5
+                pageSize: 10
+            },
+            height: 600,
+            sortable: true,
+            selectable: "multiple",
+            change: onChange,
+            pageable: {
+                refresh: true,
+                pageSizes: true,
+                buttonCount: 5
+            },
+            columns: [
+                {
+                    hidden: true,
+                    field: "BillingId",
+                    title: "BillingId"
                 },
-                columns: [
-                    {
-                        hidden: true,
-                        field: "BillingId",
-                        title: "BillingId"
-                    },
-                    {
-                        field: "ClaimRefNo",
-                        title: "Claims Ref ",
-                    },
-                    {
-                        field: "ServiceBy",
-                        title: "Service By",
-                    },
-                    {
-                        title: "Service Date",
-                        template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
-                    },
-                    {
-                        field: "StartTime",
-                        title: "Start Time",
-                    },
-                    {
-                        field: "Customer",
-                        title: "Customer",
-                    },
-                    {
-                        field: "Billable",
-                        title: "Billable $$",
-                    }],
-                dataBound: function () {
-                    $(".checkbox").bind("change", function (e) {
-                        $(e.target).closest("tr").toggleClass("k-state-selected");
-                    });
-                }
-            });
-
-            function onChange(arg) {
-                $('tr').find('[type=checkbox]').prop('checked', false);
-                $('tr.k-state-selected').find('[type=checkbox]').prop('checked', true);
-                var dataItem = this.dataItem(this.select());
-                setTextFields(dataItem);
+                {
+                    field: "ClaimRefNo",
+                    title: "Claims Ref ",
+                },
+                {
+                    field: "ServiceBy",
+                    title: "Service By",
+                },
+                {
+                    title: "Service Date",
+                    template: "#if(ServiceDate === null){# '' #}else{# #= kendo.toString(kendo.parseDate(ServiceDate), 'dd-MM-yyyy') #  #}#"
+                },
+                {
+                    field: "StartTime",
+                    title: "Start Time",
+                },
+                {
+                    field: "Customer",
+                    title: "Customer",
+                },
+                {
+                    field: "Billable",
+                    title: "Billable $$",
+                }],
+            dataBound: function () {
+                $(".checkbox").bind("change", function (e) {
+                    $(e.target).closest("tr").toggleClass("k-state-selected");
+                });
             }
+        });
+
+        function onChange(arg) {
+            $('tr').find('[type=checkbox]').prop('checked', false);
+            $('tr.k-state-selected').find('[type=checkbox]').prop('checked', true);
+            var dataItem = this.dataItem(this.select());
+            setTextFields(dataItem);
         }
+    }
 
-        function comboChange() {
-            LoadGridDetail();
-        }
+    function comboChange() {
+        LoadGridDetail();
+    }
 
-        function setTextFields(dataItem) {
-            $.get("/TimeslipCheck/GetBillingRecords?billingId=" + dataItem.BillingId, function (data) {
-                $('#InnerModeL_H_Billingsid').val(data.H_Billingsid);
-                $('#InnerModeL_Service_By_Name').val(data.Service_By_Name);
-                $('#InnerModeL_Is_Billable').val(data.Is_Billable);
-                $('#InnerModeL_H_Claimsid').val(data.H_Claimsid_Billing);
-                if (data.Is_Billable) { $('#InnerModeL_Is_Billable').prop("checked", true); } else { $('#InnerModeL_Is_Billable').prop("checked", false); }
-                $('#InnerModeL_Rate').val(data.Rate);
-                $('#InnerModeL_Claim_No').val(data.Claim_No);
+    function setTextFields(dataItem) {
+        $.get("/TimeslipCheck/GetBillingRecords?billingId=" + dataItem.BillingId, function (data) {
+            $('#InnerModeL_H_Billingsid').val(data.H_Billingsid);
+            $('#InnerModeL_Service_By_Name').val(data.Service_By_Name);
+            $('#InnerModeL_Is_Billable').val(data.Is_Billable);
+            $('#InnerModeL_H_Claimsid').val(data.H_Claimsid_Billing);
+            if (data.Is_Billable) { $('#InnerModeL_Is_Billable').prop("checked", true); } else { $('#InnerModeL_Is_Billable').prop("checked", false); }
+            $('#InnerModeL_Rate').val(data.Rate);
+            $('#InnerModeL_Claim_No').val(data.Claim_No);
 
-                debugger;
-                if (data.Service_Date != null && data.Service_Date != "") {
-                    var date = new Date(data.Service_Date);
-                    var month = date.getMonth() + 1;
-                    data.Service_Date = date.getDate() + "/" + month + "/" + date.getFullYear();
-                    $("#InnerModeL_Service_Date").val(data.Service_Date);
-                }
+            debugger;
+            if (data.Service_Date != null && data.Service_Date != "") {
+                var date = new Date(data.Service_Date);
+                var month = date.getMonth() + 1;
+                data.Service_Date = date.getDate() + "/" + month + "/" + date.getFullYear();
+                $("#InnerModeL_Service_Date").val(data.Service_Date);
+            }
 
-                if (data.End_Time != null) {
-                    var End_Time = new Date(parseInt(data.End_Time.substr(6)));
-                    var year = End_Time.getFullYear();
-                    if (year == 1) {
-                        data.sEnd_Time = "";
-                    } else {
-                        var h = End_Time.getHours(), m = End_Time.getMinutes();
-                        if (h == 0) { h = 12 };
-                        var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
-                        data.sEnd_Time = _time;
-                    }
-                }
-
-
-                if (data.Start_Time != null) {
-                    var Start_Time = new Date(parseInt(data.Start_Time.substr(6)));
-                    var yesr = Start_Time.getFullYear();
-                    if (year == 1) {
-                        data.sStart_Time = "";
-                    } else {
-                        var h = Start_Time.getHours(), m = Start_Time.getMinutes();
-                        if (h == 0) { h = 12 };
-                        var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
-                        data.sStart_Time = _time;
-                    }
-                }
-                $("#InnerModeL_sStart_Time").val(data.sStart_Time);
-                $("#InnerModeL_sEnd_Time").val(data.sEnd_Time);
-
-
-                var Endtimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
-                Endtimepicker.value(data.sEnd_Time);
-
-
-                var Starttimepicker = $("#InnerModeL_sStart_Time").data("kendoTimePicker");
-                Starttimepicker.value(data.sStart_Time);
-
-
-                $('#InnerModeL_Qty_Mins').val(data.Qty_Mins);
-                $('#InnerModeL_Billable').val(data.Billable);
-                $('#InnerModeL_Rate_Per_Unit').val(data.Rate_Per_Unit);
-            });
-        }
-
-        function clearTextFileds() {
-            $('#InnerModeL_H_Billingsid').val('');
-            $('#InnerModeL_Service_By_Name').val('');
-            $('#InnerModeL_Is_Billable').val('');
-            $('#InnerModeL_H_Claimsid').val('');
-            $('#InnerModeL_Is_Billable').prop("checked", false);
-            $('#InnerModeL_Rate').val('');
-            $('#InnerModeL_Claim_No').val('');
-            $("#InnerModeL_Service_Date").val('');
-            $('#InnerModeL_Start_Time_HH').val('');
-            $('#InnerModeL_Start_Time_MM').val('');
-            $('#InnerModeL_End_Time_HH').val('');
-            $('#InnerModeL_End_Time_MM').val('');
-            $('#InnerModeL_Qty_Mins').val('');
-            $('#InnerModeL_Billable').val('');
-            $('#InnerModeL_Rate_Per_Unit').val('');
-        }
-
-        $('#Markaschecked').click(function () {
-            var id = $('#InnerModeL_H_Billingsid').val();
-            var claimId = $('#InnerModeL_H_Claimsid').val();
-            var serviceDate = $('#InnerModeL_Service_Date').val();
-
-            var sStart_Time = $('#InnerModeL_sStart_Time').val();
-            var sEnd_Time = $('#InnerModeL_sEnd_Time').val();
-
-
-            var ids = "";
-            var count = 0;
-            var grid = $("#grid1").data("kendoGrid");
-            grid.select().each(function () {
-                var dataItem = grid.dataItem($(this));
-                ids = dataItem.BillingId + "," + ids;
-                count = count + 1;
-            });
-            if (count == 1) {
-                debugger;
-                if (id != null && id != "" && claimId != null && claimId != "" && (sStart_Time != null && sStart_Time != "") && (sEnd_Time != "" && sEnd_Time != null)) {
-                    $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&sStart_Time=" + sStart_Time + "&sEnd_Time=" + sEnd_Time + "&claimId=" + claimId, function (data) {
-                        if (data == false) {
-                            bootbox.alert("Error in Updating mark as checked");
-                        } else {
-                            $("#grid1").data("kendoGrid").dataSource.read();
-                            bootbox.alert("mark as checked");
-                            clearTextFileds();
-                        }
-                    });
-                }
-                else {
-                    bootbox.alert("Please fill all the data ");
+            if (data.End_Time != null) {
+                var End_Time = new Date(parseInt(data.End_Time.substr(6)));
+                var year = End_Time.getFullYear();
+                if (year == 1) {
+                    data.sEnd_Time = "";
+                } else {
+                    var h = End_Time.getHours(), m = End_Time.getMinutes();
+                    if (h == 0) { h = 12 };
+                    var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                    data.sEnd_Time = _time;
                 }
             }
-            else {
-                $.get("/TimeslipCheck/MarkAsCheckedPost?billingIds=" + ids, function (data) {
+
+
+            if (data.Start_Time != null) {
+                var Start_Time = new Date(parseInt(data.Start_Time.substr(6)));
+                var yesr = Start_Time.getFullYear();
+                if (year == 1) {
+                    data.sStart_Time = "";
+                } else {
+                    var h = Start_Time.getHours(), m = Start_Time.getMinutes();
+                    if (h == 0) { h = 12 };
+                    var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                    data.sStart_Time = _time;
+                }
+            }
+            $("#InnerModeL_sStart_Time").val(data.sStart_Time);
+            $("#InnerModeL_sEnd_Time").val(data.sEnd_Time);
+
+
+            var Endtimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
+            Endtimepicker.value(data.sEnd_Time);
+
+
+            var Starttimepicker = $("#InnerModeL_sStart_Time").data("kendoTimePicker");
+            Starttimepicker.value(data.sStart_Time);
+
+
+            $('#InnerModeL_Qty_Mins').val(data.Qty_Mins);
+            $('#InnerModeL_Billable').val(data.Billable);
+            $('#InnerModeL_Rate_Per_Unit').val(data.Rate_Per_Unit);
+        });
+    }
+
+    function clearTextFileds() {
+        $('#InnerModeL_H_Billingsid').val('');
+        $('#InnerModeL_Service_By_Name').val('');
+        $('#InnerModeL_Is_Billable').val('');
+        $('#InnerModeL_H_Claimsid').val('');
+        $('#InnerModeL_Is_Billable').prop("checked", false);
+        $('#InnerModeL_Rate').val('');
+        $('#InnerModeL_Claim_No').val('');
+        $("#InnerModeL_Service_Date").val('');
+        $('#InnerModeL_Start_Time_HH').val('');
+        $('#InnerModeL_Start_Time_MM').val('');
+        $('#InnerModeL_End_Time_HH').val('');
+        $('#InnerModeL_End_Time_MM').val('');
+        $('#InnerModeL_Qty_Mins').val('');
+        $('#InnerModeL_Billable').val('');
+        $('#InnerModeL_Rate_Per_Unit').val('');
+    }
+
+    $('#Markaschecked').click(function () {
+        var id = $('#InnerModeL_H_Billingsid').val();
+        var claimId = $('#InnerModeL_H_Claimsid').val();
+        var serviceDate = $('#InnerModeL_Service_Date').val();
+
+        var sStart_Time = $('#InnerModeL_sStart_Time').val();
+        var sEnd_Time = $('#InnerModeL_sEnd_Time').val();
+
+
+        var ids = "";
+        var count = 0;
+        var grid = $("#grid1").data("kendoGrid");
+        grid.select().each(function () {
+            var dataItem = grid.dataItem($(this));
+            ids = dataItem.BillingId + "," + ids;
+            count = count + 1;
+        });
+        if (count == 1) {
+            debugger;
+            if (id != null && id != "" && claimId != null && claimId != "" && (sStart_Time != null && sStart_Time != "") && (sEnd_Time != "" && sEnd_Time != null)) {
+                $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&sStart_Time=" + sStart_Time + "&sEnd_Time=" + sEnd_Time + "&claimId=" + claimId, function (data) {
                     if (data == false) {
                         bootbox.alert("Error in Updating mark as checked");
                     } else {
                         $("#grid1").data("kendoGrid").dataSource.read();
                         bootbox.alert("mark as checked");
+                        clearTextFileds();
                     }
                 });
             }
-
-            // }
-        })
-
-
-        $('#nonbillable').click(function () {
-
-            $("#InnerModeL_Is_Billable").attr('checked', false);
-            var id = $('#InnerModeL_H_Billingsid').val();
-            var claimId = $('#InnerModeL_H_Claimsid').val();
-            var serviceDate = $('#InnerModeL_Service_Date').val();
-
-            var sStart_Time = $('#InnerModeL_sStart_Time').val();
-            var sEnd_Time = $('#InnerModeL_sEnd_Time').val();
-
-            var ids = "";
-            var count = 0;
-            var grid = $("#grid1").data("kendoGrid");
-            grid.select().each(function () {
-                var dataItem = grid.dataItem($(this));
-                ids = dataItem.BillingId + "," + ids;
-                count = count + 1;
+            else {
+                bootbox.alert("Please fill all the data ");
+            }
+        }
+        else {
+            $.get("/TimeslipCheck/MarkAsCheckedPost?billingIds=" + ids, function (data) {
+                if (data == false) {
+                    bootbox.alert("Error in Updating mark as checked");
+                } else {
+                    $("#grid1").data("kendoGrid").dataSource.read();
+                    bootbox.alert("Mark as checked");
+                }
             });
+        }
 
-            if (count == 1) {
-                if (id != null && id != "" && claimId != null && claimId != "" && (startTimeHH != null && startTimeHH != "") && (startTimeMM != "" && startTimeMM != null) && (endTimeHH != "" && endTimeHH != null) && (endTimeMM != "" && endTimeMM != null)) {
-                    $.get("/TimeslipCheck/MarkAsNonBillable?billingId=" + id + "&serviceDate=" + serviceDate + "&sStart_Time=" + sStart_Time + "&sEnd_Time=" + sEnd_Time + "&claimId=" + claimId, function (data) {
+        // }
+    })
+
+
+    $('#nonbillable').click(function () {
+
+        $("#InnerModeL_Is_Billable").attr('checked', false);
+        var id = $('#InnerModeL_H_Billingsid').val();
+        var claimId = $('#InnerModeL_H_Claimsid').val();
+        var serviceDate = $('#InnerModeL_Service_Date').val();
+
+        var sStart_Time = $('#InnerModeL_sStart_Time').val();
+        var sEnd_Time = $('#InnerModeL_sEnd_Time').val();
+
+        var ids = "";
+        var count = 0;
+        var grid = $("#grid1").data("kendoGrid");
+        grid.select().each(function () {
+            var dataItem = grid.dataItem($(this));
+            ids = dataItem.BillingId + "," + ids;
+            count = count + 1;
+        });
+
+        if (count == 1) {
+            bootbox.confirm("Do you want to mark as Non Billable", function (result) {
+                if (result) {
+                    if (id != null && id != "" && claimId != null && claimId != "" && (sStart_Time != null && sStart_Time != "") && (sEnd_Time != "" && sEnd_Time != null)) {
+                        $.get("/TimeslipCheck/MarkAsNonBillable?billingId=" + id + "&serviceDate=" + serviceDate + "&sStart_Time=" + sStart_Time + "&sEnd_Time=" + sEnd_Time + "&claimId=" + claimId, function (data) {
+                            if (data == false) {
+                                bootbox.alert("Error in Updating mark as checked");
+                            } else {
+                                $("#grid1").data("kendoGrid").dataSource.read();
+                                bootbox.alert("Mark as Non Billable");
+                                clearTextFileds();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        else {
+
+            bootbox.confirm("Do you want to mark as Non Billable", function (result) {
+                if (result) {
+                    $.get("/TimeslipCheck/MarkAsNonBillablePost?billingIds=" + ids, function (data) {
                         if (data == false) {
-                            bootbox.alert("Error in Updating mark as checked");
+                            bootbox.alert("Error in Updating Non billable");
                         } else {
                             $("#grid1").data("kendoGrid").dataSource.read();
-                            bootbox.alert("mark as checked");
-                            clearTextFileds();
+                            bootbox.alert("Mark as Non Billable");
                         }
                     });
                 }
-            }
-            else {
-                $.get("/TimeslipCheck/MarkAsNonBillablePost?billingIds=" + ids, function (data) {
+            });
+        }
+    });
 
-                    if (data == false) {
-                        bootbox.alert("Error in Updating Non billable");
-                    } else {
-                        $("#grid1").data("kendoGrid").dataSource.read();
-                        bootbox.alert("mark as Non Billable");
-                    }
-                });
-            }
-        })
+    $('#skipnext').click(function () {
 
-        $('#skipnext').click(function () {
+        //clearTextFileds();
+        var Hid = $('#InnerModeL_H_Billingsid').val();
+        if (Hid != null && Hid != "") {
+            var grid = $("#grid1").data("kendoGrid");
+            var selectedRow = grid.select();
+            var index = selectedRow.index();
 
-            //clearTextFileds();
-            var Hid = $('#InnerModeL_H_Billingsid').val();
-            if (Hid != null && Hid != "") {
-                var grid = $("#grid1").data("kendoGrid");
-                var selectedRow = grid.select();
-                var index = selectedRow.index();
+            if (index != -1) {
+                var data = $("#grid1").data("kendoGrid").dataSource.view();
+                var newind = index + 1;
 
-                if (index != -1) {
-                    var data = $("#grid1").data("kendoGrid").dataSource.view();
-                    var newind = index + 1;
+                $(selectedRow).removeClass("k-state-selected");
 
-                    $(selectedRow).removeClass("k-state-selected");
-
-                    if (data.length >= newind) {
-                        var id = data[newind].uid;
-                        grid.select("tr:eq(" + newind + ")")
-                        setTextFields(data[newind]);
-                        debugger;
-                    }
+                if (data.length >= newind) {
+                    var id = data[newind].uid;
+                    grid.select("tr:eq(" + newind + ")")
+                    setTextFields(data[newind]);
+                    debugger;
                 }
             }
-        })
-    </script>
+        }
+    })
+</script>
