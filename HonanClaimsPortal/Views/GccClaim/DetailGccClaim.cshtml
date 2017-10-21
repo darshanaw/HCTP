@@ -1228,6 +1228,8 @@ else
 
     $(document).ready(function () {
 
+        $("#ddlStatus").val("@Model.Claim_Status");
+
         $('#convertToClaimModel').on('show.bs.modal', function () {
             // disable unload warning
             $(window).off('beforeunload');
