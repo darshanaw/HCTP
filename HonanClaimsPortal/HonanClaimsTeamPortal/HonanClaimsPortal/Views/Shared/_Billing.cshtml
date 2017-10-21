@@ -196,7 +196,11 @@
             sortable: true,
             dataBound: onBillingDataBound,
             columns: [
-
+                {
+                    field: "Unit",
+                    title: "Units",
+                    hidden: true
+                },
                 {
                     field: "ServiceBy",
                     title: "Service By",
@@ -266,12 +270,12 @@
         var totalsum = 0;
         if (datalength > 0) {
             for (var i = 0; i < datalength; i++) {
-                if (typeof arg.sender.dataSource.data()[i].Qty !== "undefined")
-                totalsum += arg.sender.dataSource.data()[i].Qty;
+                if (typeof arg.sender.dataSource.data()[i].Unit !== "undefined")
+                totalsum += arg.sender.dataSource.data()[i].Unit;
             }
         }
-        
-        $("#Total_Qty").val((totalsum / 60).toFixed(2));
+
+        $("#Total_Qty").val(totalsum);//((totalsum / 60).toFixed(2));
 
         //UnitsInStock field sum of current page
         //var curretpagesum = 0;

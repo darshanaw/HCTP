@@ -19,6 +19,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public string Checked { get; set; }
         public string Invoiced { get; set; }
         public string Work_Done { get; set; }
+        public int Unit { get; set; }
     }
 
 
