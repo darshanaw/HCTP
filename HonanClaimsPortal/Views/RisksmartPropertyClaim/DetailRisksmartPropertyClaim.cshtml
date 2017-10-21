@@ -98,6 +98,7 @@ else
             @Html.HiddenFor(o => o.Claim_Team)
             @Html.HiddenFor(o => o.H_Claimsid)
             @Html.HiddenFor(o => o.Claim_Reference_Num)
+            @Html.HiddenFor(o => o.Policy_Id)
 
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
             <div class="panel panel-default">
@@ -118,20 +119,20 @@ else
                                 </div>
                                 <div class="col-md-6">
                                     @*<div class="col-md-4"></div>
-                                    <div class="col-md-6">
-                                        <div class="col-md-12" style="text-align: center; font-size: small;">
-                                            <div class="panel widget bg-primary">
-                                                <div class="row row-table">
-                                                    <div class="col-xs-12 pv-xs">
-                                                        <div class="h3 m0 text-bold">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
-                                                        <div class="text-uppercase">Claim Ref #</div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-12" style="text-align: center; font-size: small;">
+                                                <div class="panel widget bg-primary">
+                                                    <div class="row row-table">
+                                                        <div class="col-xs-12 pv-xs">
+                                                            <div class="h3 m0 text-bold">@Html.DisplayFor(item => item.Claim_Reference_Num)</div>
+                                                            <div class="text-uppercase">Claim Ref #</div>
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
-                                            
                                         </div>
-                                    </div>
-                                    <div class="col-md-2"></div>*@
+                                        <div class="col-md-2"></div>*@
                                     <div class="form-group" style="padding-bottom:4px">
                                         <label for="input-id-1" class="col-sm-3 control-label input-sm">Account Name</label>
                                         <div class="col-sm-9">
@@ -159,11 +160,11 @@ else
                                                 }
                                                 @*@Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
 
-                                                <span id="ocNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
-                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                        <i class="fa fa-binoculars"></i>
-                                                    </button>
-                                                </span>*@
+                                                    <span id="ocNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
+                                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                            <i class="fa fa-binoculars"></i>
+                                                        </button>
+                                                    </span>*@
                                             </div>
                                         </div>
                                     </div>
@@ -192,7 +193,7 @@ else
 
                                 </div>
                                 <div class="col-md-6">
-                                  
+
                                     <div class="form-group mb top-padding-eight">
                                         <label class="col-sm-3 control-label input-sm">Claim Status</label>
                                         <div class="col-sm-9">
@@ -533,15 +534,31 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                             <div class="col-sm-9">
                                                                 @*@Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabledControl", @readonly = true })*@
 
-                                                                <div class="input-group">
-                                                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
-                                                                    <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
+                                                                @if (string.IsNullOrEmpty(Model.Policy_Id))
+                                                                {
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
+                                                                        <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
 
-                                                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                                            <i class="fa fa-binoculars"></i>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
+                                                                            <button type="button" class="mb-sm btn btn-danger btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                                <i class="fa fa-binoculars"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
+                                                                        <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
+
+                                                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                                <i class="fa fa-binoculars"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                }
+                                                              
 
                                                             </div>
                                                         </div>
@@ -1129,14 +1146,14 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                         <div class="col-sm-3">
                                                             @Html.DropDownListFor(m => m.Incident_TimeH, Enumerable.Range(0, 24).Select(i => new
                                     SelectListItem
-                                                   { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                       { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
                                                         </div>
                                                         <label class="col-sm-1 control-label input-sm text-center">-</label>
                                                         <label class="col-sm-1 control-label input-sm text-right">Min</label>
                                                         <div class="col-sm-3">
                                                             @Html.DropDownListFor(m => m.Incident_TimeM, Enumerable.Range(0, 60).Select(i => new
                                     SelectListItem
-                                                   { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
+                                                       { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })
                                                         </div>
 
                                                     </div>

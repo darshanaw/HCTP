@@ -110,6 +110,7 @@ else
             @Html.HiddenFor(o => o.Defence_Res_Source)
             @Html.HiddenFor(o => o.H_Claimsid)
             @Html.HiddenFor(o => o.Claim_Reference_Num)
+            @Html.HiddenFor(o => o.Policy_Id)
 
             <div class="panel panel-default">
 
@@ -766,15 +767,34 @@ else
                                                             <div class="col-sm-9">
                                                                 @*@Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabledControl", @readonly = true })*@
 
-                                                                <div class="input-group">
-                                                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
-                                                                    <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
+                                                                @if (string.IsNullOrEmpty(Model.Policy_Id))
+                                                                {
 
-                                                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                                            <i class="fa fa-binoculars"></i>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
+                                                                        <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
+
+                                                                            <button type="button" class="mb-sm btn btn-danger btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                                <i class="fa fa-binoculars"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
+                                                                        <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
+
+                                                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                                <i class="fa fa-binoculars"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                }
+
+
 
                                                             </div>
                                                         </div>
