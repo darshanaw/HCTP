@@ -563,7 +563,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">DoB</label>
                                             <div class="col-sm-9">
-                                                <div id="datetimepicker2" class="input-group date dateCalendar">
+                                                <div id="dtpDob" class="input-group date dateCalendar">
                                                     @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
                                                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>
@@ -736,7 +736,7 @@ else
                                             </div>
                                         </div>
                                         <div class="form-group mb">
-                                            <label class="col-sm-3 control-label input-sm">From Notification</label>
+                                            <label class="col-sm-3 control-label input-sm">Converted From Notification</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
@@ -767,7 +767,7 @@ else
                                                                 @*@Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabledControl", @readonly = true })*@
 
                                                                 <div class="input-group">
-                                                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 12 })
+                                                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200 })
                                                                     <span class="input-group-btn" data-toggle="modal" id="policyShow" data-target="#PolicyModal">
 
                                                                         <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
@@ -1692,6 +1692,41 @@ else
                     size: 'small'
                 });
             }
+        });
+
+        $('#dtpDob').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpDob').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "DoB cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        var firstOpen = true;
+        $(function () {
+            $('#dtpDob').datetimepicker({
+                viewMode: 'years',
+                format: 'DD/MM/YYYY',
+            }).on("dp.show", function () {
+                console.log("dtp open");
+                if (firstOpen == true) {
+                    var year = new Date().getFullYear() - 18;
+                    $(this).data('DateTimePicker').date("01/01/" + year);
+                    firstOpen = false;
+                }
+            });
+        });
+
+        $("#Broker_Account").change(function () {
+            if ($("#Broker_Account").val() == "") {
+                $("#Broker_Account_Id").val("");
+                $("#Broker_Name").val("");
+                $("#Broker_Name_Id").val("");
+            }
+
         });
     })
 
