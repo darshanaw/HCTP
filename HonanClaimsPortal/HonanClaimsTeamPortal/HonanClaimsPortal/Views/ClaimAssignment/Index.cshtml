@@ -80,20 +80,20 @@
                     template: '<a href="/ClaimAssignment/RedirectToDetail?claimId=#=ClaimId#&claimTeam=#=ClaimTeamName#&tab=detail">#=ClaimRefNo#</a>'
                 },
                 {
-                    field: "ActiveLogins",
-                    title: "Active Logins"
-                },
-                {
-                    field: "DateOfLoss",
-                    title: "Date Of Loss"
-                },
-                {
                     field: "Customer",
                     title: "Customer",
                 },
                 {
+                    field: "Category",
+                    title: "Category"
+                },
+                {
                     field: "ReportedDate",
                     title: "Reported Date",
+                },
+                {
+                    field: "IncidentDate",
+                    title: "Incident Date"
                 }
             ]
         }).data("kendoGrid");
@@ -183,7 +183,7 @@
                 success: function (result) {
                     if (result) {
                         ClaimNames = [];
-                        var ClaimIds = [];
+                        ClaimIds = [];
                         $('#ClaimsAssignmentGrid').data('kendoGrid').dataSource.read();
                         $('#ClaimsAssignmentGrid').data('kendoGrid').refresh();
                         getClaimAssigmentCount();
