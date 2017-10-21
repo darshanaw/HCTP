@@ -133,6 +133,7 @@ else
                                             </div>
                                         </div>
                                         <div class="col-md-2"></div>*@
+
                                     <div class="form-group" style="padding-bottom:4px">
                                         <label for="input-id-1" class="col-sm-3 control-label input-sm">Account Name</label>
                                         <div class="col-sm-9">
@@ -1524,6 +1525,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
     $(document).ready(function () {
 
+        $("#ddlStatus").val("@Model.Claim_Status");
+
         $('#convertToClaimModel').on('show.bs.modal', function () {
             // disable unload warning
             $(window).off('beforeunload');
@@ -1628,6 +1631,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             if ($('#chkClaimClosed').is(':checked')) {
                 $('#txtClaimClosedDate').val(getTodaysDate());
                 $('#ddlStatus').val("Closed");
+                alert("sasas");
 
             } else {
                 $('#txtClaimClosedDate').val('');
