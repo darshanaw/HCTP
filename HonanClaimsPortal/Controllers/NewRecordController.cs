@@ -21,7 +21,9 @@ namespace HonanClaimsPortal.Controllers
     {
         public ActionResult NewPayment()
         {
-            TempData["FromURL"] = Request.UrlReferrer;
+        //    Uri uri = new Uri(Request.Url.AbsoluteUri, UriKind.Relative);
+        //    string url = uri.ToString();
+            Session[SessionHelper.FromURL] = Request.UrlReferrer == null ? Request.Url.AbsoluteUri.ToString() : Request.UrlReferrer.ToString();
             Payment model = new Payment();
             ClaimServices claimServices = new ClaimServices();
             PicklistServicecs pickListServices = new PicklistServicecs();
@@ -62,7 +64,10 @@ namespace HonanClaimsPortal.Controllers
                 if (t.IsSuccess)
                 {
                     Session[SessionHelper.PaymentAttachment] = null;
-                    return Redirect(TempData["FromURL"].ToString());
+                    //return Redirect(Session[SessionHelper.FromURL].ToString());
+                    string claimNoType = model.ClaimRefNo_Payment;
+                    string redirectUrl = GetRedirectUrl(claimNoType, model.H_Claimsid,"payment");
+                    return Redirect(redirectUrl);
                 }
             }
 
@@ -81,7 +86,7 @@ namespace HonanClaimsPortal.Controllers
 
         public ActionResult NewKeyContact()
         {
-            TempData["FromURL"] = Request.UrlReferrer;
+            Session[SessionHelper.FromURL] = Request.UrlReferrer == null ? Request.Url.AbsoluteUri.ToString() : Request.UrlReferrer.ToString();
             KeyContact model = new KeyContact();
             PicklistServicecs pickListServices = new PicklistServicecs();
             model.DescriptionList = pickListServices.GetPickListItems("Key Contact Description");
@@ -105,7 +110,7 @@ namespace HonanClaimsPortal.Controllers
                     result = await service.UpdateKeyContact(model, login.UserId);
 
                 if (result)
-                    return Redirect(TempData["FromURL"].ToString());
+                    return Redirect(Session[SessionHelper.FromURL].ToString());
 
             }
             PicklistServicecs pickListServices = new PicklistServicecs();
@@ -117,7 +122,7 @@ namespace HonanClaimsPortal.Controllers
 
         public ActionResult NewFileNote()
         {
-            TempData["FromURL"] = Request.UrlReferrer;
+            Session[SessionHelper.FromURL] = Request.UrlReferrer == null ? Request.Url.AbsoluteUri.ToString() : Request.UrlReferrer.ToString();
             FileNoteDetailModal model = new FileNoteDetailModal();
             ClaimServices claimServices = new ClaimServices();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
@@ -134,12 +139,12 @@ namespace HonanClaimsPortal.Controllers
         {
             DocumentService documentService = new DocumentService();
             documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
-            return Redirect(TempData["FromURL"].ToString());
+            return Redirect(Session[SessionHelper.FromURL].ToString());
         }
 
         public ActionResult NewKeyDate()
         {
-            TempData["FromURL"] = Request.UrlReferrer;
+            Session[SessionHelper.FromURL] = Request.UrlReferrer == null ? Request.Url.AbsoluteUri.ToString() : Request.UrlReferrer.ToString();
             KeyDate model = new KeyDate();
             PicklistServicecs pickListServices = new PicklistServicecs();
             model.Key_Date_Description_List = pickListServices.GetPickListItems("Key Date Description");
@@ -164,7 +169,7 @@ namespace HonanClaimsPortal.Controllers
                     result = await service.UpdateKeyDate(model, login.UserId);
 
                 if (result)
-                    return Redirect(TempData["FromURL"].ToString());
+                    return Redirect(Session[SessionHelper.FromURL].ToString());
 
             }
             PicklistServicecs pickListServices = new PicklistServicecs();
@@ -237,24 +242,7 @@ namespace HonanClaimsPortal.Controllers
                 var result = billingRepo.TeamInsertTimeslip(modelOld, client.UserId).Result;
 
                 string claimNoType = model.Claim_No_New;
-                string redirectUrl = "";
-
-                if (claimNoType.ToUpper().Contains("RSG"))
-                {
-                    redirectUrl = "/RisksmartGccClaim/DetailRisksmartGccClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
-                }
-                else if (claimNoType.ToUpper().Contains("RSP"))
-                {
-                    redirectUrl = "/RisksmartPropertyClaim/DetailRisksmartPropertyClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
-                }
-                else if (claimNoType.ToUpper().Contains("PRC"))
-                {
-                    redirectUrl = "/PropertyClaim/DetailPropertyClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
-                }
-                else if (claimNoType.ToUpper().Contains("GGC"))
-                {
-                    redirectUrl = "/GccClaim/DetailGccClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
-                }
+                string redirectUrl = GetRedirectUrl(claimNoType,model.H_Claimsid_Billing_New,"billing");                
 
                 return Redirect(redirectUrl);
             }
@@ -262,6 +250,29 @@ namespace HonanClaimsPortal.Controllers
             {
                 throw ex;
             }
+        }
+
+        private string GetRedirectUrl(string claimNoType, string H_Claimsid, string tab)
+        {
+            string redirectUrl = "";
+            if (claimNoType.ToUpper().Contains("RSG"))
+            {
+                redirectUrl = "/RisksmartGccClaim/DetailRisksmartGccClaim/" + H_Claimsid + "?tab="+ tab;
+            }
+            else if (claimNoType.ToUpper().Contains("RSP"))
+            {
+                redirectUrl = "/RisksmartPropertyClaim/DetailRisksmartPropertyClaim/" + H_Claimsid + "?tab=" + tab;
+            }
+            else if (claimNoType.ToUpper().Contains("PRC"))
+            {
+                redirectUrl = "/PropertyClaim/DetailPropertyClaim/" + H_Claimsid + "?tab=" + tab;
+            }
+            else if (claimNoType.ToUpper().Contains("GGC"))
+            {
+                redirectUrl = "/GccClaim/DetailGccClaim/" + H_Claimsid + "?tab=" + tab;
+            }
+
+            return redirectUrl;
         }
 
         private BillingModel MapBillinOld_New(BillingModelNew model)

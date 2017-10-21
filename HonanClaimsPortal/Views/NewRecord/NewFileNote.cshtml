@@ -179,7 +179,7 @@
 
     function CloseNewFileNote() {
         @{
-            var url = TempData["FromURL"].ToString();
+            var url = Session[HonanClaimsPortal.Helpers.SessionHelper.FromURL].ToString();
         }
         window.location.href = "@url";
     }

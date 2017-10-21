@@ -24,7 +24,9 @@
         });
 
         $('#frmPaymentDetailNew').submit(function () {
+           
             if ($(this).valid()) {
+
                 $.LoadingOverlay("show");
             }
         });
@@ -60,7 +62,7 @@
 </style>
 
 
-@using (Html.BeginForm("NewPayment", "NewRecord", new { @id = "frmPaymentDetailNew", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("NewPayment", "NewRecord",FormMethod.Post, new { @id = "frmPaymentDetailNew", enctype = "multipart/form-data" }))
 {
 
     @Html.HiddenFor(o => o.Payee_Account)
@@ -85,8 +87,15 @@
                         <div class="row">
                             <div class="form-group mb">
                                 <label class="col-sm-4 control-label input-sm">Claim Ref</label>
-                                <div class="col-sm-8">
-                                    @Html.TextBoxFor(o => o.ClaimRefNo_Payment, new { @class = "form-control input-sm" })
+                                <div class="col-sm-8">                                   
+                                    <div class="input-group">
+                                       @Html.TextBoxFor(o => o.ClaimRefNo_Payment, new { @class = "form-control input-sm disabled", @readonly = true })
+                                        <span class="input-group-btn" id="storeShow" data-toggle="modal" data-target="#ClaimReferenceNumbersModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -373,10 +382,11 @@
 
                     <div class="col-md-12">
                         <div class="panel-footer text-right">
-                            <button type="button" class="mb-sm btn btn-default" onclick="CloseNewPayment()" data-dismiss="modal">Discard Changes</button>
-                            <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
+                            <button type="button" class="mb-sm btn btn-default" onclick="CloseNewPayment()">Discard Changes</button>
+                            <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail">Save Changes</button>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -490,19 +500,19 @@
             $("#H_Claimsid").val(urlParam_claimId);
         }
 
-        kendoAutoCompleteService_By_Name = $("#ClaimRefNo_Payment").kendoAutoComplete({
-            dataTextField: "Text",
-            //dataValueField: "ID",
-            minLength: 2,
-            dataSource: {
-                type: "json",
-                transport: {
-                    read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
-                }
-            },
-            filter: "contains",
-            select: onSelectService_By_Name,
-        }).data("kendoAutoComplete");
+        //kendoAutoCompleteService_By_Name = $("#ClaimRefNo_Payment").kendoAutoComplete({
+        //    dataTextField: "Text",
+        //    //dataValueField: "ID",
+        //    minLength: 2,
+        //    dataSource: {
+        //        type: "json",
+        //        transport: {
+        //            read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
+        //        }
+        //    },
+        //    filter: "contains",
+        //    select: onSelectService_By_Name,
+        //}).data("kendoAutoComplete");
 
         function onSelectService_By_Name(e) {
 
@@ -512,32 +522,19 @@
         }
     });
 
-    $('#ClaimRefNo_Payment').keyup(function () {
-        var dd = $("#ClaimRefNo_Payment").val();
-        var dataSource = new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=" + $("#ClaimRefNo_Payment").val(),
-                    dataType: "json"
-                }
-            }
-        });
-        kendoAutoCompleteService_By_Name.setDataSource(dataSource);
-    });
+    //$('#ClaimRefNo_Payment').keyup(function () {
+    //    var dd = $("#ClaimRefNo_Payment").val();
+    //    var dataSource = new kendo.data.DataSource({
+    //        transport: {
+    //            read: {
+    //                url: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=" + $("#ClaimRefNo_Payment").val(),
+    //                dataType: "json"
+    //            }
+    //        }
+    //    });
+    //    kendoAutoCompleteService_By_Name.setDataSource(dataSource);
+    //});
 
-    function CheckPaymentData()
-    {
-        if ($("#Liability_Reserve").length > 0) {
-            var val1 = $("#Liability_Reserve").val();
-            var val2 = $("#Payment_Amount").val();
-
-            if (val1 < val2) {
-
-                bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
-                return false;
-            }
-        }
-    }
 
     $(function () {
 
@@ -549,8 +546,10 @@
             dynamicValidations_Payment();
 
             if ($(this).valid()) {
+
                 $.LoadingOverlay("show");
             }
+
         });
 
         $("#uploadInvoiceAttach").kendoUpload({
@@ -683,11 +682,7 @@
                     function CloseNewPayment() {
 
         @{
-            var url = "";
-            if (TempData["FromURL"] != null)
-            {
-                url = TempData["FromURL"].ToString();
-            }
+            var url = Session[HonanClaimsPortal.Helpers.SessionHelper.FromURL].ToString();
         }
             window.location.href = "@url";
     }

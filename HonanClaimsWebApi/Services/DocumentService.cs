@@ -580,10 +580,21 @@ namespace HonanClaimsWebApi.Services
 
                         var jsonString = JsonConvert.SerializeObject(activityTask);
                         var jsonString_userId = JsonConvert.SerializeObject(userId);
+
+                        var json_NextActivityId = JsonConvert.SerializeObject(activityTask.NextActivityId);
+                        var json_NextActivityDue = JsonConvert.SerializeObject(activityTask.NextActivityDue);
+
                         var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
                         var content_userId = new StringContent(jsonString_userId, System.Text.Encoding.UTF8, "application/json");
+
+                        var content_NextActivityId = new StringContent(json_NextActivityId, System.Text.Encoding.UTF8, "application/json");
+                        var content_NextActivityDue = new StringContent(json_NextActivityDue, System.Text.Encoding.UTF8, "application/json");
+
                         formData.Add(content, "activityTask");
                         formData.Add(content_userId, "userId");
+
+                        formData.Add(content_NextActivityId, "nextActivityId");
+                        formData.Add(content_NextActivityDue, "nextActivityDue");
 
 
                         var postResult = await client.PostAsync(apiUrl, formData);

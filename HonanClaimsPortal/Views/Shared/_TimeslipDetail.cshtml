@@ -56,7 +56,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Claim</label>
                     <div class="col-sm-8">
-                        @Html.TextBoxFor(m => m.Claim_No, new { @class = "form-control input-sm" })
+                        @Html.TextBoxFor(m => m.Claim_No, new { @class = "form-control input-sm disabled", @readonly = true })
                         @Html.HiddenFor(m => m.H_Claimsid_Billing)
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                             @Html.TextBoxFor(o => o.Client_Name, new { @class = "form-control input-sm", @maxlength = 100 })
                             @Html.HiddenFor(m => m.ClientId)
 
-                            <span class="input-group-btn" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal">
+                            <span class="input-group-btn" id="btnPolicyLookup" data-toggle="modal" data-target="#ClientModal">
                                 <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                     <i class="fa fa-binoculars"></i>
                                 </button>
@@ -268,16 +268,21 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" id="btnClientModal">&times;</button>
+                            <button type="button" class="close btnClientModalClose" id="btnClientModal">&times;</button>
                             <h4 class="modal-title">Client # Lookup</h4>
                         </div>
 
                         <div class="modal-body">
-                            <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
-                            <div id="lookupClientGrid"></div>
-                        </div>
+                            <div class="col-md-12">
+                                <div class="col-md-10" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="Accsearch"></div>
+                            </div>
+                            <br /><br />
+                            <div class="col-md-12">
+                                <div id="lookupClientGrid"></div>
+                             </div>
+                            </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default btnClientModalClose">Close</button>
                         </div>
                     </div>
                 </div>
@@ -289,7 +294,7 @@
 
 <script>
 
-    $("#btnClientModal").on('click', function () {
+    $(".btnClientModalClose").on('click', function () {
         $("#ClientModal").modal("hide");
     });
 
@@ -520,7 +525,7 @@
                     dataBound: function (e) {
                         $('#ClientModal').modal('show');
                     },
-                    height: 550,
+                    height: 200,
                     sortable: true,
                     serverPaging: true,
                     pageable: {
@@ -655,9 +660,9 @@
 
                     if (data.Order != null) {
                         var RatePHR = data.Order;
-                        var RatePUNIT = (RatePHR / 60 * 6);
+                        var RatePUNIT = (RatePHR / (60 * 6));
                         $("#Rate").val(data.Order);
-                        $("#Rate_Per_Unit").val(RatePUNIT);
+                        $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
                     }
                 }
             });

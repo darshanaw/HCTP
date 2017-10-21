@@ -1533,8 +1533,14 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
         var urlParam = getUrlParameter('tab');
 
-        if (urlParam != '' && typeof urlParam !== 'undefined' && urlParam != 'NaN' && urlParam == "billing") {
-            $('.nav-tabs a[href="#tabBillings"]').tab('show');
+        if (urlParam != '' && typeof urlParam !== 'undefined' && urlParam != 'NaN') {
+
+            if (urlParam == "billing") {
+                $('.nav-tabs a[href="#tabBillings"]').tab('show');
+            }
+            else if (urlParam == "payment") {
+                $('.nav-tabs a[href="#tabPayments"]').tab('show');
+            }
         }
 
        @{

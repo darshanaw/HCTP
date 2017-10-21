@@ -274,11 +274,7 @@
     function CancelKCD() {
 
       @{
-            var url = "";
-            if (TempData["FromURL"] != null)
-            {
-                url = TempData["FromURL"].ToString();
-            }
+          var url = Session[HonanClaimsPortal.Helpers.SessionHelper.FromURL].ToString();
         }
 
         window.location.href = "@url";
