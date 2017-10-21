@@ -1247,6 +1247,12 @@ else
             else if (urlParam == "payment") {
                 $('.nav-tabs a[href="#tabPayments"]').tab('show');
             }
+            else if (urlParam == "keycontact") {
+                $('.nav-tabs a[href="#tabKey_Contacts_Dates"]').tab('show');
+            }
+            else if (urlParam == "filenote") {
+                $('.nav-tabs a[href="#tabFileNotes"]').tab('show');
+            }
         }
 
         @{
@@ -1479,6 +1485,7 @@ else
 
         $.LoadingOverlay("hide");
 
+        var fieldsUpdated = false;
         // Warning
         $(window).on('beforeunload', function () {
             if (fieldsUpdated) {
@@ -1491,6 +1498,10 @@ else
         });
 
         $('.datebtn').click(function () {
+            fieldsUpdated = true;
+        });
+
+        $("input:checkbox").change(function () {
             fieldsUpdated = true;
         });
 

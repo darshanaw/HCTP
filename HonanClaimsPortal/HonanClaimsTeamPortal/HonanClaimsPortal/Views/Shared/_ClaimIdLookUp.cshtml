@@ -190,6 +190,32 @@
             }
         }
 
+        if (window.location.href.indexOf("NewRecord/NewKeyContact") > -1) {
+            
+            if ($("#H_Claimsid_KCD").length > 0 && $("#Claim_Ref_No_KCD").length > 0) {
+
+                $("#H_Claimsid_KCD").val('');
+                $("#Claim_Ref_No_KCD").val('');
+
+                $("#H_Claimsid_KCD").val(claimId);
+                $("#Claim_Ref_No_KCD").val(claimRef);
+
+            }
+        }
+
+        if (window.location.href.indexOf("NewRecord/NewFileNote") > -1) {
+
+            if ($("#ClaimId_Fn").length > 0 && $("#ClaimRefNo_Fn").length > 0) {
+
+                $("#ClaimId_Fn").val('');
+                $("#ClaimRefNo_Fn").val('');
+
+                $("#ClaimId_Fn").val(claimId);
+                $("#ClaimRefNo_Fn").val(claimRef);
+
+            }
+        }
+
 
         $('#ClaimReferenceNumbersModal').modal('toggle');
     }

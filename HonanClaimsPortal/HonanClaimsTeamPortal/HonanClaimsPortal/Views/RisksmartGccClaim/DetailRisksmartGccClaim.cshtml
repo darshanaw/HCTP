@@ -1301,7 +1301,7 @@ else
 </div>
 
 <!-- Modal -->
-<div id="AccountBrokerModal" class="modal fade AccountBrokerModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+<div id="AccountBrokerModal" class="modal fade AccountBrokerModal" role="dialog" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -1319,7 +1319,7 @@ else
 </div>
 
 <!-- Modal -->
-<div id="ContactBrokerModal" class="modal fade ContactBrokerModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+<div id="ContactBrokerModal" class="modal fade ContactBrokerModal" role="dialog" data-backdrop="false" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -1451,6 +1451,12 @@ else
             }
             else if (urlParam == "payment") {
                 $('.nav-tabs a[href="#tabPayments"]').tab('show');
+            }
+            else if (urlParam == "keycontact") {
+                $('.nav-tabs a[href="#tabKey_Contacts_Dates"]').tab('show');
+            }
+            else if (urlParam == "filenote") {
+                $('.nav-tabs a[href="#tabFileNotes"]').tab('show');
             }
         }
 
@@ -1672,6 +1678,7 @@ else
             $('#Assigned_Date').val(getTodaysDate());
         });
 
+        var fieldsUpdated = false;
         // Warning
         $(window).on('beforeunload', function () {
             if (fieldsUpdated) {
@@ -1684,6 +1691,10 @@ else
         });
 
         $('.datebtn').click(function () {
+            fieldsUpdated = true;
+        });
+
+        $("input:checkbox").change(function () {
             fieldsUpdated = true;
         });
 

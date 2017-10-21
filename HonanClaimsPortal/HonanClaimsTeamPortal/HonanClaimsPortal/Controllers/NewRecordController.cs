@@ -110,7 +110,11 @@ namespace HonanClaimsPortal.Controllers
                     result = await service.UpdateKeyContact(model, login.UserId);
 
                 if (result)
-                    return Redirect(Session[SessionHelper.FromURL].ToString());
+                {
+                    string claimNoType = model.Claim_Ref_No;
+                    string redirectUrl = GetRedirectUrl(claimNoType, model.H_Claimsid, "keycontact");
+                    return Redirect(redirectUrl);
+                }
 
             }
             PicklistServicecs pickListServices = new PicklistServicecs();
@@ -139,7 +143,10 @@ namespace HonanClaimsPortal.Controllers
         {
             DocumentService documentService = new DocumentService();
             documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
-            return Redirect(Session[SessionHelper.FromURL].ToString());
+            //return Redirect(Session[SessionHelper.FromURL].ToString());
+            string claimNoType = model.ClaimRefNo_Fn;
+            string redirectUrl = GetRedirectUrl(claimNoType, model.ClaimId_Fn, "filenote");
+            return Redirect(redirectUrl);
         }
 
         public ActionResult NewKeyDate()

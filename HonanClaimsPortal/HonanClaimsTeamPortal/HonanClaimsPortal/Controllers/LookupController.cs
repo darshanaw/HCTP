@@ -448,6 +448,13 @@ namespace HonanClaimsPortal.Controllers
             lookupServices = new LookupServices();
             List<CRMContactSimple> objectList = new List<CRMContactSimple>();
 
+            if(param.sSearch != null && !string.IsNullOrEmpty(accountId))
+            {
+                accountId = "";
+                objectList =
+                lookupServices.GetContactLookup(param.sSearch == null ? "" : param.sSearch, accountId);
+            }
+            else
             objectList =
                 lookupServices.GetContactLookup(param.sSearch == null ? "" : param.sSearch, accountId);
 
