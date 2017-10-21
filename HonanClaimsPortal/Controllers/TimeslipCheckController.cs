@@ -16,11 +16,12 @@ namespace HonanClaimsPortal.Controllers
         // GET: TimeslipCheck
         public async Task<ActionResult> Index()
         {
+            var emptyList = new List<TimeslipDataModel>();
             var returnModel = new TimeslipReturnModel();
             returnModel.ClaimTeam = await GetComboDetails(arealist.ClaimTeam);
-            returnModel.Account = await GetComboDetails(arealist.Account);
-            returnModel.Claim = await GetComboDetails(arealist.Claim);
-            returnModel.ServiceBy = await GetComboDetails(arealist.ServiceBy);
+            returnModel.Account = emptyList;//await GetComboDetails(arealist.Account);
+            returnModel.Claim = emptyList;// await GetComboDetails(arealist.Claim);
+            returnModel.ServiceBy = emptyList;// await GetComboDetails(arealist.ServiceBy);
             return View(returnModel);
         }
 
@@ -49,6 +50,8 @@ namespace HonanClaimsPortal.Controllers
                 List<TimeSlipGridDetailModel> list = new List<TimeSlipGridDetailModel>();
                 TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
                 list = await timelistcheckrepo.GetTimeSlipGridData(claimTeam, accountId, serviceBy, claimId, fromDate, toDate);
+
+
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

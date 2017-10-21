@@ -18,5 +18,8 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
         public string Checked { get; set; }
         public int Qty { get; set; }
         public decimal Billable { get; set; }
+        public string CustomerId { get; set; }
+        public string ServiceByUserId { get; set; }
+        public string ClaimId { get; set; }
     }
 }
