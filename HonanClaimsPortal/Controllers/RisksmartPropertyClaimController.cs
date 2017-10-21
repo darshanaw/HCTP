@@ -178,25 +178,27 @@ namespace HonanClaimsPortal.Controllers
             decimal val, liabilityReserveGross = 0, defenceReserveGross = 0;
 
 
-            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Liability Reserve", true), out val))
-            {
-                liabilityReserveGross = val;
-                model.Liability_Reserve = model.Liability_Reserve - val;
-            }
-
-            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Defence Reserve", true), out val))
-            {
-                defenceReserveGross = val;
-                model.Defence_Reserve = model.Defence_Reserve - val;
-            }
-
-            model.Total_Reserve = model.Liability_Reserve + model.Defence_Reserve;
-
             if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Liability Reserve", false), out val))
                 model.Net_Paid_Liability = val;
 
             if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Defence Reserve", false), out val))
                 model.Net_Paid_Defence = val;
+
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Liability Reserve", true), out val))
+            {
+                liabilityReserveGross = val;
+                model.Liability_Reserve = model.Liability_Reserve - model.Net_Paid_Liability;
+            }
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(model.H_Claimsid, "Defence Reserve", true), out val))
+            {
+                defenceReserveGross = val;
+                model.Defence_Reserve = model.Defence_Reserve - model.Net_Paid_Defence;
+            }
+
+            model.Total_Reserve = model.Liability_Reserve + model.Defence_Reserve;
+
 
             model.Gross_Paid_To_Date = liabilityReserveGross + defenceReserveGross;
 

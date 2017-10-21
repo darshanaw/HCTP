@@ -1,4 +1,5 @@
 ﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
 using System;
@@ -26,5 +27,47 @@ namespace HonanClaimsPortal.Controllers
             return Json(service.HideClaimWarningBanner(claimId, client.UserId), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult AjaxGetPaymentAmount(string claimId,decimal liability_Res_Source,decimal defence_Res_Source,decimal excess)
+        {
+            PaymentServices paymentServices = new PaymentServices();
+            decimal val, liabilityReserveGross = 0, defenceReserveGross = 0;
+            ClaimFinObject model = new ClaimFinObject();
+
+            model.Excess = excess;
+            model.Liability_Reserve = liability_Res_Source;
+            model.Defence_Reserve = defence_Res_Source;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claimId, "Liability Reserve", false), out val))
+                model.Net_Paid_Liability = val;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claimId, "Defence Reserve", false), out val))
+                model.Net_Paid_Defence = val;
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claimId, "Liability Reserve", true), out val))
+            {
+                liabilityReserveGross = val;
+                model.Liability_Reserve = model.Liability_Reserve - model.Net_Paid_Liability;
+            }
+
+            if (decimal.TryParse(paymentServices.GetClaimReservePaymentAmount(claimId, "Defence Reserve", true), out val))
+            {
+                defenceReserveGross = val;
+                model.Defence_Reserve = model.Defence_Reserve - model.Net_Paid_Defence;
+            }
+
+            model.Total_Reserve = model.Liability_Reserve + model.Defence_Reserve;
+
+
+            model.Gross_Paid_To_Date = liabilityReserveGross + defenceReserveGross;
+
+            model.Total_Incurred = model.Total_Reserve + model.Net_Paid_Liability + model.Net_Paid_Defence;
+
+            if (model.Total_Reserve < model.Excess)
+                model.Current_Exposure = model.Total_Reserve;
+            else
+                model.Current_Exposure = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
     }
 }
