@@ -15,5 +15,7 @@ namespace HonanClaimsWebApiAccess1.Models.TeamGetClaimAssigment
         public string Customer { get; set; }
         public string ReportedDate { get; set; }
         public string TeamName { get; set; }
+        public string Category { get; set; }
+        public string IncidentDate { get; set; }
     }
 }
