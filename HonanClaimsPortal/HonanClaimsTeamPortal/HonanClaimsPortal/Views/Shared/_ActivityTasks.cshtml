@@ -29,41 +29,51 @@
                 <div class="form-group">
 
                     <div class="col-sm-5">
-                        <label class="radio-inline c-radio">
+                        <label class="radio-inline c-radio input-sm">
                             <input id="rdoViewAll" type="radio" name="i-radio" checked>
                             <span class="fa fa-circle"></span>View All
                         </label>
-                        <label class="radio-inline c-radio">
+                        <label class="radio-inline c-radio input-sm">
                             <input id="rdoIncomplete" type="radio" name="i-radio" value="false">
                             <span class="fa fa-circle"></span>Incomplete Only
                         </label>
-                        <label class="radio-inline c-radio">
+                        <label class="radio-inline c-radio input-sm">
                             <input id="rdoCompleted" type="radio" name="i-radio" value="false">
                             <span class="fa fa-circle"></span>Completed Only
                         </label>
 
-                        <label class="checkbox c-checkbox pull-right mt0" style="font-weight:500">
+                        <label class="checkbox c-checkbox pull-right mt0 input-sm" style="font-weight:500">
                             <input type="checkbox" value="false" id="chkShowOverdue">
                             <span class="fa fa-check"></span> High Priority
                         </label>
                     </div>
                     <div class="col-sm-2" style="width:12%;">
-                        <label class="control-label" style="font-weight:500">Filter by Owner:</label>
+                        <label class="control-label input-sm" style="font-weight:500">Filter by Owner:</label>
                     </div>
                     <div class="col-sm-2">
-                        @Html.DropDownList("OwnerType_ActivityTask", new SelectList(ViewBag.OwnerType, "Text", "Text"), "", new { @class = "form-control" })
+                        @Html.DropDownList("OwnerType_ActivityTask", new SelectList(ViewBag.OwnerType, "Text", "Text"), "", new { @class = "form-control  input-sm" })
                     </div>
                     <div class="col-sm-1">
-                        <input type="button" id="btnActivityTasksFilter" class="btn btn-primary" value="Filter List" />
+                        <input type="button" id="btnActivityTasksFilter" class="btn btn-sm btn-primary" value="Filter List" />
                     </div>
-                    <div class="col-sm-2">
+                    @*<div class="col-sm-1">
+                        <input type="button" id="btnClearFilter" class="btn btn-sm btn-default" value="Clear Filters"/>
+                    </div>*@
+                    @*<div class="col-sm-2">
                         <input type="button" class="btn btn-default" id="btnActivityTasksAddNew" value="Add New" />
-                    </div>
+                    </div>*@
 
                 </div>
             </div>
 
-            <br /><br /><br />
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Record Count</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="recordCount" class="btn btn-sm btn-default form-control input-sm disabled" readonly />
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -156,19 +166,27 @@
             pageable: true,
             sortable: true,
             dataBound: function (e) {
+                var rowCount = 0;
                 var items = this._data;
                 var tableRows = $(this.table).find("tr");
                 tableRows.each(function (index) {
                     var row = $(this);
                     var Item = items[index];
                     if (Item.RowColor_Act == "Red") {
+                        row.removeClass("k-alt");
                         row.addClass("gridRed");
-                    } else if (Item.RowColor_Act == "Orange"){
+                    } else if (Item.RowColor_Act == "Orange") {
+                        row.removeClass("k-alt");
                         row.addClass("gridOrange");
+                    }
+
+                    if (Item.Complete_Act != true && Item.Skipped_Act != true) {
+                        rowCount++;
                     }
                 })
 
-                $("#activityTaskCount").text(tableRows.length);
+                $("#recordCount").val(tableRows.length);
+                $("#activityTaskCount").text(rowCount);
 
             },
             columns: [
@@ -224,34 +242,35 @@
                     title: "Completed Date",
                     //template: '#= kendo.toString(kendo.parseDate(CompletedDate_Act), "dd/MM/yyyy")#',
                     template: "#= (CompletedDate_Act == null) ? '': kendo.toString(kendo.parseDate(CompletedDate_Act), 'dd/MM/yyyy') #"
-                },
-                {
-                    command: {
-                        name: "Delete",
-                        click: function (e) {  //add a click event listener on the delete button
-                            e.preventDefault(); //prevent page scroll reset
-                            var tr = $(e.target).closest("tr"); //get the row for deletion
-                            var data = this.dataItem(tr); //get the row data so it can be referred later
-                            window.content(windowTemplate(data)); //send the row data object to the template and render it
-                            window.center().open();
-
-                            $("#yesButton").click(function () {
-
-                                $.ajax({
-                                    url: "/ClaimDetailTabs/DeleteActivity?claimId=" + $("#H_Claimsid").val() + "&activityId=" + data.ActivityTaskId + "&seq=" + data.Seq_Act, success: function (result) {
-
-                                        window.close();
-                                        RefreshActivityTasksGrid();
-                                    }
-                                });
-
-                            })
-                            $("#noButton").click(function () {
-                                window.close();
-                            })
-                        }
-                    }
                 }
+                //,
+                //{
+                //    command: {
+                //        name: "Delete",
+                //        click: function (e) {  //add a click event listener on the delete button
+                //            e.preventDefault(); //prevent page scroll reset
+                //            var tr = $(e.target).closest("tr"); //get the row for deletion
+                //            var data = this.dataItem(tr); //get the row data so it can be referred later
+                //            window.content(windowTemplate(data)); //send the row data object to the template and render it
+                //            window.center().open();
+
+                //            $("#yesButton").click(function () {
+
+                //                $.ajax({
+                //                    url: "/ClaimDetailTabs/DeleteActivity?claimId=" + $("#H_Claimsid").val() + "&activityId=" + data.ActivityTaskId + "&seq=" + data.Seq_Act, success: function (result) {
+
+                //                        window.close();
+                //                        RefreshActivityTasksGrid();
+                //                    }
+                //                });
+
+                //            })
+                //            $("#noButton").click(function () {
+                //                window.close();
+                //            })
+                //        }
+                //    }
+                //}
             ]
         });
 
@@ -276,6 +295,10 @@
             clearActivityTaskDetails();
             $('#ActivityTasksDetailModal').modal('show');
             lastTaskCompletedDate()
+        });
+
+        $("#btnClearFilter").click(function () {
+            clearActivityTaskFilters();
         });
 
     });
@@ -373,6 +396,13 @@
         });
 
         $('#ActivityTasksDetailModal').modal('show');
+    }
+
+    function clearActivityTaskFilters() {
+        @*$("input[name='rdoViewAll']").prop('checked', true);
+        $("input[name='rdoCompleted']").prop('checked', false);
+        $("input[name='rdoIncomplete']").prop('checked', false);
+        $("input[name='chkShowOverdue']").prop('checked', false);*@
     }
 
 </script>
