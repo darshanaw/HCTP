@@ -175,6 +175,21 @@
 
         }
 
+        if (window.location.href.indexOf("NewRecord/NewKeyDate") > -1) {
+
+            if ($("#H_ClaimNo_KCD_Date").length > 0 && $("#H_Claimsid_KCD_Date").length > 0) {
+
+                $("#H_ClaimNo_KCD_Date").val('');
+                $("#H_Claimsid_KCD_Date").val('');
+
+                $("#H_ClaimNo_KCD_Date").val(claimRef);
+                $("#H_Claimsid_KCD_Date").val(claimId);
+
+                setMaxSequence(claimId);
+
+            }
+        }
+
 
         $('#ClaimReferenceNumbersModal').modal('toggle');
     }
