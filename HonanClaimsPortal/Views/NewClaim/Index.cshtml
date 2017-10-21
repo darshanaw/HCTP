@@ -243,9 +243,16 @@
 <script>
     $(function () {
 
+        if ($("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
+            $("#Oc_No").val("");
+            $("#divOcNo").hide();
+        }
+        else {
+            $("#divOcNo").show();
+        }
 
         $("#Claim_Team").change(function () {
-
+            alert("dsadasd");
             if ($(this).val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $(this).val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
                 $("#Oc_No").val("");
                 $("#divOcNo").hide();
