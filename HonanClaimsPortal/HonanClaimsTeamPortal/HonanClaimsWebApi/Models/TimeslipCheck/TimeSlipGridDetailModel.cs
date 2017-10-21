@@ -21,5 +21,7 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
         public string CustomerId { get; set; }
         public string ServiceByUserId { get; set; }
         public string ClaimId { get; set; }
+        public int Unit { get; set; }
+        public bool IsBillable { get; set; }
     }
 }

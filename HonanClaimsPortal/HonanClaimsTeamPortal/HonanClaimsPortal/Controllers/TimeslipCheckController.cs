@@ -94,8 +94,8 @@ namespace HonanClaimsPortal.Controllers
             {
                 throw ex;
             }
-
         }
+
 
         [HttpGet]
         public async Task<ActionResult> MarkAsNonBillable(string billingId, string serviceDate, string sStart_Time, string sEnd_Time, string claimId)
@@ -107,6 +107,27 @@ namespace HonanClaimsPortal.Controllers
 
                 TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
                 var res = await timelistcheckrepo.MarkAsNonBillable(billingId, assignId, serviceDate, sStart_Time, sEnd_Time, claimId);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
+
+        [HttpGet]
+        public async Task<ActionResult> SaveTimeSlip(string BillingId, string serviceDate, string sStart_Time, string sEnd_Time, string claimId,string WorkDone)
+        {
+            try
+            {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string assignId = client.UserId;
+
+                TimeSlipCheckRepo timelistcheckrepo = new TimeSlipCheckRepo();
+                var res = await timelistcheckrepo.SaveTimeslip(BillingId, assignId, serviceDate, sStart_Time, sEnd_Time, claimId,WorkDone);
                 return Json(res, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
