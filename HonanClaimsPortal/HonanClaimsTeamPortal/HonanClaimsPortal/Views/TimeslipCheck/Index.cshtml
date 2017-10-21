@@ -373,6 +373,7 @@
             $('#Claim').val("");
             $('#Datefrom').val("");
             $('#Dateto').val("");
+            $("#Account").val("");
             LoadGridDetail();
         });
 
@@ -417,8 +418,8 @@
             change: onChange,
             pageable: {
                 refresh: true,
-                pageSizes: true,
-                buttonCount: 5
+                pageSizes: [10, 20, 50, 100],
+                buttonCount: 10
             },
             columns: [
                 {
@@ -450,12 +451,119 @@
                     field: "Billable",
                     title: "Billable $$",
                 }],
-            dataBound: function () {
+            dataBound: function (e) {
                 $(".checkbox").bind("change", function (e) {
                     $(e.target).closest("tr").toggleClass("k-state-selected");
                 });
+
+
+                var view = this.dataSource.view();
+
+                var ServiceByList = [];
+                var ClaimList = [];
+                var AccountList = [];
+
+                var sServiceBy = document.getElementById("ServiceBy");
+                var ssServiceBy = sServiceBy.options[sServiceBy.selectedIndex].value;
+
+                var sClaim = document.getElementById("Claim");
+                var ssClaim = sClaim.options[sClaim.selectedIndex].value;
+
+                var sAccount = document.getElementById("Account");
+                var ssAccount = sAccount.options[sAccount.selectedIndex].value;
+
+
+
+                var selectServiceBy = document.getElementById("ServiceBy");
+                var length1 = selectServiceBy.options.length;
+                for (i = length1-1; i > -1; i--) {
+                    if (selectServiceBy.options[i].value!="")
+                    selectServiceBy.options[i] = null;
+                }
+
+                var selectClaim = document.getElementById("Claim");
+                var length2 = selectClaim.options.length;
+                for (j = length2-1; j > -1; j--) {
+                    if (selectClaim.options[j].value != "")
+                    selectClaim.options[j] = null;
+                }
+
+                var selectAccount = document.getElementById("Account");
+                var length3 = selectAccount.options.length;
+                for (k = length3-1; k > -1; k--) {
+                    if (selectAccount.options[k].value != "")
+                    selectAccount.options[k] = null;
+                }
+                //var sel = document.getElementById("ServiceBy");
+                ////var ddlArray = new Array();
+                //var ddl = document.getElementById('ServiceBy');
+                //for (i = 0; i < ddl.options.length; i++) {
+                //    //ddlArray[i] = ddl.options[i].value;
+
+                //    var tsObj = {
+                //        "Code": ddl.options[i].value,
+                //        "Text": ddl.options[i].text
+                //    }
+                //    ServiceByList.push(tsObj);
+                //}
+                //debugger;
+                
+                for (var i = 0; i < view.length; i++) {
+                    if (!IsAlready(ServiceByList, view[i].ServiceByUserId)) {
+                        var tsObj = {
+                            "Code": view[i].ServiceByUserId,
+                            "Text": view[i].ServiceBy
+                        }
+                        ServiceByList.push(tsObj);
+                    }
+
+
+                    if (!IsAlready(ClaimList, view[i].ClaimId)) {
+                        var cObj = {
+                            "Code":view[i].ClaimId,
+                            "Text": view[i].ClaimRefNo
+                        }
+                        ClaimList.push(cObj);
+                    }
+
+                    if (!IsAlready(AccountList, view[i].CustomerId)) {
+                        var aObj = {
+                            "Code": view[i].CustomerId,
+                            "Text": view[i].Customer
+                        }
+                        AccountList.push(aObj);
+                    }
+                }
+
+                $.each(ServiceByList, function (i, value) {
+                    $('#ServiceBy').append($('<option>').text(value.Text).attr('value', value.Code));
+                });
+
+                $.each(ClaimList, function (i, value) {
+                    $('#Claim').append($('<option>').text(value.Text).attr('value', value.Code));
+                });
+
+                $.each(AccountList, function (i, value) {
+                    $('#Account').append($('<option>').text(value.Text).attr('value', value.Code));
+                });
+
+                $("#ServiceBy").val(ssServiceBy);
+                $("#Claim").val(ssClaim);
+                $("#Account").val(ssAccount);
+
+                debugger;
             }
         });
+
+        function IsAlready(list, value) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].Code == value) {
+                    return true;
+                    break;
+                }
+            }
+            return false;
+        }
 
         function onChange(arg) {
             $('tr').find('[type=checkbox]').prop('checked', false);
@@ -463,6 +571,7 @@
             var dataItem = this.dataItem(this.select());
             setTextFields(dataItem);
         }
+
     }
 
     function comboChange() {
