@@ -117,7 +117,7 @@ else
                                     <div class="col-md-12">
                                         <div class="text-right">
                                             <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                                            <button type="submit" class="mb-sm btn btn-primary">Save</button>
+                                            <button id="btnSubmit" type="submit" class="mb-sm btn btn-primary">Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -247,6 +247,19 @@ else
                         <div class="col-md-12">
                             <div class="col-md-6 col-sm-12">
                                 <fieldset>
+
+                                    @if (Model.Claim_Type == "Notification")
+                                    {
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="form-group mb">
+                                                <label class="col-sm-3 control-label input-sm">Notification Status</label>
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(model => model.Notification_Status, new SelectList(Model.Notification_Status_List, "Text", "Text"),
+                        new { @class = "form-control input-sm" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
 
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group mb">
@@ -632,7 +645,7 @@ else
                                                                     </div>
                                                                 }
 
-                                                               
+
 
                                                             </div>
                                                         </div>
@@ -727,15 +740,24 @@ else
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insurer</label>
                                                             <div class="col-sm-9">
-                                                                <div class="input-group">
-                                                                    @Html.TextBoxFor(o => o.Insurer_Name, new { @class = "form-control input-sm", @maxlength = 100 })
 
-                                                                    <span id="insurerModel" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
-                                                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                                            <i class="fa fa-binoculars"></i>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
+                                                                @if (string.IsNullOrEmpty(Model.Policy_Id))
+                                                                {
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(o => o.Insurer_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+
+                                                                        <span id="insurerModel" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
+                                                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                                <i class="fa fa-binoculars"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.TextBoxFor(o => o.Insurer_Name, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                                                                }
+
                                                             </div>
                                                             @Html.HiddenFor(o => o.Insurer)
                                                         </div>
@@ -958,15 +980,20 @@ else
 
                                 </fieldset>
 
-
-
                                 <fieldset>
                                     <div class="col-md-12 col-sm-12">
-
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Claim Quick Note</label>
                                             <div class="col-sm-9">
                                                 @Html.TextAreaFor(o => o.Claim_Note, new { @class = "form-control input-sm", @maxlength = 400 })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group mb">
+                                            <label class="col-sm-3 control-label input-sm">Special Instructions</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextAreaFor(o => o.Special_Instructions, new { @class = "form-control input-sm", @maxlength = 400 })
                                             </div>
                                         </div>
                                     </div>
@@ -977,7 +1004,7 @@ else
                     </div>
                     <div class="panel-footer text-right">
                         <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
-                        <button type="submit" class="mb-sm btn btn-primary">Save</button>
+                        <button id="btnSubmit1" type="submit" class="mb-sm btn btn-primary">Save</button>
                     </div>
                 </div>
             </div>
@@ -1173,13 +1200,6 @@ else
     </div>
 </div>
 
-<script>
-    $('#convertToClaimModel').on('show.bs.modal', function () {
-        $('#Policy_No_CC').val(@Model.Policy_No)
-        $('#ActivityTemplate').val("@Model.Claim_Team_Name")
-    });
-</script>
-
 <!-- Covert to Claim Modal End-->
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
@@ -1207,6 +1227,13 @@ else
     };
 
     $(document).ready(function () {
+
+        $('#convertToClaimModel').on('show.bs.modal', function () {
+            // disable unload warning
+            $(window).off('beforeunload');
+            $('#Policy_No_CC').val("@Model.Policy_No")
+            $('#ActivityTemplate').val("@Model.Claim_Team_Name")
+        });
 
         var urlParam = getUrlParameter('tab');
 
@@ -1525,6 +1552,29 @@ else
                 $("#Broker_Name_Id").val("");
             }
         });
+
+        $("#btnSubmit").click(function (e) {
+
+            if ($("#Claim_Type").val() == "Notification" && $("#Notification_Status").val() == '') {
+                $("#Notification_Status").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else {
+                $("#Notification_Status").removeClass("input-validation-error");
+            }
+        });
+
+        $("#btnSubmit1").click(function (e) {
+
+            if ($("#Claim_Type").val() == "Notification" && $("#Notification_Status").val() == '') {
+                $("#Notification_Status").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else {
+                $("#Notification_Status").removeClass("input-validation-error");
+            }
+        });
+
     })
 
     function SetExtraFields() {
@@ -1632,5 +1682,7 @@ else
             });
         }
     }
+
+
 
 </script>

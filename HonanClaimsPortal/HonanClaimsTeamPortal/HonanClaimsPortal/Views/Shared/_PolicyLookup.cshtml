@@ -136,11 +136,16 @@
             $("#Period_To").val(periodTo);
             $("#Excess").val(excess);
             $("#InsurerName").val(underwriterName);
+            $("#Insurer_Name").val(underwriterName);
             $("#Insurer").val(underwriterId);
 
 
             if ($("#AccountManager").length > 0) {
                 $("#AccountManager").val(accountManager);
+            }
+
+            if ($("#Insured_Name").length > 0) {
+                $("#Insured_Name").val(insuredName);
             }
         }
         else
@@ -176,6 +181,7 @@
             
             if ($("#InsurerName").length > 0) {
                 $("#InsurerName").val(underwriterName);
+                $("#Insurer_Name").val(underwriterName);
                 $("#Insurer").val(underwriterId);
             }
            
