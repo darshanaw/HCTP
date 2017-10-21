@@ -88,6 +88,7 @@
     <Compile Include="Models\AccountList\AccountListModel.cs" />
     <Compile Include="Models\AccountList\AccountListRepo.cs" />
     <Compile Include="Models\AccountSimpleModel.cs" />
+    <Compile Include="Models\Billing\BillingModelNew.cs" />
     <Compile Include="Models\Billing\BillingSimpleModel.cs" />
     <Compile Include="Models\Billing\BillingSimpleRepo.cs" />
     <Compile Include="Models\ClaimTeamLoginModel.cs" />

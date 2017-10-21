@@ -1,4 +1,6 @@
-﻿using HonanClaimsPortal.Helpers;
+﻿using AutoMapper;
+using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
@@ -57,7 +59,7 @@ namespace HonanClaimsPortal.Controllers
                 }
 
                 var t = await documentService.CreatePaymentDetailRecord(model, client.UserId, files);
-                if(t.IsSuccess)
+                if (t.IsSuccess)
                 {
                     Session[SessionHelper.PaymentAttachment] = null;
                     return Redirect(TempData["FromURL"].ToString());
@@ -169,6 +171,146 @@ namespace HonanClaimsPortal.Controllers
             model.Key_Date_Description_List = pickListServices.GetPickListItems("Key Date Description");
 
             return View(model);
+        }
+
+
+        public ActionResult NewTimeslipDetail(string BillingId, string page)
+        {
+            var modelOld = new BillingModel();
+            var model = new BillingModelNew();
+
+            if (BillingId == null)
+            {
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+                string UserId = client.UserId;
+
+                model.IsNew_Billable_New = true;
+                model.Is_Billable_New = true;
+                model.Service_By_New = UserId;
+                model.Service_By_Name_New = client.FirstName + " " + client.LastName;
+                model.Service_Date_New = DateTime.Today;
+
+                if (!string.IsNullOrEmpty(page))
+                    model.PageType_New = page;
+
+                return PartialView(model);
+            }
+            model.IsNew_Billable_New = false;
+            BillingRepo billingRepo = new BillingRepo();
+            modelOld = billingRepo.GetTeamGetBillableTimeRecord(BillingId).Result;
+
+            Mapper.Initialize(cfg => cfg.CreateMap<BillingModel, BillingModelNew>());
+            model = Mapper.Map<BillingModelNew>(modelOld);
+
+            model.Billable_New = (decimal.Round(model.Billable_New, 2));
+            model.Rate_New = (decimal.Round(model.Rate_New, 2));
+            model.Rate_Per_Unit_New = (decimal.Round(model.Rate_Per_Unit_New, 2));
+            return View(model);
+        }
+
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult NewTimeslipDetail(BillingModelNew model)
+        {
+            try
+            {
+                //if(model.H_Billingsid==null)
+                //{
+                //    return PartialView(model);
+                //}
+
+                if (model.sStart_Time_New != null)
+                {
+                    model.Start_Time_New = Convert.ToDateTime(model.sStart_Time_New);
+                }
+
+                if (model.sEnd_Time_New != null)
+                {
+                    model.End_Time_New = Convert.ToDateTime(model.sEnd_Time_New);
+                }
+
+                BillingRepo billingRepo = new BillingRepo();
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+                BillingModel modelOld = MapBillinOld_New(model);
+
+                var result = billingRepo.TeamInsertTimeslip(modelOld, client.UserId).Result;
+
+                string claimNoType = model.Claim_No_New;
+                string redirectUrl = "";
+
+                if (claimNoType.ToUpper().Contains("RSG"))
+                {
+                    redirectUrl = "/RisksmartGccClaim/DetailRisksmartGccClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
+                }
+                else if (claimNoType.ToUpper().Contains("RSP"))
+                {
+                    redirectUrl = "/RisksmartPropertyClaim/DetailRisksmartPropertyClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
+                }
+                else if (claimNoType.ToUpper().Contains("PRC"))
+                {
+                    redirectUrl = "/PropertyClaim/DetailPropertyClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
+                }
+                else if (claimNoType.ToUpper().Contains("GGC"))
+                {
+                    redirectUrl = "/GccClaim/DetailGccClaim/" + model.H_Claimsid_Billing_New + "?tab=billing";
+                }
+
+                return Redirect(redirectUrl);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private BillingModel MapBillinOld_New(BillingModelNew model)
+        {
+            BillingModel modelNew = new BillingModel();
+            modelNew.H_Billingsid = model.H_Billingsid_New;
+            modelNew.H_Claimsid_Billing = model.H_Claimsid_Billing_New;
+            modelNew.Service_By = model.Service_By_New;
+            modelNew.Is_Billable = model.Is_Billable_New;
+            modelNew.Claim_No = model.Claim_No_New;
+            modelNew.ActivityId = model.ActivityId_New;
+            modelNew.Activity_Name = model.Activity_Name_New;
+            modelNew.Policyid_Billing = model.Policyid_Billing_New;
+            modelNew.Policy_Name_Billing = model.Policy_Name_Billing_New;
+            modelNew.ClientId = model.ClientId_New;
+            modelNew.Client_Name = model.Client_Name_New;
+            modelNew.Service_Date = model.Service_Date_New;
+            modelNew.Start_Time_HH = model.Start_Time_HH_New;
+            modelNew.Start_Time_MM = model.Start_Time_MM_New;
+            modelNew.End_Time_HH = model.End_Time_HH_New;
+            modelNew.End_Time_MM = model.End_Time_MM_New;
+            modelNew.Qty_Mins = model.Qty_Mins_New;
+            modelNew.Rate = model.Rate_New;
+            modelNew.Billable = model.Billable_New;
+            modelNew.Timeslip_Checked = model.Timeslip_Checked_New;
+            modelNew.Checked_By = model.Checked_By_New;
+            modelNew.Checked_Date = model.Checked_Date_New;
+            modelNew.Invoice_Processed = model.Invoice_Processed_New;
+            modelNew.Invoice_Processed_By = model.Invoice_Processed_By_New;
+            modelNew.Invoice_Processed_Date = model.Invoice_Processed_Date_New;
+            modelNew.Invoice_No = model.Invoice_No_New;
+            modelNew.Invoice_Date = model.Invoice_Date_New;
+            modelNew.Rate_Per_Unit = model.Rate_Per_Unit_New;
+            modelNew.Units = model.Units_New;
+            modelNew.Work_Done = model.Work_Done_New;
+            modelNew.Service_By_Name = model.Service_By_Name_New;
+            modelNew.Quarter = model.Quarter_New;
+            modelNew.Work_Done_Short = model.Work_Done_Short_New;
+            modelNew.IsNew_Billable = model.IsNew_Billable_New;
+            modelNew.PageType = model.PageType_New;
+            modelNew.Start_Time = model.Start_Time_New;
+            modelNew.End_Time = model.End_Time_New;
+            modelNew.sStart_Time = model.sStart_Time_New;
+            modelNew.sEnd_Time = model.sEnd_Time_New;
+            modelNew.Checked_By_Name = model.Checked_By_Name_New;
+            modelNew.Invoice_Processed_By_Name = model.Invoice_Processed_By_Name_New;
+
+            return modelNew;
+
         }
     }
 }
