@@ -1579,7 +1579,31 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 <script src="~/Scripts/loadingoverlay_progress.min.js"></script>
 
 <script>
+
+    var getUrlParameter = function getUrlParameter(sParam) {
+
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
     $(document).ready(function () {
+
+        var urlParam = getUrlParameter('tab');
+
+        if (urlParam != '' && typeof urlParam !== 'undefined' && urlParam != 'NaN' && urlParam == "billing") {
+            $('.nav-tabs a[href="#tabBillings"]').tab('show');
+        }
+
 
         @{
             var saved = TempData["ClaimSaved"] != null ? TempData["ClaimSaved"].ToString() : "";

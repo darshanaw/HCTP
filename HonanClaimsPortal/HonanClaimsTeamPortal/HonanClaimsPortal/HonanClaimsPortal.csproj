@@ -1403,6 +1403,7 @@
     <Content Include="Views\NewRecord\NewFileNote.cshtml" />
     <Content Include="Views\NewRecord\NewKeyDate.cshtml" />
     <Content Include="Views\NewRecord\NewActivityTask.cshtml" />
+    <Content Include="Views\NewRecord\NewTimeslipDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
