@@ -15,103 +15,110 @@
     @Html.HiddenFor(o => o.H_Keycontactsid)
 
     <div class="content-wrapper">
-        <h3> New Key Contact</h3>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Claim #</label>
-                            <div class="col-sm-9">
-                                @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id = "Claim_Ref_No_KCD", @class = "form-control input-sm" })
+        <h3 class="hmb"> New Key Contact</h3>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="main-container">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Claim #</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id = "Claim_Ref_No_KCD", @class = "form-control input-sm" })
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Description</label>
-                            <div class="col-sm-9">
-                                @Html.DropDownListFor(model => model.Description, new SelectList(Model.DescriptionList, "Text", "Text"), "",
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Description</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(model => model.Description, new SelectList(Model.DescriptionList, "Text", "Text"), "",
                          new { @class = "form-control input-sm" })
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Contact</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    @Html.TextBoxFor(o => o.Contact_Name, new { @id = "Contact_Name_KCD", @class = "form-control input-sm", @maxlength = 100 })
-                                    <span id="ContactModal_KCD" class="input-group-btn" data-toggle="modal" data-target="#ContactModal_KCD_NEW">
-                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                            <i class="fa fa-binoculars"></i>
-                                        </button>
-                                    </span>
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Contact</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(o => o.Contact_Name, new { @id = "Contact_Name_KCD", @class = "form-control input-sm", @maxlength = 100 })
+                                            <span id="ContactModal_KCD" class="input-group-btn" data-toggle="modal" data-target="#ContactModal_KCD_NEW">
+                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                    <i class="fa fa-binoculars"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Account</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(o => o.Account_Name, new { @id = "Account_Name_KCD", @class = "form-control input-sm", @maxlength = 100 })
+                                            <span id="AccountNoModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#AccountModal_KCD">
+                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                    <i class="fa fa-binoculars"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Email Address</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(o => o.Email_Address, new { @id = "Email_Address_KCD", @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Phone</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(o => o.Phone, new { @id = "Phone_KCD", @class = "form-control input-sm", @type = "number" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Address</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(o => o.Address, new { @id = "Address_KCD", @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 top-padding">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Notes</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(o => o.Notes, new { @id = "Notes_KCD", @class = "form-control input-sm" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Account</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    @Html.TextBoxFor(o => o.Account_Name, new { @id = "Account_Name_KCD", @class = "form-control input-sm", @maxlength = 100 })
-                                    <span id="AccountNoModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#AccountModal_KCD">
-                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                            <i class="fa fa-binoculars"></i>
-                                        </button>
-                                    </span>
-                                </div>
+                  
+                    <div class="col-md-12" style="margin-top:1%">
+                        <div class="panel-footer text-right">
+                            <div class="text-right" style="margin-right:2.5%">
+                                <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default mr-20 KeyContactDetailModalClose">Discard Changes</button>
+                                <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Email Address</label>
-                            <div class="col-sm-9">
-                                @Html.TextBoxFor(o => o.Email_Address, new { @id = "Email_Address_KCD", @class = "form-control input-sm" })
-                            </div>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Phone</label>
-                            <div class="col-sm-9">
-                                @Html.TextBoxFor(o => o.Phone, new { @id = "Phone_KCD", @class = "form-control input-sm", @type = "number" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Address</label>
-                            <div class="col-sm-9">
-                                @Html.TextAreaFor(o => o.Address, new { @id = "Address_KCD", @class = "form-control input-sm" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 top-padding">
-                        <div class="form-group mb">
-                            <label class="col-sm-3 control-label input-sm">Notes</label>
-                            <div class="col-sm-9">
-                                @Html.TextAreaFor(o => o.Notes, new { @id = "Notes_KCD", @class = "form-control input-sm" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 top-padding-eight">
-                    <div class="text-right">
-                        <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default KeyContactDetailModalClose">Discard Changes</button>
-                        <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
-                    </div>
-                </div>
-
             </div>
+
         </div>
     </div>
 
@@ -265,9 +272,15 @@
     }
 
     function CancelKCD() {
-           @{
-            var url = TempData["FromURL"].ToString();
+
+      @{
+            var url = "";
+            if (TempData["FromURL"] != null)
+            {
+                url = TempData["FromURL"].ToString();
+            }
         }
+
         window.location.href = "@url";
     }
 </script>
