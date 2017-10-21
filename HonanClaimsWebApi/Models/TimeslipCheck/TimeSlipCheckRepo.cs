@@ -194,6 +194,45 @@ namespace HonanClaimsWebApi.Models.TimeslipCheck
         }
 
 
+        public async Task<bool> SaveTimeslip(string BillingId, string UserId, string serviceDate, string sStart_Time, string sEnd_Time, string claimId, string WorkDone)
+        {
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+            bool result = true;
+
+            if (string.IsNullOrEmpty(BillingId) || string.IsNullOrEmpty(claimId))
+            {
+                return false;
+            }
+
+            if (sStart_Time != null)
+            {
+                sStart_Time = Convert.ToDateTime(sStart_Time).ToString();
+            }
+
+            if (sEnd_Time != null)
+            {
+                sEnd_Time = Convert.ToDateTime(sEnd_Time).ToString();
+            }
+            serviceDate = serviceDate == "" ? string.Empty : serviceDate;
+
+            string apiUrl = SiteUrl + "api/Billing/TeamBillableTimeUpdate?userId=" + UserId + "&billingId=" + BillingId + "&serviceDate=" + serviceDate + "&startTime=" + sStart_Time + "&endTime=" + sEnd_Time + "&claimId=" + claimId+ "&workDone="+ WorkDone;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    result = Convert.ToBoolean(data);
+                }
+            }
+            return result;
+        }
+
 
         public async Task<bool> MarkAsCheckedPost(List<string> billingIdList, string UserId)
         {

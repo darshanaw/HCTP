@@ -142,9 +142,9 @@
                             </div>
                             <div class="row mb">
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label input-sm">Rate P/Hr</label>
+                                    <label class="col-sm-3 control-label input-sm">Rate P/Unit</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(m => m.InnerModeL.Rate, new { @class = "form-control input-sm", disabled = "disabled" })
+                                        @Html.TextBoxFor(m => m.InnerModeL.Rate_Per_Unit, new { @class = "form-control input-sm", disabled = "disabled" })
                                     </div>
                                 </div>
                             </div>
@@ -181,9 +181,9 @@
 
                             <div class="row mb">
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label input-sm">Qty(Mins)</label>
+                                    <label class="col-sm-3 control-label input-sm">Units</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(m => m.InnerModeL.Qty_Mins, new { @class = "form-control input-sm", disabled = "disabled" })
+                                        @Html.TextBoxFor(m => m.InnerModeL.Units, new { @class = "form-control input-sm", disabled = "disabled" })
                                     </div>
                                 </div>
                             </div>
@@ -205,6 +205,7 @@
                                 <button id="Markaschecked" type="button" class="btn btn-default">Mark as Checked</button>
                                 <button id="nonbillable" type="button" class="btn btn-default">Mark as Non Billable</button>
                                 <button id="skipnext" type="button" class="btn btn-default">Skip Next One</button>
+                                <button id="save" type="button" class="btn btn-default">Save</button>
                             </div>
                         </div>
 
@@ -214,25 +215,25 @@
         </div>
     </div>
 </div>
-@Html.HiddenFor(m => m.InnerModeL.Rate_Per_Unit)
+@Html.HiddenFor(m => m.InnerModeL.Rate)
 @Html.HiddenFor(m => m.InnerModeL.Units)
 <script>
     //--------------Start Time-----------------------------
     $(document).ready(function () {
         $("#InnerModeL_sStart_Time").kendoTimePicker({
             interval: 1,
-            change: onStartChange,
+            change: onStartChangeTC,
             Format: ("hh:mm tt"),
-            open: OnStartOpen,
+            open: OnStartOpenTC,
         });
     });
 
     var preStartOpenTime = null;
-    function OnStartOpen(e) {
+    function OnStartOpenTC(e) {
         preStartOpenTime = e.sender._oldText;
     }
 
-    function onStartChange(e) {
+    function onStartChangeTC(e) {
         var sDate = new Date(e.sender.value());
 
         var datetimepicker = $("#InnerModeL_sEnd_Time").data("kendoTimePicker");
@@ -272,18 +273,18 @@
     $(document).ready(function () {
         $("#InnerModeL_sEnd_Time").kendoTimePicker({
             interval: 1,
-            change: onEndChange,
+            change: onEndChangeTC,
             Format: ("hh:mm tt"),
-            open: OnEndOpen,
+            open: OnEndOpenTC,
         });
     });
 
     var preEndOpenTime = null;
-    function OnEndOpen(e) {
+    function OnEndOpenTC(e) {
         preEndOpenTime = e.sender._oldText;
     }
 
-    function onEndChange(e) {
+    function onEndChangeTC(e) {
         var datetimepicker = $("#InnerModeL_sStart_Time").data("kendoTimePicker");
         var sDate = new Date(datetimepicker._value);
         var eDate = new Date(e.sender.value());
@@ -450,7 +451,17 @@
                 {
                     field: "Billable",
                     title: "Billable $$",
-                }],
+                },
+                {
+                    field: "Unit",
+                    title: "Unit"
+                },
+                {
+                    //field: "IsBillable",
+                    title: "IsBillable",
+                    template: '<input type="checkbox" #= IsBillable ? "checked=checked" : "" # disabled="disabled" ></input>'
+                }
+            ],
             dataBound: function (e) {
                 $(".checkbox").bind("change", function (e) {
                     $(e.target).closest("tr").toggleClass("k-state-selected");
@@ -476,38 +487,25 @@
 
                 var selectServiceBy = document.getElementById("ServiceBy");
                 var length1 = selectServiceBy.options.length;
-                for (i = length1-1; i > -1; i--) {
-                    if (selectServiceBy.options[i].value!="")
-                    selectServiceBy.options[i] = null;
+                for (i = length1 - 1; i > -1; i--) {
+                    if (selectServiceBy.options[i].value != "")
+                        selectServiceBy.options[i] = null;
                 }
 
                 var selectClaim = document.getElementById("Claim");
                 var length2 = selectClaim.options.length;
-                for (j = length2-1; j > -1; j--) {
+                for (j = length2 - 1; j > -1; j--) {
                     if (selectClaim.options[j].value != "")
-                    selectClaim.options[j] = null;
+                        selectClaim.options[j] = null;
                 }
 
                 var selectAccount = document.getElementById("Account");
                 var length3 = selectAccount.options.length;
-                for (k = length3-1; k > -1; k--) {
+                for (k = length3 - 1; k > -1; k--) {
                     if (selectAccount.options[k].value != "")
-                    selectAccount.options[k] = null;
+                        selectAccount.options[k] = null;
                 }
-                //var sel = document.getElementById("ServiceBy");
-                ////var ddlArray = new Array();
-                //var ddl = document.getElementById('ServiceBy');
-                //for (i = 0; i < ddl.options.length; i++) {
-                //    //ddlArray[i] = ddl.options[i].value;
 
-                //    var tsObj = {
-                //        "Code": ddl.options[i].value,
-                //        "Text": ddl.options[i].text
-                //    }
-                //    ServiceByList.push(tsObj);
-                //}
-                //debugger;
-                
                 for (var i = 0; i < view.length; i++) {
                     if (!IsAlready(ServiceByList, view[i].ServiceByUserId)) {
                         var tsObj = {
@@ -520,7 +518,7 @@
 
                     if (!IsAlready(ClaimList, view[i].ClaimId)) {
                         var cObj = {
-                            "Code":view[i].ClaimId,
+                            "Code": view[i].ClaimId,
                             "Text": view[i].ClaimRefNo
                         }
                         ClaimList.push(cObj);
@@ -550,8 +548,6 @@
                 $("#ServiceBy").val(ssServiceBy);
                 $("#Claim").val(ssClaim);
                 $("#Account").val(ssAccount);
-
-                debugger;
             }
         });
 
@@ -634,9 +630,10 @@
             Starttimepicker.value(data.sStart_Time);
 
 
-            $('#InnerModeL_Qty_Mins').val(data.Qty_Mins);
+            $('#InnerModeL_Units').val(data.Units);
             $('#InnerModeL_Billable').val(data.Billable);
             $('#InnerModeL_Rate_Per_Unit').val(data.Rate_Per_Unit);
+            $('#InnerModeL_Work_Done').val(data.Work_Done);
         });
     }
 
@@ -649,13 +646,12 @@
         $('#InnerModeL_Rate').val('');
         $('#InnerModeL_Claim_No').val('');
         $("#InnerModeL_Service_Date").val('');
-        $('#InnerModeL_Start_Time_HH').val('');
-        $('#InnerModeL_Start_Time_MM').val('');
-        $('#InnerModeL_End_Time_HH').val('');
-        $('#InnerModeL_End_Time_MM').val('');
-        $('#InnerModeL_Qty_Mins').val('');
+        $('#InnerModeL_sStart_Time').val('');
+        $('#InnerModeL_sEnd_Time').val('');
+        $('#InnerModeL_Units').val('');
         $('#InnerModeL_Billable').val('');
         $('#InnerModeL_Rate_Per_Unit').val('');
+        $('#InnerModeL_Work_Done').val('');
     }
 
     $('#Markaschecked').click(function () {
@@ -757,6 +753,41 @@
                     });
                 }
             });
+        }
+    });
+
+
+    $("#save").click(function () {
+
+        var count = 0;
+        var grid = $("#grid1").data("kendoGrid");
+        grid.select().each(function () {
+            var dataItem = grid.dataItem($(this));
+            count = count + 1;
+        });
+
+        if (count == 1) {
+            // $("#InnerModeL_Is_Billable").attr('checked', false);
+            var Isbillable = $('#InnerModeL_Is_Billable').is(":checked");
+            var BillingId = $('#InnerModeL_H_Billingsid').val();
+            var claimId = $('#InnerModeL_H_Claimsid').val();
+            var serviceDate = $('#InnerModeL_Service_Date').val();
+
+            var sStart_Time = $('#InnerModeL_sStart_Time').val();
+            var sEnd_Time = $('#InnerModeL_sEnd_Time').val();
+            var WorkDone = $('#InnerModeL_Work_Done').val();
+
+            $.get("/TimeslipCheck/SaveTimeSlip?BillingId=" + BillingId + "&serviceDate=" + serviceDate + "&sStart_Time=" + sStart_Time + "&sEnd_Time=" + sEnd_Time + "&claimId=" + claimId + "&WorkDone=" + WorkDone, function (data) {
+                if (data == false) {
+                    bootbox.alert("Error in Updating");
+                } else {
+                    $("#grid1").data("kendoGrid").dataSource.read();
+                    bootbox.alert("successfully saved");
+                    clearTextFileds();
+                }
+            });
+        } else {
+            bootbox.alert("Please select only one row to save");
         }
     });
 
