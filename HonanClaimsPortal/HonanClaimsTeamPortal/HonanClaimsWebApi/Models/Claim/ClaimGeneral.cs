@@ -54,6 +54,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Insured_Name { get; set; }
         public string Property_Claim_Ref { get; set; }
         public string Policy_No { get; set; }
+        public string Policy_Id { get; set; }
         public string Policy_Name { get; set; }
         public string Policy_Type { get; set; }
         public string Period_From { get; set; }
