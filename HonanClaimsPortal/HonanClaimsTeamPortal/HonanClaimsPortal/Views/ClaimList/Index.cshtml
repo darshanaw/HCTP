@@ -101,6 +101,7 @@
 <script>
     $(document).ready(function () {
 
+        $.LoadingOverlay("show");
                 //load customer list
                 //$.get("/ClaimList/GetCustomerList", function (data, status) {
                 //    $("#customer").kendoAutoComplete({
@@ -117,6 +118,11 @@
                 //        LoadClaimGrid();
                 //    }
                 //});
+
+
+        function myClaimListLoaded(arg) {
+            $.LoadingOverlay("hide");
+        }
 
 
                 //set value when start
@@ -158,6 +164,7 @@
                             pageSize: 20
                         },
                         sortable: true,
+                        dataBound: myClaimListLoaded,
                         filterable: true,
                         pageable: {
                             refresh: true,
