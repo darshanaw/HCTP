@@ -257,7 +257,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Reported Date</label>
                                             <div class="col-sm-9">
-                                                <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                <div id="dtpReportedDate" class="input-group date dateCalendar" style="width:100%">
                                                     @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>
@@ -304,16 +304,6 @@ else
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
-                                        <div class="form-group mb">
-                                            <label class="col-sm-3 control-label input-sm">Region</label>
-                                            <div class="col-sm-9">
-                                                @Html.DropDownListFor(o => o.Region, new SelectList(Model.RegionList, "Text", "Text"), "", new { @class = "form-control input-sm" })
-
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Store</label>
@@ -330,6 +320,15 @@ else
                                         </div>
                                     </div>
 
+                                    <div class="col-md-12">
+                                        <div class="form-group mb">
+                                            <label class="col-sm-3 control-label input-sm">Region</label>
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(o => o.Region, new SelectList(Model.RegionList, "Text", "Text"), "", new { @class = "form-control input-sm" })
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Juristiction</label>
@@ -382,7 +381,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Incident Date</label>
                                             <div class="col-sm-9">
-                                                <div id="datetimepicker1" class="input-group date dateCalendar">
+                                                <div id="dtpIncidentDate" class="input-group date dateCalendar">
                                                     @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
                                                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>
@@ -645,7 +644,7 @@ else
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Claim_Received, new { @id = "chkReceived" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpReceivedDate" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Received_Date, new { @id = "txtReceivedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -663,7 +662,7 @@ else
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Claim_Acknowledged, new { @id = "chkAcknowledged" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpAcknowledgedDate" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Acknowledged_Date, new { @id = "txtAcknowledgedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -679,7 +678,7 @@ else
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Review, new { @id = "chkReveiew" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpReviewDate" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Review_Date, new { @id = "txtReveiwedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -706,7 +705,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Outcome Date</label>
                                             <div class="col-sm-9">
-                                                <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                <div id="dtpOutcomeDate" class="input-group date dateCalendar" style="width:100%">
                                                     @Html.TextBoxFor(o => o.Outcome_Date, new { @id = "txtOutcomeDate", @class = "form-control input-sm" })
                                                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>
@@ -727,7 +726,7 @@ else
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Claim_Closed, new { @id = "chkClaimClosed" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpClaimClosedDate" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Closed_Date, new { @id = "txtClaimClosedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -1616,6 +1615,83 @@ else
         $(document).on("submit", "form", function (event) {
             // disable unload warning
             $(window).off('beforeunload');
+        });
+
+        $('#dtpReportedDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpReportedDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Reported Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpIncidentDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpIncidentDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Incident Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpReceivedDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpReceivedDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Received Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpAcknowledgedDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpAcknowledgedDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Acknowledged Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpReviewDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpReviewDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Review Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpOutcomeDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpOutcomeDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Outcome Date cannot be a future date",
+                    size: 'small'
+                });
+            }
+        });
+
+        $('#dtpClaimClosedDate').on('dp.change', function (e) {
+            var today = new Date();
+            if (e.date._d > today) {
+                $('#dtpClaimClosedDate').data("DateTimePicker").date(new Date())
+                bootbox.alert({
+                    message: "Claim Closed Date cannot be a future date",
+                    size: 'small'
+                });
+            }
         });
     })
 
