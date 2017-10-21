@@ -1031,6 +1031,27 @@
 
     </body>
 </html>
+
+
+
+<!-- Modal -->
+<div id="ClaimReferenceNumbersModal" class="modal fade ClaimReferenceNumbers" role="dialog" data-backdrop="false" style="padding-top: 0%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ClaimReferenceNumbers_Close">&times;</button>
+                <h4 class="modal-title">Claim Reference Numbers Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_ClaimIdLookUp.cshtml", null)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ClaimReferenceNumbers_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
@@ -1138,9 +1159,9 @@
 
                             if (data.Order != null) {
                                 var RatePHR = data.Order;
-                                var RatePUNIT = (RatePHR / 60 * 6);
+                                var RatePUNIT = (RatePHR / (60 * 6));
                                 $("#Rate").val(data.Order);
-                                $("#Rate_Per_Unit").val(RatePUNIT);
+                                $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
 
                                 var Rate_ = $("#Rate_Per_Unit").val();
                                 var val_ = (Rate_ * $("#Units").val()).toFixed(2);
@@ -1248,6 +1269,13 @@
     }
 
     $(document).ready(function () {
+
+        $(".ClaimReferenceNumbers_Close").click(function () {
+
+            $("#ClaimReferenceNumbersModal").modal('hide');
+        });
+        
+
         var list = new Array();
         var Tolist = new Array();
         var CClist = new Array();

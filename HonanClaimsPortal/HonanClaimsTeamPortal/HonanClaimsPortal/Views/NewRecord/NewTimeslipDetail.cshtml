@@ -67,10 +67,16 @@
                                 <div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Claim</label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.Claim_No_New, new { @class = "form-control input-sm" })
-                                            @Html.ValidationMessageFor(o => o.Claim_No_New, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                                        <div class="col-sm-8">                                            
                                             @Html.HiddenFor(m => m.H_Claimsid_Billing_New)
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.Claim_No_New, new { @class = "form-control input-sm input-sm disabled", @readonly = true })
+                                                <span class="input-group-btn" id="storeShow" data-toggle="modal" data-target="#ClaimReferenceNumbersModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -644,22 +650,22 @@
 
 
     <script>
-        var kendoAutoCompleteClaim_No_New = null;
+        //var kendoAutoCompleteClaim_No_New = null;
         $(document).ready(function () {
 
             
-            kendoAutoCompleteClaim_No_New = $("#Claim_No_New").kendoAutoComplete({
-                dataTextField: "Text",
-                minLength: 2,
-                select: onSelectClaim_No_New,
-                dataSource: {
-                    type: "json",
-                    transport: {
-                        read: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By_New").val(),
-                    }
-                },
-                filter: "contains"               
-            }).data("kendoAutoComplete");
+            //kendoAutoCompleteClaim_No_New = $("#Claim_No_New").kendoAutoComplete({
+            //    dataTextField: "Text",
+            //    minLength: 2,
+            //    select: onSelectClaim_No_New,
+            //    dataSource: {
+            //        type: "json",
+            //        transport: {
+            //            read: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By_New").val(),
+            //        }
+            //    },
+            //    filter: "contains"               
+            //}).data("kendoAutoComplete");
 
 
             function onSelectClaim_No_New(e) {
@@ -679,9 +685,9 @@
 
                         if (data.Order != null) {
                             var RatePHR = data.Order;
-                            var RatePUNIT = (RatePHR / 60 * 6);
+                            var RatePUNIT = (RatePHR / (60 * 6));
                             $("#Rate_New").val(data.Order);
-                            $("#Rate_Per_Unit_New").val(RatePUNIT);
+                            $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
                         }
 
                         //get policy Id

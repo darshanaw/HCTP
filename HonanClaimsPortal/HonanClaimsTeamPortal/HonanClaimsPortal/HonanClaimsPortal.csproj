@@ -1404,6 +1404,7 @@
     <Content Include="Views\NewRecord\NewKeyDate.cshtml" />
     <Content Include="Views\NewRecord\NewActivityTask.cshtml" />
     <Content Include="Views\NewRecord\NewTimeslipDetail.cshtml" />
+    <Content Include="Views\Shared\_ClaimIdLookUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

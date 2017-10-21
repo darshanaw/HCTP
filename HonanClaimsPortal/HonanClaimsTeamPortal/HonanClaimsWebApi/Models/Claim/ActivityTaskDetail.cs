@@ -49,6 +49,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool Skipped_Dtl { get; set; }
         public bool Imported_Dtl { get; set; }
         public bool IsNew { get; set; }
+        public string NextActivityId { get; set; }
+        public string NextActivityDue { get; set; }
 
     }
 }

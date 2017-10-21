@@ -24,6 +24,7 @@ namespace HonanClaimsPortal.Helpers
         public static string StoreobjectList = "StoreobjectList";
         public static string PaymentAttachment = "PaymentAttachment";
         public static string ShowTimer = "ShowTimer";
+        public static string FromURL = "FromURL";
     }
 
     public class TempDataHelper
