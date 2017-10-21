@@ -31,6 +31,7 @@ namespace HonanClaimsWebApi.Models.Billing
         [Required(ErrorMessage = "End Time Required")]
         public string End_Time_MM { get; set; }
         public int Qty_Mins { get; set; }
+        [Required(ErrorMessage = "Rate Required")]
         public decimal Rate { get; set; }
         [Required(ErrorMessage = "Billable Required")]
         public decimal Billable { get; set; }
@@ -42,6 +43,7 @@ namespace HonanClaimsWebApi.Models.Billing
         public DateTime? Invoice_Processed_Date { get; set; }
         public string Invoice_No { get; set; }
         public string Invoice_Date { get; set; }
+        [Required(ErrorMessage = "Rate Per Unit Required")]
         public decimal Rate_Per_Unit { get; set; }
         [Required(ErrorMessage = "Units Done Required")]
         public int Units { get; set; }

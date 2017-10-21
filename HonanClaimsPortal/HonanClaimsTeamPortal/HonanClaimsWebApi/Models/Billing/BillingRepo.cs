@@ -63,11 +63,11 @@ namespace HonanClaimsWebApi.Models.Billing
 
 
         
-        public async Task<List<CommonModel>> TeamGetClaimNosAssigned(string Name)
+        public async Task<List<CommonModel>> TeamGetClaimNosAssigned(string UserId,string claimRefNumber)
         {
             List<CommonModel> list = new List<CommonModel>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
-            string apiUrl = SiteUrl + "api/Claim/TeamGetClaimNosAssigned?userId="+Name+"&claimRefNumber=";
+            string apiUrl = SiteUrl + "api/Claim/TeamGetClaimNosAssigned?userId="+UserId+"&claimRefNumber="+claimRefNumber;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);

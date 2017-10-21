@@ -54,11 +54,11 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> TeamGetClaimNosAssigned(string UserId)
+        public async Task<ActionResult> TeamGetClaimNosAssigned(string UserId,string claimRefNumber)
         {
             List<CommonModel> list = new List<CommonModel>();
             BillingRepo billingRepo = new BillingRepo();
-            list = await billingRepo.TeamGetClaimNosAssigned(UserId);
+            list = await billingRepo.TeamGetClaimNosAssigned(UserId,claimRefNumber);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -380,7 +380,7 @@ namespace HonanClaimsPortal.Controllers
             var model = new CurrentLoggedUserModel();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
-            model.Name = client.FirstName + "" + client.LastName;
+            model.Name = client.FirstName + " " + client.LastName;
             model.Date = DateTime.Now;
             model.UserId = UserId;
             return Json(model, JsonRequestBehavior.AllowGet);
