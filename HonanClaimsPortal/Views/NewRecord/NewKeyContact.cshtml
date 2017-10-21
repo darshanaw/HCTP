@@ -5,9 +5,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     TempData.Keep();
 }
+    
+<script>
 
+    $(function () {
 
-@using (Html.BeginForm("NewKeyContact", "NewRecord", new { @id = "frmKeyContactDetail", enctype = "multipart/form-data" }))
+        $('#frmKeyContactDetail').submit(function () {
+
+            if ($(this).valid()) {
+
+                $.LoadingOverlay("show");
+            }
+        });
+
+    });
+
+</script>
+
+<style>
+    .disabled {
+        background-color: lightgray;
+    }
+</style>
+
+@using (Html.BeginForm("NewKeyContact", "NewRecord", FormMethod.Post , new { @id = "frmKeyContactDetail", enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(o => o.H_Claimsid, new { @id = "H_Claimsid_KCD" })
     @Html.HiddenFor(o => o.Contactid, new { @id = "Contactid_KCD" })
@@ -24,8 +45,15 @@
                             @*<div class="col-md-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claim #</label>
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id = "Claim_Ref_No_KCD", @class = "form-control input-sm" })
+                                    <div class="col-sm-9">                                       
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(o => o.Claim_Ref_No, new { @id = "Claim_Ref_No_KCD", @class = "form-control input-sm disabled", @readonly = true })
+                                            <span class="input-group-btn" id="storeShow" data-toggle="modal" data-target="#ClaimReferenceNumbersModal">
+                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                                    <i class="fa fa-binoculars"></i>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>*@
@@ -121,17 +149,20 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-12" style="margin-top:1%">
+                                <div class="panel-footer text-right">
+                                    <div class="text-right" style="margin-right:2.5%">
+                                        <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default mr-20 KeyContactDetailModalClose">Discard Changes</button>
+                                        <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                   
-                    <div class="col-md-6" style="margin-top:1%">
-                        <div class="panel-footer text-right">
-                            <div class="text-right" style="margin-right:2.5%">
-                                <button type="button" onclick="CancelKCD()" class="mb-sm btn btn-default mr-20 KeyContactDetailModalClose">Discard Changes</button>
-                                <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
-                            </div>
-                        </div>
-                        </div>
+                    
                     </div>
             </div>
 
@@ -197,21 +228,21 @@
 
 
 <script>
-     var kendoAutoCompleteService_By_Name = null;
-    //$(document).ready(function () {
-    //    kendoAutoCompleteService_By_Name = $("#Claim_Ref_No_KCD").kendoAutoComplete({
-    //        dataTextField: "Text",
-    //        //dataValueField: "ID",
-    //        minLength: 2,
-    //        dataSource: {
-    //            type: "json",
-    //            transport: {
-    //                read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
-    //            }
-    //        },
-    //        filter: "contains",
-    //        select: onSelectService_By_Name,
-    //    }).data("kendoAutoComplete");
+     //var kendoAutoCompleteService_By_Name = null;
+   // $(document).ready(function () {
+        //kendoAutoCompleteService_By_Name = $("#Claim_Ref_No_KCD").kendoAutoComplete({
+        //    dataTextField: "Text",
+        //    //dataValueField: "ID",
+        //    minLength: 2,
+        //    dataSource: {
+        //        type: "json",
+        //        transport: {
+        //            read: "/ClaimDetailTabs/AjaxGetAssignedClaimNos?claimNo=",
+        //        }
+        //    },
+        //    filter: "contains",
+        //    select: onSelectService_By_Name,
+        //}).data("kendoAutoComplete");
 
     //    function onSelectService_By_Name(e) {
     //        var dataItem = this.dataItem(e.item.index());
@@ -221,6 +252,7 @@
     //});
 
     //$('#Claim_Ref_No_KCD').keyup(function () {
+
     //    var dd = $("#Claim_Ref_No_KCD").val();
     //    var dataSource = new kendo.data.DataSource({
     //        transport: {
@@ -233,24 +265,34 @@
     //    kendoAutoCompleteService_By_Name.setDataSource(dataSource);
     //});
 
-     var getUrlParameter = function getUrlParameter(sParam) {
+    var getUrlParameter = function getUrlParameter(sParam) {
 
-         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-             sURLVariables = sPageURL.split('&'),
-             sParameterName,
-             i;
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
 
-         for (i = 0; i < sURLVariables.length; i++) {
-             sParameterName = sURLVariables[i].split('=');
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
 
-             if (sParameterName[0] === sParam) {
-                 return sParameterName[1] === undefined ? true : sParameterName[1];
-             }
-         }
-     };
-
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
 
     $(document).ready(function () {
+
+        var urlParam = getUrlParameter('claimRef');
+
+        if (urlParam != '' && typeof urlParam !== 'undefined' && urlParam != 'NaN') {
+
+            $("#Claim_Ref_No_KCD").val(urlParam);
+
+            var urlParam_claimId = getUrlParameter('claimId');
+            $("#H_Claimsid").val(urlParam_claimId);
+        }
+
         $(".AccountModal_KCD_Close").click(function () {
             $("#AccountModal_KCD").modal("hide");
         });

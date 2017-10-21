@@ -1642,6 +1642,12 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             else if (urlParam == "payment") {
                 $('.nav-tabs a[href="#tabPayments"]').tab('show');
             }
+            else if (urlParam == "keycontact") {
+                $('.nav-tabs a[href="#tabKey_Contacts_Dates"]').tab('show');
+
+            } else if (urlParam == "filenote") {
+                $('.nav-tabs a[href="#tabFileNotes"]').tab('show');
+            }
         }
 
 
@@ -1882,6 +1888,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             $('#Assigned_Date').val(getTodaysDate());
         });
 
+        var fieldsUpdated = false;
         // Warning
         $(window).on('beforeunload', function () {
             if (fieldsUpdated) {
@@ -1894,6 +1901,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         });
 
         $('.datebtn').click(function () {
+            fieldsUpdated = true;
+        });
+
+        $("input:checkbox").change(function () {
             fieldsUpdated = true;
         });
 
