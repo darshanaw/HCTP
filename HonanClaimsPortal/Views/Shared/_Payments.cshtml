@@ -269,10 +269,8 @@
             }
 
             $.ajax({
-
                 url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + "@claimId",// $("#H_Claimsid").val(),
                 success: function (data) {
-
                     $('#Payment_To_Name').val('');
                     $("#Payment_To").val('');
 
@@ -281,6 +279,9 @@
 
                 }
             });
+
+            $("#Payment_Status").val("Received");
+            
         });
 
         $("#FilterBillables_Payment").click(function () {

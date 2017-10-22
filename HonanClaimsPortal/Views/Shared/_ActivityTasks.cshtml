@@ -370,7 +370,9 @@
             url: "/ClaimDetailTabs/GetGetActivityTaskDetailById?activityId=" + activityId, success: function (result) {
 
                 $("#Seq_Dtl").val(result.Seq_Dtl);
-                $("#Stage_Dtl").val(result.Stage_Dtl);
+                //if (result.Stage_Dtl == "Received")
+                //    alert(result.Stage_Dtl);
+                $("#Stage_Dtl").val("Received");
                 $("#Actionid_Dtl").val(result.Actionid_Dtl);
                 $("#Details_Dtl").val(result.Details_Dtl);
                 $("#Owner_Dtl").val(result.Owner_Dtl);
