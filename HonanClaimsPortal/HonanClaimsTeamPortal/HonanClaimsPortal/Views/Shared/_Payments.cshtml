@@ -18,6 +18,7 @@
 
     $(function () {
 
+        $('#selPayeePayment').find('option').remove().end();
         var newOption_ = $('<option value=""></option>');
         $('#selPayeePayment').append(newOption_);
 
@@ -26,7 +27,7 @@
 
                 for (var i = 0; i < result.length; i++) {
 
-                    var newOption = $('<option value="' + result[i].Code + '">' + result[i].Text + '</option>');
+                    var newOption = $('<option value="' + result[i].Text + '">' + result[i].Text + '</option>');
                     $('#selPayeePayment').append(newOption);
 
                 }
@@ -228,6 +229,23 @@
         $("#gridPaymentDetails").data("kendoGrid").dataSource.read({
             payeeId: $("#selPayeePayment").val(), invoicedDate: $("#Date_Invoice_Paid_Filter").val(), status: $("#FilterPaymentStatus").val(), invoiceNo: $("#Invoice_No_Filter").val()
         });
+
+
+        //$('#selPayeePayment').find('option').remove().end();
+        //var newOption_ = $('<option value=""></option>');
+        //$('#selPayeePayment').append(newOption_);
+
+        //$.ajax({
+        //    url: "/ClaimDetailTabs/AjaxPickListPayeesLoad?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+
+        //        for (var i = 0; i < result.length; i++) {
+
+        //            var newOption = $('<option value="' + result[i].Text + '">' + result[i].Text + '</option>');
+        //            $('#selPayeePayment').append(newOption);
+
+        //        }
+        //    }
+        //});
     }
 
     function clearFilters_Payment() {
