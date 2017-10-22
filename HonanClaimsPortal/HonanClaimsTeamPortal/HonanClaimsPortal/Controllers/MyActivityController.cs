@@ -1,6 +1,9 @@
 ﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models;
+using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.ClaimList;
 using HonanClaimsWebApi.Models.MyActivity;
+using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
@@ -164,5 +167,61 @@ namespace HonanClaimsPortal.Controllers
             MyActivityRepo protalLoginAccountsRepo = new MyActivityRepo();
             return await protalLoginAccountsRepo.UpdateAsComplete(activityId, actionis, claimId, UserId);
         }
+
+
+        public ActionResult _MyActivityTaskDetail()
+        {
+            ClaimServices claimServices = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            ActivityTaskDetail model = new ActivityTaskDetail();
+            DocumentService documentService = new DocumentService();
+            PicklistServicecs pickListServices = new PicklistServicecs();
+
+            ViewBag.OwnerType = pickListServices.GetPickListItems("Honan Task Owner Type");
+            ViewBag.CurrentUser = client.FirstName + " " + client.LastName;
+            ViewBag.CurrentUserId = client.UserId;
+            //ViewBag.Sequence = documentService.GetActivitySequences(claimId, true)
+            //     .Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() })
+            //     .ToList();
+
+            //ViewBag.Stage = documentService.GetStages();
+            //model.H_Claimsid_Dtl = claimId;
+
+            List<ActivityTask> activityTasks = new List<ActivityTask>();
+            //activityTasks = documentService.GetActivityTasks(claimId, false, false, false, "");
+            //ViewBag.MaxActDate = activityTasks.Max(o => o.CompletedDate_Act.HasValue ? o.CompletedDate_Act.Value.ToString("dd/MM/yyyy") : "");
+            model.Last_Task_Completed_Dtl_String = !string.IsNullOrEmpty(ViewBag.MaxActDate) ? ViewBag.MaxActDate.ToString() : null;
+            model.Last_Task_Completed_Dtl = !string.IsNullOrEmpty(ViewBag.MaxActDate) ? DateTime.ParseExact(ViewBag.MaxActDate, "dd/MM/yyyy", null) : null;
+
+
+            model.H_Claimsid_Dtl_List = claimServices.GetClaimsForUser(client.UserId);
+
+
+            return PartialView(model);
+        }
+
+
+        [HttpPost]
+        [AjaxOnly]
+        public async Task<ActionResult> _MyActivityTaskDetail(ActivityTaskDetail model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                ExecutionResult exeResult = new ExecutionResult();
+
+                if (!string.IsNullOrEmpty(model.Last_Task_Completed_Dtl_String))
+                    model.Last_Task_Completed_Dtl = Convert.ToDateTime(model.Last_Task_Completed_Dtl_String);
+
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+                DocumentService documentService = new DocumentService();
+                exeResult = await documentService.SaveActivityDetail(model, client.UserId, true);
+
+            }
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

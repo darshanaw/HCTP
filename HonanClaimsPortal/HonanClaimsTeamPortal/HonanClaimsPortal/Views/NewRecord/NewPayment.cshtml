@@ -36,6 +36,19 @@
             maxDate: moment()
         });
 
+        $('.dateCalendarDate_Invoice_Paid').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
+
+        $('.dateCalendarDate_Payment_Date').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
+
+
         $('#frmPaymentDetailNew').submit(function () {
            
             if ($(this).valid()) {
@@ -324,7 +337,7 @@
                             <div class="form-group mb">
                                 <label class="col-sm-4 control-label input-sm">Date Invoice Paid</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group date dateCalendar" style="width:100%">
+                                    <div class="input-group date dateCalendarDate_Invoice_Paid" style="width:100%">
                                         @Html.TextBoxFor(o => o.Date_Invoice_Paid, new { @class = "form-control input-sm", @style = "z-index: auto;" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                             <span class="fa fa-calendar"></span>
@@ -376,7 +389,7 @@
                             <div class="form-group mb">
                                 <label class="col-sm-4 control-label input-sm">Payment Date</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group date dateCalendar" style="width:100%">
+                                    <div class="input-group date dateCalendarDate_Payment_Date" style="width:100%">
                                         @Html.TextBoxFor(o => o.Payment_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                             <span class="fa fa-calendar"></span>
@@ -517,6 +530,21 @@
 
             var urlParam_claimId = getUrlParameter('claimId');
             $("#H_Claimsid").val(urlParam_claimId);
+
+
+             $.ajax({
+                url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + urlParam_claimId,// $("#H_Claimsid").val(),
+                success: function (data) {
+                    $('#Payment_To_Name').val('');
+                    $("#Payment_To").val('');
+
+                    $('#Payment_To_Name').val(data.Text);
+                    $("#Payment_To").val(data.Code);
+
+                }
+            });
+
+            $("#Payment_Status").val("Received");
         }
 
         //kendoAutoCompleteService_By_Name = $("#ClaimRefNo_Payment").kendoAutoComplete({
@@ -535,7 +563,7 @@
 
         function onSelectService_By_Name(e) {
 
-            var dataItem = this.dataItem(e.item.index());                     
+            var dataItem = this.dataItem(e.item.index());
             $('#H_Claimsid').val(dataItem.Code);
             $('#ClaimRefNo_Payment').val(dataItem.Text)
         }
@@ -651,6 +679,15 @@
         });
 
 
+        $("#Payment_Amount").change(function () {
+
+            if ($("#Payment_Amount").val() != "") {
+                $("#Total_Gross").val($("#Payment_Amount").val())
+                $("#Total_Net").val($("#Payment_Amount").val())
+                $("#Gst_Included").prop("checked", false);
+            }
+
+        });
 
     });
 

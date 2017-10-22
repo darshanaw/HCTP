@@ -16,7 +16,7 @@
                 $.LoadingOverlay("show");
             }
         });
-        
+
 
     });
 
@@ -54,25 +54,26 @@
 </style>
 
 
-@using (Ajax.BeginForm("_ActivityTasksDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", OnFailure= "GetResult_AT_Failure", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("_MyActivityTaskDetail", "MyActivity", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", OnFailure = "GetResult_AT_Failure", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
 {
     @*@Html.ValidationSummary(false)*@
 
     @Html.HiddenFor(o => o.H_Claimsid_Dtl)
     @Html.HiddenFor(o => o.Owner_Company_Dtl)
     @Html.HiddenFor(o => o.Owner_Contact_Dtl)
-    @Html.HiddenFor(o=> o.Last_Task_Completed_Dtl)
-    @Html.HiddenFor(o=>o.Next_Seq_Dtl)
-    @Html.HiddenFor(o=>o.Completed_By_Dtl)
+    @Html.HiddenFor(o => o.Last_Task_Completed_Dtl)
+    @Html.HiddenFor(o => o.Next_Seq_Dtl)
+    @Html.HiddenFor(o => o.Completed_By_Dtl)
     @Html.HiddenFor(o => o.H_Activitytasksid_Dtl)
     @Html.HiddenFor(o => o.IsNew)
-    @Html.HiddenFor(o=>o.Seq_Dtl)
-    @*@Html.HiddenFor(o=>o.Stage_Dtl)*@
+    @*@Html.HiddenFor(o => o.Seq_Dtl)*@
+    @*@Html.HiddenFor(o => o.Stage_Dtl)*@
     @Html.HiddenFor(o => o.NextActivityId)
     @Html.HiddenFor(o => o.NextActivityDue)
 
+
     <input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
-   
+
 
 
     <div style="display:none" id="divFakeActivityTask"></div>
@@ -83,23 +84,25 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Seq</label>
                 <div class="col-sm-3">
-                    @{
+
+                    @Html.TextBoxFor(o => o.Seq_Dtl, new { @class = "form-control input-sm disabled", @readonly = true })
+                    @*@{
                         string selectedVal = "";
                         var list = (List<System.Web.Mvc.SelectListItem>)ViewBag.Sequence;
                     }
 
-                      
+
                     @if (string.IsNullOrEmpty(Model.H_Activitytasksid_Dtl))
                     {
                         Model.Seq_Dtl = Convert.ToInt32(list.Last().Value.ToString());
                     }
 
-                    @Html.DropDownListFor(model => model.Seq_Dtl, new SelectList(list, "Value", "Text",selectedVal), "",
-                   new { @class = "form-control input-sm disabled", @disabled = true })
+                    @Html.DropDownListFor(model => model.Seq_Dtl, new SelectList(list, "Value", "Text", selectedVal), "",
+                   new { @class = "form-control input-sm disabled", @disabled = true })*@
                 </div>
                 <label class="col-sm-1 control-label input-sm">Stage</label>
                 <div class="col-sm-4">
-                    @*@Html.DropDownListFor(model => model.Stage_Dtl, new SelectList(ViewBag.Stage, "Value", "Text"), "", new { @class = "form-control input-sm disabled"})*@
+                    @*@Html.DropDownListFor(model => model.Stage_Dtl, new SelectList(ViewBag.Stage, "Value", "Text"), "", new { @class = "form-control input-sm disabled", @disabled = true })*@
                     @Html.TextBoxFor(o => o.Stage_Dtl, new { @class = "form-control input-sm disabled", @readonly = true })
                 </div>
             </div>
@@ -172,7 +175,7 @@
                 </div>
             </div>
         </div>
-     
+
         <div class="row">
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Email</label>
@@ -248,7 +251,7 @@
                     <div class="pl0 col-sm-1">
                         @Html.CheckBoxFor(o => o.High_Priority_Task_Dtl)
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -287,7 +290,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group mb">               
+            <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Update Key Date</label>
                 <div class="col-sm-8">
                     @Html.CheckBoxFor(o => o.Update_Key_Date_Dtl)
@@ -299,15 +302,7 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Claim #</label>
                 <div class="col-sm-8">
-                    @if (string.IsNullOrEmpty(Model.H_Claimsid_Dtl))
-                    {
-                        @Html.DropDownListFor(model => model.H_Claimsid_Dtl, new SelectList(Model.H_Claimsid_Dtl_List, "Value", "Text"), "",
-                                        new { @class = "form-control input-sm" })
-                    }
-                    else
-                    {
-                        @Html.TextBoxFor(o => o.H_ClaimsRefid_Dtl, new { @class = "form-control input-sm disabledControl", @readonly = true })
-                    }
+                    @Html.TextBoxFor(o => o.H_ClaimsRefid_Dtl, new { @class = "form-control input-sm disabledControl", @readonly = true })
                 </div>
             </div>
         </div>
@@ -321,10 +316,7 @@
         </div>
     </div>
 
-}
-
-
-
+                        }
 <!-- Modal -->
 <div id="AccountModal_ActivityTask" class="modal fade AccountModal_ActivityTask" role="dialog" data-backdrop="false">
     <div class="modal-dialog">
@@ -437,7 +429,7 @@
         $("#Completed_Dtl").change(function () {
 
             if ($(this).is(":checked")) {
-                         
+
                 $("#actualCompletedDate").show();
                 $("#dummyCompletedDate").hide();
                 //$("#Update_Key_Contacts_Dtl").prop("disabled", false);
@@ -446,7 +438,7 @@
                 $("#Completed_By_Name_Dtl").val('@ViewBag.CurrentUser');
                 $("#Completed_By_Dtl").val('@ViewBag.CurrentUserId');
                 $("#Skipped_Dtl").prop("checked", false);
-                LoadgridActivityWorkFlowNextSteps(true, $("#Seq_Dtl").val());
+                //LoadgridActivityWorkFlowNextStepsDetail(true, $("#Seq_Dtl").val());
 
             }
             else {
@@ -509,7 +501,7 @@
 
                     url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&action=" + $("#action_wf").val()
                     + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
-                    + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid").val(), success: function (result) {
+                    + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid_Dtl").val(), success: function (result) {
 
 
                     },
@@ -528,7 +520,7 @@
 
         });
 
-        
+
 
     });
 
@@ -549,7 +541,7 @@
     function lastTaskCompletedDate()
     {
         $.ajax({
-            url: "/ClaimDetailTabs/GetLast_Task_CompletedDate?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+            url: "/ClaimDetailTabs/GetLast_Task_CompletedDate?claimId=" + $("#H_Claimsid_Dtl").val(), success: function (result) {
 
                 $("#Last_Task_Completed_Dtl_String").val(result);
                 $("#Last_Task_Completed_Dtl").val(result);
@@ -558,14 +550,14 @@
     }
 
 
-    function LoadgridActivityWorkFlowNextSteps(showpopUp, seqId)
+    function LoadgridActivityWorkFlowNextStepsDetail(showpopUp, seqId)
     {
 
         $("#gridActivityWorkFlowNextSteps").kendoGrid({
 
             dataSource: {
                 transport: {
-                    read: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + seqId,
+                    read: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid_Dtl").val() + "&completingActionSeq=" + seqId,
                 },
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
@@ -595,9 +587,9 @@
                     var dataItem = this.dataItem(selectedRows[i]);
 
                     var dCurrentId = "";
-                    
+
                     getNextTaskDueDate(dataItem.ActivityTaskId);
-                    
+
                     $("#Next_Seq_Dtl_Temp").val(dataItem.Seq_Act);
                     $("#nextActivityId_wf").val(dataItem.ActivityTaskId);
                     $("#nextActivityDue_wf").val(dataItem.DueDate_Act);
@@ -697,6 +689,6 @@
         $("#isActivityCompletionGrid").val("false");
     }
 
-    
+
 
 </script>

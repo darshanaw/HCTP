@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
 
 <div class="content-wrapper">
     <h3>
@@ -140,6 +143,55 @@
 
 
 <!-- Modal -->
+@*<div id="ActivityWorkFlowModal" class="modal fade ActivityWorkFlowModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" style="width:850px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ActivityWorkFlowModal_Close">&times;</button>
+                <h4 class="modal-title">Activity Workflow Next Steps</h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridActivityWorkFlowNextSteps"></div>
+                <br />
+                <div class="col-md-12" style="padding-right:0px;margin-right:0px">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">Deadline for Selected Task</div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control disabled" readonly id="txtWorkFlowCompletedDAte" />
+                    </div>
+                    <div class="col-md-2" style="padding-right:0px;margin-right:0px">
+                        <input type="button" class="btn btn-primary pull-right" value="Complete" id="btnWorkFlowComplete" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ActivityWorkFlowModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+<!-- Modal -->
+<div id="ActivityTasksDetailModal" class="modal fade ActivityTasksDetailModal" role="dialog" data-backdrop="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Activity Tasks Detail</h4>
+            </div>
+            <div class="modal-body PaymentDetail_" style="height:500px">
+                @*@{Html.RenderAction("_MyActivityTaskDetail", "MyActivity", new { claimId = this.ViewData["claimId"] });}*@
+                @{Html.RenderAction("_MyActivityTaskDetail", "MyActivity");}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
 <div id="ActivityWorkFlowModal" class="modal fade ActivityWorkFlowModal" role="dialog" data-backdrop="false">
     <div class="modal-dialog modal-lg" style="width:850px">
         <div class="modal-content">
@@ -167,6 +219,8 @@
         </div>
     </div>
 </div>
+
+
 <input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
 <input type="hidden" id="activityTaskId_wf" name="activityTaskId_wf" />
 <input type="hidden" id="action_wf" name="action_wf" />
@@ -176,7 +230,12 @@
 <input type="hidden" id="nextActivityDue_wf" name="nextActivityDue_wf" />
 <input type="hidden" id="hdnClaimId" name="hdnClaimId" />
 <input type="hidden" id="isActivityCompletionGrid" name="isActivityCompletionGrid" />
+
+<!-- SELECT2-->
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
 <script>
+       
 
     $(".ActivityWorkFlowModal_Close").click(function () {
         RefreshActivityTasksGrid();
@@ -283,7 +342,8 @@
                 {
                     field: "Action_Act",
                     title: "Action",
-                    template: "<div style='cursor: pointer;color:blue'>#= Action_Act #</div>"
+                    //template: "<div style='cursor: pointer;color:blue'>#= Action_Act #</div>"
+                    
                 },
                 {
                     field: "Owner_Act",
@@ -318,6 +378,13 @@
         $('#overdue').prop("checked", false);
         $('#ShowDue').prop("checked", false);
         loadactivity();
+
+        $('#ActivityClaim').select2({ width: '100%' });
+
+        if ($("#ActivityClaim").length > 0) {
+            $("#ActivityClaim").val($("#ActivityClaim").val()).trigger('change.select2');;
+        }
+
     });
 
     function loadactivity() {
@@ -436,6 +503,7 @@
             {
                 field: "Action",
                 title: "Action",
+                template: "<a  href='javascript:void(0);' onclick=\"loadActivityTaskDetail('#= ActivityTaskId #')\" '>#=Action#</a>"
             },
             {
                 field: "Owner",
@@ -597,6 +665,60 @@
     $("#filterList").click(function () {
         loadactivity();
     })
+
+
+    function loadActivityTaskDetail(activityId) {
+        clearActivityTaskDetails();
+        $("#H_Activitytasksid_Dtl").val(activityId);
+        //refreshSequence();
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetGetActivityTaskDetailById?activityId=" + activityId, success: function (result) {
+                $("#Seq_Dtl").val(result.Seq_Dtl);
+                $("#Stage_Dtl").val(result.Stage_Dtl);
+                $("#Actionid_Dtl").val(result.Actionid_Dtl);
+                $("#Details_Dtl").val(result.Details_Dtl);
+                $("#Owner_Dtl").val(result.Owner_Dtl);
+                $("#Owner_Company_Name_Dtl").val(result.Owner_Company_Name_Dtl);
+                $("#Owner_Company_Dtl").val(result.Owner_Company_Dtl);
+                $("#Owner_Contact_Name_Dtl").val(result.Owner_Contact_Name_Dtl);
+                $("#Owner_Contact_Dtl").val(result.Owner_Contact_Dtl);
+                $("#Phone_Dtl").val(result.Phone_Dtl);
+                $("#Email_Dtl").val(result.Email_Dtl);
+                $("#Sla_Days_Dtl").val(result.Sla_Days_Dtl);
+                $("#Last_Task_Completed_Dtl_String").val(result.Last_Task_Completed_Dtl_String);
+                $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate(result.Last_Task_Completed_Dtl), 'dd/MM/yyyy'));
+                $("#This_Task_Due_Date_Dtl").val(kendo.toString(kendo.parseDate(result.This_Task_Due_Date_Dtl), 'dd/MM/yyyy'));
+                $("#Completed_Dtl").prop("checked", result.Completed_Dtl);
+                $("#Skipped_Dtl").prop("checked", result.Skipped_Dtl);
+                $("#High_Priority_Task_Dtl").prop("checked", result.High_Priority_Task_Dtl);
+                $("#Completed_By_Name_Dtl").val(result.Completed_By_Name_Dtl);
+                $("#Completed_By_Dtl").val(result.Completed_By_Dtl);
+                $("#Completed_Date_Dtl").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
+                $("#dummyCompletedDate").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
+                $("#Update_Key_Contacts_Dtl").prop("checked", result.Update_Key_Contacts_Dtl);
+                $("#Update_Key_Date_Dtl").prop("checked", result.Update_Key_Date_Dtl);
+                $("#IsNew").val("false");
+                $("#H_ClaimsRefid_Dtl").val(result.H_ClaimsRefid_Dtl);
+                $("#H_Claimsid_Dtl").val(result.H_Claimsid_Dtl);
+
+                if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
+                    $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+                }
+                else {
+                    $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+                }
+
+                if (result.Completed_Dtl)
+                    $("#Update_Key_Date_Dtl").prop("disabled", false);
+                else
+                    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+
+            }
+        });
+
+        $('#ActivityTasksDetailModal').modal('show');
+    }
 
 
 </script>

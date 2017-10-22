@@ -21,6 +21,18 @@
             //locale: 'pt-br',
             maxDate: moment()
         });
+
+        $('.dateCalendarDate_Invoice_Paid').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
+
+        $('.dateCalendarDate_Payment_Date').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
         
 
         $("#Payee_Type").select2({
@@ -326,7 +338,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Date Invoice Paid</label>
             <div class="col-sm-8">
-                <div class="input-group date dateCalendar" style="width:100%">
+                <div class="input-group date dateCalendarDate_Invoice_Paid" style="width:100%">
                     @Html.TextBoxFor(o => o.Date_Invoice_Paid, new { @class = "form-control input-sm" })
                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                         <span class="fa fa-calendar"></span>
@@ -378,7 +390,7 @@
         <div class="form-group mb">
             <label class="col-sm-4 control-label input-sm">Payment Date</label>
             <div class="col-sm-8">
-                <div class="input-group date dateCalendar" style="width:100%">
+                <div class="input-group date dateCalendarDate_Payment_Date" style="width:100%">
                     @Html.TextBoxFor(o => o.Payment_Date, new { @class = "form-control input-sm" })
                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                         <span class="fa fa-calendar"></span>
@@ -590,6 +602,16 @@
             else
                 $("#Is_Settlement").val(false);
 
+        });
+
+        $("#Payment_Amount").change(function () {
+
+            if ($("#Payment_Amount").val() != "") {
+                $("#Total_Gross").val($("#Payment_Amount").val())
+                $("#Total_Net").val($("#Payment_Amount").val())
+                $("#Gst_Included").prop("checked", false);
+            }
+           
         });
 
         
