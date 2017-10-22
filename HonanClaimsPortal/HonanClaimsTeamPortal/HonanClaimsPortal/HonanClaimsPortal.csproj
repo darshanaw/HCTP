@@ -398,6 +398,8 @@
     <Content Include="Content\app\typo.html" />
     <Content Include="Content\app\vote-links.html" />
     <Content Include="Content\app\widgets.html" />
+    <Content Include="Content\bootstrap-timepicker.css" />
+    <Content Include="Content\bootstrap-timepicker.min.css" />
     <Content Include="Content\CountDownTimer\dist\ez.countimer.js" />
     <Content Include="Content\CountDownTimer\dist\ez.countimer.min.js" />
     <Content Include="Content\CountDownTimer\src\countimer.js" />
@@ -860,6 +862,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\bootstrap-timepicker.js" />
+    <Content Include="Scripts\bootstrap-timepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
