@@ -193,6 +193,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Work_Related { get; set; }
         public string Notification_Status { get; set; }
         public string Assigned_User_Name { get; set; }
+        public bool UpdateAllActivities { get; set; }
 
 
         public string UserId { get; set; }

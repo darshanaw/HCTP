@@ -225,6 +225,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Special_Instructions { get; set; }
         public string Work_Related { get; set; }
         public string Notification_Status { get; set; }
+        public bool UpdateAllActivities { get; set; }
 
 
         public List<PicklistItem> ReportedByTypeList { get; set; }
