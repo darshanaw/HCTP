@@ -1154,6 +1154,17 @@
 
                     }
                 }
+              
+                if ($("#Units").val() < 1) {
+
+                    $("#Units").prop("readonly", false);
+                    $("#Units").removeClass("disabled");
+                }
+                else
+                {
+                    $("#Units").prop("readonly", true);
+                    $("#Units").addClass("disabled");
+                }
 
                 if (!result.Claim_No) {
                     
@@ -1177,6 +1188,11 @@
 
                                     $("#Rate").prop("readonly", false);
                                     $("#Rate").removeClass("disabled");
+                                }
+                                else
+                                {
+                                    $("#Rate").prop("readonly", true);
+                                    $("#Rate").addClass("disabled");
                                 }
 
                                 $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
@@ -1218,6 +1234,11 @@
 
                     $("#Rate").prop("readonly", false);
                     $("#Rate").removeClass("disabled");
+                }
+                else
+                {
+                    $("#Rate").prop("readonly", true);
+                    $("#Rate").addClass("disabled");
                 }
 
                 if (startTime != '' && typeof startTime !== "undefined")
