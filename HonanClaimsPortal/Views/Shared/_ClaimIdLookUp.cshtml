@@ -155,6 +155,27 @@
 
                             $("#Rate_New").val(data.Order);
                             $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
+                           
+                            if (data.Order < 1) {
+
+                                $("#Rate_New").prop("readonly", false);
+                                $("#Rate_New").removeClass("disabled");
+                            }
+                            else {
+                                $("#Rate_New").prop("readonly", true);
+                                $("#Rate_New").addClass("disabled");
+                            }
+
+
+                            if ($("#Units_New").val() < 1) {
+                               
+                                $("#Units_New").prop("readonly", false);
+                                $("#Units_New").removeClass("disabled");
+                            }
+                            else {
+                                $("#Units_New").prop("readonly", true);
+                                $("#Units_New").addClass("disabled");
+                            }
                         }
 
                         $.ajax({

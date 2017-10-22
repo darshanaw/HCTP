@@ -106,7 +106,7 @@
                                                 @Html.TextBoxFor(o => o.Client_Name_New, new { @class = "form-control input-sm", @maxlength = 100 })
                                                 @Html.HiddenFor(m => m.ClientId_New)
 
-                                                <span class="input-group-btn" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal">
+                                                <span class="input-group-btn" id="btnClientLookup_New" data-toggle="modal" data-target="#ClientModal_New">
                                                     <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                         <i class="fa fa-binoculars"></i>
                                                     </button>
@@ -166,8 +166,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Unit</label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.Units_New, new { @type = "number", @class = "form-control input-sm" })
-                                            @Html.ValidationMessageFor(o => o.Units_New, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                                            @Html.TextBoxFor(m => m.Units_New, new { @type = "number", @class = "form-control input-sm disabled", @readonly = true, @min = "1" })
                                         </div>
                                     </div>
                                 </div>
@@ -275,21 +274,25 @@
 
                         </div>
 
-            <!--Modal-->
-                        <div id="ClientModal" class="modal fade ClientModal_New" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
+                        <div id="ClientModal_New" class="modal fade ClientModal_New" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="close" id="btnClientModal_New">&times;</button>
+                                        <button type="button" class="close btnClientModalClose_New" id="btnClientModal_New">&times;</button>
                                         <h4 class="modal-title">Client # Lookup</h4>
                                     </div>
 
                                     <div class="modal-body">
-                                        <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch_New">
-                                        <div id="lookupClientGrid_New"></div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-10" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="Accsearch_New"></div>
+                                        </div>
+                                        <br /><br />
+                                        <div class="col-md-12">
+                                            <div id="lookupClientGrid_New"></div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-default btnClientModalClose_New">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -303,9 +306,14 @@
 
     <script>
 
-        $("#btnClientModal_New").on('click', function () {
+        $(".btnClientModalClose_New").click(function () {
+
             $("#ClientModal_New").modal("hide");
         });
+
+        //$("#btnClientModal_New").on('click', function () {
+        //    $("#ClientModal_New").modal("hide");
+        //});
 
         //--------------Start Time-----------------------------
         $(document).ready(function () {
@@ -531,7 +539,7 @@
                 });
 
 
-                $("#btnPolicyLookup_New").click(function () {
+                $("#btnClientLookup_New").click(function () {
 
                     $('#Accsearch_New').val('');
 
@@ -546,7 +554,7 @@
                         dataBound: function (e) {
                             $('#ClientModal_New').modal('show');
                         },
-                        height: 550,
+                        height: 200,
                         sortable: true,
                         serverPaging: true,
                         pageable: {
@@ -597,10 +605,11 @@
         });
 
         function accountClick_New(e) {
-
+          
             $('#ClientId_New').val(e.id);
             $("#Client_Name_New").val(e.text);
             $('#ClientModal_New').modal('hide');
+
         }
     </script>
 
@@ -668,59 +677,82 @@
             //}).data("kendoAutoComplete");
 
 
-            function onSelectClaim_No_New(e) {
-                var dataItem = this.dataItem(e.item.index());
-                $('#Claim_No_New').val(dataItem.Text);
-                $("#H_Claimsid_Billing_New").val(dataItem.Code);
-                $("#H_Claimsid_New").val(dataItem.Code);
+            //function onSelectClaim_No_New(e) {
 
-                //get ClientId
-                $.ajax({
-                    url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + dataItem.Code,// $("#H_Claimsid").val(),
-                    success: function (data) {
+            //    var dataItem = this.dataItem(e.item.index());
+            //    $('#Claim_No_New').val(dataItem.Text);
+            //    $("#H_Claimsid_Billing_New").val(dataItem.Code);
+            //    $("#H_Claimsid_New").val(dataItem.Code);
 
-                        $('#Client_Name_New').val(data.Text);
-                        $("#ClientId_New").val(data.Code);
+            //    //get ClientId
+            //    $.ajax({
+            //        url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + dataItem.Code,// $("#H_Claimsid").val(),
+            //        success: function (data) {
 
-                        if (data.Order != null) {
-                            var RatePHR = data.Order;
-                            var RatePUNIT = ((RatePHR /60) * 6);
-                           
+            //            $('#Client_Name_New').val(data.Text);
+            //            $("#ClientId_New").val(data.Code);
 
-                            $("#Rate_New").val(data.Order);
-                            $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
-                        }
+            //            if (data.Order != null) {
+            //                var RatePHR = data.Order;
+            //                var RatePUNIT = ((RatePHR /60) * 6);                           
 
-                        //get policy Id
-                        $.ajax({
-                            url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + dataItem.Code,
-                            success: function (result) {
+            //                $("#Rate_New").val(data.Order);
+            //                $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
 
-                                $('#Policyid_Billing_New').val(result[0].Code);
-                                $("#Policy_Name_Billing_New").val(result[0].Text);
-                            }
-                        });
-                    }
-                });
+            //                if (data.Order < 1) {
+
+            //                    $("#Rate_New").prop("readonly", false);
+            //                    $("#Rate_New").removeClass("disabled");
+            //                }
+            //                else
+            //                {
+            //                    $("#Rate_New").prop("readonly", true);
+            //                    $("#Rate_New").addClass("disabled");
+            //                }
+
+                         
+            //                if (RatePUNIT < 1) {
+                               
+            //                    $("#Rate_Per_Unit_New").prop("readonly", false);
+            //                    $("#Rate_Per_Unit_New").removeClass("disabled");
+            //                }
+            //                else
+            //                {
+            //                    $("#Rate_Per_Unit_New").prop("readonly", true);
+            //                    $("#Rate_Per_Unit_New").addClass("disabled");
+            //                }
+            //            }
+
+            //            //get policy Id
+            //            $.ajax({
+            //                url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + dataItem.Code,
+            //                success: function (result) {
+
+            //                    $('#Policyid_Billing_New').val(result[0].Code);
+            //                    $("#Policy_Name_Billing_New").val(result[0].Text);
+            //                }
+            //            });
+            //        }
+            //    });
 
 
 
 
-            }
+            //}
         });
 
-        $('#Claim_No_New').keyup(function () {
-            var dataSource = new kendo.data.DataSource({
-                transport: {
-                    read: {
-                        url: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By_New").val(),
-                        dataType: "json"
-                    }
-                }
-            });
+        //$('#Claim_No_New').keyup(function () {
+        //    var dataSource = new kendo.data.DataSource({
+        //        transport: {
+        //            read: {
+        //                url: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By_New").val(),
+        //                dataType: "json"
+        //            }
+        //        }
+        //    });
 
-            kendoAutoCompleteClaim_No_New.setDataSource(dataSource);
-        });
+        //    kendoAutoCompleteClaim_No_New.setDataSource(dataSource);
+        //});
 
     </script>
 

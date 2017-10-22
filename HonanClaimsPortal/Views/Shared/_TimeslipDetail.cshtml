@@ -171,8 +171,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Unit</label>
                     <div class="col-sm-8">
-                        @Html.TextBoxFor(m => m.Units, new { @type = "number", @class = "form-control input-sm" })
-                        @Html.ValidationMessageFor(o => o.Units, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        @Html.TextBoxFor(m => m.Units, new { @type = "number", @class = "form-control input-sm disabled", @readonly = true, @min = "1" })
                     </div>
                 </div>
             </div>
@@ -470,6 +469,11 @@
                     {
                         $("#Rate").prop("readonly", false);
                         $("#Rate").removeClass("disabled");
+                    }
+                    else
+                    {
+                        $("#Rate").prop("readonly", true);
+                        $("#Rate").addClass("disabled");
                     }
 
                     $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
