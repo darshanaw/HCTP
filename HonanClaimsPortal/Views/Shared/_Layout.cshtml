@@ -934,13 +934,16 @@
             <div class="modal-dialog">
 
                 <!-- Modal content-->
-                <div class="modal-content">
+                <div class="modal-content" style="height:600px">
                     <div class="modal-header">
                         <button id="closemod" type="button" class="close">&times;</button>
                         <h4 class="modal-title">Send a Question</h4>
-                        <button id="sendmail" class="btn btn-primary">Send</button>
+                        <div class="col-md-12">
+                            <button id="sendmail" class="btn btn-primary pull-right">Send</button>
+                            <input name="EmailTattchment" class="pull-left" id="emailattach" type="file" multiple>
+                        </div>
                     </div>
-                    <input name="EmailTattchment" id="emailattach" type="file" multiple>
+                    
                     <div class="modal-body">
                         <div id="errormsg" class="alert alert-danger">
                             <strong></strong> <span id="error"></span>
@@ -948,41 +951,51 @@
                         <div id="successshow" class="alert alert-success">
                             <strong></strong> <span id="success"></span>
                         </div>
-                        <div class="row">
-                            <div>
-                                <div class="form-group">
+                  
+                                <div>
                                     <ul id="ul"></ul>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="usr">Claim:</label>
-                                    <select id="claim"></select>
+                                <div class="top-padding col-md-12">                                   
+                                        <label class="col-sm-1 control-label input-sm">Claim:</label>
+                                        <div class="col-sm-11">
+                                            <select id="claim"></select>
+                                        </div>                                
                                 </div>
-                                <div class="form-group">
-                                    <label for="usr">To</label>
-                                    @*<select id="Tolist" class="form-control"></select>*@
-                                    <input class="form-control" id="Tolist" />
+
+                                <div class="top-padding col-md-12">
+                                    <label class="col-sm-1 control-label input-sm">To:</label>
+                                    <div class="col-sm-11">
+                                        <input class="form-control" id="Tolist" />
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="usr">CC</label>
-                                    @*<select id="CClist" class="form-control"></select>*@
-                                    <input class="form-control" id="CClist" />
+
+                                <div class="top-padding col-md-12">
+                                    <label class="col-sm-1 control-label input-sm">CC:</label>
+                                    <div class="col-sm-11">
+                                        <input class="form-control" id="CClist" />
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="usr">Subject</label>
-                                    <input class="form-control" id="subject" />
+                     
+                                <div class="top-padding col-md-12">
+                                    <label class="col-sm-1 control-label input-sm">Subject:</label>
+                                    <div class="col-sm-11">
+                                        <input class="form-control" id="subject" />
+                                    </div>
                                 </div>
+
+                      
                                 <div id="EmailEdit">
-                                    <textarea id="editor" rows="10" cols="30" style="height:440px" aria-label="editor"></textarea>
+                                    <textarea id="editor" rows="10" cols="30"  aria-label="editor"></textarea>
                                 </div>
-                                <button id="sendemail" class="btn btn-default">Send</button>
-                            </div>
-                            <div class="modal-footer">
+                                @*<button id="sendemail" class="btn btn-default">Send</button>*@
+                  
+                            @*<div class="modal-footer">
                                 <div class="pull-right">
 
                                 </div>
-                            </div>
-                        </div>
+                            </div>*@
+                 
 
                     </div>
                 </div>
