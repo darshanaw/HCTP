@@ -40,142 +40,145 @@
 <div class="panel panel-default">
 
     <div class="panel-body">
-
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <label class="control-label input-sm">Deductible: </label>
-            </div>
-            <div class="col-md-4">                
-                    <input class="form-control input-sm disabledControl" id="Deductible_Filter" disabled="disabled" />
-            </div>
-            </div>
+        <div class="col-md-6">
 
 
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <label class="control-label input-sm">Net Incurred On Deductible: </label>
-            </div>
-            <div class="col-md-4">
-                @Html.TextBox("Net_Incurred_On_Deductible", "", new { @class = "form-control input-sm disabled", @readonly = true, @id = "Net_Incurred_On_Deductible" })
-            </div>
-        </div>
-
-
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <label class="control-label input-sm">Balance On Deductible Remaining: </label>
-            </div>
-            <div class="col-md-4">
-                @Html.TextBox("Balance_On_Deductible_Remaining", "", new { @class = "form-control input-sm disabled", @readonly = true, @id = "Balance_On_Deductible_Remaining" })
-            </div>
-        </div>
-
-
-
-
-            <div class="col-md-12" style="padding-left:0px">
-                <div class="col-md-12" style="padding-left:0px">
-                    <div class="col-md-12">
-
-
-                        <div>
-                            <div class="col-md-3">
-                                <div class="form-group mb">
-                                    <label class=" control-label input-sm">Payee: </label>
-                                    <div>
-                                        <select id="selPayeePayment" class="form-control"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group mb">
-                                    <label class=" control-label input-sm">Date Received: </label>
-                                    <div>
-                                        <div class="input-group date dateCalendar" style="width:100%">
-                                            @Html.TextBox("Date_Invoice_Paid_Filter", "", new { @class = "form-control input-sm" })
-                                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                                <span class="fa fa-calendar"></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3" id="divInvoiced">
-                                <div class="form-group mb">
-
-                                    <label class="control-label input-sm">Status: </label>
-                                    <div>
-                                        @Html.DropDownList("PaymentStatus", new SelectList(Payment_Status_List_Filter, "Text", "Text"), "",
-                                    new { @class = "form-control input-sm", @id = "FilterPaymentStatus" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group mb">
-                                    <label class="control-label input-sm">Invoice #: </label>
-                                    <div>
-                                        @Html.TextBox("Invoice_No_Filter", "", new { @class = "form-control input-sm", @id = "Invoice_No_Filter" })
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-md-3">
-                                <div class="form-group mb">
-
-                                </div>
-                            </div>
-
-                        </div>
-
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-5 control-label input-sm">Deductible</label>
+                    <div class="col-sm-7">
+                        <input class="form-control input-sm disabledControl" id="Deductible_Filter" disabled="disabled" />
                     </div>
-
-                    <div class="col-md-12">
-
-                        <div class="col-md-3">
-                            
-                        </div>
-
-                        <div class="col-md-3">
-                            
-                        </div>
-
-                        <div class="col-md-3">
-                            
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group mb">
-                                <input type="button" class="btn btn-default" id="ClearFilters_Payment" value="Clear" />
-                                <input type="button" class="btn btn-primary" id="FilterBillables_Payment" value="Filter List" />
-                                <input type="button" value="New Payment" id="btnNewPayment" class="btn btn-primary" data-toggle="modal" data-target="#PaymentDetailModal" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-
-                        <div class="col-md-2">
-
-                        </div>
-
-                        <div class="col-md-10">
-
-                        </div>
-                    </div>
-
                 </div>
             </div>
-            <br /><br /><br />
 
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-5 control-label input-sm">Net Incurred On Deductible</label>
+                    <div class="col-sm-7">
+                        @Html.TextBox("Net_Incurred_On_Deductible", "", new { @class = "form-control input-sm disabled", @readonly = true, @id = "Net_Incurred_On_Deductible" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-5 control-label input-sm">Balance On Deductible Remaining</label>
+                    <div class="col-sm-7">
+                      @Html.TextBox("Balance_On_Deductible_Remaining", "", new { @class = "form-control input-sm disabled", @readonly = true, @id = "Balance_On_Deductible_Remaining" })
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-5 control-label input-sm">Payee</label>
+                    <div class="col-sm-7">
+                        <select id="selPayeePayment" class="form-control input-sm"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-5 control-label input-sm">Date Received</label>
+                    <div class="col-sm-7">
+                        <div class="input-group date dateCalendar" style="width:100%;z-index:auto">
+                            @Html.TextBox("Date_Invoice_Paid_Filter", "", new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-5 control-label input-sm">Status</label>
+                    <div class="col-sm-7">
+                        @Html.DropDownList("PaymentStatus", new SelectList(Payment_Status_List_Filter, "Text", "Text"), "",
+                                    new { @class = "form-control input-sm", @id = "FilterPaymentStatus" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-5 control-label input-sm">Invoice #</label>
+                    <div class="col-sm-7">
+                        @Html.TextBox("Invoice_No_Filter", "", new { @class = "form-control input-sm", @id = "Invoice_No_Filter" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="form-group mb">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <input type="button" class="btn btn-default" id="ClearFilters_Payment" value="Clear" />
+                            <input type="button" class="btn btn-primary" id="FilterBillables_Payment" value="Filter List" />
+                            <input type="button" value="New Payment" id="btnNewPayment" class="btn btn-primary" data-toggle="modal" data-target="#PaymentDetailModal" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+
+
+
+
+        <div class="col-md-12" style="padding-left:0px">
+            <div class="col-md-12" style="padding-left:0px">
+                <div class="col-md-12">
+                  
+
+                </div>
+
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group mb">
+                           
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+
+                    <div class="col-md-2">
+
+                    </div>
+
+                    <div class="col-md-10">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br /><br /><br />
+
+    </div>
 
 </div>
 
@@ -242,6 +245,24 @@
 
             clearPaymentControls(true);
             clearPaymentFiles();
+
+            @{ 
+                var claimId = this.ViewData["claimId"];
+            }
+
+            $.ajax({
+
+                url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + "@claimId",// $("#H_Claimsid").val(),
+                success: function (data) {
+
+                    $('#Payment_To_Name').val('');
+                    $("#Payment_To").val('');
+
+                    $('#Payment_To_Name').val(data.Text);
+                    $("#Payment_To").val(data.Code);
+
+                }
+            });
         });
 
         $("#FilterBillables_Payment").click(function () {
