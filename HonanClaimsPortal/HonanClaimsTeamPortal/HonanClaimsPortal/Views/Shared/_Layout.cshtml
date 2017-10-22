@@ -1058,7 +1058,7 @@
 <script>
 
     function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
-
+        
         var newClaimRef = "";
         var newClaimId = "";
 
@@ -1172,6 +1172,13 @@
                                 var RatePHR = data.Order;
                                 var RatePUNIT = ((RatePHR/60) * 6);
                                 $("#Rate").val(data.Order);
+                              
+                                if (data.Order < 1) {
+
+                                    $("#Rate").prop("readonly", false);
+                                    $("#Rate").removeClass("disabled");
+                                }
+
                                 $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
 
                                 var Rate_ = $("#Rate_Per_Unit").val();
@@ -1206,9 +1213,13 @@
                 $("#Service_Date").val(result.Service_Date);
                 $("#Qty_Mins").val(result.Qty_Mins);
                 $("#Rate").val(result.Rate);
-                if (result.Rate != 0) {
-                    document.getElementById("Rate").readOnly = true;
+
+                if (result.Order < 1) {
+
+                    $("#Rate").prop("readonly", false);
+                    $("#Rate").removeClass("disabled");
                 }
+
                 if (startTime != '' && typeof startTime !== "undefined")
                     result.sStart_Time = startTime;
 
