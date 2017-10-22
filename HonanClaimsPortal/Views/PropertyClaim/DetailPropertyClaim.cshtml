@@ -101,6 +101,7 @@ else
             @Html.HiddenFor(o => o.Claim_Team)
             @Html.HiddenFor(o => o.Claim_Reference_Num)
             @Html.HiddenFor(o => o.Policy_Id)
+            @Html.HiddenFor(o => o.UpdateAllActivities)
 
             @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
             <div class="panel panel-default">
@@ -1745,6 +1746,24 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             if ($('#chkClaimClosed').is(':checked')) {
                 $('#txtClaimClosedDate').val(getTodaysDate());
                 $('#ddlStatus').val("Closed");
+                bootbox.confirm({
+                    message: "You are closing this Claim - Do you want to close all open Activities",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $('#UpdateAllActivities').val(true);
+                        }
+                    }
+                });
 
             } else {
                 $('#txtClaimClosedDate').val('');
