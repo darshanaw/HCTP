@@ -440,7 +440,7 @@
 
                 if (data.Order != null) {
                     var RatePHR = data.Order;
-                    var RatePUNIT = (RatePHR / (60 * 6));
+                    var RatePUNIT = ((RatePHR/60) * 6);
                     $("#Rate").val(data.Order);
                     $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
                 }

@@ -669,7 +669,6 @@
 
 
             function onSelectClaim_No_New(e) {
-               
                 var dataItem = this.dataItem(e.item.index());
                 $('#Claim_No_New').val(dataItem.Text);
                 $("#H_Claimsid_Billing_New").val(dataItem.Code);
@@ -685,7 +684,9 @@
 
                         if (data.Order != null) {
                             var RatePHR = data.Order;
-                            var RatePUNIT = (RatePHR / (60 * 6));
+                            var RatePUNIT = ((RatePHR /60) * 6);
+                           
+
                             $("#Rate_New").val(data.Order);
                             $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
                         }
