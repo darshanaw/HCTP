@@ -70,11 +70,17 @@
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.Claim_No, new { @class = "form-control input-sm disabled", @readonly = true })
                             @Html.HiddenFor(m => m.H_Claimsid_Billing)
-                            <span class="input-group-btn" id="Claimlookup" data-toggle="modal" data-target="#PolicyModal">
+                            @*<span class="input-group-btn" id="Claimlookup" data-toggle="modal">
                                 <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                     <i class="fa fa-binoculars"></i>
                                 </button>
+                            </span>*@
+                            <span class="input-group-btn" id="storeShow" data-toggle="modal" data-target="#ClaimReferenceNumbersModal">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
                             </span>
+
                         </div>
                     </div>
                 </div>
@@ -404,7 +410,7 @@
                         $('#ClaimModal').modal('show');
                     }
                 },
-                height: 550,
+                height: 200,
                 sortable: true,
                 serverPaging: true,
                 pageable: {
@@ -451,14 +457,21 @@
         $.ajax({
             url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
             success: function (data) {
-                debugger;
+                
                 $('#Client_Name').val(data.Text);
                 $("#ClientId").val(data.Code);
-
+               
                 if (data.Order != null) {
                     var RatePHR = data.Order;
                     var RatePUNIT = ((RatePHR/60) * 6);
                     $("#Rate").val(data.Order);
+                  
+                    if (data.Order < 1)
+                    {
+                        $("#Rate").prop("readonly", false);
+                        $("#Rate").removeClass("disabled");
+                    }
+
                     $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
                 }
             }
