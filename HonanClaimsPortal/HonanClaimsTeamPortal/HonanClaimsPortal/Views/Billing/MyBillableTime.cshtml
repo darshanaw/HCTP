@@ -133,7 +133,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group mb">
-                    <label class="col-sm-4 control-label input-sm">Total Qty(Mins)</label>
+                    <label class="col-sm-4 control-label input-sm">Total Units</label>
                     <div class="col-sm-8">
                         @Html.TextBoxFor(m => m.TotalQ, new { @class = "form-control input-sm", @readonly = true })
                     </div>
@@ -292,7 +292,7 @@
            },
            {
                field: "Qty",
-               title: "Units",
+               title: "Mins",
            },
            {
                field: "Checked",
@@ -309,7 +309,7 @@
             var gridData = e.sender.dataSource.view();
             var subTotal = 0;
             for (var i = 0; i < gridData.length; i++) {
-                subTotal = subTotal + gridData[i].Qty;
+                subTotal = subTotal + gridData[i].Unit;
             }
             $("#TotalQ").val(subTotal);
         }
