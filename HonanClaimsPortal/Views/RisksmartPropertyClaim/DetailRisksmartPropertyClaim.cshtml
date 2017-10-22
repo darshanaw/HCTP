@@ -2049,4 +2049,11 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         }
     }
 
+
+    $(document).ready(function () {
+        $("#btnConvertToClaim").click(function () {
+            loadPolicies();
+            loadAssignedUser();
+        });
+    });
 </script>

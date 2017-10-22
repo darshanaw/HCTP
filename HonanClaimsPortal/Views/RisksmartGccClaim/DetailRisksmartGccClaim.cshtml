@@ -2057,8 +2057,14 @@ else
             }
         });*@
 
-
-
     }
+
+
+    $(document).ready(function () {
+        $("#btnConvertToClaim").click(function () {
+            loadPolicies();
+            loadAssignedUser();
+        });
+    });
 
 </script>
