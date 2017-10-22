@@ -27,108 +27,137 @@
         My Billable Time
     </h3>
 
-    <div class="row mb">
-        <div class="col-md-12">
-            <div class="col-md-4">
-                <div class="form-group mb">
-                    <label class="col-sm-4 control-label input-sm">Service User</label>
-                    <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.ServicesUserModel,
+    <div class="row">
+        <div class="main-container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="row mb">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Service User</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(m => m.ServicesUserModel,
                     new SelectList(Model.ServicesUserModel, "Code", "Text"),
                     new { @class = "form-control input-sm", @onchange = "comboChange()" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group mb">
-                    <label class="col-sm-4 control-label input-sm">Show Me</label>
-                    <div class="col-sm-8">
-                        @{
-                            List<SelectListItem> listItems = new List<SelectListItem>();
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "Today",
-                                Value = "Today"
-                            });
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "This Week",
-                                Value = "This Week",
-                                Selected = true,
-                            });
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "Last Week",
-                                Value = "Last Week",
-                            });
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Show Me</label>
+                                    <div class="col-sm-8">
+                                        @{
+                                            List<SelectListItem> listItems = new List<SelectListItem>();
+                                            listItems.Add(new SelectListItem
+                                            {
+                                                Text = "Today",
+                                                Value = "Today"
+                                            });
+                                            listItems.Add(new SelectListItem
+                                            {
+                                                Text = "This Week",
+                                                Value = "This Week",
+                                                Selected = true,
+                                            });
+                                            listItems.Add(new SelectListItem
+                                            {
+                                                Text = "Last Week",
+                                                Value = "Last Week",
+                                            });
 
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "This Month",
-                                Value = "This Month"
-                            });
+                                            listItems.Add(new SelectListItem
+                                            {
+                                                Text = "This Month",
+                                                Value = "This Month"
+                                            });
 
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "This Quarter",
-                                Value = "This Quarter"
-                            });
+                                            listItems.Add(new SelectListItem
+                                            {
+                                                Text = "This Quarter",
+                                                Value = "This Quarter"
+                                            });
 
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "Last Quarter",
-                                Value = "Last Quarter"
-                            });
+                                            listItems.Add(new SelectListItem
+                                            {
+                                                Text = "Last Quarter",
+                                                Value = "Last Quarter"
+                                            });
 
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "This Year",
-                                Value = "This Year"
-                            });
-                        }
-                        @Html.DropDownListFor(model => model.ShowMe, listItems, new { @class = "form-control", @onchange = "comboChange()" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group mb">
-                    <label class="col-sm-4 control-label input-sm">Customer</label>
-                    <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.CustomerUserModel,
+                                            listItems.Add(new SelectListItem
+                                            {
+                                                Text = "This Year",
+                                                Value = "This Year"
+                                            });
+                                        }
+                                        @Html.DropDownListFor(model => model.ShowMe, listItems, new { @class = "form-control", @onchange = "comboChange()" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Customer</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(m => m.CustomerUserModel,
                     new SelectList(Model.CustomerUserModel, "Code", "Text"),
 
                     new { @class = "form-control", @onchange = "comboChange()" })
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mb">
-        <div class="col-md-12">
-            <div class="col-md-4">
-                <div class="form-group mb">
-                    <label class="col-sm-4 control-label input-sm">Service Date From</label>
-                    <div class="col-sm-8">
-                        <div class="input-group date dateCalendar" style="width:100%">
-                            @Html.TextBoxFor(o => o.ServiceFromDate, new { @class = "form-control input-sm" })
-                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                <span class="fa fa-calendar"></span>
-                            </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group mb">
-                    <label class="col-sm-4 control-label input-sm">Service Date To</label>
-                    <div class="col-sm-8">
-                        <div class="input-group date dateCalendar" style="width:100%">
-                            @Html.TextBoxFor(o => o.ServiceToDate, new { @class = "form-control input-sm" })
-                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                <span class="fa fa-calendar"></span>
-                            </span>
+                    <div class="row mb">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Service Date From</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date dateCalendar" style="width:100%">
+                                            @Html.TextBoxFor(o => o.ServiceFromDate, new { @class = "form-control input-sm" })
+                                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Service Date To</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group date dateCalendar" style="width:100%">
+                                            @Html.TextBoxFor(o => o.ServiceToDate, new { @class = "form-control input-sm" })
+                                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Total Qty(Mins)</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.TotalQ, new { @class = "form-control input-sm", @readonly = true })
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="row mb">
+                        <div class="col-md-12 text-right">
+                            <div class="col-md-12 text-right">
+                                <div class="col-md-12 text-right">
+                                    <button id="addNew" onclick="loadBillingDetailOnMyBillable('')" type="button" class="btn btn-primary mr-20">Add New Billing Time</button>
+                                    <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
+                                    <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="col-md-4">
@@ -141,17 +170,7 @@
             </div>
         </div>
     </div>
-    <div class="row mb">
-        <div class="col-md-12 text-right">
-            <div class="col-md-12 text-right">
-                <div class="col-md-12 text-right">
-                    <button id="addNew" onclick="loadBillingDetailOnMyBillable('')" type="button" class="btn btn-primary mr-20">Add New Billing Time</button>
-                    <button id="clearFilter" type="button" class="btn btn-default mr-20">Clear Filter</button>
-                    <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="row mb top-padding-eight">
         <div class="col-md-12">
             <div id="grid"></div>
@@ -159,23 +178,23 @@
     </div>
 </div>
 
-<!-- Modal -->
-@*<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
-    <div class="modal-dialog  modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Timeslip</h4>
-            </div>
-            <div class="modal-body">
-                @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = "MyBillable" });}
+                <!-- Modal -->
+                @*<div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+                        <div class="modal-dialog  modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Timeslip</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = "MyBillable" });}
 
-            </div>
-        </div>
-    </div>
-</div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
 
-<script>
+                <script>
     $(document).ready(function () {
 
         //$.LoadingOverlay("hide");
@@ -246,7 +265,7 @@
                 transport: {
                     read: "/Billing/TeamGetMyBillableTimes?showMe=" + showMe + "&customerId=" + customerId + "&serviceUserId=" + serviceUserId + "&serviceFromDate=" + serviceFromDate + "&serviceToDate=" + serviceToDate
                 },
-                //pageSize: 10,            
+                //pageSize: 10,
                 schema: {
                     data: "d",
                     total: "total"
@@ -437,10 +456,10 @@
                 $('#BillingDetailModal').modal('show');
             }
         });
-       
-    }
-</script>
 
-<!-- Loading gif-->
-<script src="~/Scripts/loadingoverlay.min.js"></script>
-<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+    }
+                </script>
+
+                <!-- Loading gif-->
+                <script src="~/Scripts/loadingoverlay.min.js"></script>
+                <script src="~/Scripts/loadingoverlay_progress.min.js"></script>

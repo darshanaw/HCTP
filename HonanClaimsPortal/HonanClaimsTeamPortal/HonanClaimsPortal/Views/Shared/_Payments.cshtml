@@ -349,6 +349,8 @@
     });
 
 
+    
+
     function loadPaymentDetail(paymentId) {
         clearPaymentControls(false);
         clearPaymentFiles();
@@ -377,6 +379,7 @@
                 }
 
                 $("#Payee_Type").val(result.Payee_Type);
+                setSelect2TagsValue(result.Payee_Type);
                 $("#Payee_Account_Name").val(result.Payee_Account_Name);
                 $("#Payee_Contact_Name").val(result.Payee_Contact_Name);
                 $("#Total_Gross").val(result.Total_Gross);

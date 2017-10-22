@@ -1,5 +1,7 @@
 ﻿@model HonanClaimsWebApi.Models.Billing.BillingModelNew
 
+@{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
+
     @{
         ViewBag.Title = "Index";
         Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,6 +28,12 @@
     });
 
 </script>
+
+<style>
+    #Policy_Name_Billing_New {
+        background-color: #edf1f2;
+    }
+</style>
 
     <div class="content-wrapper">
         <h3 class="hmb">
@@ -58,10 +66,17 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Services By</label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.Service_By_Name_New, new { @class = "form-control input-sm" })
-                                            @Html.ValidationMessageFor(o => o.Service_By_Name_New, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
-                                            @Html.HiddenFor(h => h.Service_By_New)
-                                        </div>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.Service_By_Name_New, new { @class = "form-control input-sm", @maxlength = 100, @readonly = true })
+                                                @Html.HiddenFor(h => h.Service_By_New)
+
+                                                <span class="input-group-btn" id="AccountManagerlookup_New" data-toggle="modal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -80,7 +95,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                @*<div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Activity</label>
                                         <div class="col-sm-8">
@@ -88,12 +103,12 @@
                                             @Html.HiddenFor(m => m.ActivityId_New)
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Policy</label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.Policy_Name_Billing_New, new { @class = "form-control input-sm" })
+                                            @Html.TextBoxFor(m => m.Policy_Name_Billing_New, new { @class = "form-control input-sm disabled", @readonly = true })
                                             @Html.HiddenFor(m => m.Policyid_Billing_New)
                                         </div>
                                     </div>
@@ -185,7 +200,15 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Timeslip Checked</label>
                                         <div class="col-sm-8">
-                                            @Html.CheckBoxFor(c => c.Timeslip_Checked_New)
+                                           
+                                            @if (userObj.Teams.Contains("Check Timeslips"))
+                                            {
+                                                @Html.CheckBoxFor(c => c.Timeslip_Checked_New)
+                                            }
+                                            else
+                                            {
+                                                @Html.CheckBoxFor(c => c.Timeslip_Checked_New, new { @onclick = "return false;" })
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -210,7 +233,15 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Invoice Processed</label>
                                         <div class="col-sm-8">
-                                            @Html.CheckBoxFor(c => c.Invoice_Processed_New)
+                                         
+                                            @if (userObj.Teams.Contains("Claims Invoice Processing Team"))
+                                            {
+                                                @Html.CheckBoxFor(c => c.Invoice_Processed_New)
+                                            }
+                                            else
+                                            {
+                                                @Html.CheckBoxFor(c => c.Invoice_Processed_New, new { @onclick = "return false;" })
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +315,7 @@
 
                                     <div class="modal-body">
                                         <div class="col-md-12">
-                                            <div class="col-md-10" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="Accsearch_New"></div>
+                                            <div class="col-md-12" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="Accsearch_New"></div>
                                         </div>
                                         <br /><br />
                                         <div class="col-md-12">
@@ -298,6 +329,33 @@
                             </div>
                         </div>
 
+
+                            <!--Modal-->
+                        <div id="AccountManagerModal_New" class="modal fade AccountManagerModal_New" role="dialog" data-backdrop="false" data-keyboard="false">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close AccountManagerModal_New_Close">&times;</button>
+                                        <h4 class="modal-title">Services by Lookup</h4>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="AMccsearch_New"></div>
+                                        </div>
+                                        <br /><br />
+                                        <div class="col-md-12">
+                                            <div id="lookupAccountManagerGrid_New"></div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button  type="button" class="btn btn-default AccountManagerModal_New_Close">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     }
                 </div>
             </div>
@@ -306,17 +364,83 @@
 
     <script>
 
-        $(".btnClientModalClose_New").click(function () {
+        function loadgrManagerid() {
+           
+            $("#lookupAccountManagerGrid_New").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    data: AccountManagerList,
+                    pageSize: 10
+                },
+                dataBound: function (e) {
+                    if ($('#AccountManagerModal_New').hasClass('in')) {
 
-            $("#ClientModal_New").modal("hide");
-        });
+                    } else {
+                        $('#AccountManagerModal_New').modal('show');
+                    }
+                },
+                height: 200,
+                sortable: true,
+                serverPaging: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 10
+                },
+                columns: [{
+                    hidden: true,
+                    field: "Code",
+                    title: "Code"
+                },
 
-        //$("#btnClientModal_New").on('click', function () {
-        //    $("#ClientModal_New").modal("hide");
-        //});
+                {
+                    template: "<a href='javascript:void(0);' onclick=\"accountLookupClickSBY_New('#= Code #','#= Text #')\" '>#= Text #</a>",
+                    title: "Account Name",
+                }
+                ]
+            });
+
+        }
+
+       
+        function accountLookupClickSBY_New(Code, Text) {
+           
+            $('#Service_By_New').val(Code);
+            $('#Service_By_Name_New').val(Text);
+            $('#AccountManagerModal_New').modal('hide');
+        }
+
 
         //--------------Start Time-----------------------------
         $(document).ready(function () {
+
+            $(".AccountManagerModal_New_Close").click(function () {
+
+                $("#AccountManagerModal_New").modal('hide');
+            });
+
+            $(".btnClientModalClose_New").click(function () {
+
+                $("#ClientModal_New").modal("hide");
+            });
+
+            $("#AMccsearch_New").keyup(function () {
+                AccountList = [];
+                $.get("/Billing/GetTeamGetBillableLawyers?filter=" + $("#AMccsearch_New").val(), function (data) {
+                    AccountManagerList = data;
+                    loadgrManagerid();
+                });
+            });
+
+            $('#AccountManagerlookup_New').click(function () {
+                var text = $('#AMccsearch_New').val();
+                $("#AccountManagerModal_New").modal('show');
+                $.get("/Billing/GetTeamGetBillableLawyers?filter=" + "", function (data) {
+                    AccountManagerList = data;
+                    loadgrManagerid();
+                });
+            });
+
 
             $('#frmBillingForm_New').submit(function (e) {
 
@@ -467,7 +591,7 @@
                             var rInvoice_Processed_Date_New = Invoice_Processed_Date_New.getDate() + "/" + month + "/" + Invoice_Processed_Date_New.getFullYear();
 
                             $("#Invoice_Processed_By_Name_New").val(result.Name);
-                            $("#Invoice_Processed_Date_New").val(rInvoice_Processed_Date);
+                            $("#Invoice_Processed_Date_New").val(rInvoice_Processed_Date_New);
                             $("#Invoice_Processed_By_New").val(result.UserId);
                             $("#Invoice_Processed_New").val(true);
                         }
@@ -615,27 +739,29 @@
 
 
     <script>
-        var kendoAutoCompleteService_By_Name_New = null;
+        //var kendoAutoCompleteService_By_Name_New = null;
         $(document).ready(function () {
-            kendoAutoCompleteService_By_Name_New = $("#Service_By_Name_New").kendoAutoComplete({
-                dataTextField: "Text",
-                //dataValueField: "ID",
-                minLength: 2,
-                dataSource: {
-                    type: "json",
-                    transport: {
-                        read: "/Billing/GetTeamGetBillableLawyers?filter=" + "",
-                    }
-                },
-                filter: "contains",
-                select: onSelectService_By_Name_New,
-            }).data("kendoAutoComplete");
 
-            function onSelectService_By_Name_New(e) {
-                var dataItem = this.dataItem(e.item.index());
-                $('#Service_By_New').val(dataItem.Code);
-                $('#Service_By_Name_New').val(dataItem.Text)
-            }
+            //kendoAutoCompleteService_By_Name_New = $("#Service_By_Name_New").kendoAutoComplete({
+            //    dataTextField: "Text",
+            //    //dataValueField: "ID",
+            //    minLength: 2,
+            //    dataSource: {
+            //        type: "json",
+            //        transport: {
+            //            read: "/Billing/GetTeamGetBillableLawyers?filter=" + "",
+            //        }
+            //    },
+            //    filter: "contains",
+            //    select: onSelectService_By_Name_New,
+            //}).data("kendoAutoComplete");
+
+            //function onSelectService_By_Name_New(e) {
+
+            //    var dataItem = this.dataItem(e.item.index());
+            //    $('#Service_By_New').val(dataItem.Code);
+            //    $('#Service_By_Name_New').val(dataItem.Text)
+            //}
 
             $('.dateCalendar').datetimepicker({
                 format: 'DD/MM/YYYY'

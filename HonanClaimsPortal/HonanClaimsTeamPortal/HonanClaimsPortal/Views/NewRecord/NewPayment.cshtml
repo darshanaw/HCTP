@@ -15,6 +15,7 @@
 <!-- SELECT2-->
 <link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
 <link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
 <script>
     $(function () {
@@ -23,12 +24,30 @@
             format: 'DD/MM/YYYY'
         });
 
+        $('.dateCalendar_Date_Invoice').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
+
+        $('.dateCalendarDate_Sent_For_Payment').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
+
         $('#frmPaymentDetailNew').submit(function () {
            
             if ($(this).valid()) {
 
                 $.LoadingOverlay("show");
             }
+        });
+
+
+        $("#Payee_Type").select2({
+            tags: true,
+            theme: "bootstrap",
         });
 
     });
@@ -115,7 +134,7 @@
                             <div class="form-group mb">
                                 <label class="col-sm-4 control-label input-sm">Date Received</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group date dateCalendar" style="width:100%">
+                                    <div class="input-group date dateCalendar_Date_Invoice" style="width:100%">
                                         @Html.TextBoxFor(o => o.Date_Invoice_Received, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                             <span class="fa fa-calendar"></span>
@@ -153,7 +172,7 @@
                                 </div>
                             </div>
                         </div>
-
+                       
                         <div class="row">
                             <div class="form-group mb">
                                 <label class="col-sm-4 control-label input-sm">Payee Acct</label>
@@ -227,7 +246,7 @@
                             <div class="form-group mb">
                                 <label class="col-sm-4 control-label input-sm">Date Sent for Payment</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group date dateCalendar" style="width:100%">
+                                    <div class="input-group date dateCalendarDate_Sent_For_Payment" style="width:100%">
                                         @Html.TextBoxFor(o => o.Date_Sent_For_Payment, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                             <span class="fa fa-calendar"></span>

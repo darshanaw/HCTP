@@ -121,7 +121,77 @@
             }
             
         }
+        
 
+        if (window.location.href.indexOf("Billing/MyBillableTime") > -1) {
+
+            if ($("#Claim_No").length > 0 && $("#H_Claimsid_Billing").length > 0) {
+
+                $("#Claim_No").val('');
+                $("#H_Claimsid_Billing").val('');
+                $('#Client_Name').val('');
+                $("#ClientId").val('');
+                $("#Rate").val('');
+                $("#Rate_Per_Unit").val('');
+                $('#Policyid_Billing').val('');
+                $("#Policy_Name_Billing").val('');
+
+
+                $("#Claim_No").val(claimRef);
+                $("#H_Claimsid_Billing").val(claimId);
+
+                $.ajax({
+
+                    url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + claimId,// $("#H_Claimsid").val(),
+                    success: function (data) {
+
+
+                        $('#Client_Name').val(data.Text);
+                        $("#ClientId").val(data.Code);
+
+                        if (data.Order != null) {
+                            var RatePHR = data.Order;
+                            var RatePUNIT = ((RatePHR / 60) * 6);
+
+                            $("#Rate").val(data.Order);
+                            $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
+
+                            if (data.Order < 1) {
+
+                                $("#Rate").prop("readonly", false);
+                                $("#Rate").removeClass("disabled");
+                            }
+                            else {
+                                $("#Rate").prop("readonly", true);
+                                $("#Rate").addClass("disabled");
+                            }
+
+
+                            if ($("#Units").val() < 1) {
+
+                                $("#Units").prop("readonly", false);
+                                $("#Units").removeClass("disabled");
+                            }
+                            else {
+                                $("#Units").prop("readonly", true);
+                                $("#Unit").addClass("disabled");
+                            }
+                        }
+
+                        $.ajax({
+                            url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + claimId,
+                            success: function (result) {
+
+
+                                $('#Policyid_Billing').val(result[0].Code);
+                                $("#Policy_Name_Billing").val(result[0].Text);
+                            }
+                        });
+
+                    }
+                });
+            }
+        }
 
         if (window.location.href.indexOf("NewRecord/NewTimeslipDetail") > -1) {
 
