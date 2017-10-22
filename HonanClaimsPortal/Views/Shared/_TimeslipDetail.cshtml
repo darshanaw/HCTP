@@ -51,7 +51,7 @@
                             @Html.ValidationMessageFor(o => o.Service_By_Name, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                             @Html.HiddenFor(h => h.Service_By)
 
-                            <span class="input-group-btn" id="AccountManagerlookup" data-toggle="modal" data-target="#PolicyModal">
+                            <span class="input-group-btn" id="AccountManagerlookup" data-toggle="modal">
                                 <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                     <i class="fa fa-binoculars"></i>
                                 </button>
@@ -306,7 +306,7 @@
 
 
     <!--Modal-->
-            <div id="AccountManagerModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+            <div id="AccountManagerModal" class="modal fade OcModal" role="dialog"  data-backdrop="false" data-keyboard="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -315,8 +315,14 @@
                         </div>
 
                         <div class="modal-body">
-                            <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearch">
-                            <div id="lookupAccountManagerGrid"></div>
+                            <div class="col-md-12">
+                                <div class="col-md-10" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="AMccsearch"></div>
+                            </div>
+                            <br /><br />
+                            <div class="col-md-12">
+                                <div id="lookupAccountManagerGrid"></div>
+                            </div>                            
+                            
                         </div>
                         <div class="modal-footer">
                             <button id="closeManagerBtn" type="button" class="btn btn-default">Close</button>
@@ -486,7 +492,7 @@
                         $('#AccountManagerModal').modal('show');
                     }
                 },
-                height: 550,
+                height: 200,
                 sortable: true,
                 serverPaging: true,
                 pageable: {
