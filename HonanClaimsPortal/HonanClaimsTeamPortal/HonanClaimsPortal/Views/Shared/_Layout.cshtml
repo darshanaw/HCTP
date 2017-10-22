@@ -1145,12 +1145,9 @@
                 }
 
                 if (!result.Claim_No) {
-
-                    $('#Claim_No').data('kendoAutoComplete').value(newClaimRef);
-
-                    // $('#Claim_No').val($("#Claim_Reference_Num").val());
+                    
+                    $('#Claim_No').val(newClaimRef);
                     $("#H_Claimsid_Billing").val(newClaimId);
-
 
                     //get ClientId
                     $.ajax({
