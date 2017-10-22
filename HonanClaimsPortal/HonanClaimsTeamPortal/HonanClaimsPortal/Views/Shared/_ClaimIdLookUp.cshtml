@@ -109,11 +109,11 @@
                     url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + claimId,// $("#H_Claimsid").val(),
                     success: function (data) {
 
-                        $('#Payee_Account_Name').val('');
-                        $("#Payee_Account").val('');
+                        $('#Payment_To_Name').val('');
+                        $("#Payment_To").val('');
 
-                        $('#Payee_Account_Name').val(data.Text);
-                        $("#Payee_Account").val(data.Code);                                                
+                        $('#Payment_To_Name').val(data.Text);
+                        $("#Payment_To").val(data.Code);                                                
                         
                     }
                 });
