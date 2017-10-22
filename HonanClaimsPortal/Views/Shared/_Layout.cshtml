@@ -76,6 +76,7 @@
 
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
 </head>
 <body>
     <div class="overlay">
@@ -1148,10 +1149,24 @@
                 $("#Units").val(result.Units);
 
                 if (timeDiff != '' && typeof timeDiff !== "undefined" && timeDiff != 'NaN') {
+
                     if (timeDiff < 6) {
 
                         $("#Units").val("1");
 
+                    }
+                    else
+                    {
+                       
+                        var mode = timeDiff % 6;
+                        var Unit = 0;
+                        if (mode <= 2) {
+                            Unit = Math.floor(timeDiff / 6);
+                        } else {
+                            Unit = Math.ceil(timeDiff / 6);
+                        }
+
+                        $("#Units").val(Unit);
                     }
                 }
               

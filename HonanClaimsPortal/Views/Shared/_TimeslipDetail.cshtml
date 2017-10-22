@@ -26,6 +26,12 @@
 
 </script>
 
+<style>
+    #Policy_Name_Billing {
+        background-color: #edf1f2;
+    }
+</style>
+
 
 @using (Ajax.BeginForm("_TimeslipDetail", "Billing", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Billing", UpdateTargetId = "divFakeBilling" }, new { @id = "frmBillingForm" }))
 {
@@ -98,7 +104,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Policy</label>
                     <div class="col-sm-8">
-                        @Html.TextBoxFor(m => m.Policy_Name_Billing, new { @class = "form-control input-sm", @readonly = true })
+                        @Html.TextBoxFor(m => m.Policy_Name_Billing, new { @class = "form-control input-sm disabled", @readonly = true })
                         @Html.HiddenFor(m => m.Policyid_Billing)
                     </div>
                 </div>
@@ -312,7 +318,7 @@
 
                 <div class="modal-body">
                     <div class="col-md-12">
-                        <div class="col-md-10" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="Accsearch"></div>
+                        <div class="col-md-12" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="Accsearch"></div>
                     </div>
                     <br /><br />
                     <div class="col-md-12">
@@ -338,7 +344,7 @@
 
                         <div class="modal-body">
                             <div class="col-md-12">
-                                <div class="col-md-10" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="AMccsearch"></div>
+                                <div class="col-md-12" style="padding-left:0px"><input placeholder="Search..." type="text" class="form-control" id="AMccsearch"></div>
                             </div>
                             <br /><br />
                             <div class="col-md-12">
@@ -560,7 +566,7 @@
     });
 
     function accountLookupClickSBY(Code, Text) {
-        debugger;
+       
         $('#Service_By').val(Code);
         $('#Service_By_Name').val(Text);
         $('#AccountManagerModal').modal('hide');
@@ -596,6 +602,7 @@
     }
 
     function onStartChange(e) {
+
         var sDate = new Date(e.sender.value());
 
         var datetimepicker = $("#sEnd_Time").data("kendoTimePicker");
@@ -627,6 +634,7 @@
             } else {
                 Unit = Math.ceil(totalMi / 6);
             }
+
             $("#Units").val(Unit);
             var RatePUNIT = $("#Rate_Per_Unit").val();
             var val = (RatePUNIT * Unit).toFixed(2);
