@@ -54,11 +54,11 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> TeamGetClaimNosAssigned(string UserId,string claimRefNumber)
+        public async Task<ActionResult> TeamGetClaimNosAssigned(string UserId, string claimRefNumber)
         {
             List<CommonModel> list = new List<CommonModel>();
             BillingRepo billingRepo = new BillingRepo();
-            list = await billingRepo.TeamGetClaimNosAssigned(UserId,claimRefNumber);
+            list = await billingRepo.TeamGetClaimNosAssigned(UserId, claimRefNumber);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -195,9 +195,9 @@ namespace HonanClaimsPortal.Controllers
             {
                 ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
                 string UserId = client.UserId;
-
                 model.IsNew_Billable = true;
                 model.Is_Billable = true;
+                               
                 model.Service_By = UserId;
                 model.Service_By_Name = client.FirstName + " " + client.LastName;
                 model.Service_Date = DateTime.Today;
@@ -405,10 +405,10 @@ namespace HonanClaimsPortal.Controllers
             BillingRepo repo = new BillingRepo();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             ClaimTimer timer = repo.GetTimerStart(client.UserId);
-            if(timer == null)
+            if (timer == null)
                 return Json("notimer", JsonRequestBehavior.AllowGet);
             else
-            return Json(timer, JsonRequestBehavior.AllowGet);
+                return Json(timer, JsonRequestBehavior.AllowGet);
         }
 
     }

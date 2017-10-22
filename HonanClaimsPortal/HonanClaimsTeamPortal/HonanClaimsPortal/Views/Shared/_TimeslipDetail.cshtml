@@ -1,5 +1,7 @@
 ﻿@model HonanClaimsWebApi.Models.Billing.BillingModel
 
+@{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
+
 <!-- MOMENT JS-->
 <script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
 
@@ -23,6 +25,7 @@
 
 
 </script>
+
 
 @using (Ajax.BeginForm("_TimeslipDetail", "Billing", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Billing", UpdateTargetId = "divFakeBilling" }, new { @id = "frmBillingForm" }))
 {
@@ -146,8 +149,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Rate P/Hr ($)</label>
                     <div class="col-sm-8">
-                         @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control input-sm" })                                        
-                        @Html.ValidationMessageFor(o => o.Rate, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                         @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control input-sm disabled", @readonly = true })  
                     </div>
                 </div>
             </div>
@@ -183,7 +185,15 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Timeslip Checked</label>
                     <div class="col-sm-8">
-                        @Html.CheckBoxFor(c => c.Timeslip_Checked)
+                        
+                        @if (userObj.Teams.Contains("Check Timeslips"))
+                        {
+                            @Html.CheckBoxFor(c => c.Timeslip_Checked)
+                        }
+                        else
+                        {   
+                            @Html.CheckBoxFor(c => c.Timeslip_Checked, new { @onclick = "return false;" })
+                        }
                     </div>
                 </div>
             </div>
@@ -207,8 +217,15 @@
             <div class="row">
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Invoice Processed</label>
-                    <div class="col-sm-8">
-                        @Html.CheckBoxFor(c => c.Invoice_Processed)
+                    <div class="col-sm-8">                                              
+                        @if (userObj.Teams.Contains("Claims Invoice Processing Team"))
+                        {
+                            @Html.CheckBoxFor(c => c.Invoice_Processed)
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(c => c.Invoice_Processed, new { @onclick = "return false;" })
+                        }
                     </div>
                 </div>
             </div>

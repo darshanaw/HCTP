@@ -1129,10 +1129,21 @@
                     }
                 }
 
+               
                 $("#H_Billingsid").val(result.H_Billingsid);
                 $("#H_Claimsid_Billing").val(newClaimId);
                 $("#Service_By").val(result.Service_By);
                 $("#Is_Billable").val(result.Is_Billable);
+
+                if (result.Is_Billable)
+                {
+                    $("#Is_Billable").prop("checked", true);
+                }
+                else
+                {
+                    $("#Is_Billable").prop("checked", false);
+                }
+               
                 $("#Billable").val(result.Billable);
                 $("#Units").val(result.Units);
 
