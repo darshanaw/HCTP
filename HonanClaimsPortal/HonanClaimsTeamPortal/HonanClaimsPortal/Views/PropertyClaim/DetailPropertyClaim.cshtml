@@ -1865,7 +1865,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
 
         $('.form-control').change(function () {
-            if ($('.nav-tabs .active').text() == "Claim Detail") {
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
@@ -1885,21 +1885,24 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         });
 
         $('input:checkbox').click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                },
-                failure: function (response) {
-                    alert("Error writing to history");
-                },
-                error: function (response) {
-                    alert("Error writing to history");
-                }
-            });
+
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+                $.ajax({
+                    type: "POST",
+                    url: "/RisksmartGccClaim/HistoryAjaxHandler",
+                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                    },
+                    failure: function (response) {
+                        alert("Error writing to history");
+                    },
+                    error: function (response) {
+                        alert("Error writing to history");
+                    }
+                });
+            }
         });
 
 
@@ -1916,15 +1919,18 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         });
 
         $('.form-control').change(function () {
-            fieldsUpdated = true;
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1)
+                fieldsUpdated = true;
         });
 
         $('.datebtn').click(function () {
-            fieldsUpdated = true;
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1)
+                fieldsUpdated = true;
         });
 
         $("input:checkbox").change(function () {
-            fieldsUpdated = true;
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1)
+                fieldsUpdated = true;
         });
 
         // Form Submit
