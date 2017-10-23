@@ -641,7 +641,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Insured Name</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm" })
+                                        @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
                                 </div>
                             </div>

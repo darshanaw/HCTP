@@ -964,7 +964,7 @@ else
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Name</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm" })
+                                                                @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm",@maxlength = 200 })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1658,7 +1658,7 @@ else
 
         $('.form-control').change(function () {
 
-            if ($('.nav-tabs .active').text() == "Claim Detail") {
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
@@ -1678,21 +1678,24 @@ else
         });
 
         $('input:checkbox').click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                },
-                failure: function (response) {
-                    bootbox.alert("Error writing to history");
-                },
-                error: function (response) {
-                    bootbox.alert("Error writing to history");
-                }
-            });
+
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+                $.ajax({
+                    type: "POST",
+                    url: "/RisksmartGccClaim/HistoryAjaxHandler",
+                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                    },
+                    failure: function (response) {
+                        bootbox.alert("Error writing to history");
+                    },
+                    error: function (response) {
+                        bootbox.alert("Error writing to history");
+                    }
+                });
+            }
         });
 
         $("#Assigned_User").change(function () {
@@ -1708,15 +1711,21 @@ else
         });
 
         $('.form-control').change(function () {
-            fieldsUpdated = true;
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+                fieldsUpdated = true;
+            }
         });
 
         $('.datebtn').click(function () {
-            fieldsUpdated = true;
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+                fieldsUpdated = true;
+            }
         });
 
         $("input:checkbox").change(function () {
-            fieldsUpdated = true;
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+                fieldsUpdated = true;
+            }
         });
 
         // Form Submit
