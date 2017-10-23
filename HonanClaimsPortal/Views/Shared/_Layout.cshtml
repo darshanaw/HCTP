@@ -1437,7 +1437,8 @@
 
 
         bindToinputs(emptyemail);
-        $.get("Home/GetClaimList", function (data) {
+        $.get("/Home/GetClaimList", function (data) {
+            debugger;
             loadClaimList(data);
         });
 
