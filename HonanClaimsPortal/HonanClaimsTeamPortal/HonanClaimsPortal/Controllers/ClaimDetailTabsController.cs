@@ -145,6 +145,17 @@ namespace HonanClaimsPortal.Controllers
             return null;
         }
 
+        public FileResult FileDownloadByFileName(string fileName,string fileRealName)
+        {
+            if (System.IO.File.Exists(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName))
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileRealName);
+            }
+            // return File(new byte[0],"");
+            return null;
+        }
+
 
         //[AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult _Billing(string claimId)

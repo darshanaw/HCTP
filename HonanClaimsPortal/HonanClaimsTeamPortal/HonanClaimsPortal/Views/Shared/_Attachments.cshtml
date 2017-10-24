@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-md-4" style="padding-right:0px">
-                
+                <input type="button" class="btn btn-default" id="btnAttachementClearFilter" value="Clear Filters" />
             </div>
         </div>
         <br /><br /><br />
@@ -74,7 +74,7 @@
                 {
                     field: "AttachmentDescription",
                     title: "Attachment Name",
-                    template: "<a href='/ClaimDetailTabs/FileDownload?fileName=#=AttachmentName#'>#= AttachmentDescription #</a>"
+                    template: "<a href='/ClaimDetailTabs/FileDownloadByFileName?fileName=#=AttachmentName#&fileRealName=#= AttachmentDescription #'>#= AttachmentDescription #</a>"
                 },
                 {
                     field: "UploadedUser",
@@ -99,15 +99,23 @@
 
         });
 
+        $("#btnAttachementClearFilter").click(function () {
+            $("#AttachmentsearchTxt").val("");
+            $("#gridAttachments").data("kendoGrid").dataSource.read({ searchText: $("#AttachmentsearchTxt").val() });
+        });
+
     });
 
     function onCompleteAttachmentUpload()
     {
         $("#gridAttachments").data("kendoGrid").dataSource.read({ searchText: $("#AttachmentsearchTxt").val() });
+        $(".k-widget.k-upload").find("ul").remove();
     }
 
     function DownloadFile(fileName) {
       window.location.href = '/ClaimDetailTabs/FileDownload?fileName=' + fileName;
     }
+
+ 
 
 </script>
