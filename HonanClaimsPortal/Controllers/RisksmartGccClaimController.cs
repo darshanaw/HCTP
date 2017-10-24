@@ -156,7 +156,8 @@ namespace HonanClaimsPortal.Controllers
             model.ReportedByTypeList = pickListServices.GetPickListItems("Risksmart GCC Reported By Type");
 
             //Get Regions
-            model.RegionList = pickListServices.GetPickListItems("H_StoreRegion");
+            //model.RegionList = pickListServices.GetPickListItems("H_StoreRegion");
+            model.RegionList = pickListServices.GetStoreRegions();
 
             // Add Juristiction list
             model.JuristictionList = new List<string>()

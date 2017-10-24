@@ -81,3 +81,36 @@
 .hmb{
     margin-bottom:5px!important;
 }
+
+
+.left-menu-item {
+    cursor: default !important;
+}
+
+/*.tooltip {
+    position: relative;
+    opacity: 0;
+    padding: 10px;
+    background: #9B59B6;
+    border-radius: 5px;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+a:hover span {
+    opacity: 1;
+}*/
+
+/*.nav > li {
+    cursor: default !important;
+}
+
+    .nav > li > a {
+        cursor: default !important;
+    }
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+    cursor: default !important;
+}*/

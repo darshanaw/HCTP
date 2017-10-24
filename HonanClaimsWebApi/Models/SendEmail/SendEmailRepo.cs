@@ -14,16 +14,16 @@ namespace HonanClaimsWebApi.Models.SendEmail
 {
     public class SendEmailRepo
     {
-        public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model)
+        public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model,string email)
         {
             var result = false;
             var templist = new List<string>();
 
             //emil please remove this part
-            templist.Add("ntfsrjsc@gmail.com");
+            //templist.Add("ntfsrjsc@gmail.com");
 
-            model.ToEmails = templist;
-            model.CcEmails = templist;
+            //model.ToEmails = templist;
+            //model.CcEmails = templist;
 
             if (model != null)
             {
@@ -43,12 +43,14 @@ namespace HonanClaimsWebApi.Models.SendEmail
                         var ccList = JsonConvert.SerializeObject(model.CcEmails);
                         var claimIdList = JsonConvert.SerializeObject(model.ClaimIds);
 
+
                         var content = new StringContent(toList, System.Text.Encoding.UTF8, "application/json");
                         var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
                         var content3 = new StringContent(model.emailBody, System.Text.Encoding.UTF8, "application/json");
                         var content4 = new StringContent(model.subject, System.Text.Encoding.UTF8, "application/json");
                         var content5 = new StringContent(ccList, System.Text.Encoding.UTF8, "application/json");
                         var content6 = new StringContent(claimIdList, System.Text.Encoding.UTF8, "application/json");
+                        var content7 = new StringContent(email, System.Text.Encoding.UTF8, "application/json");
 
                         if (files.Count() > 0 && files != null)
                         {
@@ -59,12 +61,13 @@ namespace HonanClaimsWebApi.Models.SendEmail
                         }
 
 
-                        formData.Add(content, "toList");
-                        formData.Add(content2, "userId");
-                        formData.Add(content3, "emailBody");
-                        formData.Add(content4, "subject");
-                        formData.Add(content3, "ccList");
-                        formData.Add(content4, "claimIdList");
+                        formData.Add(content, "ToList");
+                        formData.Add(content2, "UserId");
+                        formData.Add(content3, "Ebody");
+                        formData.Add(content4, "Subject");
+                        formData.Add(content3, "CcList");
+                        formData.Add(content4, "ClaimList");
+                        formData.Add(content7, "Bcc");
 
 
                         HttpResponseMessage response = await client.PostAsync(apiUrl, formData);

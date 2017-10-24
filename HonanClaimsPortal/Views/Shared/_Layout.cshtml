@@ -339,8 +339,8 @@
                         }
 
 
-                        <li class=" ">
-                            <a href="/claimlist/Index" title="Claims">
+                        <li class="left-menu-item">
+                            <a href="/claimlist/Index" title="Claims" class="left-menu-item">
                                 <div id="assignedClaimCount" class="pull-right label label-success"></div>
                                 <em class="icon-briefcase"></em>
                                 <span>Claims</span>
@@ -348,7 +348,7 @@
                         </li>
 
                         <li class=" ">
-                            <a href="/Myactivity/Index" title="My Activities">
+                            <a href="/Myactivity/Index" title="My Activities" class="left-menu-item">
                                 <div id="activityCount" class="pull-right label label-success"></div>
                                 <em class="icon-energy"></em>
                                 <span>My Activities</span>
@@ -356,27 +356,27 @@
                         </li>
 
                         <li class=" ">
-                            <a href="/Billing/MyBillableTime" title="My Billable Time">
+                            <a href="/Billing/MyBillableTime" title="My Billable Time" class="left-menu-item">
                                 <em class="icon-clock"></em>
                                 <span>My Billable Time</span>
                             </a>
                         </li>
 
                         <li class=" ">
-                            <a href="/Policies/Index" title="Policies">
+                            <a href="/Policies/Index" title="Policies" class="left-menu-item">
                                 <em class="icon-notebook"></em>
                                 <span>Policies</span>
                             </a>
                         </li>
 
                         <li class=" ">
-                            <a href="/AccountList/Index" title="Accounts">
+                            <a href="/AccountList/Index" title="Accounts" class="left-menu-item">
                                 <em class="icon-globe"></em>
                                 <span>Accounts</span>
                             </a>
                         </li>
                         <li class=" ">
-                            <a href="/Contact/Index" title="Contacts">
+                            <a href="/Contact/Index" title="Contacts" class="left-menu-item">
                                 <em class="icon-people"></em>
                                 <span>Contacts</span>
                             </a>
@@ -387,7 +387,7 @@
                         {
 
                             <li class=" ">
-                                <a href="#admin" data-toggle="collapse" title="Admin Functions">
+                                <a href="#admin" data-toggle="collapse" title="Admin Functions" class="left-menu-item">
                                     <em class="icon-user"></em>
                                     <span>Admin Functions</span>
                                 </a>
@@ -395,7 +395,7 @@
                                     @if (login.IsPortalAdmin == true)
                                     {
                                         <li class=" ">
-                                            <a href="/AdminList/AdminList" title="Portal Admin">
+                                            <a href="/AdminList/AdminList" title="Portal Admin" class="left-menu-item"> 
                                                 <div id="portalRegCount" class="pull-right label label-success"></div>
                                                 <span>Portal Admin</span>
                                             </a>
@@ -405,7 +405,7 @@
                                     @if (login.IsManager == true)
                                     {
                                         <li class=" ">
-                                            <a href="/claimassignment/Index" title="Claim Assignment">
+                                            <a href="/claimassignment/Index" title="Claim Assignment" class="left-menu-item">
                                                 <div id="claimAssignemntCount" class="pull-right label label-success"></div>
                                                 <span>Claim Assignment</span>
                                             </a>
@@ -415,7 +415,7 @@
                                     @if (login.IsTimeslipChecker == true)
                                     {
                                         <li class=" ">
-                                            <a href="/TimeslipCheck/Index" title="Billing Check">
+                                            <a href="/TimeslipCheck/Index" title="Billing Check" class="left-menu-item">
                                                 <span>Billing Check</span>
                                             </a>
                                         </li>
@@ -931,7 +931,7 @@
         </div>
         <!-- Modal -->
         <div id="sendEmailModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
 
                 <!-- Modal content-->
                 <div class="modal-content" style="height:600px">
@@ -943,7 +943,7 @@
                             <input name="EmailTattchment" class="pull-left" id="emailattach" type="file" multiple>
                         </div>
                     </div>
-                    
+
                     <div class="modal-body">
                         <div id="errormsg" class="alert alert-danger">
                             <strong></strong> <span id="error"></span>
@@ -951,51 +951,52 @@
                         <div id="successshow" class="alert alert-success">
                             <strong></strong> <span id="success"></span>
                         </div>
-                  
-                                <div>
-                                    <ul id="ul"></ul>
-                                </div>
 
-                                <div class="top-padding col-md-12">                                   
-                                        <label class="col-sm-1 control-label input-sm">Claim:</label>
-                                        <div class="col-sm-11">
-                                            <select id="claim"></select>
-                                        </div>                                
-                                </div>
+                        <div>
+                            <ul id="ul"></ul>
+                        </div>
 
-                                <div class="top-padding col-md-12">
-                                    <label class="col-sm-1 control-label input-sm">To:</label>
-                                    <div class="col-sm-11">
-                                        <input class="form-control" id="Tolist" />
-                                    </div>
-                                </div>
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">Claim:</label>
+                            <div class="col-sm-11">
+                                <select id="claim"></select>
+                            </div>
+                        </div>
 
-                                <div class="top-padding col-md-12">
-                                    <label class="col-sm-1 control-label input-sm">CC:</label>
-                                    <div class="col-sm-11">
-                                        <input class="form-control" id="CClist" />
-                                    </div>
-                                </div>
-                     
-                                <div class="top-padding col-md-12">
-                                    <label class="col-sm-1 control-label input-sm">Subject:</label>
-                                    <div class="col-sm-11">
-                                        <input class="form-control" id="subject" />
-                                    </div>
-                                </div>
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">To:</label>
+                            <div class="col-sm-11">
+                                <input class="form-control" id="Tolist" />
+                            </div>
+                        </div>
 
-                      
-                                <div id="EmailEdit">
-                                    <textarea id="editor" rows="10" cols="30"  aria-label="editor"></textarea>
-                                </div>
-                                @*<button id="sendemail" class="btn btn-default">Send</button>*@
-                  
-                            @*<div class="modal-footer">
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">CC:</label>
+                            <div class="col-sm-11">
+                                <input class="form-control" id="CClist" />
+                            </div>
+                        </div>
+
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">Subject:</label>
+                            <div class="col-sm-11">
+                                <input class="form-control" id="subject" />
+                            </div>
+                        </div>
+
+                        <div class="top-padding col-md-12">
+                            <div id="EmailEdit">
+                                <textarea id="editor" rows="10" cols="30" aria-label="editor"></textarea>
+                            </div>
+                        </div>
+                        @*<button id="sendemail" class="btn btn-default">Send</button>*@
+
+                        @*<div class="modal-footer">
                                 <div class="pull-right">
 
                                 </div>
                             </div>*@
-                 
+
 
                     </div>
                 </div>
@@ -1072,7 +1073,7 @@
 <script>
 
     function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
-        
+
         var newClaimRef = "";
         var newClaimId = "";
 
@@ -1143,21 +1144,19 @@
                     }
                 }
 
-               
+
                 $("#H_Billingsid").val(result.H_Billingsid);
                 $("#H_Claimsid_Billing").val(newClaimId);
                 $("#Service_By").val(result.Service_By);
                 $("#Is_Billable").val(result.Is_Billable);
 
-                if (result.Is_Billable)
-                {
+                if (result.Is_Billable) {
                     $("#Is_Billable").prop("checked", true);
                 }
-                else
-                {
+                else {
                     $("#Is_Billable").prop("checked", false);
                 }
-               
+
                 $("#Billable").val(result.Billable);
                 $("#Units").val(result.Units);
 
@@ -1168,9 +1167,8 @@
                         $("#Units").val("1");
 
                     }
-                    else
-                    {
-                       
+                    else {
+
                         var mode = timeDiff % 6;
                         var Unit = 0;
                         if (mode <= 2) {
@@ -1182,20 +1180,19 @@
                         $("#Units").val(Unit);
                     }
                 }
-              
+
                 if ($("#Units").val() < 1) {
 
                     $("#Units").prop("readonly", false);
                     $("#Units").removeClass("disabled");
                 }
-                else
-                {
+                else {
                     $("#Units").prop("readonly", true);
                     $("#Units").addClass("disabled");
                 }
 
                 if (!result.Claim_No) {
-                    
+
                     $('#Claim_No').val(newClaimRef);
                     $("#H_Claimsid_Billing").val(newClaimId);
 
@@ -1209,16 +1206,15 @@
 
                             if (data.Order != null) {
                                 var RatePHR = data.Order;
-                                var RatePUNIT = ((RatePHR/60) * 6);
+                                var RatePUNIT = ((RatePHR / 60) * 6);
                                 $("#Rate").val(data.Order);
-                              
+
                                 if (data.Order < 1) {
 
                                     $("#Rate").prop("readonly", false);
                                     $("#Rate").removeClass("disabled");
                                 }
-                                else
-                                {
+                                else {
                                     $("#Rate").prop("readonly", true);
                                     $("#Rate").addClass("disabled");
                                 }
@@ -1263,8 +1259,7 @@
                     $("#Rate").prop("readonly", false);
                     $("#Rate").removeClass("disabled");
                 }
-                else
-                {
+                else {
                     $("#Rate").prop("readonly", true);
                     $("#Rate").addClass("disabled");
                 }
@@ -1690,7 +1685,7 @@
             else
                 window.location.href = '/NewRecord/NewKeyContact';
 
-            
+
         });
 
         $('#addNewFileNote').click(function () {
@@ -1704,7 +1699,7 @@
             }
             else
                 window.location.href = '/NewRecord/NewFileNote';
-            
+
         });
 
         $('#addNewKeyDate').click(function () {

@@ -94,7 +94,7 @@
              $("#Phone_KCD").val("");
              $("#Address_KCD").val("");
              $("#Notes_KCD").val("");
-             $("#Description").val("");
+             $("#Description_KCD").val("");
              $("#H_Keycontactsid").val("");
          });
 
@@ -308,13 +308,14 @@
                 $("#Accountid_KCD").val(result.Accountid);
                 $("#Claim_Ref_No_KCD").val(result.Claim_Ref_No);
                 $("#Description_KCD").val(result.Description);
+                setSelect2TagsValueKCD(result.Description);
                 $("#Contact_Name_KCD").val(result.Contact_Name);
                 $("#Account_Name_KCD").val(result.Account_Name);
                 $("#Email_Address_KCD").val(result.Email_Address);
                 $("#Phone_KCD").val(result.Phone);
                 $("#Address_KCD").val(result.Address);
                 $("#Notes_KCD").val(result.Notes);
-                $("#Description").val(result.Description);
+                //$("#Description_KCD").val(result.Description);
                 $("#H_Keycontactsid").val(result.H_Keycontactsid);
 
                 $('#KeyContactDetailModal').modal('show');

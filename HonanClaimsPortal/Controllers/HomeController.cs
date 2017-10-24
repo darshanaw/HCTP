@@ -88,7 +88,8 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
             SendEmailRepo rep = new SendEmailRepo();
-            var result = await rep.SendEmail(filee, UserId, dicimod);
+            //var result = await rep.SendEmail(filee, UserId, dicimod, client.Email);
+            var result = await rep.SendEmail(filee, UserId, dicimod, "darshana.w@customersystems.com.au");
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
