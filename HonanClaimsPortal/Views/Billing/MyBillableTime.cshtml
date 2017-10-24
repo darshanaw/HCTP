@@ -1,5 +1,6 @@
 ﻿@model HonanClaimsWebApi.Models.Billing.MyBillingModel
 
+@{ HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];}
 @{
     ViewBag.Title = "MyBillableTime";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,6 +42,7 @@
                                         @Html.DropDownListFor(m => m.ServicesUserModel,
                     new SelectList(Model.ServicesUserModel, "Code", "Text"),
                     new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                                        <input type="hidden" id="hdnServiceByUser" name="hdnServiceByUser" />
                                     </div>
                                 </div>
                             </div>
@@ -208,6 +210,7 @@
     });
 
     function comboChange() {
+
         loadMyBill();
     }
 
@@ -219,7 +222,7 @@
         $("#ServiceFromDate").val("");
         $("#ServiceToDate").val("");
         $("#CustomerUserModel").val("");
-        $("#ServicesUserModel").val("");
+        $("#ServicesUserModel").val('@client.UserId');
         $("#ShowMe").val("This Week");
 
         loadMyBill();
@@ -245,7 +248,7 @@
         serviceFromDate = $("#ServiceFromDate").val();
         serviceToDate = $("#ServiceToDate").val();
 
-        debugger
+       
         //load grid list
         //var dataSource = new kendo.data.DataSource({
         //    transport: {
