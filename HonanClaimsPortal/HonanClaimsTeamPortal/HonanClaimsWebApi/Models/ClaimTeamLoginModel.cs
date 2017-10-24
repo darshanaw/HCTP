@@ -18,5 +18,6 @@ namespace HonanClaimsWebApiAccess1.LoginServices
         public bool IsManager { get; set; }
         public bool IsTimeslipChecker { get; set; }
         public ClaimTimer ClaimTimer { get; set; }
+        public string Email { get; set; }
     }
 }

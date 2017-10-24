@@ -500,7 +500,7 @@ new { @class = "form-control input-sm" })
                                     <label class="col-sm-3 control-label input-sm">DoB</label>
                                     <div class="col-sm-9">
                                         <div id="dtpDob" class="input-group dateCalendar">
-                                            @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
+                                            @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm",@style= "z-index: auto;" })
                                             <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                 <span class="fa fa-calendar"></span>
                                             </span>

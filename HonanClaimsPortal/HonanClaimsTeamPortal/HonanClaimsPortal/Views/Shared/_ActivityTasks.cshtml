@@ -30,7 +30,7 @@
 
                     <div class="col-sm-5">
                         <label class="radio-inline c-radio input-sm">
-                            <input id="rdoViewAll" type="radio" name="i-radio" checked>
+                            <input id="rdoViewAll" type="radio" name="i-radio" value="true">
                             <span class="fa fa-circle"></span>View All
                         </label>
                         <label class="radio-inline c-radio input-sm">
@@ -56,9 +56,9 @@
                     <div class="col-sm-1">
                         <input type="button" id="btnActivityTasksFilter" class="btn btn-sm btn-primary" value="Filter List" />
                     </div>
-                    @*<div class="col-sm-1">
+                    <div class="col-sm-1">
                         <input type="button" id="btnClearFilter" class="btn btn-sm btn-default" value="Clear Filters"/>
-                    </div>*@
+                    </div>
                     @*<div class="col-sm-2">
                         <input type="button" class="btn btn-default" id="btnActivityTasksAddNew" value="Add New" />
                     </div>*@
@@ -140,9 +140,11 @@
 <script>
 
     //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
-    $(function () {
+    $(function () {rdoViewAll
 
         $("#IsNew").val("true");
+
+        $("#rdoViewAll").prop('checked',true);
 
         var windowTemplate = kendo.template($("#windowTemplate").html());
 
@@ -416,10 +418,11 @@
     }
 
     function clearActivityTaskFilters() {
-        @*$("input[name='rdoViewAll']").prop('checked', true);
-        $("input[name='rdoCompleted']").prop('checked', false);
-        $("input[name='rdoIncomplete']").prop('checked', false);
-        $("input[name='chkShowOverdue']").prop('checked', false);*@
+
+        $("#rdoViewAll").prop('checked', true);
+        $("#chkShowOverdue").prop('checked', false);
+        $("#OwnerType_ActivityTask").val("");
+        RefreshActivityTasksGrid();
     }
 
 </script>

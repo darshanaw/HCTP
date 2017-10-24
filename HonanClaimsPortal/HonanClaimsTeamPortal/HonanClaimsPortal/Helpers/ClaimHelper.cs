@@ -20,6 +20,27 @@ namespace HonanClaimsPortal.Helpers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)HttpContext.Current.Session[SessionHelper.claimTeamLogin];
             return client.Teams.IndexOf(teamName) != -1 ? true : false;
         }
+
+        public static string GetFullTeamName(string teamNameShort)
+        {
+            switch (teamNameShort)
+            {
+                case ClaimTeams.RisksmartGCC:
+                    return ClaimTeamsByTeamNames.RisksmartGCC;
+
+                case ClaimTeams.RisksmartProperty:
+                    return ClaimTeamsByTeamNames.RisksmartProperty;
+
+                case ClaimTeams.PropertyClaims:
+                    return ClaimTeamsByTeamNames.PropertyClaims;
+
+                case ClaimTeams.GCCClaims:
+                    return ClaimTeamsByTeamNames.GCCClaims;
+
+            }
+
+            return string.Empty;
+        }
     }
 
     public class ClaimTeamManagers
