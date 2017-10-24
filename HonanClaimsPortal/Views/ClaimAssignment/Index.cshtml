@@ -59,7 +59,6 @@
                 pageSizes: [10, 20, 50, 100],
                 buttonCount: 10
             },
-            height: 450,
             columns: [
                 {
                     hidden: true,
@@ -85,7 +84,8 @@
                 },
                 {
                     field: "Category",
-                    title: "Category"
+                    title: "Category",
+                    width:200
                 },
                 {
                     field: "ReportedDate",
@@ -163,6 +163,41 @@
                         .attr("checked", "checked");
                 }
             }
+
+            //var grid = $("#ClaimsAssignmentGrid").data("kendoGrid");
+            //for (var i = 0; i < grid.columns.length; i++) {
+            //    grid.autoFitColumn(i);
+            //}
+
+            $("#ClaimsAssignmentGrid .k-grid-header-wrap") //header
+                .find("colgroup col")
+                .eq(4)
+                .css({ width: 350 });
+
+            $("#ClaimsAssignmentGrid .k-grid-content") //content
+                .find("colgroup col")
+                .eq(4)
+                .css({ width: 350 });
+
+            $("#ClaimsAssignmentGrid .k-grid-header-wrap") //header
+                .find("colgroup col")
+                .eq(0)
+                .css({ width: 60 });
+
+            $("#ClaimsAssignmentGrid .k-grid-content") //content
+                .find("colgroup col")
+                .eq(0)
+                .css({ width: 60 });
+
+            $("#ClaimsAssignmentGrid .k-grid-header-wrap") //header
+                .find("colgroup col")
+                .eq(1)
+                .css({ width: 200 });
+
+            $("#ClaimsAssignmentGrid .k-grid-content") //content
+                .find("colgroup col")
+                .eq(1)
+                .css({ width: 200 });
         }
 
 
