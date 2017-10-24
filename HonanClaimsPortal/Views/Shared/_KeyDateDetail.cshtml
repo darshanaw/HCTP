@@ -14,7 +14,41 @@
             format: 'DD/MM/YYYY'
         });
     })
+
+    $(function () {
+
+        $("#Key_Date_Description").select2({
+            tags: true,
+            theme: "bootstrap"
+        });
+    });
+
+
+    function setSelect2TagsValueKD(values_payeeType_) {
+        var rePayee = /[0-9]+$/;
+        var values_payeeType = values_payeeType_; //pull ItemIds from Model in MVC
+        $.each(values_payeeType.split(","), function (i, e) {
+            if (e != "Not Set" && e != "" && e != null && e != undefined) {
+                if (i == 0)
+                    e = " " + e;
+                if (!rePayee.test(e)) {
+                    var newList = $.merge($('#Key_Date_Description').select2('data'), [{
+                        id: e,
+                        tag: e
+                    }]);
+                    $("#Key_Date_Description").select2('data', newList);
+                    $("#Key_Date_Description").append('<option value="' + e + '">' + e + '</option>');
+                }
+                else {
+                    $("#Key_Date_Description").append($("#Key_Date_Description option[value='" + e + "']"));
+                }
+                $("#Key_Date_Description option[value='" + e + "']").prop("selected", true);
+            }
+        });
+
+    }
 </script>
+
 
 @using (Ajax.BeginForm("_KeyDateDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_KeyDate" }, new { @id = "frmKeyContactDetail", enctype = "multipart/form-data" }))
 {
@@ -40,11 +74,11 @@
                         <label class="col-sm-3 control-label input-sm">Description</label>
                         <div class="col-sm-9">
                             @Html.DropDownListFor(model => model.Key_Date_Description, new SelectList(Model.Key_Date_Description_List, "Text", "Text"), "",
-          new { @class = "form-control input-sm" })
+          new { @class = "form-control input-sm", @style = "width:100%" })
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-sm-12">
+                <div class="col-md-12 col-sm-12 top-padding">
                     <div class="form-group mb">
                         <label class="col-sm-3 control-label input-sm">Date</label>
                         <div class="col-sm-9">
