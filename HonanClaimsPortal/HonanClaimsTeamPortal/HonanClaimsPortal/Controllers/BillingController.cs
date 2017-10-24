@@ -3,6 +3,7 @@ using HonanClaimsPortal.Models.LookupModel;
 using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Common;
+using HonanClaimsWebApi.Models.Contact;
 using HonanClaimsWebApiAccess1.LoginServices;
 using HonanClaimsWebApiAccess1.Models.LookupModel;
 using System;
@@ -51,6 +52,14 @@ namespace HonanClaimsPortal.Controllers
             BillingRepo billingRepo = new BillingRepo();
             list = await billingRepo.GetTeamGetBillableLawyers(filter);
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllUsersList(string filter)
+        {
+            ContactAccountRepo conrepo = new ContactAccountRepo();
+            var result = await conrepo.GetManagerList(filter);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -242,6 +251,19 @@ namespace HonanClaimsPortal.Controllers
             model.Rate = (decimal.Round(model.Rate, 2));
             model.Rate_Per_Unit = (decimal.Round(model.Rate_Per_Unit, 2));
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EndTimerOnCancel(string claimId)
+        {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            BillingRepo billingRepo = new BillingRepo();
+            var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
+            if (lastEscapeTimer != null && lastEscapeTimer.IsTimerActive && lastEscapeTimer.ClaimId == claimId)
+            {
+                billingRepo.endTimerFunc(client.UserId, lastEscapeTimer.ClaimTimerId);
+            }
+
+            return Json("TimerEnded", JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

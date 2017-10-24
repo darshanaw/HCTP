@@ -462,15 +462,15 @@
         $.ajax({
             url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
             success: function (data) {
-                
+
                 $('#Client_Name').val(data.Text);
                 $("#ClientId").val(data.Code);
-               
+
                 if (data.Order != null) {
                     var RatePHR = data.Order;
                     var RatePUNIT = ((RatePHR/60) * 6);
                     $("#Rate").val(data.Order);
-                  
+
                     if (data.Order < 1)
                     {
                         $("#Rate").prop("readonly", false);
@@ -506,7 +506,8 @@
 
         $('#AccountManagerlookup').click(function () {
             var text = $('#AMccsearch').val();
-            $.get("/Billing/GetTeamGetBillableLawyers?filter=" + "", function (data) {
+            //$.get("/Billing/GetTeamGetBillableLawyers?filter=" + "", function (data) {
+            $.get("/Billing/GetAllUsersList?filter=" + "", function (data) {
                 AccountManagerList = data;
                 loadgrManagerid();
             });
@@ -557,7 +558,8 @@
 
         $("#AMccsearch").keyup(function () {
             AccountList = [];
-            $.get("/Billing/GetTeamGetBillableLawyers?filter=" + $("#AMccsearch").val(), function (data) {
+            //$.get("/Billing/GetTeamGetBillableLawyers?filter=" + $("#AMccsearch").val(), function (data) {
+            $.get("/Billing/GetAllUsersList?filter=" + $("#AMccsearch").val(), function (data) {
                 AccountManagerList = data;
                 loadgrManagerid();
             });
@@ -566,7 +568,7 @@
     });
 
     function accountLookupClickSBY(Code, Text) {
-       
+
         $('#Service_By').val(Code);
         $('#Service_By_Name').val(Text);
         $('#AccountManagerModal').modal('hide');
@@ -644,6 +646,17 @@
     }
 
     //------------------------EndTime-------------------------
+
+    function endTimerOnCancel()
+    {
+        $.LoadingOverlay("show");
+
+        $.get("/Billing/EndTimerOnCancel?claimId=" + $("#H_Claimsid_Billing").val(), function (data) {
+
+            $.LoadingOverlay("hide");
+        });
+    }
+
     $(document).ready(function () {
         $("#sEnd_Time").kendoTimePicker({
             interval: 1,
@@ -695,6 +708,7 @@
     }
 
     $("#cancel").on("click", function () {
+        endTimerOnCancel();
         $('#BillingDetailModal').modal('hide');
     });
 

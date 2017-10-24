@@ -426,7 +426,8 @@
 
             $("#AMccsearch_New").keyup(function () {
                 AccountList = [];
-                $.get("/Billing/GetTeamGetBillableLawyers?filter=" + $("#AMccsearch_New").val(), function (data) {
+                //$.get("/Billing/GetTeamGetBillableLawyers?filter=" + $("#AMccsearch_New").val(), function (data) {
+                $.get("/Billing/GetAllUsersList?filter=" + $("#AMccsearch_New").val(), function (data) {
                     AccountManagerList = data;
                     loadgrManagerid();
                 });
@@ -435,7 +436,8 @@
             $('#AccountManagerlookup_New').click(function () {
                 var text = $('#AMccsearch_New').val();
                 $("#AccountManagerModal_New").modal('show');
-                $.get("/Billing/GetTeamGetBillableLawyers?filter=" + "", function (data) {
+                //$.get("/Billing/GetTeamGetBillableLawyers?filter=" + "", function (data) {
+                $.get("/Billing/GetAllUsersList?filter=" + "", function (data) {
                     AccountManagerList = data;
                     loadgrManagerid();
                 });
@@ -773,7 +775,8 @@
             var dataSource = new kendo.data.DataSource({
                 transport: {
                     read: {
-                        url: "/Billing/GetTeamGetBillableLawyers?filter=" + $("#Service_By_Name_New").val(),
+                        //url: "/Billing/GetTeamGetBillableLawyers?filter=" + $("#Service_By_Name_New").val(),
+                        url: "/Billing/GetAllUsersList?filter=" + $("#Service_By_Name_New").val(),
                         dataType: "json"
                     }
                 }
