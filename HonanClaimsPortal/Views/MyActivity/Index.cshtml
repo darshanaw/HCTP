@@ -9,104 +9,116 @@
 <link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
 
 <div class="content-wrapper">
-    <h3>
+    <h3 class="hmb">
         My Activities
     </h3>
-    <div class="col-md-3 mb">
-        <div class="row">
-            <div class="form-group mb">
-                <label class="col-sm-4 control-label input-sm">Claim</label>
-                <div class="col-sm-8">
-                    @Html.DropDownListFor(m => m.ActivityClaim,
+    <div class="row">
+        <div class="main-container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 mb">
+                            <div class="row">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Claim</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(m => m.ActivityClaim,
                     new SelectList(Model.ActivityClaim, "Code", "Text"),
                     "--Select--",
                     new { @class = "form-control input-sm", @onchange = "comboChange()" })
-                </div>
-            </div>
-        </div>
-    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="col-md-3 mb">
-        <div class="row">
-            <div class="form-group mb">
-                <label class="col-sm-4 control-label input-sm">Activity Owner</label>
-                <div class="col-sm-8">
-                    @Html.DropDownListFor(m => m.OwnerList,
+                        <div class="col-md-3 mb">
+                            <div class="row">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Activity Owner</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(m => m.OwnerList,
                     new SelectList(Model.OwnerList, "Code", "Text"),
                     "--Select--",
                     new { @class = "form-control input-sm", @onchange = "comboChange()" })
-                </div>
-            </div>
-        </div>
-    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <div class="col-md-3 mb">
-        <div class="row">
-            <div class="form-group mb">
-                <label class="col-sm-4 control-label input-sm">User</label>
-                <div class="col-sm-8">
-                    @{
-                        if (Model.Activityusers.Count > 0)
-                        {
-                            @Html.DropDownListFor(m => m.Activityusers,
+                        <div class="col-md-3 mb">
+                            <div class="row">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">User</label>
+                                    <div class="col-sm-8">
+                                        @{
+                                        if (Model.Activityusers.Count > 0)
+                                        {
+                                                @Html.DropDownListFor(m => m.Activityusers,
                         new SelectList(Model.Activityusers, "Code", "Text"),
-                        
-                        new { @class = "form-control input-sm", @onchange = "comboChange()" })
-                        }
-                        else
-                        {
-                            <select disabled class="form-control" id="Activityusers"></select>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-md-3 mb">
-        <div class="row">
-            <div class="form-group mb">
-                <label class="col-sm-4 control-label input-sm">Customer</label>
-                <div class="col-sm-8">
-                    @Html.DropDownListFor(m => m.CustomerList,
+                        new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                                        }
+                                        else
+                                        {
+                                                <select disabled class="form-control" id="Activityusers"></select>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb">
+                            <div class="row">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Customer</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(m => m.CustomerList,
                     new SelectList(Model.CustomerList, "Code", "Text"),
                     "--Select--",
                     new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb">
+                            <div class="input-group">
+                                <input type="text" class="form-control  input-sm" placeholder="Search for" id="searchTxt" aria-describedby="basic-addon2">
+                                <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb">
+                            <div class="form-inline">
+                                <div class="form-group mb-0">
+                                    <input id="overdue" type="checkbox" value="true">
+                                    <label class="ml-10 input-sm">Show OverDue</label>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input id="fivedays" type="checkbox" value="true">
+                                    <label class="ml-10 input-sm">Due next 5 days</label>
+                                </div>
+                                <div style="display:none;" class="form-group mb-0">
+                                    <input id="ShowDue" type="checkbox" value="true">
+                                    <label class="ml-10 input-sm">Show with Due date</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb">
+                            <div class="pull-right">
+                                <button id="clearFilter" type="button" class="btn btn-sm btn-default mr-20">Clear Filter</button>
+                                <button id="filterList" type="button" class="btn btn-sm btn-primary">Filter Activities</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-3 mb">
-        <div class="input-group">
-            <input type="text" class="form-control  input-sm" placeholder="Search for" id="searchTxt" aria-describedby="basic-addon2">
-            <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+
+        <div class="col-md-12 top-padding-eight">
+            <div id="grid"></div>
         </div>
+
     </div>
-    <div class="col-md-6 mb">
-        <div class="form-inline">
-            <div class="form-group mb-0">
-                <input id="overdue" type="checkbox" value="true">
-                <label class="ml-10 input-sm">Show OverDue</label>
-            </div>
-            <div class="form-group mb-0">
-                <input id="fivedays" type="checkbox" value="true">
-                <label class="ml-10 input-sm">Due next 5 days</label>
-            </div>
-            <div style="display:none;" class="form-group mb-0">
-                <input id="ShowDue" type="checkbox" value="true">
-                <label class="ml-10 input-sm">Show with Due date</label>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb">
-        <div class="pull-right">
-            <button id="clearFilter" type="button" class="btn btn-sm btn-default mr-20">Clear Filter</button>
-            <button id="filterList" type="button" class="btn btn-sm btn-primary">Filter Activities</button>
-        </div>
-    </div>
-       <div class="col-md-12 top-padding-eight">
-           <div id="grid"></div>
-       </div>
 </div>
 
 <div class="main-container">
@@ -380,7 +392,7 @@
         $('#ShowDue').prop("checked", false);
         loadactivity();
 
-        $('#ActivityClaim').select2({ width: '100%' });
+        $('#ActivityClaim').select2({ width: '100%', theme:"bootstrap" });
 
         if ($("#ActivityClaim").length > 0) {
             $("#ActivityClaim").val($("#ActivityClaim").val()).trigger('change.select2');;
@@ -487,7 +499,7 @@
                 
                 field: "ClaimRefNo",
                 title: "Claims Ref #",
-                //template: "<a href='/AccountList/AccountDetail?AccountId=#= AccountId #'>#= ClaimRefNo #</a>",
+                template: '<a id="linkToDetail" href="/NewClaim/RedirectToDetail?claimId=#=ClaimId#&claimTeam=#=ClaimTeam#&tab=detail">#=ClaimRefNo#</a>'
             },
             {
                 field: "Customer",

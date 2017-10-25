@@ -294,7 +294,7 @@ namespace HonanClaimsPortal.Controllers
 
                     var result = billingRepo.TeamInsertTimeslip(model, client.UserId).Result;
                     var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
-                    if (lastEscapeTimer != null && lastEscapeTimer.IsTimerActive && lastEscapeTimer.ClaimId == model.H_Claimsid_Billing)
+                    if (lastEscapeTimer != null && lastEscapeTimer.IsTimerActive && lastEscapeTimer.ClaimId == model.H_Claimsid_Billing && model.EndTimerAndSaveTimeSlip == "true")
                     {
                         billingRepo.endTimerFunc(client.UserId, lastEscapeTimer.ClaimTimerId);
                     }

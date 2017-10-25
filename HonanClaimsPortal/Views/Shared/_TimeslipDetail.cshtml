@@ -36,6 +36,7 @@
 @using (Ajax.BeginForm("_TimeslipDetail", "Billing", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Billing", UpdateTargetId = "divFakeBilling" }, new { @id = "frmBillingForm" }))
 {
     @Html.HiddenFor(o => o.PageType)
+    @Html.HiddenFor(o=>o.EndTimerAndSaveTimeSlip)
 
     <div id="divFakeBilling" style="display:none"></div>
     <div style="color:red;margin-left:3%" id="timerMessage"></div><br />
@@ -649,12 +650,15 @@
 
     function endTimerOnCancel()
     {
-        $.LoadingOverlay("show");
+        if ($("#EndTimerAndSaveTimeSlip").val() == "true") {
 
-        $.get("/Billing/EndTimerOnCancel?claimId=" + $("#H_Claimsid_Billing").val(), function (data) {
+            $.LoadingOverlay("show");
 
-            $.LoadingOverlay("hide");
-        });
+            $.get("/Billing/EndTimerOnCancel?claimId=" + $("#H_Claimsid_Billing").val(), function (data) {
+
+                $.LoadingOverlay("hide");
+            });
+        }
     }
 
     $(document).ready(function () {
