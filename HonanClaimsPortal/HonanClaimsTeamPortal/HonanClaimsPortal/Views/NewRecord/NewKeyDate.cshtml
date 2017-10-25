@@ -12,11 +12,20 @@
 <link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
 <script>
     $(function () {
 
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
+        });
+
+        $("#Key_Date_Description").select2({
+            tags: true,
+            theme: "bootstrap",
         });
     })
 </script>
@@ -108,6 +117,10 @@
         </div>
     </div>
 }
+
+
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
 
 <script>
 

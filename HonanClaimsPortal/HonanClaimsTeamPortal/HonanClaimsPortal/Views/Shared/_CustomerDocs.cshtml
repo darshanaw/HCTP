@@ -109,6 +109,7 @@
     {
         $("#gridCustomerDocs").data("kendoGrid").dataSource.read({ CustomerDocssearchTxt: $("#CustomerDocssearchTxt").val() });
         $(".k-widget.k-upload").find("ul").remove();
+        $("#gridAttachments").data("kendoGrid").dataSource.read({ searchText: $("#AttachmentsearchTxt").val() });
     }
 
     function DownloadFile(fileName) {

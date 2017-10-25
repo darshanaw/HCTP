@@ -6,6 +6,11 @@
     TempData.Keep();
 }
     
+
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
 <script>
 
     $(function () {
@@ -18,6 +23,15 @@
             }
         });
 
+    });
+
+
+    $(function () {
+
+        $("#Description").select2({
+            tags: true,
+            theme: "bootstrap",
+        });
     });
 
 </script>
@@ -227,6 +241,8 @@
 </div>
 
 
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
 <script>
      //var kendoAutoCompleteService_By_Name = null;
    // $(document).ready(function () {
@@ -307,7 +323,7 @@
             $("#Contactid_KCD").val("");
             $("#Accountid_KCD").val("");
             $("#Claim_Ref_No_KCD").val("");
-            $("#Description_KCD").val("");
+            $("#Description").val("");
             $("#Contact_Name_KCD").val("");
             $("#Account_Name_KCD").val("");
             $("#Email_Address_KCD").val("");
@@ -325,7 +341,7 @@
         $("#Contactid_KCD").val("");
         $("#Accountid_KCD").val("");
         $("#Claim_Ref_No_KCD").val("");
-        $("#Description_KCD").val("");
+        $("#Description").val("");
         $("#Contact_Name_KCD").val("");
         $("#Account_Name_KCD").val("");
         $("#Email_Address_KCD").val("");
