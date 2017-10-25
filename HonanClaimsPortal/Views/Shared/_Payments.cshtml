@@ -253,6 +253,8 @@
         $("#Date_Invoice_Paid_Filter").val("");
         $("#FilterPaymentStatus").val("");
         $("#Invoice_No_Filter").val("");
+        $("form.k-filter-menu button[type='reset']").trigger("click");
+
     }
     //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
     $(function () {

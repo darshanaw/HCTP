@@ -300,6 +300,7 @@
         });
 
         $("#btnClearFilter").click(function () {
+            $("form.k-filter-menu button[type='reset']").trigger("click");
             clearActivityTaskFilters();
         });
 
