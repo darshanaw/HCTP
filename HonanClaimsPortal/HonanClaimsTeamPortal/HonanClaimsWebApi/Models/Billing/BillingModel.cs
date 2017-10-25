@@ -66,5 +66,6 @@ namespace HonanClaimsWebApi.Models.Billing
 
         public string Checked_By_Name { get; set; }
         public string Invoice_Processed_By_Name { get; set; }
+        public string EndTimerAndSaveTimeSlip { get; set; }
     }
 }

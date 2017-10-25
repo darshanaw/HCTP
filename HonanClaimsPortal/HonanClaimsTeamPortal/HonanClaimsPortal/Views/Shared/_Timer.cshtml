@@ -142,7 +142,13 @@
 
         $("#btnStopTimer").click(function () {
 
-             stopBilling(myWindow);
+            stopBilling(myWindow);
+
+            if ($("#EndTimerAndSaveTimeSlip").length > 0)
+            {
+                $("#EndTimerAndSaveTimeSlip").val("true");
+            }
+
         });
 
 

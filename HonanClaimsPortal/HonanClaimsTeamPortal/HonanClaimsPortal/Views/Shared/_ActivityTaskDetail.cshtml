@@ -1,6 +1,7 @@
 ﻿
 @model HonanClaimsWebApi.Models.Claim.ActivityTaskDetail
 
+@{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
 
 <script>
     $(function () {

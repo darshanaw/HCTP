@@ -22,5 +22,6 @@ namespace HonanClaimsWebApi.Models.MyActivity
         public bool Complete { get; set; }
         public string DueDate { get; set; }
         public string CompletedDate { get; set; }
+        public string ClaimTeam { get; set; }
     }
 }

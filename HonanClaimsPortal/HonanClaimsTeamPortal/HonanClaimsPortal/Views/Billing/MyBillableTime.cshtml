@@ -140,7 +140,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group mb">
-                                    <label class="col-sm-4 control-label input-sm">Total Qty(Mins)</label>
+                                    <label class="col-sm-4 control-label input-sm">Total Qty(Units)</label>
                                     <div class="col-sm-8">
                                         @Html.TextBoxFor(m => m.TotalQ, new { @class = "form-control input-sm", @readonly = true })
                                     </div>
@@ -313,8 +313,8 @@
                title: "Billable $$",
            },
            {
-               field: "Qty",
-               title: "Mins",
+               field: "Unit",
+               title: "Units",
            },
            {
                field: "Checked",
