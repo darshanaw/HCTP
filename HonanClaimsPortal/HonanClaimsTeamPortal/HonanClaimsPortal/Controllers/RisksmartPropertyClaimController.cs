@@ -46,13 +46,16 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_No = newClaimModel.Policy_No;
             model.Assigned_User = newClaimModel.Assigned_To_Id;
             model.Property_Address_1 = newClaimModel.Property_Address_1;
-            model.Property_Address_1 = newClaimModel.Property_Address_2;
+            model.Property_Address_2 = newClaimModel.Property_Address_2;
             model.Property_Postalcode = newClaimModel.Property_Postalcode;
             model.Property_State = newClaimModel.Property_State;
             model.Property_Suburb = newClaimModel.Property_Suburb;
             model.Insurer = newClaimModel.Insurer;
-            model.InsurerName = newClaimModel.InsurerName;
+            model.Insurer_Name = newClaimModel.InsurerName;
             model.Insured_Name = newClaimModel.Insured_Name;
+            model.Policy_Class = newClaimModel.Policy_Class;
+            model.Policy_Id = newClaimModel.Policy_Id;
+
 
             // Get Claim Reference #
             model.Claim_Reference_Num = claimServices.GenerateClaimRefNo(model.Claim_Team);
@@ -150,11 +153,14 @@ namespace HonanClaimsPortal.Controllers
             model.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
             model.PropertySuburbList.Insert(0, new PicklistItem());
 
-            model.Policy_Section_List = pickListServices.GetPickListItems("Risksmart Property Policy Section");
-            model.Policy_Section_List.Insert(0, new PicklistItem());
+            //model.Policy_Section_List = pickListServices.GetPickListItems("Risksmart Property Policy Section");
+            //model.Policy_Section_List.Insert(0, new PicklistItem());
 
             model.Policy_Class_List = pickListServices.GetPickListItems("Honan Policy Classes");
             model.Policy_Class_List.Insert(0, new PicklistItem());
+
+            model.Policy_Section_List = GetPolicySectionDataAsList(model.Policy_Class);
+            model.Policy_Section_List.Insert(0, new PicklistItem());
 
             model.Causation_List = pickListServices.GetPickListItems("Risksmart Property Causation");
             model.Causation_List.Insert(0, new PicklistItem());
@@ -275,5 +281,103 @@ namespace HonanClaimsPortal.Controllers
 
             return View(model);
         }
+
+        public ActionResult GetPolicySectionData(string policyClass)
+        {
+            string pickListName = string.Empty;
+            if (!string.IsNullOrEmpty(policyClass))
+            {
+                switch (policyClass)
+                {
+                    case "Strata Title":
+                    case "Commercial (STR-COMM)":
+                    case "Residential (STR-RES)":
+                    case "Ancillary":
+                    case "New Development":
+                    case "Company Title":
+                        {
+                            pickListName = "Risksmart Property Policy Section 1";
+                            break;
+                        }
+
+                    case "Landlord Building":
+                        {
+                            pickListName = "Risksmart Property Policy Section 2";
+                            break;
+                        }
+                    case "Landlord Contents":
+                        {
+                            pickListName = "Risksmart Property Policy Section 3";
+                            break;
+                        }
+                    case "Community Association":
+                    case "Common Property Only":
+                        {
+                            pickListName = "Risksmart Property Policy Section 4";
+                            break;
+                        }
+                    default:
+                        {
+                            return Json(new List<PicklistItem>(), JsonRequestBehavior.AllowGet);
+                        }
+
+                }
+
+                PicklistServicecs services = new PicklistServicecs();
+                return Json(services.GetPickListItems(pickListName), JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new List<PicklistItem>(), JsonRequestBehavior.AllowGet);
+        }
+
+        public List<PicklistItem> GetPolicySectionDataAsList(string policyClass)
+        {
+            string pickListName = string.Empty;
+            if (!string.IsNullOrEmpty(policyClass))
+            {
+                switch (policyClass)
+                {
+                    case "Strata Title":
+                    case "Commercial (STR-COMM)":
+                    case "Residential (STR-RES)":
+                    case "Ancillary":
+                    case "New Development":
+                    case "Company Title":
+                        {
+                            pickListName = "Risksmart Property Policy Section 1";
+                            break;
+                        }
+
+                    case "Landlord Building":
+                        {
+                            pickListName = "Risksmart Property Policy Section 2";
+                            break;
+                        }
+                    case "Landlord Contents":
+                        {
+                            pickListName = "Risksmart Property Policy Section 3";
+                            break;
+                        }
+                    case "Community Association":
+                    case "Common Property Only":
+                        {
+                            pickListName = "Risksmart Property Policy Section 4";
+                            break;
+                        }
+                    default:
+                        {
+                            return new List<PicklistItem>();
+                        }
+
+                }
+                PicklistServicecs services = new PicklistServicecs();
+                return services.GetPickListItems(pickListName);
+            }
+
+            return new List<PicklistItem>();
+
+        }
+
+
     }
 }

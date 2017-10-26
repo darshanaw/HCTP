@@ -24,6 +24,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Oc_Name { get; set; }
         [Required(ErrorMessage = "Policy No Required")]
         public string Policy_No { get; set; }
+        public string Policy_Id { get; set; }
+        public string Policy_Class { get; set; }
         public string Assigned_To { get; set; }
         public string Assigned_To_Id { get; set; }
         public List<CRMPicklistItem> Assigned_To_List { get; set; }

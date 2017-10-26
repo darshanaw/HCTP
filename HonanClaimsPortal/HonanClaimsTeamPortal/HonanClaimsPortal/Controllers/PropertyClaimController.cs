@@ -49,7 +49,7 @@ namespace HonanClaimsPortal.Controllers
             claim.Policy_No = newClaimModel.Policy_No;
             claim.Assigned_User = newClaimModel.Assigned_To_Id;
             claim.Property_Address_1 = newClaimModel.Property_Address_1;
-            claim.Property_Address_1 = newClaimModel.Property_Address_2;
+            claim.Property_Address_2 = newClaimModel.Property_Address_2;
             claim.Property_Postalcode = newClaimModel.Property_Postalcode;
             claim.Property_State = newClaimModel.Property_State;
             claim.Property_Suburb = newClaimModel.Property_Suburb;

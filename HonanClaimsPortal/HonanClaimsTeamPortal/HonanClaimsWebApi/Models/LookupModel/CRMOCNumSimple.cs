@@ -19,5 +19,13 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public string Address { get {
                 return Address1+", "+Address2+", "+State+", "+Suburb+" "+Postcode;
             } }
+
+        public string InsuredName { get; set; }
+        public string Insurer { get; set; }
+        public string InsurerName { get; set; }
+        public string AccountId { get; set; }
+        public string Account { get; set; }
+        public string PolicyNumber { get; set; }
+        public string Policy_Class { get; set; }
     }
 }

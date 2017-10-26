@@ -175,5 +175,34 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
         }
+
+        public List<CRMOCNumSimple> TeamGetOcNumLookupByPolicy(string ocNum, string policyId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/General/TeamGetOcNumLookupByPolicy?ocNum=" + ocNum + "&policyNo=" + policyId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<CRMOCNumSimple>>(response);
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

@@ -13,12 +13,9 @@
 
 <script>
     $(document).ready(function () {
-
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
         });
-
-
     });
 </script>
 
@@ -35,13 +32,14 @@
                     @Html.HiddenFor(o => o.Claim_Type)
                     @Html.HiddenFor(o => o.Accountid)
                     @Html.HiddenFor(o => o.Account_Name)
-                    @Html.HiddenFor(o=>o.Oc_Id)
-                    @Html.HiddenFor(o=>o.Insurer)
+                    @Html.HiddenFor(o => o.Oc_Id)
+                    @Html.HiddenFor(o => o.Insurer)
                     @Html.HiddenFor(o => o.Broker_Account_Id)
                     @Html.HiddenFor(o => o.Broker_Name_Id)
-                    @Html.HiddenFor(o=>o.Assigned_User)
+                    @Html.HiddenFor(o => o.Assigned_User)
+                    @Html.HiddenFor(o => o.Policy_Id)
 
-                   @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
+                    @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
                     <fieldset style="padding-bottom: 0px">
 
 
@@ -53,7 +51,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         @Html.TextBoxFor(o => o.Oc_Num, new { @class = "form-control input-sm", @maxlength = 200 })
-                                        <span class="input-group-btn" data-toggle="modal" data-target="#AccountOcModal">
+                                        <span class="input-group-btn" data-toggle="modal" data-target="#OcModal">
                                             <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                 <i class="fa fa-binoculars"></i>
                                             </button>
@@ -115,7 +113,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">* Reported Date</label>
                                 <div class="col-sm-9">
-                                    <div id="dtpReportedDate" class="input-group dateCalendar">
+                                    <div id="dtpReportedDate" class="input-group">
                                         @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -127,35 +125,35 @@
                             </div>
 
                             @*<div class="col-md-12 col-sm-12 form-group">
-                                <label class="col-sm-3 control-label input-sm">* Reported Time</label>
-                                <label class="col-sm-1 control-label input-sm text-right">HH</label>
-                                <div class="col-sm-3">
+                                 <label class="col-sm-3 control-label input-sm">* Reported Time</label>
+                                 <label class="col-sm-1 control-label input-sm text-right">HH</label>
+                                 <div class="col-sm-3">
 
-                                    @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
-                                    SelectListItem
-                               {
-                                   Text = i.ToString().PadLeft(2, '0'),
-                                   Value = i.ToString().PadLeft(2, '0')
-                               }), new { @class = "form-control input-sm" })*@
+                                     @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
+                                     SelectListItem
+                                {
+                                    Text = i.ToString().PadLeft(2, '0'),
+                                    Value = i.ToString().PadLeft(2, '0')
+                                }), new { @class = "form-control input-sm" })*@
 
-                                    @*@Html.ValidationMessageFor(o => o.Reported_TimeH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                                @*</div>
-                                <label class="col-sm-1 control-label input-sm text-center">-</label>
-                                <label class="col-sm-1 control-label input-sm text-right">Min</label>
-                                <div class="col-sm-3">
-                                    @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                    SelectListItem
-                               {
-                                   Text = i.ToString().PadLeft(2, '0'),
-                                   Value = i.ToString().PadLeft(2, '0')
-                               }), new { @class = "form-control input-sm" })*@
+                            @*@Html.ValidationMessageFor(o => o.Reported_TimeH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                            @*</div>
+                                 <label class="col-sm-1 control-label input-sm text-center">-</label>
+                                 <label class="col-sm-1 control-label input-sm text-right">Min</label>
+                                 <div class="col-sm-3">
+                                     @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
+                                     SelectListItem
+                                {
+                                    Text = i.ToString().PadLeft(2, '0'),
+                                    Value = i.ToString().PadLeft(2, '0')
+                                }), new { @class = "form-control input-sm" })*@
 
-                                    @*@Html.ValidationMessageFor(o => o.Reported_TimeM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                                @*</div>
-                            </div>*@
+                            @*@Html.ValidationMessageFor(o => o.Reported_TimeM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                            @*</div>
+                                </div>*@
 
                             <div class="col-md-12 col-sm-12 form-group">
-                                <label class="col-sm-3 control-label input-sm">* Reported By</label>
+                                <label class="col-sm-3 control-label input-sm">Reported By</label>
                                 <div class="col-sm-9">
                                     @Html.TextBoxFor(o => o.Reported_By, new { @class = "form-control input-sm", @maxlength = 400 })
                                     @*@Html.ValidationMessageFor(m => m.Reported_By, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
@@ -168,8 +166,12 @@
                                     @Html.TextBoxFor(o => o.Client_Ref_Num, new { @class = "form-control input-sm", @maxlength = 200 })
                                 </div>
                             </div>
-
-
+                            <div class="col-md-12 col-sm-12">
+                                <label class="col-sm-3 control-label input-sm">Property Claim Ref</label>
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(o => o.Property_Claim_Ref, new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
 
                         </fieldset>
 
@@ -353,7 +355,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         new { @class = "form-control input-sm" })*@
 
                                     @Html.DropDownListFor(model => model.Incident_Category, new SelectList(Model.IncidentCategoryList, "Text", "Text"),
-                                        new { @class = "form-control input-sm", @multiple = "multiple", @style = "width:100%" })
+                                        new { @class = "form-control input-sm", @multiple = "multiple", @style = "z-index:auto; width:100%" })
                                     @*@Html.ValidationMessageFor(m => m.Incident_Category, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
 
 
@@ -387,21 +389,21 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
                                 <div class="col-sm-9">
-                                    @Html.TextBoxFor(o => o.Claimant_Work_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
+                                    @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
                                 </div>
                             </div>
 
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
                                 <div class="col-sm-9">
-                                    @Html.TextBoxFor(o => o.Claimant_Home_Phone, new {  @class = "form-control input-sm", @maxlength = 200 })
+                                    @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
                                 </div>
                             </div>
 
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                 <div class="col-sm-9">
-                                    @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
+                                    @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
                                 </div>
                             </div>
 
@@ -608,43 +610,43 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                     <div class="col-md-6 col-sm-12 m0 p0">
 
                         @*<fieldset>
-                            <div class="col-md-12 col-sm-12">
-                                <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 1</label>
-                                <div class="col-sm-9">
-                                    <input filestyle="" name="Invoice1" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 1</label>
+                                    <div class="col-sm-9">
+                                        <input filestyle="" name="Invoice1" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 2</label>
-                                <div class="col-sm-9">
-                                    <input filestyle="" name="Invoice2" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 2</label>
+                                    <div class="col-sm-9">
+                                        <input filestyle="" name="Invoice2" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 3</label>
-                                <div class="col-sm-9">
-                                    <input filestyle="" name="Invoice3" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 3</label>
+                                    <div class="col-sm-9">
+                                        <input filestyle="" name="Invoice3" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 4</label>
-                                <div class="col-sm-9">
-                                    <input filestyle="" name="Invoice4" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 4</label>
+                                    <div class="col-sm-9">
+                                        <input filestyle="" name="Invoice4" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 5</label>
-                                <div class="col-sm-9">
-                                    <input filestyle="" name="Invoice5" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 5</label>
+                                    <div class="col-sm-9">
+                                        <input filestyle="" name="Invoice5" type="file" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 6</label>
-                                <div class="col-sm-9">
-                                    <input filestyle="" name="Invoice6" type="file" data-button-text="Single" data-class-button="btn btn-oval btn-primary" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="col-sm-3 control-label input-sm">Attach Quote \ Invoice 6</label>
+                                    <div class="col-sm-9">
+                                        <input filestyle="" name="Invoice6" type="file" data-button-text="Single" data-class-button="btn btn-oval btn-primary" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>*@
+                            </fieldset>*@
 
                         <fieldset>
 
@@ -658,17 +660,18 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                 </div>
                             </div>
 
-                            @*<div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                     <div class="col-sm-9">
-                                        @if (string.IsNullOrEmpty(Model.Policy_No))
+                                        @*@if (string.IsNullOrEmpty(Model.Policy_No))
+                                            {
+                                                @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                            }
+                                            else*@
+                                        @if (!string.IsNullOrEmpty(Model.Policy_Class))
                                         {
-                                            @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                        }
-                                        else if (!string.IsNullOrEmpty(Model.Policy_Class))
-                                        {
-                                            @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                            @Html.TextBoxFor(o => o.Policy_Class, new { @class = "form-control input-sm disabled", @readonly = true })
                                         }
                                         else
                                         {
@@ -677,7 +680,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         }
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
 
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
@@ -719,7 +722,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">IDR</label>
                                     <div class="col-sm-9">
-                                       @Html.DropDownListFor(model => model.Idr, new SelectList(Model.YesNoList),
+                                        @Html.DropDownListFor(model => model.Idr, new SelectList(Model.YesNoList),
                         new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
@@ -728,14 +731,23 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Insurer</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(o => o.InsurerName, new { @class = "form-control input-sm", @maxlength = 100 })
-                                            <span id="spnInsurerModal" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
-                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                    <i class="fa fa-binoculars"></i>
-                                                </button>
-                                            </span>
-                                        </div>
+
+                                        @if (string.IsNullOrEmpty(Model.Insurer_Name))
+                                        {
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(o => o.Insurer_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                <span id="spnInsurerModal" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(o => o.Insurer_Name, new { @class = "form-control input-sm disabled", @readonly = true })
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -751,7 +763,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Acct Period 1</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group dateCalendar">
+                                        <div id="dtpAcctPeriodFrom" class="input-group">
                                             @Html.TextBoxFor(o => o.Account_Period_From, new { @class = "form-control input-sm" })
                                             <span id="spnReportedDate" class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                 <span class="fa fa-calendar"></span>
@@ -764,7 +776,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Acct Period 2</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group dateCalendar">
+                                        <div id="dtpAcctPeriodTo" class="input-group">
                                             @Html.TextBoxFor(o => o.Account_Period_To, new { @class = "form-control input-sm" })
                                             <span id="spnReportedDate" class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                 <span class="fa fa-calendar"></span>
@@ -795,7 +807,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm"})
+                                        @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -815,14 +827,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Property Claim Ref</label>
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Property_Claim_Ref, new { @class = "form-control input-sm" })
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Broker Name</label>
@@ -858,7 +863,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
                     </div>
 
-                    
+
 
                     <div class="col-md-12 col-sm-12 m0 p0">
                         <div class="panel-footer text-right">
@@ -906,7 +911,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 <h4 class="modal-title">Policy Lookup</h4>
             </div>
             <div class="modal-body">
-               @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
+                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1032,7 +1037,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
         $("#btnPolicyLookup").click(function () {
 
-           $('#tbPolicy').DataTable().ajax.reload(null, false);
+            $('#tbPolicy').DataTable().ajax.reload(null, false);
 
         });
 
@@ -1048,6 +1053,12 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         $(document).on("submit", "form", function (event) {
             // disable unload warning
             $(window).off('beforeunload');
+        });
+
+
+        $('#dtpReportedDate').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
         });
 
         $('#dtpReportedDate').on('dp.change', function (e) {
@@ -1090,6 +1101,54 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             else {
                 $("#Notification_Status").removeClass("input-validation-error");
             }
+        });
+
+        $('#dtpAcctPeriodTo').datetimepicker({
+            useCurrent: false,
+            minDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#dtpAcctPeriodFrom').datetimepicker({
+            useCurrent: false,
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#dtpAcctPeriodFrom').datetimepicker().on('dp.change', function (e) {
+            var incrementDay = moment(new Date(e.date));
+            incrementDay.add(1, 'days');
+            $('#dtpAcctPeriodTo').data('DateTimePicker').minDate(incrementDay);
+            $(this).data("DateTimePicker").hide();
+        });
+
+        $('#dtpAcctPeriodTo').datetimepicker().on('dp.change', function (e) {
+            var decrementDay = moment(new Date(e.date));
+            decrementDay.subtract(1, 'days');
+            $('#dtpAcctPeriodFrom').data('DateTimePicker').maxDate(decrementDay);
+            $(this).data("DateTimePicker").hide();
+        });
+
+        $("#Policy_Class").change(function () {
+            $('#Policy_Section').find('option').remove().end();
+            $.ajax({
+                url: "/RisksmartPropertyClaim/GetPolicySectionData?policyClass=" + $("#Policy_Class").val(), success: function (result) {
+                    if (result != null && result.length > 0)
+                    {
+                        $('#Policy_Section').append($('<option>', {
+                            value: "",
+                            text: ""
+                        }));
+
+                        $.each(result, function (i, item) {
+                            $('#Policy_Section').append($('<option>', {
+                                value: item.Text,
+                                text: item.Text
+                            }));
+                        });
+                    }
+                }
+            });
+
         });
 
     });
