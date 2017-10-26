@@ -42,5 +42,6 @@ namespace HonanClaimsPortal.Helpers
         Claim = 0,
         Notification = 1
     }
+        
 
 }

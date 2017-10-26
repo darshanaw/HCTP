@@ -17,7 +17,7 @@
                 $.LoadingOverlay("show");
             }
         });
-        
+
 
     });
 
@@ -36,8 +36,7 @@
         lastTaskCompletedDate();
     }
 
-    function GetResult_AT_Failure(data)
-    {
+    function GetResult_AT_Failure(data) {
         RefreshActivityTasksGrid();
         generateKeyContactsGrid();
         generateKeyDateGrid();
@@ -62,18 +61,18 @@
     @Html.HiddenFor(o => o.H_Claimsid_Dtl)
     @Html.HiddenFor(o => o.Owner_Company_Dtl)
     @Html.HiddenFor(o => o.Owner_Contact_Dtl)
-    @Html.HiddenFor(o=> o.Last_Task_Completed_Dtl)
-    @Html.HiddenFor(o=>o.Next_Seq_Dtl)
-    @Html.HiddenFor(o=>o.Completed_By_Dtl)
+    @Html.HiddenFor(o => o.Last_Task_Completed_Dtl)
+    @Html.HiddenFor(o => o.Next_Seq_Dtl)
+    @Html.HiddenFor(o => o.Completed_By_Dtl)
     @Html.HiddenFor(o => o.H_Activitytasksid_Dtl)
     @Html.HiddenFor(o => o.IsNew)
-    @Html.HiddenFor(o=>o.Seq_Dtl)
+    @Html.HiddenFor(o => o.Seq_Dtl)
     @*@Html.HiddenFor(o=>o.Stage_Dtl)*@
     @Html.HiddenFor(o => o.NextActivityId)
     @Html.HiddenFor(o => o.NextActivityDue)
 
     <input type="hidden" id="Next_Seq_Dtl_Temp" name="Next_Seq_Dtl_Name" />
-   
+
 
 
     <div style="display:none" id="divFakeActivityTask"></div>
@@ -89,13 +88,13 @@
                         var list = (List<System.Web.Mvc.SelectListItem>)ViewBag.Sequence;
                     }
 
-                      
+
                     @if (string.IsNullOrEmpty(Model.H_Activitytasksid_Dtl))
                     {
                         Model.Seq_Dtl = Convert.ToInt32(list.Last().Value.ToString());
                     }
 
-                    @Html.DropDownListFor(model => model.Seq_Dtl, new SelectList(list, "Value", "Text",selectedVal), "",
+                    @Html.DropDownListFor(model => model.Seq_Dtl, new SelectList(list, "Value", "Text", selectedVal), "",
                    new { @class = "form-control input-sm disabled", @disabled = true })
                 </div>
                 <label class="col-sm-1 control-label input-sm">Stage</label>
@@ -173,7 +172,7 @@
                 </div>
             </div>
         </div>
-     
+
         <div class="row">
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Email</label>
@@ -197,7 +196,15 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">SLA (Days)</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm", @maxlength = 100, @type = "number" })
+
+                    @if (HonanClaimsPortal.Helpers.ClaimTeamManagers.IsClaimManager(userObj.Teams))
+                    {
+                        @Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm", @maxlength = 100, @type = "number" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm disabled", @maxlength = 100, @readonly = true, @type = "number" })
+                    }
                 </div>
             </div>
         </div>
@@ -215,12 +222,20 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">This Task Due Date</label>
                 <div class="col-sm-8">
-                    <div class="input-group date dateCalendar" style="width:100%">
-                        @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, new { @class = "form-control input-sm" })
-                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                            <span class="fa fa-calendar"></span>
-                        </span>
-                    </div>
+
+                    @if (HonanClaimsPortal.Helpers.ClaimTeamManagers.IsClaimManager(userObj.Teams))
+                    {
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm disabled", @readonly = true })
+                    }
                 </div>
             </div>
         </div>
@@ -249,7 +264,7 @@
                     <div class="pl0 col-sm-1">
                         @Html.CheckBoxFor(o => o.High_Priority_Task_Dtl)
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -288,7 +303,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group mb">               
+            <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Update Key Date</label>
                 <div class="col-sm-8">
                     @Html.CheckBoxFor(o => o.Update_Key_Date_Dtl)
@@ -322,10 +337,7 @@
         </div>
     </div>
 
-}
-
-
-
+                        }
 <!-- Modal -->
 <div id="AccountModal_ActivityTask" class="modal fade AccountModal_ActivityTask" role="dialog" data-backdrop="false">
     <div class="modal-dialog">
@@ -438,7 +450,7 @@
         $("#Completed_Dtl").change(function () {
 
             if ($(this).is(":checked")) {
-                         
+
                 $("#actualCompletedDate").show();
                 $("#dummyCompletedDate").hide();
                 //$("#Update_Key_Contacts_Dtl").prop("disabled", false);
@@ -529,7 +541,7 @@
 
         });
 
-        
+
 
     });
 
@@ -597,9 +609,9 @@
                     var dataItem = this.dataItem(selectedRows[i]);
 
                     var dCurrentId = "";
-                    
+
                     getNextTaskDueDate(dataItem.ActivityTaskId);
-                    
+
                     $("#Next_Seq_Dtl_Temp").val(dataItem.Seq_Act);
                     $("#nextActivityId_wf").val(dataItem.ActivityTaskId);
                     $("#nextActivityDue_wf").val(dataItem.DueDate_Act);
@@ -699,6 +711,6 @@
         $("#isActivityCompletionGrid").val("false");
     }
 
-    
+
 
 </script>

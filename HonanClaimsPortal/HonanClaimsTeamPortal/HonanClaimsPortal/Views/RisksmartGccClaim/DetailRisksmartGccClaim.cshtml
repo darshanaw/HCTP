@@ -28,7 +28,20 @@
 
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
-        })
+        });
+
+
+        $('.Date_Of_Birth_Cls').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        
+
+
+        //$('#Date_Of_Birth').datetimepicker({
+        //    format: 'DD/MM/YYYY',
+        //    forceParse: false
+        //});
+
         //    .on('dp.change', function (e) {
         //    debugger;
         //    alert(e);
@@ -577,9 +590,9 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">DoB</label>
                                             <div class="col-sm-9">
-                                                <div id="dtpDob" class="input-group date dateCalendar">
+                                                <div id="dtpDob" class="input-group date Date_Of_Birth_Cls">
                                                     @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
-                                                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                                    <span id="btnDate_Of_Birth" class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>
                                                     </span>
                                                 </div>
@@ -878,14 +891,14 @@ else
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-12 col-sm-12">
+                                                    @*<div class="col-md-12 col-sm-12">
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Binder #</label>
                                                             <div class="col-sm-9">
                                                                 @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm" })
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>*@
 
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group mb">

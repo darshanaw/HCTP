@@ -95,6 +95,8 @@ namespace HonanClaimsPortal.Controllers
                     generalClaim.Claim_Team_Name = claim.Claim_Team;
                     generalClaim.Accountid = claim.Accountid;
                     generalClaim.Account_Name = claim.Account_Name;
+                    generalClaim.Claim_Received = true;
+                    generalClaim.Claim_Received_Date = DateTime.Now;
                     var result = await claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
 
                     if (result.IsSuccess)
