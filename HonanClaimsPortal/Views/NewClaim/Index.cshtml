@@ -53,6 +53,8 @@
                     @Html.HiddenFor(o => o.InsurerName)
                     @Html.HiddenFor(o => o.Insurer)
                     @Html.HiddenFor(o => o.Insured_Name)
+                    @Html.HiddenFor(o => o.Policy_Class)
+                    @Html.HiddenFor(o => o.Policy_Id)
 
                     <div class="form-horizontal">
                         <div class="col-md-12 m0 p0">
@@ -61,6 +63,19 @@
                                 <label class="col-sm-2 control-label input-sm">Claim Team</label>
                                 <div class="col-sm-9">
                                     @Html.DropDownListFor(o => o.Claim_Team, new SelectList(Model.Claim_Team_List, "Text", "Value"), new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group mb" id="divOcNo">
+                                <label class="col-sm-2 control-label input-sm">OC #</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Oc_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto" })
+                                        <span id="spanAccountOcModal" class="input-group-btn" data-toggle="modal" data-target="#OcModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -85,19 +100,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mb" id="divOcNo">
-                                <label class="col-sm-2 control-label input-sm">OC #</label>
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(o => o.Oc_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto" })
-                                        <span id="spanAccountOcModal" class="input-group-btn" data-toggle="modal" data-target="#AccountOcModal">
-                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
-                                                <i class="fa fa-binoculars"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                         
 
                             <div class="form-group mb">
                                 <label class="col-sm-2 control-label input-sm">Policy #</label>
@@ -252,7 +255,6 @@
         }
 
         $("#Claim_Team").change(function () {
-            alert("dsadasd");
             if ($(this).val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $(this).val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
                 $("#Oc_No").val("");
                 $("#divOcNo").hide();
@@ -300,20 +302,30 @@
             {
                 $("#Assigned_To").removeClass("input-validation-error");
             }
+
+            if ($("#Claim_Type").val() == '@HonanClaimsPortal.Helpers.ClaimType.Claim' && $("#Claim_Team").val() == "@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartProperty" && $("#Oc_Name").val() == "")
+            {
+                $("#Oc_Name").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else
+            {
+                $("#Oc_Name").removeClass("input-validation-error");
+            }
         })
 
-        $('#AccountOcModal').on('hidden.bs.modal', function () {
-            $.ajax({
-                url: "/Lookup/GetPoliciesAjaxHandler?filter=" + $("#Policy_No").val() + "&accountId=" + $("#Oc_No").val(), success: function (result) {
-                    if (result.length > 0) {
-                        $("#InsurerName").val(result[0].UnderwriterName);
-                        $("#Insurer").val(result[0].UnderwriterId);
-                        $("#Insured_Name").val(result[0].Insured_Name);
-                    }
-                }
-            });
+        //$('#OcModal').on('hidden.bs.modal', function () {
+        //    $.ajax({
+        //        url: "/Lookup/GetPoliciesAjaxHandler?filter=" + $("#Policy_No").val() + "&accountId=" + $("#Oc_No").val(), success: function (result) {
+        //            if (result.length > 0) {
+        //                $("#InsurerName").val(result[0].UnderwriterName);
+        //                $("#Insurer").val(result[0].UnderwriterId);
+        //                $("#Insured_Name").val(result[0].Insured_Name);
+        //            }
+        //        }
+        //    });
 
-        });
+        //});
 
     })
 </script>

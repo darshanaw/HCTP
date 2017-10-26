@@ -205,6 +205,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Panel_Lawyers_Retained { get; set; }
         public string Broker_Account { get; set; }
         public string Broker_Account_Id { get; set; }
+        [Required(ErrorMessage = "OC # is Required")]
         public string Oc_Num { get; set; }
         public string Oc_Id { get; set; }
         [RegularExpression(@"^[\+\d]+(?:[\d-.\s()]*)$", ErrorMessage = "Not a valid Phone number")]
