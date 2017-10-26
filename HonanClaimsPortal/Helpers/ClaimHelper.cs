@@ -49,7 +49,22 @@ namespace HonanClaimsPortal.Helpers
         public const string PropertyClaimsManager = "Property Claims Manager";
         public const string RisksmartGCCManager = "Risksmart GCC Manager";
         public const string RisksmartPropertyManager = "Risksmart Property Manager";
+
+       public static bool IsClaimManager(List<string> managers)
+        {
+            foreach (string item in managers)
+            {
+                if(item == GCCClaimsManager || item == PropertyClaimsManager || item == RisksmartGCCManager || item == RisksmartPropertyManager)
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
     }
+
+    
 
     public class ClaimTeams
     {
