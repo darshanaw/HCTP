@@ -303,7 +303,8 @@
                 $("#Assigned_To").removeClass("input-validation-error");
             }
 
-            if ($("#Claim_Type").val() == '@HonanClaimsPortal.Helpers.ClaimType.Claim' && $("#Claim_Team").val() == "@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartProperty" && $("#Oc_Name").val() == "")
+            if ($("#Claim_Type").val() == '@HonanClaimsPortal.Helpers.ClaimType.Claim' &&
+                ($("#Claim_Team").val() == "@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartProperty" || $("#Claim_Team").val() == "@HonanClaimsPortal.Helpers.ClaimTeams.PropertyClaims") && $("#Oc_Name").val() == "")
             {
                 $("#Oc_Name").addClass("input-validation-error");
                 e.preventDefault();

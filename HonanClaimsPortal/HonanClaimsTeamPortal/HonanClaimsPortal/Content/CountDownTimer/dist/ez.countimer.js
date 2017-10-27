@@ -124,17 +124,20 @@
       // Possible expressions to print
       var expressions = {
         toSeconds : function(){
-          var withoutFormat = Math.trunc(plugin.duration.asSeconds());
+          //var withoutFormat = Math.trunc(plugin.duration.asSeconds());
+          var withoutFormat = Math.floor(plugin.duration.asSeconds());
           var formatted = format(withoutFormat).concat(plugin.options.secondIndicator);
           return getObjExpression({seconds: withoutFormat}, formatted);
         },
         toMinutes : function(){
-          var withoutFormat = Math.trunc(plugin.duration.asMinutes());
+          //var withoutFormat = Math.trunc(plugin.duration.asMinutes());
+          var withoutFormat = Math.floor(plugin.duration.asMinutes());
           var formatted = format(withoutFormat).concat(plugin.options.minuteIndicator);
           return getObjExpression({minutes: withoutFormat}, formatted);
         },
         toHours : function() {
-          var withoutFormat = Math.trunc(plugin.duration.asHours());
+          //var withoutFormat = Math.trunc(plugin.duration.asHours());
+          var withoutFormat = Math.floor(plugin.duration.asHours());
           return getObjExpression({hours: withoutFormat}, format(withoutFormat));
         },
         full : function() {
