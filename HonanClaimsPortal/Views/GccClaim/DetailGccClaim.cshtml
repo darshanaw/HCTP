@@ -188,7 +188,8 @@ else
                                                 }
                                                 else
                                                 {
-                                                    @Html.TextBoxFor(o => o.Assigned_User, new { @class = "form-control input-sm disabled", @readonly = true })
+                                                    @Html.TextBoxFor(o => o.Assigned_User_Name, new { @class = "form-control input-sm disabled", @readonly = true })
+                                                    @Html.HiddenFor(o => o.Assigned_User)
                                                 }
                                             </div>
                                         </div>
@@ -266,7 +267,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Reported Date</label>
                                             <div class="col-sm-9">
-                                                <div id="dtpReportedDate" class="input-group date dateCalendar" style="width:100%">
+                                                <div id="dtpReportedDate" class="input-group date" style="width:100%">
                                                     @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>
@@ -314,7 +315,7 @@ else
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Incident Date</label>
                                             <div class="col-sm-9">
-                                                <div id="dtpIncidentDate" class="input-group date dateCalendar">
+                                                <div id="dtpIncidentDate" class="input-group date">
                                                     @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
                                                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>
@@ -904,7 +905,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Liability_Reserve_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
                                                                     @Html.HiddenFor(o => o.Liability_Reserve)
                                                                 </div>
                                                             </div>
@@ -913,7 +914,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Defence Reserve $</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Defence_Reserve_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
                                                                     @Html.HiddenFor(o => o.Defence_Reserve)
                                                                 </div>
                                                             </div>
@@ -923,7 +924,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Total Reserve $</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Total_Reserve_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
                                                                     @Html.HiddenFor(o => o.Total_Reserve)
                                                                 </div>
                                                             </div>
@@ -932,7 +933,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Net Paid Liability $</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Net_Paid_Liability_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
                                                                     @Html.HiddenFor(o => o.Net_Paid_Liability)
                                                                 </div>
                                                             </div>
@@ -941,7 +942,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Net Paid Defence $</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Net_Paid_Defence_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
                                                                     @Html.HiddenFor(o => o.Net_Paid_Defence)
                                                                 </div>
                                                             </div>
@@ -950,7 +951,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Gross Paid to Date $</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Gross_Paid_To_Date_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
                                                                     @Html.HiddenFor(o => o.Gross_Paid_To_Date)
                                                                 </div>
                                                             </div>
@@ -959,7 +960,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Total Incurred $</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Total_Incurred_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
                                                                     @Html.HiddenFor(o => o.Total_Incurred)
                                                                 </div>
                                                             </div>
@@ -968,7 +969,7 @@ else
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Current Exposure</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
+                                                                    <input class="form-control input-sm disabledControl" id="Current_Exposure_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
                                                                     @Html.HiddenFor(o => o.Current_Exposure)
                                                                 </div>
                                                             </div>
@@ -1228,6 +1229,16 @@ else
     };
 
     $(document).ready(function () {
+
+        $('#dtpReportedDate').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#dtpIncidentDate').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
 
         $("#ddlStatus").val("@Model.Claim_Status");
 
@@ -1626,6 +1637,7 @@ else
         $("#Liability_Res_Source").val($("#txtLiabilityResSource").val());
         $("#Defence_Res_Source").val($("#txtDefecnceResSource").val());
         $('#ExrtaFieldModal').modal('toggle');
+        CalculatePaymentFigures();
     }
 
     function Cancel() {
@@ -1726,6 +1738,34 @@ else
                 }
             });
         }
+    }
+
+
+    function CalculatePaymentFigures() {
+
+        var netPaidLiability, netPaidDefence, liabilityReserveGross = 0, defenceReserveGross = 0, totalReserve;
+        $.ajax({
+            url: "/ClaimGeneral/AjaxGetPaymentAmount?claimId=" + "@Model.H_Claimsid" + "&liability_Res_Source=" + $("#Liability_Res_Source").val() + "&defence_Res_Source=" + $("#Defence_Res_Source").val() + "&excess=" + $("#Excess").val(), success: function (result) {
+                if (result != null) {
+                    $("#Liability_Reserve").val(result.Liability_Reserve);
+                    $("#Liability_Reserve_Id").val('$' + result.Liability_Reserve.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Defence_Reserve").val(result.Defence_Reserve);
+                    $("#Defence_Reserve_Id").val('$' + result.Defence_Reserve.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Total_Reserve").val(result.Total_Reserve);
+                    $("#Total_Reserve_Id").val('$' + result.Total_Reserve.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Net_Paid_Liability").val(result.Net_Paid_Liability);
+                    $("#Net_Paid_Liability_Id").val('$' + result.Net_Paid_Liability.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Net_Paid_Defence").val(result.Net_Paid_Defence);
+                    $("#Net_Paid_Defence_Id").val('$' + result.Net_Paid_Defence.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Gross_Paid_To_Date").val(result.Gross_Paid_To_Date);
+                    $("#Gross_Paid_To_Date_Id").val('$' + result.Gross_Paid_To_Date.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Total_Incurred").val(result.Total_Incurred);
+                    $("#Total_Incurred_Id").val('$' + result.Total_Incurred.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Current_Exposure").val(result.Current_Exposure);
+                    $("#Current_Exposure_Id").val('$' + result.Current_Exposure.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                }
+            }
+        });
     }
 
     $(document).ready(function () {
