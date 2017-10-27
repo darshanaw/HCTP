@@ -162,14 +162,14 @@
 
                 </div>
             </div>
-            <div class="col-md-4">
+            @*<div class="col-md-4">
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Total Units</label>
                     <div class="col-sm-8">
                         @Html.TextBoxFor(m => m.TotalQ, new { @class = "form-control input-sm", @readonly = true })
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 
@@ -445,8 +445,16 @@
                 $("#Units").val(result.Units);
                 $("#Work_Done").val(result.Work_Done);
                 $("#Service_By_Name").val(result.Service_By_Name);
-                $("#Quarter").val(result.Quarter);
-                $("#IsNew_Billable").val(result.IsNew);
+                    $("#Quarter").val(result.Quarter);
+
+                    if (BillingId != '' && typeof BillingId !== 'undefined' && BillingId !== 'NaN') {
+
+                        $("#IsNew_Billable").val(false);
+                    }
+                    else
+                    {
+                        $("#IsNew_Billable").val(true);
+                    }
 
                 //var dateString = $("#Service_Date").val().substr(6);
                 //var currentTime = new Date(parseInt(dateString));
