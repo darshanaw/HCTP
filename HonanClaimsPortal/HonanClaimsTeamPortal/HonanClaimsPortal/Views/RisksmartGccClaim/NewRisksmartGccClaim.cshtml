@@ -865,6 +865,33 @@ new { @class = "form-control input-sm" })
 <script>
     $(function () {
 
+        $("#Region").change(function () {
+
+            if ($(this).val().indexOf("QLD") !== -1)
+            {
+                $("#Juristiction").val("QLD");
+            }
+            else if ($(this).val().indexOf("SA") !== -1) {
+                $("#Juristiction").val("SA");
+            }
+            else if ($(this).val().indexOf("VIC") !== -1) {
+                $("#Juristiction").val("VIC");
+            }
+            else if ($(this).val().indexOf("NSW") !== -1) {
+                $("#Juristiction").val("NSW");
+            }
+            else if ($(this).val().indexOf("WA") !== -1) {
+                $("#Juristiction").val("WA");
+            }
+            else if ($(this).val().indexOf("TAS") !== -1) {
+                $("#Juristiction").val("TAS");
+            }
+            else
+            {
+                $("#Juristiction").val("");
+            }
+        })
+
         $('#formNewRisksmartGccClaim').submit(function () {
             if ($(this).valid()) {
                 $.LoadingOverlay("show");

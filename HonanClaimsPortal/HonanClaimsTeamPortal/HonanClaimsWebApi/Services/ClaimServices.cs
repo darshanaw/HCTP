@@ -642,6 +642,40 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
+
+        public List<CRMPicklistItem> GetAllOpenClaims(string claimRefNo, List<string> teamList)
+        {
+            try
+            {
+                string output = JsonConvert.SerializeObject(teamList);
+
+                string teamListJson = "";
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/GetAllOpenClaims?claimRefNo=" + claimRefNo+ "&teamList="+ output);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<List<CRMPicklistItem>>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
+
         public int TeamGetMyActivityCount(string userId)
         {
             try

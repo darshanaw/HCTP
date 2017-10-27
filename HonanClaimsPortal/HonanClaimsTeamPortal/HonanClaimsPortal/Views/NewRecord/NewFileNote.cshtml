@@ -26,6 +26,12 @@
             format: 'DD/MM/YYYY'
         });
 
+        $('.dateCalendarFileNote').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
+
         //if (!$('#ClaimRefNo_Fn').is('input:text')) {
         //    $('#ClaimRefNo_Fn').select2({ width: "100%", theme: "bootstrap" });
         //}
@@ -75,7 +81,7 @@
                             <div class="form-group mb">
                                 <label class="col-sm-4 control-label input-sm">File Note Date</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group date dateCalendar" style="width:100%">
+                                    <div class="input-group date dateCalendarFileNote" style="width:100%">
                                         @Html.TextBoxFor(o => o.FileNoteDate_Fn, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                             <span class="fa fa-calendar"></span>

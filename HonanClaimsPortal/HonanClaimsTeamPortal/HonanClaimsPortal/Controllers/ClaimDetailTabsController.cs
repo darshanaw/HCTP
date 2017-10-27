@@ -668,6 +668,65 @@ namespace HonanClaimsPortal.Controllers
         }
 
 
+        public ActionResult AjaxGetAllClaimNosLookUp(jQueryDataTableParamModel param)
+        {
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            claimServices = new ClaimServices();
+            List<CRMPicklistItem> items = new List<CRMPicklistItem>();
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                items = claimServices.GetAllOpenClaims("",login.Teams);
+                if (items != null)
+                    items = items.Where(x => x.Text.ToLower().Contains(param.sSearch.ToLower())).ToList();
+            }
+
+            IEnumerable<CRMPicklistItem> filteredRecords = items;
+
+            var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+            Func<CRMPicklistItem, string> orderingFunction = (c => sortColumnIndex == 1 ? c.Code :
+                                                                sortColumnIndex == 2 ? c.Text :
+                                                                sortColumnIndex == 3 ? c.Order :
+                                                                c.Text);
+
+            var sortDirection = Request["sSortDir_0"]; // asc or desc
+            if (sortDirection == "asc")
+                filteredRecords = filteredRecords.OrderBy(orderingFunction);
+            else
+                filteredRecords = filteredRecords.OrderByDescending(orderingFunction);
+
+            //if (!string.IsNullOrEmpty(param.sSearch))
+            //{
+            //    filteredRecords = filteredRecords
+            //                .Where(c => c.Text.ToUpper().Contains(param.sSearch.ToUpper()));
+            //    //           ||
+            //    //           c.Town.Contains(param.sSearch));
+            //}
+
+
+
+            List<string[]> aData = new List<string[]>();
+
+            foreach (CRMPicklistItem item in filteredRecords)
+            {
+                string[] arry = new string[] { item.Code, item.Text };
+                aData.Add(arry);
+            }
+
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = 97,
+                iTotalDisplayRecords = 3,
+                aaData = aData
+
+            },
+
+            JsonRequestBehavior.AllowGet);
+
+        }
+
+
         public ActionResult _KeyDateDetail(string claimId)
         {
             KeyDate model = new KeyDate();
