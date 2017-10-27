@@ -246,6 +246,7 @@
 
                 $('#searchTxt').keydown(function (e) {
                     if (e.keyCode == 13) {
+                        $.LoadingOverlay("show");
                         LoadClaimGrid();
                     }
                 })
