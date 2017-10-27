@@ -6,12 +6,16 @@
 <link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
 <script>
     $(document).ready(function () {
 
         $('.dateCalendar').datetimepicker({
             format: 'DD/MM/YYYY'
-        });       
+        });
 
     });
 </script>
@@ -32,23 +36,23 @@
                     @Html.HiddenFor(o => o.Accountid)
                     @Html.HiddenFor(o => o.Account_Name)
                     @Html.HiddenFor(o => o.Insurer)
-                    @Html.HiddenFor(o=>o.Oc_Id)
+                    @Html.HiddenFor(o => o.Oc_Id)
                     @Html.HiddenFor(o => o.Assigned_User)
 
                     <fieldset style="padding-bottom: 0px">
-                      
+
                         <div class="col-md-6">
                             <div class="col-md-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">OC #</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                            @Html.TextBoxFor(o => o.Oc_Num, new { @class = "form-control input-sm", @maxlength = 200 })
-                                            <span class="input-group-btn" data-toggle="modal" data-target="#AccountOcModal">
-                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                    <i class="fa fa-binoculars"></i>
-                                                </button>
-                                            </span>
-                                     </div>
+                                        @Html.TextBoxFor(o => o.Oc_Num, new { @class = "form-control input-sm", @maxlength = 200 })
+                                        <span class="input-group-btn" data-toggle="modal" data-target="#AccountOcModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -96,7 +100,7 @@
 
                     <div class="col-md-6 col-sm-12 m0 p0">
                         <fieldset>
-                            
+
                             @if (Model.Claim_Type == "Notification")
                             {
                                 <div class="col-md-12 col-sm-12">
@@ -113,7 +117,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Reported Date</label>
                                 <div class="col-sm-9">
-                                    <div id="dtpReportedDate" class="input-group dateCalendar">
+                                    <div id="dtpReportedDate" class="input-group">
                                         @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -130,18 +134,18 @@
                                         @Html.DropDownListFor(m => m.Reported_TimeH, Enumerable.Range(0, 24).Select(i => new
                                             SelectListItem
                                    { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })*@
-                                        @*@Html.ValidationMessageFor(o => o.Reported_TimeH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                                    @*</div>
-                                    <label class="col-sm-1 control-label input-sm text-center">-</label>
-                                    <label class="col-sm-1 control-label input-sm text-right">Min</label>
-                                    <div class="col-sm-3">
-                                        @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                            SelectListItem
-                                   { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })*@
-                                        @*@Html.ValidationMessageFor(o => o.Reported_TimeM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                                    @*</div>
-                                </div>
-                            </div>*@
+                            @*@Html.ValidationMessageFor(o => o.Reported_TimeH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                            @*</div>
+                                 <label class="col-sm-1 control-label input-sm text-center">-</label>
+                                 <label class="col-sm-1 control-label input-sm text-right">Min</label>
+                                 <div class="col-sm-3">
+                                     @Html.DropDownListFor(m => m.Reported_TimeM, Enumerable.Range(0, 60).Select(i => new
+                                         SelectListItem
+                                { Text = i.ToString().PadLeft(2, '0'), Value = i.ToString().PadLeft(2, '0') }), new { @class = "form-control input-sm" })*@
+                            @*@Html.ValidationMessageFor(o => o.Reported_TimeM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                            @*</div>
+                                    </div>
+                                </div>*@
 
                             <div class="col-md-12 col-sm-12 form-group">
                                 <div class="form-group mb">
@@ -158,7 +162,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Date of Loss</label>
                                     <div class="col-sm-9">
-                                        <div id="datetimepicker4" class="input-group dateCalendar">
+                                        <div id="dtpDateOfLoss" class="input-group">
                                             @Html.TextBoxFor(o => o.Date_Of_Loss, new { @class = "form-control input-sm" })
                                             <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                 <span class="fa fa-calendar"></span>
@@ -282,7 +286,7 @@
                                     @Html.TextAreaFor(o => o.Special_Instructions, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
                                 </div>
                             </div>
-                            
+
                         </fieldset>
                     </div>
 
@@ -337,13 +341,13 @@
                                 </div>
                             </div>
                             @*<div class="col-md-12 col-sm-12 form-group top-padding">
-                                <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Witnesses</label>
-                                    <div class="col-sm-9">
-                                        @Html.TextAreaFor(o => o.Witnesses, new { @class = "form-control input-sm", @maxlength = 400 })
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Witnesses</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextAreaFor(o => o.Witnesses, new { @class = "form-control input-sm", @maxlength = 400 })
+                                        </div>
                                     </div>
-                                </div>
-                            </div>*@
+                                </div>*@
                             <div class="col-md-12 col-sm-12 form-group top-padding">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Firstname</label>
@@ -394,7 +398,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Work_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
                                 </div>
                             </div>
@@ -402,7 +406,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Home_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
                                 </div>
                             </div>
@@ -410,7 +414,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
                                 </div>
                             </div>
@@ -601,18 +605,19 @@
 
                         <div class="col-md-6 col-sm-12 m0 p0">
                             <fieldset>
-                                
-                                @*<div class="col-md-12 col-sm-12">
+
+                                <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Policy Class</label>
                                         <div class="col-sm-9">
-                                            @if (string.IsNullOrEmpty(Model.Policy_No))
+                                            @*@if (string.IsNullOrEmpty(Model.Policy_No))
+                                                {
+                                                    @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                                }
+                                                else*@
+                                            @if (!string.IsNullOrEmpty(Model.Policy_Class))
                                             {
-                                                @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                            }
-                                            else if (!string.IsNullOrEmpty(Model.Policy_Class))
-                                            {
-                                                @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
+                                                @Html.TextBoxFor(o => o.Policy_Class, new { @class = "form-control input-sm disabled", @readonly = true })
                                             }
                                             else
                                             {
@@ -621,7 +626,7 @@
                                             }
                                         </div>
                                     </div>
-                                </div>*@
+                                </div>
 
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
@@ -633,7 +638,7 @@
                                     </div>
                                 </div>
 
-                                
+
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Insurer</label>
@@ -672,7 +677,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm"})
+                                            @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm" })
                                         </div>
                                     </div>
                                 </div>
@@ -681,7 +686,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Insured Phone (M)</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm"})
+                                            @Html.TextBoxFor(o => o.Insured_Mobile_Phone, new { @class = "form-control input-sm" })
                                         </div>
                                     </div>
                                 </div>
@@ -709,10 +714,10 @@
                                             @Html.DropDownListFor(model => model.Complexity,
                                                 new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new SelectListItem { Value = "High", Text = "High" }, new SelectListItem { Value = "Med", Text = "Med" }
                                                     ,new SelectListItem { Value = "Low", Text = "Low" }},
-                                                new { @class = "form-control input-sm"})
+                                                new { @class = "form-control input-sm" })
                                         </div>
                                     </div>
-                                </div>                             
+                                </div>
 
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
@@ -732,7 +737,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
 
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
@@ -751,7 +756,7 @@
                                         </div>
                                     </div>
                                 </div>
-                             
+
 
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
@@ -769,8 +774,8 @@
                                             @Html.TextAreaFor(o => o.Claim_Detail, new { @class = "form-control input-sm" })
                                         </div>
                                     </div>
-                                </div>                            
-                               
+                                </div>
+
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Claim Note</label>
@@ -778,12 +783,12 @@
                                             @Html.TextAreaFor(o => o.Claim_Note, new { @class = "form-control input-sm" })
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
 
                             </fieldset>
 
                         </div>
-                            
+
                     </div>
                     <div class="col-md-12 col-sm-12 m0 p0">
                         <div class="panel-footer text-right">
@@ -855,6 +860,8 @@
     </div>
 </div>
 
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
 <!-- Loading gif-->
 <script src="~/Scripts/loadingoverlay.min.js"></script>
 <script src="~/Scripts/loadingoverlay_progress.min.js"></script>
@@ -862,6 +869,20 @@
 <script>
 
     $(document).ready(function () {
+
+
+        jQuery.validator.methods["date"] = function (value, element) { return true; }
+
+        $('#dtpReportedDate').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#dtpDateOfLoss').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
+
 
         $('#Property_Suburb').select2({ width: '100%' });
 
@@ -874,9 +895,6 @@
                 $.LoadingOverlay("show");
             }
         });
-
-        jQuery.validator.methods["date"] = function (value, element) { return true; }
-
 
         // Warning
         $(window).on('beforeunload', function () {
@@ -939,9 +957,33 @@
             }
         });
 
+
+        $("#Policy_Class").change(function () {
+            $('#Policy_Section').find('option').remove().end();
+            $.ajax({
+                url: "/RisksmartPropertyClaim/GetPolicySectionData?policyClass=" + $("#Policy_Class").val(), success: function (result) {
+                    if (result != null && result.length > 0) {
+                        $('#Policy_Section').append($('<option>', {
+                            value: "",
+                            text: ""
+                        }));
+
+                        $.each(result, function (i, item) {
+                            $('#Policy_Section').append($('<option>', {
+                                value: item.Text,
+                                text: item.Text
+                            }));
+                        });
+                    }
+                }
+            });
+
+        });
+
+
     });
 
- function Cancel() {
+    function Cancel() {
 
         $(window).off('beforeunload');
         window.location.href = '/claimlist/Index';
