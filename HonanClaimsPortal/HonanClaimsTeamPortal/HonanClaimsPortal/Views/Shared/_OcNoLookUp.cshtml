@@ -71,7 +71,7 @@
                     "mRender": function (data, type, oObj) {
                         return '<a href="javascript:void(0);" onclick="closeOcModal(\'' + oObj[0] + '\',\'' + oObj[1] + '\',\'' + oObj[3] + '\',\'' + oObj[4] + '\',\'' + oObj[5] +
                             '\',\'' + oObj[6] + '\',\'' + oObj[7] + '\',\'' + oObj[8] + '\',\'' + oObj[9] + '\',\'' + oObj[10] + '\',\'' + oObj[11] +
-                            '\',\'' + oObj[12] + '\',\'' + oObj[13] + '\',\'' + oObj[14] + '\')">' + oObj[0] + '</a >';
+                            '\',\'' + oObj[12] + '\',\'' + oObj[13] + '\',\'' + oObj[14] + '\',\'' + oObj[15] + '\')">' + oObj[0] + '</a >';
 
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                     }
@@ -90,7 +90,7 @@
     });
 
 
-    function closeOcModal(ocNum,policyNo,account,accountId,insuredName,insurer,insurerName,address1,address2,suburb,state,postcode,policyClass,policyId) {
+    function closeOcModal(ocNum,policyNo,account,accountId,insuredName,insurer,insurerName,address1,address2,suburb,state,postcode,policyClass,policyId,accountManagerCode) {
         debugger;
         $("#Oc_No").val(ocNum);
         $("#Oc_Name").val(ocNum);
@@ -168,6 +168,11 @@
         if ($("#Policy_Id")) {
 
             $("#Policy_Id").val(policyId);
+        }
+
+        if ($("#Account_Manager_Property")) {
+
+            $("#Account_Manager_Property").val(accountManagerCode);
         }
 
         $('#OcModal').modal('hide');

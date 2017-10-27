@@ -188,7 +188,8 @@ else
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(o => o.Assigned_User, new { @class = "form-control input-sm disabled", @readonly = true })
+                                                @Html.TextBoxFor(o => o.Assigned_User_Name, new { @class = "form-control input-sm disabled", @readonly = true })
+                                                @Html.HiddenFor(o => o.Assigned_User)
                                             }
                                         </div>
                                     </div>
@@ -342,7 +343,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
                                         <div class="col-md-12 col-sm-12">
                                             <div class="form-group mb">
-                                                <label class="col-sm-3 control-label input-sm">Acct Manager</label>
+                                                <label class="col-sm-3 control-label input-sm">Acct Manager Code</label>
                                                 <div class="col-sm-9">
                                                     @Html.TextBoxFor(o => o.Account_Manager_Property, new { @class = "form-control input-sm disabledControl", @readonly = true })
                                                 </div>
@@ -474,7 +475,200 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         </div>
                                     </fieldset>
 
+                                    <fieldset>
 
+                                        <div id="accordionIncident" role="tablist" aria-multiselectable="true" class="panel-group">
+                                            <div class="panel panel-primary">
+                                                <div id="headingFour" role="tab" class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordionIncident" href="#collapseFour" aria-expanded="True" aria-controls="collapseFour">Incident Details</a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseFour" role="tabpanel" aria-labelledby="headingFour" class="panel-collapse collapse in">
+                                                    <div class="panel-body">
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Incident Date</label>
+                                                                <div class="col-sm-9">
+                                                                    <div id="dtpIncidentDate" class="input-group date dateCalendar">
+                                                                        @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
+                                                                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                                                            <span class="fa fa-calendar"></span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Incident Time</label>
+                                                                <label class="col-sm-1 control-label input-sm text-right">HH</label>
+                                                                <div class="col-sm-3">
+                                                                    @Html.DropDownListFor(m => m.Incident_TimeH, Enumerable.Range(0, 24).Select(i => new
+                                    SelectListItem
+                                                                   {
+                                                                       Text = i.ToString().PadLeft(2, '0'),
+                                                                       Value = i.ToString().PadLeft(2, '0')
+                                                                   }), new { @class = "form-control input-sm" })
+                                                                </div>
+                                                                <label class="col-sm-1 control-label input-sm text-center">-</label>
+                                                                <label class="col-sm-1 control-label input-sm text-right">Min</label>
+                                                                <div class="col-sm-3">
+                                                                    @Html.DropDownListFor(m => m.Incident_TimeM, Enumerable.Range(0, 60).Select(i => new
+                                    SelectListItem
+                                                                   {
+                                                                       Text = i.ToString().PadLeft(2, '0'),
+                                                                       Value = i.ToString().PadLeft(2, '0')
+                                                                   }), new { @class = "form-control input-sm" })
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Incident Address</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextAreaFor(o => o.Incident_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Incident Type</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.DropDownListFor(o => o.Incident_Type, new SelectList(Model.IncidentTypeList, "Text", "Text"), "", new { @class = "form-control input-sm" })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb">
+                                                            <div class="col-md-12 col-sm-12">
+                                                                <label class="col-sm-3 control-label input-sm">Incident Category</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.DropDownListFor(model => model.Incident_Category, new SelectList(Model.IncidentCategoryList, "Text", "Text"),
+                                        new { @class = "form-control input-sm", @multiple = "multiple", @name = "Incident_Category", @style = "width:100%" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Witness</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextAreaFor(o => o.Witnesses, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Claimant Firstname</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Claimant_First_Name, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Claimant Lastname</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Claimant_Last_Name, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Claimant Company</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Claimant_Company, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Gender</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.DropDownListFor(model => model.Gender, new SelectList(Model.GenderList), new { @class = "form-control input-sm  valueChanged" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">DoB</label>
+                                                                <div class="col-sm-9">
+                                                                    <div id="dtpDob" class="input-group date dateCalendar">
+                                                                        @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
+                                                                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                                                            <span class="fa fa-calendar"></span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
+                                                                <div class="col-sm-9">
+
+                                                                    @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Email Address</label>
+                                                                <div class="col-sm-9">
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(o => o.Email_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+
+                                                                        @*<span id="ocNoModal" class="input-group-btn">
+                                                                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                                                    <a href="#"></a>
+                                                                                    <i class="fa fa-binoculars"></i>
+                                                                                </button>
+                                                                            </span>*@
+                                                                        <a id="aEmailClaimant" class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                                                            <span class="fa fa-envelope"></span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Claimant Address</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextAreaFor(o => o.Claimant_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
 
                                 <div class="col-md-6">
@@ -535,11 +729,11 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             <div class="col-sm-9">
                                                 <label class="checkbox-inline">
                                                     @Html.CheckBoxFor(o => o.Claim_Approved, new { @id = "chkApproved" })
-                                                    <label class="input-sm" style="padding-top: 0px">Approval - Approved</label>
+                                                    <label class="input-sm" style="padding-top: 0px">Approved</label>
                                                 </label>
                                                 <label class="checkbox-inline">
                                                     @Html.CheckBoxFor(o => o.Claim_Declined, new { @id = "chkDeclined" })
-                                                    <label class="input-sm" style="padding-top: 0px">Approval - Declined</label>
+                                                    <label class="input-sm" style="padding-top: 0px">Declined</label>
                                                 </label>
 
                                             </div>
@@ -730,7 +924,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                     {
                                                                         @Html.TextBoxFor(o => o.Insurer_Name, new { @class = "form-control input-sm disabledControl", @readonly = true })
                                                                     }
-                                                                 
+
                                                                 </div>
                                                                 @Html.HiddenFor(o => o.Insurer)
                                                             </div>
@@ -894,7 +1088,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Liability Reserve $</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Liability_Reserve_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Liability_Reserve)" />
                                                                         @Html.HiddenFor(o => o.Liability_Reserve)
                                                                     </div>
                                                                 </div>
@@ -903,7 +1097,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Defence Reserve $</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Defence_Reserve_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Defence_Reserve)" />
                                                                         @Html.HiddenFor(o => o.Defence_Reserve)
                                                                     </div>
                                                                 </div>
@@ -913,7 +1107,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Total Reserve $</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Total_Reserve_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Reserve)" />
                                                                         @Html.HiddenFor(o => o.Total_Reserve)
                                                                     </div>
                                                                 </div>
@@ -922,7 +1116,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Net Paid Liability $</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Net_Paid_Liability_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Liability)" />
                                                                         @Html.HiddenFor(o => o.Net_Paid_Liability)
                                                                     </div>
                                                                 </div>
@@ -931,7 +1125,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Net Paid Defence $</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Net_Paid_Defence_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Net_Paid_Defence)" />
                                                                         @Html.HiddenFor(o => o.Net_Paid_Defence)
                                                                     </div>
                                                                 </div>
@@ -940,7 +1134,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Gross Paid to Date $</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Gross_Paid_To_Date_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Gross_Paid_To_Date)" />
                                                                         @Html.HiddenFor(o => o.Gross_Paid_To_Date)
                                                                     </div>
                                                                 </div>
@@ -949,7 +1143,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Total Incurred $</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Total_Incurred_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Total_Incurred)" />
                                                                         @Html.HiddenFor(o => o.Total_Incurred)
                                                                     </div>
                                                                 </div>
@@ -958,7 +1152,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 <div class="form-group mb">
                                                                     <label class="col-sm-3 control-label input-sm">Current Exposure</label>
                                                                     <div class="col-sm-9">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
+                                                                        <input class="form-control input-sm disabledControl" id="Current_Exposure_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Current_Exposure)" />
                                                                         @Html.HiddenFor(o => o.Current_Exposure)
                                                                     </div>
                                                                 </div>
@@ -1163,190 +1357,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div id="accordionIncident" role="tablist" aria-multiselectable="true" class="panel-group">
-                                        <div class="panel panel-primary">
-                                            <div id="headingFour" role="tab" class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordionIncident" href="#collapseFour" aria-expanded="True" aria-controls="collapseFour">Incident Details</a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseFour" role="tabpanel" aria-labelledby="headingFour" class="panel-collapse collapse in">
-                                                <div class="panel-body">
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Incident Date</label>
-                                                            <div class="col-sm-9">
-                                                                <div id="dtpIncidentDate" class="input-group date dateCalendar">
-                                                                    @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
-                                                                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                                                        <span class="fa fa-calendar"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Incident Time</label>
-                                                            <label class="col-sm-1 control-label input-sm text-right">HH</label>
-                                                            <div class="col-sm-3">
-                                                                @Html.DropDownListFor(m => m.Incident_TimeH, Enumerable.Range(0, 24).Select(i => new
-                                    SelectListItem
-                                                           {
-                                                               Text = i.ToString().PadLeft(2, '0'),
-                                                               Value = i.ToString().PadLeft(2, '0')
-                                                           }), new { @class = "form-control input-sm" })
-                                                            </div>
-                                                            <label class="col-sm-1 control-label input-sm text-center">-</label>
-                                                            <label class="col-sm-1 control-label input-sm text-right">Min</label>
-                                                            <div class="col-sm-3">
-                                                                @Html.DropDownListFor(m => m.Incident_TimeM, Enumerable.Range(0, 60).Select(i => new
-                                    SelectListItem
-                                                           {
-                                                               Text = i.ToString().PadLeft(2, '0'),
-                                                               Value = i.ToString().PadLeft(2, '0')
-                                                           }), new { @class = "form-control input-sm" })
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Incident Address</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextAreaFor(o => o.Incident_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Incident Type</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.DropDownListFor(o => o.Incident_Type, new SelectList(Model.IncidentTypeList, "Text", "Text"), "", new { @class = "form-control input-sm" })
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Witness</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextAreaFor(o => o.Witnesses, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Claimant Firstname</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Claimant_First_Name, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Claimant Lastname</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Claimant_Last_Name, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Claimant Company</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Claimant_Company, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Gender</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.DropDownListFor(model => model.Gender, new SelectList(Model.GenderList), new { @class = "form-control input-sm  valueChanged" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">DoB</label>
-                                                            <div class="col-sm-9">
-                                                                <div id="dtpDob" class="input-group date dateCalendar">
-                                                                    @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
-                                                                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                                                        <span class="fa fa-calendar"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Claimant Phone (W)</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Claimant_Work_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
-                                                            <div class="col-sm-9">
-
-                                                                @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Email Address</label>
-                                                            <div class="col-sm-9">
-                                                                <div class="input-group">
-                                                                    @Html.TextBoxFor(o => o.Email_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
-
-                                                                    @*<span id="ocNoModal" class="input-group-btn">
-                                                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                                                <a href="#"></a>
-                                                                                <i class="fa fa-binoculars"></i>
-                                                                            </button>
-                                                                        </span>*@
-                                                                    <a id="aEmailClaimant" class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                                                        <span class="fa fa-envelope"></span>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Claimant Address</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextAreaFor(o => o.Claimant_Address, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
 
@@ -1835,9 +1846,11 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             tags: true
         });
 
-        var values = "@Model.Incident_Category"; //pull ItemIds from Model in MVC
+         var values = "@Model.Incident_Category"; //pull ItemIds from Model in MVC
         $.each(values.split(","), function (i, e) {
             if (e != "Not Set" && e != "" && e != null && e != undefined) {
+                if (i == 0)
+                    e = " " + e;
                 if (!re.test(e)) {
                     var newList = $.merge($('#Incident_Category').select2('data'), [{
                         id: e,
@@ -1852,6 +1865,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 $("#Incident_Category option[value='" + e + "']").prop("selected", true);
             }
         });
+
 
         var policyClass = "@Model.Policy_Class";
         if (policyClass == "") {
@@ -2046,6 +2060,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         $("#Liability_Res_Source").val($("#txtLiabilityResSource").val());
         $("#Defence_Res_Source").val($("#txtDefecnceResSource").val());
         $('#ExrtaFieldModal').modal('toggle');
+        CalculatePaymentFigures();
+
     }
 
     var message = '@message';
@@ -2150,6 +2166,32 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 }
             });
         }
+    }
+
+    function CalculatePaymentFigures() {
+        var netPaidLiability, netPaidDefence, liabilityReserveGross = 0, defenceReserveGross = 0, totalReserve;
+        $.ajax({
+            url: "/ClaimGeneral/AjaxGetPaymentAmount?claimId=" + "@Model.H_Claimsid" + "&liability_Res_Source=" + $("#Liability_Res_Source").val() + "&defence_Res_Source=" + $("#Defence_Res_Source").val() + "&excess=" + $("#Excess").val(), success: function (result) {
+                if (result != null) {
+                    $("#Liability_Reserve").val(result.Liability_Reserve);
+                    $("#Liability_Reserve_Id").val('$' + result.Liability_Reserve.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Defence_Reserve").val(result.Defence_Reserve);
+                    $("#Defence_Reserve_Id").val('$' + result.Defence_Reserve.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Total_Reserve").val(result.Total_Reserve);
+                    $("#Total_Reserve_Id").val('$' + result.Total_Reserve.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Net_Paid_Liability").val(result.Net_Paid_Liability);
+                    $("#Net_Paid_Liability_Id").val('$' + result.Net_Paid_Liability.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Net_Paid_Defence").val(result.Net_Paid_Defence);
+                    $("#Net_Paid_Defence_Id").val('$' + result.Net_Paid_Defence.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Gross_Paid_To_Date").val(result.Gross_Paid_To_Date);
+                    $("#Gross_Paid_To_Date_Id").val('$' + result.Gross_Paid_To_Date.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Total_Incurred").val(result.Total_Incurred);
+                    $("#Total_Incurred_Id").val('$' + result.Total_Incurred.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Current_Exposure").val(result.Current_Exposure);
+                    $("#Current_Exposure_Id").val('$' + result.Current_Exposure.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                }
+            }
+        });
     }
 
     $(document).ready(function () {

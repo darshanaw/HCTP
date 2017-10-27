@@ -231,7 +231,7 @@ namespace HonanClaimsPortal.Controllers
             foreach (CRMOCNumSimple item in filteredRecords)
             {
                 string[] arry = new string[] { item.OCNum,item.PolicyNumber, item.Address,item.Account,item.AccountId,item.InsuredName,item.Insurer,
-                    item.InsurerName,item.Address1,item.Address2,item.Suburb,item.State,item.Postcode,item.Policy_Class,item.PolicyId };
+                    item.InsurerName,item.Address1,item.Address2,item.Suburb,item.State,item.Postcode,item.Policy_Class,item.PolicyId,item.AccountManagerCode };
                 aData.Add(arry);
             }
 
@@ -296,7 +296,7 @@ namespace HonanClaimsPortal.Controllers
                 string[] arry = new string[] { item.PolicyId, item.PolicyNo, item.PolicyClass, item.PolicyStatus, item.Address1, item.Address2, item.Suburb, item.State, item.Postcode, item.PolicyExpiry, item.AccountManager,
                     item.PeriodFrom != null ? DateTime.Parse(item.PeriodFrom.ToString()).ToShortDateString() : "" 
                     , item.PeriodTo != null ? DateTime.Parse(item.PeriodTo.ToString()).ToShortDateString() : "", item.Excess.ToString(),
-                    item.UnderwriterId,item.UnderwriterName,item.Insured_Name,item.PolicyId};
+                    item.UnderwriterId,item.UnderwriterName,item.Insured_Name,item.PolicyId,item.AccountManagerCode};
 
                 aData.Add(arry);
             }

@@ -38,6 +38,8 @@
                     @Html.HiddenFor(o => o.Insurer)
                     @Html.HiddenFor(o => o.Oc_Id)
                     @Html.HiddenFor(o => o.Assigned_User)
+                    @Html.HiddenFor(o => o.Broker_Account_Id)
+                    @Html.HiddenFor(o => o.Broker_Name_Id)
 
                     <fieldset style="padding-bottom: 0px">
 
@@ -210,7 +212,7 @@
 
                             <div class="col-md-12 col-sm-12 form-group">
                                 <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Acct Manager</label>
+                                    <label class="col-sm-3 control-label input-sm">Acct Mgr Code</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(o => o.Account_Manager_Property, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
@@ -255,7 +257,7 @@
                             </div>
                             <div class="col-md-12 col-sm-12 form-group">
                                 <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Police Report</label>
+                                    <label class="col-sm-3 control-label input-sm">Police Report #</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(o => o.Policy_Report_Num, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
@@ -295,7 +297,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">Incident Date</label>
                                 <div class="col-sm-9">
-                                    <div id="dtpIncidentDate" class="input-group dateCalendar">
+                                    <div id="dtpIncidentDate" class="input-group">
                                         @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -333,21 +335,36 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 col-sm-12 form-group mb">
+                            <div class="col-md-12 col-sm-12 form-group mb top-padding">
                                 <label class="col-sm-3 control-label input-sm">Incident Type</label>
                                 <div class="col-sm-9">
                                     @Html.DropDownListFor(o => o.Incident_Type, new SelectList(Model.IncidentTypeList, "Text", "Text"), "", new { @class = "form-control input-sm" })
 
                                 </div>
                             </div>
-                            @*<div class="col-md-12 col-sm-12 form-group top-padding">
-                                    <div class="form-group mb">
-                                        <label class="col-sm-3 control-label input-sm">Witnesses</label>
-                                        <div class="col-sm-9">
-                                            @Html.TextAreaFor(o => o.Witnesses, new { @class = "form-control input-sm", @maxlength = 400 })
-                                        </div>
+
+                            <div class="col-md-12 col-sm-12 form-group">
+                                <label class="col-sm-3 control-label input-sm">Incident Category</label>
+                                <div class="col-sm-9">
+
+                                    @*@Html.DropDownListFor(model => model.Incident_Category, new SelectList(Model.IncidentCategoryList, "Code", "Text"),
+                                        new { @class = "form-control input-sm" })*@
+
+                                    @Html.DropDownListFor(model => model.Incident_Category, new SelectList(Model.IncidentCategoryList, "Text", "Text"),
+                                        new { @class = "form-control input-sm", @multiple = "multiple", @style = "z-index:auto; width:100%" })
+                                    @*@Html.ValidationMessageFor(m => m.Incident_Category, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 form-group top-padding">
+                                <div class="form-group mb">
+                                    <label class="col-sm-3 control-label input-sm">Witnesses</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(o => o.Witnesses, new { @class = "form-control input-sm", @maxlength = 400 })
                                     </div>
-                                </div>*@
+                                </div>
+                            </div>
                             <div class="col-md-12 col-sm-12 form-group top-padding">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Firstname</label>
@@ -385,7 +402,7 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">DoB</label>
                                     <div class="col-sm-9">
-                                        <div id="dtpDob" class="input-group dateCalendar">
+                                        <div id="dtpDob" class="input-group">
                                             @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm" })
                                             <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                 <span class="fa fa-calendar"></span>
@@ -643,14 +660,23 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Insurer</label>
                                         <div class="col-sm-9">
-                                            <div class="input-group">
-                                                @Html.TextBoxFor(o => o.InsurerName, new { @class = "form-control input-sm", @maxlength = 100 })
-                                                <span id="spnInsurerModal" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
-                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                                                        <i class="fa fa-binoculars"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
+
+                                            @if (string.IsNullOrEmpty(Model.InsurerName))
+                                            {
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(o => o.InsurerName, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                    <span id="spnInsurerModal" class="input-group-btn" data-toggle="modal" data-target="#InsurerModal">
+                                                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                            <i class="fa fa-binoculars"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(o => o.InsurerName, new { @class = "form-control input-sm disabled", @readonly = true , @maxlength = 100 })
+                                            }
+
                                         </div>
                                     </div>
                                 </div>
@@ -703,6 +729,37 @@
                                         <label class="col-sm-3 control-label input-sm">Insured Address</label>
                                         <div class="col-sm-9">
                                             @Html.TextAreaFor(o => o.Insured_Address, new { @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 top-padding">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Broker Name</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(o => o.Broker_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                <span id="brokerAccountNameModal" class="input-group-btn" data-toggle="modal" data-target="#ContactBrokerModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Broker Account</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(o => o.Broker_Account, new { @class = "form-control input-sm", @maxlength = 100 })
+                                                <span id="brokerAccountNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountBrokerModal">
+                                                    <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                                        <i class="fa fa-binoculars"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -860,6 +917,42 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div id="ContactBrokerModal" class="modal fade ContactBrokerModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Broker Name Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_ContactBrokerLookup.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="AccountBrokerModal" class="modal fade AccountBrokerModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Account Broker Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_AccountBrokerLookup.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
 <!-- Loading gif-->
@@ -879,6 +972,11 @@
         });
 
         $('#dtpDateOfLoss').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#dtpIncidentDate').datetimepicker({
             maxDate: moment(),
             format: 'DD/MM/YYYY'
         });
@@ -958,27 +1056,44 @@
         });
 
 
-        $("#Policy_Class").change(function () {
-            $('#Policy_Section').find('option').remove().end();
-            $.ajax({
-                url: "/RisksmartPropertyClaim/GetPolicySectionData?policyClass=" + $("#Policy_Class").val(), success: function (result) {
-                    if (result != null && result.length > 0) {
-                        $('#Policy_Section').append($('<option>', {
-                            value: "",
-                            text: ""
-                        }));
-
-                        $.each(result, function (i, item) {
-                            $('#Policy_Section').append($('<option>', {
-                                value: item.Text,
-                                text: item.Text
-                            }));
-                        });
-                    }
-                }
-            });
+        $("#Broker_Account").change(function () {
+            if ($("#Broker_Account").val() == "") {
+                $("#Broker_Account_Id").val("");
+                $("#Broker_Name").val("");
+                $("#Broker_Name_Id").val("");
+            }
 
         });
+
+        $("#brokerAccountNameModal").click(function () {
+            $('#tbContactBroker').DataTable().ajax.reload(null, false);
+        });
+
+        $('#Incident_Category').select2({
+            theme: "bootstrap"
+        });
+
+        //$("#Policy_Class").change(function () {
+        //    $('#Policy_Section').find('option').remove().end();
+        //    $.ajax({
+        //        url: "/RisksmartPropertyClaim/GetPolicySectionData?policyClass=" + $("#Policy_Class").val(), success: function (result) {
+        //            if (result != null && result.length > 0) {
+        //                $('#Policy_Section').append($('<option>', {
+        //                    value: "",
+        //                    text: ""
+        //                }));
+
+        //                $.each(result, function (i, item) {
+        //                    $('#Policy_Section').append($('<option>', {
+        //                        value: item.Text,
+        //                        text: item.Text
+        //                    }));
+        //                });
+        //            }
+        //        }
+        //    });
+
+        //});
 
 
     });
@@ -994,10 +1109,11 @@
         $('#dtpDob').datetimepicker({
             viewMode: 'years',
             format: 'DD/MM/YYYY',
+            maxDate: moment(),
         }).on("dp.show", function () {
             console.log("dtp open");
             if (firstOpen == true) {
-                var year = new Date().getFullYear() - 18;
+                var year = new Date().getFullYear() - 15;
                 $(this).data('DateTimePicker').date("01/01/" + year);
                 firstOpen = false;
             }
