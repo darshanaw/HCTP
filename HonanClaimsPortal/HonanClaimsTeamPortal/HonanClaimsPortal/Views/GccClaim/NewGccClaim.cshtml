@@ -137,7 +137,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">* Reported Date</label>
                                 <div class="col-sm-9">
-                                    <div id="dtpReportedDate" class="input-group dateCalendar">
+                                    <div id="dtpReportedDate" class="input-group">
                                         @Html.TextBoxFor(o => o.Reported_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -187,7 +187,7 @@
                             <div class="col-md-12 col-sm-12 form-group">
                                 <label class="col-sm-3 control-label input-sm">* Incident Date</label>
                                 <div class="col-sm-9">
-                                    <div id="dtpIncidentDate" class="input-group dateCalendar">
+                                    <div id="dtpIncidentDate" class="input-group">
                                         @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
                                         <span class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                             <span class="fa fa-calendar"></span>
@@ -323,8 +323,9 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Client Group</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(model => model.Client_Group, new SelectList(Model.Client_Group_List, "Text", "Text"),
-                        new { @class = "form-control input-sm" })
+                                        @*@Html.DropDownListFor(model => model.Client_Group, new SelectList(Model.Client_Group_List, "Text", "Text"),
+                        new { @class = "form-control input-sm" })*@
+                                        @Html.TextBoxFor(o => o.Client_Group, new { @class = "form-control input-sm", @maxlength = 200 })
                                     </div>
                                 </div>
                             </div>
@@ -540,6 +541,17 @@
 
     $(document).ready(function () {
 
+        $('#dtpReportedDate').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
+
+        $('#dtpIncidentDate').datetimepicker({
+            maxDate: moment(),
+            format: 'DD/MM/YYYY'
+        });
+
+        
         $('#formNewGccClaim').submit(function () {
             if ($(this).valid()) {
                 $.LoadingOverlay("show");
