@@ -1841,7 +1841,12 @@ else
                 viewMode: 'years',
                 format: 'DD/MM/YYYY',
             }).on("dp.show", function () {
-                console.log("dtp open");
+
+                if ($("#Date_Of_Birth").val())
+                {
+                    firstOpen = false;
+                }
+
                 if (firstOpen == true) {
                     var year = new Date().getFullYear() - 18;
                     $(this).data('DateTimePicker').date("01/01/" + year);

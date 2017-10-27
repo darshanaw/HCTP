@@ -458,6 +458,7 @@
         $("#Is_Settlement").prop("checked", false);
         $("#Is_Settlement").val(false);
         dynamicValidations_Payment();
+        $('.select2-selection.select2-selection--single').removeClass("alertError");
         $("#Payment_Amount").val("");
         $("#Payment_Note").val("");
         $("#Payment_Date").val("");

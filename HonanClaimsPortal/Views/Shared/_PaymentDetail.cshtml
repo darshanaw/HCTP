@@ -19,7 +19,11 @@
         $('.dateCalendarDate_Sent_For_Payment').datetimepicker({
             format: 'DD/MM/YYYY',
             //locale: 'pt-br',
-            maxDate: moment()
+            maxDate: moment(),
+            widgetPositioning: {
+                //horizontal: 'top',
+                vertical: 'top'
+            }
         });
 
         $('.dateCalendarDate_Invoice_Paid').datetimepicker({
@@ -27,13 +31,7 @@
             //locale: 'pt-br',
             maxDate: moment()
         });
-
-        $('.dateCalendarDate_Payment_Date').datetimepicker({
-            format: 'DD/MM/YYYY',
-            //locale: 'pt-br',
-            maxDate: moment()
-        });
-        
+                  
 
         $("#Payee_Type").select2({
             tags: true,
@@ -48,6 +46,12 @@
     function GetResult_Pd(data) {
 
         if ($('#PaymentDetailModal').length > 0) {
+         
+            if (typeof CalculatePaymentFigures !== 'undefined' && $.isFunction(CalculatePaymentFigures)) {
+
+                CalculatePaymentFigures();
+            }
+
             $('#PaymentDetailModal').modal('hide');
         }
 
@@ -411,8 +415,6 @@
 
 </div>
 
-
-
 <div class="col-md-12">
     <div class="footer text-right"> 
         <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
@@ -502,8 +504,8 @@
         if ($("#Liability_Reserve").length > 0) {
             var val1 = $("#Liability_Reserve").val();
             var val2 = $("#Payment_Amount").val();
-            
-            if (val1 < val2) {
+           
+            if (Number(val1) < Number(val2)) {
 
                 bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
                 return false;
@@ -512,10 +514,8 @@
     }
 
     $(function () {
-
-       
+               
         
-
         $('#frmPaymentDetail').submit(function (e) {
             
             dynamicValidations_Payment();          
@@ -620,7 +620,16 @@
 
     function dynamicValidations_Payment()
     {
+        
+        if ($('#Payee_Type :selected').text() == "") {
+
+            $('.select2-selection.select2-selection--single').addClass("alertError");
+        }
+        else
+            $('.select2-selection.select2-selection--single').removeClass("alertError");
+
         if ($("#Is_Settlement").is(":checked")) {
+
             $("#Reserve_Type").val("Liability Reserve");
             $("#Reserve_Type").prop("disabled", true);
             $(".Reserve_Type_Class").val("Liability Reserve");
@@ -628,12 +637,14 @@
             $("#Gst_Included").prop("checked", false);
             $("#Date_Invoice_Received").rules("remove", "required");
             $("#Payee_Type").rules("remove", "required");
+            $('.select2-selection.select2-selection--single').removeClass("alertError");
+
             $("#Payee_Account_Name").rules("remove", "required");
             $("#Payment_Amount").rules("add", "required");
             $("#Payment_Date").rules("add", "required");
 
-            $("#Total_Gross").val($("#Payment_Amount").val())
-            $("#Total_Net").val($("#Payment_Amount").val())
+            $("#Total_Gross").val($("#Payment_Amount").val());
+            $("#Total_Net").val($("#Payment_Amount").val());
         }
         else {
             //$("#Reserve_Type").val("");
@@ -643,6 +654,7 @@
             $("#Payee_Account_Name").rules("add", "required");
             $("#Payment_Amount").rules("remove", "required");
             $("#Payment_Date").rules("remove", "required");
+            
         }
     }
 
