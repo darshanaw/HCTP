@@ -57,6 +57,7 @@ namespace HonanClaimsPortal.Controllers
             claim.Insurer = newClaimModel.Insurer;
             claim.InsurerName = newClaimModel.InsurerName;
             claim.Insured_Name = newClaimModel.Insured_Name;
+            claim.Account_Manager_Property = newClaimModel.Account_Manager_Property;
 
             //claim.Claim_Team = login.ClaimTeam;
             //claim.Claim_Type = string.IsNullOrEmpty(Request.QueryString[QueryStringHelper.PageType]) ? Session[SessionHelper.Page].ToString() : Request.QueryString[QueryStringHelper.PageType];
@@ -83,7 +84,7 @@ namespace HonanClaimsPortal.Controllers
                 if (claim.Region != null)
                     claim.Region = String.Join(",", Region.Where(s => !string.IsNullOrEmpty(s)));
                 if (claim.Incident_Category != null)
-                    claim.Incident_Category = String.Join(",", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+                    claim.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
                 Mapper.Initialize(cfg => cfg.CreateMap<PropertyClaim, ClaimGeneral>());
                 ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
@@ -163,8 +164,8 @@ namespace HonanClaimsPortal.Controllers
 
             model.Claim_Status_List = pickListServices.GetPickListItems("Honan Claim Status");
 
-            //model.IncidentCategoryList = pickListServices.GetPickListItems("Risksmart Property Incident Category");
-            //model.IncidentCategoryList.Insert(0, new PicklistItem());
+            model.IncidentCategoryList = pickListServices.GetPickListItems("Property Claims Incident Category");
+            model.IncidentCategoryList.Insert(0, new PicklistItem());
 
             model.Policy_Section_List = pickListServices.GetPickListItems("Property Claims Policy Section");
             model.Policy_Section_List.Insert(0, new PicklistItem());
@@ -254,13 +255,14 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DetailPropertyClaim(PropertyClaim model)
+        public async Task<ActionResult> DetailPropertyClaim(PropertyClaim model, IEnumerable<string> Incident_Category)
         {
-
             Session[SessionHelper.StoreobjectList] = null;
             PicklistServicecs picklistService = new PicklistServicecs();
             ClaimServices claims = new ClaimServices();
 
+            if (Incident_Category != null)
+                model.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
             Mapper.Initialize(cfg => cfg.CreateMap<PropertyClaim, ClaimGeneral>());
             ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);

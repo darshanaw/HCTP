@@ -26,5 +26,6 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public string UnderwriterId { get; set; }
         public string UnderwriterName { get; set; }
         public string Insured_Name { get; set; }
+        public string AccountManagerCode { get; set; }
     }
 }

@@ -106,7 +106,7 @@
                         return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \''
                             + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\', \'' + oObj[10] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' +
                             oObj[11] + '\', \'' + oObj[12] + '\', \'' + oObj[13] + '\', \'' + oObj[14] + '\', \'' + oObj[15] + '\', \'' + oObj[16] + '\', \'' +
-                            oObj[17] + '\');">' + oObj[1] + '</a>';
+                            oObj[17] + '\', \'' + oObj[18] + '\');">' + oObj[1] + '</a>';
                     }
                 },
                 { "sName": "PolicyClass" },
@@ -117,7 +117,7 @@
     });
 
     function closeModal(val, address1, addresss2, suburb, state, postcode, accountManager, policyClass, policyStatus, periodFrom, periodTo, excess, underwriterId,
-        underwriterName, insuredName, policyId) {
+        underwriterName, insuredName, policyId,accountManagerCode) {
         debugger;
         var text = $(val).text();
         $("#Policy_No").val(text);
@@ -191,13 +191,17 @@
             if ($("#Insured_Name").length > 0) {
                 $("#Insured_Name").val(insuredName);
             }
-            
+
+            if ($("#Account_Manager_Property").length > 0) {
+                $("#Account_Manager_Property").val(accountManagerCode);
+            }
         }
 
         if ($("#Policy_Id")) {
 
             $("#Policy_Id").val(policyId);
         }
+
 
         $('#PolicyModal').modal('toggle');
     }
