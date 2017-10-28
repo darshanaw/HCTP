@@ -18,10 +18,17 @@
 
     $(function () {
 
-        $('#formNewTimeSlipBilling').submit(function () {
+        $('#formNewTimeSlipBilling').submit(function (e) {
           
             if ($(this).valid()) {
-                $.LoadingOverlay("show");
+
+                if (!IsTimePickerValid_New()) {
+
+                    e.preventDefault();
+                }
+                else {
+                    $.LoadingOverlay("show");
+                }
             }
         });
 
@@ -146,9 +153,15 @@
                                 <div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Start Time</label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.sStart_Time_New, new { @style = "width:100%" })
-                                            @Html.ValidationMessageFor(o => o.sStart_Time_New, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                                        <div class="col-sm-8">                                           
+                                            <div class='input-group date_sStart_Time_New'>
+                                                @*<input type='text' class="form-control" />*@
+                                                @Html.TextBoxFor(m => m.sStart_Time_New, new { @class = "form-control input-sm" })
+                                                <span class="input-group-addon">
+                                                    <span class="fa fa-clock-o"></span>
+                                                </span>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -156,8 +169,13 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">End Time</label>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.sEnd_Time_New, new { @style = "width:100%" })
-                                            @Html.ValidationMessageFor(o => o.sEnd_Time_New, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                                            <div class='input-group date_sEnd_Time_New'>
+                                                @*<input type='text' class="form-control" />*@
+                                                @Html.TextBoxFor(m => m.sEnd_Time_New, new { @class = "form-control input-sm" })
+                                                <span class="input-group-addon">
+                                                    <span class="fa fa-clock-o"></span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -364,6 +382,25 @@
 
     <script>
 
+
+        function IsTimePickerValid_New() {
+
+            var currentDate = new Date();
+
+            var startTime = new Date("1900-01-01 " + $("#sStart_Time_New").val());
+            var endTime = new Date("1900-01-01 " + $("#sEnd_Time_New").val());
+
+            if (startTime > endTime) {
+
+                bootbox.alert("Start time cannot be later than end time");
+                return false;
+            }
+
+            return true;
+
+        }
+
+
         function loadgrManagerid() {
            
             $("#lookupAccountManagerGrid_New").kendoGrid({
@@ -414,6 +451,120 @@
         //--------------Start Time-----------------------------
         $(document).ready(function () {
 
+
+            $('.date_sStart_Time_New').datetimepicker({
+                format: 'LT',
+                widgetPositioning: {
+                    vertical: 'top'
+                }
+
+            }).on('dp.change', function (event) {
+
+                var sDate = new Date(event.date);
+
+                var event_date = event.date;
+                if (event_date == null) {
+                    return;
+                }
+
+                var currentDte = new Date();
+
+                var eDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sEnd_Time_New").val());
+
+                if (sDate > eDate) {
+
+                    //bootbox.alert("Start time cannot be later than end time");
+                    //var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
+                    //Starttimepicker.value(preStartOpenTime);
+                    //$("#sStart_Time").val(event.oldDate);
+
+                } else {
+                    var SH = sDate.getHours();
+                    var SM = sDate.getMinutes();
+
+                    var EH = eDate.getHours();
+                    var EM = eDate.getMinutes();
+
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        //e.preventDefault;
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+
+                    $("#Units_New").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit_New").val();
+                    var val = (RatePUNIT * Unit).toFixed(2);
+                    $("#Billable_New").val(val);
+
+                }
+
+                //$('#newDateSpan').html("New Date: " + event.date.format('lll'));
+                //$('#oldDateSpan').html("Old Date: " + event.oldDate.format('lll'));
+            });
+
+            $('.date_sEnd_Time_New').datetimepicker({
+
+                format: 'LT',
+                widgetPositioning: {
+                    vertical: 'top'
+                }
+
+            }).on('dp.change', function (event) {
+
+                var currentDte = new Date();
+                var sDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sStart_Time_New").val());
+
+                var event_date = event.date;
+                if (event_date == null) {
+                    return;
+                }
+
+                var eDate = new Date(event.date);
+
+                if (sDate > eDate) {
+
+                    //  bootbox.alert("Start time cannot be later than end time");
+                    //var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
+                    //Starttimepicker.value(preStartOpenTime);
+                    // $("#sStart_Time").val(event.oldDate);
+
+                } else {
+                    var SH = sDate.getHours();
+                    var SM = sDate.getMinutes();
+
+                    var EH = eDate.getHours();
+                    var EM = eDate.getMinutes();
+
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        //e.preventDefault;
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+
+                    $("#Units_New").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit_New").val();
+                    var val = (RatePUNIT * Unit).toFixed(2);
+                    $("#Billable_New").val(val);
+
+                }
+
+                });
+
+
             $(".AccountManagerModal_New_Close").click(function () {
 
                 $("#AccountManagerModal_New").modal('hide');
@@ -451,110 +602,110 @@
                 }
             });
 
-            $("#sStart_Time_New").kendoTimePicker({
-                interval: 1,
-                change: onStartChange_New,
-                Format: ("hh:mm tt"),
-                open: OnStartOpen_New,
-            });
+            //$("#sStart_Time_New").kendoTimePicker({
+            //    interval: 1,
+            //    change: onStartChange_New,
+            //    Format: ("hh:mm tt"),
+            //    open: OnStartOpen_New,
+            //});
         });
 
-        var preStartOpenTime_New = null;
-        function OnStartOpen_New(e) {
-            preStartOpenTime_New = e.sender._oldText;
-        }
+        //var preStartOpenTime_New = null;
+        //function OnStartOpen_New(e) {
+        //    preStartOpenTime_New = e.sender._oldText;
+        //}
 
-        function onStartChange_New(e) {
+        //function onStartChange_New(e) {
 
-            var sDate = new Date(e.sender.value());
+        //    var sDate = new Date(e.sender.value());
 
-            var datetimepicker = $("#sEnd_Time_New").data("kendoTimePicker");
-            var eDate = new Date(datetimepicker._value);
+        //    var datetimepicker = $("#sEnd_Time_New").data("kendoTimePicker");
+        //    var eDate = new Date(datetimepicker._value);
 
-            if (sDate > eDate && eDate.getFullYear() != '1970') {
+        //    if (sDate > eDate && eDate.getFullYear() != '1970') {
 
-                bootbox.alert("Start time cannot be later than end time");
-                var Starttimepicker = $("#sStart_Time_New").data("kendoTimePicker");
-                Starttimepicker.value(preStartOpenTime_New);
+        //        bootbox.alert("Start time cannot be later than end time");
+        //        var Starttimepicker = $("#sStart_Time_New").data("kendoTimePicker");
+        //        Starttimepicker.value(preStartOpenTime_New);
 
-            } else {
-                var SH = sDate.getHours();
-                var SM = sDate.getMinutes();
+        //    } else {
+        //        var SH = sDate.getHours();
+        //        var SM = sDate.getMinutes();
 
-                var EH = eDate.getHours();
-                var EM = eDate.getMinutes();
+        //        var EH = eDate.getHours();
+        //        var EM = eDate.getMinutes();
 
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    e.preventDefault;
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units_New").val(Unit);
-                var RatePUNIT = $("#Rate_Per_Unit_New").val();
-                var val = (RatePUNIT * Unit).toFixed(2);
-                $("#Billable_New").val(val);
+        //        var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+        //        if (totalMi < 0) {
+        //            e.preventDefault;
+        //            return false;
+        //        }
+        //        var mode = totalMi % 6;
+        //        var Unit = 0;
+        //        if (mode <= 2) {
+        //            Unit = Math.floor(totalMi / 6);
+        //        } else {
+        //            Unit = Math.ceil(totalMi / 6);
+        //        }
+        //        $("#Units_New").val(Unit);
+        //        var RatePUNIT = $("#Rate_Per_Unit_New").val();
+        //        var val = (RatePUNIT * Unit).toFixed(2);
+        //        $("#Billable_New").val(val);
 
-            }
-        }
+        //    }
+        //}
 
         //------------------------EndTime-------------------------
         $(document).ready(function () {
 
-            $("#sEnd_Time_New").kendoTimePicker({
-                interval: 1,
-                change: onEndChange_New,
-                Format: ("hh:mm tt"),
-                open: OnEndOpen_New,
-            });
+            //$("#sEnd_Time_New").kendoTimePicker({
+            //    interval: 1,
+            //    change: onEndChange_New,
+            //    Format: ("hh:mm tt"),
+            //    open: OnEndOpen_New,
+            //});
         });
 
-        var preEndOpenTime_New = null;
-        function OnEndOpen_New(e) {
-            preEndOpenTime_New = e.sender._oldText;
-        }
+        //var preEndOpenTime_New = null;
+        //function OnEndOpen_New(e) {
+        //    preEndOpenTime_New = e.sender._oldText;
+        //}
 
-        function onEndChange_New(e) {
-            var datetimepicker = $("#sStart_Time_New").data("kendoTimePicker");
-            var sDate = new Date(datetimepicker._value);
-            var eDate = new Date(e.sender.value());
+        //function onEndChange_New(e) {
+        //    var datetimepicker = $("#sStart_Time_New").data("kendoTimePicker");
+        //    var sDate = new Date(datetimepicker._value);
+        //    var eDate = new Date(e.sender.value());
 
-            if (sDate > eDate) {
-                bootbox.alert("End time cannot be earlier than start time");
-                var Endtimepicker = $("#sEnd_Time_New").data("kendoTimePicker");
-                Endtimepicker.value(preEndOpenTime_New);
+        //    if (sDate > eDate) {
+        //        bootbox.alert("End time cannot be earlier than start time");
+        //        var Endtimepicker = $("#sEnd_Time_New").data("kendoTimePicker");
+        //        Endtimepicker.value(preEndOpenTime_New);
 
-            } else {
-                var SH = sDate.getHours();
-                var SM = sDate.getMinutes();
+        //    } else {
+        //        var SH = sDate.getHours();
+        //        var SM = sDate.getMinutes();
 
-                var EH = eDate.getHours();
-                var EM = eDate.getMinutes();
+        //        var EH = eDate.getHours();
+        //        var EM = eDate.getMinutes();
 
-                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                if (totalMi < 0) {
-                    return false;
-                }
-                var mode = totalMi % 6;
-                var Unit = 0;
-                if (mode <= 2) {
-                    Unit = Math.floor(totalMi / 6);
-                } else {
-                    Unit = Math.ceil(totalMi / 6);
-                }
-                $("#Units_New").val(Unit);
-                var RatePUNIT = $("#Rate_Per_Unit_New").val();
-                var val = (RatePUNIT * Unit).toFixed(2);
-                $("#Billable_New").val(val);
+        //        var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+        //        if (totalMi < 0) {
+        //            return false;
+        //        }
+        //        var mode = totalMi % 6;
+        //        var Unit = 0;
+        //        if (mode <= 2) {
+        //            Unit = Math.floor(totalMi / 6);
+        //        } else {
+        //            Unit = Math.ceil(totalMi / 6);
+        //        }
+        //        $("#Units_New").val(Unit);
+        //        var RatePUNIT = $("#Rate_Per_Unit_New").val();
+        //        var val = (RatePUNIT * Unit).toFixed(2);
+        //        $("#Billable_New").val(val);
 
-            }
-        }
+        //    }
+        //}
 
         $("#cancel_New").on("click", function () {
 
