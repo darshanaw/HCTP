@@ -1,5 +1,8 @@
 ﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.Common;
 using HonanClaimsWebApi.Models.Contact;
+using HonanClaimsWebApi.Services;
+using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +15,9 @@ namespace HonanClaimsPortal.Controllers
     [AuthorizeUser]
     public class ContactController : Controller
     {
+
+        PicklistServicecs pickListServices;
+        PicklistServicecs PropertyStateList;
         // GET: Contact
         public ActionResult Index()
         {
@@ -40,9 +46,44 @@ namespace HonanClaimsPortal.Controllers
         public async  Task<ActionResult> ContactDetail(string ContactId)
         {
             ContactRepo contactRepo = new ContactRepo();
-            ContactModel contactModel = new ContactModel();
-            contactModel = await contactRepo.GetAccount(ContactId);
-            return View(contactModel);
+            ContactModel model = new ContactModel();
+            model = await contactRepo.GetAccount(ContactId);
+            //Get Suburbs
+            pickListServices = new PicklistServicecs();
+            model.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
+            model.PropertySuburbList.Insert(0, new PicklistItem());
+
+
+            //Get Suburbs
+            PropertyStateList = new PicklistServicecs();
+            model.PropertyStateList = pickListServices.GetPickListItems("H_State");
+            ViewBag.ContactId = ContactId;
+           
+            return View(model);
+        }
+
+        public async Task<ActionResult> UpdateContactDetail(string ContactId , string ContactName, string Title , string Webaddress , string Address1 ,
+           string Address2 , string Suburb , string State , string PostalCode , string Workphone, string Mobile , string Fax, string Homephone , string Email)
+        {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            ContactUpdateModel model = new ContactUpdateModel();
+            model.ContactId = ContactId;
+            model.ContactName = ContactName;
+            model.Title = Title;
+            model.Webaddress = Webaddress;
+            model.Address1 = Address1;
+            model.Address2 = Address2;
+            model.Suburb = Suburb;
+            model.State = State;
+            model.PostalCode = PostalCode;
+            model.Workphone = Workphone;
+            model.Mobile = Mobile;
+            model.Fax = Fax;
+            model.Homephone = Homephone;
+            model.Email = Email;
+            ContactRepo contactRepo = new ContactRepo();
+            bool result = await contactRepo.UpdateContact(model,client.UserId);
+            return RedirectToAction("Index");
         }
 
     }

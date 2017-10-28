@@ -1,6 +1,7 @@
 ﻿using HonanClaimsWebApi.Models.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +21,24 @@ namespace HonanClaimsWebApi.Models.AccountList
     public class AccountModel
     {
         public string AccountName { get; set; }
-        public string Mainphone { get; set; }
-        public string Fax { get; set; }
-        public string Tollfree { get; set; }
-        public string Webaddress { get; set; }
+        public string Mainphone { get; set; }//
+        public string Fax { get; set; }//
+        public string Tollfree { get; set; }//
+        public string Webaddress { get; set; }//
         public string Accountmanagerid { get; set; }
         public string Accountmanager { get; set; }
-        public string Type { get; set; }
-        public string Address { get; set; }
+        public string Type { get; set; }//
+        public string Address1 { get; set; }//
+        public string Address2 { get; set; }//
+        public string Suburb { get; set; }//
+        public string State { get; set; }//
+        public string PostalCode { get; set; }//
+
+        public List<PicklistItem> PropertySuburbList { get; set; }
+        public List<PicklistItem> PropertyStateList { get; set; }
+        public List<PicklistItem> AccountType { get; set; }
+        public List<PicklistItem> BillingMethods { get; set; }
+
         public string Client_Code { get; set; }
         public string H_Under_States { get; set; }
         public string Externalaccountno { get; set; }
@@ -41,9 +52,9 @@ namespace HonanClaimsWebApi.Models.AccountList
         public string Aka { get; set; }
         public string H_Claim_Ref_Abbr { get; set; }
         public string H_Risksmart_Client_Group { get; set; }
-        public string Billing_Method { get; set; }
-        public string Billable_Rate { get; set; }
-        public string Service_Rage { get; set; }
+        public string Billing_Method { get; set; }//
+        public string Billable_Rate { get; set; }//
+        public string Service_Rage { get; set; }//
         public string Bsi_Incr_Pct { get; set; }
         public string Minimum_Cat_Pct { get; set; }
         public string Minimum_Lor_Pct { get; set; }
@@ -67,6 +78,24 @@ namespace HonanClaimsWebApi.Models.AccountList
     {
         public string AccountName { get; set; }
         public List<CommonModel> AccountType { get; set; }
+    }
+
+    public class AccountUpdateModel
+    {
+        public string AccountId { get; set; }
+        public string Mainphone { get; set; }
+        public string Fax { get; set; }
+        public string Tollfree { get; set; }
+        public string Webaddress { get; set; }
+        public string Type { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Suburb { get; set; }
+        public string State { get; set; }
+        public string PostalCode { get; set; }
+        public string Billing_Method { get; set; }
+        public string Billable_Rate { get; set; }
+        public string Service_Rage { get; set; }
     }
 
 }
