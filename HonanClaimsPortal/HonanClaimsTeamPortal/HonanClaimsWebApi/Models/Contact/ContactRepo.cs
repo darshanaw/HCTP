@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -50,6 +51,37 @@ namespace HonanClaimsWebApi.Models.Contact
                 }
             }
             return list;
+        }
+
+        public async Task<bool> UpdateContact(ContactUpdateModel model,string userId)
+        {
+            var result = false;
+            var templist = new List<string>();
+
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+            string apiUrl = SiteUrl + "api/Contact/UpdateContact";
+            using (HttpClient client = new HttpClient())
+            {
+                using (var formData = new MultipartFormDataContent())
+                {
+                    client.BaseAddress = new Uri(apiUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    var toList = JsonConvert.SerializeObject(model);
+                    var content = new StringContent(toList, System.Text.Encoding.UTF8, "application/json");
+                    var content1 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+                    formData.Add(content, "Contact");
+                    formData.Add(content1, "userId");
+                    HttpResponseMessage response = client.PostAsync(apiUrl, formData).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        result = Convert.ToBoolean(data);
+                    }
+                }
+            }
+            return result;
         }
     }
 }

@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
 <div class="content-wrapper">
     <h3>Contact Detail</h3>
 
@@ -13,56 +18,92 @@
             <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Contact Name</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
 
             <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Account</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Account, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.RouteLink(Model.Account, new { action = "AccountDetail", controller = "AccountList", AccountId = Model.AccountId })
+                    @*@Html.TextBoxFor(m => m.Account, new { @class = "form-control input-sm", @readonly = true })*@
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Title</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control input-sm", @readonly = true })
+                    @*@Html.TextBoxFor(m => m.Title, new { @class = "form-control input-sm", @readonly = true })*@
+                    @Html.DropDownListFor(model => model.Title, new SelectList(Model.PropertySuburbList, "Code", "Text"),
+                                         new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
-            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
-                <label class="col-sm-3 control-label input-sm">Address</label>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Address 1</label>
                 <div class="col-md-9">
-                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Address 2</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Suburb</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.Suburb, new SelectList(Model.PropertySuburbList, "Code", "Text"),
+                                         new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">State</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.State,
+new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new SelectListItem { Value = "NSW", Text = "NSW" }, new SelectListItem { Value = "SA", Text = "SA" }
+,new SelectListItem { Value = "TAS", Text = "TAS" },new SelectListItem { Value = "VIC", Text = "VIC" },new SelectListItem { Value = "WA", Text = "WA" },new SelectListItem { Value = "QLD", Text = "QLD" }},
+                                 new { @class = "form-control input-sm", @placeholder = "State", @style = "background:#FFFF66" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Postal Code</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+
             <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Work Phone</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Workphone, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Workphone, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Mobile</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Fax</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Home Phone</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Homephone, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Homephone, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">E-mail</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Website</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
         </div>
@@ -83,13 +124,13 @@
             </div>
 
 
-            <div class="form-group col-md-4">
+            @*<div class="form-group col-md-4">
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.DoNotSolicit, new { @readonly = true, @class = "input-sm" })
                 </div>
                 <label class="col-md-9 control-label input-sm">Do not solicit</label><div class="col-md-9">
                 </div>
-            </div>
+            </div>*@
 
 
             <div class="form-group col-md-8">
@@ -98,52 +139,57 @@
                 </div>
                 <label class="col-md-9 control-label input-sm">Authorized service contact</label>
             </div>
-            <div class="form-group col-md-4">
+
+            @*<div class="form-group col-md-4">
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.DoNotEmail, new { @readonly = true, @class = "input-sm" })
                 </div>
                 <label class="col-md-9 control-label input-sm">Do not email</label>
-            </div>
+            </div>*@
 
 
             <div class="form-group col-md-8">
             </div>
-            <div class="form-group col-md-4">
+
+            @*<div class="form-group col-md-4">
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.DoNotCall, new { @readonly = true, @class = "input-sm" })
                 </div>
                 <label class="col-md-9 control-label input-sm">Do not call</label>
+            </div>*@
 
-            </div>
             <div class="form-group col-md-8">
             </div>
-            <div class="form-group col-md-4">
+            @*<div class="form-group col-md-4">
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.DoNotMail, new { @readonly = true, @class = "input-sm" })
                 </div>
                 <label class="col-md-9 control-label input-sm">Do not mail</label>
 
-            </div>
+            </div>*@
             <div class="form-group col-md-8">
             </div>
-            <div class="form-group col-md-4">
+            @*<div class="form-group col-md-4">
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.DoNotFax, new { @readonly = true, @class = "input-sm" })
                 </div>
                 <label class="col-md-9 control-label input-sm">Do not fax</label>
-            </div>
+            </div>*@
            
-            <div class="form-group col-md-12 col-sm-12">
+            @*<div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Contact Type</label>
                 <div class="col-md-9">
                     @Html.TextBoxFor(m => m.Type, new { @class = "form-control input-sm", @readonly = true })
                 </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
+            </div>*@
+
+
+            @*<div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Contact Statu</label><div class="col-md-9">
                     @Html.TextBoxFor(m => m.Status, new { @class = "form-control input-sm", @readonly = true })
                 </div>
-            </div>
+            </div>*@
+
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Account Type</label><div class="col-md-9">
                     @Html.TextBoxFor(m => m.AccountType, new { @class = "form-control input-sm", @readonly = true })
@@ -161,6 +207,7 @@
                 <div class="col-md-12">
                     <div class="pull-right">
                         <button type="button" onclick="Cancel()" class="btn btn-default">Cancel</button>
+                        <button type="button" id="btnSave" class="mb-sm btn btn-primary">Save</button>
                     </div>
                 </div>
             </div>
@@ -169,6 +216,53 @@
 </div>
 
 <script>
+
+    $("#btnSave").click(function () {
+
+        var ContactId = '@ViewBag.ContactId';
+        var ContactName = $("#ContactName ").val();
+        var Title = $("#Title ").val();
+        var Address1 = $("#Address1 ").val();
+        var Address2 = $("#Address2 ").val();
+        var Suburb = $("#Suburb ").val();
+        var State = $("#State ").val();
+        var PostalCode = $("#PostalCode ").val();
+        var Workphone = $("#Workphone ").val();
+        var Mobile = $("#Mobile ").val();
+        var Fax = $("#Fax ").val();
+        var Homephone = $("#Homephone ").val();
+        var Email = $("#Email ").val();
+        var Webaddress = $("#Webaddress ").val();
+
+
+        $.ajax({
+            url: "/Contact/UpdateContactDetail?ContactId=" + ContactId + "&ContactName=" + ContactName + "&Title=" + Title + "&Webaddress=" + Webaddress +
+                "&Address1=" + Address1 + "&Address2=" + Address2 + "&Suburb=" + Suburb + "&State=" + State
+                + "&PostalCode=" + PostalCode + "&Workphone=" + Workphone + "&Mobile=" + Mobile + "&Fax=" + Fax + "&Homephone=" + Homephone + "&Email=" + Email, success: function (result) {
+
+                },
+            complete: function () {
+            }
+        });
+
+    });
+
+    //$('#Suburb').select2({ width: '100%' });
+
+    //if ($("#Suburb").length > 0) {
+    //    $("#Suburb").val($("#Suburb").val()).trigger('change.select2');;
+    //}
+
+    //$('#State').select2({ width: '100%' });
+
+    //if ($("#State").length > 0) {
+    //    $("#State").val($("#State").val()).trigger('change.select2');;
+    //}
+    //});
+
+
+
+
     function Cancel() {
         window.location.href = '/Contact/Index';
     }

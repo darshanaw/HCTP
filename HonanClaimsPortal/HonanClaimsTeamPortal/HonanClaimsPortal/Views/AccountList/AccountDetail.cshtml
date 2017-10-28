@@ -5,37 +5,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
 <div class="content-wrapper">
     <h3>Account Detail</h3>
+
+    <div class="col-md-12">
+        <div class="footer text-right">
+            <button type="button" id="cancel" onclick="Cancel()" class="mb-sm btn btn-default mr-20">Cancel</button>
+            <button type="submit" class="mb-sm btn btn-primary">Save</button>
+        </div>
+    </div>
 
     <div class="row mb-15">
         <div class="col-md-6">
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Account</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Main Phone</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Mainphone, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Mainphone, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Fax:</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Toll Free</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Tollfree, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Tollfree, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Web Address</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Account Manager</label>
                 <div class="col-md-9">
@@ -45,69 +61,117 @@
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Type</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Type, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.DropDownListFor(model => model.Type, new SelectList(Model.AccountType, "Code", "Text"),
+                                         new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
+            </div>
+
             <div class="form-group col-md-12 col-sm-12">
-                <label class="col-sm-3 control-label input-sm">Address</label>
+                <label class="col-sm-3 control-label input-sm">Address 1</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Address 2</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Suburb</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.Suburb, new SelectList(Model.PropertySuburbList, "Code", "Text"),
+                                         new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">State</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.State,
+new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new SelectListItem { Value = "NSW", Text = "NSW" }, new SelectListItem { Value = "SA", Text = "SA" }
+,new SelectListItem { Value = "TAS", Text = "TAS" },new SelectListItem { Value = "VIC", Text = "VIC" },new SelectListItem { Value = "WA", Text = "WA" },new SelectListItem { Value = "QLD", Text = "QLD" }},
+                                 new { @class = "form-control input-sm", @placeholder = "State", @style = "background:#FFFF66" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Postal Code</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+
+
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Client Code</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Client_Code, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Client_Code, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">States Covered</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.H_Under_States, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.H_Under_States, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">UndAssociate Code:</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Externalaccountno, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Externalaccountno, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Special Notes:</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Notes, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextAreaFor(m => m.Notes, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Under Inits</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.H_Under_Abbrev, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.H_Under_Abbrev, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Props HIG Now</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.H_Assoc_Prop_Hig, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.H_Assoc_Prop_Hig, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Add Next 12 Months</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.H_Assoc_Benchmark, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.H_Assoc_Benchmark, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Pref Prop Format</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.PrefPropFormat, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.PrefPropFormat, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Renewals Email:</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.H_Under_Renewals_Email, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.H_Under_Renewals_Email, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">New Business Email</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.H_Under_Nb_Email, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.H_Under_Nb_Email, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Trading Name</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Aka, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Aka, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Claims Ref Abbrev</label>
                 <div class="col-md-9">
@@ -117,62 +181,78 @@
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Risksmart Client Group:</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.H_Risksmart_Client_Group, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.H_Risksmart_Client_Group, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Billing Method:</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Billing_Method, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.DropDownListFor(m => m.Billing_Method,
+                                 new SelectList(Model.BillingMethods, "Code", "Text"),
+                                 "--Select--",
+                                 new { @class = "form-control input-sm", @style = "background:#FFFF66" })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Billable Rate</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Billable_Rate, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Billable_Rate, new { @class = "form-control input-sm", @style = "background:#FFFF66", @type = "number" })
+                    <label id='idBillable_Rate' style="color:red;display:none">Billable rate required</label>
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Service Rate</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Service_Rage, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Service_Rage, new { @class = "form-control input-sm", @style = "background:#FFFF66", @type = "number" })
+                    <label id='idService_Rage' style="color:red;display:none">Service rate required</label>
+                    
                 </div>
-         
+            </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Annual BSI Increase %</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Bsi_Incr_Pct, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Bsi_Incr_Pct, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Minimum Catastrophe %:</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Minimum_Cat_Pct, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Minimum_Cat_Pct, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Minimum Loss of Rent %</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Minimum_Lor_Pct, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Minimum_Lor_Pct, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Minimum Office Bearers Cover</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Minimum_Ob_Amount, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Minimum_Ob_Amount, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Minimum Public Liability Cover</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Minimum_Liab_Amt, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Minimum_Liab_Amt, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Commission Preference</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Gross_Net_Preference, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Gross_Net_Preference, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Proposals to Email address</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Proposals_Email_Address, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Proposals_Email_Address, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.Proposal_Recommendation_Reqd, new { @readonly = true, @class = "input-sm" })
@@ -182,18 +262,21 @@
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Preferred Proposal Format</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Proposal_Type_Name, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Proposal_Type_Name, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Associate Commission %</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Commission_Percentage, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Commission_Percentage, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Audit Expenses Cover - Amount</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Audit_Expenses, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Audit_Expenses, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Audit Expenses Cover - Words</label>
                 <div class="col-md-9">
@@ -203,47 +286,121 @@
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Legal Defence Limit – Amount</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Legal_Defence_Limit, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Legal_Defence_Limit, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Legal Defence Limit - Words</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Legal_Defence_String, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.Legal_Defence_String, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">W H & S Cover - Amount</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.W_H_And_S, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.W_H_And_S, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">W H & S Cover - Words</label>
                 <div class="col-md-9">
-                    @Html.TextBoxFor(m => m.W_H_And_S_String, new { @class = "form-control input-sm", @readonly = true })</div>
+                    @Html.TextBoxFor(m => m.W_H_And_S_String, new { @class = "form-control input-sm", @readonly = true })
                 </div>
+            </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Body Corporate Liability</label>
                 <div class="col-md-9">
                     @Html.TextBoxFor(m => m.Body_Corporate_Liability, new { @class = "form-control input-sm", @readonly = true })
                 </div>
-                </div>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <div class="col-md-12">
-            <div class="col-md-12">
-                <div class="pull-right">
-                    <button type="button" onclick="Cancel()" class="btn btn-default">Cancel</button>
-                </div>
             </div>
         </div>
     </div>
 
+    <div class="col-md-12">
+        <div class="footer text-right">
+            <button type="button" onclick="Cancel()" id="cancel" class="mb-sm btn btn-default mr-20">Cancel</button>
+            <button type="button" id="btnSave" class="mb-sm btn btn-primary">Save</button>
+        </div>
     </div>
+</div>
 
 <script>
+
+    $("#btnSave").click(function () {
+
+        var AccountId='@ViewBag.AccountId';
+        var Mainphone =$("#Mainphone ").val();
+        var Fax =$("#Fax ").val();
+        var Tollfree =$("#Tollfree ").val();
+        var Webaddress =$("#Webaddress ").val();
+        var Type =$("#Type ").val();
+        var Address1 =$("#Address1 ").val();
+        var Address2 =$("#Address2 ").val();
+        var Suburb =$("#Suburb ").val();
+        var State =$("#State ").val();
+        var PostalCode =$("#PostalCode ").val();
+        var Billing_Method =$("#Billing_Method ").val();
+        var Billable_Rate =$("#Billable_Rate ").val();
+        var Service_Rage =$("#Service_Rage ").val();
+ 
+        if (Billing_Method != null && Billing_Method != "") {
+            if (Billable_Rate == null || Billable_Rate <= 0) {
+                document.getElementById("idBillable_Rate").style.display = "block";
+                return false;
+            } else{
+                document.getElementById("idBillable_Rate").style.display = "none";
+            }
+        } else {
+            document.getElementById("idBillable_Rate").style.display = "none";
+        }
+
+        if (Service_Rage == null || Service_Rage == "") {
+            document.getElementById("idService_Rage").style.display = "block";
+            return false;
+        } else {
+            if (parseInt(Service_Rage) <= 0) {
+                document.getElementById("idService_Rage").style.display = "block";
+            } else {
+                document.getElementById("idService_Rage").style.display = "none";
+            }             
+        }
+
+
+        $.ajax({
+            url: "/AccountList/UpdateAccountDetail?AccountId=" + AccountId + "&Mainphone=" + Mainphone + "&Fax=" + Fax + "&Tollfree=" + Tollfree
+                + "&Webaddress=" + Webaddress + "&Type=" + Type + "&Address1=" + Address1 + "&Address2=" + Address2 + "&Suburb=" + Suburb + "&State=" + State
+                + "&PostalCode=" + PostalCode + "&Billing_Method=" + Billing_Method + "&Billable_Rate=" + Billable_Rate + "&Service_Rage=" + Service_Rage, success: function (result) {
+
+            },
+            complete: function () {
+            }
+        });
+
+    });
+        //$('#Suburb').select2({ width: '100%' });
+
+        //if ($("#Suburb").length > 0) {
+        //    $("#Suburb").val($("#Suburb").val()).trigger('change.select2');;
+        //}
+
+        //$('#State').select2({ width: '100%' });
+
+        //if ($("#State").length > 0) {
+        //    $("#State").val($("#State").val()).trigger('change.select2');;
+        //}
+    //});
+
     function Cancel() {
         window.location.href = '/AccountList/Index';
     }
+
+
+    //$("#btnSave").click(function () {
+    //    var Mainphone = $("#Mainphone").val();
+    //    var Fax = $("#Fax").val();
+    //    var Tollfree = $("#Tollfree").val();
+
+    //});
 
 </script>
 
