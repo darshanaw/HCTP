@@ -225,7 +225,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                 @Html.TextBoxFor(m => m.AccountManagerName, new { @class = "form-control input-sm" })
                                                 @Html.HiddenFor(m => m.AccountManagerId)
                                                 @*<input id="Manager" class="form-control input-sm" />*@
-                                                <span class="input-group-btn" id="AccountManagerlookup" data-toggle="modal" data-target="#PolicyModal">
+                                                <span class="input-group-btn" id="AccountManagerlookupIndex" data-toggle="modal" data-target="#PolicyModal">
                                                     <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                                         <i class="fa fa-binoculars"></i>
                                                     </button>
@@ -279,7 +279,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
 
 <!--Modal-->
-<div id="AccountManagerModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+<div id="AccountManagerModalIndex" class="modal fade OcModal" role="dialog" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -288,8 +288,8 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             </div>
 
             <div class="modal-body">
-                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearch">
-                <div id="lookupAccountManagerGrid"></div>
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearchIndex">
+                <div id="lookupAccountManagerGridIndex"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -440,35 +440,35 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     //=============================================
     $(document).ready(function () {
         //LoadMagaer();
-        var AccountManagerList = [];
+        var AccountManagerListIndex = [];
 
-        $('#AccountManagerlookup').click(function () {
+        $('#AccountManagerlookupIndex').click(function () {
 
-            var text = $('#AMccsearch').val();
+            var text = $('#AMccsearchIndex').val();
             $.get("/NewContactAccount/GetManagerList?userName=" + text, function (data) {
-                AccountManagerList = data;
+                AccountManagerListIndex = data;
                 loadgrManagerid();
             });
 
         });
 
         $('#cancelManagerBtn').click(function () {
-            $('#AMccsearch').val('');
-            AccountManagerList = [];
+            $('#AMccsearchIndex').val('');
+            AccountManagerListIndex = [];
         })
 
         function loadgrManagerid() {
-            $("#lookupAccountManagerGrid").kendoGrid({
+            $("#lookupAccountManagerGridIndex").kendoGrid({
                 dataSource: {
                     type: "json",
-                    data: AccountManagerList,
+                    data: AccountManagerListIndex,
                     pageSize: 10
                 },
                 dataBound: function (e) {
-                    if ($('#AccountManagerModal').hasClass('in')) {
+                    if ($('#AccountManagerModalIndex').hasClass('in')) {
 
                     } else {
-                        $('#AccountManagerModal').modal('show');
+                        $('#AccountManagerModalIndex').modal('show');
                     }
                 },
                 height: 550,
@@ -485,7 +485,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                     title: "Code"
                 },
                 {
-                    template: '<a id="#= Code #" onclick="accountManagerClick(this)">#= Text #</a>',
+                    template: '<a id="#= Code #" onclick="accountManagerClick123(this)">#= Text #</a>',
                     title: "Account Name",
                 }
                 ]
@@ -493,19 +493,19 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
         }
 
-        $("#AMccsearch").keyup(function () {
-            var val = $('#AMccsearch').val();
+        $("#AMccsearchIndex").keyup(function () {
+            var val = $('#AMccsearchIndex').val();
             if (val.length > 2) {
                 AccountList = [];
                 $.get("/NewContactAccount/GetManagerList?userName=" + val, function (data) {
-                    AccountManagerList = data;
+                    AccountManagerListIndex = data;
                     loadgrManagerid();
                 });
             } else {
                 if (val == null || val == "") {
                     AccountList = [];
                     $.get("/NewContactAccount/GetManagerList?userName=", function (data) {
-                        AccountManagerList = data;
+                        AccountManagerListIndex = data;
                         loadgrManagerid();
                     });
                 }
@@ -514,12 +514,11 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
     });
 
-    function accountManagerClick(e) {
-        debugger;
+    function accountManagerClick123(e) {
         $('#AccountId').val(e.id);
         $("#AccountManagerName").val(e.text);
-        $('#AccountManagerModal').modal('hide');
-        $('#AMccsearch').val('');
+        $('#AccountManagerModalIndex').modal('hide');
+        $('#AMccsearchIndex').val('');
     }
 
     ///======================================================
