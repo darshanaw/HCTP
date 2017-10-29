@@ -104,7 +104,7 @@
         }
         if ($("#Region").length > 0) {
 
-            $("#Region").val(region);
+            $("#Region").val(region).trigger('change');
         }
 
         $('#StoresModal').modal('toggle');
