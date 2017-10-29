@@ -77,7 +77,8 @@
                     "sName": "LastName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeKCDContactModal(\'' + oObj[5] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' + oObj[4] + '\')">' + oObj[0] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeKCDContactModal(\'' + oObj[5] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' + oObj[4] + '\', \'' +
+                            oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\')">' + oObj[0] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                         //item.LastName, item.FirstName, item.ContactName, item.AccountId,item.AccountName,item.ContactId
                     }
@@ -97,8 +98,7 @@
     });
 
 
-    function closeKCDContactModal(contactId,contactName,accountId,accountName) {
-
+    function closeKCDContactModal(contactId,contactName,accountId,accountName,email,phone,address) {
         $("#Contact_Name_KCD").val(contactName);
 
         if ($("#Contactid_KCD").length > 0)
@@ -110,6 +110,18 @@
 
         if ($("#Accountid_KCD").length > 0) {
             $("#Accountid_KCD").val(accountId);
+        }
+
+        if ($("#Email_Address_KCD").length > 0) {
+            $("#Email_Address_KCD").val(email);
+        }
+
+        if ($("#Phone_KCD").length > 0) {
+            $("#Phone_KCD").val(phone);
+        }
+
+        if ($("#Address_KCD").length > 0) {
+            $("#Address_KCD").val(address);
         }
 
         $('#ContactModal_KCD_NEW').modal('hide');
