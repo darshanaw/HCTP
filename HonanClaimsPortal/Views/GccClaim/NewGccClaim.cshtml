@@ -548,9 +548,9 @@
 
         $('#dtpIncidentDate').datetimepicker({
             maxDate: moment(),
-            format: 'DD/MM/YYYY'
+            format: 'DD/MM/YYYY',
+            useCurrent: false
         });
-
         
         $('#formNewGccClaim').submit(function () {
             if ($(this).valid()) {
