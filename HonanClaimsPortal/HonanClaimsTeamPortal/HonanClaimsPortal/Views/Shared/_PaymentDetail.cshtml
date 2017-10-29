@@ -31,6 +31,12 @@
             //locale: 'pt-br',
             maxDate: moment()
         });
+
+
+        $('.dateCalendarDate_Payment_Date').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        
                   
 
         $("#Payee_Type").select2({
@@ -497,6 +503,25 @@
 </div>
 
 
+<!-- Modal -->
+<div id="UpdateLiabilityReserveModal" class="modal fade UpdateLiabilityReserveModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close UpdateLiabilityReserveModal_Close">&times;</button>
+                <h4 class="modal-title">Update Liability Reserve</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_UpdateLiabilityReserve.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-default UpdateLiabilityReserveModal_Close" id="UpdateLiabilityReserveModal_Close">Close</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+
 <script>
 
     function CheckPaymentData()
@@ -504,17 +529,41 @@
         if ($("#Liability_Reserve").length > 0) {
             var val1 = $("#Liability_Reserve").val();
             var val2 = $("#Payment_Amount").val();
-           
-            if (Number(val1) < Number(val2)) {
 
-                bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
-                return false;
+            if ($("#Payment_Amount").length > 0) {
+
+                $("#txtSettlementAmount_pymt").val($("#Payment_Amount").val());
+            }
+
+            if ($("#txtLiability_pymt").length > 0) {
+                $("#txtLiability_pymt").val($("#Liability_Reserve").val());
+            }
+
+            //if (val1 == '' || val1 == null || typeof val1 == 'undefined' || val1 == 'NaN')
+            //    val1 = "0";
+
+            //if (val2 == '' || val2 == null || typeof val2 == 'undefined' || val2 == 'NaN')
+            //    val2 = "0";
+
+            if (val1 !== '' && val2 !== '') {
+
+                if (Number(val1) < Number(val2)) {
+
+                    $("#UpdateLiabilityReserveModal").modal("show");
+                    //bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
+                    return false;
+                }
             }
         }
     }
 
     $(function () {
-               
+
+
+        $(".UpdateLiabilityReserveModal_Close").click(function () {
+
+            $("#UpdateLiabilityReserveModal").modal("hide");
+        });
         
         $('#frmPaymentDetail').submit(function (e) {
             
@@ -645,6 +694,9 @@
 
             $("#Total_Gross").val($("#Payment_Amount").val());
             $("#Total_Net").val($("#Payment_Amount").val());
+
+            $("#Payee_Contact_Name").rules("remove", "required");
+            
         }
         else {
             //$("#Reserve_Type").val("");
@@ -654,6 +706,7 @@
             $("#Payee_Account_Name").rules("add", "required");
             $("#Payment_Amount").rules("remove", "required");
             $("#Payment_Date").rules("remove", "required");
+            $("#Payee_Contact_Name").rules("add", "required");
             
         }
     }
