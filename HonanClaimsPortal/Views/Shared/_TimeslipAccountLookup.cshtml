@@ -1,0 +1,144 @@
+﻿
+
+<script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+<script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+<script src="~/Content/vendor/datatables-buttons/js/dataTables.buttons.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
+@*<link href="~/Content/vendor/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />*@
+
+<style>
+    table.dataTable thead .sorting {
+        background: url('/Content/vendor/datatables/media/images/sort_both.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background: url('/Content/vendor/datatables/media/images/sort_asc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background: url('/Content/vendor/datatables/media/images/sort_desc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    .dataTables_filter {
+        margin-top: 10px !important;
+    }
+</style>
+
+<div class="panel panel-default">
+
+    <div class="table-responsive">
+        <table id="tbTimeslipAccount" class="table table-striped" style="margin-bottom: 10px;">
+            <thead>
+                <tr>
+                    <th class="sort-alpha">Account Id</th>
+                    <th class="sort-alpha">Account Name</th>
+                    <th class="sort-alpha">Account Type</th>
+                    <th class="sort-alpha">Account Manager</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#tbTimeslipAccount").hide();
+
+        $('#tbTimeslipAccount').dataTable({
+            "bServerSide": true,
+            "searching": true,
+            "sAjaxSource": "/Lookup/AccountOcAjaxHandler",
+            "paging": false,
+            "scrollY": '40vh',
+            //"pageLength": 15,
+            "bProcessing": false,
+            "bsearch": false,
+            'info':false,
+            "aoColumns": [
+
+                { "sName": "AccountId", "visible": false },
+                {
+                    "sName": "AccountName",
+                    "sClass": "center",
+                    "mRender": function (data, type, oObj) {
+                        return '<a href="javascript:void(0);" onclick="closeTimeslipAccountModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[5] + '\')">' + oObj[1] + '</a >';
+                        //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
+                    }
+                },
+                { "sName": "AccountType" },
+                { "sName": "AccountManager" },
+                { "sName": "BillingMethod", "visible": false }
+            ]
+        });
+
+        $('#tbTimeslipAccount').on('search.dt', function () {
+               //var value = $('.dataTables_filter input').val();
+               //console.log(value); // <-- the value
+            $("#tbTimeslipAccount").show();
+           });
+
+
+    });
+
+
+    function closeTimeslipAccountModal(accountId, accountName,serviceRate) {
+
+        $("#Client_Name_New").val(accountName);
+
+        if ($("#ClientId_New").length > 0)
+        {
+            $("#ClientId_New").val(accountId);
+        }
+      
+        if (serviceRate != null && serviceRate != "") {
+            var RatePHR = serviceRate;
+            var RatePUNIT = ((RatePHR / 60) * 6);
+
+            $("#Rate_New").val(serviceRate);
+            $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
+
+            if (serviceRate < 1) {
+
+                $("#Rate_New").prop("readonly", false);
+                $("#Rate_New").removeClass("disabled");
+            }
+            else {
+                $("#Rate_New").prop("readonly", true);
+                $("#Rate_New").addClass("disabled");
+            }
+
+
+            if ($("#Units_New").val() < 1) {
+
+                $("#Units_New").prop("readonly", false);
+                $("#Units_New").removeClass("disabled");
+            }
+            else {
+                $("#Units_New").prop("readonly", true);
+                $("#Units_New").addClass("disabled");
+            }
+        }
+        else {
+
+            $("#Rate_New").val(0);
+            $("#Rate_Per_Unit_New").val(0);
+            $("#Rate_New").prop("readonly", false);
+            $("#Rate_New").removeClass("disabled");
+        }
+
+        $('#AccountTimeslipModal').modal('hide');
+    }
+
+</script>
