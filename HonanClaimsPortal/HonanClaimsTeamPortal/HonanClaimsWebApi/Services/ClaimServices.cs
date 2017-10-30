@@ -704,6 +704,71 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
         }
+
+
+        public List<CRMPicklistItem> GetLiabilityResSourceForClaim(string claimId)
+        {
+            try
+            {
+               
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamGetLiabilityResSourceForClaim?claimId=" + claimId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<List<CRMPicklistItem>>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public bool UpdateFinancials(decimal liabilityResSource, decimal defenceResSource, string claimId, string userId)
+        {
+            try
+            {
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamUpdateFinancials?liabilityResSource=" + liabilityResSource
+                    + "&defenceResSource="+ defenceResSource + "&claimId="+ claimId + "&userId="+ userId);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<bool>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 
 

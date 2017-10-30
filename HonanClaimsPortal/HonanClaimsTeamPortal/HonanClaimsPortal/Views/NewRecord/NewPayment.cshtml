@@ -516,6 +516,21 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div id="UpdateLiabilityReserveModal" class="modal fade UpdateLiabilityReserveModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close UpdateLiabilityReserveModal_Close">&times;</button>
+                <h4 class="modal-title">Update Liability Reserve</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_UpdateLiabilityReserve.cshtml", null) 
+            </div>          
+        </div>
+    </div>
+</div>
+
 
 <script>
 
@@ -538,6 +553,8 @@
     var kendoAutoCompleteService_By_Name = null;
 
     $(document).ready(function () {
+
+
 
         var urlParam = getUrlParameter('claimRef');
 
