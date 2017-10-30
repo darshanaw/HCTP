@@ -170,7 +170,7 @@ namespace HonanClaimsPortal.Controllers
 
             foreach (AccountSimpleModel item in filteredRecords)
             {
-                string[] arry = new string[] { item.AccountId, item.AccountName, item.AccountType, item.AccountManager, item.BillingMethod };
+                string[] arry = new string[] { item.AccountId, item.AccountName, item.AccountType, item.AccountManager, item.BillingMethod,item.ServiceRate };
                 aData.Add(arry);
             }
 

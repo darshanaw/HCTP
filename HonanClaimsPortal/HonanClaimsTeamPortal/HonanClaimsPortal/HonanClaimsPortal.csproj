@@ -1412,6 +1412,7 @@
     <Content Include="Views\Shared\_ClaimIdLookUp.cshtml" />
     <Content Include="Views\Shared\_MyActivityTaskDetail.cshtml" />
     <Content Include="Views\Shared\_UpdateLiabilityReserve.cshtml" />
+    <Content Include="Views\Shared\_TimeslipAccountLookup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
