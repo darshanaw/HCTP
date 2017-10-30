@@ -67,6 +67,11 @@ namespace HonanClaimsPortal.Controllers
             else
                 model.Current_Exposure = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
 
+
+            //Update Claim DB
+            ClaimTeamLoginModel client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            paymentServices.TeamUpdateFinancials(liability_Res_Source, defence_Res_Source, claimId, client.UserId);
+
             return Json(model, JsonRequestBehavior.AllowGet);
         }
     }

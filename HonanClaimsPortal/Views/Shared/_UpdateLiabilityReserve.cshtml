@@ -1,4 +1,6 @@
 ﻿
+<span>Please increase the Liability Reserve to cater for this settlement amount.</span>
+
 <div class="col-md-12 col-sm-12">
     <div class="form-group mb">
         <label class="col-sm-4 control-label input-sm">Settlement Amount $</label>
@@ -20,7 +22,7 @@
 
 <div class="col-md-12 col-sm-12">
     <div class="form-group mb">
-        <label class="col-sm-4 control-label input-sm">Liability Res. $</label>
+        <label class="col-sm-4 control-label input-sm">Liability Res. Balance $</label>
         <div class="col-sm-8">
             <input type="number" id="txtLiability_pymt" class="form-control input-sm disabled" readonly />
         </div>
@@ -36,11 +38,16 @@
 
 
         $("#btnUpdateLiabilityFromPayment").click(function () {
+            //$("#Liability_Reserve_Id").val($("#txtLiabilityResSource_pymt").val());
+            alert($("#txtLiabilityResSource_pymt").val());
+            $("#Liability_Res_Source").val($("#txtLiabilityResSource_pymt").val());
 
-            $("#Liability_Reserve_Id").val($("#txtLiabilityResSource_pymt").val());
+            if ($("#txtLiabilityResSource").length > 0) {
+                $("#txtLiabilityResSource").val($("#txtLiabilityResSource_pymt").val())
+            }
 
+            CalculatePaymentFigures();
             $("#UpdateLiabilityReserveModal").modal("hide");
-            // CalculatePaymentFigures();
 
         });
 
