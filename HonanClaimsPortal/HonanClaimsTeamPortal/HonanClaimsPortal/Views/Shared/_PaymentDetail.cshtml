@@ -539,12 +539,15 @@
             var val2 = $("#Payment_Amount").val();
 
             if ($("#Payment_Amount").length > 0) {
-
                 $("#txtSettlementAmount_pymt").val($("#Payment_Amount").val());
             }
 
             if ($("#txtLiability_pymt").length > 0) {
                 $("#txtLiability_pymt").val($("#Liability_Reserve").val());
+            }
+
+            if ($("#txtLiabilityResSource_pymt").length > 0) {
+                $("#txtLiabilityResSource_pymt").val($("#Liability_Res_Source").val());
             }
 
             //if (val1 == '' || val1 == null || typeof val1 == 'undefined' || val1 == 'NaN')

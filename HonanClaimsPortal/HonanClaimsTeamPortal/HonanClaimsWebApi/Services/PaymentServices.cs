@@ -47,5 +47,39 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
         }
+
+
+        public bool TeamUpdateFinancials(decimal liabilityResSource, decimal defenceResSource, string claimId,string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamUpdateFinancials?liabilityResSource=" + liabilityResSource + "&defenceResSource=" + 
+                    defenceResSource + "&claimId=" + claimId + "&userId=" + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            if (!string.IsNullOrEmpty(response))
+                            {
+                                return bool.Parse(response);
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
