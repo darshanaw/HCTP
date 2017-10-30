@@ -383,6 +383,23 @@
     <script>
 
 
+        var getUrlParameter = function getUrlParameter(sParam) {
+
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
+
+
         function IsTimePickerValid_New() {
 
             var currentDate = new Date();
@@ -402,7 +419,7 @@
 
 
         function loadgrManagerid() {
-           
+
             $("#lookupAccountManagerGrid_New").kendoGrid({
                 dataSource: {
                     type: "json",
@@ -439,9 +456,9 @@
 
         }
 
-       
+
         function accountLookupClickSBY_New(Code, Text) {
-           
+
             $('#Service_By_New').val(Code);
             $('#Service_By_Name_New').val(Text);
             $('#AccountManagerModal_New').modal('hide');
@@ -450,7 +467,29 @@
 
         //--------------Start Time-----------------------------
         $(document).ready(function () {
+            //'piumi'
+            var urlParam = getUrlParameter('claimRef');
 
+            if (urlParam != '' && typeof urlParam !== 'undefined' && urlParam != 'NaN') {
+
+                $("#Claim_No_New").val(urlParam);
+
+                var urlParam_claimId = getUrlParameter('claimId');
+                $("#H_Claimsid_Billing_New").val(urlParam_claimId);
+
+                $.ajax({
+                    url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + urlParam_claimId,// $("#H_Claimsid").val(),
+                    success: function (data) {
+                        $('#Client_Name_New').val('');
+                        $("#ClientId_New").val('');
+
+                        $('#Client_Name_New').val(data.Text);
+                        $("#ClientId_New").val(data.Code);
+
+                    }
+                });
+
+            }
 
             $('.date_sStart_Time_New').datetimepicker({
                 format: 'LT',
@@ -511,96 +550,96 @@
 
             $('.date_sEnd_Time_New').datetimepicker({
 
-                format: 'LT',
+                                                    format: 'LT',
                 widgetPositioning: {
-                    vertical: 'top'
+                                                        vertical: 'top'
                 }
 
-            }).on('dp.change', function (event) {
+                                                }).on('dp.change', function (event) {
 
-                var currentDte = new Date();
-                var sDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sStart_Time_New").val());
+                                                    var currentDte = new Date();
+                                                    var sDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sStart_Time_New").val());
 
-                var event_date = event.date;
-                if (event_date == null) {
-                    return;
-                }
+                                                    var event_date = event.date;
+                                                    if (event_date == null) {
+                                                        return;
+                                                    }
 
-                var eDate = new Date(event.date);
+                                                    var eDate = new Date(event.date);
 
-                if (sDate > eDate) {
+                                                    if (sDate > eDate) {
 
-                    //  bootbox.alert("Start time cannot be later than end time");
-                    //var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
-                    //Starttimepicker.value(preStartOpenTime);
-                    // $("#sStart_Time").val(event.oldDate);
+                                                        //  bootbox.alert("Start time cannot be later than end time");
+                                                        //var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
+                                                        //Starttimepicker.value(preStartOpenTime);
+                                                        // $("#sStart_Time").val(event.oldDate);
 
-                } else {
-                    var SH = sDate.getHours();
-                    var SM = sDate.getMinutes();
+                                                    } else {
+                                                        var SH = sDate.getHours();
+                                                        var SM = sDate.getMinutes();
 
-                    var EH = eDate.getHours();
-                    var EM = eDate.getMinutes();
+                                                        var EH = eDate.getHours();
+                                                        var EM = eDate.getMinutes();
 
-                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
-                    if (totalMi < 0) {
-                        //e.preventDefault;
-                        return false;
-                    }
-                    var mode = totalMi % 6;
-                    var Unit = 0;
-                    if (mode <= 2) {
-                        Unit = Math.floor(totalMi / 6);
-                    } else {
-                        Unit = Math.ceil(totalMi / 6);
-                    }
+                                                        var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                                                        if (totalMi < 0) {
+                                                            //e.preventDefault;
+                                                            return false;
+                                                        }
+                                                        var mode = totalMi % 6;
+                                                        var Unit = 0;
+                                                        if (mode <= 2) {
+                                                            Unit = Math.floor(totalMi / 6);
+                                                        } else {
+                                                            Unit = Math.ceil(totalMi / 6);
+                                                        }
 
                     $("#Units_New").val(Unit);
-                    var RatePUNIT = $("#Rate_Per_Unit_New").val();
-                    var val = (RatePUNIT * Unit).toFixed(2);
+                                                        var RatePUNIT = $("#Rate_Per_Unit_New").val();
+                                                        var val = (RatePUNIT * Unit).toFixed(2);
                     $("#Billable_New").val(val);
 
-                }
+                                                    }
 
-                });
+                                                });
 
 
             $(".AccountManagerModal_New_Close").click(function () {
 
                 $("#AccountManagerModal_New").modal('hide');
-            });
+                                                });
 
             $(".btnClientModalClose_New").click(function () {
 
                 $("#ClientModal_New").modal("hide");
-            });
+                                                });
 
             $("#AMccsearch_New").keyup(function () {
-                AccountList = [];
+                                                    AccountList = [];
                 //$.get("/Billing/GetTeamGetBillableLawyers?filter=" + $("#AMccsearch_New").val(), function (data) {
                 $.get("/Billing/GetAllUsersList?filter=" + $("#AMccsearch_New").val(), function (data) {
-                    AccountManagerList = data;
-                    loadgrManagerid();
-                });
-            });
+                                                        AccountManagerList = data;
+                                                        loadgrManagerid();
+                                                    });
+                                                });
 
             $('#AccountManagerlookup_New').click(function () {
-                var text = $('#AMccsearch_New').val();
+                                                    var text = $('#AMccsearch_New').val();
                 $("#AccountManagerModal_New").modal('show');
                 //$.get("/Billing/GetTeamGetBillableLawyers?filter=" + "", function (data) {
                 $.get("/Billing/GetAllUsersList?filter=" + "", function (data) {
-                    AccountManagerList = data;
-                    loadgrManagerid();
-                });
-            });
+                                                        AccountManagerList = data;
+                                                        loadgrManagerid();
+                                                    });
+                                                });
 
 
             $('#frmBillingForm_New').submit(function (e) {
 
-                if ($(this).valid()) {
+                                                    if ($(this).valid()) {
                     $.LoadingOverlay("show");
-                }
-            });
+                                                    }
+                                                });
 
             //$("#sStart_Time_New").kendoTimePicker({
             //    interval: 1,
@@ -882,7 +921,7 @@
         });
 
         function accountClick_New(e) {
-          
+
             $('#ClientId_New').val(e.id);
             $("#Client_Name_New").val(e.text);
             $('#ClientModal_New').modal('hide');

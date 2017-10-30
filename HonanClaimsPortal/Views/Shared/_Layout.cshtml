@@ -210,7 +210,7 @@
                                         <a href="/NewClaim/Index" class="list-group-item">
                                             <small>New Claim</small>
                                         </a>
-                                        <a href="/NewRecord/NewTimeslipDetail" class="list-group-item">
+                                        <a href="#" id="addNewTimeslip" class="list-group-item">
                                             <small>New Billable Timeslip</small>
                                         </a>
                                         <a href="#" id="addNewPayment" class="list-group-item">
@@ -1712,6 +1712,21 @@
             }
             else
                 window.location.href = '/NewRecord/NewKeyDate';
+        });
+
+
+        $('#addNewTimeslip').click(function () {
+
+            var claimId = $("#H_Claimsid").val();
+            var claim_Reference_Num = $("#Claim_Reference_Num").val();
+
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
+                window.location.href = '/NewRecord/NewTimeslipDetail?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
+            }
+            else
+                window.location.href = '/NewRecord/NewTimeslipDetail';
+
         });
 
         getPortalRegistrationCount();
