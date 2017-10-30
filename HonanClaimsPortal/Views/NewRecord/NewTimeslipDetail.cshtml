@@ -2,24 +2,24 @@
 
 @{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
 
-    @{
-        ViewBag.Title = "Index";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    <!-- MOMENT JS-->
-    <script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+<!-- MOMENT JS-->
+<script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
 
-    <!-- DATETIMEPICKER-->
-    <link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-    <script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<!-- DATETIMEPICKER-->
+<link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
 <script>
 
     $(function () {
 
         $('#formNewTimeSlipBilling').submit(function (e) {
-          
+
             if ($(this).valid()) {
 
                 if (!IsTimePickerValid_New()) {
@@ -42,22 +42,22 @@
     }
 </style>
 
-    <div class="content-wrapper">
-        <h3 class="hmb">
-            New Billable Timeslip
-        </h3>
+<div class="content-wrapper">
+    <h3 class="hmb">
+        New Billable Timeslip
+    </h3>
 
-        <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-body">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-                    @using (Html.BeginForm("NewTimeslipDetail", "NewRecord", FormMethod.Post, new { @id= "formNewTimeSlipBilling" }))
-                    {
-                        @Html.HiddenFor(o => o.PageType_New)
-                        @Html.Hidden("H_Claimsid_New")
+                @using (Html.BeginForm("NewTimeslipDetail", "NewRecord", FormMethod.Post, new { @id = "formNewTimeSlipBilling" }))
+                {
+                    @Html.HiddenFor(o => o.PageType_New)
+                    @Html.Hidden("H_Claimsid_New")
 
-                        <div id="divFakeBilling" style="display:none"></div>
-                        <div style="color:red;margin-left:3%" id="timerMessage"></div><br />
+                    <div id="divFakeBilling" style="display:none"></div>
+                        @*<div style="color:red;margin-left:3%" id="timerMessage"></div><br />*@
                         <div class="main-container timedetail">
                             @Html.HiddenFor(m => m.H_Billingsid_New)
                             <div class="col-md-6">
@@ -82,14 +82,14 @@
                                                         <i class="fa fa-binoculars"></i>
                                                     </button>
                                                 </span>
-                                                </div>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Claim</label>
-                                        <div class="col-sm-8">                                            
+                                        <div class="col-sm-8">
                                             @Html.HiddenFor(m => m.H_Claimsid_Billing_New)
                                             <div class="input-group">
                                                 @Html.TextBoxFor(m => m.Claim_No_New, new { @class = "form-control input-sm input-sm disabled", @readonly = true })
@@ -103,14 +103,14 @@
                                     </div>
                                 </div>
                                 @*<div class="row">
-                                    <div class="form-group mb">
-                                        <label class="col-sm-4 control-label input-sm">Activity</label>
-                                        <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.Activity_Name_New, new { @class = "form-control input-sm" })
-                                            @Html.HiddenFor(m => m.ActivityId_New)
+                                        <div class="form-group mb">
+                                            <label class="col-sm-4 control-label input-sm">Activity</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(m => m.Activity_Name_New, new { @class = "form-control input-sm" })
+                                                @Html.HiddenFor(m => m.ActivityId_New)
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>*@
+                                    </div>*@
                                 <div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Policy</label>
@@ -153,7 +153,7 @@
                                 <div class="row">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Start Time</label>
-                                        <div class="col-sm-8">                                           
+                                        <div class="col-sm-8">
                                             <div class='input-group date_sStart_Time_New'>
                                                 @*<input type='text' class="form-control" />*@
                                                 @Html.TextBoxFor(m => m.sStart_Time_New, new { @class = "form-control input-sm" })
@@ -218,7 +218,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Timeslip Checked</label>
                                         <div class="col-sm-8">
-                                           
+
                                             @if (userObj.Teams.Contains("Check Timeslips"))
                                             {
                                                 @Html.CheckBoxFor(c => c.Timeslip_Checked_New)
@@ -251,7 +251,7 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Invoice Processed</label>
                                         <div class="col-sm-8">
-                                         
+
                                             @if (userObj.Teams.Contains("Claims Invoice Processing Team"))
                                             {
                                                 @Html.CheckBoxFor(c => c.Invoice_Processed_New)
@@ -368,20 +368,35 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button  type="button" class="btn btn-default AccountManagerModal_New_Close">Close</button>
+                                        <button type="button" class="btn btn-default AccountManagerModal_New_Close">Close</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                    }
-                </div>
+                }
             </div>
         </div>
     </div>
+</div>
 
-    <script>
+<script>
 
+        var getUrlParameter = function getUrlParameter(sParam) {
+
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
 
         function IsTimePickerValid_New() {
 
@@ -450,7 +465,102 @@
 
         //--------------Start Time-----------------------------
         $(document).ready(function () {
-           
+
+            var fieldsUpdated = false;
+
+            $(window).on('beforeunload', function () {
+              
+            if (fieldsUpdated) {
+                return "Any changes will be lost";
+                }
+
+            });
+
+            $('.form-control').change(function () {  
+              
+                 fieldsUpdated = true;
+         });
+
+         $('.datebtn').click(function () {           
+                 fieldsUpdated = true;
+         });
+
+         $("input:checkbox").change(function () {           
+                 fieldsUpdated = true;
+         });
+
+
+         // Form Submit
+         $(document).on("submit", "form", function (event) {
+             // disable unload warning
+             $(window).off('beforeunload');
+         });
+
+            var urlParam = getUrlParameter('claimRef');
+
+            if (urlParam != '' && typeof urlParam !== 'undefined' && urlParam != 'NaN') {
+
+                $("#Claim_No_New").val(urlParam);
+
+                var urlParam_claimId = getUrlParameter('claimId');
+                $("#H_Claimsid_New").val(urlParam_claimId);
+
+
+                $.ajax({
+
+                    url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + urlParam_claimId,// $("#H_Claimsid").val(),
+                    success: function (data) {
+
+
+                        $('#Client_Name_New').val(data.Text);
+                        $("#ClientId_New").val(data.Code);
+
+                        if (data.Order != null) {
+                            var RatePHR = data.Order;
+                            var RatePUNIT = ((RatePHR / 60) * 6);
+
+                            $("#Rate_New").val(data.Order);
+                            $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
+
+                            if (data.Order < 1) {
+
+                                $("#Rate_New").prop("readonly", false);
+                                $("#Rate_New").removeClass("disabled");
+                            }
+                            else {
+                                $("#Rate_New").prop("readonly", true);
+                                $("#Rate_New").addClass("disabled");
+                            }
+
+
+                            if ($("#Units_New").val() < 1) {
+
+                                $("#Units_New").prop("readonly", false);
+                                $("#Units_New").removeClass("disabled");
+                            }
+                            else {
+                                $("#Units_New").prop("readonly", true);
+                                $("#Units_New").addClass("disabled");
+                            }
+                        }
+
+                        $.ajax({
+                            url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + urlParam_claimId,
+                            success: function (result) {
+
+
+                                $('#Policyid_Billing_New').val(result[0].Code);
+                                $("#Policy_Name_Billing_New").val(result[0].Text);
+                            }
+                        });
+
+                    }
+                });
+
+
+            }
+
+
             $('.date_sStart_Time_New').datetimepicker({
                 format: 'LT',
                 widgetPositioning: {
@@ -708,6 +818,7 @@
 
         $("#cancel_New").on("click", function () {
 
+            $(window).off('beforeunload');
             window.location = "/Billing/MyBillableTime";
         });
 
@@ -887,10 +998,10 @@
             $('#ClientModal_New').modal('hide');
 
         }
-    </script>
+</script>
 
 
-    <script>
+<script>
         //var kendoAutoCompleteService_By_Name_New = null;
         $(document).ready(function () {
 
@@ -934,14 +1045,14 @@
             kendoAutoCompleteService_By_Name_New.setDataSource(dataSource);
         });
 
-    </script>
+</script>
 
 
-    <script>
+<script>
         //var kendoAutoCompleteClaim_No_New = null;
         $(document).ready(function () {
 
-            
+
             //kendoAutoCompleteClaim_No_New = $("#Claim_No_New").kendoAutoComplete({
             //    dataTextField: "Text",
             //    minLength: 2,
@@ -952,7 +1063,7 @@
             //            read: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By_New").val(),
             //        }
             //    },
-            //    filter: "contains"               
+            //    filter: "contains"
             //}).data("kendoAutoComplete");
 
 
@@ -973,7 +1084,7 @@
 
             //            if (data.Order != null) {
             //                var RatePHR = data.Order;
-            //                var RatePUNIT = ((RatePHR /60) * 6);                           
+            //                var RatePUNIT = ((RatePHR /60) * 6);
 
             //                $("#Rate_New").val(data.Order);
             //                $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
@@ -989,9 +1100,9 @@
             //                    $("#Rate_New").addClass("disabled");
             //                }
 
-                         
+
             //                if (RatePUNIT < 1) {
-                               
+
             //                    $("#Rate_Per_Unit_New").prop("readonly", false);
             //                    $("#Rate_Per_Unit_New").removeClass("disabled");
             //                }
@@ -1033,10 +1144,10 @@
         //    kendoAutoCompleteClaim_No_New.setDataSource(dataSource);
         //});
 
-    </script>
+</script>
 
 
-    <script>
+<script>
         var kendoAutoCompleteActivity_Name_New = null;
         $(document).ready(function () {
             kendoAutoCompleteActivity_Name_New = $("#Activity_Name_New").kendoAutoComplete({
@@ -1071,11 +1182,11 @@
             kendoAutoCompleteActivity_Name_New.setDataSource(dataSource);
         });
 
-    </script>
+</script>
 
 
 
-    <script>
+<script>
         var kendoAutoCompletePolicy_Name_New = null;
         $(document).ready(function () {
             kendoAutoCompletePolicy_Name_New = $("#Policy_Name_Billing_New").kendoAutoComplete({
@@ -1110,4 +1221,4 @@
             kendoAutoCompletePolicy_Name_New.setDataSource(dataSource);
         });
 
-    </script>
+</script>
