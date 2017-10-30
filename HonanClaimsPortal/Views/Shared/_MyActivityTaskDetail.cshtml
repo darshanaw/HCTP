@@ -1,6 +1,7 @@
 ﻿
 @model HonanClaimsWebApi.Models.Claim.ActivityTaskDetail
 
+@{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
 
 <script>
     $(function () {
@@ -199,7 +200,16 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">SLA (Days)</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm", @maxlength = 100, @type = "number" })
+                    @*@Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm", @maxlength = 100, @type = "number" })*@
+
+                    @if (HonanClaimsPortal.Helpers.ClaimTeamManagers.IsClaimManager(userObj.Teams))
+                    {
+                        @Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm", @maxlength = 100, @type = "number" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(o => o.Sla_Days_Dtl, new { @class = "form-control input-sm disabled", @maxlength = 100, @readonly = true, @type = "number" })
+                    }
                 </div>
             </div>
         </div>
@@ -217,12 +227,27 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">This Task Due Date</label>
                 <div class="col-sm-8">
-                    <div class="input-group date dateCalendar" style="width:100%">
+
+                    @if (HonanClaimsPortal.Helpers.ClaimTeamManagers.IsClaimManager(userObj.Teams))
+                    {
+                        <div class="input-group date dateCalendar" style="width:100%">
+                            @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, new { @class = "form-control input-sm" })
+                            <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm disabled", @readonly = true })
+                    }
+
+                    @*<div class="input-group date dateCalendar" style="width:100%">
                         @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, new { @class = "form-control input-sm" })
                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                             <span class="fa fa-calendar"></span>
                         </span>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>

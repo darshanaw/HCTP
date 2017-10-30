@@ -34,10 +34,17 @@
 
 
         $('.dateCalendarDate_Payment_Date').datetimepicker({
-            format: 'DD/MM/YYYY'
+            format: 'DD/MM/YYYY',
+            maxDate: moment()
         });
         
-                  
+
+        $('.dateCalendarDate_Payment_Date').on('dp.change', function (e) {
+            if ($('#Is_Settlement').is(':checked')) {
+                $('.dateCalendar_Date_Invoice').data("DateTimePicker").date(e.date);
+            }
+        });
+
 
         $("#Payee_Type").select2({
             tags: true,
@@ -527,6 +534,7 @@
     function CheckPaymentData()
     {
         if ($("#Liability_Reserve").length > 0) {
+            debugger;
             var val1 = $("#Liability_Reserve").val();
             var val2 = $("#Payment_Amount").val();
 
@@ -669,7 +677,6 @@
 
     function dynamicValidations_Payment()
     {
-        
         if ($('#Payee_Type :selected').text() == "") {
 
             $('.select2-selection.select2-selection--single').addClass("alertError");

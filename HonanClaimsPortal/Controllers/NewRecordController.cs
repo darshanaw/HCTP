@@ -47,6 +47,30 @@ namespace HonanClaimsPortal.Controllers
         {
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
+            if (model.Is_Settlement)
+            {
+                if (ModelState.ContainsKey("Payee_Type"))
+                    ModelState["Payee_Type"].Errors.Clear();
+
+                if (ModelState.ContainsKey("Payee_Contact_Name"))
+                    ModelState["Payee_Contact_Name"].Errors.Clear();
+
+                if (ModelState.ContainsKey("Date_Invoice_Received"))
+                    ModelState["Date_Invoice_Received"].Errors.Clear();
+
+                if (ModelState.ContainsKey("Payee_Account_Name"))
+                    ModelState["Payee_Account_Name"].Errors.Clear();
+            }
+            else
+            {
+                if (ModelState.ContainsKey("Payment_Amount"))
+                    ModelState["Payment_Amount"].Errors.Clear();
+
+                if (ModelState.ContainsKey("Payment_Date"))
+                    ModelState["Payment_Date"].Errors.Clear();
+            }
+
+
             if (ModelState.IsValid)
             {
                 DocumentService documentService = new DocumentService();
