@@ -2057,7 +2057,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                             "<p># Missing or Wrong Policy #</p> <p># Policy Period conflicts with this claim</p> <p># The Policy Status does not appear to be active</p>" +
                             " <p># The Insurer is missing</p>",
                             buttons: {
-                                cancel: {
+                                @*cancel: {
                                     label: "Hide & Never Show On This Claim",
                                     className: 'btn-info',
                                     callback: function () {
@@ -2077,7 +2077,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                             }
                                         });
                                     }
-                                },
+                                },*@
                                 ok: {
                                     label: "Hide",
                                     className: 'btn-primary',

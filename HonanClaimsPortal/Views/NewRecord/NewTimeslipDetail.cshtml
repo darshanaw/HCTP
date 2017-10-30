@@ -383,23 +383,6 @@
     <script>
 
 
-        var getUrlParameter = function getUrlParameter(sParam) {
-
-            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
-
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : sParameterName[1];
-                }
-            }
-        };
-
-
         function IsTimePickerValid_New() {
 
             var currentDate = new Date();
@@ -467,30 +450,7 @@
 
         //--------------Start Time-----------------------------
         $(document).ready(function () {
-            //'piumi'
-            var urlParam = getUrlParameter('claimRef');
-
-            if (urlParam != '' && typeof urlParam !== 'undefined' && urlParam != 'NaN') {
-
-                $("#Claim_No_New").val(urlParam);
-
-                var urlParam_claimId = getUrlParameter('claimId');
-                $("#H_Claimsid_Billing_New").val(urlParam_claimId);
-
-                $.ajax({
-                    url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + urlParam_claimId,// $("#H_Claimsid").val(),
-                    success: function (data) {
-                        $('#Client_Name_New').val('');
-                        $("#ClientId_New").val('');
-
-                        $('#Client_Name_New').val(data.Text);
-                        $("#ClientId_New").val(data.Code);
-
-                    }
-                });
-
-            }
-
+           
             $('.date_sStart_Time_New').datetimepicker({
                 format: 'LT',
                 widgetPositioning: {
