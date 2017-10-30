@@ -15,7 +15,7 @@
     <div class="form-group mb">
         <label class="col-sm-4 control-label input-sm">Liability Res. Source $</label>
         <div class="col-sm-8">
-            <input type="number" id="txtLiabilityResSource_pymt" class="form-control input-sm" />
+            <input type="number" id="txtLiabilityResSource_pymt" class="form-control input-sm" required />
         </div>
     </div>
 </div>
@@ -32,24 +32,3 @@
 <div style="margin-right:6%">
     <button type="button" id="btnUpdateLiabilityFromPayment" class="btn btn-default pull-right">Ok</button>
 </div>
-
-<script>
-    $(function () {
-
-
-        $("#btnUpdateLiabilityFromPayment").click(function () {
-            //$("#Liability_Reserve_Id").val($("#txtLiabilityResSource_pymt").val());
-           
-            $("#Liability_Res_Source").val($("#txtLiabilityResSource_pymt").val());
-
-            if ($("#txtLiabilityResSource").length > 0) {
-                $("#txtLiabilityResSource").val($("#txtLiabilityResSource_pymt").val())
-            }
-
-            CalculatePaymentFigures();
-            $("#UpdateLiabilityReserveModal").modal("hide");
-
-        });
-
-    });
-</script>

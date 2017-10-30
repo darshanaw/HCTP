@@ -706,7 +706,7 @@ namespace HonanClaimsWebApi.Services
         }
 
 
-        public List<CRMPicklistItem> GetLiabilityResSourceForClaim(string claimId)
+        public CRMPicklistItem GetLiabilityResSourceForClaim(string claimId)
         {
             try
             {
@@ -723,7 +723,7 @@ namespace HonanClaimsWebApi.Services
                     {
                         using (StreamReader responseReader = new StreamReader(webStream))
                         {
-                            return JsonConvert.DeserializeObject<List<CRMPicklistItem>>(responseReader.ReadToEnd());
+                            return JsonConvert.DeserializeObject<CRMPicklistItem>(responseReader.ReadToEnd());
                         }
                     }
                 }
