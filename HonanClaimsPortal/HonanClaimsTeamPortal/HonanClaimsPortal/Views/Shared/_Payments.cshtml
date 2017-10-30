@@ -360,7 +360,7 @@
 
         $.ajax({
             url: "/ClaimDetailTabs/getPaymentById?paymentId=" + paymentId, success: function (result) {
-
+                debugger;
                 $("#H_Paymentsid").val(result.H_Paymentsid);
                 //$("#ClaimRefNo_Payment").val(result.ClaimRefNo_Payment);
                 $("#Payee_Account").val(result.Payee_Account);
@@ -385,18 +385,10 @@
                 setSelect2TagsValue(result.Payee_Type);
                 $("#Payee_Account_Name").val(result.Payee_Account_Name);
                 $("#Payee_Contact_Name").val(result.Payee_Contact_Name);
-                $("#Total_Gross").val(result.Total_Gross);
-
-
-                if (result.Gst_Included)
-                    $("#Gst_Included").prop("checked", true);
-                else
-                    $("#Gst_Included").prop("checked", false);
-
-                $("#Gst_Included").val(result.Gst_Included);
+              
 
                 $("#Gst").val(result.Gst);
-                $("#Total_Net").val(result.Total_Net);
+               
                 $("#Date_Sent_For_Payment").val(kendo.toString(kendo.parseDate(result.Date_Sent_For_Payment), "dd/MM/yyyy"));
                 $("#Payment_To_Name").val(result.Payment_To_Name);
                 $("#Sent_To_Contact_Name").val(result.Sent_To_Contact_Name);
@@ -416,9 +408,20 @@
 
                 dynamicValidations_Payment();
 
+                if (result.Gst_Included)
+                    $("#Gst_Included").prop("checked", true);
+                else
+                    $("#Gst_Included").prop("checked", false);
+
+                $("#Gst_Included").val(result.Gst_Included);
+
+                $("#Total_Net").val(result.Total_Net);
+                $("#Total_Gross").val(result.Total_Gross);
+
                 $("#Payment_Amount").val(result.Payment_Amount);
                 $("#Payment_Note").val(result.Payment_Note);
-                $("#Payment_Date").val(result.Payment_Date);
+                //$("#Payment_Date").val(result.Payment_Date);
+                $("#Payment_Date").val(kendo.toString(kendo.parseDate(result.Payment_Date), "dd/MM/yyyy"));
 
                 $('#PaymentDetailModal').modal('show');
             }

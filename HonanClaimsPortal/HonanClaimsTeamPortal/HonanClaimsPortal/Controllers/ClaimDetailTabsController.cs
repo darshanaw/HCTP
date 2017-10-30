@@ -700,9 +700,9 @@ namespace HonanClaimsPortal.Controllers
 
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                items = claimServices.GetAllOpenClaims("",login.Teams);
-                if (items != null)
-                    items = items.Where(x => x.Text.ToLower().Contains(param.sSearch.ToLower())).ToList();
+                items = claimServices.GetAllOpenClaims(param.sSearch, login.Teams);
+                //if (items != null)
+                //    items = items.Where(x => x.Text.ToLower().Contains(param.sSearch.ToLower())).ToList();
             }
 
             IEnumerable<CRMPicklistItem> filteredRecords = items;

@@ -967,7 +967,14 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Insured Email</label>
                                                                 <div class="col-sm-9">
-                                                                    @Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm" })
+                                                                    @*@Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm" })*@
+
+                                                                    <div class="input-group">
+                                                                        @Html.TextBoxFor(o => o.Insured_Email, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })
+                                                                        <a id="aInsuredEmail" class="input-group-addon btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;">
+                                                                            <span class="fa fa-envelope"></span>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1818,6 +1825,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
         $('#aEmailClaimant').click(function () {
             this.href = "mailto:" + $('#Email_Address').val();
+        });
+
+        $('#aInsuredEmail').click(function () {
+            this.href = "mailto:" + $('#Insured_Email').val();
         });
 
 

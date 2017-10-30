@@ -27,30 +27,47 @@
         $('.dateCalendar_Date_Invoice').datetimepicker({
             format: 'DD/MM/YYYY',
             //locale: 'pt-br',
-            maxDate: moment()
+            maxDate: moment(),
+            useCurrent: false
+
         });
 
         $('.dateCalendarDate_Sent_For_Payment').datetimepicker({
             format: 'DD/MM/YYYY',
             //locale: 'pt-br',
-            maxDate: moment()
+            maxDate: moment(),
+            widgetPositioning: {
+                //horizontal: 'top',
+                vertical: 'top'
+            },
+            useCurrent: false
         });
 
         $('.dateCalendarDate_Invoice_Paid').datetimepicker({
             format: 'DD/MM/YYYY',
             //locale: 'pt-br',
-            maxDate: moment()
+            maxDate: moment(),
+            useCurrent: false
+
         });
+
 
         $('.dateCalendarDate_Payment_Date').datetimepicker({
             format: 'DD/MM/YYYY',
-            //locale: 'pt-br',
-            maxDate: moment()
+            maxDate: moment(),
+            useCurrent: false
+        });
+
+
+        $('.dateCalendarDate_Payment_Date').on('dp.change', function (e) {
+            if ($('#Is_Settlement').is(':checked')) {
+                $('.dateCalendar_Date_Invoice').data("DateTimePicker").date(e.date);
+            }
         });
 
 
         $('#frmPaymentDetailNew').submit(function () {
-           
+
             if ($(this).valid()) {
 
                 $.LoadingOverlay("show");
@@ -693,8 +710,45 @@
 
     });
 
-    function dynamicValidations_Payment()
-    {
+    //function dynamicValidations_Payment()
+    //{
+    //    if ($("#Is_Settlement").is(":checked")) {
+
+    //        $("#Reserve_Type").val("Liability Reserve");
+    //        $("#Reserve_Type").prop("disabled", true);
+    //        $(".Reserve_Type_Class").val("Liability Reserve");
+
+    //        $("#Gst_Included").prop("checked", false);
+    //        $("#Date_Invoice_Received").rules("remove", "required");
+    //        $("#Payee_Type").rules("remove", "required");
+    //        $("#Payee_Account_Name").rules("remove", "required");
+    //        $("#Payment_Amount").rules("add", "required");
+    //        $("#Payment_Date").rules("add", "required");
+
+    //        $("#Total_Gross").val($("#Payment_Amount").val())
+    //        $("#Total_Net").val($("#Payment_Amount").val())
+    //    }
+    //    else {
+    //        //$("#Reserve_Type").val("");
+    //        $("#Reserve_Type").prop("disabled", false);
+    //        $("#Date_Invoice_Received").rules("add", "required");
+    //        $("#Payee_Type").rules("add", "required");
+    //        $("#Payee_Account_Name").rules("add", "required");
+    //        $("#Payment_Amount").rules("remove", "required");
+    //        $("#Payment_Date").rules("remove", "required");
+    //    }
+    //}
+
+    function dynamicValidations_Payment() {
+
+        debugger;
+        if ($('#Payee_Type :selected').text() == "") {
+
+            $('.select2-selection.select2-selection--single').addClass("alertError");
+        }
+        else
+            $('.select2-selection.select2-selection--single').removeClass("alertError");
+
         if ($("#Is_Settlement").is(":checked")) {
 
             $("#Reserve_Type").val("Liability Reserve");
@@ -704,12 +758,17 @@
             $("#Gst_Included").prop("checked", false);
             $("#Date_Invoice_Received").rules("remove", "required");
             $("#Payee_Type").rules("remove", "required");
+            $('.select2-selection.select2-selection--single').removeClass("alertError");
+
             $("#Payee_Account_Name").rules("remove", "required");
             $("#Payment_Amount").rules("add", "required");
             $("#Payment_Date").rules("add", "required");
 
-            $("#Total_Gross").val($("#Payment_Amount").val())
-            $("#Total_Net").val($("#Payment_Amount").val())
+            $("#Total_Gross").val($("#Payment_Amount").val());
+            $("#Total_Net").val($("#Payment_Amount").val());
+
+            $("#Payee_Contact_Name").rules("remove", "required");
+
         }
         else {
             //$("#Reserve_Type").val("");
@@ -719,6 +778,8 @@
             $("#Payee_Account_Name").rules("add", "required");
             $("#Payment_Amount").rules("remove", "required");
             $("#Payment_Date").rules("remove", "required");
+            $("#Payee_Contact_Name").rules("add", "required");
+
         }
     }
 
