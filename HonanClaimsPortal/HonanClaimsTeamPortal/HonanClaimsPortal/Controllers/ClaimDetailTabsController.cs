@@ -804,6 +804,24 @@ namespace HonanClaimsPortal.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetLiabilityResSourceForClaim(string claimId)
+        {
+            claimServices = new ClaimServices();
+            var liability = claimServices.GetLiabilityResSourceForClaim(claimId);
+            
+            return Json(liability, JsonRequestBehavior.AllowGet);
+        }
+        
+        public ActionResult UpdateFinancials(decimal liabilityResSource, string claimId)
+        {
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+            claimServices = new ClaimServices();
+            var liability = claimServices.UpdateFinancials(liabilityResSource, 0, claimId, login.UserId);
+
+            return Json(liability, JsonRequestBehavior.AllowGet);
+        }
     }
 
 }

@@ -66,13 +66,13 @@
         });
 
 
-        $('#frmPaymentDetailNew').submit(function () {
+        //$('#frmPaymentDetailNew').submit(function () {
 
-            if ($(this).valid()) {
+        //    if ($(this).valid()) {
 
-                $.LoadingOverlay("show");
-            }
-        });
+        //        $.LoadingOverlay("show");
+        //    }
+        //});
 
 
         $("#Payee_Type").select2({
@@ -550,11 +550,79 @@
         }
     };
 
+    var checkData = false;
+
+    function CheckPaymentData()
+    {
+        var claimId = $("#H_Claimsid").val();
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetLiabilityResSourceForClaim?claimId=" + claimId,// $("#H_Claimsid").val(),
+
+            success: function (data) {
+              
+                $('#txtLiability_pymt').val(data.Code);
+                $("#txtSettlementAmount_pymt").val($("#Payment_Amount").val());
+
+                var val1 = $("#txtLiability_pymt").val();
+                var val2 = $("#txtSettlementAmount_pymt").val();
+
+                if (val1 !== '' && val2 !== '') {
+                   
+                    if (Number(val1) < Number(val2)) {
+
+                       
+                        $("#UpdateLiabilityReserveModal").modal("show");
+                        //bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
+                        return false;
+                    }
+                    else
+                    {
+                        checkData = true;
+                        $.LoadingOverlay("show");
+                        $("#frmPaymentDetailNew").submit();
+                       
+                    }
+                } else
+                {
+                    checkData = true;
+                    $.LoadingOverlay("show");
+                    $("#frmPaymentDetailNew").submit();
+                    
+                }
+            }
+        });
+    }
+
+
     var kendoAutoCompleteService_By_Name = null;
 
     $(document).ready(function () {
 
+        $(".UpdateLiabilityReserveModal_Close").click(function () {
 
+            $("#UpdateLiabilityReserveModal").modal("hide");
+        });
+
+        $("#btnUpdateLiabilityFromPayment").click(function () {
+
+            $.LoadingOverlay("show");
+
+            var claimId = $("#H_Claimsid").val();
+            var liabilityResSource = $("#txtLiabilityResSource_pymt").val();
+
+            $.ajax({
+
+                url: "/ClaimDetailTabs/UpdateFinancials?liabilityResSource=" + liabilityResSource + "&claimId=" + claimId,
+
+                success: function (data) {
+
+                    $("#UpdateLiabilityReserveModal").modal("hide");
+                    $.LoadingOverlay("hide");
+                }
+            });
+
+        });
 
         var urlParam = getUrlParameter('claimRef');
 
@@ -626,11 +694,16 @@
 
         $('#frmPaymentDetailNew').submit(function (e) {
 
-            dynamicValidations_Payment();
+            if (!checkData) {
 
-            if ($(this).valid()) {
+                e.preventDefault();
+                dynamicValidations_Payment();
 
-                $.LoadingOverlay("show");
+                if ($(this).valid()) {
+
+                    CheckPaymentData();
+
+                }
             }
 
         });
