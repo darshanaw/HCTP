@@ -1456,7 +1456,7 @@
 
         bindToinputs(emptyemail);
         $.get("/Home/GetClaimList", function (data) {
-            debugger;
+          
             loadClaimList(data);
         });
 
@@ -1513,7 +1513,7 @@
                 contentType: 'application/json; charset=utf-8',
                 async: false,
                 success: function (data) {
-                    debugger
+                   
                     emptyemail = data;
                     var widget = $("#Tolist").data("kendoAutoComplete");
                     var widget2 = $("#CClist").data("kendoAutoComplete");
@@ -1539,7 +1539,7 @@
             });
 
             function onemailDeselect(e) {
-                debugger
+              
                 var dataItem = e.dataItem;
                 if (e.sender.element[0].id == "Tolist") {
                     addRemoveEmails(dataItem, true, true);

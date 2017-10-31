@@ -602,7 +602,7 @@
 
             var currentDte = new Date();
 
-            var eDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sEnd_Time_New").val());
+            var eDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sEnd_Time_New").val());
 
             if (sDate > eDate) {
 
@@ -652,7 +652,7 @@
         }).on('dp.change', function (event) {
             debugger;
             var currentDte = new Date();
-            var sDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sStart_Time_New").val());
+            var sDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sStart_Time_New").val());
 
             var event_date = event.date;
             if (event_date == null) {

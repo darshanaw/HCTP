@@ -672,7 +672,7 @@
             count = count + 1;
         });
         if (count == 1) {
-            debugger;
+            
             if (id != null && id != "" && claimId != null && claimId != "" && (sStart_Time != null && sStart_Time != "") && (sEnd_Time != "" && sEnd_Time != null)) {
                 $.get("/TimeslipCheck/MarkAsChecked?billingId=" + id + "&serviceDate=" + serviceDate + "&sStart_Time=" + sStart_Time + "&sEnd_Time=" + sEnd_Time + "&claimId=" + claimId, function (data) {
                     if (data == false) {
@@ -810,7 +810,7 @@
                     var id = data[newind].uid;
                     grid.select("tr:eq(" + newind + ")")
                     setTextFields(data[newind]);
-                    debugger;
+                    
                 }
             }
         }
