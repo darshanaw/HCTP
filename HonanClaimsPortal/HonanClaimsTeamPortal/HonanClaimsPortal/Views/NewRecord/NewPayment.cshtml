@@ -560,36 +560,57 @@
             url: "/ClaimDetailTabs/GetLiabilityResSourceForClaim?claimId=" + claimId,// $("#H_Claimsid").val(),
 
             success: function (data) {
-              
-                $('#txtLiability_pymt').val(data.Code);
-                $("#txtSettlementAmount_pymt").val($("#Payment_Amount").val());
 
-                var val1 = $("#txtLiability_pymt").val();
-                var val2 = $("#txtSettlementAmount_pymt").val();
+                var netPaidLiability, netPaidDefence, liabilityReserveGross = 0, defenceReserveGross = 0, totalReserve;
+                $.ajax({
+                    url: "/ClaimGeneral/AjaxGetPaymentAmount?claimId=" + claimId + "&liability_Res_Source=" +
+                    data.Code + "&defence_Res_Source=" + data.Text + "&excess=" +
+                    data.Order, success: function (result) {
 
-                if (val1 !== '' && val2 !== '') {
-                   
-                    if (Number(val1) < Number(val2)) {
+                        if (result != null) {
+                            //$("#Liability_Reserve").val(result.Liability_Reserve);
+                            //$("#Liability_Reserve_Id").val('$' + result.Liability_Reserve.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
-                       
-                        $("#UpdateLiabilityReserveModal").modal("show");
-                        //bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
-                        return false;
+                            $('#txtLiability_pymt').val(result.Liability_Reserve);
+                            $("#txtSettlementAmount_pymt").val($("#Payment_Amount").val());
+
+                            if ($("#txtLiabilityResSource_pymt").length > 0) {
+                                $("#txtLiabilityResSource_pymt").val(data.Code);
+                            }
+
+                            var val1 = $("#txtLiability_pymt").val();
+                            var val2 = $("#txtSettlementAmount_pymt").val();
+
+
+                            if (val1 !== '' && val2 !== '') {
+
+                                if (Number(val1) < Number(val2)) {
+
+
+                                    $("#UpdateLiabilityReserveModal").modal("show");
+                                    //bootbox.alert("The settlement amount cannot be greater than the balance of the liability reserve. Please increase the Liability reserve prior to saving.");
+                                    return false;
+                                }
+                                else {
+                                    checkData = true;
+                                    $.LoadingOverlay("show");
+                                    $("#frmPaymentDetailNew").submit();
+
+                                }
+                            } else {
+                                checkData = true;
+                                $.LoadingOverlay("show");
+                                $("#frmPaymentDetailNew").submit();
+
+                            }
+
+
+                        }
                     }
-                    else
-                    {
-                        checkData = true;
-                        $.LoadingOverlay("show");
-                        $("#frmPaymentDetailNew").submit();
-                       
-                    }
-                } else
-                {
-                    checkData = true;
-                    $.LoadingOverlay("show");
-                    $("#frmPaymentDetailNew").submit();
-                    
-                }
+                });
+
+
+                
             }
         });
     }
@@ -646,7 +667,7 @@
                 }
             });
 
-            
+
         }
 
         $("#Payment_Status").val("Received");

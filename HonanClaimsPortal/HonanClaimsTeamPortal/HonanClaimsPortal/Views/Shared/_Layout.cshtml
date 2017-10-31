@@ -1070,6 +1070,24 @@
     </div>
 </div>
 
+     <!-- Modal -->
+<div id="AccountTimeslipDetailModal" class="modal fade AccountTimeslipDetailModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close AccountTimeslipDetailModal_Close">&times;</button>
+                <h4 class="modal-title">Account Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_TimeslipDetailAccountLookup.cshtml", null)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default AccountTimeslipDetailModal_Close" id="AccountTimeslipDetailModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
@@ -1337,6 +1355,11 @@
     }
 
     $(document).ready(function () {
+
+        $(".AccountTimeslipDetailModal_Close").click(function () {
+            $("#AccountTimeslipDetailModal").modal("hide");
+        });
+
 
         $(".ClaimReferenceNumbers_Close").click(function () {
 

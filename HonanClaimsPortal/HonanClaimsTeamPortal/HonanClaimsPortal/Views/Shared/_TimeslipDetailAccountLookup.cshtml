@@ -36,7 +36,7 @@
 <div class="panel panel-default">
 
     <div class="table-responsive">
-        <table id="tbTimeslipAccount" class="table table-striped" style="margin-bottom: 10px;">
+        <table id="tbTimeslipDetailAcc" class="table table-striped" style="margin-bottom: 10px;">
             <thead>
                 <tr>
                     <th class="sort-alpha">Account Id</th>
@@ -53,9 +53,9 @@
 <script>
     $(document).ready(function () {
 
-        $("#tbTimeslipAccount").hide();
+        $("#tbTimeslipDetailAcc").hide();
 
-        $('#tbTimeslipAccount').dataTable({
+        $('#tbTimeslipDetailAcc').dataTable({
             "bServerSide": true,
             "searching": true,
             "sAjaxSource": "/Lookup/AccountOcAjaxHandler",
@@ -72,7 +72,7 @@
                     "sName": "AccountName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeTimeslipAccountModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[5] + '\')">' + oObj[1] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeTimeslipDetailAccountModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[5] + '\')">' + oObj[1] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                     }
                 },
@@ -82,61 +82,62 @@
             ]
         });
 
-        $('#tbTimeslipAccount').on('search.dt', function () {
+        $('#tbTimeslipDetailAcc').on('search.dt', function () {
                //var value = $('.dataTables_filter input').val();
                //console.log(value); // <-- the value
-            $("#tbTimeslipAccount").show();
+            $("#tbTimeslipDetailAcc").show();
            });
 
 
     });
 
 
-    function closeTimeslipAccountModal(accountId, accountName, serviceRate) {
+    function closeTimeslipDetailAccountModal(accountId, accountName, serviceRate) {
 
-        $("#Client_Name_New").val(accountName);
 
-        if ($("#ClientId_New").length > 0) {
-            $("#ClientId_New").val(accountId);
+        $("#Client_Name").val(accountName);
+
+        if ($("#ClientId").length > 0) {
+            $("#ClientId").val(accountId);
         }
 
         if (serviceRate != null && serviceRate != "") {
             var RatePHR = serviceRate;
             var RatePUNIT = ((RatePHR / 60) * 6);
 
-            $("#Rate_New").val(serviceRate);
-            $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
+            $("#Rate").val(serviceRate);
+            $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
 
             if (serviceRate < 1) {
 
-                $("#Rate_New").prop("readonly", false);
-                $("#Rate_New").removeClass("disabled");
+                $("#Rate").prop("readonly", false);
+                $("#Rate").removeClass("disabled");
             }
             else {
-                $("#Rate_New").prop("readonly", true);
-                $("#Rate_New").addClass("disabled");
+                $("#Rate").prop("readonly", true);
+                $("#Rate").addClass("disabled");
             }
 
 
-            if ($("#Units_New").val() < 1) {
+            if ($("#Units").val() < 1) {
 
-                $("#Units_New").prop("readonly", false);
-                $("#Units_New").removeClass("disabled");
+                $("#Units").prop("readonly", false);
+                $("#Units").removeClass("disabled");
             }
             else {
-                $("#Units_New").prop("readonly", true);
-                $("#Units_New").addClass("disabled");
+                $("#Units").prop("readonly", true);
+                $("#Units").addClass("disabled");
             }
         }
         else {
 
-            $("#Rate_New").val(0);
-            $("#Rate_Per_Unit_New").val(0);
-            $("#Rate_New").prop("readonly", false);
-            $("#Rate_New").removeClass("disabled");
+            $("#Rate").val(0);
+            $("#Rate_Per_Unit").val(0);
+            $("#Rate").prop("readonly", false);
+            $("#Rate").removeClass("disabled");
         }
 
-        $('#AccountTimeslipModal').modal('hide');
+        $('#AccountTimeslipDetailModal').modal('hide');
     }
 
 </script>

@@ -37,7 +37,7 @@
             format: 'DD/MM/YYYY',
             maxDate: moment()
         });
-        
+
 
         $('.dateCalendarDate_Payment_Date').on('dp.change', function (e) {
             if ($('#Is_Settlement').is(':checked')) {
@@ -53,13 +53,13 @@
 
         //$("#Payee_Type option[value='xxxxx']").prop("selected", true);
 
- 
+
     });
 
     function GetResult_Pd(data) {
 
         if ($('#PaymentDetailModal').length > 0) {
-         
+
             if (typeof CalculatePaymentFigures !== 'undefined' && $.isFunction(CalculatePaymentFigures)) {
 
                 CalculatePaymentFigures();
@@ -80,7 +80,7 @@
 
         var rePayee = /[0-9]+$/;
         var values_payeeType = values_payeeType_; //pull ItemIds from Model in MVC
-       
+
         $.each(values_payeeType.split(","), function (i, e) {
             if (e != "Not Set" && e != "" && e != null && e != undefined) {
                 if (i == 0)
@@ -105,335 +105,335 @@
 </script>
 
 <style>
-    .k-upload.k-header{
-        width:100%;
+    .k-upload.k-header {
+        width: 100%;
     }
 
-    .k-upload-status.k-upload-status-total
-    {
-        display:none;
+    .k-upload-status.k-upload-status-total {
+        display: none;
     }
-
 </style>
 
 
 @using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Pd", UpdateTargetId = "divFakePayment" }, new { @id = "frmPaymentDetail", enctype = "multipart/form-data" }))
 {
 
-@Html.HiddenFor(o => o.Payee_Account)
-@Html.HiddenFor(o => o.Payee_Contact)
-@Html.HiddenFor(o => o.Payment_To)
-@Html.HiddenFor(o => o.Sent_To_Contact)
-@Html.HiddenFor(o=>o.Invoice_Attached)
-@Html.HiddenFor(o=>o.H_Claimsid)
-@Html.HiddenFor(o => o.IsNew)
-@Html.HiddenFor(o=>o.H_Paymentsid)
+    @Html.HiddenFor(o => o.Payee_Account)
+    @Html.HiddenFor(o => o.Payee_Contact)
+    @Html.HiddenFor(o => o.Payment_To)
+    @Html.HiddenFor(o => o.Sent_To_Contact)
+    @Html.HiddenFor(o=>o.Invoice_Attached)
+    @Html.HiddenFor(o=>o.H_Claimsid)
+    @Html.HiddenFor(o => o.IsNew)
+    @Html.HiddenFor(o=>o.H_Paymentsid)
 
-<div style="display:none" id="divFakePayment"></div>
+    <div style="display:none" id="divFakePayment"></div>
 
-<div class="col-md-6">
+    <div class="col-md-6">
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Claim Ref</label>
-            <div class="col-sm-8">
-                @if (string.IsNullOrEmpty(Model.ClaimRefNo_Payment))
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Claim Ref</label>
+                <div class="col-sm-8">
+                    @if (string.IsNullOrEmpty(Model.ClaimRefNo_Payment))
                 {
-                    @Html.DropDownListFor(model => model.ClaimRefNo_Payment, new SelectList(Model.ClaimRefNo_Payment_List, "Text", "Text"), "",
+                        @Html.DropDownListFor(model => model.ClaimRefNo_Payment, new SelectList(Model.ClaimRefNo_Payment_List, "Text", "Text"), "",
                    new { @class = "form-control input-sm" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(o => o.ClaimRefNo_Payment, new { @class = "form-control input-sm disabledControl", @readonly = true })
-                }
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(o => o.ClaimRefNo_Payment, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                    }
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Reserve Type</label>
-            <div class="col-sm-8">
-                @Html.DropDownListFor(model => model.Reserve_Type, new SelectList(Model.Reserve_Type_List, "Text", "Text"), "",
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Reserve Type</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Reserve_Type, new SelectList(Model.Reserve_Type_List, "Text", "Text"), "",
                    new { @class = "form-control input-sm" })
-                @Html.HiddenFor(x => x.Reserve_Type, new { @class= "Reserve_Type_Class" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Date Received</label>
-            <div class="col-sm-8">
-                <div class="input-group date dateCalendar_Date_Invoice" style="width:100%">
-                    @Html.TextBoxFor(o => o.Date_Invoice_Received, new { @class = "form-control input-sm" })
-                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                        <span class="fa fa-calendar"></span>
-                    </span>
+                    @Html.HiddenFor(x => x.Reserve_Type, new { @class = "Reserve_Type_Class" })
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Invoice Ref.</label>
-            <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Invoice_Reference, new { @class = "form-control input-sm" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            @*<label class="col-sm-4 control-label input-sm">Invoice Attach</label>*@
-            <div class="col-sm-12 mb">
-                <input type="file" name="files" id="uploadInvoiceAttach" />
-                <a href='#'  id="paymentDetailAttachmentName" class="pull-right"></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payee Type</label>
-            <div class="col-sm-8">
-                @Html.DropDownListFor(model => model.Payee_Type, new SelectList(Model.Payee_Type_List, "Text", "Text"), "",
-                   new { @class = "form-control input-sm", @style="width:100%" })
-            </div>
-        </div>
-    </div>
-   
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payee Acct</label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    @Html.TextBoxFor(o => o.Payee_Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
-                    <span id="AccountNoModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#AccountBrokerModal_Pd">
-                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                            <i class="fa fa-binoculars"></i>
-                        </button>
-                    </span>
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Date Received</label>
+                <div class="col-sm-8">
+                    <div class="input-group date dateCalendar_Date_Invoice" style="width:100%">
+                        @Html.TextBoxFor(o => o.Date_Invoice_Received, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payee Contact</label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    @Html.TextBoxFor(o => o.Payee_Contact_Name, new { @class = "form-control input-sm", @maxlength = 100 })
-                    <span id="ContactModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#ContactBrokerModal_Pd">
-                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                            <i class="fa fa-binoculars"></i>
-                        </button>
-                    </span>
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Invoice Ref.</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Invoice_Reference, new { @class = "form-control input-sm" })
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Total Gross</label>
-            <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Total_Gross, new { @class = "form-control input-sm", @type = "number" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm"></label>
-            <div class="col-sm-8">
-                GST Inc >>  @Html.CheckBoxFor(o => o.Gst_Included)
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">GST (%)</label>
-            <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Gst, new { @class = "form-control input-sm", @type = "number" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Total Net</label>
-            <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Total_Net, "{0:n2}", new { @class = "form-control input-sm", @type = "number" })
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Date Sent for Payment</label>
-            <div class="col-sm-8">
-                <div class="input-group date dateCalendarDate_Sent_For_Payment" style="width:100%">
-                    @Html.TextBoxFor(o => o.Date_Sent_For_Payment, new { @class = "form-control input-sm" })
-                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                        <span class="fa fa-calendar"></span>
-                    </span>
+        <div class="row">
+            <div class="form-group mb">
+                @*<label class="col-sm-4 control-label input-sm">Invoice Attach</label>*@
+                <div class="col-sm-12 mb">
+                    <input type="file" name="files" id="uploadInvoiceAttach" />
+                    <a href='#' id="paymentDetailAttachmentName" class="pull-right"></a>
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
-
-<div class="col-md-6">
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payment To</label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    @Html.TextBoxFor(o => o.Payment_To_Name, new { @class = "form-control input-sm", @maxlength = 100 })
-                    <span id="Payment_To_Name_Pd" class="input-group-btn" data-toggle="modal" data-target="#Payment_To_Name_Modal_Pd">
-                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                            <i class="fa fa-binoculars"></i>
-                        </button>
-                    </span>
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payee Type</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Payee_Type, new SelectList(Model.Payee_Type_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm", @style = "width:100%" })
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Send To Contact</label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    @Html.TextBoxFor(o => o.Sent_To_Contact_Name, new { @class = "form-control input-sm", @maxlength = 100 })
-                    <span id="Sent_To_Contact_Name_Pd" class="input-group-btn" data-toggle="modal" data-target="#Sent_To_Contact_Name_Modal_Pd">
-                        <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
-                            <i class="fa fa-binoculars"></i>
-                        </button>
-                    </span>
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payee Acct</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.Payee_Account_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                        <span id="AccountNoModal_TSD" class="input-group-btn" data-toggle="modal" data-target="#AccountBrokerModal_Pd">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Phone #</label>
-            <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_phone" })
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payee Contact</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.Payee_Contact_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                        <span id="ContactModal_Pd" class="input-group-btn" data-toggle="modal" data-target="#ContactBrokerModal_Pd">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Email</label>
-            <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Email, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_email" })
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Total Gross</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Total_Gross, new { @class = "form-control input-sm", @type = "number" })
+                </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm"></label>
+                <div class="col-sm-8">
+                    GST Inc >>  @Html.CheckBoxFor(o => o.Gst_Included)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">GST (%)</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Gst, new { @class = "form-control input-sm", @type = "number" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Total Net</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Total_Net, "{0:n2}", new { @class = "form-control input-sm", @type = "number" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Date Sent for Payment</label>
+                <div class="col-sm-8">
+                    <div class="input-group date dateCalendarDate_Sent_For_Payment" style="width:100%">
+                        @Html.TextBoxFor(o => o.Date_Sent_For_Payment, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payment Status</label>
-            <div class="col-sm-8">
-                @Html.DropDownListFor(model => model.Payment_Status, new SelectList(Model.Payment_Status_List, "Text", "Text"), "",
+    <div class="col-md-6">
+       
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payment To</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.Payment_To_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                        <span id="Payment_To_Name_Pd" class="input-group-btn" data-toggle="modal" data-target="#Payment_To_Name_Modal_Pd">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Send To Contact</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.Sent_To_Contact_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                        <span id="Sent_To_Contact_Name_Pd" class="input-group-btn" data-toggle="modal" data-target="#Sent_To_Contact_Name_Modal_Pd">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Phone #</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Phone, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_phone" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Email</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Email, new { @class = "form-control input-sm", @maxlength = 100, @id = "payment_email" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payment Status</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Payment_Status, new SelectList(Model.Payment_Status_List, "Text", "Text"), "",
                    new { @class = "form-control input-sm" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Date Invoice Paid</label>
-            <div class="col-sm-8">
-                <div class="input-group date dateCalendarDate_Invoice_Paid" style="width:100%">
-                    @Html.TextBoxFor(o => o.Date_Invoice_Paid, new { @class = "form-control input-sm" })
-                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                        <span class="fa fa-calendar"></span>
-                    </span>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payment Type</label>
-            <div class="col-sm-8">
-                @Html.DropDownListFor(model => model.Payment_Type, new SelectList(Model.Payment_Type_List, "Text", "Text"), "",
-                   new { @class = "form-control input-sm" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payment Method</label>
-            <div class="col-sm-8">
-                @Html.DropDownListFor(model => model.Payment_Method, new SelectList(Model.Payment_Method_List, "Text", "Text"), "",
-                   new { @class = "form-control input-sm" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Settlement Payment</label>
-            <div class="col-sm-8">
-                @Html.CheckBoxFor(o => o.Is_Settlement)
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Amount</label>
-            <div class="col-sm-8">
-                @Html.TextBoxFor(o => o.Payment_Amount, new { @class = "form-control input-sm", @type = "number" })
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Payment Date</label>
-            <div class="col-sm-8">
-                <div class="input-group date dateCalendarDate_Payment_Date" style="width:100%">
-                    @Html.TextBoxFor(o => o.Payment_Date, new { @class = "form-control input-sm" })
-                    <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                        <span class="fa fa-calendar"></span>
-                    </span>
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Date Invoice Paid</label>
+                <div class="col-sm-8">
+                    <div class="input-group date dateCalendarDate_Invoice_Paid" style="width:100%">
+                        @Html.TextBoxFor(o => o.Date_Invoice_Paid, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payment Type</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Payment_Type, new SelectList(Model.Payment_Type_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payment Method</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Payment_Method, new SelectList(Model.Payment_Method_List, "Text", "Text"), "",
+                   new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Settlement Payment</label>
+                <div class="col-sm-8">
+                    @Html.CheckBoxFor(o => o.Is_Settlement)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Amount</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.Payment_Amount, new { @class = "form-control input-sm", @type = "number" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Payment Date</label>
+                <div class="col-sm-8">
+                    <div class="input-group date dateCalendarDate_Payment_Date" style="width:100%">
+                        @Html.TextBoxFor(o => o.Payment_Date, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Notes</label>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(o => o.Payment_Note, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="row">
-        <div class="form-group mb">
-            <label class="col-sm-4 control-label input-sm">Notes</label>
-            <div class="col-sm-8">
-                @Html.TextAreaFor(o => o.Payment_Note, new { @class = "form-control input-sm" })
-            </div>           
+    <div class="col-md-12">
+        <div class="footer text-right">
+            @*<input type="button" class="mb-sm btn btn-info" id="btnSendPaymentEmail" value="Send Email"/>*@
+            <a class="mb-sm btn btn-info"  id="btnSendPaymentEmail" >Send Email</a>
+            <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
+            <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
         </div>
     </div>
-
-</div>
-
-<div class="col-md-12">
-    <div class="footer text-right"> 
-        <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
-        <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
-    </div>
-</div>
 
 }
 
@@ -522,8 +522,8 @@
                 @Html.Partial("~/Views/Shared/_UpdateLiabilityReserve.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
             </div>
             @*<div class="modal-footer">
-                <button type="button" class="btn btn-default UpdateLiabilityReserveModal_Close" id="UpdateLiabilityReserveModal_Close">Close</button>
-            </div>*@
+                    <button type="button" class="btn btn-default UpdateLiabilityReserveModal_Close" id="UpdateLiabilityReserveModal_Close">Close</button>
+                </div>*@
         </div>
     </div>
 </div>
@@ -534,7 +534,7 @@
     function CheckPaymentData()
     {
         if ($("#Liability_Reserve").length > 0) {
-           
+
             var val1 = $("#Liability_Reserve").val();
             var val2 = $("#Payment_Amount").val();
 
@@ -590,10 +590,10 @@
 
             $("#UpdateLiabilityReserveModal").modal("hide");
         });
-        
+
         $('#frmPaymentDetail').submit(function (e) {
-            
-            dynamicValidations_Payment();          
+
+            dynamicValidations_Payment();
 
             if ($(this).valid()) {
                 $.LoadingOverlay("show");
@@ -686,10 +686,13 @@
                 $("#Total_Net").val($("#Payment_Amount").val())
                 $("#Gst_Included").prop("checked", false);
             }
-           
+
         });
 
-        
+
+        $("#btnSendPaymentEmail").click(function () {
+            this.href = "mailto:?Subject=Claim Reference " + $("#ClaimRefNo_Payment").val();
+        });
 
     });
 
@@ -721,7 +724,7 @@
             $("#Total_Net").val($("#Payment_Amount").val());
 
             $("#Payee_Contact_Name").rules("remove", "required");
-            
+
         }
         else {
             //$("#Reserve_Type").val("");
@@ -732,7 +735,7 @@
             $("#Payment_Amount").rules("remove", "required");
             $("#Payment_Date").rules("remove", "required");
             $("#Payee_Contact_Name").rules("add", "required");
-            
+
         }
     }
 

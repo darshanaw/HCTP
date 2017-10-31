@@ -360,7 +360,6 @@
 
         $.ajax({
             url: "/ClaimDetailTabs/getPaymentById?paymentId=" + paymentId, success: function (result) {
-                debugger;
                 $("#H_Paymentsid").val(result.H_Paymentsid);
                 //$("#ClaimRefNo_Payment").val(result.ClaimRefNo_Payment);
                 $("#Payee_Account").val(result.Payee_Account);
