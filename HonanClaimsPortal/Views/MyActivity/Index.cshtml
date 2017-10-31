@@ -715,17 +715,17 @@
                 $("#H_ClaimsRefid_Dtl").val(result.H_ClaimsRefid_Dtl);
                 $("#H_Claimsid_Dtl").val(result.H_Claimsid_Dtl);
 
-                if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
-                    $("#Update_Key_Contacts_Dtl").prop("disabled", false);
-                }
-                else {
-                    $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
-                }
+                //if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
+                //    $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+                //}
+                //else {
+                //    $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+                //}
 
-                if (result.Completed_Dtl)
-                    $("#Update_Key_Date_Dtl").prop("disabled", false);
-                else
-                    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+                //if (result.Completed_Dtl)
+                //    $("#Update_Key_Date_Dtl").prop("disabled", false);
+                //else
+                //    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
 
             }
         });
