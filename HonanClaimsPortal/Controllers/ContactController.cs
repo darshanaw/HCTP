@@ -62,13 +62,14 @@ namespace HonanClaimsPortal.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> UpdateContactDetail(string ContactId , string ContactName, string Title , string Webaddress , string Address1 ,
+        public async Task<ActionResult> UpdateContactDetail(string ContactId , string FirstName,string LastName, string Title , string Webaddress , string Address1 ,
            string Address2 , string Suburb , string State , string PostalCode , string Workphone, string Mobile , string Fax, string Homephone , string Email)
         {
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             ContactUpdateModel model = new ContactUpdateModel();
             model.ContactId = ContactId;
-            model.ContactName = ContactName;
+            model.FirstName = FirstName;
+            model.LastName = LastName;
             model.Title = Title;
             model.Webaddress = Webaddress;
             model.Address1 = Address1;

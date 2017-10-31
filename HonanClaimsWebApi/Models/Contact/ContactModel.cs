@@ -11,6 +11,8 @@ namespace HonanClaimsWebApi.Models.Contact
     {
         public string ContactId { get; set; }
         public string ContactName { get; set; }//
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string AccountId { get; set; }
         public string Account { get; set; }
         public string WorkPhone { get; set; }//
@@ -70,5 +72,7 @@ namespace HonanClaimsWebApi.Models.Contact
         public string Fax { get; set; }
         public string Homephone { get; set; }
         public string Webaddress { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }
