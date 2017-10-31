@@ -664,10 +664,10 @@
 
             var currentDte = new Date();
 
-            var eDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sEnd_Time").val());
-
+            var eDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sEnd_Time").val());
+           
             if (sDate > eDate) {
-
+                
                 //bootbox.alert("Start time cannot be later than end time");
                 //var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
                 //Starttimepicker.value(preStartOpenTime);
@@ -681,6 +681,7 @@
                 var EM = eDate.getMinutes();
 
                 var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                
                 if (totalMi < 0) {
                     //e.preventDefault;
                     return false;
@@ -714,15 +715,15 @@
         }).on('dp.change', function (event) {
 
             var currentDte = new Date();
-            var sDate = new Date(currentDte.getFullYear() + "-" + currentDte.getMonth() + "-" + currentDte.getDate() + " " + $("#sStart_Time").val());
-
+            var sDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sStart_Time").val());
+           
             var event_date = event.date;
             if (event_date == null) {
                 return;
             }
-
+           
             var eDate = new Date(event.date);
-
+         
             if (sDate > eDate) {
 
                 //  bootbox.alert("Start time cannot be later than end time");
@@ -749,7 +750,7 @@
                 } else {
                     Unit = Math.ceil(totalMi / 6);
                 }
-
+                
                 $("#Units").val(Unit);
                 var RatePUNIT = $("#Rate_Per_Unit").val();
                 var val = (RatePUNIT * Unit).toFixed(2);
