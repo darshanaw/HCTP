@@ -247,6 +247,8 @@
 <script>
     $(function () {
 
+       
+
         if ($("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
             $("#Oc_No").val("");
             $("#divOcNo").hide();
@@ -329,5 +331,31 @@
 
         //});
 
+
+        // Warning
+        $(window).on('beforeunload', function () {
+            alert("dsd");
+            return "Any changes will be lost";
+        });
+
+        // Form Submit
+        $(document).on("submit", "form", function (event) {
+            // disable unload warning
+            $(window).off('beforeunload');
+        });
+
     })
+
+    function Cancel() {
+        $("#Oc_Name").val("");
+        $("#Oc_No").val("");
+        $("#Account_Name").val("");
+        $("#Accountid").val("");
+        $("#Claim_Type").val("");
+        $("#Policy_No").val("");
+        $("#Policy_Id").val("");
+        $("#Assigned_To").val("");
+        $("#Assigned_To_Id").val("");
+        $("#Oc_Name").val("");
+    }
 </script>
