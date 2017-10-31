@@ -396,7 +396,7 @@
         //}
 
         $('#aEmailClaimant_ActivityTask').click(function () {
-            this.href = "mailto:" + $('#Email_Dtl').val();
+            this.href = "mailto:" + $('#Email_Dtl').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
         });
 
         $(".AccountModal_ActivityTask_Close").click(function () {

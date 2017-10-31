@@ -1824,11 +1824,11 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         }
 
         $('#aEmailClaimant').click(function () {
-            this.href = "mailto:" + $('#Email_Address').val();
+            this.href = "mailto:" + $('#Email_Address').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
         });
 
         $('#aInsuredEmail').click(function () {
-            this.href = "mailto:" + $('#Insured_Email').val();
+            this.href = "mailto:" + $('#Insured_Email').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
         });
 
 
