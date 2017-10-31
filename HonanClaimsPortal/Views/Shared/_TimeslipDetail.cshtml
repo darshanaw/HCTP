@@ -115,10 +115,18 @@
                     <label class="col-sm-4 control-label input-sm">Client</label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            @Html.TextBoxFor(o => o.Client_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                            @*@Html.TextBoxFor(o => o.Client_Name, new { @class = "form-control input-sm", @maxlength = 100 })
                             @Html.HiddenFor(m => m.ClientId)
 
                             <span class="input-group-btn" id="btnPolicyLookup" data-toggle="modal" data-target="#ClientModal">
+                                <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                    <i class="fa fa-binoculars"></i>
+                                </button>
+                            </span>*@
+
+                            @Html.HiddenFor(m => m.ClientId)
+                            @Html.TextBoxFor(o => o.Client_Name, new { @class = "form-control input-sm", @maxlength = 100 })
+                            <span id="AccountNoModal_TSD" class="input-group-btn" data-toggle="modal" data-target="#AccountTimeslipDetailModal">
                                 <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
                                     <i class="fa fa-binoculars"></i>
                                 </button>
@@ -395,6 +403,8 @@
             </div>
         </div>
     </div>
+
+
 }
 
 
@@ -635,10 +645,7 @@
     //--------------Start Time-----------------------------
     $(document).ready(function () {
 
-        //$('#frmBillingForm').submit(function (e) {
-
-           
-        //});
+      
 
         $('.date_sStart_Time').datetimepicker({
             format: 'LT',
@@ -834,6 +841,10 @@
 
     $(document).ready(function () {
 
+        $("#AccountNoModal_TSD").click(function () {
+            $('#tbTimeslipDetailAcc').DataTable().ajax.reload(null, false);
+        });
+
         jQuery.validator.methods["date"] = function (value, element) { return true; }
         $('#Invoice_Processed').change(function () {
             if (this.checked) {
@@ -951,6 +962,12 @@
                     ]
                 });
 
+            });
+
+            $("#Rate").change(function () {
+                var RatePHR = $("#Rate").val();
+                var RatePUNIT = ((RatePHR / 60) * 6);
+                $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
             });
         });
 

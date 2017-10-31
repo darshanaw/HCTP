@@ -390,7 +390,7 @@
                                         <h4 class="modal-title">Account Lookup</h4>
                                     </div>
                                     <div class="modal-body">
-                                        @Html.Partial("~/Views/Shared/_TimeslipAccountLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+                                        @Html.Partial("~/Views/Shared/_TimeslipAccountLookUp.cshtml", null)
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default AccountTimeslipModal_Close" id="AccountTimeslipModal_Close">Close</button>
@@ -740,6 +740,10 @@
             var RatePHR = $("#Rate_New").val();
             var RatePUNIT = ((RatePHR / 60) * 6);
             $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
+        });
+
+        $(".AccountTimeslipModal_Close").click(function () {
+            $("#AccountTimeslipModal").modal("hide");
         });
 
         //$("#sStart_Time_New").kendoTimePicker({
