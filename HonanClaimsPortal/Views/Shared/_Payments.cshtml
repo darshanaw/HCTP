@@ -283,6 +283,8 @@
             });
 
             $("#Payment_Status").val("Received");
+
+            $("#btnSendPaymentEmail").hide();
             
         });
 
@@ -422,6 +424,7 @@
                 //$("#Payment_Date").val(result.Payment_Date);
                 $("#Payment_Date").val(kendo.toString(kendo.parseDate(result.Payment_Date), "dd/MM/yyyy"));
 
+                $("#btnSendPaymentEmail").show();
                 $('#PaymentDetailModal').modal('show');
             }
         });
