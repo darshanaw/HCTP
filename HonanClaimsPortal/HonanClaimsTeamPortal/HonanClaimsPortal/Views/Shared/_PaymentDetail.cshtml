@@ -624,6 +624,11 @@
                 $("#txtLiabilityResSource_pymt").val($("#Liability_Res_Source").val());
             }
 
+            if ($("#txtMinimumReserveAmount").length > 0) {
+                var value = Number($("#txtSettlementAmount_pymt").val()) - Number($("#Liability_Reserve").val()) + Number($("#Liability_Res_Source").val());
+                $("#txtMinimumReserveAmount").val(value );
+            }
+
             //if (val1 == '' || val1 == null || typeof val1 == 'undefined' || val1 == 'NaN')
             //    val1 = "0";
 

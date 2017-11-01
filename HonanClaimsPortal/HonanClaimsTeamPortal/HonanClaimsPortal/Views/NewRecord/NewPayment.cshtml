@@ -578,6 +578,12 @@
                                 $("#txtLiabilityResSource_pymt").val(data.Code);
                             }
 
+
+                            if ($("#txtMinimumReserveAmount").length > 0) {
+                                var value = Number($("#txtSettlementAmount_pymt").val()) - Number(result.Liability_Reserve) + Number(data.Code);
+                                $("#txtMinimumReserveAmount").val(value);
+                            }
+
                             var val1 = $("#txtLiability_pymt").val();
                             var val2 = $("#txtSettlementAmount_pymt").val();
 
