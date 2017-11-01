@@ -97,9 +97,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
             return fileContent;
         }
-
-
-
+        
         public async Task<List<PickListData>> GetActivityClaims(string userId)
         {
             List<PickListData> list = new List<PickListData>();
@@ -150,6 +148,48 @@ namespace HonanClaimsWebApi.Models.SendEmail
 
             }
             return list;
+        }
+
+        public async Task<bool> SendPaymentEmail(string userId, PaymentEmailModel model)
+        {
+            var result = false;
+            var templist = new List<string>();
+
+            if (model != null)
+            {
+                string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+                string apiUrl = SiteUrl + "api/Claim/SendPaymentEmail";
+                using (HttpClient client = new HttpClient())
+                {
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        client.BaseAddress = new Uri(apiUrl);
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                        var modelJson = JsonConvert.SerializeObject(model);
+
+                        var content = new StringContent(modelJson, System.Text.Encoding.UTF8, "application/json");
+                        var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+
+                        formData.Add(content, "EmailModel");
+                        formData.Add(content2, "UserId");
+
+                        HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var data = await response.Content.ReadAsStringAsync();
+                            result = Convert.ToBoolean(data);
+
+                        }
+
+                    }
+
+                }
+
+            }
+            return result;
         }
 
     }

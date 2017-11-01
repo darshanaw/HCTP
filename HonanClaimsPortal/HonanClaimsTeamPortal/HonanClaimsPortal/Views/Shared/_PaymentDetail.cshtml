@@ -112,7 +112,16 @@
     .k-upload-status.k-upload-status-total {
         display: none;
     }
+
+    table.small-editor {
+        height: 100px;
+    }
+
+    table.small-editor iframe.k-content {
+        height: 50px; /* 50px less than the Editor height */
+    }
 </style>
+
 
 
 @using (Ajax.BeginForm("_PaymentDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Pd", UpdateTargetId = "divFakePayment" }, new { @id = "frmPaymentDetail", enctype = "multipart/form-data" }))
@@ -122,10 +131,10 @@
     @Html.HiddenFor(o => o.Payee_Contact)
     @Html.HiddenFor(o => o.Payment_To)
     @Html.HiddenFor(o => o.Sent_To_Contact)
-    @Html.HiddenFor(o=>o.Invoice_Attached)
-    @Html.HiddenFor(o=>o.H_Claimsid)
+    @Html.HiddenFor(o => o.Invoice_Attached)
+    @Html.HiddenFor(o => o.H_Claimsid)
     @Html.HiddenFor(o => o.IsNew)
-    @Html.HiddenFor(o=>o.H_Paymentsid)
+    @Html.HiddenFor(o => o.H_Paymentsid)
 
     <div style="display:none" id="divFakePayment"></div>
 
@@ -288,7 +297,7 @@
     </div>
 
     <div class="col-md-6">
-       
+
         <div class="row">
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Payment To</label>
@@ -429,7 +438,7 @@
     <div class="col-md-12">
         <div class="footer text-right">
             @*<input type="button" class="mb-sm btn btn-info" id="btnSendPaymentEmail" value="Send Email"/>*@
-            <a class="mb-sm btn btn-info"  id="btnSendPaymentEmail" >Send Email</a>
+            <a class="mb-sm btn btn-info" id="btnSendPaymentEmail">Send Email</a>
             <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
             <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail" onclick="return CheckPaymentData();">Save Changes</button>
         </div>
@@ -524,6 +533,71 @@
             @*<div class="modal-footer">
                     <button type="button" class="btn btn-default UpdateLiabilityReserveModal_Close" id="UpdateLiabilityReserveModal_Close">Close</button>
                 </div>*@
+        </div>
+    </div>
+</div>
+
+
+<div id="sendPaymentEmailModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="closemodPayment" type="button" class="close">&times;</button>
+                <h4 class="modal-title">Send Email</h4>
+                <div class="col-md-12">
+                    <button id="sendPaymentEmail" class="btn btn-primary pull-right">Send</button>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @*<div id="errormsg" class="alert alert-danger">
+                        <strong></strong> <span id="error"></span>
+                    </div>
+                    <div id="successshow" class="alert alert-success">
+                        <strong></strong> <span id="success"></span>
+                    </div>
+
+                    <div>
+                        <ul id="ul"></ul>
+                    </div>*@
+
+
+                <div class="top-padding col-md-12">
+                    <label class="col-sm-1 control-label input-sm">To:</label>
+                    <div class="col-sm-11">
+                        <input class="form-control input-sm" id="emailToPayment" />
+                    </div>
+                </div>
+
+                @*<div class="top-padding col-md-12">
+                    <label class="col-sm-1 control-label input-sm">CC:</label>
+                    <div class="col-sm-11">
+                        <input class="form-control input-sm" id="CClistPayment" />
+                    </div>
+                </div>*@
+
+                <div class="top-padding col-md-12">
+                    <label class="col-sm-1 control-label input-sm">Subject:</label>
+                    <div class="col-sm-11">
+                        <input class="form-control input-sm" id="subjectPayment" />
+                    </div>
+                </div>
+
+                <div class="top-padding col-md-12">
+                    <label class="checkbox c-checkbox pull-right mt0 input-sm" style="font-weight:500">
+                        <input type="checkbox" value="false" id="chkIncludeInvoice">
+                        <span class="fa fa-check"></span> Include invoice as attachment
+                    </label>
+                </div>
+                <div class="top-padding col-md-12">
+                    <div id="EmailEditPayment">
+                        <textarea id="editorPayment"  class="small-editor" name="editorPayment" rows="10" cols="30" aria-label="editor"></textarea>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -691,9 +765,74 @@
 
 
         $("#btnSendPaymentEmail").click(function () {
-            this.href = "mailto:?Subject=Claim Reference " + $("#ClaimRefNo_Payment").val();
+            $("#subjectPayment").val("Claim Reference # " + $("#ClaimRefNo_Payment").val());
+            $("#emailToPayment").val($("#payment_email").val());
+            $('#sendPaymentEmailModal').modal('show');
         });
 
+
+        $('#closemodPayment').click(function () {
+            clearSelectorPayment();
+        })
+
+
+        function clearSelectorPayment() {
+            var editor = $("#editorPayment").data("kendoEditor");
+            editor.value("");
+            $("#sendPaymentEmailModal").modal('hide');
+        }
+
+        $("#editorPayment").kendoEditor({
+            resizable: {
+                content: true,
+                toolbar: true
+            }
+        });
+
+        // apply custom sizing
+        //$("textarea.small-editor").closest("table.k-editor").addClass("small-editor");
+
+        $("#sendPaymentEmail").click(function () {
+            var editor = $("#editorPayment").data("kendoEditor");
+            var seri = editor.value();
+            var subject = $('#subjectPayment').val();
+            var to = $('#emailToPayment').val();
+
+            var model = {
+                ToEmail: to,
+                Subject: subject,
+                IncludeAttachment: $('#chkIncludeInvoice').is(':checked'),
+                PaymentId: $("#H_Paymentsid").val()
+            };
+
+            var formData = new FormData();
+            var t = JSON.stringify(model);
+
+            var encodedString = btoa(seri);
+            formData.append("paymentModel", t);
+            formData.append("html", encodedString);
+
+            $.LoadingOverlay("show");
+
+            $.ajax({
+                url: "/Home/SendPaymentEmail",
+                type: 'post',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    //$('#successshow').show();
+                    //$('#success').text("Email sent");
+                    clearSelectorPayment();
+                    // ..... any success code you want
+                    $.LoadingOverlay("hide");
+                },
+                error: function (data) {
+                    $.LoadingOverlay("hide");
+                }
+            });
+        });
     });
 
     function dynamicValidations_Payment()

@@ -121,5 +121,26 @@ namespace HonanClaimsPortal.Controllers
         }
 
 
+        [HttpPost]
+        [ValidateInput(false)]
+        public async Task<ActionResult> SendPaymentEmail()
+        {
+            var model = Request["paymentModel"];
+            var files = Request.Files;
+            var dicimod = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentEmailModel>(model);
+
+            byte[] data = Convert.FromBase64String(Request["html"]);
+            string decodedString = Encoding.UTF8.GetString(data);
+            dicimod.EmailBody = decodedString;
+
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+            dicimod.BccEmail = client.Email;
+
+            SendEmailRepo rep = new SendEmailRepo();
+            var result = await rep.SendPaymentEmail(UserId, dicimod);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

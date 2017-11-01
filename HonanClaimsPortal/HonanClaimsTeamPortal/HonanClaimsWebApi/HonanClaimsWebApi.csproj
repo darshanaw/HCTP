@@ -125,6 +125,7 @@
     <Compile Include="Models\Policies\PoliciesRepo.cs" />
     <Compile Include="Models\Search\SearchModel.cs" />
     <Compile Include="Models\SendEmail\EmailModel.cs" />
+    <Compile Include="Models\SendEmail\PaymentEmailModel.cs" />
     <Compile Include="Models\SendEmail\SendEmailRepo.cs" />
     <Compile Include="Models\TimeslipCheck\BillingTimeRecordModel.cs" />
     <Compile Include="Models\TimeslipCheck\TimeSlipCheckRepo.cs" />
