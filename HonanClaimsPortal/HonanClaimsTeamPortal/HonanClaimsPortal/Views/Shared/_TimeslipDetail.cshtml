@@ -969,6 +969,10 @@
                 var RatePHR = $("#Rate").val();
                 var RatePUNIT = ((RatePHR / 60) * 6);
                 $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
+
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * $("#Units").val()).toFixed(2);
+                $("#Billable").val(val);
             });
         });
 
