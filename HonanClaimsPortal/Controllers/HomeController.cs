@@ -125,9 +125,10 @@ namespace HonanClaimsPortal.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> SendPaymentEmail()
         {
+            HttpPostedFileBase file = null;
             var model = Request["paymentModel"];
-            var files = Request.Files;
             var dicimod = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentEmailModel>(model);
+
 
             byte[] data = Convert.FromBase64String(Request["html"]);
             string decodedString = Encoding.UTF8.GetString(data);
@@ -137,8 +138,16 @@ namespace HonanClaimsPortal.Controllers
             string UserId = client.UserId;
             dicimod.BccEmail = client.Email;
 
+
+            if (string.IsNullOrEmpty(dicimod.PaymentId) && Session[SessionHelper.PaymentAttachment] != null)
+            {
+                IEnumerable<HttpPostedFileBase> files = (IEnumerable<HttpPostedFileBase>)Session[SessionHelper.PaymentAttachment];
+                if (files.Count() > 0)
+                    file = files.ToList()[0];
+            }
+
             SendEmailRepo rep = new SendEmailRepo();
-            var result = await rep.SendPaymentEmail(UserId, dicimod);
+            var result = await rep.SendPaymentEmail(UserId, dicimod, file);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

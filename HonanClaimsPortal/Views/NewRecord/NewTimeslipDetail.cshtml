@@ -740,6 +740,12 @@
             var RatePHR = $("#Rate_New").val();
             var RatePUNIT = ((RatePHR / 60) * 6);
             $("#Rate_Per_Unit_New").val(RatePUNIT.toFixed(2));
+
+            //piumi
+            var RatePUNIT = $("#Rate_Per_Unit_New").val();
+            var val = (RatePUNIT * $("#Units_New").val()).toFixed(2);
+            $("#Billable_New").val(val);
+
         });
 
         $(".AccountTimeslipModal_Close").click(function () {
