@@ -517,10 +517,9 @@
             if ($("#isActivityCompletionGrid").val() == 'true') {
 
                 $.LoadingOverlay("show");
-
                 $.ajax({
 
-                    url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&action=" + $("#action_wf").val()
+                    url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&actionName=" + $("#action_wf").val()
                     + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
                     + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid").val(), success: function (result) {
 
@@ -573,7 +572,6 @@
 
     function LoadgridActivityWorkFlowNextSteps(showpopUp, seqId)
     {
-
         $("#gridActivityWorkFlowNextSteps").kendoGrid({
 
             dataSource: {
