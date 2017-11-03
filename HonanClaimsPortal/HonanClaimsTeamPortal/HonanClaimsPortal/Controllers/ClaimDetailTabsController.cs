@@ -338,13 +338,13 @@ namespace HonanClaimsPortal.Controllers
             return Json(maxDate, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UpdateNextActivityWorkFlow(string activityTaskId, string action, int actionSeq, int nextSeq,
+        public ActionResult UpdateNextActivityWorkFlow(string activityTaskId, string actionName, int actionSeq, int nextSeq,
             string nextActivityId, string nextActivityDue, string claimId)
         {
             //DateTime nextActivityDue_ = Convert.ToDateTime(nextActivityDue); //DateTime.Now;
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             documentService = new DocumentService();
-            bool res = documentService.CompleteActivityTaskWithNextAction(activityTaskId, action, actionSeq, nextSeq,
+            bool res = documentService.CompleteActivityTaskWithNextAction(activityTaskId, actionName, actionSeq, nextSeq,
              nextActivityId, nextActivityDue, claimId, client.UserId);
             return Json("", JsonRequestBehavior.AllowGet);
         }

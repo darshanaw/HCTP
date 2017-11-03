@@ -431,6 +431,7 @@
 
                     <div class="col-md-12">
                         <div class="panel-footer text-right">
+                            <a class="mb-sm btn btn-info" id="btnSendPaymentEmail">Send Email</a>
                             <button type="button" class="mb-sm btn btn-default" onclick="CloseNewPayment()">Discard Changes</button>
                             <button type="submit" class="mb-sm btn btn-primary" id="btnSavePaymentDetail">Save Changes</button>
                         </div>
@@ -527,6 +528,60 @@
             <div class="modal-body">
                 @Html.Partial("~/Views/Shared/_UpdateLiabilityReserve.cshtml", null) 
             </div>          
+        </div>
+    </div>
+</div>
+
+
+<div id="sendPaymentEmailModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="closemodPaymentNew" type="button" class="close">&times;</button>
+                <h4 class="modal-title">Send Email</h4>
+                <div class="col-md-12">
+                    <button id="sendPaymentEmail" class="btn btn-primary pull-right">Send</button>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="top-padding col-md-12">
+                    <label class="col-sm-1 control-label input-sm">To:</label>
+                    <div class="col-sm-11">
+                        <input class="form-control input-sm" id="emailToPayment" />
+                    </div>
+                </div>
+
+                @*<div class="top-padding col-md-12">
+                        <label class="col-sm-1 control-label input-sm">CC:</label>
+                        <div class="col-sm-11">
+                            <input class="form-control input-sm" id="CClistPayment" />
+                        </div>
+                    </div>*@
+
+                <div class="top-padding col-md-12">
+                    <label class="col-sm-1 control-label input-sm">Subject:</label>
+                    <div class="col-sm-11">
+                        <input class="form-control input-sm" id="subjectPayment" />
+                    </div>
+                </div>
+
+                <div class="top-padding col-md-12">
+                    <label class="checkbox c-checkbox pull-right mt0 input-sm" style="font-weight:500">
+                        <input type="checkbox" value="false" id="chkIncludeInvoice">
+                        <span class="fa fa-check"></span> Include invoice as attachment
+                    </label>
+                </div>
+                <div class="top-padding col-md-12">
+                    <div id="EmailEditPaymentNew">
+                        <textarea id="editorPaymentNew" class="small-editor" name="editorPaymentNew" rows="10" cols="30" aria-label="editor"></textarea>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -825,6 +880,74 @@
 
         });
 
+       
+
+        $("#sendPaymentEmail").click(function () {
+            var editor = $("#editorPaymentNew").data("kendoEditor");
+            var seri = editor.value();
+            var subject = $('#subjectPayment').val();
+            var to = $('#emailToPayment').val();
+            //Piumi
+            var model = {
+                ToEmail: to,
+                Subject: subject,
+                IncludeAttachment: $('#chkIncludeInvoice').is(':checked'),
+                PaymentId: $("#H_Paymentsid").val()
+            };
+
+            var formData = new FormData();
+            var t = JSON.stringify(model);
+
+            var encodedString = btoa(seri);
+            formData.append("paymentModel", t);
+            formData.append("html", encodedString);
+
+            $.LoadingOverlay("show");
+
+            $.ajax({
+                url: "/Home/SendPaymentEmail",
+                type: 'post',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    //$('#successshow').show();
+                    //$('#success').text("Email sent");
+                    clearSelectorPaymentNew();
+                    // ..... any success code you want
+                    $.LoadingOverlay("hide");
+                },
+                error: function (data) {
+                    $.LoadingOverlay("hide");
+                }
+            });
+        });
+
+
+        $("#btnSendPaymentEmail").click(function () {
+            $("#subjectPayment").val("Claim Reference # " + $("#ClaimRefNo_Payment").val());
+            $("#emailToPayment").val($("#payment_email").val());
+            $('#sendPaymentEmailModal').modal('show');
+        });
+
+
+        $("#editorPaymentNew").kendoEditor({
+            resizable: {
+                content: true,
+                toolbar: true
+            }
+        });
+
+        $('#closemodPaymentNew').click(function () {
+            clearSelectorPaymentNew();
+        })
+
+        function clearSelectorPaymentNew() {
+            var editor = $("#editorPaymentNew").data("kendoEditor");
+            editor.value("");
+            $("#sendPaymentEmailModal").modal('hide');
+        }
     });
 
     //function dynamicValidations_Payment()

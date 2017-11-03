@@ -510,40 +510,40 @@
 
         }
 
-        $("#btnWorkFlowComplete").click(function () {
+        //$("#btnWorkFlowComplete").click(function () {
 
-            $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
-            $("#nextSeq_wf").val($("#Next_Seq_Dtl_Temp").val());
+        //    $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
+        //    $("#nextSeq_wf").val($("#Next_Seq_Dtl_Temp").val());
 
-            $("#NextActivityId").val($("#nextActivityId_wf").val());
-            $("#NextActivityDue").val($("#txtWorkFlowCompletedDAte").val());
+        //    $("#NextActivityId").val($("#nextActivityId_wf").val());
+        //    $("#NextActivityDue").val($("#txtWorkFlowCompletedDAte").val());
 
-            if ($("#isActivityCompletionGrid").val() == 'true') {
+        //    if ($("#isActivityCompletionGrid").val() == 'true') {
 
-                $.LoadingOverlay("show");
+        //        $.LoadingOverlay("show");
+        //        alert("Calling Update");
+        //        $.ajax({
 
-                $.ajax({
-
-                    url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&action=" + $("#action_wf").val()
-                    + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
-                    + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid_Dtl").val(), success: function (result) {
+        //            url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&actionName=" + $("#action_wf").val()
+        //            + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
+        //            + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid_Dtl").val(), success: function (result) {
 
 
-                    },
-                    complete: function () {
+        //            },
+        //            complete: function () {
 
-                        $.LoadingOverlay("hide");
-                    }
-                });
+        //                $.LoadingOverlay("hide");
+        //            }
+        //        });
 
-                RefreshActivityTasksGrid();
-                generateKeyContactsGrid();
-                generateKeyDateGrid();
-            }
+        //        RefreshActivityTasksGrid();
+        //        generateKeyContactsGrid();
+        //        generateKeyDateGrid();
+        //    }
 
-            $("#ActivityWorkFlowModal").modal('hide');
+        //    $("#ActivityWorkFlowModal").modal('hide');
 
-        });
+        //});
 
 
 
