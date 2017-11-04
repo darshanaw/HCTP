@@ -592,7 +592,7 @@
             }
 
         }).on('dp.change', function (event) {
-            debugger;
+           
             var sDate = new Date(event.date);
 
             var event_date = event.date;
@@ -602,8 +602,11 @@
 
             var currentDte = new Date();
 
-            var eDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sEnd_Time_New").val());
+            //var eDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sEnd_Time_New").val());
 
+            var eDate = new Date(currentDte.getFullYear(), currentDte.getMonth(), currentDte.getDate(), customGetHour($("#sEnd_Time_New").val()), customGetMinute($("#sEnd_Time_New").val()));
+          
+            //console.log(new Date(currentDte.getFullYear(), currentDte.getMonth(), currentDte.getDate(), customGetHour($("#sEnd_Time_New").val()), customGetMinute($("#sEnd_Time_New").val())));
             if (sDate > eDate) {
 
                 //bootbox.alert("Start time cannot be later than end time");
@@ -650,9 +653,13 @@
             }
 
         }).on('dp.change', function (event) {
-            debugger;
+          
             var currentDte = new Date();
-            var sDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sStart_Time_New").val());
+
+            //var sDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sStart_Time_New").val());
+
+            var sDate = new Date(currentDte.getFullYear(), currentDte.getMonth() , currentDte.getDate(), customGetHour($("#sStart_Time_New").val()), customGetMinute($("#sStart_Time_New").val()));
+
 
             var event_date = event.date;
             if (event_date == null) {
