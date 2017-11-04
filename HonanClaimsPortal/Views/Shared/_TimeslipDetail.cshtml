@@ -664,7 +664,9 @@
 
             var currentDte = new Date();
 
-            var eDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sEnd_Time").val());
+            //var eDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sEnd_Time").val());
+            var eDate = new Date(currentDte.getFullYear(), currentDte.getMonth(), currentDte.getDate(), customGetHour($("#sEnd_Time").val()), customGetMinute($("#sEnd_Time").val()));
+
            
             if (sDate > eDate) {
                 
@@ -715,7 +717,9 @@
         }).on('dp.change', function (event) {
 
             var currentDte = new Date();
-            var sDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sStart_Time").val());
+            //var sDate = new Date(currentDte.getFullYear() + "-" + (currentDte.getMonth() + 1) + "-" + currentDte.getDate() + " " + $("#sStart_Time").val());
+            var sDate = new Date(currentDte.getFullYear(), currentDte.getMonth(), currentDte.getDate(), customGetHour($("#sStart_Time").val()), customGetMinute($("#sStart_Time").val()));
+
            
             var event_date = event.date;
             if (event_date == null) {
