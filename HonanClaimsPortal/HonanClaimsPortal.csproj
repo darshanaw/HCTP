@@ -406,6 +406,9 @@
     <Content Include="Content\CountDownTimer\src\countimer.js" />
     <Content Include="Content\CountDownTimer\test\countimer.html" />
     <Content Include="Content\CountDownTimer\test\countimer_test.js" />
+    <Content Include="Content\Kendo\kendo.common-bootstrap.min.css" />
+    <Content Include="Content\Kendo\kendo.material.min.css" />
+    <Content Include="Content\Kendo\kendo.material.mobile.min.css" />
     <Content Include="Content\TimerAssets\countup\jquery.countup.css" />
     <Content Include="Content\TimerAssets\countup\jquery.countup.js" />
     <Content Include="Content\TimerAssets\css\styles.css" />
@@ -1292,7 +1295,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\Kendo\kendo.all.min.js" />
     <Content Include="Scripts\Kendo\kendo.aspnetmvc.min.js" />
     <Content Include="Scripts\Kendo\kendo.grid.min.js" />
     <Content Include="Scripts\Kendo\kendo.modernizr.custom.js" />
