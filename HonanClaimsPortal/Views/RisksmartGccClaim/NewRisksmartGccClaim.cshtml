@@ -60,7 +60,7 @@
     </h3>
 
     <div class="row">
-        @using (Html.BeginForm("NewRisksmartGccClaim", "RisksmartGccClaim", FormMethod.Post, new { id = "formNewRisksmartGccClaim" }))
+        @using (Html.BeginForm("NewRisksmartGccClaim", "RisksmartGccClaim", FormMethod.Post, new { id = "formNewRisksmartGccClaim", enctype = "multipart/form-data" }))
         {
             @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
 
@@ -267,13 +267,13 @@
                                 </div>
                             </div>
                             @*<div class="col-md-12 col-sm-12">
-                                <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Risksmart GCC Ref #</label>
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Risksmart_Gcc_Ref, new { @class = "form-control input-sm" })
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Risksmart GCC Ref #</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(o => o.Risksmart_Gcc_Ref, new { @class = "form-control input-sm" })
+                                        </div>
                                     </div>
-                                </div>
-                            </div>*@
+                                </div>*@
                         </fieldset>
 
 
@@ -500,7 +500,7 @@ new { @class = "form-control input-sm" })
                                     <label class="col-sm-3 control-label input-sm">DoB</label>
                                     <div class="col-sm-9">
                                         <div id="dtpDob" class="input-group dateCalendar">
-                                            @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm",@style= "z-index: auto;" })
+                                            @Html.TextBoxFor(o => o.Date_Of_Birth, new { @class = "form-control input-sm", @style = "z-index: auto;" })
                                             <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                 <span class="fa fa-calendar"></span>
                                             </span>
@@ -539,7 +539,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (H)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Home_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Home_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
 
                                     </div>
                                 </div>
@@ -549,7 +549,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Claimant Phone (M)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new {@class = "form-control input-sm", @maxlength = 200 })
+                                        @Html.TextBoxFor(o => o.Claimant_Mobile_Phone, new { @class = "form-control input-sm", @maxlength = 200 })
 
                                     </div>
                                 </div>
@@ -569,13 +569,13 @@ new { @class = "form-control input-sm" })
                         <fieldset>
 
                             @*<div class="col-md-12 col-sm-12">
-                                <div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Binder #</label>
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm" })
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Binder #</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm" })
+                                        </div>
                                     </div>
-                                </div>
-                            </div>*@
+                                </div>*@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Litigated</label>
@@ -650,7 +650,7 @@ new { @class = "form-control input-sm" })
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Insured Phone (W)</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm"})
+                                        @Html.TextBoxFor(o => o.Insured_Work_Phone, new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -723,7 +723,21 @@ new { @class = "form-control input-sm" })
                                     </div>
                                 </div>
 
+                                @if (Model.Claim_Type != "Notification")
+                                {
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Attachments</label>
+                                        <div class="col-md-9">
+                                            <div id="multiple">
+                                                <input type="file" class="multiple btn btn-default" name="upfiles" multiple style="width: 100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
+
+
                         </fieldset>
 
                     </div>
@@ -867,8 +881,7 @@ new { @class = "form-control input-sm" })
 
         $("#Region").change(function () {
 
-            if ($(this).val().indexOf("QLD") !== -1)
-            {
+            if ($(this).val().indexOf("QLD") !== -1) {
                 $("#Juristiction").val("QLD");
             }
             else if ($(this).val().indexOf("SA") !== -1) {
@@ -886,8 +899,7 @@ new { @class = "form-control input-sm" })
             else if ($(this).val().indexOf("TAS") !== -1) {
                 $("#Juristiction").val("TAS");
             }
-            else
-            {
+            else {
                 $("#Juristiction").val("");
             }
         })

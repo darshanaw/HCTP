@@ -237,9 +237,9 @@
                                         <a href="#" id="addNewKeyDate" class="list-group-item">
                                             <small>New Key Date</small>
                                         </a>
-                                        @*<a id="emialclick" class="list-group-item">
+                                        <a href="#" id="emialclick" class="list-group-item">
                                             <small>New Email</small>
-                                        </a>*@
+                                        </a>
                                         <a href="/NewContactAccount/Index" class="list-group-item">
                                             <small>New Contact/Account</small>
                                         </a>
@@ -943,7 +943,7 @@
             <div class="modal-dialog modal-lg">
 
                 <!-- Modal content-->
-                <div class="modal-content" style="height:600px">
+                <div class="modal-content" style="height:700px">
                     <div class="modal-header">
                         <button id="closemod" type="button" class="close">&times;</button>
                         <h4 class="modal-title">Send a Question</h4>
@@ -992,6 +992,15 @@
                                 <input class="form-control" id="subject" />
                             </div>
                         </div>
+
+                        <div class="top-padding col-md-12">   
+                            <div class="col-sm-1">
+                                </div>
+                                <div class="col-sm-11">
+                                    <input type="checkbox" checked id="chkAddToFileNote_WebMAil" name="chkAddToFileNote_WebMAil" />
+                                    <label>Add to File Note</label>
+                                </div>
+                            </div>
 
                         <div class="top-padding col-md-12">
                             <div id="EmailEdit">
@@ -1401,6 +1410,7 @@
             widget2.value("");
             //multiselect2.trigger("change");
             $('#subject').val("");
+            $('#chkAddToFileNote_WebMAil').prop("checked",true);
             editor.value("");
             widget.setDataSource(emptyemailnew);
             widget2.setDataSource(emptyemailnew);
@@ -1416,7 +1426,7 @@
 
 
         $("#emailattach").change(function (input) {
-            debugger;
+           
             var file1 = $('#emailattach').get(0).files;
             if (file1 != null) {
                 jQuery.each(file1, function (i, file) {
@@ -1438,7 +1448,7 @@
         });
 
         $(document).delegate('.fa-trash-o', 'click', function (e) {
-            debugger;
+           
             id = e.target.id;
             filearray = jQuery.grep(filearray, function (i, value) {
                 return value != id;
@@ -1477,19 +1487,24 @@
                 autoBind: true,
                 deselect: onDeselect,
                 select: onSelect,
+                maxSelectedItems: 1,
                 dataSource: listdata
             });
+                       
 
             function onSelect(e) {
                 var dataItem = e.dataItem;
                 $('#Tolist').prop('disabled', false);
                 $('#CClist').prop('disabled', false);
                 loadEmails(dataItem, false);
+
+                $("#subject").val("Claim Ref"+" ["+dataItem.Text+"]");
             };
 
             function onDeselect(e) {
                 var dataItem = e.dataItem;
                 loadEmails(dataItem, true);
+                $("#subject").val("");
             };
 
 
@@ -1610,6 +1625,8 @@
         });
 
         $('#sendemail, #sendmail').click(function () {
+
+
             $('#successshow').hide();
             var editor = $("#editor").data("kendoEditor");
             var seri = editor.value();
@@ -1618,6 +1635,7 @@
             var autocomplete1 = $("#Tolist").data("kendoAutoComplete");
             var listone = autocomplete1.value();
             var listtwo = autocomplete2.value();
+            var isFileNote = $("#chkAddToFileNote_WebMAil").is(':checked');
             if (listone != null && listone != "") {
                 Tolist = separeString(listone);
             }
@@ -1656,7 +1674,8 @@
                 ToEmails: Tolist,
                 CcEmails: CClist,
                 ClaimIds: list,
-                subject: subject
+                subject: subject,
+                isFileNote: isFileNote
             }
 
             var formData = new FormData();
@@ -1670,7 +1689,7 @@
             formData.append("model", t);
             formData.append("html", encodedString);
 
-
+            $.LoadingOverlay("show");
 
             $.ajax({
                 url: "/Home/SendEmail",
@@ -1683,6 +1702,7 @@
                     $('#successshow').show();
                     $('#success').text("Email sent");
                     clearSelector();
+                    $.LoadingOverlay("hide");
                     // ..... any success code you want
                 }
             });

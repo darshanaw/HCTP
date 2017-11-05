@@ -68,7 +68,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> NewRisksmartPropertyClaim(RisksmartPropertyClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category)
+        public async Task<ActionResult> NewRisksmartPropertyClaim(RisksmartPropertyClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category, IEnumerable<HttpPostedFileBase> upfiles)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace HonanClaimsPortal.Controllers
                     generalClaim.Account_Name = claim.Account_Name;
                     generalClaim.Claim_Received = true;
                     generalClaim.Claim_Received_Date = DateTime.Today;
-                    var result = await claimServices.TeamInsertClaimNotification(generalClaim, client.UserId);
+                    var result = await claimServices.TeamInsertClaimNotification(generalClaim, client.UserId,upfiles);
                    
                     if (result.IsSuccess)
                     {
