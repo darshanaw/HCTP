@@ -131,6 +131,7 @@ namespace HonanClaimsWebApi.Services
                 claim.UserId = userId;
                 var dataString = JsonConvert.SerializeObject(claim);
 
+
                 //using (var client = new WebClient())
                 //{
                 //    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
@@ -151,8 +152,18 @@ namespace HonanClaimsWebApi.Services
                         var jsonString_userId = JsonConvert.SerializeObject(userId);
                         var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
                         var content_userId = new StringContent(jsonString_userId, System.Text.Encoding.UTF8, "application/json");
+                                               
                         formData.Add(content, "claim");
-                        //formData.Add(content_userId, "userId");
+                       
+                        if (upfiles != null)
+                        {
+                            foreach (HttpPostedFileBase item in upfiles)
+                            {
+                                if(item != null)
+                                 formData.Add(new StreamContent(item.InputStream), "Attachment", item.FileName);
+                            }
+                        }
+                           
 
 
                         var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1, formData);
