@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using HonanClaimsWebApi.Models.Views;
 using HonanClaimsWebApi.Models;
 using System.Web;
+using System.Net.Http.Headers;
 
 namespace HonanClaimsWebApi.Services
 {
@@ -159,12 +160,13 @@ namespace HonanClaimsWebApi.Services
                         {
                             foreach (HttpPostedFileBase item in upfiles)
                             {
-                                if(item != null)
-                                 formData.Add(new StreamContent(item.InputStream), "Attachment", item.FileName);
+                                if (item != null)
+                                {
+                                    //formData.Add(new StreamContent(item.InputStream), "Attachment", item.FileName);
+                                    formData.Add(CreateFileContent(item.InputStream, item.FileName, item.ContentType));
+                                }
                             }
                         }
-                           
-
 
                         var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + insertClaimNotificationApiGet1, formData);
                         string resultContent = await postResult.Content.ReadAsStringAsync();
@@ -186,6 +188,18 @@ namespace HonanClaimsWebApi.Services
             }
 
 
+        }
+
+        private StreamContent CreateFileContent(Stream stream, string fileName, string contentType)
+        {
+            var fileContent = new StreamContent(stream);
+            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                Name = "\"files\"",
+                FileName = "\"" + fileName + "\""
+            }; // the extra quotes are key here
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            return fileContent;
         }
 
         /// <summary>
