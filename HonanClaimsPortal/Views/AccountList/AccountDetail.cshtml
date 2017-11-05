@@ -16,7 +16,7 @@
     <div class="col-md-12">
         <div class="footer text-right">
             <button type="button" id="cancel" onclick="Cancel()" class="mb-sm btn btn-default mr-20">Cancel</button>
-            <button type="submit" class="mb-sm btn btn-primary">Save</button>
+            <button type="submit" id="btnSaveTop" class="mb-sm btn btn-primary">Save</button>
         </div>
     </div>
 
@@ -31,25 +31,26 @@
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Main Phone</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Mainphone, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                    @Html.TextBoxFor(m => m.Mainphone, new { @class = "form-control input-sm"  })
+
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Fax:</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Toll Free</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Tollfree, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                    @Html.TextBoxFor(m => m.Tollfree, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Web Address</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
@@ -62,21 +63,21 @@
                 <label class="col-sm-4 control-label input-sm">Type</label>
                 <div class="col-sm-8">
                     @Html.DropDownListFor(model => model.Type, new SelectList(Model.AccountType, "Code", "Text"),
-                                         new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                                         new { @class = "form-control input-sm"  })
                 </div>
             </div>
 
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Address 1</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control input-sm"  })
                 </div>
             </div>
 
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Address 2</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control input-sm"  })
                 </div>
             </div>
 
@@ -84,7 +85,7 @@
                 <label class="col-sm-4 control-label input-sm">Suburb</label>
                 <div class="col-sm-8">
                     @Html.DropDownListFor(model => model.Suburb, new SelectList(Model.PropertySuburbList, "Code", "Text"),
-                                         new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                                         new { @class = "form-control input-sm"  })
                 </div>
             </div>
 
@@ -94,7 +95,7 @@
                     @Html.DropDownListFor(model => model.State,
 new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new SelectListItem { Value = "NSW", Text = "NSW" }, new SelectListItem { Value = "SA", Text = "SA" }
 ,new SelectListItem { Value = "TAS", Text = "TAS" },new SelectListItem { Value = "VIC", Text = "VIC" },new SelectListItem { Value = "WA", Text = "WA" },new SelectListItem { Value = "QLD", Text = "QLD" }},
-                                 new { @class = "form-control input-sm", @placeholder = "State", @style = "background:#FFFF66" })
+                                 new { @class = "form-control input-sm", @placeholder = "State"  })
                 </div>
             </div>
 
@@ -188,22 +189,22 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 <label class="col-sm-4 control-label input-sm">Billing Method:</label>
                 <div class="col-sm-8">
                     @Html.DropDownListFor(m => m.Billing_Method,
-                                 new SelectList(Model.BillingMethods, "Code", "Text"),
+                                 new SelectList(Model.BillingMethods, "Text", "Text"),
                                  "--Select--",
-                                 new { @class = "form-control input-sm", @style = "background:#FFFF66" })
+                                 new { @class = "form-control input-sm"  })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Billable Rate</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Billable_Rate, new { @class = "form-control input-sm", @style = "background:#FFFF66", @type = "number" })
+                    @Html.TextBoxFor(m => m.Billable_Rate, new { @class = "form-control input-sm" , @type = "number" })
                     <label id='idBillable_Rate' style="color:red;display:none">Billable rate required</label>
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-4 control-label input-sm">Service Rate</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(m => m.Service_Rage, new { @class = "form-control input-sm", @style = "background:#FFFF66", @type = "number" })
+                    @Html.TextBoxFor(m => m.Service_Rage, new { @class = "form-control input-sm" , @type = "number" })
                     <label id='idService_Rage' style="color:red;display:none">Service rate required</label>
                     
                 </div>
@@ -255,7 +256,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.Proposal_Recommendation_Reqd, new { @readonly = true, @class = "input-sm" })
+                    @Html.CheckBoxFor(m => m.Proposal_Recommendation_Reqd, new { @readonly = true, @class = "input-sm",@disabled= true })
                 </div>
                 <label class="col-sm-8 control-label input-sm">Proposal Recommendation Required</label>
             </div>
@@ -324,59 +325,35 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     </div>
 </div>
 
+<!-- Covert to Claim Modal End-->
+<!-- SELECT2-->
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
 <script>
 
-    $("#btnSave").click(function () {
+    $(document).ready(function () {
 
-        var AccountId='@ViewBag.AccountId';
-        var Mainphone =$("#Mainphone ").val();
-        var Fax =$("#Fax ").val();
-        var Tollfree =$("#Tollfree ").val();
-        var Webaddress =$("#Webaddress ").val();
-        var Type =$("#Type ").val();
-        var Address1 =$("#Address1 ").val();
-        var Address2 =$("#Address2 ").val();
-        var Suburb =$("#Suburb ").val();
-        var State =$("#State ").val();
-        var PostalCode =$("#PostalCode ").val();
-        var Billing_Method =$("#Billing_Method ").val();
-        var Billable_Rate =$("#Billable_Rate ").val();
-        var Service_Rage =$("#Service_Rage ").val();
- 
-        if (Billing_Method != null && Billing_Method != "") {
-            if (Billable_Rate == null || Billable_Rate <= 0) {
-                document.getElementById("idBillable_Rate").style.display = "block";
-                return false;
-            } else{
-                document.getElementById("idBillable_Rate").style.display = "none";
-            }
-        } else {
-            document.getElementById("idBillable_Rate").style.display = "none";
+        $('#Suburb').select2({ width: '100%' });
+
+        if ($("#Suburb").length > 0) {
+            $("#Suburb").val($("#Suburb").val()).trigger('change.select2');;
         }
-
-        if (Service_Rage == null || Service_Rage == "") {
-            document.getElementById("idService_Rage").style.display = "block";
-            return false;
-        } else {
-            if (parseInt(Service_Rage) <= 0) {
-                document.getElementById("idService_Rage").style.display = "block";
-            } else {
-                document.getElementById("idService_Rage").style.display = "none";
-            }             
-        }
-
-
-        $.ajax({
-            url: "/AccountList/UpdateAccountDetail?AccountId=" + AccountId + "&Mainphone=" + Mainphone + "&Fax=" + Fax + "&Tollfree=" + Tollfree
-                + "&Webaddress=" + Webaddress + "&Type=" + Type + "&Address1=" + Address1 + "&Address2=" + Address2 + "&Suburb=" + Suburb + "&State=" + State
-                + "&PostalCode=" + PostalCode + "&Billing_Method=" + Billing_Method + "&Billable_Rate=" + Billable_Rate + "&Service_Rage=" + Service_Rage, success: function (result) {
-
-            },
-            complete: function () {
-            }
-        });
-
     });
+
+
+    $("#btnSave").click(function () {
+        SaveAccount();
+    });
+
+    $("#btnSaveTop").click(function () {
+        SaveAccount();
+    });
+
+    
         //$('#Suburb').select2({ width: '100%' });
 
         //if ($("#Suburb").length > 0) {
@@ -395,12 +372,60 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     }
 
 
-    //$("#btnSave").click(function () {
-    //    var Mainphone = $("#Mainphone").val();
-    //    var Fax = $("#Fax").val();
-    //    var Tollfree = $("#Tollfree").val();
+    function SaveAccount() {
 
-    //});
+        var AccountId='@ViewBag.AccountId';
+        var Mainphone =$("#Mainphone").val();
+        var Fax =$("#Fax").val();
+        var Tollfree =$("#Tollfree").val();
+        var Webaddress =$("#Webaddress").val();
+        var Type =$("#Type").val();
+        var Address1 =$("#Address1").val();
+        var Address2 =$("#Address2").val();
+        var Suburb =$("#Suburb").val();
+        var State =$("#State").val();
+        var PostalCode =$("#PostalCode").val();
+        var Billing_Method =$("#Billing_Method").val();
+        var Billable_Rate =$("#Billable_Rate").val();
+        var Service_Rage =$("#Service_Rage").val();
+        debugger;
+
+        if (Billing_Method != null && Billing_Method != "") {
+            if (Billable_Rate == null || Billable_Rate <= 0 || Billable_Rate == "") {
+                document.getElementById("idBillable_Rate").style.display = "block";
+                return false;
+            } else{
+                document.getElementById("idBillable_Rate").style.display = "none";
+            }
+        } else {
+            document.getElementById("idBillable_Rate").style.display = "none";
+        }
+
+        if (Service_Rage == null || Service_Rage == "") {
+            document.getElementById("idService_Rage").style.display = "block";
+            return false;
+        } else {
+            if (parseInt(Service_Rage) <= 0) {
+                document.getElementById("idService_Rage").style.display = "block";
+            } else {
+                document.getElementById("idService_Rage").style.display = "none";
+            }
+        }
+        $.LoadingOverlay("show");
+
+        $.ajax({
+            url: "/AccountList/UpdateAccountDetail?AccountId=" + AccountId + "&Mainphone=" + Mainphone + "&Fax=" + Fax + "&Tollfree=" + Tollfree
+                + "&Webaddress=" + Webaddress + "&Type=" + Type + "&Address1=" + Address1 + "&Address2=" + Address2 + "&Suburb=" + Suburb + "&State=" + State
+                + "&PostalCode=" + PostalCode + "&Billing_Method=" + Billing_Method + "&Billable_Rate=" + Billable_Rate + "&Service_Rage=" + Service_Rage, success: function (result) {
+                    $.LoadingOverlay("hide");
+                    bootbox.alert({
+                        message: "Account successfully updated", size: 'small'
+                    });
+            },
+            complete: function () {
+            }
+        });
+    }
 
 </script>
 

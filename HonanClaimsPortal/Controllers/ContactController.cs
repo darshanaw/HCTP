@@ -48,11 +48,15 @@ namespace HonanClaimsPortal.Controllers
             ContactRepo contactRepo = new ContactRepo();
             ContactModel model = new ContactModel();
             model = await contactRepo.GetAccount(ContactId);
+
+            pickListServices = new PicklistServicecs();
+            model.TitleList = pickListServices.GetPickListItems("Title");
+            model.TitleList.Insert(0, new PicklistItem());
+
             //Get Suburbs
             pickListServices = new PicklistServicecs();
             model.PropertySuburbList = pickListServices.GetPickListItems("H_Suburbs");
             model.PropertySuburbList.Insert(0, new PicklistItem());
-
 
             //Get Suburbs
             PropertyStateList = new PicklistServicecs();
