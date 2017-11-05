@@ -857,8 +857,24 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         </div>
                                     </div>
                                 </div>
+
+
+
                             </div>
 
+                            @if (Model.Claim_Type != "Notification")
+                            {
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Attachments</label>
+                                        <div class="col-sm-9">
+                                            <div id="multiple">
+                                                <input type="file" class="multiple btn btn-default" name="upfiles" multiple style="width: 100%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </fieldset>
 
                     </div>
@@ -1132,8 +1148,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             $('#Policy_Section').find('option').remove().end();
             $.ajax({
                 url: "/RisksmartPropertyClaim/GetPolicySectionData?policyClass=" + $("#Policy_Class").val(), success: function (result) {
-                    if (result != null && result.length > 0)
-                    {
+                    if (result != null && result.length > 0) {
                         $('#Policy_Section').append($('<option>', {
                             value: "",
                             text: ""

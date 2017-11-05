@@ -14,6 +14,7 @@ using HonanClaimsWebApi.Models.Common;
 using Newtonsoft.Json;
 using HonanClaimsWebApi.Models.Views;
 using HonanClaimsWebApi.Models;
+using System.Web;
 
 namespace HonanClaimsWebApi.Services
 {
@@ -116,7 +117,7 @@ namespace HonanClaimsWebApi.Services
         //}
 
 
-        public async Task<ExecutionResult> TeamInsertClaimNotification(ClaimGeneral claim, string userId)
+        public async Task<ExecutionResult> TeamInsertClaimNotification(ClaimGeneral claim, string userId, IEnumerable<HttpPostedFileBase> upfiles)
         {
             string responseClaimId = "";
             exeReult = new ExecutionResult();

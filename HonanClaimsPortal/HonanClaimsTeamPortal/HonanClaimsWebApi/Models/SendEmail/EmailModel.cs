@@ -14,6 +14,8 @@ namespace HonanClaimsWebApi.Models.SendEmail
         public List<string> ClaimIds { get; set; }
         [AllowHtml]
         public string emailBody { get; set; }
+        [AllowHtml]
         public string subject { get; set; }
+        public string isFileNote { get; set; }
     }
 }
