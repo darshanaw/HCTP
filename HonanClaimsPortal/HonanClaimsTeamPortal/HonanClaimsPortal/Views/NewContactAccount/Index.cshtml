@@ -7,7 +7,8 @@
 <!-- SELECT2-->
 <link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
 <link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
-<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
+
 @using (Html.BeginForm("Index", "NewContactAccount", FormMethod.Post, new { @class = "", role = "form" }))
 {
 
@@ -298,14 +299,18 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     </div>
 </div>
 
-<script>
-    //$(document).read(function () {
-    //    $('#City').select2({ width: '100%' });
+<!-- Covert to Claim Modal End-->
+<!-- SELECT2-->
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
-    //    if ($("#City").length > 0) {
-    //        $("#City").val($("#City").val()).trigger('change.select2');;
-    //    }
-    //})
+<script>
+    $(document).ready(function () {
+        $('#City').select2({ width: '100%' });
+
+        if ($("#City").length > 0) {
+            $("#City").val($("#City").val()).trigger('change.select2');;
+        }
+    });
 
     @*$(document).read(function () {
         if(@ViewBag.Message==""|| @ViewBag.Message=="Success: Save successful"){

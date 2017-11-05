@@ -47,6 +47,7 @@ namespace HonanClaimsWebApi.Models.Contact
 
         public List<PicklistItem> PropertySuburbList { get; set; }
         public List<PicklistItem> PropertyStateList { get; set; }
+        public List<PicklistItem> TitleList { get; set; }
     }
 
     public class ContactListModel
