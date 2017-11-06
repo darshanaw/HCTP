@@ -946,7 +946,7 @@
                 <div class="modal-content" style="height:700px">
                     <div class="modal-header">
                         <button id="closemod" type="button" class="close">&times;</button>
-                        <h4 class="modal-title">Send a Question</h4>
+                        <h4 class="modal-title">Send Email</h4>
                         <div class="col-md-12">
                             <button id="sendmail" class="btn btn-primary pull-right">Send</button>
                             <input name="EmailTattchment" class="pull-left" id="emailattach" type="file" multiple>
@@ -962,7 +962,7 @@
                         </div>
 
                         <div>
-                            <ul id="ul"></ul>
+                            <ul id="ul" style="max-height:125px;overflow:auto"></ul>
                         </div>
 
                         <div class="top-padding col-md-12">
@@ -993,12 +993,12 @@
                             </div>
                         </div>
 
-                        <div class="top-padding col-md-12">   
+                        <div class="top-padding col-md-12" hidden>   
                             <div class="col-sm-1">
                                 </div>
                                 <div class="col-sm-11">
-                                    <input type="checkbox" checked id="chkAddToFileNote_WebMAil" name="chkAddToFileNote_WebMAil" />
-                                    <label>Add to File Note</label>
+                                    <input type="checkbox" hidden checked id="chkAddToFileNote_WebMAil" name="chkAddToFileNote_WebMAil" />
+                                    <label >Add to File Note</label>
                                 </div>
                             </div>
 
@@ -1441,7 +1441,7 @@
 
             $.each(filearray, function (i, item) {
 
-                $('#ul').append('<li><i class="fa fa-file" aria-hidden="true"></i>' + item.name + ' </li><i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i>');
+                $('#ul').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i></li>');
 
             });
 
@@ -1456,7 +1456,7 @@
 
             $('#ul').empty();
             $.each(filearray, function (i, item) {
-                $('#ul').append('<li><i class="fa fa-file" aria-hidden="true"></i>' + item.name + ' </li><i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i>');
+                $('#ul').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i> </li>');
 
             });
         });
@@ -1475,7 +1475,6 @@
 
         bindToinputs(emptyemail);
         $.get("/Home/GetClaimList", function (data) {
-          
             loadClaimList(data);
         });
 
@@ -1487,18 +1486,19 @@
                 autoBind: true,
                 deselect: onDeselect,
                 select: onSelect,
-                maxSelectedItems: 1,
                 dataSource: listdata
             });
                        
-
+            //piumi check 1
             function onSelect(e) {
                 var dataItem = e.dataItem;
                 $('#Tolist').prop('disabled', false);
                 $('#CClist').prop('disabled', false);
                 loadEmails(dataItem, false);
 
-                $("#subject").val("Claim Ref"+" ["+dataItem.Text+"]");
+                if ($("#subject").val() == "") {
+                    $("#subject").val("Claim Ref # " + " [" + dataItem.Text + "]");
+                }
             };
 
             function onDeselect(e) {
@@ -1509,6 +1509,32 @@
 
 
         };
+
+        //piumi check 2
+        function setClaimNo() {
+            if ($("#Claim_Reference_Num").length > 0 && $("#H_Claimsid").length > 0) {
+                var obj = {
+                    Text: $("#Claim_Reference_Num").val(),
+                    Code: $("#H_Claimsid").val()
+                };
+
+                var claimMultiselect = $("#claim").data("kendoMultiSelect");
+                claimMultiselect.value([$("#H_Claimsid").val()]);
+
+                $('#Tolist').prop('disabled', false);
+                $('#CClist').prop('disabled', false);
+                loadEmails(obj, false);
+                $("#subject").val("Claim Ref" + " [" + obj.Text + "]");
+
+            }
+        }
+        //piumi check 3
+        function setClaimantEmail() {
+            if ($("#Email_Address").length > 0) {
+                var widget = $("#Tolist").data("kendoAutoComplete");
+                widget.value($("#Email_Address").val());
+            }
+        }
 
         function loadEmails(dataItem, IsRemove) {
             if (IsRemove) {
@@ -1612,6 +1638,12 @@
 
 
         $('#emialclick').click(function () {
+            OpenEmailWindow();
+        });
+
+
+        function OpenEmailWindow() {
+
             var list = new Array();
             var Tolist = new Array();
             var CClist = new Array();
@@ -1620,12 +1652,11 @@
             $('#ul').empty();
             $('#successshow').hide();
             $('#errormsg').hide();
+            setClaimNo();
             $('#sendEmailModal').modal('show');
-
-        });
+        }
 
         $('#sendemail, #sendmail').click(function () {
-
 
             $('#successshow').hide();
             var editor = $("#editor").data("kendoEditor");
@@ -1706,8 +1737,6 @@
                     // ..... any success code you want
                 }
             });
-
-
 
         });
 
@@ -1846,4 +1875,5 @@
             }
         });
     }
+
 </script>

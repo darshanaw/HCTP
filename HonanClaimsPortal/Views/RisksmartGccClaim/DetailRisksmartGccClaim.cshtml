@@ -1617,7 +1617,9 @@ else
         }
 
         $('#aEmailClaimant').click(function () {
-            this.href = "mailto:" + $('#Email_Address').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+            //this.href = "mailto:" + $('#Email_Address').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+            OpenEmailWindow();
+            setClaimantEmail();
         });
 
         $('#aInsuredEmail').click(function () {

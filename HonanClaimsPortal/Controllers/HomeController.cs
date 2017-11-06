@@ -64,7 +64,10 @@ namespace HonanClaimsPortal.Controllers
             string UserId = client.UserId;
             SendEmailRepo rep = new SendEmailRepo();
             var data = await rep.GetActivityClaims(UserId);
+            //ClaimServices services = new ClaimServices();
+            //var data = services.GetAllOpenClaims("", client.Teams);
             return Json(data, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpPost]

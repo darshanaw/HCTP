@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -14,16 +15,85 @@ namespace HonanClaimsWebApi.Models.SendEmail
 {
     public class SendEmailRepo
     {
-        public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model,string email)
+        //public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model,string email)
+        //{
+        //    var result = false;
+        //    var templist = new List<string>();
+
+        //    //emil please remove this part
+        //    //templist.Add("ntfsrjsc@gmail.com");
+
+        //    //model.ToEmails = templist;
+        //    //model.CcEmails = templist;
+
+        //    if (model != null)
+        //    {
+        //        string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+
+        //        string apiUrl = SiteUrl + "api/Claim/SendClaimEmail";
+        //        using (HttpClient client = new HttpClient())
+        //        {
+        //            using (var formData = new MultipartFormDataContent())
+        //            {
+        //                //client.BaseAddress = new Uri(apiUrl);
+        //                //client.DefaultRequestHeaders.Accept.Clear();
+        //                //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+
+        //                var toList = JsonConvert.SerializeObject(model.ToEmails);
+        //                var ccList = JsonConvert.SerializeObject(model.CcEmails);
+        //                var claimIdList = JsonConvert.SerializeObject(model.ClaimIds);
+
+        //                var x = HttpUtility.HtmlEncode(model.emailBody);
+        //                var content = new StringContent(toList, System.Text.Encoding.UTF8, "application/json");
+        //                var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+        //                var content3 = new StringContent(WebUtility.HtmlEncode(model.emailBody), System.Text.Encoding.UTF8, "application/json");
+        //                var content4 = new StringContent(model.subject, System.Text.Encoding.UTF8, "application/json");
+        //                var content5 = new StringContent(ccList, System.Text.Encoding.UTF8, "application/json");
+        //                var content6 = new StringContent(claimIdList, System.Text.Encoding.UTF8, "application/json");
+        //                var content7 = new StringContent(email, System.Text.Encoding.UTF8, "application/json");
+        //                var content8 = new StringContent(model.isFileNote, System.Text.Encoding.UTF8, "application/json");
+
+
+        //                if (files.Count() > 0 && files != null)
+        //                {
+        //                    foreach (var item in files)
+        //                    {
+        //                        formData.Add(CreateFileContent(item.InputStream, item.FileName, item.ContentType));
+        //                    }
+        //                }
+
+        //                formData.Add(content, "ToList");
+        //                formData.Add(content2, "UserId");
+        //                formData.Add(content3, "Emailbody");
+        //                formData.Add(content4, "Subject");
+        //                formData.Add(content3, "CcList");
+        //                formData.Add(content6, "ClaimList");
+        //                formData.Add(content7, "Bcc");
+        //                formData.Add(content8, "isFileNote");
+
+
+        //                HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+        //                if (response.IsSuccessStatusCode)
+        //                {
+        //                    var data = await response.Content.ReadAsStringAsync();
+        //                    result = Convert.ToBoolean(data);
+
+        //                }
+
+        //            }
+
+        //        }
+
+        //    }
+        //    return result;
+        //}
+
+
+        public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model, string email)
         {
             var result = false;
             var templist = new List<string>();
-
-            //emil please remove this part
-            //templist.Add("ntfsrjsc@gmail.com");
-
-            //model.ToEmails = templist;
-            //model.CcEmails = templist;
 
             if (model != null)
             {
@@ -34,23 +104,11 @@ namespace HonanClaimsWebApi.Models.SendEmail
                 {
                     using (var formData = new MultipartFormDataContent())
                     {
-                        client.BaseAddress = new Uri(apiUrl);
-                        client.DefaultRequestHeaders.Accept.Clear();
-                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        model.Bcc = email;
+                        var jsonModel = JsonConvert.SerializeObject(model);
 
-
-                        var toList = JsonConvert.SerializeObject(model.ToEmails);
-                        var ccList = JsonConvert.SerializeObject(model.CcEmails);
-                        var claimIdList = JsonConvert.SerializeObject(model.ClaimIds);
-
-
-                        var content = new StringContent(toList, System.Text.Encoding.UTF8, "application/json");
+                        var content = new StringContent(jsonModel, System.Text.Encoding.UTF8, "application/json");
                         var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
-                        var content3 = new StringContent(model.emailBody, System.Text.Encoding.UTF8, "application/json");
-                        var content4 = new StringContent(model.subject, System.Text.Encoding.UTF8, "application/json");
-                        var content5 = new StringContent(ccList, System.Text.Encoding.UTF8, "application/json");
-                        var content6 = new StringContent(claimIdList, System.Text.Encoding.UTF8, "application/json");
-                        var content7 = new StringContent(email, System.Text.Encoding.UTF8, "application/json");
 
                         if (files.Count() > 0 && files != null)
                         {
@@ -60,15 +118,8 @@ namespace HonanClaimsWebApi.Models.SendEmail
                             }
                         }
 
-
-                        formData.Add(content, "ToList");
+                        formData.Add(content, "EmailModel");
                         formData.Add(content2, "UserId");
-                        formData.Add(content3, "Ebody");
-                        formData.Add(content4, "Subject");
-                        formData.Add(content3, "CcList");
-                        formData.Add(content4, "ClaimList");
-                        formData.Add(content7, "Bcc");
-
 
                         HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
                         if (response.IsSuccessStatusCode)
