@@ -17,5 +17,6 @@ namespace HonanClaimsWebApi.Models.SendEmail
         [AllowHtml]
         public string subject { get; set; }
         public string isFileNote { get; set; }
+        public string Bcc { get; set; }
     }
 }
