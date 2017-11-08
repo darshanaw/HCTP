@@ -167,7 +167,7 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
             ClaimServices services = new ClaimServices();
-            var data = await services.GetAllClaimsOfTeams(client.Teams);
+            var data = await services.GetAllClaimsOfTeams(text_para,client.Teams);
             return Json(data.Take(10), JsonRequestBehavior.AllowGet);
         }
 
