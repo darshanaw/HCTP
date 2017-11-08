@@ -1451,8 +1451,7 @@
         bindToinputs(emptyemail);
 
         $.get("/Home/GetAllClaimsOfTeams", function (data) {
-            debugger;
-            loadClaimList(data);
+             loadClaimList(data);
         });
 
         $('#emialclick').click(function () {
@@ -1681,21 +1680,46 @@
     }
 
     function loadClaimList(listdata) {
+
         $("#claim").kendoMultiSelect({
+
             dataTextField: "Text",
             dataValueField: "Code",
             autoBind: false,
+            minlength: 5,
             deselect: onDeselect,
             select: onSelect,
-            dataSource: listdata
-            //dataSource: {
-            //    type: "json",
-            //    serverFiltering: true,
-            //    transport: {
-            //        read: "/Home/GetAllClaimsOfTeams"
-            //    }
-            //}
+            //change: multiOnchange,
+            //dataSource: listdata,
+            dataSource: {
+                type: "json",
+                serverFiltering: true,
+                transport: {
+
+                    read: {
+                        url: "/Home/GetAllClaimsOfTeams",
+                        dataType: "json",
+                        data: function () {
+                            return {
+                                text_para: $("#claim").data("kendoMultiSelect").input.val()
+                            };
+                        }
+                    }
+                },
+               
+            }
         });
+
+        //var wrapper = $("#claim").data("kendoMultiSelect").wrapper;
+
+        //wrapper.blur(function () {
+        //    console.log("");
+        //});
+
+        function multiOnchange(e)
+        {
+            console.log(e);
+        }
 
         //piumi check 1
         function onSelect(e) {
