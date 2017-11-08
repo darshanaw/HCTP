@@ -162,13 +162,21 @@ namespace HonanClaimsPortal.Controllers
         }
 
 
-        public async Task<ActionResult> GetAllClaimsOfTeams(string text_para)
+        public async Task<ActionResult> GetAllClaimsOfTeams(string text_para,string claimRefNo)
         {
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
             ClaimServices services = new ClaimServices();
-            var data = await services.GetAllClaimsOfTeams(text_para,client.Teams);
+
+            if(string.IsNullOrEmpty(text_para) && !string.IsNullOrEmpty(claimRefNo))
+            {
+                var d = await services.GetAllClaimsOfTeams(claimRefNo, client.Teams);
+                return Json(d.Take(10), JsonRequestBehavior.AllowGet);
+            }
+
+            var data = await services.GetAllClaimsOfTeams(text_para, client.Teams);
             return Json(data.Take(10), JsonRequestBehavior.AllowGet);
+
         }
 
     }
