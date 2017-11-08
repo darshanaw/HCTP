@@ -130,6 +130,7 @@ namespace HonanClaimsPortal.Controllers
         {
             HttpPostedFileBase file = null;
             var model = Request["paymentModel"];
+            var files = Request.Files;
             var dicimod = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentEmailModel>(model);
 
 
@@ -142,16 +143,32 @@ namespace HonanClaimsPortal.Controllers
             dicimod.BccEmail = client.Email;
 
 
+            List<HttpPostedFileBase> filee = new List<HttpPostedFileBase>();
+            for (int i = 0; i < files.Count; i++)
+            {
+                filee.Add(Request.Files[i]);
+            }
+
             if (string.IsNullOrEmpty(dicimod.PaymentId) && Session[SessionHelper.PaymentAttachment] != null)
             {
-                IEnumerable<HttpPostedFileBase> files = (IEnumerable<HttpPostedFileBase>)Session[SessionHelper.PaymentAttachment];
-                if (files.Count() > 0)
-                    file = files.ToList()[0];
+                IEnumerable<HttpPostedFileBase> filesAttached = (IEnumerable<HttpPostedFileBase>)Session[SessionHelper.PaymentAttachment];
+                if (filesAttached.Count() > 0)
+                    filee.Add(filesAttached.ToList()[0]);
             }
 
             SendEmailRepo rep = new SendEmailRepo();
-            var result = await rep.SendPaymentEmail(UserId, dicimod, file);
+            var result = await rep.SendPaymentEmail(UserId, dicimod, filee);
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public async Task<ActionResult> GetAllClaimsOfTeams()
+        {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            string UserId = client.UserId;
+            ClaimServices services = new ClaimServices();
+            var data = await services.GetAllClaimsOfTeams(client.Teams);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
     }

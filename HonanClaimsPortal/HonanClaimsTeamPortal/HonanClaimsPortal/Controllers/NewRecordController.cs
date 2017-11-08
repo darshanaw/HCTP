@@ -302,6 +302,10 @@ namespace HonanClaimsPortal.Controllers
             {
                 redirectUrl = "/GccClaim/DetailGccClaim/" + H_Claimsid + "?tab=" + tab;
             }
+            else
+            {
+                redirectUrl = "/claimlist/index";
+            }
 
             return redirectUrl;
         }

@@ -201,7 +201,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
             return list;
         }
 
-        public async Task<bool> SendPaymentEmail(string userId, PaymentEmailModel model,HttpPostedFileBase file)
+        public async Task<bool> SendPaymentEmail(string userId, PaymentEmailModel model,List<HttpPostedFileBase> files)
         {
             var result = false;
             var templist = new List<string>();
@@ -224,8 +224,13 @@ namespace HonanClaimsWebApi.Models.SendEmail
                         var content = new StringContent(modelJson, System.Text.Encoding.UTF8, "application/json");
                         var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
 
-                        if(file != null)
-                            formData.Add(new StreamContent(file.InputStream), "Attachment", file.FileName);
+                        if (files.Count() > 0 && files != null)
+                        {
+                            foreach (var item in files)
+                            {
+                                formData.Add(new StreamContent(item.InputStream), "Attachment", item.FileName);
+                            }
+                        }
 
                         formData.Add(content, "EmailModel");
                         formData.Add(content2, "UserId");
