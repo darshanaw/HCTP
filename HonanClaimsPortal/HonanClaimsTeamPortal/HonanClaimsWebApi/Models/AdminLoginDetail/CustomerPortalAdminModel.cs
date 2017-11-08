@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HonanClaimsWebApi.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace HonanClaimsWebApiAccess1.Models.AdminLoginDetail
         public bool IsNew { get; set; }
         public string Account_Id { get; set; }
         public string Manualclaim_Form_Path { get; set; }
+
+        public List<PicklistItem> BillingMethodList { get; set; }
     }
    
 }

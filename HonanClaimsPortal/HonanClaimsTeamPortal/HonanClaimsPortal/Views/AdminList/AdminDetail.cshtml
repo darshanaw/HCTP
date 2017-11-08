@@ -27,8 +27,8 @@
         <div class="row">
             <div class="col-md-5 detail-section">
                 <div class="form-group">
-                    <label class="col-md-3">Account Name</label>
-                    <div class="input-group col-md-9">
+                    <label class="col-md-4">Account Name</label>
+                    <div class="input-group col-md-8">
                         @Html.TextBoxFor(m => m.Accountname, new { @class = "form-control", @readonly = true })
                         @Html.HiddenFor(m => m.Account_Id)
                         @Html.HiddenFor(m => m.IsNew)
@@ -61,8 +61,8 @@
                     });
                 }
                 <div class="form-group">
-                    <label class="col-md-3" for="Team">Claim Team</label>
-                    <div class="col-md-9 input-group">
+                    <label class="col-md-4" for="Team">Claim Team</label>
+                    <div class="col-md-8 input-group">
                         @Html.DropDownListFor(model => model.Claim_Team, listItems, "-- Select Claim --", new { @class = "form-control" })
                     </div>
                 </div>
@@ -80,13 +80,13 @@
                     });
                 }
                 <div class="form-group">
-                    <label class="col-md-3" for="email">Can add Online Claims</label>
-                    <div class="col-md-9 input-group">
+                    <label class="col-md-4" for="email">Can add Online Claims</label>
+                    <div class="col-md-8 input-group">
                         @Html.DropDownListFor(model => model.Account_Can_Add_Claims, OnlineClaims, "-- Select --", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="email">Mannual Claim Form</label>
+                    <label for="email">Manual Claim Form</label>
                     <div class="form-group">
                         <a id="downloadfile" download>@Model.Manualclaim_Form</a>
                         @Html.HiddenFor(m => m.Manualclaim_Form)
@@ -94,7 +94,7 @@
                         <input name="claimupload" id="claimupload" type="file">
                     </div>
                 </div>
-                @{
+                @*@{
                     List<SelectListItem> BillingMethod = new List<SelectListItem>();
                     BillingMethod.Add(new SelectListItem
                     {
@@ -116,24 +116,24 @@
                         Text = "No Billing",
                         Value = "No Billing",
                     });
-                }
+                }*@
 
                 <div class="form-group">
-                    <label class="col-md-3" for="email">Billing Method</label>
-                    <div class="col-md-9 input-group">
-                        @Html.DropDownListFor(model => model.Billing_Method, BillingMethod, "-- Select Method --", new { @class = "form-control" })
+                    <label class="col-md-4" for="email">Billing Method</label>
+                    <div class="col-md-8 input-group">
+                        @Html.DropDownListFor(model => model.Billing_Method, new SelectList(Model.BillingMethodList, "Text", "Text"), "-- Select Method --", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3" for="email">Fee Per Hour ($)</label>
-                    <div class="col-md-9 input-group">
+                    <label class="col-md-4" for="email">Fee Per Hour ($)</label>
+                    <div class="col-md-8 input-group">
                         @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control", @type = "number" })
                         @Html.ValidationMessageFor(o => o.Fee_Per_Hour, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3" for="email">Fee Per Billing Method ($)</label>
-                    <div class="col-md-9 input-group">
+                    <label class="col-md-4" for="email">Fee Per Billing Method ($)</label>
+                    <div class="col-md-8 input-group">
                         @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control", @type = "number" })
                         @Html.ValidationMessageFor(o => o.Fee_Per_Billing_Method, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
                     </div>

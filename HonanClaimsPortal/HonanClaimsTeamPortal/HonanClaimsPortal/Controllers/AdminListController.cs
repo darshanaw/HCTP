@@ -15,6 +15,7 @@ using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.AdminLoginDetail;
 using HonanClaimsWebApiAccess1.LoginServices;
 using System.Configuration;
+using HonanClaimsWebApi.Services;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -52,6 +53,10 @@ namespace HonanClaimsPortal.Controllers
                     }
                 }
             }
+
+            PicklistServicecs pickListServices = new PicklistServicecs();
+            model.BillingMethodList = pickListServices.GetPickListItems("Honan Billing Method");
+
             return View(model);
         }
 
