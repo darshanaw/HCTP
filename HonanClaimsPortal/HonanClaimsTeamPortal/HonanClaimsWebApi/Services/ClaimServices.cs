@@ -796,7 +796,7 @@ namespace HonanClaimsWebApi.Services
         }
 
 
-        public async Task<List<CRMPicklistItem>> GetAllClaimsOfTeams(List<string> teamList)
+        public async Task<List<CRMPicklistItem>> GetAllClaimsOfTeams(string claimRefNo,List<string> teamList)
         {
             try
             {
@@ -804,7 +804,7 @@ namespace HonanClaimsWebApi.Services
 
                 string teamListJson = "";
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/GetAllClaimsOfTeams?teamList=" + output);
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/GetAllClaimsOfTeams?claimRefNo=" + claimRefNo + "&teamList=" + output);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
