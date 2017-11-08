@@ -837,21 +837,18 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-3 control-label input-sm">Claim Note</label>
                                         <div class="col-sm-9">
-                                            @Html.TextAreaFor(o => o.Claim_Note, new { @class = "form-control input-sm",@Style="margin-bottom:5px" })
+                                            @Html.TextAreaFor(o => o.Claim_Note, new { @class = "form-control input-sm", @Style = "margin-bottom:5px" })
                                         </div>
                                     </div>
 
-                                    @if (Model.Claim_Type != "Notification")
-                                    {
-                                        <div class="form-group mb">
-                                            <label class="col-sm-3 control-label input-sm">Attachments</label>
-                                            <div class="col-md-9">
-                                                <div id="multiple">
-                                                    <input type="file" class="multiple btn btn-default" name="upfiles" multiple style="width: 100%" />
-                                                </div>
+                                    <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Attachments</label>
+                                        <div class="col-md-9">
+                                            <div id="multiple">
+                                                <input type="file" class="multiple btn btn-default" name="upfiles" multiple style="width: 100%" />
                                             </div>
                                         </div>
-                                    }
+                                    </div>
 
                                 </div>
 

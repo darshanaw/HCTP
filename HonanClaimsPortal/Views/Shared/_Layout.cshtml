@@ -1108,6 +1108,17 @@
 
 <script>
 
+    var list = new Array();
+    var Tolist = new Array();
+    var CClist = new Array();
+    var emptyemail = new Array();
+    var filearray = new Array();
+    var multiselectClaim = $("#claim").data("kendoMultiSelect");
+    var widget = $("#Tolist").data("kendoAutoComplete");
+    var widget2 = $("#CClist").data("kendoAutoComplete")
+    var editor = $("#editor").data("kendoEditor");
+    var emptyemailnew = new Array();
+
     function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
 
         var newClaimRef = "";
@@ -1378,52 +1389,16 @@
             $("#AccountTimeslipDetailModal").modal("hide");
         });
 
-
         $(".ClaimReferenceNumbers_Close").click(function () {
 
             $("#ClaimReferenceNumbersModal").modal('hide');
         });
-
-
-        var list = new Array();
-        var Tolist = new Array();
-        var CClist = new Array();
-        var emptyemail = new Array();
-        var filearray = new Array();
+      
         $('#successshow').hide();
 
         $('#closemod').click(function () {
             clearSelector();
         })
-
-
-        function clearSelector() {
-            var multiselect = $("#claim").data("kendoMultiSelect");
-            var widget = $("#Tolist").data("kendoAutoComplete");
-            var widget2 = $("#CClist").data("kendoAutoComplete")
-            var editor = $("#editor").data("kendoEditor");
-            var emptyemailnew = new Array();
-            multiselect.value("");
-            multiselect.trigger("change");
-            widget.value("");
-            //multiselect1.trigger("change");
-            widget2.value("");
-            //multiselect2.trigger("change");
-            $('#subject').val("");
-            $('#chkAddToFileNote_WebMAil').prop("checked",true);
-            editor.value("");
-            widget.setDataSource(emptyemailnew);
-            widget2.setDataSource(emptyemailnew);
-            filearray = [];
-            $('#ul').empty();
-            list = new Array();
-            Tolist = new Array();
-            CClist = new Array();
-            emptyemail = new Array();
-            filearray = new Array();
-            $("#sendEmailModal").modal('hide');
-        }
-
 
         $("#emailattach").change(function (input) {
            
@@ -1474,187 +1449,15 @@
 
 
         bindToinputs(emptyemail);
-        $.get("/Home/GetClaimList", function (data) {
+
+        $.get("/Home/GetAllClaimsOfTeams", function (data) {
+            debugger;
             loadClaimList(data);
         });
-
-
-        function loadClaimList(listdata) {
-            $("#claim").kendoMultiSelect({
-                dataTextField: "Text",
-                dataValueField: "Code",
-                autoBind: true,
-                deselect: onDeselect,
-                select: onSelect,
-                dataSource: listdata
-            });
-                       
-            //piumi check 1
-            function onSelect(e) {
-                var dataItem = e.dataItem;
-                $('#Tolist').prop('disabled', false);
-                $('#CClist').prop('disabled', false);
-                loadEmails(dataItem, false);
-
-                if ($("#subject").val() == "") {
-                    $("#subject").val("Claim Ref # " + " [" + dataItem.Text + "]");
-                }
-            };
-
-            function onDeselect(e) {
-                var dataItem = e.dataItem;
-                loadEmails(dataItem, true);
-                $("#subject").val("");
-            };
-
-
-        };
-
-        //piumi check 2
-        function setClaimNo() {
-            if ($("#Claim_Reference_Num").length > 0 && $("#H_Claimsid").length > 0) {
-                var obj = {
-                    Text: $("#Claim_Reference_Num").val(),
-                    Code: $("#H_Claimsid").val()
-                };
-
-                var claimMultiselect = $("#claim").data("kendoMultiSelect");
-                claimMultiselect.value([$("#H_Claimsid").val()]);
-
-                $('#Tolist').prop('disabled', false);
-                $('#CClist').prop('disabled', false);
-                loadEmails(obj, false);
-                $("#subject").val("Claim Ref" + " [" + obj.Text + "]");
-
-            }
-        }
-        //piumi check 3
-        function setClaimantEmail() {
-            if ($("#Email_Address").length > 0) {
-                var widget = $("#Tolist").data("kendoAutoComplete");
-                widget.value($("#Email_Address").val());
-            }
-        }
-
-        function loadEmails(dataItem, IsRemove) {
-            if (IsRemove) {
-                if (list.length > 0) {
-                    list = jQuery.grep(list, function (value) {
-                        return value != dataItem.Code;
-                    });
-                    if (list.length <= 0) {
-                        $('#Tolist').prop('disabled', false);
-                        $('#CClist').prop('disabled', false);
-                    }
-                }
-            } else {
-                list.push(dataItem.Code);
-            }
-
-            BindEmailToInputs();
-        }
-
-        function BindEmailToInputs() {
-            $.ajax({
-                type: 'Post',
-                dataType: 'json',
-                url: '/Home/GetContactList',
-                data: JSON.stringify({ claimList: list }),
-                contentType: 'application/json; charset=utf-8',
-                async: false,
-                success: function (data) {
-                   
-                    emptyemail = data;
-                    var widget = $("#Tolist").data("kendoAutoComplete");
-                    var widget2 = $("#CClist").data("kendoAutoComplete");
-                    widget.setDataSource(emptyemail);
-                    widget2.setDataSource(emptyemail);
-                },
-                error: function (data) {
-                    console.debug(data);
-                }
-            });
-        }
-
-        function bindToinputs(data) {
-            emptyemail = data;
-            $("#CClist, #Tolist").kendoAutoComplete({
-                //dataTextField: "Code",
-                //dataValueField: "Code",
-                //autoBind: true,
-                //deselect: onemailDeselect,
-                separator: ",",
-                //select: onemailSelect,
-                dataSource: emptyemail
-            });
-
-            function onemailDeselect(e) {
-              
-                var dataItem = e.dataItem;
-                if (e.sender.element[0].id == "Tolist") {
-                    addRemoveEmails(dataItem, true, true);
-                } else {
-                    addRemoveEmails(dataItem, true, false);
-                }
-            }
-
-            function onemailSelect(e) {
-
-                var dataItem = e.dataItem;
-                if (e.sender.element[0].id == "Tolist") {
-                    addRemoveEmails(dataItem, false, true);
-                } else {
-                    addRemoveEmails(dataItem, false, false);
-                }
-            }
-        }
-
-        function addRemoveEmails(dataItem, IsRemove, isTo) {
-            if (IsRemove) {
-                if (isTo) {
-                    if (Tolist.length > 0) {
-                        Tolist = jQuery.grep(Tolist, function (value) {
-                            return value != dataItem.Code;
-                        });
-                    }
-                } else {
-                    if (CClist.length > 0) {
-                        CClist = jQuery.grep(CClist, function (value) {
-                            return value != dataItem.Code;
-                        });
-                    }
-                }
-
-            } else {
-                if (isTo) {
-                    Tolist.push(dataItem.Code);
-                } else {
-                    CClist.push(dataItem.Code);
-                }
-            }
-
-            //BindEmailToInputs();
-        }
-
 
         $('#emialclick').click(function () {
             OpenEmailWindow();
         });
-
-
-        function OpenEmailWindow() {
-
-            var list = new Array();
-            var Tolist = new Array();
-            var CClist = new Array();
-            var emptyemail = new Array();
-            var filearray = new Array();
-            $('#ul').empty();
-            $('#successshow').hide();
-            $('#errormsg').hide();
-            setClaimNo();
-            $('#sendEmailModal').modal('show');
-        }
 
         $('#sendemail, #sendmail').click(function () {
 
@@ -1813,7 +1616,251 @@
         getClaimAssigmentCount();
         getAssignedClaimCount();
         getMyActivityCount();
+
+        //function clearSelector() {
+        //    var multiselect = $("#claim").data("kendoMultiSelect");
+        //    var widget = $("#Tolist").data("kendoAutoComplete");
+        //    var widget2 = $("#CClist").data("kendoAutoComplete")
+        //    var editor = $("#editor").data("kendoEditor");
+        //    var emptyemailnew = new Array();
+        //    multiselect.value("");
+        //    multiselect.trigger("change");
+        //    widget.value("");
+        //    //multiselect1.trigger("change");
+        //    widget2.value("");
+        //    //multiselect2.trigger("change");
+        //    $('#subject').val("");
+        //    $('#chkAddToFileNote_WebMAil').prop("checked", true);
+        //    editor.value("");
+        //    widget.setDataSource(emptyemailnew);
+        //    widget2.setDataSource(emptyemailnew);
+        //    filearray = [];
+        //    $('#ul').empty();
+        //    list = new Array();
+        //    Tolist = new Array();
+        //    CClist = new Array();
+        //    emptyemail = new Array();
+        //    filearray = new Array();
+        //    $("#sendEmailModal").modal('hide');
+        //}
+
+       
     });
+
+
+    function loadEmails(dataItem, IsRemove) {
+        if (IsRemove) {
+            if (list.length > 0) {
+                list = jQuery.grep(list, function (value) {
+                    return value != dataItem.Code;
+                });
+                if (list.length <= 0) {
+                    $('#Tolist').prop('disabled', false);
+                    $('#CClist').prop('disabled', false);
+                }
+            }
+        } else {
+            list.push(dataItem.Code);
+        }
+
+        BindEmailToInputs();
+    }
+
+    function OpenEmailWindow() {
+
+        var list = new Array();
+        var Tolist = new Array();
+        var CClist = new Array();
+        var emptyemail = new Array();
+        var filearray = new Array();
+        $('#ul').empty();
+        $('#successshow').hide();
+        $('#errormsg').hide();
+        setClaimNo();
+        $('#sendEmailModal').modal('show');
+    }
+
+    function loadClaimList(listdata) {
+        $("#claim").kendoMultiSelect({
+            dataTextField: "Text",
+            dataValueField: "Code",
+            autoBind: false,
+            deselect: onDeselect,
+            select: onSelect,
+            dataSource: listdata
+            //dataSource: {
+            //    type: "json",
+            //    serverFiltering: true,
+            //    transport: {
+            //        read: "/Home/GetAllClaimsOfTeams"
+            //    }
+            //}
+        });
+
+        //piumi check 1
+        function onSelect(e) {
+            var dataItem = e.dataItem;
+            $('#Tolist').prop('disabled', false);
+            $('#CClist').prop('disabled', false);
+            loadEmails(dataItem, false);
+
+            if ($("#subject").val() == "") {
+                $("#subject").val("Claim Ref # " + " [" + dataItem.Text + "]");
+            }
+        };
+
+        function onDeselect(e) {
+            var dataItem = e.dataItem;
+            loadEmails(dataItem, true);
+            $("#subject").val("");
+        };
+
+
+    };
+
+    function clearSelector() {
+
+        multiselectClaim = $("#claim").data("kendoMultiSelect");
+        widget = $("#Tolist").data("kendoAutoComplete");
+        widget2 = $("#CClist").data("kendoAutoComplete")
+        editor = $("#editor").data("kendoEditor");
+        emptyemailnew = new Array();
+
+        multiselectClaim.value("");
+        multiselectClaim.trigger("change");
+        widget.value("");
+        //multiselect1.trigger("change");
+        widget2.value("");
+        //multiselect2.trigger("change");
+        $('#subject').val("");
+        $('#chkAddToFileNote_WebMAil').prop("checked", true);
+        editor.value("");
+        widget.setDataSource(emptyemailnew);
+        widget2.setDataSource(emptyemailnew);
+        filearray = [];
+        $('#ul').empty();
+        list = new Array();
+        Tolist = new Array();
+        CClist = new Array();
+        emptyemail = new Array();
+        filearray = new Array();
+        $("#sendEmailModal").modal('hide');
+    }
+
+
+    function setClaimNo() {
+        if ($("#Claim_Reference_Num").length > 0 && $("#H_Claimsid").length > 0) {
+            var obj = {
+                Text: $("#Claim_Reference_Num").val(),
+                Code: $("#H_Claimsid").val()
+            };
+
+            var claimMultiselect = $("#claim").data("kendoMultiSelect");
+            claimMultiselect.value([$("#H_Claimsid").val()]);
+
+            $('#Tolist').prop('disabled', false);
+            $('#CClist').prop('disabled', false);
+            loadEmails(obj, false);
+            $("#subject").val("Claim Ref" + " [" + obj.Text + "]");
+
+        }
+    }
+
+    function setClaimantEmail() {
+        if ($("#Email_Address").length > 0) {
+            var widget = $("#Tolist").data("kendoAutoComplete");
+            widget.value($("#Email_Address").val() + ",");
+        }
+    }
+
+    function setInsuredEmail() {
+        if ($("#Insured_Email").length > 0) {
+            var widget = $("#Tolist").data("kendoAutoComplete");
+            widget.value($("#Insured_Email").val() + ",");
+        }
+    }
+
+    function BindEmailToInputs() {
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: '/Home/GetContactList',
+            data: JSON.stringify({ claimList: list }),
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            success: function (data) {
+
+                emptyemail = data;
+                var widget = $("#Tolist").data("kendoAutoComplete");
+                var widget2 = $("#CClist").data("kendoAutoComplete");
+                widget.setDataSource(emptyemail);
+                widget2.setDataSource(emptyemail);
+            },
+            error: function (data) {
+                console.debug(data);
+            }
+        });
+    }
+
+    function bindToinputs(data) {
+        emptyemail = data;
+        $("#CClist, #Tolist").kendoAutoComplete({
+            //dataTextField: "Code",
+            //dataValueField: "Code",
+            //autoBind: true,
+            //deselect: onemailDeselect,
+            separator: ",",
+            //select: onemailSelect,
+            dataSource: emptyemail
+        });
+
+        function onemailDeselect(e) {
+
+            var dataItem = e.dataItem;
+            if (e.sender.element[0].id == "Tolist") {
+                addRemoveEmails(dataItem, true, true);
+            } else {
+                addRemoveEmails(dataItem, true, false);
+            }
+        }
+
+        function onemailSelect(e) {
+
+            var dataItem = e.dataItem;
+            if (e.sender.element[0].id == "Tolist") {
+                addRemoveEmails(dataItem, false, true);
+            } else {
+                addRemoveEmails(dataItem, false, false);
+            }
+        }
+    }
+
+    function addRemoveEmails(dataItem, IsRemove, isTo) {
+        if (IsRemove) {
+            if (isTo) {
+                if (Tolist.length > 0) {
+                    Tolist = jQuery.grep(Tolist, function (value) {
+                        return value != dataItem.Code;
+                    });
+                }
+            } else {
+                if (CClist.length > 0) {
+                    CClist = jQuery.grep(CClist, function (value) {
+                        return value != dataItem.Code;
+                    });
+                }
+            }
+
+        } else {
+            if (isTo) {
+                Tolist.push(dataItem.Code);
+            } else {
+                CClist.push(dataItem.Code);
+            }
+        }
+
+        //BindEmailToInputs();
+    }
 
     function getPortalRegistrationCount() {
         $.ajax({

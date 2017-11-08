@@ -543,10 +543,14 @@
                 <h4 class="modal-title">Send Email</h4>
                 <div class="col-md-12">
                     <button id="sendPaymentEmail" class="btn btn-primary pull-right">Send</button>
+                    <input name="EmailTattchmentPD" class="pull-left" id="emailattachPD" type="file" multiple>
                 </div>
             </div>
 
             <div class="modal-body">
+                <div>
+                    <ul id="ulPD" style="max-height:60px;overflow:auto"></ul>
+                </div>
 
                 <div class="top-padding col-md-12">
                     <label class="col-sm-1 control-label input-sm">To:</label>
@@ -588,6 +592,8 @@
 
 
 <script>
+
+    var filearray = new Array();
 
     var getUrlParameter = function getUrlParameter(sParam) {
 
@@ -680,6 +686,45 @@
     var kendoAutoCompleteService_By_Name = null;
 
     $(document).ready(function () {
+
+        $("#emailattachPD").change(function (input) {
+
+            var file1 = $('#emailattachPD').get(0).files;
+            if (file1 != null) {
+                jQuery.each(file1, function (i, file) {
+                    filearray.push(file);
+                });
+
+            }
+
+            ele = document.getElementById('emailattachPD');
+            ele.value = null;
+            $('#ulPD').empty();
+
+            $.each(filearray, function (i, item) {
+
+                $('#ulPD').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i></li>');
+
+            });
+
+        });
+
+
+        $(document).delegate('.fa-trash-o', 'click', function (e) {
+
+            id = e.target.id;
+            filearray = jQuery.grep(filearray, function (i, value) {
+                return value != id;
+            });
+
+            $('#ulPD').empty();
+            $.each(filearray, function (i, item) {
+                $('#ulPD').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i> </li>');
+
+            });
+        });
+
+
 
         $(".UpdateLiabilityReserveModal_Close").click(function () {
 
@@ -892,11 +937,16 @@
                 ToEmail: to,
                 Subject: subject,
                 IncludeAttachment: $('#chkIncludeInvoice').is(':checked'),
-                PaymentId: $("#H_Paymentsid").val()
+                PaymentId: $("#H_Paymentsid").val(),
+                ClaimId: $("#H_Claimsid").val()
             };
 
             var formData = new FormData();
             var t = JSON.stringify(model);
+
+            jQuery.each(filearray, function (i, file) {
+                formData.append('files', file);
+            });
 
             var encodedString = btoa(seri);
             formData.append("paymentModel", t);
@@ -946,6 +996,8 @@
         function clearSelectorPaymentNew() {
             var editor = $("#editorPaymentNew").data("kendoEditor");
             editor.value("");
+            $('#ulPD').empty();
+            filearray = new Array();
             $("#sendPaymentEmailModal").modal('hide');
         }
     });

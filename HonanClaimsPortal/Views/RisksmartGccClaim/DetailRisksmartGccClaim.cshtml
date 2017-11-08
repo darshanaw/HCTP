@@ -1623,7 +1623,9 @@ else
         });
 
         $('#aInsuredEmail').click(function () {
-            this.href = "mailto:" + $('#Insured_Email').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+            //this.href = "mailto:" + $('#Insured_Email').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+            OpenEmailWindow();
+            setInsuredEmail();
         });
 
 

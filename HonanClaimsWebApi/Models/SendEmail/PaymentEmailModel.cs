@@ -16,5 +16,6 @@ namespace HonanClaimsWebApi.Models.SendEmail
         public string Subject { get; set; }
         public bool IncludeAttachment { get; set; }
         public string PaymentId { get; set; }
+        public string ClaimId { get; set; }
     }
 }
