@@ -257,7 +257,7 @@
                     <strong></strong> <span id="Errormsg"></span>
                 </div>
                 <div class="form-group">
-                    <input id="isactive" type="checkbox" checked value="">
+                    <input id="isactive" type="checkbox" checked value="true">
                     <label class="ml-15">Is Active</label>
                 </div>
                 <div class="form-group">
@@ -569,7 +569,6 @@
 
 
     function OpenLogingModel(ContactId,H_PortalLoginId,ActiveLogin,ContactName,Password,H_PortalLoginId,UserName,Email){
-
         $.ajax({
             type: 'GET',
             url: "/AdminList/GetAdminLoginAccount?portalLoginId="+H_PortalLoginId,
@@ -592,7 +591,7 @@
                     if(resultData.ActiveLogin=="T"){
                         $("#isactive").attr('checked',true);
                     }else{
-                        $("#isactive").attr('checked',true);
+                        $("#isactive").attr('checked',false);
                     }
                     $("#LoginDataModal").modal('show');
                 }
@@ -605,7 +604,8 @@
 
 
     function accountClickAdmin(e) {
-        $('#AccountId').val(e.id);
+        //piumi
+        $('#Account_Id').val(e.id);
         $("#Accountname").val(e.text);
         $('#OcModal').modal('hide');
         $('#Accsearch').val('');
@@ -682,8 +682,8 @@
     }
 
     $('#GenaratePassword').click(function () {
-        var random = Math.random().toString(36).substring(6);
-        $('#Password').val(random);
+        //var random = Math.random().toString(36).substring(6);
+        $('#Password').val(makePassword());
     })
 
 
@@ -694,7 +694,6 @@
             setError("Please Add Admin record", true);
             return;
         }
-
 
         if($('#username').val()==null ||$('#username').val()==""){
             setError("User Name Mandatory",true);
@@ -709,12 +708,19 @@
             return false;
         }
 
+        var passwordRegex = new RegExp('^(?=.*[A-Z])(?=.*[0-9])(?=.{6,})');
+        if (!passwordRegex.test($("#Password").val())) {
+            setError("Password must be atleast 6 digits with 1 capital letter & a number", true);
+            return false;
+        }
+
+      
         setError("", false);
         var portalId = $('#portalLoginId').val();
         var model = {
             H_PortalLoginId: portalId,
             H_PortalLoginAdminId: adminId,
-            ActiveLogin: $('#isactive').val(),
+            ActiveLogin: $('#isactive').is(':checked'),
             ContactName: $('#products').val(),
             ContactId: $('#ContactId').val(),
             UserName: $('#username').val(),
@@ -762,6 +768,11 @@
             setError("Email Mandatory",true);
             return false;
         }
+        var passwordRegex = new RegExp('^(?=.*[A-Z])(?=.*[0-9])(?=.{6,})');
+        if (!passwordRegex.test($("#Password").val())) {
+            setError("Password must be atleast 6 digits with 1 capital letter & a number", true);
+            return false;
+        }
 
         setError("", false);
         var portalId = $('#portalLoginId').val();
@@ -771,7 +782,7 @@
         var model = {
             H_PortalLoginId: loginNew == true ? null : portalId,
             H_PortalLoginAdminId: adminId,
-            ActiveLogin: $('#isactive').val(),
+            ActiveLogin: $('#isactive').is(':checked'),
             ContactName: $('#products').val(),
             ContactId: $('#ContactId').val(),
             UserName: $('#username').val(),
@@ -801,6 +812,17 @@
     $('#btncontactlook').click(function () {
 
     })
+
+
+    function makePassword() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < 6; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
 
     function setError(errormsg, isshow) {
         if (isshow) {

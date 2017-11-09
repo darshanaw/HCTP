@@ -1792,7 +1792,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
 
         $('.form-control').change(function () {
-            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
@@ -1813,7 +1813,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
         $('input:checkbox').click(function () {
 
-            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
