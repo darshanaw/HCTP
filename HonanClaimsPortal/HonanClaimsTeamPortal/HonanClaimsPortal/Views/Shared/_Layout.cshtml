@@ -1450,9 +1450,9 @@
 
         bindToinputs(emptyemail);
 
-        //$.get("/Home/GetAllClaimsOfTeams", function (data) {
-        //     loadClaimList(data);
-        //});
+        $.get("/Home/GetAllClaimsOfTeams", function (data) {
+             loadClaimList(data);
+        });
 
         $('#emialclick').click(function () {
             OpenEmailWindow();

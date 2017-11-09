@@ -809,7 +809,6 @@ namespace HonanClaimsPortal.Controllers
         {
             claimServices = new ClaimServices();
             var liability = claimServices.GetLiabilityResSourceForClaim(claimId);
-            
             return Json(liability, JsonRequestBehavior.AllowGet);
         }
         

@@ -1479,7 +1479,7 @@ else
 
 
         $('.form-control').change(function () {
-            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
@@ -1499,7 +1499,7 @@ else
         });
 
         $('input:checkbox').click(function () {
-            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1) {
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
@@ -1753,7 +1753,7 @@ else
 
 
     function CalculatePaymentFigures() {
-
+        debugger;
         var netPaidLiability, netPaidDefence, liabilityReserveGross = 0, defenceReserveGross = 0, totalReserve;
         $.ajax({
             url: "/ClaimGeneral/AjaxGetPaymentAmount?claimId=" + "@Model.H_Claimsid" + "&liability_Res_Source=" + $("#Liability_Res_Source").val() + "&defence_Res_Source=" + $("#Defence_Res_Source").val() + "&excess=" + $("#Excess").val(), success: function (result) {
