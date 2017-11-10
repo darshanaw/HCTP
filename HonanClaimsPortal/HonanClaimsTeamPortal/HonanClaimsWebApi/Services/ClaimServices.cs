@@ -353,12 +353,13 @@ namespace HonanClaimsWebApi.Services
         /// <param name="fieldName"></param>
         /// <param name="newValue"></param>
         /// <returns></returns>
-        public string CreateHistoryRecord(string userId,string userName, string claimId, string fieldName, string newValue)
+        public string CreateHistoryRecord(string userId,string userName, string claimId, string fieldName, string newValue,string oldValue)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + insertHistoryRecord + userId + "&userName=" + userName + "&claimId=" + claimId + "&fieldName=" + fieldName + "&newValue=" + newValue);
+                    ConfigurationManager.AppSettings["apiurl"] + insertHistoryRecord + userId + "&userName=" + userName + "&claimId=" + claimId +
+                    "&fieldName=" + fieldName + "&newValue=" + newValue + "&oldValue=" + oldValue);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 

@@ -797,7 +797,7 @@
 
 
         $("#btnSendPaymentEmail").click(function () {
-            $("#subjectPayment").val("Claim Reference # " + $("#ClaimRefNo_Payment").val());
+            $("#subjectPayment").val("Claim Ref [" + $("#ClaimRefNo_Payment").val() + "]");
             $("#emailToPayment").val($("#payment_email").val());
             $('#sendPaymentEmailModal').modal('show');
         });

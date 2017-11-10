@@ -263,6 +263,7 @@
 
         $("#btnNewPayment").click(function () {
 
+            changeControlState(false);
             clearPaymentControls(true);
             clearPaymentFiles();
 
@@ -400,10 +401,14 @@
                 $("#Payment_Type").val(result.Payment_Type);
                 $("#Payment_Method").val(result.Payment_Method);
 
-                if (result.Is_Settlement)
+                if (result.Is_Settlement) {
                     $("#Is_Settlement").prop("checked", true);
-                else
+                    changeControlState(true);
+                }
+                else {
                     $("#Is_Settlement").prop("checked", false);
+                    changeControlState(false);
+                }
 
                 $("#Is_Settlement").val(result.Is_Settlement);
 
@@ -428,6 +433,43 @@
                 $('#PaymentDetailModal').modal('show');
             }
         });
+    }
+
+
+    function changeControlState(readonly) {
+        $("#ClaimRefNo_Payment").prop('disabled', readonly);
+        $("#Reserve_Type").prop('disabled', readonly);
+        $(".dateCalendar_Date_Invoice").children().prop('disabled', readonly);
+        $("#Invoice_Reference").prop('disabled', readonly);
+        $("#uploadInvoiceAttach").prop('disabled', readonly);
+        $("#Payee_Type").prop('disabled', readonly);
+        $("#Payee_Account_Name").prop('disabled', readonly);
+        $("#AccountNoModal_TSD").prop('disabled', readonly);
+        $("#Payee_Contact_Name").prop('disabled', readonly);
+        $("#ContactModal_Pd").prop('disabled', readonly);
+        $("#Total_Gross").prop('disabled', readonly);
+        $("#Gst_Included").prop('disabled', readonly);
+        $("#Gst").prop('disabled', readonly);
+        $("#Total_Net").prop('disabled', readonly);
+        $(".dateCalendarDate_Sent_For_Payment").children().prop('disabled', readonly);
+        $("#Payment_To_Name").prop('disabled', readonly);
+        $("#Payment_To_Name_Pd").prop('disabled', readonly);
+        $("#Sent_To_Contact_Name").prop('disabled', readonly);
+        $("#Sent_To_Contact_Name_Pd").prop('disabled', readonly);
+        $("#payment_phone").prop('disabled', readonly);
+        $("#payment_email").prop('disabled', readonly);
+        $("#Payment_Status").prop('disabled', readonly);
+        $(".dateCalendarDate_Invoice_Paid").children().prop('disabled', readonly);
+        $("#Payment_Type").prop('disabled', readonly);
+        $("#Payment_Method").prop('disabled', readonly);
+        $("#Is_Settlement").prop('disabled', readonly);
+        $("#Payment_Amount").prop('disabled', readonly);
+        $(".dateCalendarDate_Payment_Date").children().prop('disabled', readonly);
+        $("#Payment_Note").prop('disabled', readonly);
+        if (readonly)
+            $("#btnSavePaymentDetail").hide();
+        else
+            $("#btnSavePaymentDetail").show();
     }
 
     function clearPaymentControls(isNew) {

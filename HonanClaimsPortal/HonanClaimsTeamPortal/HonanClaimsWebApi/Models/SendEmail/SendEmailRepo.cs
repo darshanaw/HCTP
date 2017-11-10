@@ -90,7 +90,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
         //}
 
 
-        public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model, string email)
+        public async Task<bool> SendEmail(List<HttpPostedFileBase> files, string userId, EmailModel model, string email,string userName)
         {
             var result = false;
             var templist = new List<string>();
@@ -109,6 +109,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
 
                         var content = new StringContent(jsonModel, System.Text.Encoding.UTF8, "application/json");
                         var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+                        var content3 = new StringContent(userName, System.Text.Encoding.UTF8, "application/json");
 
                         if (files.Count() > 0 && files != null)
                         {
@@ -120,6 +121,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
 
                         formData.Add(content, "EmailModel");
                         formData.Add(content2, "UserId");
+                        formData.Add(content3, "UserName");
 
                         HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
                         if (response.IsSuccessStatusCode)
@@ -201,7 +203,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
             return list;
         }
 
-        public async Task<bool> SendPaymentEmail(string userId, PaymentEmailModel model,List<HttpPostedFileBase> files)
+        public async Task<bool> SendPaymentEmail(string userId, PaymentEmailModel model,List<HttpPostedFileBase> files,string userName)
         {
             var result = false;
             var templist = new List<string>();
@@ -223,6 +225,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
 
                         var content = new StringContent(modelJson, System.Text.Encoding.UTF8, "application/json");
                         var content2 = new StringContent(userId, System.Text.Encoding.UTF8, "application/json");
+                        var content3 = new StringContent(userName, System.Text.Encoding.UTF8, "application/json");
 
                         if (files.Count() > 0 && files != null)
                         {
@@ -234,6 +237,7 @@ namespace HonanClaimsWebApi.Models.SendEmail
 
                         formData.Add(content, "EmailModel");
                         formData.Add(content2, "UserId");
+                        formData.Add(content3, "UserName");
 
                         HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
                         if (response.IsSuccessStatusCode)
