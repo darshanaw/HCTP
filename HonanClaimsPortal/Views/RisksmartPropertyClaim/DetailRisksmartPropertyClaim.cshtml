@@ -1791,42 +1791,54 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         }
 
 
-        $('.form-control').change(function () {
+       var previous;
+
+        $('.form-control').focus(function () {
+            // Store the current value on focus, before it changes
+            previous = this.value;
+
+        }).change(function (e) {
             if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
+                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '",oldValue:"' + previous + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
                     },
                     failure: function (response) {
-                        alert("Error writing to history");
+                        bootbox.alert("Error writing to history");
                     },
                     error: function (response) {
-                        alert("Error writing to history");
+                        bootbox.alert("Error writing to history");
                     }
                 });
             }
         });
 
-        $('input:checkbox').click(function () {
 
+        $('input:checkbox').click(function (e) {
             if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
+                var oldVal;
+                if (this.checked == true)
+                    oldVal = "false";
+                else
+                    oldVal = "true";
+
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '" }',
+                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.checked + '",oldValue:"' + oldVal + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
                     },
                     failure: function (response) {
-                        alert("Error writing to history");
+                        bootbox.alert("Error writing to history");
                     },
                     error: function (response) {
-                        alert("Error writing to history");
+                        bootbox.alert("Error writing to history");
                     }
                 });
             }
