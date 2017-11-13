@@ -18,12 +18,12 @@ namespace HonanClaimsWebApi.Models.Policies
             public string Associate { get; set; }
             public string Underwriter { get; set; }
             public string Account_Manager_Code { get; set; }
-            public DateTime Inception_Date { get; set; }
-            public DateTime Inception_Date_Invoice { get; set; }
-            public DateTime Expiry_Date { get; set; }
-            public DateTime Expiry_Date_Invoice { get; set; }
+            public string Inception_Date { get; set; } //dt
+            public string Inception_Date_Invoice { get; set; } //dt
+            public string Expiry_Date_Invoice { get; set; }//
             public string Renewal_Months { get; set; }
             public string Days_To_Expiry { get; set; }
+            public string Expiry_Date { get; set; }
             public string Base_Premium { get; set; }
             public string Base_Gst { get; set; }
             public string Fire_Services_Levy { get; set; }
@@ -93,29 +93,33 @@ namespace HonanClaimsWebApi.Models.Policies
             public string Construction_Roof { get; set; }
             public bool Risk_Amounts_Checked { get; set; }
             public bool Risk_Amounts_Issue { get; set; }
-            public DateTime Risk_Amounts_Checked_On { get; set; }
+            public string Risk_Amounts_Checked_On { get; set; } //dt
             public string Risk_Amounts_Checked_By { get; set; }
             public bool Risk_Details_Checked { get; set; }
             public bool Risk_Details_Issue { get; set; }
-            public DateTime Risk_Details_Checked_On { get; set; }
+            public string Risk_Details_Checked_On { get; set; }//dt
             public string Risk_Details_Checked_By { get; set; }
             public bool Construction_Checked { get; set; }
             public bool Construction_Issue { get; set; }
-            public DateTime Construction_Checked_On { get; set; }
+            public string Construction_Checked_On { get; set; }//dt
             public string Construction_Checked_By { get; set; }
             public bool Other_Details_Checked { get; set; }
             public bool Other_Issue { get; set; }
-            public DateTime Other_Details_Checked_On { get; set; }
+            public string Other_Details_Checked_On { get; set; } //dt
             public string Other_Details_Checked_By { get; set; }
             public bool Superceded { get; set; }
-            public DateTime Superceded_On { get; set; }
+            public string Superceded_On { get; set; } //dt
             public string Superceded_By { get; set; }
             public string Issue_Description { get; set; }
             public string Superseded_Comment { get; set; }
             public string Floating_Floor_Cover_Required { get; set; }
             public string Flood_Cover_Yesnotba { get; set; }
             public string Flood_Cover_Amount { get; set; }
-        }
+            public string OCNUM { get; set; }
+            public string InsuredName { get; set; }
+            public string Status { get; set; }
+            public string PolicyId { get; set; }
+    }
 
     public class PolictSimple
     {

@@ -84,7 +84,7 @@
                                 <label class="col-sm-2 control-label input-sm">Account Name</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto" })
+                                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto;background-color:white", @readonly = true })
                                         <span id="accountNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
                                             <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
                                                 <i class="fa fa-binoculars"></i>

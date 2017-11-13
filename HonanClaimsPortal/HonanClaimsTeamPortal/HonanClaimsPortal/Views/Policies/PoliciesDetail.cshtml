@@ -7,9 +7,19 @@
 
 <div class="content-wrapper">
     <h3>Policies Detail</h3>
-
+    @Html.HiddenFor(o => o.PolicyId)
     <div class="row mb-15">
-        <div class="col-md-6">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" onclick="Cancel()" class="btn btn-default">Cancel</button>
+                        <button type="button" onclick="UpdatePolicy()" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 top-padding-eight">
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Policy Number</label><div class="col-md-9">
                     @Html.TextBoxFor(m => m.Policy_Number, new { @class = "form-control input-sm", @readonly = true })
@@ -25,6 +35,23 @@
                     @Html.TextBoxFor(m => m.Client_Code, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
+
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">OC # </label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.OCNUM, new { @class = "form-control input-sm"})
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Insured Name </label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.InsuredName, new { @class = "form-control input-sm"})
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Status </label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Current Phase </label><div class="col-md-9">
                     @Html.TextBoxFor(m => m.Current_Phase, new { @class = "form-control input-sm", @readonly = true })
@@ -60,22 +87,22 @@
 
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Inception Date P </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Inception_Date, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Inception_Date, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Inception Date I </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Inception_Date_Invoice, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Inception_Date_Invoice, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Expiry Date P </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Expiry_Date, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Expiry_Date, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Expiry Date I </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Expiry_Date_Invoice, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Expiry_Date_Invoice, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
 
@@ -89,12 +116,12 @@
 
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Expires In </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Days_To_Expiry, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Days_To_Expiry, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Base Premium Amount ($)</label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Base_Premium, new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Base_Premium, new { @class = "form-control input-sm", @readonly = true})
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
@@ -289,7 +316,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 top-padding-eight">
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Fidelity ($)</label><div class="col-md-9">
                     @Html.TextBoxFor(m => m.Fidelity, new { @class = "form-control input-sm", @readonly = true })
@@ -442,7 +469,7 @@
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Risk Amounts Checked Date </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Risk_Amounts_Checked_On, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Risk_Amounts_Checked_On, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
@@ -462,7 +489,7 @@
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Risk Details Checked Date </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Risk_Details_Checked_On, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Risk_Details_Checked_On, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
@@ -482,7 +509,7 @@
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Construction Details Checked Date </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Construction_Checked_On, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Construction_Checked_On, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
@@ -502,7 +529,7 @@
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Other Details Checked Date </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Other_Details_Checked_On, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Other_Details_Checked_On, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
@@ -517,7 +544,7 @@
             </div>
             <div class="form-group col-md-12 col-sm-12">
                 <label class="col-sm-3 control-label input-sm">Superceded Date </label><div class="col-md-9">
-                    @Html.TextBoxFor(m => m.Superceded_On, "{0:yyy/MM/d}", new { @class = "form-control input-sm", @readonly = true })
+                    @Html.TextBoxFor(m => m.Superceded_On, new { @class = "form-control input-sm", @readonly = true })
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-12">
@@ -558,6 +585,7 @@
             <div class="col-md-12">
                 <div class="pull-right">
                     <button type="button" onclick="Cancel()" class="btn btn-default">Cancel</button>
+                    <button type="button" onclick="UpdatePolicy()" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -565,9 +593,29 @@
 
 </div>
 
+
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
 <script>
     function Cancel() {
         window.location.href = '/Policies/Index';
+    }
+
+    function UpdatePolicy() {
+        $.LoadingOverlay("show");
+        $.ajax({
+            url: "/Policies/UpdatePolicy?ocNum=" + $("#OCNUM").val() + "&insuredName=" + $("#InsuredName").val() + "&policyId=" + $("#PolicyId").val()
+            , success: function (result) {
+                $.LoadingOverlay("hide");
+                bootbox.alert({
+                    message: "Policy successfully updated", size: 'small'
+                });
+            },
+            complete: function () {
+            }
+        });
     }
 
 </script>

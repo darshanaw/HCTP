@@ -112,7 +112,8 @@ namespace HonanClaimsPortal.Controllers
             }
             else
             {
-                return View(rmodel);
+                return RedirectToAction("Index", "AccountList");
+                //return View(rmodel);
             }
            
             //return RedirectToAction("Index");
