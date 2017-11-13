@@ -1444,6 +1444,11 @@
             resizable: {
                 content: true,
                 toolbar: true
+            },
+            paste: function (e) {
+                if ((/^<img src="data:image/).test(e.html)) {
+                    e.html = "";
+                }
             }
         });
 
