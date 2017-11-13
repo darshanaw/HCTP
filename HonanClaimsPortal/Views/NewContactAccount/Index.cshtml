@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
 
 
-@using (Html.BeginForm("Index", "NewContactAccount", FormMethod.Post, new { @class = "", role = "form" }))
+@using (Html.BeginForm("Index", "NewContactAccount", FormMethod.Post, new { id = "formNewContactAccount", @class = "", role = "form" }))
 {
 
 
@@ -303,8 +303,20 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
 <script>
     $(document).ready(function () {
+
+        $('#formNewContactAccount').submit(function () {
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
+
+
         $('#City').select2({ width: '100%' });
 
         if ($("#City").length > 0) {
@@ -520,7 +532,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
     });
 
     function accountManagerClick123(e) {
-        $('#AccountId').val(e.id);
+        $('#AccountManagerId').val(e.id);
         $("#AccountManagerName").val(e.text);
         $('#AccountManagerModalIndex').modal('hide');
         $('#AMccsearchIndex').val('');

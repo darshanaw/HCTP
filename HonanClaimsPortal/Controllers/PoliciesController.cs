@@ -1,5 +1,6 @@
 ﻿using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.Policies;
+using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,9 @@ namespace HonanClaimsPortal.Controllers
             {
                 List<PolictSimple> list = new List<PolictSimple>();
                 PoliciesRepo policiesRepo = new PoliciesRepo();
-                list = await policiesRepo.GetPolicyList(IsActive, PolicyNumber, Associate, Customer, Underwriter, PolicyType, PolicyClass);
+                ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+                list = await policiesRepo.GetPolicyList(IsActive, PolicyNumber, Associate, Customer, Underwriter, PolicyType, PolicyClass, client.UserId);
                 return new JsonResult() { Data = list, MaxJsonLength = 86753090, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 //return Json(list, JsonRequestBehavior.AllowGet);
             }
@@ -47,6 +50,14 @@ namespace HonanClaimsPortal.Controllers
             PolicyModel model = new PolicyModel();
             model = await policiesRepo.GetPoliciesDetail(PolicyId);
             return View(model);
+        }
+
+        public async Task<ActionResult> UpdatePolicy(string ocNum, string insuredName, string policyId)
+        {
+            PoliciesRepo policiesRepo = new PoliciesRepo();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            PolicyModel model = new PolicyModel();
+            return new JsonResult() { Data = await policiesRepo.UpdatePolicy(ocNum, insuredName, policyId, client.UserId), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
     }
 }
