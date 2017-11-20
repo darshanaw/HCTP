@@ -194,7 +194,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Notification_Status { get; set; }
         public string Assigned_User_Name { get; set; }
         public bool UpdateAllActivities { get; set; }
-
+        public string Trading_Name { get; set; }
 
         public string UserId { get; set; }
         public List<PicklistItem> ReportedByTypeList { get; set; }
