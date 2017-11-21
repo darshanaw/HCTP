@@ -1,10 +1,15 @@
 ﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.SendEmail;
 using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,8 +20,14 @@ namespace HonanClaimsPortal.Controllers
     [AuthorizeUser]
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        List<DashboardObject> dashboardItems;
+        public async Task<ActionResult> Index()
         {
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            HomeServices service = new HomeServices();
+            dashboardItems = new List<DashboardObject>();
+            dashboardItems = await service.TeamGenerateDashboard(client.UserId);
+            ViewBag.DashboardItems = JsonConvert.SerializeObject(dashboardItems);
             return View();
         }
 
@@ -177,6 +188,56 @@ namespace HonanClaimsPortal.Controllers
             var data = await services.GetAllClaimsOfTeams(text_para, client.Teams);
             return Json(data.Take(10), JsonRequestBehavior.AllowGet);
 
+        }
+
+
+        public async Task<ActionResult> GetDashboardNumbers()
+        {
+            dashboardItems = new List<DashboardObject>();
+            dashboardItems = (List<DashboardObject>)ViewBag.DashboardItems;
+            var data = dashboardItems.Where(x => x.Category == "General").ToList();
+            //return DownloadEmail();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public FileResult DownloadEmail()
+        {
+            var message = new MailMessage();
+
+            message.From = new MailAddress("from@example.com");
+            message.To.Add("someone@example.com");
+            message.Subject = "This is the subject";
+            message.Body = "This is the body";
+
+            using (var client = new SmtpClient())
+            {
+                var id = Guid.NewGuid();
+
+                var tempFolder = Path.Combine(Path.GetTempPath(), Assembly.GetExecutingAssembly().GetName().Name);
+
+                tempFolder = Path.Combine(tempFolder, "MailMessageToEMLTemp");
+
+                // create a temp folder to hold just this .eml file so that we can find it easily.
+                tempFolder = Path.Combine(tempFolder, id.ToString());
+
+                if (!Directory.Exists(tempFolder))
+                {
+                    Directory.CreateDirectory(tempFolder);
+                }
+
+                client.UseDefaultCredentials = true;
+                client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                client.PickupDirectoryLocation = tempFolder;
+                client.Send(message);
+
+                // tempFolder should contain 1 eml file
+
+                var filePath = Directory.GetFiles(tempFolder).Single();
+
+                // stream out the contents - don't need to dispose because File() does it for you
+                var fs = new FileStream(filePath, FileMode.Open);
+                return File(fs, System.Net.Mime.MediaTypeNames.Application.Octet, "email.eml");
+            }
         }
 
     }
