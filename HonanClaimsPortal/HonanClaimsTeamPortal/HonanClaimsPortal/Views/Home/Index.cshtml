@@ -1,5 +1,12 @@
 ﻿@{
     ViewBag.Title = "Honan Claims - Dashboard";
+    bool isRisksmartGccUser = false;
+    HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
+
+    if (client.Teams.IndexOf("Risksmart GCC Team") != -1 || client.Teams.IndexOf("Risksmart GCC Manager") != -1)
+    {
+        isRisksmartGccUser = true;
+    }
     //List<HonanClaimsWebApi.Models.Claim.DashboardObject> dashboardItems = (List<HonanClaimsWebApi.Models.Claim.DashboardObject>)ViewBag.DashboardItems;
 }
 
@@ -106,7 +113,7 @@
             </div>
             <div class="row">
 
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div id="panelChart2" class="panel panel-default">
                         <div class="panel-heading">
                             <div class="panel-title">
@@ -116,7 +123,7 @@
                                         <label><input type="radio" name="optradio" class="claimClosedradio" checked id="rbLastYear">Last Year</label>
                                         <label><input type="radio" name="optradio" class="claimClosedradio" id="rbThisYear">This Year</label>
                                     </div>
-                                 
+
                                 </div>
                             </div>
 
@@ -127,18 +134,35 @@
                     </div>
                 </div>
 
-                @*<div class="col-lg-6">
+            </div>
+
+            @if (isRisksmartGccUser)
+            {
+                <div class="row">
+                    <div class="col-lg-6">
                         <div id="panelChart2" class="panel panel-default">
                             <div class="panel-heading">
-                                <div class="panel-title">My Open Claims By Stage</div>
+                                <div class="panel-title">Open Claims By Customer</div>
                             </div>
                             <div class="panel-body">
-                                <div id="chartOpenClaimsByStage" class="chart-bar flot-chart"></div>
+                                <div id="chartOpenClaimsByCustomerBar" class="chart-bar flot-chart"></div>
                             </div>
                         </div>
-                    </div>*@
+                    </div>
 
-            </div>
+                    <div class="col-lg-6">
+                        <div id="panelChart2" class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">My Billable Time by Last 6 Month (Billable Clients Only)</div>
+                            </div>
+                            <div class="panel-body">
+                                <div id="chartBillableTimeBar" class="chart-bar flot-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
         </div>
     </div>
 
@@ -175,13 +199,21 @@
         loadNextActionBar();
         loadClaimsByStage();
         loadClosedClaims();
+        debugger;
+        if ('@isRisksmartGccUser' == 'True')
+         {
+             loadOpenClaimsByCustomerBar();
+             loadBillableTimesBar();
+         }
+
         $.LoadingOverlay("hide");
 
-
         $(".claimClosedradio").change(function () {
-            loadClosedClaims();
-        });
-    });
+             loadClosedClaims();
+         });
+
+     });
+
 
 
     function generateDashboardNumbers() {
@@ -202,6 +234,17 @@
 
     function loadNextActionBar() {
 
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        }
+
         var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
 
         var nextAction = dashboardItems;
@@ -215,10 +258,16 @@
         json = "[" + json + "]";
         ObjData = jQuery.parseJSON(json);
 
+        var newObjData = [];
+        for (i = 0; i < ObjData.length; i++) {
+
+            newObjData.push(ObjData[i].move(0, 1));
+        }
+
         var data = [{
             "label": "Next Action",
             "color": "#7266ba",
-            "data": ObjData
+            "data": newObjData
         }];
 
         var options = {
@@ -228,6 +277,7 @@
                     lineWidth: 0,
                     show: true,
                     barWidth: 0.6,
+                    horizontal: true,
                     fill: 0.9
                 }
             },
@@ -239,15 +289,16 @@
             },
             tooltip: true,
             tooltipOpts: {
-                content: function (label, x, y) { return x + ' : ' + y; }
+                content: function (label, x, y) { return y + ' : ' + x; }
             },
             xaxis: {
                 tickColor: '#fcfcfc',
-                mode: 'categories'
+
             },
             yaxis: {
                 // position: 'right' or 'left'
-                tickColor: '#eee'
+                tickColor: '#eee',
+                mode: 'categories'
             },
             shadowSize: 0
         };
@@ -260,6 +311,17 @@
     }
 
     function loadClaimsByStage() {
+
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        }
 
         var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
 
@@ -274,6 +336,13 @@
         json = "[" + json + "]";
         ObjData = jQuery.parseJSON(json);
 
+
+        var newObjData = [];
+        for (i = 0; i < ObjData.length; i++) {
+
+            newObjData.push(ObjData[i].move(0, 1));
+        }
+
         var data = [{
             "label": "Stage",
             "color": "#A1D461",
@@ -287,7 +356,8 @@
                     lineWidth: 0,
                     show: true,
                     barWidth: 0.6,
-                    fill: 0.9
+                    fill: 0.9,
+                    horizontal: true,
                 }
             },
             grid: {
@@ -298,15 +368,15 @@
             },
             tooltip: true,
             tooltipOpts: {
-                content: function (label, x, y) { return x + ' : ' + y; }
+                content: function (label, x, y) { return y + ' : ' + x; }
             },
             xaxis: {
                 tickColor: '#fcfcfc',
-                mode: 'categories'
             },
             yaxis: {
                 // position: 'right' or 'left'
-                tickColor: '#eee'
+                tickColor: '#eee',
+                mode: 'categories'
             },
             shadowSize: 0
         };
@@ -385,13 +455,26 @@
 
 
         $.plot("#chartClaimsClosedThisYear", data, options);
+    }
 
+    function loadOpenClaimsByCustomerBar() {
 
-        @*var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        }
+
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
 
         var nextAction = dashboardItems;
         nextAction = nextAction.filter(function (a) {
-            return a.Category === "Claim Stage";
+            return a.Category === "Open Claims By Customer";
         });
         var barChartObj = nextAction[0].Items[0].DataComplex;
         var json = JSON.stringify(barChartObj);
@@ -400,102 +483,117 @@
         json = "[" + json + "]";
         ObjData = jQuery.parseJSON(json);
 
+        var newObjData = [];
+        for (i = 0; i < ObjData.length; i++) {
 
-        var data1 = [
-            [gd(2012, 0, 1), 1652.21], [gd(2012, 1, 1), 1742.14], [gd(2012, 2, 1), 1673.77], [gd(2012, 3, 1), 1649.69],
-            [gd(2012, 4, 1), 1591.19], [gd(2012, 5, 1), 1598.76], [gd(2012, 6, 1), 1589.90], [gd(2012, 7, 1), 1630.31],
-            [gd(2012, 8, 1), 1744.81], [gd(2012, 9, 1), 1746.58], [gd(2012, 10, 1), 1721.64], [gd(2012, 11, 1), 1684.76]
-        ];
-        debugger;
+            newObjData.push(ObjData[i].move(0, 1));
+        }
+
         var data = [{
-            "label": "Closed Claims",
-            "color": "#F5994E",
-            "data": data1
+            "label": "Open Claims",
+            "color": "#00B4FF",
+            "data": newObjData
         }];
 
         var options = {
             series: {
-                lines: { show: true },
-                points: {
-                    radius: 3,
-                    fill: true,
-                    show: true
-                },
-                tooltip: true,
-                tooltipOpts: {
-                    content: function (label, x, y) { return x + ' : ' + y; }
-                },
-                xaxis: {
-                    mode: "time",
-                    tickSize: [1, "month"],
-                    tickLength: 0,
-                    axisLabel: "2012",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 10
-                },
-                yaxes: [{
-                    axisLabel: "Gold Price(USD)",
-                    axisLabelUseCanvas: true,
-                    axisLabelFontSizePixels: 12,
-                    axisLabelFontFamily: 'Verdana, Arial',
-                    axisLabelPadding: 3,
-                    tickFormatter: function (v, axis) {
-                        return $.formatNumber(v, { format: "#,###", locale: "us" });
-                    }
-                }],
-                legend: {
-                    noColumns: 0,
-                    labelBoxBorderColor: "#000000",
-                    position: "nw"
-                },
-            }
-            //    bars: {
-            //        align: 'center',
-            //        lineWidth: 0,
-            //        show: true,
-            //        barWidth: 0.6,
-            //        fill: 0.9
-            //    }
-            //},
-            //grid: {
-            //    borderColor: '#eee',
-            //    borderWidth: 1,
-            //    hoverable: true,
-            //    backgroundColor: '#fcfcfc'
-            //},
+                bars: {
+                    align: 'center',
+                    lineWidth: 0,
+                    show: true,
+                    barWidth: 0.6,
+                    horizontal: true,
+                    fill: 0.9
+                }
+            },
+            grid: {
+                borderColor: '#eee',
+                borderWidth: 1,
+                hoverable: true,
+                backgroundColor: '#fcfcfc'
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: function (label, x, y) { return y + ' : ' + x; }
+            },
+            xaxis: {
+                tickColor: '#fcfcfc',
 
-
-            //xaxis: {
-            //    tickColor: '#fcfcfc',
-            //    mode: 'categories'
-            //},
-            //yaxis: {
-            //    // position: 'right' or 'left'
-            //    tickColor: '#eee'
-            //},
-            //shadowSize: 0
+            },
+            yaxis: {
+                // position: 'right' or 'left'
+                tickColor: '#eee',
+                mode: 'categories'
+            },
+            shadowSize: 0
         };
 
-        var chart = $("#chartClaimsClosedThisYear");//('.chart-pie');
+        debugger;
+
+        var chart = $("#chartOpenClaimsByCustomerBar");//('.chart-pie');
         if (chart.length)
-            $.plot(chart, data, options);*@
+            $.plot(chart, data, options);
     }
 
-    var $border_color = "#efefef";
-    var $grid_color = "#ddd";
-    var $default_black = "#666";
-    var $default_grey = "#ccc";
-    var $primary_color = "#428bca";
-    var $go_green = "#93caa3";
-    var $jet_blue = "#70aacf";
-    var $lemon_yellow = "#ffe38a";
-    var $nagpur_orange = "#fc965f";
-    var $ruby_red = "#fa9c9b";
 
-    function gd(year, month, day) {
-        return new Date(year, month, day).getTime();
+    function loadBillableTimesBar() {
+
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+
+        var nextAction = dashboardItems;
+        nextAction = nextAction.filter(function (a) {
+            return a.Category === "Billable Time";
+        });
+        var barChartObj = nextAction[0].Items[0].DataComplex;
+        var json = JSON.stringify(barChartObj);
+        json = json.replace(/,/g, "],[").replace(/{/g, "[").replace(/}/g, "]");
+        json = json.replace(/:/g, ","); //updated
+        json = "[" + json + "]";
+        ObjData = jQuery.parseJSON(json);
+
+        var data = [{
+            "label": "Total Billable",
+            "color": "#FF3E43",
+            "data": ObjData
+        }];
+
+        var options = {
+            series: {
+                bars: {
+                    align: 'center',
+                    lineWidth: 0,
+                    show: true,
+                    barWidth: 0.6,
+                    fill: 0.9
+                }
+            },
+            grid: {
+                borderColor: '#eee',
+                borderWidth: 1,
+                hoverable: true,
+                backgroundColor: '#fcfcfc'
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: function (label, x, y) { return x + ' : $' + y; }
+            },
+            xaxis: {
+                tickColor: '#fcfcfc',
+                mode: 'categories'
+            },
+            yaxis: {
+                // position: 'right' or 'left'
+                tickColor: '#eee',
+                tickFormatter: function (v) {
+                    return '$' + v/* + ' visitors'*/;
+                }
+            },
+            shadowSize: 0
+        };
+
+        var chart = $("#chartBillableTimeBar");//('.chart-pie');
+        if (chart.length)
+            $.plot(chart, data, options);
     }
 
 </script>
