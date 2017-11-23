@@ -235,6 +235,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public bool UpdateAllActivities { get; set; }
         public string Trading_Name { get; set; }
         public string Product_Type { get; set; }
+        public decimal Over_Excess_Paid { get; set; }
 
         public List<PicklistItem> Policy_Class_List { get; set; }
         public List<PicklistItem> Outcome_List { get; set; }

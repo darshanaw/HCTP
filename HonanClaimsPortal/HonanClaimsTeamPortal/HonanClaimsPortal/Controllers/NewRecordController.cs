@@ -33,7 +33,7 @@ namespace HonanClaimsPortal.Controllers
             //model.ClaimRefNo_Payment_List = claimServices.GetClaimsForUser(client.UserId);
             model.Payee_Type_List = pickListServices.GetPickListItems("Honan Payee type");
             model.Gst = "10";
-            model.Gst_Included = true;
+            model.Gst_Included = false;
             model.Payment_Status_List = pickListServices.GetPickListItems("Honan Payment Status");
             model.Payment_Type_List = pickListServices.GetPickListItems("Honan Payment Type");
             model.Payment_Method_List = pickListServices.GetPickListItems("Honan Payment Method");
