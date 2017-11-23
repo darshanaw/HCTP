@@ -981,6 +981,15 @@ else
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Over Excess Paid</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control input-sm disabledControl" id="Over_Excess_Paid_Id" disabled="disabled" value="@String.Format("{0:C}", Model.Over_Excess_Paid)" />
+                                                                    @Html.HiddenFor(o => o.Over_Excess_Paid)
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1787,6 +1796,8 @@ else
                     $("#Total_Incurred_Id").val('$' + result.Total_Incurred.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                     $("#Current_Exposure").val(result.Current_Exposure);
                     $("#Current_Exposure_Id").val('$' + result.Current_Exposure.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    $("#Over_Excess_Paid").val(result.Over_Excess_Paid);
+                    $("#Over_Excess_Paid_Id").val('$' + result.Over_Excess_Paid.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                 }
             }
         });

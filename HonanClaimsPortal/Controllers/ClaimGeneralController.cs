@@ -67,6 +67,11 @@ namespace HonanClaimsPortal.Controllers
             else
                 model.Current_Exposure = model.Excess - model.Net_Paid_Liability - model.Net_Paid_Defence;
 
+            decimal totalNet = model.Net_Paid_Liability + model.Net_Paid_Defence;
+            if (totalNet > model.Excess)
+                model.Over_Excess_Paid = totalNet - model.Excess;
+            else
+                model.Over_Excess_Paid = 0;
 
             //Update Claim DB
             ClaimTeamLoginModel client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;

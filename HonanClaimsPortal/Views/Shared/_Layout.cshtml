@@ -243,6 +243,9 @@
                                         <a href="/NewContactAccount/Index" class="list-group-item">
                                             <small>New Contact/Account</small>
                                         </a>
+                                        <a href="#" onclick="openEmailWindow()" class="list-group-item">
+                                            <small>New Email Window</small>
+                                        </a>
 
                                     </div>
                                     <!-- END list group-->
@@ -347,7 +350,7 @@
                                 HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
                         }
 
-
+                     
                         <li class="left-menu-item">
                             <a href="/claimlist/Index" title="Claims" class="left-menu-item">
                                 <div id="assignedClaimCount" class="pull-right label label-success"></div>
@@ -1649,6 +1652,7 @@
         //    $("#sendEmailModal").modal('hide');
         //}
 
+
        
     });
 
@@ -1952,6 +1956,11 @@
                 return false;
             }
         });
+    }
+
+
+    function openEmailWindow() {
+        window.open("/Email/EmailWindow", "New Window", "height=710,width=1000");
     }
 
 </script>

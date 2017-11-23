@@ -19,6 +19,8 @@ namespace HonanClaimsWebApi.Models.Claim
         public decimal Excess { get; set; }
         public decimal Current_Exposure { get; set; }
         public decimal Gross_Paid_To_Date { get; set; }
+        public decimal Over_Excess_Paid { get; set; }
+        
     }
 }
 

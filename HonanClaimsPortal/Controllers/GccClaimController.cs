@@ -246,6 +246,11 @@ namespace HonanClaimsPortal.Controllers
             else
                 claim.Current_Exposure = claim.Excess - claim.Net_Paid_Liability - claim.Net_Paid_Defence;
 
+            decimal totalNet = claim.Net_Paid_Liability - claim.Net_Paid_Defence;
+            if (totalNet > claim.Excess)
+                claim.Over_Excess_Paid = totalNet - claim.Excess;
+            else
+                claim.Over_Excess_Paid = 0;
 
             claim.Claim_Closed = claim.Claim_Closed == null || claim.Claim_Closed == false ? false : true;
             claim.Claim_Declined = claim.Claim_Declined == null || claim.Claim_Declined == false ? false : true;

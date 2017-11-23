@@ -340,7 +340,7 @@
                 },
                 {
                     field: "Total_Gross",
-                    title: "Total Gross"
+                    title: "Total Paid"
                 },
                 {
                     field: "Total_Net",
@@ -490,7 +490,8 @@
         $("#Payee_Account_Name").val("");
         $("#Payee_Contact_Name").val("");
         $("#Total_Gross").val("");
-        $("#Gst_Included").val(true);
+        $("#Gst_Included").val(false);
+        $("#Gst_Included").prop("checked", false);
         $("#Gst").val("10");
         $("#Total_Net").val("");
         $("#Date_Sent_For_Payment").val("");
