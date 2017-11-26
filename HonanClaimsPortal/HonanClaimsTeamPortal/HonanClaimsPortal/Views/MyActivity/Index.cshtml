@@ -73,10 +73,11 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-4 control-label input-sm">Customer</label>
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(m => m.CustomerList,
+                                        @*@Html.DropDownListFor(m => m.CustomerList,
                     new SelectList(Model.CustomerList, "Code", "Text"),
                     "--Select--",
-                    new { @class = "form-control input-sm", @onchange = "comboChange()" })
+                    new { @class = "form-control input-sm", @onchange = "comboChange()" })*@
+                                        @Html.TextBox("CusList","", new { @id= "CusList", @class = "form-control input-sm" })
                                     </div>
                                 </div>
                             </div>
@@ -444,7 +445,7 @@
         if (c != null && c != "") { claimId = c }
         var o = $('#OwnerList').val();
         if (o != null && o != "") { owner = o }
-        var cl = $('#CustomerList').val();
+        var cl = $('#CusList').val();//$('#CustomerList').val();
         if (cl != null && cl != "") { customerId = cl }
         var s = $('#searchTxt').val();
         if (s != null && s != "") { search = s }
@@ -665,7 +666,7 @@
         $('#ShowDue').prop("checked", true);
         $('#fivedays').prop("checked", false);
         $('#ActivityClaim').val("");
-        $('#CustomerList').val("");
+        $('#CusList').val("");
         $('#searchTxt').val("");
         $('#Activityusers').val("");
         $('#OwnerList').val("");
