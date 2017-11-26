@@ -1,4 +1,5 @@
 ﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models.AccountList;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.SendEmail;
 using HonanClaimsWebApi.Services;
@@ -102,8 +103,8 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             string UserId = client.UserId;
             SendEmailRepo rep = new SendEmailRepo();
-            var result = await rep.SendEmail(filee, UserId, dicimod, client.Email, client.FirstName + " " + client.LastName);
-            //var result = await rep.SendEmail(filee, UserId, dicimod, "darshana.w@customersystems.com.au", client.FirstName + " " + client.LastName);
+            //var result = await rep.SendEmail(filee, UserId, dicimod, client.Email, client.FirstName + " " + client.LastName);
+            var result = await rep.SendEmail(filee, UserId, dicimod, "darshana.w@customersystems.com.au", client.FirstName + " " + client.LastName);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -238,6 +239,14 @@ namespace HonanClaimsPortal.Controllers
                 var fs = new FileStream(filePath, FileMode.Open);
                 return File(fs, System.Net.Mime.MediaTypeNames.Application.Octet, "email.eml");
             }
+        }
+
+        public async Task<ActionResult> GetAccountDetail(string accountId)
+        {
+            AccountListRepo accountListRepo = new AccountListRepo();
+            AccountModel model = new AccountModel();
+            var data = await accountListRepo.GetAccountDetail(accountId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
     }

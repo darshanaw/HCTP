@@ -1476,6 +1476,7 @@
     <Content Include="Views\Shared\_TimeslipAccountLookup.cshtml" />
     <Content Include="Views\Shared\_TimeslipDetailAccountLookup.cshtml" />
     <Content Include="Views\Email\EmailWindow.cshtml" />
+    <Content Include="Views\Shared\_Emails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

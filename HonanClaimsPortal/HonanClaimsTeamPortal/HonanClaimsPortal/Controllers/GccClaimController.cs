@@ -77,7 +77,7 @@ namespace HonanClaimsPortal.Controllers
 
                 if (claim.Region != null)
                     claim.Region = String.Join(", ", Region.Where(s => !string.IsNullOrEmpty(s)));
-                if (claim.Incident_Category != null)
+                if (Incident_Category != null)
                     claim.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
                 Mapper.Initialize(cfg => cfg.CreateMap<GccClaim, ClaimGeneral>());
@@ -270,7 +270,7 @@ namespace HonanClaimsPortal.Controllers
             PicklistServicecs picklistService = new PicklistServicecs();
             ClaimServices claims = new ClaimServices();
 
-            if (model.Incident_Category != null)
+            if (Incident_Category != null)
                 model.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
             Mapper.Initialize(cfg => cfg.CreateMap<GccClaim, ClaimGeneral>());

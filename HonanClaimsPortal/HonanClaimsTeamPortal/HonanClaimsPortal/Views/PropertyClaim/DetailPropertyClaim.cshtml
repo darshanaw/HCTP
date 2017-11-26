@@ -1867,24 +1867,27 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         });
 
          var values = "@Model.Incident_Category"; //pull ItemIds from Model in MVC
-        $.each(values.split(","), function (i, e) {
-            if (e != "Not Set" && e != "" && e != null && e != undefined) {
-                if (i == 0)
-                    e = " " + e;
-                if (!re.test(e)) {
-                    var newList = $.merge($('#Incident_Category').select2('data'), [{
-                        id: e,
-                        tag: e
-                    }]);
-                    $("#Incident_Category").select2('data', newList);
-                    $("#Incident_Category").append('<option value="' + e + '">' + e + '</option>');
-                }
-                else {
-                    $("#Incident_Category").append($("#Incident_Category option[value='" + e + "']"));
-                }
-                $("#Incident_Category option[value='" + e + "']").prop("selected", true);
-            }
-        });
+         var arr = values.split(",");
+         if (arr.length > 1) {
+             $.each(values.split(","), function (i, e) {
+                 if (e != "Not Set" && e != "" && e != null && e != undefined) {
+                     if (i == 0)
+                         e = " " + e;
+                     if (!re.test(e)) {
+                         var newList = $.merge($('#Incident_Category').select2('data'), [{
+                             id: e,
+                             tag: e
+                         }]);
+                         $("#Incident_Category").select2('data', newList);
+                         $("#Incident_Category").append('<option value="' + e + '">' + e + '</option>');
+                     }
+                     else {
+                         $("#Incident_Category").append($("#Incident_Category option[value='" + e + "']"));
+                     }
+                     $("#Incident_Category option[value='" + e + "']").prop("selected", true);
+                 }
+             });
+         }
 
 
         var policyClass = "@Model.Policy_Class";
