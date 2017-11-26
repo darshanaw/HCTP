@@ -36,7 +36,8 @@
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Customer</label>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), "--select--", new { @class = "form-control input-sm" })
+                                            @*@Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), "--select--", new { @class = "form-control input-sm" })*@
+                                            @Html.TextBox("CusList", "", new { @id = "CusList", @class = "form-control input-sm" })
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +152,7 @@
                     if (s != null && s != "")
                     { searchText = s }
                     //get customer
-                    var c = $('#CustomerList').val();
+                    var c = $('#CusList').val();
                     if (c != null && c != "")
                     { customerId = c }
                     //get all claims or my
@@ -223,7 +224,7 @@
                     $('#typeall').prop("checked", true)
 
                     $('#searchTxt').val("");
-                    $('#CustomerList').val("");
+                    $('#CusList').val("");
                     //$("#customer").data("kendoAutoComplete").value("");
                     //$("#grid1").data("kendoGrid").dataSource.filter({});
                     LoadClaimGrid();
