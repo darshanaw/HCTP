@@ -126,6 +126,7 @@
     <Compile Include="Models\Policies\PoliciesRepo.cs" />
     <Compile Include="Models\Search\SearchModel.cs" />
     <Compile Include="Models\SendEmail\EmailModel.cs" />
+    <Compile Include="Models\SendEmail\EmailSimple.cs" />
     <Compile Include="Models\SendEmail\PaymentEmailModel.cs" />
     <Compile Include="Models\SendEmail\SendEmailRepo.cs" />
     <Compile Include="Models\TimeslipCheck\BillingTimeRecordModel.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Services\BillableServices.cs" />
     <Compile Include="Services\ClaimServices.cs" />
     <Compile Include="Services\DocumentService.cs" />
+    <Compile Include="Services\EmailServices.cs" />
     <Compile Include="Services\HomeServices.cs" />
     <Compile Include="Services\KeyContactDateServices.cs" />
     <Compile Include="Services\LoginService.cs" />

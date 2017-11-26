@@ -1149,7 +1149,7 @@
 
         $.ajax({
             url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
-
+                debugger;
                 if (result.Checked_Date != null) {
                     var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
                     var month = Checked_Date.getMonth() + 1;

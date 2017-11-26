@@ -38,10 +38,10 @@ namespace HonanClaimsPortal.Controllers
                 List<ClaimListModel> list = new List<ClaimListModel>();
                 ClaimListRepo protalLoginAccountsRepo = new ClaimListRepo();
 
-               // if(string.IsNullOrEmpty(searchText))
+                if (string.IsNullOrEmpty(searchText))
                     list = await protalLoginAccountsRepo.getClaimList(UserId, myclaimsOnly, isopenClaim, claimType, searchText, cutomerId);
-                //else
-                //    list = await protalLoginAccountsRepo.getClaimListSearchTextOnly(UserId,searchText);
+                else
+                    list = await protalLoginAccountsRepo.getClaimListSearchTextOnly(UserId, searchText);
 
                 return Json(list, JsonRequestBehavior.AllowGet);
             }

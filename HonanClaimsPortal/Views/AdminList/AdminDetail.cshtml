@@ -405,7 +405,7 @@
     });
 
     function accountLookupClick(ContactId,Email,ContactName) {
-      
+
         $('#products').val(ContactName);
         $("#ContactId").val(ContactId);
         $("#Email").val(Email);
@@ -609,6 +609,16 @@
         $("#Accountname").val(e.text);
         $('#OcModal').modal('hide');
         $('#Accsearch').val('');
+
+        $.ajax({
+            url: "/Home/GetAccountDetail?accountId=" + e.id, success: function (result) {
+                $("#Billing_Method").val(result.Billing_Method);
+                $("#Fee_Per_Hour").val(result.Billable_Rate);
+                $("#Fee_Per_Billing_Method").val(result.Service_Rage);
+            }
+        });
+
+
     }
 
     function OnchangeLogoImage(input) {
@@ -714,7 +724,7 @@
             return false;
         }
 
-      
+
         setError("", false);
         var portalId = $('#portalLoginId').val();
         var model = {
