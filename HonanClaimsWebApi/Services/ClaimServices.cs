@@ -829,6 +829,36 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
+        public bool CloseClaim(string claimId, string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamCloseClaim?claimId=" + claimId + "&userId=" + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<bool>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+                throw e;
+            }
+
+        }
     }
 
 

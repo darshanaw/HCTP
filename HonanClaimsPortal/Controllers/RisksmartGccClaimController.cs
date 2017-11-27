@@ -159,7 +159,12 @@ namespace HonanClaimsPortal.Controllers
 
             //Get Regions
             //model.RegionList = pickListServices.GetPickListItems("H_StoreRegion");
-            model.RegionList = pickListServices.GetStoreRegions();
+            //model.RegionList = pickListServices.GetStoreRegions();
+           
+            model.RegionList = pickListServices.GetStoreRegionsByAccount(model.Accountid);
+            if(model.RegionList == null)
+                model.RegionList = new List<PicklistItem>();
+            model.RegionList.Insert(0, new PicklistItem());
 
             // Add Juristiction list
             model.JuristictionList = new List<string>()

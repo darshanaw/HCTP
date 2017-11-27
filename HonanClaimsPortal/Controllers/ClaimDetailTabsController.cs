@@ -821,6 +821,14 @@ namespace HonanClaimsPortal.Controllers
 
             return Json(liability, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult CloseClaim(string claimId)
+        {
+            ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+            claimServices = new ClaimServices();
+            var response = claimServices.CloseClaim(claimId, login.UserId);
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
     }
 
 }

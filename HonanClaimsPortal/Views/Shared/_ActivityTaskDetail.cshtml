@@ -54,7 +54,7 @@
 </style>
 
 
-@using (Ajax.BeginForm("_ActivityTasksDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", OnFailure= "GetResult_AT_Failure", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("_ActivityTasksDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_AT", OnFailure = "GetResult_AT_Failure", UpdateTargetId = "divFakeActivityTask" }, new { @id = "frmActivityTask", enctype = "multipart/form-data" }))
 {
     @*@Html.ValidationSummary(false)*@
 
@@ -507,7 +507,7 @@
         }
 
         $("#btnWorkFlowComplete").click(function () {
-
+            //piumi
             $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
             $("#nextSeq_wf").val($("#Next_Seq_Dtl_Temp").val());
 
@@ -517,19 +517,70 @@
             if ($("#isActivityCompletionGrid").val() == 'true') {
 
                 $.LoadingOverlay("show");
+                var nextSeqNo;
+                if ($("#nextSeq_wf").val() == "")
+                    nextSeqNo = 0;
+                else
+                    nextSeqNo = $("#nextSeq_wf").val();
+
                 $.ajax({
 
                     url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&actionName=" + $("#action_wf").val()
-                    + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
+                    + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + nextSeqNo + "&nextActivityId=" + $("#nextActivityId_wf").val()
                     + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid").val(), success: function (result) {
-
 
                     },
                     complete: function () {
 
+                        debugger;
                         $.LoadingOverlay("hide");
+                        if (nextSeqNo == 0) {
+                            $.ajax({
+                                url: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + $("#actionSeq_wf").val(), success: function (result2) {
+
+                                    if (result2 != null && result2.length == 0) {
+                                        bootbox.confirm({
+                                            message: "Do you want to Close the Claim ?",
+                                            buttons: {
+                                                confirm: {
+                                                    label: 'Yes',
+                                                    className: 'btn-success'
+                                                },
+                                                cancel: {
+                                                    label: 'No',
+                                                    className: 'btn-danger'
+                                                }
+                                            },
+                                            callback: function (result) {
+                                                if (result == true) {
+                                                    $.ajax({
+                                                        url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+
+                                                            $('#chkClaimClosed').attr('checked', true);
+                                                            $('#txtClaimClosedDate').val(getTodaysDate());
+                                                            $('#ddlStatus').val("Closed");
+
+                                                            $.LoadingOverlay("hide");
+
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                }
+                                //,
+                                //complete: function () {
+
+                                //    $.LoadingOverlay("hide");
+                                //}
+                            });
+                        }
                     }
                 });
+
+                
 
                 RefreshActivityTasksGrid();
                 generateKeyContactsGrid();
@@ -543,6 +594,17 @@
 
 
     });
+
+    function getTodaysDate() {
+        var d = new Date();
+
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        return (('' + day).length < 2 ? '0' : '') + day + '/' +
+            (('' + month).length < 2 ? '0' : '') + month + '/' +
+            d.getFullYear();
+    }
 
     function loadThisTaskDueDate() {
 
