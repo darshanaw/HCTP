@@ -368,7 +368,7 @@
                     } else {
                         var h = End_Time.getHours(), m = End_Time.getMinutes();
                         var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
-                        result.sEnd_Time = _time;
+                        result.sEnd_Time = formatAMPM(End_Time);
                     }
                 }
 
@@ -381,7 +381,7 @@
                     } else {
                         var h = Start_Time.getHours(), m = Start_Time.getMinutes();
                         var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
-                        result.sStart_Time = _time;
+                        result.sStart_Time = formatAMPM(Start_Time);
                     }
                 }
 

@@ -373,7 +373,6 @@
 
         $.ajax({
             url: "/ClaimDetailTabs/GetGetActivityTaskDetailById?activityId=" + activityId, success: function (result) {
-
                 $("#Seq_Dtl").val(result.Seq_Dtl);
                 //if (result.Stage_Dtl == "Received")
                 //    alert(result.Stage_Dtl);

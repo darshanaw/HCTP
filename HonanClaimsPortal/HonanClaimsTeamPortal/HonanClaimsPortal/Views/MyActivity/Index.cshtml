@@ -264,10 +264,17 @@
         if ($("#isActivityCompletionGrid").val() == 'true') {
 
             $.LoadingOverlay("show");
+
+            var nextSeqNo;
+            if ($("#nextSeq_wf").val() == "")
+                nextSeqNo = 0;
+            else
+                nextSeqNo = $("#nextSeq_wf").val();
+
             $.ajax({
 
                 url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&actionName=" + $("#action_wf").val()
-                + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + $("#nextSeq_wf").val() + "&nextActivityId=" + $("#nextActivityId_wf").val()
+                + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + nextSeqNo + "&nextActivityId=" + $("#nextActivityId_wf").val()
                 + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#hdnClaimId").val(), success: function (result) {
 
 
@@ -277,6 +284,10 @@
                     $.LoadingOverlay("hide");
                 }
             });
+
+
+
+
             RefreshActivityTasksGrid();
         }
         $("#ActivityWorkFlowModal").modal('hide');
