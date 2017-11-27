@@ -518,6 +518,7 @@
 
                 $.LoadingOverlay("show");
                 var nextSeqNo;
+                console.log($("#nextSeq_wf").val());
                 if ($("#nextSeq_wf").val() == "")
                     nextSeqNo = 0;
                 else
@@ -528,17 +529,26 @@
                     url: "/ClaimDetailTabs/UpdateNextActivityWorkFlow?activityTaskId=" + $("#activityTaskId_wf").val() + "&actionName=" + $("#action_wf").val()
                     + "&actionSeq=" + $("#actionSeq_wf").val() + "&nextSeq=" + nextSeqNo + "&nextActivityId=" + $("#nextActivityId_wf").val()
                     + "&nextActivityDue=" + $("#txtWorkFlowCompletedDAte").val() + "&claimId=" + $("#H_Claimsid").val(), success: function (result) {
-
+                        //console.log("hit1");
                     },
                     complete: function () {
 
-                        debugger;
-                        $.LoadingOverlay("hide");
+                        RefreshActivityTasksGrid();
+                        generateKeyContactsGrid();
+                        generateKeyDateGrid();
+                       // $.LoadingOverlay("show");
+                       // console.log("hit2");
+                       // console.log("nextSeqNo: " + nextSeqNo);
+                       // debugger;
+                       
                         if (nextSeqNo == 0) {
                             $.ajax({
                                 url: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + $("#actionSeq_wf").val(), success: function (result2) {
-
-                                    if (result2 != null && result2.length == 0) {
+                                    //console.log("hit3");
+                                    //console.log(result2);
+                                    if (result2 !== null && result2.length == 0) {
+                                        $.LoadingOverlay("hide");
+                                        //console.log("hit4");
                                         bootbox.confirm({
                                             message: "Do you want to Close the Claim ?",
                                             buttons: {
@@ -552,6 +562,7 @@
                                                 }
                                             },
                                             callback: function (result) {
+
                                                 if (result == true) {
                                                     $.ajax({
                                                         url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val(), success: function (result) {
@@ -565,6 +576,10 @@
                                                         }
                                                     });
                                                 }
+
+                                                RefreshActivityTasksGrid();
+                                                generateKeyContactsGrid();
+                                                generateKeyDateGrid();
                                             }
                                         });
                                     }
@@ -577,14 +592,18 @@
                                 //}
                             });
                         }
+                        else
+                        {
+                            $.LoadingOverlay("hide");
+                        }
                     }
                 });
 
                 
 
-                RefreshActivityTasksGrid();
-                generateKeyContactsGrid();
-                generateKeyDateGrid();
+                //RefreshActivityTasksGrid();
+                //generateKeyContactsGrid();
+                //generateKeyDateGrid();
             }
 
             $("#ActivityWorkFlowModal").modal('hide');
@@ -656,15 +675,17 @@
             sortable: true,
             dataBound: function (data) {
                 var cnt = $('#gridActivityWorkFlowNextSteps').data('kendoGrid').dataSource.total();
-                if (cnt > 0 && showpopUp)
-                {
+                if (cnt > 0 && showpopUp) {
                     $("#ActivityWorkFlowModal").modal("show");
                     $("#txtWorkFlowCompletedDAte").val("");
                 }
+                else
+                    $("#Next_Seq_Dtl_Temp").val("");
             },
             change: function (e) {
                 var selectedRows = this.select();
                 var selectedDataItems = [];
+               
                 for (var i = 0; i < selectedRows.length; i++) {
                     var dataItem = this.dataItem(selectedRows[i]);
 
