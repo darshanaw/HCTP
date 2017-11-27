@@ -256,7 +256,7 @@
     });
 
     $("#btnWorkFlowComplete").click(function () {
-        debugger;
+      
         $("#Next_Seq_Dtl").val($("#Next_Seq_Dtl_Temp").val());
 
         $("#nextSeq_wf").val($("#Next_Seq_Dtl_Temp").val());
@@ -280,6 +280,56 @@
 
                 },
                 complete: function () {
+
+                    if (nextSeqNo == 0) {
+                        $.ajax({
+                            url: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#hdnClaimId").val() + "&completingActionSeq=" + $("#actionSeq_wf").val(), success: function (result2) {
+                                //console.log("hit3");
+                                //console.log(result2);
+                                if (result2 !== null && result2.length == 0) {
+                                    $.LoadingOverlay("hide");
+                                    //console.log("hit4");
+                                    bootbox.confirm({
+                                        message: "Do you want to Close the Claim ?",
+                                        buttons: {
+                                            confirm: {
+                                                label: 'Yes',
+                                                className: 'btn-success'
+                                            },
+                                            cancel: {
+                                                label: 'No',
+                                                className: 'btn-danger'
+                                            }
+                                        },
+                                        callback: function (result) {
+
+                                            if (result == true) {
+                                                $.ajax({
+                                                    url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#hdnClaimId").val(), success: function (result) {
+
+                                                        //$('#chkClaimClosed').attr('checked', true);
+                                                        //$('#txtClaimClosedDate').val(getTodaysDate());
+                                                        //$('#ddlStatus').val("Closed");
+
+                                                        $.LoadingOverlay("hide");
+
+                                                    }
+                                                });
+                                            }
+
+                                            
+                                        }
+                                    });
+                                }
+
+                            }
+                            //,
+                            //complete: function () {
+
+                            //    $.LoadingOverlay("hide");
+                            //}
+                        });
+                    }
 
                     $.LoadingOverlay("hide");
                 }
@@ -327,6 +377,8 @@
                     $("#ActivityWorkFlowModal").modal("show");
                     $("#txtWorkFlowCompletedDAte").val("");
                 }
+                else
+                    $("#Next_Seq_Dtl_Temp").val("");
             },
             change: function (e) {
                 var selectedRows = this.select();
