@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HonanClaimsWebApi.Models.Claim;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,6 @@ namespace HonanClaimsWebApi.Models.SendEmail
         public string subject { get; set; }
         public string isFileNote { get; set; }
         public string Bcc { get; set; }
+        public List<ClaimAttachmentSimple> FilesSimple { get; set; }
     }
 }
