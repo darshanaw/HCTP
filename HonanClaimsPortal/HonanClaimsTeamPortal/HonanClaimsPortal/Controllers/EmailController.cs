@@ -16,7 +16,7 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
-        public ActionResult EmailWindow(string emailId,string emailAction,string claimRefNo,string claimId)
+        public ActionResult EmailWindow(string emailId,string emailAction,string claimRefNo,string claimId,string toAddress)
         {
             if (!string.IsNullOrEmpty(emailId))
                 ViewBag.EmailId = emailId;
@@ -29,6 +29,9 @@ namespace HonanClaimsPortal.Controllers
 
             if (!string.IsNullOrEmpty(claimId))
                 ViewBag.ClaimIdNo = claimId;
+
+            if (!string.IsNullOrEmpty(toAddress))
+                ViewBag.ToAddress = toAddress;
 
             return View();
         }

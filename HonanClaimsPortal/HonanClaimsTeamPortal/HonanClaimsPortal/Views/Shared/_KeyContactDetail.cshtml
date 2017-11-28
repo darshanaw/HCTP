@@ -259,7 +259,9 @@
         });
 
         $('#aEmail_Address_KCD').click(function () {
-            this.href = "mailto:" + $('#Email_Address_KCD').val() + "?Subject=Claim Reference # " + $("#Claim_Ref_No_KCD").val();
+            //this.href = "mailto:" + $('#Email_Address_KCD').val() + "?Subject=Claim Reference # " + $("#Claim_Ref_No_KCD").val();
+             window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+                 + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Email_Address_KCD').val() , "New Window", "height=710,width=1000");
         });
 
         $(".KeyContactDetailModalClose").click(function () {

@@ -59,6 +59,7 @@
     <li><a href="#tabBillings" data-toggle="tab">Billings</a></li>
     <li><a href="#tabPayments" data-toggle="tab"><div id="paymentsCount" class="pull-right label label-success ml-10"></div><span>Payments</span></a></li>
     <li><a href="#tabFileNotes" data-toggle="tab"><div id="fileNotesCount" class="pull-right label label-success ml-10"></div><span>File Notes</span></a></li>
+    <li><a href="#tabEmails" data-toggle="tab"><div id="emailCount" class="pull-right label label-success ml-10"></div><span>Emails</span></a></li>
 
 </ul>
 
@@ -1054,6 +1055,9 @@ else
     <div class="tab-pane" id="tabFileNotes">
         @Html.Partial("~/Views/Shared/_FileNotes.cshtml", new ViewDataDictionary { { "claimId", Model.H_Claimsid }, { "Claim_Reference_Num", Model.Claim_Reference_Num } })
     </div>
+    <div class="tab-pane" id="tabEmails">
+        @Html.Partial("~/Views/Shared/_Emails.cshtml", null)
+    </div>
 </div>
 <!-- Modal -->
 <div id="AccountModal" class="modal fade AccountModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
@@ -1432,7 +1436,9 @@ else
         }
 
         $('#aEmailClaimant').click(function () {
-            this.href = "mailto:" + $('#Email_Address').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+            //this.href = "mailto:" + $('#Email_Address').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+              window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+                 + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Email_Address').val() , "New Window", "height=710,width=1000");
         });
 
 
@@ -1664,7 +1670,10 @@ else
         });
 
         $('#aInsuredEmail').click(function () {
-            this.href = "mailto:" + $('#Insured_Email').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+            //this.href = "mailto:" + $('#Insured_Email').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
+              window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+                 + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Insured_Email').val() , "New Window", "height=710,width=1000");
+
         });
 
     })
