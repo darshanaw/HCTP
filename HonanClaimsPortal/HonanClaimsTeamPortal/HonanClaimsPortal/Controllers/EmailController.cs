@@ -16,7 +16,7 @@ namespace HonanClaimsPortal.Controllers
             return View();
         }
 
-        public ActionResult EmailWindow(string emailId,string emailAction)
+        public ActionResult EmailWindow(string emailId,string emailAction,string claimRefNo,string claimId)
         {
             if (!string.IsNullOrEmpty(emailId))
                 ViewBag.EmailId = emailId;
@@ -24,13 +24,19 @@ namespace HonanClaimsPortal.Controllers
             if (!string.IsNullOrEmpty(emailAction))
                 ViewBag.Action = emailAction;
 
+            if (!string.IsNullOrEmpty(claimRefNo))
+                ViewBag.ClaimNo = claimRefNo;
+
+            if (!string.IsNullOrEmpty(claimId))
+                ViewBag.ClaimIdNo = claimId;
+
             return View();
         }
 
-        public async Task<ActionResult> GetClaimEmails(string claimId)
+        public async Task<ActionResult> GetClaimEmails(string claimId,string filterText)
         {
             EmailServices emailService = new EmailServices();
-            return Json(await emailService.GetAllClaimEmails(claimId), JsonRequestBehavior.AllowGet);
+            return Json(await emailService.GetAllClaimEmails(claimId, filterText), JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetClaimEmail(string emailId,bool withAttachments)

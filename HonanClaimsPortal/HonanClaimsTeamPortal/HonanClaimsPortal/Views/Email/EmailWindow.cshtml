@@ -50,6 +50,9 @@
 @{
     string emailId = string.Empty;
     string action = string.Empty;
+    string claimNumber = string.Empty;
+    string claimIdNo = string.Empty;
+
     string visibility = "visible";
     if (ViewBag.EmailId != null)
     {
@@ -59,6 +62,16 @@
     if (ViewBag.Action != null)
     {
         action = ViewBag.Action;
+    }
+
+    if (ViewBag.ClaimNo != null)
+    {
+        claimNumber = ViewBag.ClaimNo;
+    }
+
+    if (ViewBag.ClaimIdNo != null)
+    {
+        claimIdNo = ViewBag.ClaimIdNo;
     }
 
     if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
@@ -75,6 +88,9 @@
     <title>This is the Email Window</title>
 </head>
 <body>
+
+    <input type="hidden" id="Claim_Reference_Num">
+
     <div class="top-padding-eight col-sm-12 col-md-12 mb-15">
         <div class="top-padding-eight col-sm-12 col-md-12">
 
@@ -241,6 +257,7 @@
     var widget2 = $("#CClist").data("kendoAutoComplete");
     var emptyemail = new Array();
     var filearray = new Array();
+    var existingfilearray = new Array();
     var multiselectClaim = $("#claim").data("kendoMultiSelect");
 
     $(document).ready(function () {
@@ -252,9 +269,9 @@
 
         bindToinputs(emptyemail);
 
-        $.get("/Home/GetAllClaimsOfTeams", function (data) {
-            loadClaimList(data);
-        });
+        //$.get("/Home/GetAllClaimsOfTeams", function (data) {
+        //    loadClaimList(data);
+        //});
 
         $("#attachEmails").click(function () {
             $("#emailattach").click();
@@ -262,7 +279,6 @@
 
 
         $("#emailattach").change(function (input) {
-
             var file1 = $('#emailattach').get(0).files;
             if (file1 != null) {
                 jQuery.each(file1, function (i, file) {
@@ -274,6 +290,14 @@
             ele = document.getElementById('emailattach');
             ele.value = null;
             $('#attachmetHolder').empty();
+
+            $.each(existingfilearray, function (i, item) {
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+
+            });
 
             $.each(filearray, function (i, item) {
 
@@ -296,6 +320,15 @@
             });
 
             $('#attachmetHolder').empty();
+
+            $.each(existingfilearray, function (i, item) {
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+
+            });
+
             $.each(filearray, function (i, item) {
 
                 $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
@@ -352,6 +385,33 @@
 
         $("#forwardAction").click(function () {
             window.location.href = "/Email/EmailWindow?emailId=" + "@emailId" + "&emailAction=Forward" ;
+        });
+
+
+        $(document).delegate('.removeExistingItem', 'click', function (e) {
+            //id = e.target.id;
+            id = $(this).attr("id");
+            existingfilearray = jQuery.grep(existingfilearray, function (i, value) {
+                return value != id;
+            });
+
+            $('#attachmetHolder').empty();
+            $.each(existingfilearray, function (i, item) {
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+
+            });
+
+            $.each(filearray, function (i, item) {
+
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.name + '</small></span></div></div></div>');
+
+            });
         });
 
         initEmail();
@@ -465,12 +525,12 @@
 
 
     function loadClaimList(listdata) {
-
+        debugger;
         $("#claim").kendoMultiSelect({
 
             dataTextField: "Text",
             dataValueField: "Code",
-            autoBind: false,
+            autoBind: true,
             minlength: 5,
             deselect: onDeselect,
             select: onSelect,
@@ -502,7 +562,7 @@
         }
 
         function onSelect(e) {
-
+            debugger;
             $.LoadingOverlay("show");
 
             var dataItem = e.dataItem;
@@ -526,7 +586,7 @@
     };
 
     function sendEmail(list, subject) {
-
+        debugger;
         var toArr = [], ccArr = [];
         var control = $("#Tolist").data("kendoAutoComplete");
         toArr = control.value().split(',');
@@ -553,7 +613,8 @@
             CcEmails: ccArr,
             ClaimIds: list,
             subject: subject,
-            isFileNote: false
+            isFileNote: false,
+            FilesSimple: existingfilearray
         }
 
         var body = $('#summernote').summernote('code');
@@ -565,7 +626,9 @@
 
         var t = JSON.stringify(model);
 
-        var encodedString = btoa(body);
+        //var encodedString =  btoa(body);
+        var encodedString =  btoa(unescape(encodeURIComponent(body)));
+
         formData.append("model", t);
         formData.append("html", encodedString);
 
@@ -588,13 +651,11 @@
 
 
     function initEmail() {
-
         if ("@emailId" != "") {
             $.LoadingOverlay("show");
             $.ajax({
-                url: "/Email/GetClaimEmail?emailId=" + "@emailId" + "&withAttachments=true", success: function (result) {
+                url: "/Email/GetClaimEmail?emailId=" + "@emailId" + "&withAttachments=false", success: function (result) {
                     if (result != null) {
-                        debugger;
 
                         $("#emailFrom").text(result.FromEmail);
                         $("#emailTo").text(result.To);
@@ -602,19 +663,66 @@
                         $("#emailSubject").text(result.Subject);
                         $('#emailBody').append(result.EmailBody);
                         $("#emailClaim").text(result.ClaimNo);
+
+                        if ("@action" == "") {
+                            $('#attachmetHolder').empty();
+                            if (result.FilesSimple.length > 0) {
+
+                                $.each(result.FilesSimple, function (i, item) {
+                                    var name = "'" + item.AttachmentName + "'";
+                                    var description = "'" + item.AttachmentDescription + "'";
+
+                                    $('#attachmetHolder').append('<div onclick="downloadAttachment(' + name + ',' + description + ')" class="col-md-3 mb-10"><div style="cursor: pointer;" class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                                        '<div class="clearfix discover"><div class="pull-right"></div><span><a href="#" class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                                        '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+                                });
+                            }
+                        }
+                        else if ("@action" == "Forward") {
+                            $('#attachmetHolder').empty();
+
+                            $.each(result.FilesSimple, function (i, item) {
+                                debugger;
+                                existingfilearray.push(item);
+                                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+                            });
+
+                           
+                        }
                     }
                 }
             });
 
             $.LoadingOverlay("hide");
         }
+        else {
+
+            if ("@claimNumber" !== "" && "@claimIdNo" !== "") {
+                $("#Claim_Reference_Num").val("@claimNumber");
+                loadClaimList(null);
+                var claimMultiselect = $("#claim").data("kendoMultiSelect");
+                claimMultiselect.value(["@claimIdNo"]);
+
+                var obj = { Text:"@claimNumber", Code:"@claimIdNo"};
+                loadEmails(obj, false);
+
+                if ($("#subject").val() == "") {
+                    $("#subject").val("Claim Ref # " + " [" + "@claimNumber" + "]");
+                }
+
+            } else {
+                loadClaimList(null);
+            }
+
+        }
 
         if ("@action" != "") {
             $.LoadingOverlay("show");
 
             var withAttachments = false;
-            if ("@action" == "Forward")
-                withAttachments = true;
 
             $.ajax({
                 url: "/Email/GetClaimEmail?emailId=" + "@emailId" + "&withAttachments=" + withAttachments, success: function (result) {
@@ -622,8 +730,12 @@
 
                         $('#summernote').summernote('code', "<br/><hr style='border-width: 3px;'>" + result.EmailBody);
 
+                        $("#Claim_Reference_Num").val(result.ClaimNo);
+                        loadClaimList(null);
                         var claimMultiselect = $("#claim").data("kendoMultiSelect");
+                        console.log(result.ClaimId);
                         claimMultiselect.value([result.ClaimId]);
+
                         list.push(result.ClaimId);
                         $('#Tolist').prop('disabled', false);
                         $('#CClist').prop('disabled', false);
@@ -635,19 +747,18 @@
                                 subjectPrefix = "RE: ";
 
                                 widget = $("#Tolist").data("kendoAutoComplete");
-                                widget.value(result.To);
+                                widget.value(result.FromEmail);
                                 break;
 
                             case "ReplyAll":
                                 subjectPrefix = "RE: ";
 
                                 widget = $("#Tolist").data("kendoAutoComplete");
-                                widget.value(result.To);
+                                widget.value(result.FromEmail + "," + result.To);
 
                                 widget = $("#CClist").data("kendoAutoComplete");
                                 widget.value(result.CC);
 
-                                debugger;
                                 var ccArr = result.CC.split(',');
                                 for (var i = 0; i < ccArr.length; i++) {
                                     CClist.push(ccArr[i]);
@@ -669,6 +780,10 @@
         }
     };
 
+
+    function downloadAttachment(name, description) {
+        window.location.href = "/ClaimDetailTabs/FileDownloadByFileName?fileName=" + name + "&fileRealName=" + description;
+    }
 
 </script>
 

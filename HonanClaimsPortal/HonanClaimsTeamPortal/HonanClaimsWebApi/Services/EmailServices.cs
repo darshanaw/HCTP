@@ -13,13 +13,13 @@ namespace HonanClaimsWebApi.Services
 {
     public class EmailServices
     {
-        public async Task<List<EmailSimple>> GetAllClaimEmails(string claimId)
+        public async Task<List<EmailSimple>> GetAllClaimEmails(string claimId,string filterText)
         {
             try
             {
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + "api/General/GetClaimEmails?claimId=" + claimId);
+                    ConfigurationManager.AppSettings["apiurl"] + "api/General/GetClaimEmails?claimId=" + claimId + "&filterText=" + filterText);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 

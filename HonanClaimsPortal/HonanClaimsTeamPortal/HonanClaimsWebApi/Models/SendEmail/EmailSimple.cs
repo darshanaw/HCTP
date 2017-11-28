@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HonanClaimsWebApi.Models.Claim;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,6 @@ namespace HonanClaimsWebApi.Models.SendEmail
         public string CC { get; set; }
         public string ClaimId { get; set; }
         public List<HttpPostedFile> Files { get; set; }
+        public List<ClaimAttachmentSimple> FilesSimple { get; set; }
     }
 }
