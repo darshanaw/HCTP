@@ -243,9 +243,9 @@
                                         <a href="/NewContactAccount/Index" class="list-group-item">
                                             <small>New Contact/Account</small>
                                         </a>
-                                        <a href="#" onclick="openEmailWindow()" class="list-group-item">
+                                        @*<a href="#" onclick="openEmailWindow()" class="list-group-item">
                                             <small>New Email Window</small>
-                                        </a>
+                                        </a>*@
 
                                     </div>
                                     <!-- END list group-->
@@ -1475,7 +1475,8 @@
         });
 
         $('#emialclick').click(function () {
-            OpenEmailWindow();
+            //OpenEmailWindow();
+             window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() + "&claimId=" + $("#H_Claimsid").val(), "New Window", "height=710,width=1000");
         });
 
         $('#sendemail, #sendmail').click(function () {

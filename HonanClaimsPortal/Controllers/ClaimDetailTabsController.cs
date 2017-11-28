@@ -829,6 +829,15 @@ namespace HonanClaimsPortal.Controllers
             var response = claimServices.CloseClaim(claimId, login.UserId);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadEmails(IEnumerable<HttpPostedFileBase> files, string claimId, string userId)
+        {
+            DocumentService service = new DocumentService();
+            var result = await service.UploadEmails(claimId, userId, files);
+            return Json(result.IsSuccess, JsonRequestBehavior.AllowGet);
+
+        }
     }
 
 }

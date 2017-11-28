@@ -52,6 +52,7 @@
     string action = string.Empty;
     string claimNumber = string.Empty;
     string claimIdNo = string.Empty;
+    string toAddress = string.Empty;
 
     string visibility = "visible";
     if (ViewBag.EmailId != null)
@@ -74,6 +75,11 @@
         claimIdNo = ViewBag.ClaimIdNo;
     }
 
+    if (ViewBag.ToAddress != null)
+    {
+        toAddress = ViewBag.ToAddress;
+    }
+
     if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
     {
         visibility = "hidden";
@@ -85,7 +91,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>This is the Email Window</title>
+    <title>Honan CTP Email Client</title>
 </head>
 <body>
 
@@ -571,7 +577,8 @@
             loadEmails(dataItem, false);
 
             if ($("#subject").val() == "") {
-                $("#subject").val("Claim Ref # " + " [" + dataItem.Text + "]");
+                if( dataItem.Text !== null &&  dataItem.Text != "")
+                    $("#subject").val("Claim Ref # " + " [" + dataItem.Text + "]");
             }
 
             $.LoadingOverlay("hide");
@@ -690,7 +697,7 @@
                                     '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
                             });
 
-                           
+
                         }
                     }
                 }
@@ -699,7 +706,6 @@
             $.LoadingOverlay("hide");
         }
         else {
-
             if ("@claimNumber" !== "" && "@claimIdNo" !== "") {
                 $("#Claim_Reference_Num").val("@claimNumber");
                 loadClaimList(null);
@@ -710,8 +716,12 @@
                 loadEmails(obj, false);
 
                 if ($("#subject").val() == "") {
-                    $("#subject").val("Claim Ref # " + " [" + "@claimNumber" + "]");
+                     if("@claimNumber" !== "undefined" && "@claimNumber" != "")
+                         $("#subject").val("Claim Ref # " + " [" + "@claimNumber" + "]");
                 }
+
+                 var toControl = $("#Tolist").data("kendoAutoComplete");
+                 toControl.value("@toAddress");
 
             } else {
                 loadClaimList(null);

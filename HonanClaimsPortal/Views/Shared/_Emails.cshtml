@@ -28,6 +28,9 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading"> <h3 class="panel-title">Emails</h3> </div> <div class="panel-body">
+                    <div class="col-md-12 mb-15 pl-0 pr-0">
+                        <input type="file" name="files" id="externalEmails" />
+                    </div>
                     <div class="col-md-8 mb-15 pl-0 pr-0">
                         <input class="form-control input-sm" placeholder="Filter Emails" id="txtFilterEmails" />
                     </div>
@@ -53,7 +56,7 @@
         </div>
         <div class="col-md-8">
             <div class="panel panel-info">
-                <div class="panel-heading"> <h3 class="panel-title">Preview Pane</h3> </div> <div class="panel-body">
+                <div class="panel-heading"> <h3 class="panel-title">Preview Pane</h3> </div> <div id="previewPane" class="panel-body">
 
                     <div class="top-padding-eight col-sm-12 col-md-12 mb-15">
                         <div class="top-padding-eight col-sm-12 col-md-12">
@@ -176,6 +179,11 @@
                 });
 
                 $('#emailTable tr:first-child').trigger('click');
+
+                if($('#emailTable tr').length == 0)
+                     $("#previewPane").hide();
+                else
+                     $("#previewPane").show();
             },
         });
 
@@ -229,9 +237,33 @@
         });
 
 
+         $("#externalEmails").kendoUpload({
+            async: {
+                saveUrl: '@Url.Action("UploadEmails", "ClaimDetailTabs")',
+                //removeUrl: '@Url.Action("", "ClaimDetailTabs")',
+                autoUpload: false
+            },
+             validation: {
+                    allowedExtensions: [".msg",".eml"]
+                },
+             localization: {
+                select: 'Select Email Files...',
+            },
+            upload: function (e) {
+                e.data = { claimId: $("#H_Claimsid").val(), userId: '@userObj.UserId' };
+            },
+            complete: onCompleteAttachmentUpload
+        });
 
 
     });
+
+
+     function onCompleteAttachmentUpload()
+    {
+        $(".k-widget.k-upload").find("ul").remove();
+         loadEmailsNew("");
+    }
 
     function openEmail(emailId) {
 
@@ -279,6 +311,9 @@
             url: "/Email/GetClaimEmails?claimId=" + $("#H_Claimsid").val() + "&filterText=" + filterText, success: function (result) {
                 $.each(result, function (i, item) {
 
+                    if(filterText == "")
+                        $("#emailCount").text(result.length);
+
                     var id = "'" + item["H_ClaimEmailsId"] + "'";
                     var fromStr = "From: " + item["FromEmail"];
                     var toStr = "To: " + item["To"];
@@ -295,6 +330,11 @@
                 });
 
                 $('#emailTable tr:first-child').trigger('click');
+
+                 if($('#emailTable tr').length == 0)
+                     $("#previewPane").hide();
+                else
+                     $("#previewPane").show();
             },
             complete: function () {
                 $.LoadingOverlay("hide");

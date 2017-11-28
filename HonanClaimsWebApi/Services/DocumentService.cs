@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -757,6 +758,62 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        
+
+        public async Task<ExecutionResult> UploadEmails(string claimId, string userId, IEnumerable<HttpPostedFileBase> upfiles)
+        {
+            string responseClaimId = "";
+            exeReult = new ExecutionResult();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    using (var formData = new MultipartFormDataContent())
+                    {
+
+                        if (upfiles != null)
+                        {
+                            foreach (HttpPostedFileBase item in upfiles)
+                            {
+                                if (item != null)
+                                {
+                                    //formData.Add(new StreamContent(item.InputStream), "Attachment", item.FileName);
+                                    formData.Add(CreateFileContent(item.InputStream, item.FileName, item.ContentType));
+                                }
+                            }
+                        }
+
+                        var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + "api/General/UploadEmails?claimId=" + claimId +
+                    "&userId=" + userId, formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                    }
+                }
+
+                exeReult.ResultObject = responseClaimId;
+                exeReult.IsSuccess = true;
+                exeReult.IsFailure = false;
+                return exeReult;
+
+            }
+            catch (Exception e)
+            {
+                exeReult.IsFailure = true;
+                exeReult.IsSuccess = false;
+                throw e;
+            }
+
+        }
+
+        private StreamContent CreateFileContent(Stream stream, string fileName, string contentType)
+        {
+            var fileContent = new StreamContent(stream);
+            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                Name = "\"files\"",
+                FileName = "\"" + fileName + "\""
+            }; // the extra quotes are key here
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            return fileContent;
+        }
+
     }
 }

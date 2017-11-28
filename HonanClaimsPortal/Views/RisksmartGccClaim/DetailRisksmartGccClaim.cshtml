@@ -1648,14 +1648,18 @@ else
 
         $('#aEmailClaimant').click(function () {
             //this.href = "mailto:" + $('#Email_Address').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
-            OpenEmailWindow();
-            setClaimantEmail();
+            //OpenEmailWindow();
+            //setClaimantEmail();
+             window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+                 + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Email_Address').val() , "New Window", "height=710,width=1000");
         });
 
         $('#aInsuredEmail').click(function () {
             //this.href = "mailto:" + $('#Insured_Email').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
-            OpenEmailWindow();
-            setInsuredEmail();
+            //OpenEmailWindow();
+            //setInsuredEmail();
+              window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+                 + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Insured_Email').val() , "New Window", "height=710,width=1000");
         });
 
 
