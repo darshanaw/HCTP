@@ -601,14 +601,15 @@
                 //editor: customDateEditor
             },
             {
+                 title: "Complete",
                 //template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
                 template: "<input onclick=\"InvokeNextSteps(this,'#= Seq #','#= ActivityTaskId #','#= Action #', '#= ClaimId #');\" type='checkbox' #if(Complete==true){ #checked disabled# } else { ## }# />"
             },
-            {
-                field: "CompletedDate",
-                title: "Completed Date",
-                template: "#if(CompletedDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(CompletedDate), 'dd/MM/yyyy') #  #}#"
-            },
+            //{
+            //    field: "CompletedDate",
+            //    title: "Completed Date",
+            //    template: "#if(CompletedDate === null){#  #}else{# #= kendo.toString(kendo.parseDate(CompletedDate), 'dd/MM/yyyy') #  #}#"
+            //},
             ],
             dataBound: function (e) {
 
