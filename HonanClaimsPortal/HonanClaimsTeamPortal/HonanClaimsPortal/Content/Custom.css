@@ -87,6 +87,10 @@
     cursor: default !important;
 }
 
+.left-menu-item:hover{
+    cursor: default !important;
+}
+
 /*.tooltip {
     position: relative;
     opacity: 0;

@@ -30,7 +30,7 @@
     <link href="~/Content/Overlay.css?v1.1" rel="stylesheet" />
 
     <!--Kendo-->
-   <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
     <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-bootstrap.min.css">
@@ -38,11 +38,11 @@
     <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
 
     @*<link href="~/Content/Kendo/kendo.common-material.min.css" rel="stylesheet" />
-     <link href="~/Content/Kendo/kendo.material.min.css" rel="stylesheet" />
-    <link href="~/Content/Kendo/kendo.material.mobile.min.css" rel="stylesheet" />
-     <link href="~/Content/Kendo/kendo.common-bootstrap.min.css" rel="stylesheet" />
-     <link href="~/Content/Kendo/kendo.bootstrap.min.css" rel="stylesheet" />
-    <script src="~/Scripts/Kendo/kendo.all.min.js"></script>*@
+         <link href="~/Content/Kendo/kendo.material.min.css" rel="stylesheet" />
+        <link href="~/Content/Kendo/kendo.material.mobile.min.css" rel="stylesheet" />
+         <link href="~/Content/Kendo/kendo.common-bootstrap.min.css" rel="stylesheet" />
+         <link href="~/Content/Kendo/kendo.bootstrap.min.css" rel="stylesheet" />
+        <script src="~/Scripts/Kendo/kendo.all.min.js"></script>*@
 
 
     <link href="~/Content/style.css" rel="stylesheet" />
@@ -244,8 +244,8 @@
                                             <small>New Contact/Account</small>
                                         </a>
                                         @*<a href="#" onclick="openEmailWindow()" class="list-group-item">
-                                            <small>New Email Window</small>
-                                        </a>*@
+                                                <small>New Email Window</small>
+                                            </a>*@
 
                                     </div>
                                     <!-- END list group-->
@@ -350,15 +350,13 @@
                                 HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
                         }
 
-                     
-                        <li class="left-menu-item">
+                        <li id="liClaimList" class="left-menu-item">
                             <a href="/claimlist/Index" title="Claims" class="left-menu-item">
                                 <div id="assignedClaimCount" class="pull-right label label-success"></div>
                                 <em class="icon-briefcase"></em>
                                 <span>Claims</span>
                             </a>
                         </li>
-
                         <li class=" ">
                             <a href="/Myactivity/Index" title="My Activities" class="left-menu-item">
                                 <div id="activityCount" class="pull-right label label-success"></div>
@@ -407,7 +405,7 @@
                                     @if (login.IsPortalAdmin == true)
                                     {
                                         <li class=" ">
-                                            <a href="/AdminList/AdminList" title="Portal Admin" class="left-menu-item"> 
+                                            <a href="/AdminList/AdminList" title="Portal Admin" class="left-menu-item">
                                                 <div id="portalRegCount" class="pull-right label label-success"></div>
                                                 <span>Portal Admin</span>
                                             </a>
@@ -996,14 +994,14 @@
                             </div>
                         </div>
 
-                        <div class="top-padding col-md-12" hidden>   
+                        <div class="top-padding col-md-12" hidden>
                             <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-11">
-                                    <input type="checkbox" hidden checked id="chkAddToFileNote_WebMAil" name="chkAddToFileNote_WebMAil" />
-                                    <label >Add to File Note</label>
-                                </div>
                             </div>
+                            <div class="col-sm-11">
+                                <input type="checkbox" hidden checked id="chkAddToFileNote_WebMAil" name="chkAddToFileNote_WebMAil" />
+                                <label>Add to File Note</label>
+                            </div>
+                        </div>
 
                         <div class="top-padding col-md-12">
                             <div id="EmailEdit">
@@ -1091,7 +1089,7 @@
     </div>
 </div>
 
-     <!-- Modal -->
+<!-- Modal -->
 <div id="AccountTimeslipDetailModal" class="modal fade AccountTimeslipDetailModal" role="dialog" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -1408,7 +1406,7 @@
 
             $("#ClaimReferenceNumbersModal").modal('hide');
         });
-      
+
         $('#successshow').hide();
 
         $('#closemod').click(function () {
@@ -1416,7 +1414,7 @@
         })
 
         $("#emailattach").change(function (input) {
-           
+
             var file1 = $('#emailattach').get(0).files;
             if (file1 != null) {
                 jQuery.each(file1, function (i, file) {
@@ -1438,7 +1436,7 @@
         });
 
         $(document).delegate('.fa-trash-o', 'click', function (e) {
-           
+
             id = e.target.id;
             filearray = jQuery.grep(filearray, function (i, value) {
                 return value != id;
@@ -1665,8 +1663,12 @@
         //    $("#sendEmailModal").modal('hide');
         //}
 
+        $("#liClaimList").click(function(){
+            winndow.location.href("/claimlist/Index");
+        });
 
-       
+        //$('li#liClaimList').wrapAll('<div id="liClaimListDiv" />')
+
     });
 
 
@@ -1729,7 +1731,7 @@
                         }
                     }
                 },
-               
+
             }
         });
 
