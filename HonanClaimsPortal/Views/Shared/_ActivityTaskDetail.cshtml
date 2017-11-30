@@ -397,7 +397,7 @@
 
         $('#aEmailClaimant_ActivityTask').click(function () {
             //this.href = "mailto:" + $('#Email_Dtl').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
-             window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+             window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val()
                  + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Email_Dtl').val() , "New Window", "height=710,width=1000");
         });
 
@@ -542,7 +542,7 @@
                        // console.log("hit2");
                        // console.log("nextSeqNo: " + nextSeqNo);
                        // debugger;
-                       
+
                         if (nextSeqNo == 0) {
                             $.ajax({
                                 url: "/ClaimDetailTabs/AjaxActivityWorkFlowLoad?claimId=" + $("#H_Claimsid").val() + "&completingActionSeq=" + $("#actionSeq_wf").val(), success: function (result2) {
@@ -601,7 +601,7 @@
                     }
                 });
 
-                
+
 
                 //RefreshActivityTasksGrid();
                 //generateKeyContactsGrid();
@@ -687,7 +687,7 @@
             change: function (e) {
                 var selectedRows = this.select();
                 var selectedDataItems = [];
-               
+               debugger;
                 for (var i = 0; i < selectedRows.length; i++) {
                     var dataItem = this.dataItem(selectedRows[i]);
 
@@ -701,6 +701,7 @@
                 }
                 // selectedDataItems contains all selected data items
             },
+            //change:activityTaskDetailOnChange,
             columns: [
                 {
                     field: "ActivityTaskId",
@@ -739,10 +740,25 @@
                 }
             ]
         });
-
-
-
     }
+
+    //function activityTaskDetailOnChange(arg){
+    //    debugger;
+    //    var obj = arg.sender.dataItem(arg.sender.select());
+
+    //    //debugger;
+    //    //var selected = $.map(this.select(), function(item) {
+    //    //                var t = this.dataItem(item);
+    //    //                return item.cells[0].innerText; //$(item).text();
+    //    //            });
+
+
+    //     getNextTaskDueDate(obj.ActivityTaskId);
+
+    //    $("#Next_Seq_Dtl_Temp").val(obj.Seq_Act);
+    //    $("#nextActivityId_wf").val(obj.ActivityTaskId);
+    //    $("#nextActivityDue_wf").val(obj.DueDate_Act);
+    //};
 
     function getNextTaskDueDate(nextTaskId) {
 

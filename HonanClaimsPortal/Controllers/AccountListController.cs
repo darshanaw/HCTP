@@ -59,7 +59,12 @@ namespace HonanClaimsPortal.Controllers
 
             //Get Suburbs
             PropertyStateList = new PicklistServicecs();
-            model.BillingMethods = pickListServices.GetPickListItems("Honan Billing Method");
+            //model.BillingMethods = pickListServices.GetPickListItems("Honan Billing Method");
+            model.BillingMethods = new List<PicklistItem>();
+            model.BillingMethods.Add(new PicklistItem() { Text = "Per Hour", Code = "Per Hour" });
+            model.BillingMethods.Add(new PicklistItem() { Text = "Per Claim", Code = "Per Claim" });
+            model.BillingMethods.Add(new PicklistItem() { Text = "Per Annum", Code = "Per Annum" });
+            model.BillingMethods.Add(new PicklistItem() { Text = "No Billing", Code = "No Billing" });
             //model.BillingMethods.Insert(0, new PicklistItem());
 
 
