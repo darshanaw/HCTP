@@ -1121,7 +1121,7 @@
     var emptyemailnew = new Array();
 
     function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
-
+        debugger;
         var newClaimRef = "";
         var newClaimId = "";
 
@@ -1230,9 +1230,8 @@
                 }
 
                 if ($("#Units").val() < 1) {
-
-                    $("#Units").prop("readonly", false);
-                    $("#Units").removeClass("disabled");
+                    //$("#Units").prop("readonly", true);
+                    //$("#Units").addClass("disabled");
                 }
                 else {
                     $("#Units").prop("readonly", true);
