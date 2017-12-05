@@ -267,6 +267,17 @@
                                     <!-- START list group-->
                                     <div class="list-group">
                                         <!-- list item-->
+                                        <a href="javascript:void(0);" id="emailSignature" class="list-group-item">
+                                            <div class="media-box">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-pencil-square fa-2x text-success"></em>
+                                                </div>
+                                                <div class="media-box-body clearfix">
+                                                    <p class="m-sm">Email Auto Signature</p>
+                                                </div>
+                                            </div>
+                                        </a>
+
                                         <a href="javascript:void(0);" onclick="return noTimerRunning();" class="list-group-item">
                                             <div class="media-box">
                                                 <div class="pull-left">
@@ -277,6 +288,9 @@
                                                 </div>
                                             </div>
                                         </a>
+
+                                        
+
                                     </div>
                                     <!-- END list group-->
                                 </li>
@@ -1059,6 +1073,10 @@
         </div>
 
 
+    
+
+
+
         @*
             <script src="~/Scripts/globalize.js"></script>
             <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
@@ -1102,6 +1120,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default AccountTimeslipDetailModal_Close" id="AccountTimeslipDetailModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="width:100%" id="EmailSignatureModel" class="modal fade EmailSignatureModel" role="dialog" data-backdrop="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Email Auto Signature</h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderAction("EmailSignature", "Email");}
             </div>
         </div>
     </div>
@@ -1667,6 +1700,27 @@
         });
 
         //$('li#liClaimList').wrapAll('<div id="liClaimListDiv" />')
+
+        $("#emailSignature").click(function () {
+
+            $.ajax({
+                url: "/Email/GetEmailSignature", success: function (result) {
+                    debugger;
+                    if (result != null) {
+
+                        $("#ApplyOnNewEmails").prop('checked', result.ApplyOnNewEmails);
+                        $("#ApplyOnReplies").prop('checked', result.ApplyOnReplies);
+                        $("#ApplyOnForwards").prop('checked', result.ApplyOnForwards);
+                        $("#EmailSignatureId").val(result.EmailSignatureId);
+                        $("#signatureBox").summernote('code', result.Signature);
+
+                        $("#EmailSignatureModel").modal('show');
+                    }
+                }
+            });
+
+            
+        });
 
     });
 

@@ -1,0 +1,116 @@
+﻿@model HonanClaimsWebApi.Models.SendEmail.EmailSignature
+
+@{
+    ViewBag.Title = "EmailSignature";
+    Layout = null;
+}
+
+<link href="~/Content/summerNote/dist/summernote.css" rel="stylesheet" />
+<script src="~/Content/summerNote/dist/summernote.js"></script>
+
+@using (Ajax.BeginForm("EmailSignature", "Email", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divFakePayment" }, new { id = "formEmailSignature", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(o => o.EmailSignatureId);
+    <div class="col-md-4">
+        <label class="checkbox-inline">
+            @Html.CheckBoxFor(o => o.ApplyOnNewEmails)
+            <label class="input-sm" style="padding-top: 0px">Apply On New Emails</label>
+        </label>
+    </div>
+    <div class="col-md-4">
+        <label class="checkbox-inline">
+            @Html.CheckBoxFor(o => o.ApplyOnReplies)
+            <label class="input-sm" style="padding-top: 0px">Apply On Replies</label>
+        </label>
+    </div>
+    <div class="col-md-4">
+        <label class="checkbox-inline">
+            @Html.CheckBoxFor(o => o.ApplyOnForwards)
+            <label class="input-sm" style="padding-top: 0px">Apply On Forwards</label>
+        </label>
+    </div>
+    <div class="col-md-12">
+        <div id="signatureBox"></div>
+    </div>
+    <div class="col-md-12 text-right">
+        <button type="button" onclick="closeEmailSignature()" class="mb-sm btn btn-default">Cancel</button>
+        <button id="btnSaveEmailSignature" type="button" class="mb-sm btn btn-primary">Save</button>
+    </div>
+}
+
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+<!--Bootbox-->
+<script src="~/Scripts/bootbox.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        //$.LoadingOverlay("show");
+        $('#signatureBox').summernote({
+            height: 370,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']]
+            ]
+        });
+
+
+
+        $('#btnSaveEmailSignature').click(function () {
+
+            if ($('#signatureBox').summernote('code') == "") {
+                bootbox.alert("Please specify the Email Signature before saving");
+            }
+            else
+                saveUpdateSignature();
+        });
+
+    });
+
+    function closeEmailSignature() {
+        $('#signatureBox').summernote('code', '');
+        $("#ApplyOnNewEmails").attr('checked', false); 
+        $("#ApplyOnReplies").attr('checked', false); 
+        $("#ApplyOnForwards").attr('checked', false); 
+        $('#EmailSignatureModel').modal('hide');
+    }
+
+    function saveUpdateSignature() {
+        $.LoadingOverlay("show");
+        var model = {
+            ApplyOnNewEmails: $("#ApplyOnNewEmails").is(':checked'),
+            ApplyOnReplies: $("#ApplyOnReplies").is(':checked'),
+            ApplyOnForwards: $("#ApplyOnForwards").is(':checked'),
+            EmailSignatureId: $("#EmailSignatureId").val(),
+            Signature: btoa(unescape(encodeURIComponent($('#signatureBox').summernote('code')))) 
+        };
+
+        var t = JSON.stringify(model);
+
+        var fromDataEmailSign = new FormData();
+        fromDataEmailSign.append("model", t);
+
+        $.ajax({
+            url: "/Email/InsertUpdateEmailSignature",
+            type: 'post',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: fromDataEmailSign,
+            success: function (data) {
+                $.LoadingOverlay("hide");
+                if (data)
+                    closeEmailSignature();
+            }
+        });
+
+    }
+
+</script>

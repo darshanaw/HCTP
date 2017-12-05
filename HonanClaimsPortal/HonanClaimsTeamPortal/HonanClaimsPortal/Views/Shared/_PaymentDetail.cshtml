@@ -799,6 +799,20 @@
         $("#btnSendPaymentEmail").click(function () {
             $("#subjectPayment").val("Claim Ref [" + $("#ClaimRefNo_Payment").val() + "]");
             $("#emailToPayment").val($("#payment_email").val());
+
+            $.LoadingOverlay("show");
+
+            $.ajax({
+                url: "/Email/GetEmailSignature", success: function (res) {
+                    if (res != null && res.ApplyOnNewEmails) {
+                        var editor = $("#editorPayment").data("kendoEditor");
+                        editor.value("<br/><br/>" + res.Signature);
+                    }
+                    $.LoadingOverlay("hide");
+                }
+            });
+
+
             $('#sendPaymentEmailModal').modal('show');
         });
 

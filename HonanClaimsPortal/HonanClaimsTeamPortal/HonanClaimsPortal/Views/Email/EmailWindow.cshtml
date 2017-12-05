@@ -658,6 +658,7 @@
 
 
     function initEmail() {
+        debugger;
         if ("@emailId" != "") {
             $.LoadingOverlay("show");
             $.ajax({
@@ -727,6 +728,16 @@
                 loadClaimList(null);
             }
 
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: "/Email/GetEmailSignature", success: function (res) {
+                    if (res != null && res.ApplyOnNewEmails)
+                        $("#summernote").summernote('code', "<br/><br/>" + res.Signature);
+
+                    $.LoadingOverlay("hide");
+                }
+            });
+
         }
 
         if ("@action" != "") {
@@ -750,38 +761,47 @@
                         $('#Tolist').prop('disabled', false);
                         $('#CClist').prop('disabled', false);
 
-                        var subjectPrefix;
-                        var widget;
-                        switch ("@action") {
-                            case "Reply":
-                                subjectPrefix = "RE: ";
+                        $.ajax({
+                            url: "/Email/GetEmailSignature", success: function (signatureResult) {
+                                 var subjectPrefix;
+                                    var widget;
+                                    switch ("@action") {
+                                        case "Reply":
+                                            subjectPrefix = "RE: ";
+                                            widget = $("#Tolist").data("kendoAutoComplete");
+                                            widget.value(result.FromEmail);
+                                            if (signatureResult != null && signatureResult.ApplyOnReplies)
+                                                $('#summernote').summernote('code', "<br/><br/>" + signatureResult.Signature + $('#summernote').summernote('code'));
 
-                                widget = $("#Tolist").data("kendoAutoComplete");
-                                widget.value(result.FromEmail);
-                                break;
+                                            break;
 
-                            case "ReplyAll":
-                                subjectPrefix = "RE: ";
+                                        case "ReplyAll":
+                                            subjectPrefix = "RE: ";
 
-                                widget = $("#Tolist").data("kendoAutoComplete");
-                                widget.value(result.FromEmail + "," + result.To);
+                                            widget = $("#Tolist").data("kendoAutoComplete");
+                                            widget.value(result.FromEmail + "," + result.To);
+                                            widget = $("#CClist").data("kendoAutoComplete");
+                                            widget.value(result.CC);
 
-                                widget = $("#CClist").data("kendoAutoComplete");
-                                widget.value(result.CC);
+                                            var ccArr = result.CC.split(',');
+                                            for (var i = 0; i < ccArr.length; i++) {
+                                                CClist.push(ccArr[i]);
+                                            }
+                                            if (signatureResult != null && signatureResult.ApplyOnReplies)
+                                                $('#summernote').summernote('code', "<br/><br/>" + signatureResult.Signature + $('#summernote').summernote('code'));
+                                            break;
 
-                                var ccArr = result.CC.split(',');
-                                for (var i = 0; i < ccArr.length; i++) {
-                                    CClist.push(ccArr[i]);
-                                }
-                                break;
-
-                            case "Forward":
-                                subjectPrefix = "FW: ";
-                                break;
-                        }
-                        $("#subject").val(subjectPrefix + result.Subject)
-                        BindEmailToInputs();
-                        $.LoadingOverlay("hide");
+                                        case "Forward":
+                                            subjectPrefix = "FW: ";
+                                            if (signatureResult != null && signatureResult.ApplyOnForwards)
+                                                $('#summernote').summernote('code', "<br/><br/>" + signatureResult.Signature + $('#summernote').summernote('code'));
+                                            break;
+                                    }
+                                    $("#subject").val(subjectPrefix + result.Subject)
+                                    BindEmailToInputs();
+                                    $.LoadingOverlay("hide");
+                            }
+                        });
 
                     }
                 }
