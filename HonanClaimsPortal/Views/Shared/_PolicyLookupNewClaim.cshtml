@@ -47,7 +47,12 @@
 </style>
 
 <div class="panel panel-default">
-
+    <div class="mt-20 ml-20">
+        <label class="checkbox-inline">
+            <input type="checkbox" id="chkActivePolicies" value="" />
+            <label class="input-sm">Active Policies</label>
+        </label>
+    </div>
     <div class="table-responsive">
         <table id="tbPolicy" class="table table-striped" style="margin-bottom: 10px;">
             <thead>
@@ -56,6 +61,8 @@
                     <th class="sort-alpha">Policy No</th>
                     <th class="sort-alpha">Policy Class</th>
                     <th class="sort-alpha">Policy Status</th>
+                    <th class="sort-alpha">Inception Date</th>
+                    <th class="sort-alpha">Expiry Date</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -71,7 +78,7 @@
         $('#tbPolicy').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/PolicyAjaxHandler",//?accountId=" + $("#Accountid").val(),
+            "sAjaxSource": "/Lookup/PolicyNewClaimAjaxHandler",//?accountId=" + $("#Accountid").val(),
             "paging": false,
             "bProcessing": false,
             "bsearch": false,
@@ -79,20 +86,15 @@
             "scrollY": '40vh',
             "fnServerParams": function (aoData) {
 
-                if ($('#Accountid'))
+                if ($('#Accountid') && $('#Claim_Type') && $('#Incident_Date') && $('#Policy_Class'))
                 {
+                    aoData.push({ 'name': 'team', 'value': $('#Claim_Team').val() });
+                    aoData.push({ 'name': 'ocNum', 'value': $('#Oc_Name').val() });
                     aoData.push({ 'name': 'accountId', 'value': $('#Accountid').val() });
-                }
-                else if ($('#Oc_No') && $('#Oc_No').val() != '' && typeof $('#Oc_No').val() != 'undefined') {
-
-                    accountId = $("#Oc_No").val();
-                    aoData.push({ 'name': 'accountId', 'value': accountId });
-                }
-                else if ($('#Oc_Id') && $('#Oc_Id').val() != '' && typeof $('#Oc_Id').val() != 'undefined') {
-
-                    accountId = $("#Oc_Id").val();
-                    aoData.push({ 'name': 'accountId', 'value': accountId });
-
+                    aoData.push({ 'name': 'claimType', 'value': $('#Claim_Type').val() });
+                    aoData.push({ 'name': 'incidentDate', 'value': $('#Incident_Date').val() });
+                    aoData.push({ 'name': 'policyClass', 'value': $('#Policy_Class').val() });
+                    aoData.push({ 'name': 'activePolicies', 'value': $('#chkActivePolicies').is(':checked') });
                 }
 
             },
@@ -104,16 +106,23 @@
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
 
-                        return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[4] + '\', \'' + oObj[5] + '\', \''
-                            + oObj[6] + '\', \'' + oObj[7] + '\', \'' + oObj[8] + '\', \'' + oObj[10] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' +
-                            oObj[11] + '\', \'' + oObj[12] + '\', \'' + oObj[13] + '\', \'' + oObj[14] + '\', \'' + oObj[15] + '\', \'' + oObj[16] + '\', \'' +
-                            oObj[17] + '\', \'' + oObj[18] + '\');">' + oObj[1] + '</a>';
+                        return '<a  href="javascript:void(0);" onclick="closeModal(this,\'' + oObj[6] + '\', \'' + oObj[7] + '\', \''
+                            + oObj[8] + '\', \'' + oObj[9] + '\', \'' + oObj[10] + '\', \'' + oObj[12] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' +
+                            oObj[13] + '\', \'' + oObj[14] + '\', \'' + oObj[15] + '\', \'' + oObj[16] + '\', \'' + oObj[17] + '\', \'' + oObj[18] + '\', \'' +
+                            oObj[19] + '\', \'' + oObj[20] + '\');">' + oObj[1] + '</a>';
                     }
                 },
                 { "sName": "PolicyClass" },
-                { "sName": "PolicyStatus" }
+                { "sName": "PolicyStatus" },
+                { "sName": "PolicyInception" },
+                { "sName": "PolicyExpiry" }
 
             ]
+        });
+
+
+        $('#chkActivePolicies').change(function () {
+            $('#tbPolicy').DataTable().ajax.reload(null, false);
         });
     });
 
@@ -182,13 +191,13 @@
             if ($("#AccountManager").length > 0) {
                 $("#AccountManager").val(accountManager);
             }
-            
+
             if ($("#InsurerName").length > 0) {
                 $("#InsurerName").val(underwriterName);
                 $("#Insurer_Name").val(underwriterName);
                 $("#Insurer").val(underwriterId);
             }
-           
+
             if ($("#Insured_Name").length > 0) {
                 $("#Insured_Name").val(insuredName);
             }
@@ -201,7 +210,7 @@
                 $("#Policy_Class").val(policyClass);
             }
 
-            
+
         }
 
         if ($("#Policy_Id")) {

@@ -60,6 +60,7 @@ namespace HonanClaimsPortal.Controllers
             claim.Account_Manager_Property = newClaimModel.Account_Manager_Property;
             claim.Policy_Class = newClaimModel.Policy_Class;
             claim.Policy_Id = newClaimModel.Policy_Id;
+            claim.Incident_Date = newClaimModel.Incident_Date;
 
             //claim.Claim_Team = login.ClaimTeam;
             //claim.Claim_Type = string.IsNullOrEmpty(Request.QueryString[QueryStringHelper.PageType]) ? Session[SessionHelper.Page].ToString() : Request.QueryString[QueryStringHelper.PageType];

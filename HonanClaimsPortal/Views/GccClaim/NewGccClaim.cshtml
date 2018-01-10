@@ -89,24 +89,26 @@
                                 </div>
                             </div>
 
-                            @*<div class="form-group mb">
-                                    <label class="col-sm-3 control-label input-sm">Policy Class</label>
-                                    <div class="col-sm-9">
-                                        @if (string.IsNullOrEmpty(Model.Policy_No))
-                                        {
+                            <div class="form-group mb">
+                                <label class="col-sm-3 control-label input-sm">Policy Class</label>
+                                <div class="col-sm-9">
+                                    @*@if (string.IsNullOrEmpty(Model.Policy_No))
+                                    {
                                         @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                        }
-                                        else if (!string.IsNullOrEmpty(Model.Policy_Class))
-                                        {
-                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm disabled", @readonly = true })
-                                        }
-                                        else
-                                        {
+                                    }
+                                    else*@
+                                    
+                                    @if (!string.IsNullOrEmpty(Model.Policy_Class))
+                                    {
+                                        @Html.TextBoxFor(o => o.Policy_Class, new { @class = "form-control input-sm disabled", @readonly = true })
+                                    }
+                                    else
+                                    {
                                         @Html.DropDownListFor(model => model.Policy_Class, new SelectList(Model.Policy_Class_List, "Text", "Text"),
                                         new { @class = "form-control input-sm" })
-                                        }
-                                    </div>
-                                </div>*@
+                                    }
+                                </div>
+                            </div>
 
                         </div>
 

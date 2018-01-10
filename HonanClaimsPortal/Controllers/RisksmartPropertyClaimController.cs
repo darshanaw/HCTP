@@ -56,6 +56,7 @@ namespace HonanClaimsPortal.Controllers
             model.Policy_Class = newClaimModel.Policy_Class;
             model.Policy_Id = newClaimModel.Policy_Id;
             model.Account_Manager_Property = newClaimModel.Account_Manager_Property;
+            model.Incident_Date = newClaimModel.Incident_Date;
 
 
             // Get Claim Reference #

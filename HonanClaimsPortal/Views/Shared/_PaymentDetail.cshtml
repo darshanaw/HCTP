@@ -579,15 +579,20 @@
                     </label>
                 </div>
                 <div class="top-padding col-md-12">
-                    <div id="EmailEditPayment">
+                    @*<div id="EmailEditPayment">
                         <textarea id="editorPayment"  class="small-editor" name="editorPayment" rows="10" cols="30" aria-label="editor"></textarea>
-                    </div>
+                    </div>*@
+                    <div id="summernote"></div>
                 </div>
 
             </div>
         </div>
     </div>
 </div>
+
+
+<link href="~/Content/summerNote/dist/summernote.css" rel="stylesheet" />
+<script src="~/Content/summerNote/dist/summernote.js"></script>
 
 
 <script>
@@ -638,6 +643,9 @@
 
     $(function () {
 
+        $('#summernote').summernote({
+            //height: 370
+        });
 
         $("#emailattachPD").change(function (input) {
 
@@ -805,8 +813,10 @@
             $.ajax({
                 url: "/Email/GetEmailSignature", success: function (res) {
                     if (res != null && res.ApplyOnNewEmails) {
-                        var editor = $("#editorPayment").data("kendoEditor");
-                        editor.value("<br/><br/>" + res.Signature);
+                        //var editor = $("#editorPayment").data("kendoEditor");
+                        //editor.value("<br/><br/>" + res.Signature);
+
+                        $("#summernote").summernote('code', "<br/><br/>" + res.Signature);
                     }
                     $.LoadingOverlay("hide");
                 }
@@ -823,26 +833,28 @@
 
 
         function clearSelectorPayment() {
-            var editor = $("#editorPayment").data("kendoEditor");
-            editor.value("");
+            //var editor = $("#editorPayment").data("kendoEditor");
+            $("#summernote").summernote('code', "");
+            //editor.value("");
             $('#ulPD').empty();
             filearray = new Array();
             $("#sendPaymentEmailModal").modal('hide');
         }
 
-        $("#editorPayment").kendoEditor({
-            resizable: {
-                content: true,
-                toolbar: true
-            }
-        });
+        //$("#editorPayment").kendoEditor({
+        //    resizable: {
+        //        content: true,
+        //        toolbar: true
+        //    }
+        //});
 
         // apply custom sizing
         //$("textarea.small-editor").closest("table.k-editor").addClass("small-editor");
 
         $("#sendPaymentEmail").click(function () {
-            var editor = $("#editorPayment").data("kendoEditor");
-            var seri = editor.value();
+            //var editor = $("#editorPayment").data("kendoEditor");
+            var editor = $('#summernote').summernote('code');
+            var seri = editor;
             var subject = $('#subjectPayment').val();
             var to = $('#emailToPayment').val();
             //Piumi
