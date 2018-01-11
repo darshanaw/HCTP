@@ -119,7 +119,7 @@
 
     function closeModal(val, address1, addresss2, suburb, state, postcode, accountManager, policyClass, policyStatus, periodFrom, periodTo, excess, underwriterId,
         underwriterName, insuredName, policyId,accountManagerCode) {
-        debugger;
+      
         var text = $(val).text();
         $("#Policy_No").val(text);
         if ("@pageId" == "Detail")
@@ -196,12 +196,6 @@
             if ($("#Account_Manager_Property").length > 0) {
                 $("#Account_Manager_Property").val(accountManagerCode);
             }
-
-            if ($("#Policy_Class").length > 0) {
-                $("#Policy_Class").val(policyClass);
-            }
-
-            
         }
 
         if ($("#Policy_Id")) {

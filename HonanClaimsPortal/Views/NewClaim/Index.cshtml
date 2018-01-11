@@ -24,14 +24,6 @@
     }
 </style>
 
-<script>
-    $(function () {
-
-        $('.dateCalendar').datetimepicker({
-            format: 'DD/MM/YYYY'
-        });
-    })
-</script>
 
 <br />
 
@@ -63,7 +55,7 @@
                     @Html.HiddenFor(o => o.InsurerName)
                     @Html.HiddenFor(o => o.Insurer)
                     @Html.HiddenFor(o => o.Insured_Name)
-                    @*@Html.HiddenFor(o => o.Policy_Class)*@
+                    @Html.HiddenFor(o => o.Policy_Class)
                     @Html.HiddenFor(o => o.Policy_Id)
                     @Html.HiddenFor(o => o.Account_Manager_Property)
 
@@ -111,24 +103,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mb">
-                                <label class="col-sm-2 control-label input-sm">Incident Date</label>
-                                <div class="col-sm-9">
-                                    <div id="dtpIncidentDate" class="input-group dateCalendar">
-                                        @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
-                                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
-                                            <span class="fa fa-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group mb">
-                                <label class="col-sm-2 control-label input-sm">Policy Class</label>
-                                <div class="col-sm-9">
-                                    @Html.DropDownListFor(o => o.Policy_Class, new SelectList(Model.Policy_Classes, "Text", "Text"), "", new { @class = "form-control input-sm" })
-                                </div>
-                            </div>
 
 
                             <div class="form-group mb">
@@ -206,7 +180,7 @@
                 <h4 class="modal-title">OC # Lookup</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_OcNoLookUpNewClaim.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+                @Html.Partial("~/Views/Shared/_OcNoLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -224,7 +198,7 @@
                 <h4 class="modal-title">Policy Lookup</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_PolicyLookupNewClaim.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
+                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -272,27 +246,17 @@
     </div>
 </div>
 
-<!-- SELECT2-->
-<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
-<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
-<!-- SELECT2-->
-<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
 
 <script>
     $(function () {
-
-
-        $('#Policy_Class').select2({
-            theme: "bootstrap"
-        });
-
+              
 
         if ($("#Account_Name").val() !== "" && $("#Claim_Type").val() !== "")
         {
             $.LoadingOverlay("show");
             window.location = "/claimlist/Index";
         }
-
+  
 
         if ($("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
             $("#Oc_No").val("");
@@ -402,7 +366,5 @@
         $("#Assigned_To").val("");
         $("#Assigned_To_Id").val("");
         $("#Oc_Name").val("");
-        $("#Incident_Date").val("");
-        $("#Policy_Class").select2("val", "");
     }
 </script>

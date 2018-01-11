@@ -1,7 +1,6 @@
 ﻿using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Services;
-using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +32,10 @@ namespace HonanClaimsPortal.Controllers
 
         public ActionResult RedirectToDetail(string claimId, string claimTeam, string tab)
         {
-            switch (claimTeam)
+            switch(claimTeam)
             {
                 case ClaimTeams.RisksmartGCC:
-                    return RedirectToAction("DetailRisksmartGccClaim", "RisksmartGccClaim", new { id = claimId, tab = tab });
+                    return RedirectToAction("DetailRisksmartGccClaim", "RisksmartGccClaim", new { id = claimId,tab = tab });
                 case ClaimTeams.RisksmartProperty:
                     return RedirectToAction("DetailRisksmartPropertyClaim", "RisksmartPropertyClaim", new { id = claimId, tab = tab });
                 case ClaimTeams.PropertyClaims:
@@ -44,7 +43,7 @@ namespace HonanClaimsPortal.Controllers
                 case ClaimTeams.GCCClaims:
                     return RedirectToAction("DetailGccClaim", "GccClaim", new { id = claimId, tab = tab });
                 default:
-                    return RedirectToAction("Index", "ClaimList");
+                     return RedirectToAction("Index", "ClaimList");
 
             }
         }
@@ -85,17 +84,6 @@ namespace HonanClaimsPortal.Controllers
                 new SelectListItem(){Text= Enum.GetName(typeof(ClaimType),1), Value = Enum.GetName(typeof(ClaimType),1)}
             };
 
-            ClaimTeamLoginModel client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
-            PicklistServicecs pickListServices = new PicklistServicecs();
-
-            if (client.Teams.Contains(ClaimTeamsByTeamNames.RisksmartGCC))
-                model.Policy_Classes = pickListServices.GetPickListItems("Risksmart GCC Policy Class");
-            else if (client.Teams.Contains(ClaimTeamsByTeamNames.RisksmartProperty))
-                model.Policy_Classes = pickListServices.GetPickListItems("Honan Policy Classes");
-            else if (client.Teams.Contains(ClaimTeamsByTeamNames.PropertyClaims))
-                model.Policy_Classes = pickListServices.GetPickListItems("Honan Policy Classes");
-            else if (client.Teams.Contains(ClaimTeamsByTeamNames.GCCClaims))
-                model.Policy_Classes = pickListServices.GetPickListItems("GCC Policy Class");
         }
 
         [HttpPost]
@@ -105,7 +93,7 @@ namespace HonanClaimsPortal.Controllers
             {
                 TempData[TempDataHelper.NewClaimModel] = model;
 
-
+                
                 switch (model.Claim_Team)
                 {
                     case ClaimTeams.RisksmartGCC:
@@ -118,7 +106,7 @@ namespace HonanClaimsPortal.Controllers
                         return RedirectToAction("NewGccClaim", "GccClaim");
                 }
 
-            }
+           }
 
             InitializeModel(model);
             return View(model);

@@ -14,7 +14,6 @@ namespace HonanClaimsWebApi.Models.LookupModel
         public string AccountManager { get; set; }
         public string PolicyClass { get; set; }
         public string PolicyExpiry { get; set; }
-        public string PolicyInception { get; set; }
         public string PolicyStatus { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
