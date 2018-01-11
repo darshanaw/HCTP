@@ -1,0 +1,124 @@
+﻿@model HonanClaimsWebApi.Models.Contact.ContactListModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-wrapper">
+    <h3>
+        Contacts
+    </h3>
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Contact Name</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.ConatctName, new { @class = "form-control input-sm"})
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Account Name</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.AccountName, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb">
+        <div class="pull-right">
+            <button id="clearFilter" style="width:120px" type="button" class="btn btn-default mr-20">Clear Filter</button>
+            <button id="filterList" style="width:120px" type="button" class="btn btn-primary">Filter Contacts</button>
+        </div>
+    </div>
+
+    <div class="col-md-12 top-padding-eight">
+        <div id="grid"></div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+
+<script>
+    $("#clearFilter").click(function () {
+        $("#AccountName").val('');
+        $("#ConatctName").val('');
+        loadContacts();
+    });
+
+    $("#filterList").click(function () {
+        loadContacts();
+    });
+
+
+    $(document).ready(function () {
+        $.LoadingOverlay("show");
+        loadContacts();
+        $.LoadingOverlay("hide");
+    });
+
+
+    function loadContacts() {
+        var AccountName = null;
+        var ConatctName = null;
+
+        AccountName = $("#AccountName").val();
+        ConatctName = $("#ConatctName").val();
+
+        $("#grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/Contact/GetContacts?AccountName=" + AccountName + "&ConatctName=" + ConatctName
+                },
+                pageSize: 20
+            },
+            filterable: true,
+            //pageSize: 10,
+            navigatable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 20, 50, 100],
+                buttonCount: 10
+            },
+            sortable: true,
+            columns: [
+                {
+                    field: "ContactName",
+                    title: "ContactName",
+                    template: "<a href='/Contact/ContactDetail?ContactId=#= ContactId #'>#= ContactName #</a>",
+                },
+                {
+                    field: "Account",
+                    title: "Account",
+                    template: "<a href='/AccountList/AccountDetail?AccountId=#= AccountId #'>#= Account #</a>",
+                },
+
+                {
+                    field: "State",
+                    title: "State",
+                },
+                {
+                    field: "WorkPhone",
+                    title: "WorkPhone",
+                },
+                {
+                    field: "Mobile",
+                    title: "Mobile",
+                },
+                {
+                    field: "Email",
+                    title: "Email",
+                },
+            ]
+        });
+    }
+</script>

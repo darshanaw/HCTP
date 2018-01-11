@@ -1,0 +1,901 @@
+﻿@model HonanClaimsWebApiAccess1.Models.AdminLoginDetail.CustomerPortalAdminModel
+
+@{
+    ViewBag.Title = "AdminDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddPortalAdminRecord", "AdminList", FormMethod.Post,
+                                                                            new
+                                                                            {
+                                                                                enctype = "multipart/form-data",
+                                                                                id = "FileUploadForm",
+                                                                                name = "ImgForm",
+                                                                                //target = "UploadTarget",
+                                                                            }))
+{
+
+    @Html.HiddenFor(m => m.H_Customerportaladminid)
+
+    <div class="content-wrapper">
+        <h3>
+            Admin Detail
+        </h3>
+    </div>
+    <div class="main-container">
+
+        <div class="row">
+            <div class="col-md-5 detail-section">
+                <div class="form-group">
+                    <label class="col-md-4">Account Name</label>
+                    <div class="input-group col-md-8">
+                        @Html.TextBoxFor(m => m.Accountname, new { @class = "form-control", @readonly = true })
+                        @Html.HiddenFor(m => m.Account_Id)
+                        @Html.HiddenFor(m => m.IsNew)
+                        <span class="input-group-addon pointer" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Risksmart GCC",
+                        Value = "Risksmart GCC"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Risksmart Property",
+                        Value = "Risksmart Property",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Property Claims",
+                        Value = "Property Claims",
+                    });
+
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "GCC Claims",
+                        Value = "GCC Claims"
+                    });
+                }
+                <div class="form-group">
+                    <label class="col-md-4" for="Team">Claim Team</label>
+                    <div class="col-md-8 input-group">
+                        @Html.DropDownListFor(model => model.Claim_Team, listItems, "-- Select Claim --", new { @class = "form-control" })
+                    </div>
+                </div>
+                @{
+                    List<SelectListItem> OnlineClaims = new List<SelectListItem>();
+                    OnlineClaims.Add(new SelectListItem
+                    {
+                        Text = "Yes",
+                        Value = "Yes"
+                    });
+                    OnlineClaims.Add(new SelectListItem
+                    {
+                        Text = "No",
+                        Value = "No",
+                    });
+                }
+                <div class="form-group">
+                    <label class="col-md-4" for="email">Can add Online Claims</label>
+                    <div class="col-md-8 input-group">
+                        @Html.DropDownListFor(model => model.Account_Can_Add_Claims, OnlineClaims, "-- Select --", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Manual Claim Form</label>
+                    <div class="form-group">
+                        <a id="downloadfile" download>@Model.Manualclaim_Form</a>
+                        @Html.HiddenFor(m => m.Manualclaim_Form)
+                        @Html.HiddenFor(m => m.Manualclaim_Form_Path)
+                        <input name="claimupload" id="claimupload" type="file">
+                    </div>
+                </div>
+                @*@{
+                    List<SelectListItem> BillingMethod = new List<SelectListItem>();
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Hour",
+                        Value = "Per Hour"
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Claim",
+                        Value = "Per Claim",
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "Per Annul",
+                        Value = "Per Annul",
+                    });
+                    BillingMethod.Add(new SelectListItem
+                    {
+                        Text = "No Billing",
+                        Value = "No Billing",
+                    });
+                }*@
+
+                <div class="form-group">
+                    <label class="col-md-4" for="email">Billing Method</label>
+                    <div class="col-md-8 input-group">
+                        @Html.DropDownListFor(model => model.Billing_Method, new SelectList(Model.BillingMethodList, "Text", "Text"), "-- Select Method --", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4" for="email">Fee Per Hour ($)</label>
+                    <div class="col-md-8 input-group">
+                        @Html.TextBoxFor(m => m.Fee_Per_Hour, new { @class = "form-control", @type = "number" })
+                        @Html.ValidationMessageFor(o => o.Fee_Per_Hour, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4" for="email">Fee Per Billing Method ($)</label>
+                    <div class="col-md-8 input-group">
+                        @Html.TextBoxFor(m => m.Fee_Per_Billing_Method, new { @class = "form-control", @type = "number" })
+                        @Html.ValidationMessageFor(o => o.Fee_Per_Billing_Method, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <div class="form-group">
+                    <div class="col-md-12 img-upload-section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input onchange="OnchangeLogoImage(this)" id="logoimgupload" accept="image/bmp,image/tiff,image/jpeg" name="logoimgupload" type="file">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="pull-right">
+                                    <button type="button" id="removelogo" class="btn btn-primary">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            @if (Model.IsNew)
+                            {
+                                <div class="img-logo-preview-wraper">
+                                    <img id="logoImg" class="img-logo-preview">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="img-logo-preview-wraper text-center" >
+                                    <img id="logoImg" src="data:image/png;base64,@Model.Customer_Logo" class="img-logo-preview">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="col-md-12">
+                    <div class="pull-right mb-15">
+                        <button type="button" id="newLogin" class="btn btn-primary">New Login</button>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div id="loginGrid"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="row mt-15 mb-15">
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary" value="Save" />
+                <input type="button" id="btncancel" class="btn btn-primary" value="Cancel" />
+            </div>
+        </div>
+    </div>
+                    }
+<hr />
+
+
+
+<!--Modal-->
+<div id="OcModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="closeacc" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Admin Lookup</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group mb-20">
+                    <input type="text" class="form-control" placeholder="" id="Accsearch" aria-describedby="basic-addon2">
+                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+                </div>
+                <div id="lookupAccountGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal-->
+<div id="ConModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Contact Lookup</h4>
+            </div>
+
+            <div class="modal-body">
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AccsearchCon">
+                <div id="lookupAccountGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal-->
+<div id="LoginDataModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeLoginDataModal">&times;</button>
+                <h4 class="modal-title">Login Detail</h4>
+            </div>
+
+            <div class="modal-body ">
+                <input id="portalLoginId" style="display:none" />
+                <input type="text" class="form-control" style="display:none" id="ContactId">
+                <div id="error" style="display:none;" class="alert alert-danger">
+                    <strong></strong> <span id="Errormsg"></span>
+                </div>
+                <div class="form-group">
+                    <input id="isactive" type="checkbox" checked value="true">
+                    <label class="ml-15">Is Active</label>
+                </div>
+                <div class="form-group">
+                    <label>Contact Name</label>
+                    <div class="input-group">
+                        <input id="products" class="form-control input-sm" />
+                        <span class="input-group-btn" id="AccountManagerlookup" data-toggle="modal" data-target="#PolicyModal">
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+                <div class="form-group">
+                    <label>User Name</label>
+                    <input type="text" class="form-control" id="username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="text" class="form-control" id="Password">
+                </div>
+                <a style="float:right;" id="GenaratePassword">Generate Password</a>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control" id="Email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default mr-20" id="closeLoginDataModalbtn">Cancel</button>
+                <button id="Addlogin" type="button" class="btn btn-primary">Save</button>
+                <button id="Updatelogin" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal-->
+<div id="AccountManagerModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="cancelManagerBtn" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Contact Lookup</h4>
+            </div>
+
+            <div class="modal-body">
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearch">
+                <div id="lookupAccountManagerGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //=============================================
+    $(document).ready(function () {
+        //LoadMagaer();
+        var AccountManagerList = [];
+
+        $('#AccountManagerlookup').click(function () {
+            var accId = $('#Account_Id').val();
+            var text = $('#AMccsearch').val();
+            $.get("/AdminList/GetContactNames?accountId=" + accId, function (data) {
+            //$.get("/NewContactAccount/GetManagerList?userName=" + text, function (data) {
+                AccountManagerList = data;
+                loadgrManagerid();
+            });
+
+        });
+
+        $('#cancelManagerBtn').click(function () {
+            $('#AMccsearch').val('');
+            AccountManagerList = [];
+        })
+
+        function loadgrManagerid() {
+            $("#lookupAccountManagerGrid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    data: AccountManagerList,
+                    pageSize: 10
+                },
+                dataBound: function (e) {
+                    if ($('#AccountManagerModal').hasClass('in')) {
+
+                    } else {
+                        $('#AccountManagerModal').modal('show');
+                    }
+                },
+                height: 550,
+                sortable: true,
+                serverPaging: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 10
+                },
+                columns: [{
+                    hidden: true,
+                    field: "ContactId",
+                    title: "ContactId"
+                },
+                {
+                    hidden: true,
+                    field: "AccountName",
+                    title: "AccountName"
+                },
+                {
+                    template: "<a href='javascript:void(0);' onclick=\"accountLookupClick('#= ContactId #','#= Email #','#= ContactName #')\" '>#= ContactName #</a>",
+                    //template: '<a id="#= ContactId #", class="#= Email #" onclick="accountLookupClick(this)">#= ContactName #</a>',
+                    title: "Account Name",
+                },
+                {
+                    field:"Email",
+                    title:"Email"
+                }
+                ]
+            });
+
+        }
+
+        $("#AMccsearch").keyup(function () {
+            var accId = $('#Account_Id').val();
+            if (accId.length > 2) {
+                AccountList = [];
+                $.get("/AdminList/GetContactNames?accountId=" + accId, function (data) {
+                    AccountManagerList = data;
+                    loadgrManagerid();
+                });
+            } else {
+                if (val == null || val == "") {
+                    AccountList = [];
+                    $.get("/AdminList/GetContactNames?accountId=" + accId, function (data) {
+                        AccountManagerList = data;
+                        loadgrManagerid();
+                    });
+                }
+            }
+        });
+
+    });
+
+    function accountLookupClick(ContactId,Email,ContactName) {
+
+        $('#products').val(ContactName);
+        $("#ContactId").val(ContactId);
+        $("#Email").val(Email);
+        $('#AccountManagerModal').modal('hide');
+        $('#AMccsearch').val('');
+    }
+    //==============================================================
+    $("#btncancel").click(function () {
+        window.location.replace('@Url.Action("AdminList", "AdminList", new { id = "" })');
+    });
+
+
+    $(document).ready(function () {
+
+        var listofAccountdata=[];
+        $("#Fee_Per_Hour").change(function () {
+            if ($("#Billing_Method").val() == "Per Hour") {
+                $("#Fee_Per_Billing_Method").val($("#Fee_Per_Hour").val())
+            }
+        });
+
+        function loadGridData() {
+
+            $("#lookupAccountGrid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    data: listofAccountdata,
+                    pageSize: 10
+                },
+                dataBound: function (e) {
+                    if ($('#OcModal').hasClass('in')) {
+
+                    } else {
+                        $('#OcModal').modal('show');
+                    }
+
+                },
+                height: 550,
+                sortable: true,
+                serverPaging: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true,
+                    buttonCount: 10
+                },
+                columns: [{
+                    hidden: true,
+                    field: "AccountId",
+                    title: "AccountId"
+                },
+                {
+                    template: '<a id="#= AccountId #" onclick="accountClickAdmin(this)">#= AccountName #</a>',
+                    title: "Account Name",
+                },
+                {
+                    field: "AccountType",
+                    title: " Account Type",
+                }
+                ]
+            });
+
+        }
+
+        $("#btnPolicyLookup").click(function () {
+
+            var text = $('#Accsearch').val();
+            $.get("/AdminList/GetLookupAccounts?accountName=" + text, function (data) {
+                listofAccountdata = data;
+                loadGridData();
+            });
+
+        });
+
+        $("#Accsearch").keyup(function () {
+            var val = $('#Accsearch').val();
+            if (val.length > 2) {
+                listofAccountdata = [];
+                $.get("/AdminList/GetLookupAccounts?accountName=" + val, function (data) {
+
+                    listofAccountdata = data;
+                    loadGridData();
+                });
+            } else {
+                if (val == null || val == "") {
+                    listofAccountdata = [];
+                    $.get("/AdminList/GetLookupAccounts?accountName=", function (data) {
+                        listofAccountdata = data;
+                        loadGridData();
+                    });
+                }
+            }
+
+        });
+
+        $("#claimupload").change(function (input) {
+            var file1 = $('#claimupload').get(0).files;
+            if (file1 != null) {
+                $('#displaytext').text(file1[0].name);
+                $('#Manualclaim_Form').val(file1[0].name);
+            }
+            //$('#Manualclaim_Form').text()
+        });
+
+        var model = @Html.Raw(Json.Encode(Model));
+        //setInitialDetails(isNew,adminId)
+        loadLogins(model.H_Customerportaladminid);
+
+        function loadLogins(adminId) {
+            $("#loginGrid").kendoGrid({
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "/AdminList/GetAdminLoginAccounts?adminId=" + adminId
+                    },
+                    pageSize: 10
+                },
+                height: 575,
+                sortable: true,
+                columns: [{
+                    hidden: true,
+                    field: "H_PortalLoginId",
+                    title: "H_PortalLoginId"
+                },
+                {
+                    template: "#if(ActiveLogin == 'T'){# True #} else{# #= 'False' #  #}#",
+                    title: "IsActive",
+                },
+                {
+                    field: "ContactName",
+                    title: "Contact Name",
+                }, {
+                    //field: "UserName",
+                    title: "User Name",
+                    template: "<a href='javascript:void(0);' onclick=\"OpenLogingModel('#= ContactId #','#= H_PortalLoginId #','#= ActiveLogin #', '#= ContactName #', '#= Password #','#= H_PortalLoginId #', '#= UserName #', '#= Email #')\" '>#= UserName #</a>"
+                }, {
+                    field: "Password",
+                    title: "Password",
+                },
+                {
+                    field: "LastLogin",
+                    title: "Last Login",
+                }
+                ]
+            });
+        }
+
+        $('#newLogin').click(function () {
+            var accId = $('#Account_Id').val();
+            if (accId == null || accId == "")
+            {
+                bootbox.alert("Please add Account detail first");
+                return;
+            };
+            //LoadContacts(accId);
+            $('#LoginDataModal').modal('show');
+            $("#Addlogin").show();
+            $("#Updatelogin").hide();
+        });
+
+    });
+
+
+    function OpenLogingModel(ContactId,H_PortalLoginId,ActiveLogin,ContactName,Password,H_PortalLoginId,UserName,Email){
+        $.ajax({
+            type: 'GET',
+            url: "/AdminList/GetAdminLoginAccount?portalLoginId="+H_PortalLoginId,
+
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: updating login detail", true);
+                } else {
+                    $("#Addlogin").hide();
+                    $("#Updatelogin").show();
+
+                    var accId = $('#Account_Id').val();
+                    //LoadContacts(accId);
+                    $('#ContactId').val(resultData.ContactId),
+                    $("#products").val(resultData.ContactName);
+                    $("#username").val(resultData.UserName);
+                    $("#Password").val(resultData.Password);
+                    $("#Email").val(resultData.Email);
+                    $("#portalLoginId").val(resultData.H_PortalLoginId);
+                    if(resultData.ActiveLogin=="T"){
+                        $("#isactive").attr('checked',true);
+                    }else{
+                        $("#isactive").attr('checked',false);
+                    }
+                    $("#LoginDataModal").modal('show');
+                }
+            }
+        });
+
+
+    }
+
+
+
+    function accountClickAdmin(e) {
+        //piumi
+        $('#Account_Id').val(e.id);
+        $("#Accountname").val(e.text);
+        $('#OcModal').modal('hide');
+        $('#Accsearch').val('');
+
+        $.ajax({
+            url: "/Home/GetAccountDetail?accountId=" + e.id, success: function (result) {
+                $("#Billing_Method").val(result.Billing_Method);
+                $("#Fee_Per_Hour").val(result.Billable_Rate);
+                $("#Fee_Per_Billing_Method").val(result.Service_Rage);
+            }
+        });
+
+
+    }
+
+    function OnchangeLogoImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            var _validFileExtensions = [".jpeg", ".bmp", ".tiff",".png",".jpg"];
+            debugger;
+            var f = input.files[0]
+            var sFileName = f.name;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+
+                if(!blnValid){
+                    input.value = null;
+                    bootbox.alert("this format is not allowed");
+                    return;
+                }
+            }
+
+            if (f.size > 2097152) {
+                bootbox.alert("Allowed file size exceeded. (Max. 2 MB)")
+                input.value = null;
+            } else {
+
+                reader.onload = function (e) {
+                    $('#logoImg').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+
+    $("#removelogo").click(function () {
+        input = document.getElementById('logoimgupload');
+        var admin = $('#H_Customerportaladminid').val();
+        $('#logoImg').attr('src', "");
+        if (input) {
+            input.value = null;
+        }
+
+        var isnew = $('#IsNew').val();
+        if (isnew == "False") {
+            $.get("/AdminList/RemoveImage?adminId=" + admin, function (data) {
+            });
+        }
+
+    });
+
+
+
+    $("#closeLoginDataModal,#closeLoginDataModalbtn").click(function(){
+        ClearLoging();
+    });
+
+    function ClearLoging(){
+        $("#products").val('');
+        $("#username").val('');
+        $("#Password").val('');
+        $("#Email").val('');
+        $("#isactive").attr('checked',true);
+        $("#LoginDataModal").modal('hide');
+        setError("", false);
+    }
+
+    $('#GenaratePassword').click(function () {
+        //var random = Math.random().toString(36).substring(6);
+        $('#Password').val(makePassword());
+    })
+
+
+    $("#Updatelogin").click(function(){
+        var loginNew = false;
+        var adminId = $("#H_Customerportaladminid").val();
+        if (adminId == null || adminId=="") {
+            setError("Please Add Admin record", true);
+            return;
+        }
+
+        if($('#username').val()==null ||$('#username').val()==""){
+            setError("User Name Mandatory",true);
+            return false;
+        }
+        if($("#Password").val()==null || $("#Password").val()==""){
+            setError("Password Mandatory",true);
+            return false;
+        }
+        if($("#Email").val()==null || $("#Email").val()==""){
+            setError("Email Mandatory",true);
+            return false;
+        }
+
+        var passwordRegex = new RegExp('^(?=.*[A-Z])(?=.*[0-9])(?=.{6,})');
+        if (!passwordRegex.test($("#Password").val())) {
+            setError("Password must be atleast 6 digits with 1 capital letter & a number", true);
+            return false;
+        }
+
+
+        setError("", false);
+        var portalId = $('#portalLoginId').val();
+        var model = {
+            H_PortalLoginId: portalId,
+            H_PortalLoginAdminId: adminId,
+            ActiveLogin: $('#isactive').is(':checked'),
+            ContactName: $('#products').val(),
+            ContactId: $('#ContactId').val(),
+            UserName: $('#username').val(),
+            Password: $('#Password').val(),
+            Email: $('#Email').val(),
+            IsNew: loginNew
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/AdminList/UpdateAdminLogin",
+            data: model,
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: updating login detail", true);
+                } else {
+                    $('#loginGrid').data('kendoGrid').dataSource.read();
+                    $('#loginGrid').data('kendoGrid').refresh();
+                    setError("", false);
+                    $('#LoginDataModal').modal('hide');
+                    ClearLoging();
+                }
+            }
+        });
+    });
+
+
+    $('#Addlogin').click(function () {
+        var loginNew = false;
+        var adminId = $("#H_Customerportaladminid").val();
+        if (adminId == null || adminId=="") {
+            setError("Please Add Admin record", true);
+            return;
+        }
+
+        if($('#username').val()==null ||$('#username').val()==""){
+            setError("User Name Mandatory",true);
+            return false;
+        }
+        if($("#Password").val()==null || $("#Password").val()==""){
+            setError("Password Mandatory",true);
+            return false;
+        }
+        if($("#Email").val()==null || $("#Email").val()==""){
+            setError("Email Mandatory",true);
+            return false;
+        }
+        var passwordRegex = new RegExp('^(?=.*[A-Z])(?=.*[0-9])(?=.{6,})');
+        if (!passwordRegex.test($("#Password").val())) {
+            setError("Password must be atleast 6 digits with 1 capital letter & a number", true);
+            return false;
+        }
+
+        setError("", false);
+        var portalId = $('#portalLoginId').val();
+        if (portalId == null || portalId == "") { loginNew = true; }
+
+
+        var model = {
+            H_PortalLoginId: loginNew == true ? null : portalId,
+            H_PortalLoginAdminId: adminId,
+            ActiveLogin: $('#isactive').is(':checked'),
+            ContactName: $('#products').val(),
+            ContactId: $('#ContactId').val(),
+            UserName: $('#username').val(),
+            Password: $('#Password').val(),
+            Email: $('#Email').val(),
+            IsNew: loginNew
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/AdminList/AddAdminLogin",
+            data: model,
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: adding login detail", true);
+                } else {
+                    $('#loginGrid').data('kendoGrid').dataSource.read();
+                    $('#loginGrid').data('kendoGrid').refresh();
+                    setError("", false);
+                    $('#LoginDataModal').modal('hide');
+                    ClearLoging();
+                }
+            }
+        });
+    })
+
+    $('#btncontactlook').click(function () {
+
+    })
+
+
+    function makePassword() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for (var i = 0; i < 6; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    }
+
+    function setError(errormsg, isshow) {
+        if (isshow) {
+            $('#Errormsg').text(errormsg);
+            $('#error').show();
+        } else {
+            $('#Errormsg').text(errormsg);
+            $('#error').hide();
+        }
+    }
+
+    function LoadContacts(accountId) {
+        var listdata = null;
+        $.get("/AdminList/GetContactNames?accountId=" + accountId, function (data) {
+            listdata = data;
+            $("#products").kendoAutoComplete({
+                dataTextField: "ContactName",
+                filter: "contains",
+                minLength: 2,
+                dataSource: data,
+                select: onSelect
+            });
+        });
+
+        function onSelect(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#ContactId').val(dataItem.ContactId);
+        }
+    }
+
+    //$(function () {
+    //    $('#logoimgupload').change(function () {
+    //        debugger
+    //        //because this is single file upload I use only first index
+    //        var f = this.files[0]
+
+    //        //here I CHECK if the FILE SIZE is bigger than 8 MB (numbers below are in bytes)
+    //        if (f.size >1) {
+    //            //show an alert to the user
+    //            bootbox.alert("Allowed file size exceeded. (Max. 8 MB)")
+
+    //            //reset file upload control
+    //            this.value = null;
+    //        }
+    //    })
+    //});
+
+    $('#downloadfile').click(function () {
+        downloadfile();
+    })
+
+    $('#closeacc').click(function () {
+        listofAccountdata = [];
+        $('#Accsearch').val('');
+    })
+
+    function downloadfile() {
+        debugger
+        fileName = $("#Manualclaim_Form").val();
+        path = $("#Manualclaim_Form_Path").val();
+
+        window.open('/AdminList/ManualClaimFormDownload?fileName=' + fileName + '&path=' + path, '_blank');
+
+    }
+
+</script>

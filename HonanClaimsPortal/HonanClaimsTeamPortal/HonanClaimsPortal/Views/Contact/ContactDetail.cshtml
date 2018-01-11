@@ -1,0 +1,320 @@
+﻿@model HonanClaimsWebApi.Models.Contact.ContactModel
+
+@{
+    ViewBag.Title = "ContactDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
+<div class="content-wrapper">
+
+    @Html.HiddenFor(o => o.AccountId)
+
+    <h3>Contact Detail</h3>
+
+    <div class="col-md-12">
+        <div class="footer text-right">
+            <button type="button" id="cancel" onclick="Cancel()" class="mb-sm btn btn-default mr-20">Cancel</button>
+            <button type="submit" id="btnSaveTop" class="mb-sm btn btn-primary">Save</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">First Name</label>
+                <div class="col-md-9">
+
+                    @if (string.IsNullOrEmpty(Model.FirstName))
+                    {
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-sm" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-sm", @readonly = true })
+                    }
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Last Name</label>
+                <div class="col-md-9">
+                    @if (string.IsNullOrEmpty(Model.LastName))
+                    {
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-sm" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-sm", @readonly = true })
+                    }
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Account</label>
+                <div class="col-md-9">
+                    @Html.RouteLink(Model.Account, new { action = "AccountDetail", controller = "AccountList", AccountId = Model.AccountId })
+                    @*@Html.TextBoxFor(m => m.Account, new { @class = "form-control input-sm", @readonly = true })*@
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Title</label>
+                <div class="col-md-9">
+                    @*@Html.TextBoxFor(m => m.Title, new { @class = "form-control input-sm", @readonly = true })*@
+                    @Html.DropDownListFor(model => model.Title, new SelectList(Model.TitleList, "Code", "Text"),
+                                         new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Address 1</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Address1, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Address 2</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Address2, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Suburb</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.Suburb, new SelectList(Model.PropertySuburbList, "Code", "Text"),
+                                         new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">State</label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.State,
+new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new SelectListItem { Value = "NSW", Text = "NSW" }, new SelectListItem { Value = "SA", Text = "SA" }
+,new SelectListItem { Value = "TAS", Text = "TAS" },new SelectListItem { Value = "VIC", Text = "VIC" },new SelectListItem { Value = "WA", Text = "WA" },new SelectListItem { Value = "QLD", Text = "QLD" }},
+                                 new { @class = "form-control input-sm", @placeholder = "State" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Postal Code</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12 col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Work Phone</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Workphone, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Mobile</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Fax</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Fax, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Home Phone</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Homephone, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">E-mail</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Website</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Webaddress, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Preferred Contact</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Preferred_Contact, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-8">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.PrimaryContactForAccount, new { @readonly = true, @class = "input-sm",@disabled=true })
+                </div>
+                <label class="col-md-9 control-label input-sm">Primary contact for account</label>
+            </div>
+
+
+            @*<div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotSolicit, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not solicit</label><div class="col-md-9">
+                </div>
+            </div>*@
+
+
+            <div class="form-group col-md-8">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.AuthorizedServiceContact, new { @readonly = true, @class = "input-sm", @disabled = true })
+                </div>
+                <label class="col-md-9 control-label input-sm">Authorized service contact</label>
+            </div>
+
+            @*<div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotEmail, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not email</label>
+            </div>*@
+
+
+            @*<div class="form-group col-md-8">
+            </div>*@
+
+            @*<div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotCall, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not call</label>
+            </div>*@
+
+            @*<div class="form-group col-md-8">
+            </div>*@
+            @*<div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotMail, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not mail</label>
+
+            </div>*@
+            @*<div class="form-group col-md-8">
+            </div>*@
+            @*<div class="form-group col-md-4">
+                <div class="col-md-3">
+                    @Html.CheckBoxFor(m => m.DoNotFax, new { @readonly = true, @class = "input-sm" })
+                </div>
+                <label class="col-md-9 control-label input-sm">Do not fax</label>
+            </div>*@
+           
+            @*<div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Contact Type</label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Type, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>*@
+
+
+            @*<div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Contact Statu</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.Status, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>*@
+
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Account Type</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.AccountType, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <label class="col-sm-3 control-label input-sm">Account Status</label><div class="col-md-9">
+                    @Html.TextBoxFor(m => m.AccountStatus, new { @class = "form-control input-sm", @readonly = true })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="button" onclick="Cancel()" class="btn btn-default">Cancel</button>
+                        <button type="button" id="btnSave" class="mb-sm btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Covert to Claim Modal End-->
+<!-- SELECT2-->
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $('#Suburb').select2({ width: '100%' });
+        if ($("#Suburb").length > 0) {
+            $("#Suburb").val($("#Suburb").val()).trigger('change.select2');;
+        }
+
+        $("#btnSave").click(function () {
+            SaveContact();
+        });
+
+        $("#btnSaveTop").click(function () {
+            SaveContact();
+        });
+
+        $("#Title").val("@Model.Title");
+    });
+
+  
+
+    function SaveContact() {
+
+        var ContactId = '@ViewBag.ContactId';
+        var FirstName = $("#FirstName ").val();
+        var LastName = $("#LastName ").val();
+        var Title = $("#Title ").val();
+        var Address1 = $("#Address1 ").val();
+        var Address2 = $("#Address2 ").val();
+        var Suburb = $("#Suburb ").val();
+        var State = $("#State ").val();
+        var PostalCode = $("#PostalCode ").val();
+        var Workphone = $("#Workphone ").val();
+        var Mobile = $("#Mobile ").val();
+        var Fax = $("#Fax ").val();
+        var Homephone = $("#Homephone ").val();
+        var Email = $("#Email ").val();
+        var Webaddress = $("#Webaddress ").val();
+
+        $.LoadingOverlay("show");
+        $.ajax({
+            url: "/Contact/UpdateContactDetail?ContactId=" + ContactId + "&FirstName=" + FirstName + "&LastName=" + LastName + "&Title=" + Title + "&Webaddress=" + Webaddress +
+                "&Address1=" + Address1 + "&Address2=" + Address2 + "&Suburb=" + Suburb + "&State=" + State
+            + "&PostalCode=" + PostalCode + "&Workphone=" + Workphone + "&Mobile=" + Mobile + "&Fax=" + Fax + "&Homephone=" + Homephone + "&Email=" + Email, success: function (result) {
+
+                $.LoadingOverlay("hide");
+                bootbox.alert({
+                    message: "Contact successfully updated", size: 'small'
+                });
+                },
+            complete: function () {
+            }
+        });
+    }
+
+    function Cancel() {
+        window.location.href = '/Contact/Index';
+    }
+
+</script>

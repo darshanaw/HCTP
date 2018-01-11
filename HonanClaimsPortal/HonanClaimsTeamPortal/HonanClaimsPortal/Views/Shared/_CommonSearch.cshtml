@@ -1,0 +1,29 @@
+﻿
+@model HonanClaimsWebApi.Models.Search.SearchModel
+
+@using (Html.BeginForm("SearchResults", "Search", FormMethod.Post, new { @id = "searchForm" }))
+{
+
+    <div class="col-md-2" style="margin-top:8px">
+        @Html.DropDownListFor(o => o.CommonSearchProperty, Model.ClaimPropertyList, new { @class = "form-control" })
+    </div>
+                <div class="col-md-3" style="margin-top:8px;">
+                    <div class="input-group">
+                        @Html.TextBoxFor(o => o.CommonSearchText, new { @class = "form-control", @placeholder = "Search for..." })
+                        <span class="input-group-btn" id="btnCommonSearch">
+                            <button type="button" class="btn btn-default">
+                                <em class="fa fa-search"></em>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+}
+<script>
+    $(document).ready(function () {
+
+        $("#btnCommonSearch").click(function () {
+            $("#searchForm").submit();
+        });
+
+    })
+</script>

@@ -1,0 +1,345 @@
+﻿
+@{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
+
+<style>
+    tr.border {
+        outline: thin solid #CFDBE2 !important;
+    }
+    /*.panel-info {
+        border-color: #bce8f1;
+        background-color: #d9edf7;
+    }*/
+    .panel-info > .panel-heading {
+        color: #31708f;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+    }
+
+    .highlight {
+        background-color: #d9edf7;
+    }
+</style>
+
+<div class="panel panel-default">
+
+    <div class="panel-body">
+
+        <div class="col-md-4">
+
+            <div class="panel panel-info">
+                <div class="panel-heading"> <h3 class="panel-title">Emails</h3> </div> <div class="panel-body">
+                    <div class="col-md-12 mb-15 pl-0 pr-0">
+                        <input type="file" name="files" id="externalEmails" />
+                    </div>
+                    <div class="col-md-8 mb-15 pl-0 pr-0">
+                        <input class="form-control input-sm" placeholder="Filter Emails" id="txtFilterEmails" />
+                    </div>
+                    <div class="col-md-2 mb-15 pr-0">
+                        <a class="btn btn-info btn-sm mb-compose-button" href="#" id="btnRefresh">
+                            <em class="fa fa-refresh"></em>
+                            @*<span>Compose</span>*@
+                        </a>
+                    </div>
+                    <div class="col-md-2 mb-15 pr-0">
+                        <a class="btn btn-primary btn-sm mb-compose-button" href="#" id="btnNewEmail">
+                            <em class="fa fa-envelope"></em>
+                            @*<span>Compose</span>*@
+                        </a>
+                    </div>
+                    <div class="col-md-12 pl-0 pr-0" style="height:800px ;overflow-y: auto;overflow-x: hidden;">
+                        <table class="table table-hover mb-mails" id="emailTable">
+                            <tbody id="emailTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-info">
+                <div class="panel-heading"> <h3 class="panel-title">Preview Pane</h3> </div> <div id="previewPane" class="panel-body">
+
+                    <div class="top-padding-eight col-sm-12 col-md-12 mb-15">
+                        <div class="top-padding-eight col-sm-12 col-md-12">
+
+                            <a href="#" class="pr-20" id="replyAction">
+                                <em class="fa fa-mail-reply"></em> Reply
+                            </a>
+                            <a href="#" class="pr-20" id="replyAllAction">
+                                <em class="fa fa-mail-reply-all"></em> Reply All
+                            </a>
+                            <a href="#" class="pr-20" id="forwardAction">
+                                <em class="fa fa-mail-forward"></em> Forward
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 top-padding-eight">
+                        <div class="col-sm-1 col-md-1">
+                            <label class="control-label input-sm">From:</label>
+                        </div>
+                        <div class="col-sm-11 col-md-11">
+                            <label class="control-label input-sm" id="emailFrom"></label>
+                        </div>
+                    </div>
+
+                    <div class="top-padding col-sm-12 col-md-12">
+                        <div class="col-sm-1 col-md-1">
+                            <label class="control-label input-sm">Claim:</label>
+                        </div>
+                        <div class="col-sm-11">
+                            <label class="control-label input-sm" id="emailClaim"></label>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-12 col-md-12 top-padding-eight">
+                        <div class="col-sm-1 col-md-1">
+                            <label class="control-label input-sm">To:</label>
+                        </div>
+                        <div class="col-sm-11 col-md-11">
+
+                            <label class="control-label input-sm" id="emailTo"></label>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 top-padding">
+                        <div class="col-sm-1 col-md-1">
+                            <label class="control-label input-sm">CC:</label>
+                        </div>
+                        <div class="col-sm-11 col-md-11">
+
+                            <label class="control-label input-sm" id="emailCC"></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 top-padding">
+                        <div class="col-sm-1 col-md-1">
+                            <label class="control-label input-sm">Subject:</label>
+                        </div>
+                        <div class="col-sm-11 col-md-11">
+
+                            <label class="control-label input-sm" id="emailSubject"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 top-padding-eight" id="attachmetHolder">
+
+                    </div>
+                    <div class="col-sm-12 col-md-12 top-padding">
+                        <div class="col-sm-12 col-md-12 top-padding">
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div id="emailBody"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="mb-mail-meta">
+        <div class="pull-left">
+            <div class="mb-mail-subject">Admin web application</div>
+            <div class="mb-mail-from">Evelyn Holmes</div>
+        </div>
+        <div class="mb-mail-preview">Fusce gravida, diam ac adipiscing pretium, sem nibh bibendum diam, non consequat quam metus non nunc</div>
+    </div>*@
+
+<script>
+
+    var selectedEmailId;
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: "/Email/GetClaimEmails?claimId=" + $("#H_Claimsid").val() + "&filterText=", success: function (result) {
+
+                $("#emailCount").text(result.length);
+                $.each(result, function (i, item) {
+
+                    var id = "'" + item["H_ClaimEmailsId"] + "'";
+                    var fromStr = "From: " + item["FromEmail"];
+                    var toStr = "To: " + item["To"];
+                    toStr = toStr.substring(0,50);
+
+                    $('#emailTbody').append(' <tr class="border" id=' + id + '  onclick="openEmail(' + id + ')"><td class="text-center"><em class="fa fa-lg fa-envelope-o text-muted"></em></td>' +
+                        '<td><div class="mb-mail-date pull-right">' + item["CreateDate"] + '</div><div><div class="pull-left">' +
+                        '<div class="mb-mail-from">' + item["Subject"] + '</div><div class="mb-mail-preview">' + fromStr + '</div><div class="mb-mail-preview">'
+                        + toStr.trim() + '</div><div class="mb-mail-preview">' + item["EmailBody"] + '</div></div></div></td></tr>');
+
+
+
+                    //<div class="mb-mail-from">' + item["FromEmail"] +
+                    //    '</div>
+
+                });
+
+                $('#emailTable tr:first-child').trigger('click');
+
+                if($('#emailTable tr').length == 0)
+                     $("#previewPane").hide();
+                else
+                     $("#previewPane").show();
+            },
+        });
+
+        $("#emailTable tbody").delegate("tr", "dblclick", function (e) {
+            var selected = $(this).hasClass("highlight");
+            $("#emailTable tbody tr").removeClass("highlight");
+            if (!selected)
+                $(this).addClass("highlight");
+
+            window.open("/Email/EmailWindow?emailId=" + $(this).attr('id'), "New Window", "height=710,width=1000");
+        });
+
+
+        $("#emailTable tbody").delegate("tr", "click", function (e) {
+            selectedEmailId = $(this).attr('id');
+            var selected = $(this).hasClass("highlight");
+            $("#emailTable tbody tr").removeClass("highlight");
+            if (!selected)
+                $(this).addClass("highlight");
+        });
+
+
+        $('#txtFilterEmails').keypress(function (e) {
+
+            var key = e.which;
+            if (key == 13)  // the enter key code
+            {
+                loadEmailsNew($('#txtFilterEmails').val());
+            }
+        });
+
+        $("#replyAction").click(function (e) {
+            window.open("/Email/EmailWindow?emailId=" + selectedEmailId + "&emailAction=Reply", "New Window", "height=710,width=1000");
+        });
+
+        $("#replyAllAction").click(function () {
+            window.open("/Email/EmailWindow?emailId=" + selectedEmailId + "&emailAction=ReplyAll", "New Window", "height=710,width=1000");
+        });
+
+        $("#forwardAction").click(function () {
+            window.open("/Email/EmailWindow?emailId=" + selectedEmailId + "&emailAction=Forward", "New Window", "height=710,width=1000");
+        });
+
+        $("#btnNewEmail").click(function () {
+            window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() + "&claimId=" + $("#H_Claimsid").val(), "New Window", "height=710,width=1000");
+        });
+
+        $("#btnRefresh").click(function () {
+            $('#txtFilterEmails').val("");
+            loadEmailsNew("");
+        });
+
+
+         $("#externalEmails").kendoUpload({
+            async: {
+                saveUrl: '@Url.Action("UploadEmails", "ClaimDetailTabs")',
+                //removeUrl: '@Url.Action("", "ClaimDetailTabs")',
+                autoUpload: false
+            },
+             validation: {
+                    allowedExtensions: [".msg",".eml"]
+                },
+             localization: {
+                select: 'Select Email Files...',
+            },
+            upload: function (e) {
+                e.data = { claimId: $("#H_Claimsid").val(), userId: '@userObj.UserId' };
+            },
+            complete: onCompleteAttachmentUpload
+        });
+
+
+    });
+
+
+     function onCompleteAttachmentUpload()
+    {
+        $(".k-widget.k-upload").find("ul").remove();
+         loadEmailsNew("");
+    }
+
+    function openEmail(emailId) {
+
+        $.ajax({
+            url: "/Email/GetClaimEmail?emailId=" + emailId + "&withAttachments=false", success: function (result) {
+                if (result != null) {
+                    $('#attachmetHolder').empty();
+                    $("#emailFrom").text(result.FromEmail);
+                    $("#emailTo").text(result.To);
+                    $("#emailCC").text(result.CC);
+                    $("#emailSubject").text(result.Subject);
+                    $('#emailBody').html("");
+                    $('#emailBody').append(result.EmailBody);
+                    $("#emailClaim").text(result.ClaimNo);
+
+                    if (result.FilesSimple.length > 0) {
+
+                        $.each(result.FilesSimple, function (i, item) {
+
+                            var name = "'" + item.AttachmentName + "'";
+                            var description = "'" + item.AttachmentDescription + "'";
+
+                            //$('#ul').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i></li>');
+                            $('#attachmetHolder').append('<div onclick="downloadAttachment(' + name + ',' + description + ')" class="col-md-3 mb-10"><div style="background-color:#F5F7FA;cursor: pointer;" class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                                '<div class="clearfix discover"><div class="pull-right"></div><span><a href="#" class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                                '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+                        });
+                    }
+                }
+            }
+        });
+
+    }
+
+    function downloadAttachment(name, description) {
+        window.location.href = "/ClaimDetailTabs/FileDownloadByFileName?fileName=" + name + "&fileRealName=" + description;
+    }
+
+    function loadEmailsNew(filterText) {
+
+        $.LoadingOverlay("show");
+
+        $('#emailTbody').html("");
+        $.ajax({
+            url: "/Email/GetClaimEmails?claimId=" + $("#H_Claimsid").val() + "&filterText=" + filterText, success: function (result) {
+                $.each(result, function (i, item) {
+
+                    if(filterText == "")
+                        $("#emailCount").text(result.length);
+
+                    var id = "'" + item["H_ClaimEmailsId"] + "'";
+                    var fromStr = "From: " + item["FromEmail"];
+                    var toStr = "To: " + item["To"];
+                    toStr = toStr.substring(0,50);
+
+                    $('#emailTbody').append(' <tr class="border" id=' + id + '  onclick="openEmail(' + id + ')"><td class="text-center"><em class="fa fa-lg fa-envelope-o text-muted"></em></td>' +
+                        '<td><div class="mb-mail-date pull-right">' + item["CreateDate"] + '</div><div><div class="pull-left">' +
+                        '<div class="mb-mail-from">' + item["Subject"] + '</div><div class="mb-mail-preview">' + fromStr + '</div><div class="mb-mail-preview">'
+                        + toStr.trim() + '</div><div class="mb-mail-preview">' + item["EmailBody"] + '</div></div></div></td></tr>');
+
+                    //<div class="mb-mail-from">' + item["FromEmail"] +
+                    //    '</div>
+
+                });
+
+                $('#emailTable tr:first-child').trigger('click');
+
+                 if($('#emailTable tr').length == 0)
+                     $("#previewPane").hide();
+                else
+                     $("#previewPane").show();
+            },
+            complete: function () {
+                $.LoadingOverlay("hide");
+            }
+        });
+    }
+
+</script>

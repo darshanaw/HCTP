@@ -1,0 +1,110 @@
+﻿
+<script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+<script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+<script src="~/Content/vendor/datatables-buttons/js/dataTables.buttons.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
+@*<link href="~/Content/vendor/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />*@
+
+<style>
+    table.dataTable thead .sorting {
+        background: url('/Content/vendor/datatables/media/images/sort_both.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background: url('/Content/vendor/datatables/media/images/sort_asc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background: url('/Content/vendor/datatables/media/images/sort_desc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    .dataTables_filter {
+        margin-top: 10px !important;
+    }
+</style>
+
+<div class="panel panel-default">
+
+    <div class="table-responsive">
+        <table id="tbAssignTo" class="table table-striped" style="margin-bottom: 10px;">
+            <thead>
+                <tr>
+                    <th class="sort-alpha">User Code</th>
+                    <th class="sort-alpha">User Name</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        //$("#tbAccount").hide();
+
+        $('#tbAssignTo').dataTable({
+            "bServerSide": true,
+            "searching": true,
+            "sAjaxSource": "/Lookup/AssingToAjaxHandler",
+            "paging": false,
+            "bProcessing": false,
+            "bsearch": false,
+            "scrollY": '40vh',
+            'info': false,
+            "fnServerParams": function (aoData) {
+
+                if ($('#Claim_Team'))
+                    aoData.push({ 'name': 'teamName', 'value': $("#Claim_Team").val() + " Team" });
+
+            },
+            "aoColumns": [
+
+                { "sName": "Code", "visible": false },
+                {
+                    "sName": "Text",
+                    "sClass": "center",
+                    "mRender": function (data, type, oObj) {
+                        return '<a href="javascript:void(0);" onclick="closeAssignToModal(\'' + oObj[1] + '\',\'' + oObj[0] + '\')">' + oObj[0] + '</a >';
+                        //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
+                    }
+                }
+            ]
+        });
+
+        $('#tbAssignTo').on('search.dt', function () {
+               //var value = $('.dataTables_filter input').val();
+               //console.log(value); // <-- the value
+            $("#tbAssignTo").show();
+           });
+
+    });
+
+
+    function closeAssignToModal(userId,userName) {
+                
+
+        if ($("#Assigned_To").length > 0)
+        {
+            $("#Assigned_To").val(userName);
+        }
+
+        if ($("#Assigned_To_Id").length > 0)
+        {
+            $("#Assigned_To_Id").val(userId);
+        }
+
+        $('#AssignToModal').modal('toggle');
+    }
+
+</script>

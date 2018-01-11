@@ -1,0 +1,600 @@
+﻿@{
+    ViewBag.Title = "Honan Claims - Dashboard";
+    bool isRisksmartGccUser = false;
+    HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
+
+    if (client.Teams.IndexOf("Risksmart GCC Team") != -1 || client.Teams.IndexOf("Risksmart GCC Manager") != -1)
+    {
+        isRisksmartGccUser = true;
+    }
+    //List<HonanClaimsWebApi.Models.Claim.DashboardObject> dashboardItems = (List<HonanClaimsWebApi.Models.Claim.DashboardObject>)ViewBag.DashboardItems;
+}
+
+<link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-timepicker.min.js"></script>
+
+<div class="content-wrapper">
+    <h3>
+        Dashboard
+    </h3>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <!-- START widget-->
+                    <div class="panel widget bg-green" style="cursor: pointer;">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                                <em class="icon-envelope-open  fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-lg">
+                                <div class="h2 mt0" id="divCountsOpen"></div>
+                                <div class="text-uppercase">My Open Claims</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-6">
+                    <!-- START widget-->
+                    <div class="panel widget bg-primary" style="cursor: pointer;">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                                <em class="icon-user-following fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-lg">
+                                <div class="h2 mt0" id="divCountNewClaimsAssigned"></div>
+                                <div class="text-uppercase">New Claims Assigned</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <!-- START widget-->
+                    <div class="panel widget bg-danger" style="cursor: pointer;">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center bg-danger-dark pv-lg">
+                                <em class="icon-calendar fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-lg">
+                                <div class="h2 mt0" id="divCountsOverdueActivities">
+
+                                    @*<small>GB</small>*@
+                                </div>
+                                <div class="text-uppercase">Overdue Activities</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <!-- START widget-->
+                    <div class="panel widget bg-yellow" style="cursor: pointer;">
+                        <div class="row row-table">
+                            <div class="col-xs-4 text-center bg-yellow-dark pv-lg">
+                                <em class="icon-hourglass fa-3x"></em>
+                            </div>
+                            <div class="col-xs-8 pv-lg">
+                                <div class="h2 mt0" id="divCountsActivitiesDueToday">
+
+                                    @*<small>GB</small>*@
+                                </div>
+                                <div class="text-uppercase">Activities Due Today</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div id="panelChart2" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title">My Open Claims By Next Steps</div>
+                        </div>
+                        <div class="panel-body">
+                            <div id="chartNextActionBar" class="chart-bar flot-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div id="panelChart2" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title">My Open Claims By Stage</div>
+                        </div>
+                        <div class="panel-body">
+                            <div id="chartOpenClaimsByStage" class="chart-bar flot-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div id="panelChart2" class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                Claims Closed
+                                <div class="pull-right">
+                                    <div class="radio">
+                                        <label><input type="radio" name="optradio" class="claimClosedradio" checked id="rbLastYear">Last Year</label>
+                                        <label><input type="radio" name="optradio" class="claimClosedradio" id="rbThisYear">This Year</label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="panel-body">
+                            <div id="chartClaimsClosedThisYear" class="chart-line flot-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @if (isRisksmartGccUser)
+            {
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div id="panelChart2" class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">Open Claims By Customer</div>
+                            </div>
+                            <div class="panel-body">
+                                <div id="chartOpenClaimsByCustomerBar" class="chart-bar flot-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div id="panelChart2" class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">My Billable Time by Last 6 Month (Billable Clients Only)</div>
+                            </div>
+                            <div class="panel-body">
+                                <div id="chartBillableTimeBar" class="chart-bar flot-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<div>
+
+</div>
+
+
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+<!-- FLOT CHART-->
+<script src="~/Content/vendor/flot/jquery.flot.js"></script>
+<script src="~/Content/vendor/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+<script src="~/Content/vendor/flot/jquery.flot.resize.js"></script>
+<script src="~/Content/vendor/flot/jquery.flot.pie.js"></script>
+<script src="~/Content/vendor/flot/jquery.flot.time.js"></script>
+<script src="~/Content/vendor/flot/jquery.flot.categories.js"></script>
+<script src="~/Content/vendor/flot-spline/js/jquery.flot.spline.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.LoadingOverlay("show");
+
+        generateDashboardNumbers();
+        loadNextActionBar();
+        loadClaimsByStage();
+        loadClosedClaims();
+        debugger;
+        if ('@isRisksmartGccUser' == 'True')
+         {
+             loadOpenClaimsByCustomerBar();
+             loadBillableTimesBar();
+         }
+
+        $.LoadingOverlay("hide");
+
+        $(".claimClosedradio").change(function () {
+             loadClosedClaims();
+         });
+
+     });
+
+
+
+    function generateDashboardNumbers() {
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+
+        var general = dashboardItems;
+        general = general.filter(function (a){
+            return a.Category === "General";
+        });
+
+        if (general.length > 0 && general[0].Items.length > 0) {
+            $("#divCountsOpen").html(general[0].Items[0].data.replace(/\.00$/, ''));
+            $("#divCountNewClaimsAssigned").html(general[0].Items[1].data.replace(/\.00$/, ''));
+            $("#divCountsOverdueActivities").html(general[0].Items[2].data.replace(/\.00$/, ''));
+            $("#divCountsActivitiesDueToday").html(general[0].Items[3].data.replace(/\.00$/, ''));
+        }
+    }
+
+    function loadNextActionBar() {
+
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        }
+
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+
+        var nextAction = dashboardItems;
+        nextAction = nextAction.filter(function (a) {
+            return a.Category === "Next Action";
+        });
+        var barChartObj = nextAction[0].Items[0].DataComplex;
+        var json = JSON.stringify(barChartObj);
+        json = json.replace(/,/g, "],[").replace(/{/g, "[").replace(/}/g, "]");
+        json = json.replace(/:/g, ","); //updated
+        json = "[" + json + "]";
+        ObjData = jQuery.parseJSON(json);
+
+        var newObjData = [];
+        for (i = 0; i < ObjData.length; i++) {
+
+            newObjData.push(ObjData[i].move(0, 1));
+        }
+
+        var data = [{
+            "label": "Next Action",
+            "color": "#7266ba",
+            "data": newObjData
+        }];
+
+        var options = {
+            series: {
+                bars: {
+                    align: 'center',
+                    lineWidth: 0,
+                    show: true,
+                    barWidth: 0.6,
+                    horizontal: true,
+                    fill: 0.9
+                }
+            },
+            grid: {
+                borderColor: '#eee',
+                borderWidth: 1,
+                hoverable: true,
+                backgroundColor: '#fcfcfc'
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: function (label, x, y) { return y + ' : ' + x; }
+            },
+            xaxis: {
+                tickColor: '#fcfcfc',
+
+            },
+            yaxis: {
+                // position: 'right' or 'left'
+                tickColor: '#eee',
+                mode: 'categories'
+            },
+            shadowSize: 0
+        };
+
+        debugger;
+
+        var chart = $("#chartNextActionBar");//('.chart-pie');
+        if (chart.length)
+            $.plot(chart, data, options);
+    }
+
+    function loadClaimsByStage() {
+
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        }
+
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+
+        var nextAction = dashboardItems;
+        nextAction = nextAction.filter(function (a) {
+            return a.Category === "Claim Stage";
+        });
+        var barChartObj = nextAction[0].Items[0].DataComplex;
+        var json = JSON.stringify(barChartObj);
+        json = json.replace(/,/g, "],[").replace(/{/g, "[").replace(/}/g, "]");
+        json = json.replace(/:/g, ","); //updated
+        json = "[" + json + "]";
+        ObjData = jQuery.parseJSON(json);
+
+
+        var newObjData = [];
+        for (i = 0; i < ObjData.length; i++) {
+
+            newObjData.push(ObjData[i].move(0, 1));
+        }
+
+        var data = [{
+            "label": "Stage",
+            "color": "#A1D461",
+            "data": ObjData
+        }];
+
+        var options = {
+            series: {
+                bars: {
+                    align: 'center',
+                    lineWidth: 0,
+                    show: true,
+                    barWidth: 0.6,
+                    fill: 0.9,
+                    horizontal: true,
+                }
+            },
+            grid: {
+                borderColor: '#eee',
+                borderWidth: 1,
+                hoverable: true,
+                backgroundColor: '#fcfcfc'
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: function (label, x, y) { return y + ' : ' + x; }
+            },
+            xaxis: {
+                tickColor: '#fcfcfc',
+            },
+            yaxis: {
+                // position: 'right' or 'left'
+                tickColor: '#eee',
+                mode: 'categories'
+            },
+            shadowSize: 0
+        };
+
+        var chart = $("#chartOpenClaimsByStage");//('.chart-pie');
+        if (chart.length)
+            $.plot(chart, data, options);
+    }
+
+
+    function getTooltip(label, x, y) {
+        debugger;
+        return "Your sales for " + x + " was $" + y;
+    }
+
+    function loadClosedClaims() {
+
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+
+        var nextAction = dashboardItems;
+        var cat;
+
+        if ($('#rbLastYear').is(':checked'))
+            cat = "Closed Claims Last Year";
+        else
+            cat = "Closed Claims This Year";
+
+        nextAction = nextAction.filter(function (a) {
+            return a.Category === cat;
+        });
+        var barChartObj = nextAction[0].Items[0].DataComplex;
+        var json = JSON.stringify(barChartObj);
+        json = json.replace(/,/g, "],[").replace(/{/g, "[").replace(/}/g, "]");
+        json = json.replace(/:/g, ","); //updated
+        json = "[" + json + "]";
+        ObjData = jQuery.parseJSON(json);
+
+
+        var data = [{
+            "label": "Closed Claims",
+            "color": "#F5994E",
+            "data": ObjData
+        }];
+
+        var options = {
+            series: {
+                lines: {
+                    show: true,
+                    fill: 0.01
+                },
+                points: {
+                    show: true,
+                    radius: 4
+                }
+            },
+            grid: {
+                borderColor: '#eee',
+                borderWidth: 1,
+                hoverable: true,
+                backgroundColor: '#fcfcfc'
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: function (label, x, y) { return x + ' : ' + y; }
+            },
+            xaxis: {
+                tickColor: '#eee',
+                mode: 'categories'
+            },
+            yaxis: {
+                // position: 'right' or 'left'
+                tickColor: '#eee'
+            },
+            shadowSize: 0
+        };
+
+
+        $.plot("#chartClaimsClosedThisYear", data, options);
+    }
+
+    function loadOpenClaimsByCustomerBar() {
+
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        }
+
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+
+        var nextAction = dashboardItems;
+        nextAction = nextAction.filter(function (a) {
+            return a.Category === "Open Claims By Customer";
+        });
+        var barChartObj = nextAction[0].Items[0].DataComplex;
+        var json = JSON.stringify(barChartObj);
+        json = json.replace(/,/g, "],[").replace(/{/g, "[").replace(/}/g, "]");
+        json = json.replace(/:/g, ","); //updated
+        json = "[" + json + "]";
+        ObjData = jQuery.parseJSON(json);
+
+        var newObjData = [];
+        for (i = 0; i < ObjData.length; i++) {
+
+            newObjData.push(ObjData[i].move(0, 1));
+        }
+
+        var data = [{
+            "label": "Open Claims",
+            "color": "#00B4FF",
+            "data": newObjData
+        }];
+
+        var options = {
+            series: {
+                bars: {
+                    align: 'center',
+                    lineWidth: 0,
+                    show: true,
+                    barWidth: 0.6,
+                    horizontal: true,
+                    fill: 0.9
+                }
+            },
+            grid: {
+                borderColor: '#eee',
+                borderWidth: 1,
+                hoverable: true,
+                backgroundColor: '#fcfcfc'
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: function (label, x, y) { return y + ' : ' + x; }
+            },
+            xaxis: {
+                tickColor: '#fcfcfc',
+
+            },
+            yaxis: {
+                // position: 'right' or 'left'
+                tickColor: '#eee',
+                mode: 'categories'
+            },
+            shadowSize: 0
+        };
+
+        debugger;
+
+        var chart = $("#chartOpenClaimsByCustomerBar");//('.chart-pie');
+        if (chart.length)
+            $.plot(chart, data, options);
+    }
+
+
+    function loadBillableTimesBar() {
+
+        var dashboardItems = @Html.Raw(ViewBag.DashboardItems);
+
+        var nextAction = dashboardItems;
+        nextAction = nextAction.filter(function (a) {
+            return a.Category === "Billable Time";
+        });
+        var barChartObj = nextAction[0].Items[0].DataComplex;
+        var json = JSON.stringify(barChartObj);
+        json = json.replace(/,/g, "],[").replace(/{/g, "[").replace(/}/g, "]");
+        json = json.replace(/:/g, ","); //updated
+        json = "[" + json + "]";
+        ObjData = jQuery.parseJSON(json);
+
+        var data = [{
+            "label": "Total Billable",
+            "color": "#FF3E43",
+            "data": ObjData
+        }];
+
+        var options = {
+            series: {
+                bars: {
+                    align: 'center',
+                    lineWidth: 0,
+                    show: true,
+                    barWidth: 0.6,
+                    fill: 0.9
+                }
+            },
+            grid: {
+                borderColor: '#eee',
+                borderWidth: 1,
+                hoverable: true,
+                backgroundColor: '#fcfcfc'
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: function (label, x, y) { return x + ' : $' + y; }
+            },
+            xaxis: {
+                tickColor: '#fcfcfc',
+                mode: 'categories'
+            },
+            yaxis: {
+                // position: 'right' or 'left'
+                tickColor: '#eee',
+                tickFormatter: function (v) {
+                    return '$' + v/* + ' visitors'*/;
+                }
+            },
+            shadowSize: 0
+        };
+
+        var chart = $("#chartBillableTimeBar");//('.chart-pie');
+        if (chart.length)
+            $.plot(chart, data, options);
+    }
+
+</script>
+

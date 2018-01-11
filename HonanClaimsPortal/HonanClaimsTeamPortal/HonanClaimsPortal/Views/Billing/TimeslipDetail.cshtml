@@ -1,0 +1,791 @@
+﻿@model HonanClaimsWebApi.Models.Billing.BillingModel
+
+@{
+    ViewBag.Title = "TimeslipDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- MOMENT JS-->
+<script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+
+<!-- DATETIMEPICKER-->
+<link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+
+@using (Html.BeginForm("TeamInsertTimeslip", "Billing", FormMethod.Post))
+{
+    <div class="main-container timedetail">
+        <div class="row mb-15">
+            <div class="col-md-12">
+                <div class="page-title">
+                    <h3>Timeslip</h3>
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(m=>m.H_Billingsid)
+         <div class="row timeslip">
+            <div class="col-md-6">
+                @Html.CheckBoxFor(c => c.Is_Billable)<label class="col-md-3 ml-15">Is Billable</label>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Services By</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Service_By_Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(o => o.Service_By_Name, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        @Html.HiddenFor(h => h.Service_By)
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Claim</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.Claim_No, new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.H_Claimsid_Billing)
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Activity</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.Activity_Name, new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.ActivityId)
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Policy</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.Policy_Name_Billing, new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.Policyid_Billing)
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Client</label>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.Client_Name, new { @class = "form-control" })
+                            @Html.HiddenFor(m => m.ClientId)
+                            <span class="input-group-addon" id="btnPolicyLookup" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Services Date</label>
+                    <div class="col-md-9">
+                        <div class="input-group" id="datetimepicker1">
+                            @Html.TextBoxFor(o => o.Service_Date, new { @class = "form-control" })
+                            <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                        </div>
+                        @Html.ValidationMessageFor(o => o.Service_Date, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                    </div>
+                </div>
+
+
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Start Time</label>
+                    <div class="col-md-4">
+                        <label class="col-md-3">HH</label>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.Start_Time_HH, Enumerable.Range(0, 24).Select(i => new
+                                 SelectListItem
+                       {
+                           Text = i.ToString().PadLeft(2, '0'),
+                           Value = i.ToString().PadLeft(2, '0')
+                       }), "HH", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(o => o.Start_Time_HH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-md-3">Min</label>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.Start_Time_MM, Enumerable.Range(0, 60).Select(i => new
+                                SelectListItem
+                       {
+                           Text = i.ToString().PadLeft(2, '0'),
+                           Value = i.ToString().PadLeft(2, '0')
+                       }), "MM", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(o => o.Start_Time_MM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">End Time</label>
+                    <div class="col-md-4">
+                        <label class="col-md-3">HH</label>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.End_Time_HH, Enumerable.Range(0, 24).Select(i => new
+                                 SelectListItem
+                       {
+                           Text = i.ToString().PadLeft(2, '0'),
+                           Value = i.ToString().PadLeft(2, '0')
+                       }), "HH", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(o => o.End_Time_HH, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-md-3">Min</label>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.End_Time_MM, Enumerable.Range(0, 60).Select(i => new
+                                SelectListItem
+                       {
+                           Text = i.ToString().PadLeft(2, '0'),
+                           Value = i.ToString().PadLeft(2, '0')
+                       }), "MM", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(o => o.End_Time_MM, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Rate P/Hr ($)</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Rate, new { @type = "number", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Rate P/Unit ($)</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Rate_Per_Unit, new { @type = "number", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Unit</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Units, new { @type = "number", @class = "form-control" })
+                        @Html.ValidationMessageFor(o => o.Units, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Billable ($)</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(m => m.Billable, new { @class = "form-control", @readonly = true })
+                        @Html.ValidationMessageFor(o => o.Billable, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                     <label class="col-md-3">Timeslip Checked</label>
+                    <div class="col-md-9">
+                        @Html.CheckBoxFor(c => c.Timeslip_Checked)
+                    </div>
+                    </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3"></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(c => c.Checked_By, new { @readonly = true, @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3"></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(c => c.Checked_Date, new { @readonly = true, @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Invoice Processed</label>
+                    <div class="col-md-9">
+                        @Html.CheckBoxFor(c => c.Invoice_Processed)
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3"></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(c => c.Invoice_Processed_By, new { @readonly = true, @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3"></label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(c => c.Invoice_Processed_Date, new { @readonly = true, @class = "form-control" })
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Invoice</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(c => c.Invoice_No, new { @readonly = true, @class = "form-control" })
+                    </div>
+                    </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label class="col-md-3">Invoice Date</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(c => c.Invoice_Date, new { @readonly = true, @class = "form-control" })
+                    </div>
+                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group col-md-12 col-sm-12">
+                    <label>Work Done</label>
+                    <div>
+                        @Html.TextAreaFor(c => c.Work_Done, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(o => o.Work_Done, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    @Html.HiddenFor(m=>m.IsNew_Billable)
+    <div class="main-container">
+        <button type="button" id="cancel"  class="btn btn-default mr-20">Cancel</button>
+        @if (Model.IsNew_Billable)
+        {
+            <button type="submit" class="btn btn-primary">Add</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">Save</button>
+        }
+        
+    </div>
+
+        <!--Modal-->
+    <div id="ClientModal" class="modal fade ClientModal" role="dialog" data-keyboard="false" data-backdrop="false" style="padding-top: 10%;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Client # Lookup</h4>
+                </div>
+
+                <div class="modal-body">
+                    <input style="width:200px; text-align:right;" type="text" class="form-control" id="Accsearch">
+                    <div id="lookupClientGrid"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+<script>
+
+    $("#cancel").on("click", function () {
+        window.location.href = '/Billing/MyBillableTime';
+    });
+    $("#Rate_Per_Unit").bind('keyup mouseup', function () {
+        var RatePUNIT = $("#Rate_Per_Unit").val();
+        var Unit = $("#Units").val();
+        var val = (RatePUNIT * Unit).toFixed(2);
+        $("#Billable").val(val);
+        
+    });
+
+    $("#Units").bind('keyup mouseup', function () {
+        var RatePUNIT = $("#Rate_Per_Unit").val();
+        var Unit = $("#Units").val();
+        var val = (RatePUNIT * Unit).toFixed(2);
+        $("#Billable").val(val);
+    });
+
+    $(document).ready(function () {
+        var Timeslip_Checked = $("#Timeslip_Checked").is(":checked");
+        if (Timeslip_Checked == false)
+        {
+            document.getElementById("Checked_By").style.visibility = "hidden";
+            document.getElementById("Checked_Date").style.visibility = "hidden";
+        }
+
+        
+        $('#Timeslip_Checked').change(function () {
+            if (this.checked) {
+                document.getElementById("Checked_By").style.visibility = "visible";
+                document.getElementById("Checked_Date").style.visibility = "visible";
+            } else {
+                document.getElementById("Checked_By").style.visibility = "hidden";
+                document.getElementById("Checked_Date").style.visibility = "hidden";
+            }
+        });
+
+        var Invoice_Processed = $("#Invoice_Processed").is(":checked");
+        debugger;
+        if (Invoice_Processed == false)
+        {
+            document.getElementById("Invoice_Processed_By").style.visibility = "hidden";
+            document.getElementById("Invoice_Processed_Date").style.visibility = "hidden";
+        }
+
+
+        $('#Invoice_Processed').change(function () {
+            if (this.checked) {
+                document.getElementById("Invoice_Processed_By").style.visibility = "visible";
+                document.getElementById("Invoice_Processed_Date").style.visibility = "visible";
+            } else {
+                document.getElementById("Invoice_Processed_By").style.visibility = "hidden";
+                document.getElementById("Invoice_Processed_Date").style.visibility = "hidden";
+            }
+        });
+
+        var tbilible = 0;
+        $('#Is_Billable').change(function () {
+            debugger;
+            if (this.checked) {
+                $("#Billable").val(tbilible);
+            } else {
+                tbilible = $("#Billable").val();
+                $("#Billable").val(0);
+            }
+        });
+
+        $("#Start_Time_HH").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
+
+            if (EH != 0 && SH > EH) {
+                bootbox.alert("Start time cannot be later than end time");
+                $("#Start_Time_HH").val("00");
+                return false;
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+
+            }
+        });
+
+        $("#Start_Time_MM").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
+
+            if (EH == EH) {
+                if (EM != 0 && SM > EM) {
+                    bootbox.alert("Start time cannot be later than end time");
+                    $("#Start_Time_MM").val(EM);
+                    //$("#End_Time_MM").val(EM);
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + EM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    var val = (RatePUNIT * Unit).toFixed(2);
+                    $("#Billable").val(val);
+                    //return false;
+                } else {
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    var val = (RatePUNIT * Unit).toFixed(2);
+                    $("#Billable").val(val);
+                }
+
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    e.preventDefault;
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+            }
+        });
+
+
+
+        $("#End_Time_HH").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
+
+            if (SH > EH) {
+                bootbox.alert("End time cannot be earlier than start time");
+                $("#End_Time_HH").val("00");
+                return false;
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+            }
+        });
+
+        $("#End_Time_MM").change(function (e) {
+            var SH = parseInt($("#Start_Time_HH").val());
+            var SM = parseInt($("#Start_Time_MM").val());
+            var EH = parseInt($("#End_Time_HH").val());
+            var EM = parseInt($("#End_Time_MM").val());
+
+            if (EH == EH) {
+                if (SM > EM) {
+                    bootbox.alert("End time cannot be earlier than start time");
+                    $("#End_Time_MM").val(SM);
+                    // return false;
+                    var totalMi = ((EH * 60) + SM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    var val = (RatePUNIT * Unit).toFixed(2);
+                    $("#Billable").val(val);
+                } else {
+                    var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                    if (totalMi < 0) {
+                        return false;
+                    }
+                    var mode = totalMi % 6;
+                    var Unit = 0;
+                    if (mode <= 2) {
+                        Unit = Math.floor(totalMi / 6);
+                    } else {
+                        Unit = Math.ceil(totalMi / 6);
+                    }
+                    $("#Units").val(Unit);
+                    var RatePUNIT = $("#Rate_Per_Unit").val();
+                    var val = (RatePUNIT * Unit).toFixed(2);
+                    $("#Billable").val(val);
+                }
+
+            } else {
+                var totalMi = ((EH * 60) + EM) - ((SH * 60) + SM);
+                if (totalMi < 0) {
+                    e.preventDefault;
+                    return false;
+                }
+                var mode = totalMi % 6;
+                var Unit = 0;
+                if (mode <= 2) {
+                    Unit = Math.floor(totalMi / 6);
+                } else {
+                    Unit = Math.ceil(totalMi / 6);
+                }
+                $("#Units").val(Unit);
+                var RatePUNIT = $("#Rate_Per_Unit").val();
+                var val = (RatePUNIT * Unit).toFixed(2);
+                $("#Billable").val(val);
+            }
+        });
+
+        $(document).ready(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD/MM/YYYY'
+            });
+            $('#datetimepicker1').data("DateTimePicker").date(new Date());
+
+
+            $("#datetimepicker1").on("dp.change", function (e) {
+                var tdate = $("#datetimepicker1").data().date;
+                //var start = new Date();
+                //var Start_Time = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate() + " " + start.getHours() + ":" + start.getMinutes();
+                $("#Service_Date").val(tdate);
+            });
+
+
+            $("#btnPolicyLookup").click(function () {
+                $('#Accsearch').val('');
+                $("#lookupClientGrid").kendoGrid({
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Billing/GetLookupAccounts"
+                        },
+                        pageSize: 10
+                    },
+                    dataBound: function (e) {
+                        $('#ClientModal').modal('show');
+                    },
+                    height: 550,
+                    sortable: true,
+                    serverPaging: true,
+                    pageable: {
+                        refresh: true,
+                        pageSizes: true,
+                        buttonCount: 10
+                    },
+                    columns: [{
+                        hidden: true,
+                        field: "AccountId",
+                        title: "AccountId"
+                    },
+                    {
+                        template: '<a id="#= AccountId #" onclick="accountClick(this)">#= AccountName #</a>',
+                        title: "Account Name",
+                    },
+                    {
+                        field: "AccountType",
+                        title: " Account Type",
+                    }
+                    ]
+                });
+
+            });
+        });
+
+        $("#Accsearch").keyup(function () {
+            var val = $('#Accsearch').val();
+            $("#lookupClientGrid").data("kendoGrid").dataSource.filter({
+                logic: "or",
+                filters: [
+                    {
+                        field: "AccountName",
+                        operator: "contains",
+                        value: val,
+                    },
+                    {
+                        field: "AccountType",
+                        operator: "contains",
+                        value: val
+                    },
+
+                ]
+            });
+        });
+        function accountClick(e) {
+            $('#ClientId').val(e.id);
+            $("#Client_Name").val(e.text);
+            $('#ClientModal').modal('hide');
+        }
+    });
+</script>
+
+
+<script>
+    var kendoAutoCompleteService_By_Name = null;
+    $(document).ready(function () {
+        kendoAutoCompleteService_By_Name = $("#Service_By_Name").kendoAutoComplete({
+            dataTextField: "Text",
+            //dataValueField: "ID",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Billing/GetTeamGetBillableLawyers?filter=" + "",
+                }
+            },
+            filter: "contains",
+            select: onSelectService_By_Name,
+        }).data("kendoAutoComplete");
+
+        function onSelectService_By_Name(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#Service_By').val(dataItem.Code);
+            $('#Service_By_Name').val(dataItem.Text)
+        }
+    });
+
+    $('#Service_By_Name').keyup(function () {
+        var dd = $("#Service_By_Name").val();
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Billing/GetTeamGetBillableLawyers?filter=" + $("#Service_By_Name").val(),
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteService_By_Name.setDataSource(dataSource);
+    });
+
+</script>
+
+
+<script>
+    var kendoAutoCompleteClaim_No = null;
+    $(document).ready(function () {
+        kendoAutoCompleteClaim_No = $("#Claim_No").kendoAutoComplete({
+            dataTextField: "Text",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By").val(),
+                }
+            },
+            filter: "contains",
+            select: onSelectClaim_No,
+        }).data("kendoAutoComplete");
+
+        function onSelectClaim_No(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#Claim_No').val(dataItem.Text);
+            $("#H_Claimsid_Billing").val(dataItem.Code);
+
+            //get ClientId
+            $.ajax({
+                url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
+                success: function (data) {
+                    debugger;
+                    $('#Client_Name').val(data.Text);
+                    $("#ClientId").val(data.Code);
+
+                    if (data.Order != null) {
+                        var RatePHR = data.Order;
+                        var RatePUNIT = ((RatePHR /60) * 6);
+                        $("#Rate").val(data.Order);
+                        $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
+                    }
+                }
+            });
+        }
+    });
+
+    $('#Claim_No').keyup(function () {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Billing/TeamGetClaimNosAssigned?UserId=" + $("#Service_By").val(),
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteClaim_No.setDataSource(dataSource);
+    });
+
+</script>
+
+
+<script>
+    var kendoAutoCompleteActivity_Name = null;
+    $(document).ready(function () {
+        kendoAutoCompleteActivity_Name = $("#Activity_Name").kendoAutoComplete({
+            dataTextField: "Text",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid_Billing").val(),
+                }
+            },
+            filter: "contains",
+            select: onSelectActivity_Name,
+        }).data("kendoAutoComplete");
+
+        function onSelectActivity_Name(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#ActivityId').val(dataItem.Code);
+            $("#Activity_Name").val(dataItem.Text);
+        }
+    });
+
+    $('#Activity_Name').keyup(function () {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Billing/TeamGetClaimActivities?Claimsid=" + $("#H_Claimsid_Billing").val(),
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteActivity_Name.setDataSource(dataSource);
+    });
+
+</script>
+
+
+
+<script>
+    var kendoAutoCompletePolicy_Name = null;
+    $(document).ready(function () {
+        kendoAutoCompletePolicy_Name = $("#Policy_Name_Billing").kendoAutoComplete({
+            dataTextField: "Text",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
+                }
+            },
+            filter: "contains",
+            select: onSelectPolicy_Name,
+        }).data("kendoAutoComplete");
+
+        function onSelectPolicy_Name(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#Policyid_Billing').val(dataItem.Code);
+            $("#Policy_Name_Billing").val(dataItem.Text);
+        }
+    });
+
+    $('#Policy_Name_Billing').keyup(function () {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + $("#H_Claimsid_Billing").val(),
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompletePolicy_Name.setDataSource(dataSource);
+    });
+
+</script>

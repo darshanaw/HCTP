@@ -1,0 +1,236 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <h3>
+        Claims Assignment
+    </h3>
+
+    <div class="col-md-6 mb">
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Assign Selected New Claims To</label>
+                <div class="col-sm-8">
+                    <select class="form-control input-sm" id="DropList" name="DropList"><option selected="selected"></option></select>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" id="btnAssignNow" class="btn btn-sm btn-primary">Assign Now</button>
+    </div>
+    <div class="col-md-12">
+        <label class="control-label input-sm">Below is a list of claims created from the customer Protal. Please assign these claims to Clam team members</label>
+    </div>
+
+    <div class="col-md-12">
+        <div id="ClaimsAssignmentGrid"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var ClaimIds = [];
+        var ClaimNames = [];
+        var grid = $("#ClaimsAssignmentGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/ClaimAssignment/TeamGetClaimAssigmentList/",
+                },
+                pageSize: 10,
+                pageSizes: [10, 20, 50,100],
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            dataBound: onDataBound,
+            filterable: true,
+            navigatable: true,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 20, 50, 100],
+                buttonCount: 10
+            },
+            columns: [
+                {
+                    hidden: true,
+                    field: "ClaimId",
+                },
+                {
+                    title: "Select",
+                    template: "<input type='checkbox' class='checkbox' />",
+                    width: 100,
+                },
+                {
+                    field: "TeamName",
+                    title: "Claim Team"
+                },
+                {
+                    field: "ClaimRefNo",
+                    title: "ClaimRefNo",
+                    template: '<a href="/ClaimAssignment/RedirectToDetail?claimId=#=ClaimId#&claimTeam=#=ClaimTeamName#&tab=detail">#=ClaimRefNo#</a>'
+                },
+                {
+                    field: "Customer",
+                    title: "Customer",
+                },
+                {
+                    field: "Category",
+                    title: "Category",
+                    width:200
+                },
+                {
+                    field: "ReportedDate",
+                    title: "Reported Date",
+                },
+                {
+                    field: "IncidentDate",
+                    title: "Incident Date"
+                }
+            ]
+        }).data("kendoGrid");
+
+
+        grid.table.on("click", ".checkbox", selectRow);
+        var checkedIds = {};
+
+
+        function selectRow() {
+            var checked = this.checked,
+                row = $(this).closest("tr"),
+                grid = $("#ClaimsAssignmentGrid").data("kendoGrid"),
+                dataItem = grid.dataItem(row);
+
+            if (ClaimNames.length == 0) {
+                ClaimNames.push(dataItem.TeamName);
+
+                document.getElementById("DropList").innerHTML = "";
+                $.ajax({
+                    url: '/ClaimAssignment/GetTeamGetUsersofTeam?TeamName=' + dataItem.TeamName,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (json) {
+                        $.each(json, function (i, value) {
+                            $('#DropList').append($('<option>').text(value.Text).attr('value', value.Code));
+                        });
+                    }
+                });
+
+            }
+            if (ClaimNames.indexOf(dataItem.TeamName) > -1) {
+
+            } else {
+                bootbox.alert("You can not select diffrent claim teams");
+                return false;
+            }
+
+            checkedIds[dataItem.ClaimId] = checked;
+            if (checked) {
+                //-select the row
+                ClaimIds.push(dataItem.ClaimId)
+                row.addClass("k-state-selected");
+            } else {
+                //-remove selection
+                var index = -1;
+                var index = ClaimIds.indexOf(dataItem.ClaimId);
+                if (index != -1) {
+                    ClaimIds.splice(index, 1);
+                }
+                if (ClaimIds.length == 0) {
+                    ClaimNames = [];
+                    document.getElementById("DropList").innerHTML = "";
+                }
+                row.removeClass("k-state-selected");
+
+            }
+        }
+
+        function onDataBound(e) {
+            var view = this.dataSource.view();
+            for (var i = 0; i < view.length; i++) {
+                if (checkedIds[view[i].ClaimId]) {
+                    this.tbody.find("tr[data-uid='" + view[i].uid + "']")
+                        .addClass("k-state-selected")
+                        .find(".checkbox")
+                        .attr("checked", "checked");
+                }
+            }
+
+            //var grid = $("#ClaimsAssignmentGrid").data("kendoGrid");
+            //for (var i = 0; i < grid.columns.length; i++) {
+            //    grid.autoFitColumn(i);
+            //}
+
+            $("#ClaimsAssignmentGrid .k-grid-header-wrap") //header
+                .find("colgroup col")
+                .eq(4)
+                .css({ width: 350 });
+
+            $("#ClaimsAssignmentGrid .k-grid-content") //content
+                .find("colgroup col")
+                .eq(4)
+                .css({ width: 350 });
+
+            $("#ClaimsAssignmentGrid .k-grid-header-wrap") //header
+                .find("colgroup col")
+                .eq(0)
+                .css({ width: 60 });
+
+            $("#ClaimsAssignmentGrid .k-grid-content") //content
+                .find("colgroup col")
+                .eq(0)
+                .css({ width: 60 });
+
+            $("#ClaimsAssignmentGrid .k-grid-header-wrap") //header
+                .find("colgroup col")
+                .eq(1)
+                .css({ width: 200 });
+
+            $("#ClaimsAssignmentGrid .k-grid-content") //content
+                .find("colgroup col")
+                .eq(1)
+                .css({ width: 200 });
+        }
+
+
+
+        $("#btnAssignNow").click(function () {
+            var e = document.getElementById("DropList");
+            var UserId = e.options[e.selectedIndex].value;
+
+            if (UserId == null || UserId == "") {
+                bootbox.alert("Please select user");
+                return false;
+            }
+
+            $.ajax({
+                url: '/ClaimAssignment/TeamAssignUserToClaims?ClaimIdList=' + JSON.stringify(ClaimIds) + '&UserId=' + UserId,
+                type: 'POST',
+                dataType: 'json',
+                success: function (result) {
+                    if (result) {
+                        ClaimNames = [];
+                        ClaimIds = [];
+                        $('#ClaimsAssignmentGrid').data('kendoGrid').dataSource.read();
+                        $('#ClaimsAssignmentGrid').data('kendoGrid').refresh();
+                        getClaimAssigmentCount();
+                    }
+
+                }
+            });
+        });
+
+
+    });
+
+
+
+</script>

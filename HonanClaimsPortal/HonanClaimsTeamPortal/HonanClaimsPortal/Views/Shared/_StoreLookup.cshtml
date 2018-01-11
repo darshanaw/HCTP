@@ -1,0 +1,113 @@
+﻿
+
+
+@{
+    ViewBag.Title = "Honan Claims -  View Notifications";
+}
+
+@{
+    string Accountid = this.ViewData.ContainsKey("Accountid") && this.ViewData["Accountid"] != null ? this.ViewData["Accountid"].ToString() : string.Empty;
+
+}
+
+<!-- DATATABLES-->
+<script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+<script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+<script src="~/Content/vendor/datatables-buttons/js/dataTables.buttons.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
+@*<link href="~/Content/vendor/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />*@
+
+<style>
+    table.dataTable thead .sorting {
+        background: url('/Content/vendor/datatables/media/images/sort_both.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background: url('/Content/vendor/datatables/media/images/sort_asc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background: url('/Content/vendor/datatables/media/images/sort_desc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    .dataTables_filter {
+        margin-top: 10px !important;
+    }
+</style>
+
+<div class="panel panel-default">
+
+    <div class="table-responsive">
+        <table id="tbStore" class="table table-striped" style="margin-bottom: 10px;">
+            <thead>
+                <tr>
+                    <th class="sort-alpha">Store Name</th>
+                    <th class="sort-alpha">Address</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#tbStore').dataTable({
+            "bServerSide": true,
+            "searching": true,
+            "sAjaxSource": "/Lookup/StoreAjaxHandler",
+            "fnServerParams": function (aoData) {
+
+                if ($('#Accountid').length)
+                                aoData.push({ 'name': 'Accountid', 'value': $("#Accountid").val() });
+
+            },
+            "paging": false,
+            "bProcessing": false,
+            "bsearch": false,
+            'info':false,
+            "aoColumns": [
+
+                {
+                    "sName": "StoreName",
+                    "sClass": "center",
+                    "mRender": function (data, type, oObj) {
+                        return '<a id="txtRRNo" href="javascript:void(0);" onclick="closeStoreModal(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[2] + '\');">' + oObj[0] + '</a>';
+                        //return "<a  onclick='closeStoreModal(this," + oObj[0] + ");' href='#/'  return false;>" + oObj[0] + "</a>";
+                    }
+                },
+                { "sName": "Address"}
+
+            ]
+        });
+    });
+
+    function closeStoreModal(storeName,address,region)
+    {
+        //var text = $(val).text();
+        $("#Storeid_Name").val(storeName);
+                
+        if ($("#Incident_Address").length > 0) {
+
+            $("#Incident_Address").val(address);
+        }
+        if ($("#Region").length > 0) {
+
+            $("#Region").val(region).trigger('change');
+        }
+
+        $('#StoresModal').modal('toggle');
+    }
+
+</script>

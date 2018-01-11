@@ -1,0 +1,231 @@
+﻿
+@{
+    string accountId = this.ViewData.ContainsKey("AccountId") ? this.ViewData["AccountId"].ToString() : string.Empty;
+    string teamName = this.ViewData.ContainsKey("TeamName") ? this.ViewData["TeamName"].ToString() : string.Empty;
+    string claimId = this.ViewData.ContainsKey("ClaimId") ? this.ViewData["ClaimId"].ToString() : string.Empty;
+}
+
+
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-3 control-label input-sm">Policy #</label>
+                <div class="col-sm-9">
+                    @*<input id="Policy_No_CC" type="text" class="form-control input-sm" />*@
+                    <select id="Policy_No_CC" class="form-control input-sm"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-3 control-label input-sm">Assigned To</label>
+                <div class="col-sm-9">
+                    @*<input id="Assigned_To_CC" type="text" class="form-control input-sm" />
+                        <input id="Assigned_To_CC_Id" class="form-control input-sm" type="hidden" />*@
+                    <select id="Assigned_To_CC" class="form-control input-sm"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group mb">
+                <label class="col-sm-3 control-label input-sm">Activity Template</label>
+                <div class="col-sm-9">
+                    <input id="ActivityTemplate" type="text" class="form-control input-sm" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 top-padding-eight">
+        <div class="text-right">
+            <button type="button" onclick="CloseCC()" class="mb-sm btn btn-default">Cancel</button>
+            <button type="button" onclick="ConvertToClaim()" class="mb-sm btn btn-primary">Convert To Claim</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Covert to Claim Modal End-->
+<!-- SELECT2-->
+<script src="~/Content/vendor/select2/dist/js/select2.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#Policy_No_CC').select2({ width: '100%' });
+        if ($("#Policy_No_CC").length > 0) {
+            $("#Policy_No_CC").val($("#Policy_No_CC").val()).trigger('change.select2');;
+        }
+
+        $('#Assigned_To_CC').select2({ width: '100%' });
+        if ($("#Assigned_To_CC").length > 0) {
+            $("#Assigned_To_CC").val($("#Assigned_To_CC").val()).trigger('change.select2');;
+        }
+    });
+
+    function loadPolicies() {
+        var policySelect = $('#Policy_No_CC');
+
+        $.ajax({
+            url: "/Lookup/GetPoliciesAjaxHandler?filter=&accountId=" + "@accountId", success: function (result) {
+                policySelect.append(
+                    $('<option></option>').val("").html("")
+                );
+                $.each(result, function (val, text) {
+                    policySelect.append(
+                        $('<option></option>').val(text.PolicyNo).html(text.PolicyNo)
+                    );
+                });
+            }
+        });
+    }
+
+    function loadAssignedUser() {
+        var assignedToSelect = $('#Assigned_To_CC');
+
+        $.ajax({
+            url: "/Lookup/GetUsersAjaxHandler?filter=&teamName=" + "@teamName", success: function (result) {
+                assignedToSelect.append(
+                    $('<option></option>').val("").html("")
+                );
+                $.each(result, function (text,code) {
+                    assignedToSelect.append(
+                        $('<option></option>').val(code.Code).html(code.Text)
+                    );
+                });
+            }
+        });
+    }
+
+    function CloseCC() {
+        $('#Assigned_To_CC_Id').val("");
+        $('#Assigned_To_CC').val("");
+        $("#Policy_No_CC").val("");
+        $('#Policy_No_CC').find('option').remove().end();
+        $('#Assigned_To_CC').find('option').remove().end();
+        $('#convertToClaimModel').modal("hide");
+    }
+
+    function ConvertToClaim() {
+
+        if ($('#Assigned_To_CC').val() == "" || $('#Assigned_To_CC_Id').val() == "") {
+            $('#Assigned_To_CC').focus();
+            return;
+        }
+
+        if ($('#Policy_No_CC').val() == "") {
+            $('#Policy_No_CC').focus();
+            return;
+        }
+
+        $.LoadingOverlay("show");
+
+        $.ajax({
+                type: "POST",
+                url: "/Lookup/ConvertToClaimAjax",
+                data: '{claimId: "' + "@claimId" + '",policyNo:"' + $('#Policy_No_CC').val() + '",assignedUserId:"' + $('#Assigned_To_CC').val() + '",teamName:"' + $('#ActivityTemplate').val() + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $('#Assigned_To_CC_Id').val("");
+                    $('#Assigned_To_CC').val("");
+                    $("#Policy_No_CC").val("");
+                    $('#Policy_No_CC').find('option').remove().end();
+                    $('#Assigned_To_CC').find('option').remove().end();
+                    location.reload();
+                    $('#convertToClaimModel').toggle();
+                },
+                failure: function (response) {
+                    alert("Failed to Update");
+                    $.LoadingOverlay("hide");
+                },
+                error: function (response) {
+                    alert("Failed to Update");
+
+                    $.LoadingOverlay("hide");
+                }
+        });
+
+
+    }
+</script>
+
+<script>
+     @*var kendoAutoCompleteService_By_Name = null;
+    $(document).ready(function () {
+        kendoAutoCompleteService_By_Name = $("#Policy_No_CC").kendoAutoComplete({
+            dataTextField: "PolicyNo",
+            //dataValueField: "ID",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Lookup/GetPoliciesAjaxHandler?filter=&accountId=" + "@accountId",
+                }
+            },
+            filter: "contains",
+            select: onSelectService_By_Name,
+        }).data("kendoAutoComplete");
+
+        function onSelectService_By_Name(e) {
+            var dataItem = this.dataItem(e.item.index());
+            //$('#Service_By').val(dataItem.PolicyId);
+            $('#Policy_No_CC').val(dataItem.PolicyNo)
+        }
+    });
+
+    $('#Policy_No_CC').keyup(function () {
+        var dd = $("#Policy_No_CC").val();
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Lookup/GetPoliciesAjaxHandler?filter=" + $("#Policy_No_CC").val() + "&accountId="  + "@accountId",
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteService_By_Name.setDataSource(dataSource);
+    });*@
+</script>
+
+<script>
+    @*var kendoAutoCompleteAssigend_User = null;
+    $(document).ready(function () {
+        kendoAutoCompleteAssigend_User = $("#Assigned_To_CC").kendoAutoComplete({
+            dataTextField: "Text",
+            //dataValueField: "ID",
+            minLength: 2,
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Lookup/GetUsersAjaxHandler?filter=&teamName=" + "@teamName",
+                }
+            },
+            filter: "contains",
+            select: onSelectAssigned_User,
+        }).data("kendoAutoComplete");
+
+        function onSelectAssigned_User(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#Assigned_To_CC_Id').val(dataItem.Code);
+            $('#Assigned_To_CC').val(dataItem.Text)
+        }
+    });
+
+    $('#Assigned_To_CC').keyup(function () {
+        var dd = $("#Assigned_To_CC").val();
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Lookup/GetUsersAjaxHandler?filter=" + $("#Assigned_To_CC").val() + "&teamName="  + "@teamName",
+                    dataType: "json"
+                }
+            }
+        });
+        kendoAutoCompleteAssigend_User.setDataSource(dataSource);
+    });*@
+</script>
+

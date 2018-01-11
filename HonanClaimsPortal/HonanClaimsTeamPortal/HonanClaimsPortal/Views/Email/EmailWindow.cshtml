@@ -1,0 +1,819 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<!-- BOOTSTRAP-->
+<script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
+
+<link rel="stylesheet" href="~/Content/vendor/fontawesome/css/font-awesome.min.css">
+<!-- SIMPLE LINE ICONS-->
+<link rel="stylesheet" href="~/Content/vendor/simple-line-icons/css/simple-line-icons.css">
+<!-- ANIMATE.CSS-->
+<link rel="stylesheet" href="~/Content/vendor/animate.css/animate.min.css">
+<!-- WHIRL (spinners)-->
+<link rel="stylesheet" href="~/Content/vendor/whirl/dist/whirl.css">
+<!-- =============== PAGE VENDOR STYLES ===============-->
+<!-- WEATHER ICONS-->
+<link rel="stylesheet" href="~/Content/vendor/weather-icons/css/weather-icons.min.css">
+<!-- =============== BOOTSTRAP STYLES ===============-->
+<link rel="stylesheet" href="~/Content/app/css/bootstrap.css" id="bscss">
+<!-- =============== APP STYLES ===============-->
+<link rel="stylesheet" href="~/Content/app/css/app.css" id="maincss">
+<link href="~/Content/Custom.css?v1.2" rel="stylesheet" />
+
+<!-- JQUERY-->
+<script src="~/Content/vendor/jquery/dist/jquery.js"></script>
+
+<link href="~/Content/style.css" rel="stylesheet" />
+
+<link href="~/Content/summerNote/dist/summernote.css" rel="stylesheet" />
+<script src="~/Content/summerNote/dist/summernote.js"></script>
+
+
+<!--Kendo-->
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-material.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-bootstrap.min.css">
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.bootstrap.min.css">
+<script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
+
+<!-- BOOTSTRAP-->
+<script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
+
+<!--Bootbox-->
+<script src="~/Scripts/bootbox.min.js"></script>
+
+
+@{
+    string emailId = string.Empty;
+    string action = string.Empty;
+    string claimNumber = string.Empty;
+    string claimIdNo = string.Empty;
+    string toAddress = string.Empty;
+
+    string visibility = "visible";
+    if (ViewBag.EmailId != null)
+    {
+        emailId = ViewBag.EmailId;
+    }
+
+    if (ViewBag.Action != null)
+    {
+        action = ViewBag.Action;
+    }
+
+    if (ViewBag.ClaimNo != null)
+    {
+        claimNumber = ViewBag.ClaimNo;
+    }
+
+    if (ViewBag.ClaimIdNo != null)
+    {
+        claimIdNo = ViewBag.ClaimIdNo;
+    }
+
+    if (ViewBag.ToAddress != null)
+    {
+        toAddress = ViewBag.ToAddress;
+    }
+
+    if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+    {
+        visibility = "hidden";
+    }
+
+}
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Honan CTP Email Client</title>
+</head>
+<body>
+
+    <input type="hidden" id="Claim_Reference_Num">
+
+    <div class="top-padding-eight col-sm-12 col-md-12 mb-15">
+        <div class="top-padding-eight col-sm-12 col-md-12">
+
+            <a href="#" id="sendEmail" class="pr-20" style="visibility:@visibility">
+                <em class="fa fa-send"></em> Send
+            </a>
+
+            @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+            {
+                <a href="#" class="pr-20" id="replyAction">
+                    <em class="fa fa-mail-reply"></em> Reply
+                </a>
+                <a href="#" class="pr-20" id="replyAllAction">
+                    <em class="fa fa-mail-reply-all"></em> Reply All
+                </a>
+                <a href="#" class="pr-20" id="forwardAction">
+                    <em class="fa fa-mail-forward"></em> Forward
+                </a>
+            }
+
+            <a href="#" id="attachEmails" class="pr-20" style="visibility:@visibility">
+                <em class="icon-paper-clip"></em> Attach
+            </a>
+            <input id="emailattach" type="file" style="visibility:hidden" multiple />
+
+            @*<a href="#" class="pr-20 pull-right">
+                    <em class="icon-close"></em> Close
+                </a>*@
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+    {
+        <div class="col-sm-12 col-md-12 top-padding-eight">
+            <div class="col-sm-1 col-md-1">
+                <label class="control-label input-sm">From:</label>
+            </div>
+            <div class="col-sm-11 col-md-11">
+                <label class="control-label input-sm" id="emailFrom"></label>
+            </div>
+        </div>
+    }
+
+    <div class="top-padding col-sm-12 col-md-12">
+        <div class="col-sm-1 col-md-1">
+            <label class="control-label input-sm">Claim:</label>
+        </div>
+        <div class="col-sm-11">
+            @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+            {
+                <label class="control-label input-sm" id="emailClaim"></label>
+            }
+            else
+            {
+                <select id="claim"></select>
+            }
+
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-12 col-md-12 top-padding-eight">
+        <div class="col-sm-1 col-md-1">
+            <label class="control-label input-sm">To:</label>
+        </div>
+        <div class="col-sm-11 col-md-11">
+            @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+            {
+                <label class="control-label input-sm" id="emailTo"></label>
+            }
+            else
+            {
+                <input class="form-control" id="Tolist" />
+            }
+
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 top-padding">
+        <div class="col-sm-1 col-md-1">
+            <label class="control-label input-sm">CC:</label>
+        </div>
+        <div class="col-sm-11 col-md-11">
+            @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+            {
+                <label class="control-label input-sm" id="emailCC"></label>
+            }
+            else
+            {
+                <input class="form-control" id="CClist" />
+            }
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 top-padding">
+        <div class="col-sm-1 col-md-1">
+            <label class="control-label input-sm">Subject:</label>
+        </div>
+        <div class="col-sm-11 col-md-11">
+            @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+            {
+                <label class="control-label input-sm" id="emailSubject"></label>
+            }
+            else
+            {
+                <input class="form-control" id="subject" />
+            }
+        </div>
+    </div>
+    <div class="col-md-12 top-padding-eight" id="attachmetHolder">
+        @*<div class="col-md-3">
+                <div class="panel discoverer mb-0">
+                    <div class="panel-body text-center p0">
+                        <div class="clearfix discover">
+                            <div class="pull-right">
+                                <a class="text-muted mr-sm" href="#" title="Remove">
+                                    <em class="fa fa-close fa-fw"></em>
+                                </a>
+                            </div>
+                        </div>
+                        <span>
+                            <a class="file-icon ph-sm">
+                                <em class="fa fa-1x fa-file-archive-o text-primary"></em>
+                            </a>
+                            <small class="text-dark">A good song. darshana wanigasekara gihen kaushitha</small>
+                        </span>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+    <div class="col-sm-12 col-md-12 top-padding">
+        <div class="col-sm-12 col-md-12 top-padding">
+            @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
+            {
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="emailBody"></div>
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div id="summernote"></div>
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+<script>
+
+
+    var list = new Array();
+    var Tolist = new Array();
+    var CClist = new Array();
+    var widget = $("#Tolist").data("kendoAutoComplete");
+    var widget2 = $("#CClist").data("kendoAutoComplete");
+    var emptyemail = new Array();
+    var filearray = new Array();
+    var existingfilearray = new Array();
+    var multiselectClaim = $("#claim").data("kendoMultiSelect");
+
+    $(document).ready(function () {
+        $.LoadingOverlay("show");
+
+        $('#summernote').summernote({
+            height: 370
+        });
+
+        bindToinputs(emptyemail);
+
+        //$.get("/Home/GetAllClaimsOfTeams", function (data) {
+        //    loadClaimList(data);
+        //});
+
+        $("#attachEmails").click(function () {
+            $("#emailattach").click();
+        });
+
+
+        $("#emailattach").change(function (input) {
+            var file1 = $('#emailattach').get(0).files;
+            if (file1 != null) {
+                jQuery.each(file1, function (i, file) {
+                    filearray.push(file);
+                });
+
+            }
+
+            ele = document.getElementById('emailattach');
+            ele.value = null;
+            $('#attachmetHolder').empty();
+
+            $.each(existingfilearray, function (i, item) {
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+
+            });
+
+            $.each(filearray, function (i, item) {
+
+                //$('#ul').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i></li>');
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.name + '</small></span></div></div></div>');
+
+            });
+
+        });
+
+
+        $(document).delegate('.removeItem', 'click', function (e) {
+            //id = e.target.id;
+            id = $(this).attr("id");
+            filearray = jQuery.grep(filearray, function (i, value) {
+                return value != id;
+            });
+
+            $('#attachmetHolder').empty();
+
+            $.each(existingfilearray, function (i, item) {
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+
+            });
+
+            $.each(filearray, function (i, item) {
+
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.name + '</small></span></div></div></div>');
+
+            });
+        });
+
+        $.LoadingOverlay("hide");
+
+        $("#sendEmail").click(function () {
+
+            //check Claim has been selected
+            if (list.length <= 0) {
+                bootbox.alert("We need to know which claim this is referring to. Make sure you select a claim first");
+                $("#claim").focus();
+                return;
+            }
+
+            //check To Address available
+            var autocomplete1 = $("#Tolist").data("kendoAutoComplete");
+            var listone = autocomplete1.value();
+            if (listone != null && listone != "") {
+                Tolist = separeString(listone);
+            }
+
+            if (listone.length <= 0) {
+                bootbox.alert("We need to know who to send this to. Make sure you specify who To send");
+                $("#Tolist").focus();
+                return;
+            }
+
+            //check Subject
+            var subject = $('#subject').val();
+            if (subject == null || subject == "") {
+                bootbox.alert("You are missing the subject of the email.");
+                $("#subject").focus();
+                return;
+            }
+
+
+            sendEmail(list, subject);
+        });
+
+        $("#replyAction").click(function (e) {
+            window.location.href = "/Email/EmailWindow?emailId=" + "@emailId" + "&emailAction=Reply" ;
+        });
+
+        $("#replyAllAction").click(function () {
+            window.location.href = "/Email/EmailWindow?emailId=" + "@emailId" + "&emailAction=ReplyAll" ;
+        });
+
+        $("#forwardAction").click(function () {
+            window.location.href = "/Email/EmailWindow?emailId=" + "@emailId" + "&emailAction=Forward" ;
+        });
+
+
+        $(document).delegate('.removeExistingItem', 'click', function (e) {
+            //id = e.target.id;
+            id = $(this).attr("id");
+            existingfilearray = jQuery.grep(existingfilearray, function (i, value) {
+                return value != id;
+            });
+
+            $('#attachmetHolder').empty();
+            $.each(existingfilearray, function (i, item) {
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+
+            });
+
+            $.each(filearray, function (i, item) {
+
+                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                    '</em></a><small class="text-dark">' + item.name + '</small></span></div></div></div>');
+
+            });
+        });
+
+        initEmail();
+    });
+
+    function separeString(word) {
+        var d = word.split(",");
+        return d;
+
+    }
+
+    function bindToinputs(data) {
+        emptyemail = data;
+        $("#CClist, #Tolist").kendoAutoComplete({
+            //dataTextField: "Code",
+            //dataValueField: "Code",
+            //autoBind: true,
+            //deselect: onemailDeselect,
+            separator: ",",
+            //select: onemailSelect,
+            dataSource: emptyemail
+        });
+
+        function onemailDeselect(e) {
+
+            var dataItem = e.dataItem;
+            if (e.sender.element[0].id == "Tolist") {
+                addRemoveEmails(dataItem, true, true);
+            } else {
+                addRemoveEmails(dataItem, true, false);
+            }
+        }
+
+        function onemailSelect(e) {
+
+            var dataItem = e.dataItem;
+            if (e.sender.element[0].id == "Tolist") {
+                addRemoveEmails(dataItem, false, true);
+            } else {
+                addRemoveEmails(dataItem, false, false);
+            }
+        }
+    }
+
+    function addRemoveEmails(dataItem, IsRemove, isTo) {
+        if (IsRemove) {
+            if (isTo) {
+                if (Tolist.length > 0) {
+                    Tolist = jQuery.grep(Tolist, function (value) {
+                        return value != dataItem.Code;
+                    });
+                }
+            } else {
+                if (CClist.length > 0) {
+                    CClist = jQuery.grep(CClist, function (value) {
+                        return value != dataItem.Code;
+                    });
+                }
+            }
+
+        } else {
+            if (isTo) {
+                Tolist.push(dataItem.Code);
+            } else {
+                CClist.push(dataItem.Code);
+            }
+        }
+    }
+
+
+    function BindEmailToInputs() {
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: '/Home/GetContactList',
+            data: JSON.stringify({ claimList: list }),
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            success: function (data) {
+
+                emptyemail = data;
+                var widgetn = $("#Tolist").data("kendoAutoComplete");
+                var widget2n = $("#CClist").data("kendoAutoComplete");
+                widgetn.setDataSource(emptyemail);
+                widget2n.setDataSource(emptyemail);
+            },
+            error: function (data) {
+                console.debug(data);
+            }
+        });
+    }
+
+
+    function loadEmails(dataItem, IsRemove) {
+        if (IsRemove) {
+            if (list.length > 0) {
+                list = jQuery.grep(list, function (value) {
+                    return value != dataItem.Code;
+                });
+                if (list.length <= 0) {
+                    $('#Tolist').prop('disabled', false);
+                    $('#CClist').prop('disabled', false);
+                }
+            }
+        } else {
+            list.push(dataItem.Code);
+        }
+
+        BindEmailToInputs();
+    }
+
+
+    function loadClaimList(listdata) {
+        debugger;
+        $("#claim").kendoMultiSelect({
+
+            dataTextField: "Text",
+            dataValueField: "Code",
+            autoBind: true,
+            minlength: 5,
+            deselect: onDeselect,
+            select: onSelect,
+            //change: multiOnchange,
+            //dataSource: listdata,
+            dataSource: {
+                type: "json",
+                serverFiltering: true,
+                transport: {
+
+                    read: {
+                        url: "/Home/GetAllClaimsOfTeams",
+                        dataType: "json",
+                        data: function () {
+                            return {
+                                text_para: $("#claim").data("kendoMultiSelect").input.val(),
+                                claimRefNo: $("#Claim_Reference_Num").val()
+                            };
+                        }
+                    }
+                },
+
+            }
+        });
+
+
+        function multiOnchange(e) {
+            console.log(e);
+        }
+
+        function onSelect(e) {
+            debugger;
+            $.LoadingOverlay("show");
+
+            var dataItem = e.dataItem;
+            $('#Tolist').prop('disabled', false);
+            $('#CClist').prop('disabled', false);
+            loadEmails(dataItem, false);
+
+            if ($("#subject").val() == "") {
+                if( dataItem.Text !== null &&  dataItem.Text != "")
+                    $("#subject").val("Claim Ref # " + " [" + dataItem.Text + "]");
+            }
+
+            $.LoadingOverlay("hide");
+        };
+
+        function onDeselect(e) {
+            var dataItem = e.dataItem;
+            loadEmails(dataItem, true);
+            $("#subject").val("");
+        };
+
+    };
+
+    function sendEmail(list, subject) {
+        debugger;
+        var toArr = [], ccArr = [];
+        var control = $("#Tolist").data("kendoAutoComplete");
+        toArr = control.value().split(',');
+
+        control = $("#CClist").data("kendoAutoComplete");
+        ccArr = control.value().split(',');
+
+
+        Array.prototype.clean = function (deleteValue) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == deleteValue) {
+                    this.splice(i, 1);
+                    i--;
+                }
+            }
+            return this;
+        };
+
+        toArr.clean("");
+        ccArr.clean("");
+
+        var model = {
+            ToEmails: toArr,
+            CcEmails: ccArr,
+            ClaimIds: list,
+            subject: subject,
+            isFileNote: false,
+            FilesSimple: existingfilearray
+        }
+
+        var body = $('#summernote').summernote('code');
+
+        var formData = new FormData();
+        jQuery.each(filearray, function (i, file) {
+            formData.append('files', file);
+        });
+
+        var t = JSON.stringify(model);
+
+        //var encodedString =  btoa(body);
+        var encodedString =  btoa(unescape(encodeURIComponent(body)));
+
+        formData.append("model", t);
+        formData.append("html", encodedString);
+
+        $.LoadingOverlay("show");
+
+        $.ajax({
+            url: "/Home/SendEmail",
+            type: 'post',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                $.LoadingOverlay("hide");
+                window.close();
+                // ..... any success code you want
+            }
+        });
+    };
+
+
+    function initEmail() {
+        debugger;
+        if ("@emailId" != "") {
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: "/Email/GetClaimEmail?emailId=" + "@emailId" + "&withAttachments=false", success: function (result) {
+                    if (result != null) {
+
+                        $("#emailFrom").text(result.FromEmail);
+                        $("#emailTo").text(result.To);
+                        $("#emailCC").text(result.CC);
+                        $("#emailSubject").text(result.Subject);
+                        $('#emailBody').append(result.EmailBody);
+                        $("#emailClaim").text(result.ClaimNo);
+
+                        if ("@action" == "") {
+                            $('#attachmetHolder').empty();
+                            if (result.FilesSimple.length > 0) {
+
+                                $.each(result.FilesSimple, function (i, item) {
+                                    var name = "'" + item.AttachmentName + "'";
+                                    var description = "'" + item.AttachmentDescription + "'";
+
+                                    $('#attachmetHolder').append('<div onclick="downloadAttachment(' + name + ',' + description + ')" class="col-md-3 mb-10"><div style="cursor: pointer;" class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                                        '<div class="clearfix discover"><div class="pull-right"></div><span><a href="#" class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                                        '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+                                });
+                            }
+                        }
+                        else if ("@action" == "Forward") {
+                            $('#attachmetHolder').empty();
+
+                            $.each(result.FilesSimple, function (i, item) {
+                                debugger;
+                                existingfilearray.push(item);
+                                $('#attachmetHolder').append('<div class="col-md-3 mb-10"><div class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
+                                    '<div class="clearfix discover"><div class="pull-right"><a class="text-muted mr-sm removeExistingItem" id=' + i.toString() + ' href="#" title="Remove">' +
+                                    '<em class="fa fa-close fa-fw"></em></a></div></div><span><a class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
+                                    '</em></a><small class="text-dark">' + item.AttachmentDescription + '</small></span></div></div></div>');
+                            });
+
+
+                        }
+                    }
+                }
+            });
+
+            $.LoadingOverlay("hide");
+        }
+        else {
+            if ("@claimNumber" !== "" && "@claimIdNo" !== "") {
+                $("#Claim_Reference_Num").val("@claimNumber");
+                loadClaimList(null);
+                var claimMultiselect = $("#claim").data("kendoMultiSelect");
+                claimMultiselect.value(["@claimIdNo"]);
+
+                var obj = { Text:"@claimNumber", Code:"@claimIdNo"};
+                loadEmails(obj, false);
+
+                if ($("#subject").val() == "") {
+                     if("@claimNumber" !== "undefined" && "@claimNumber" != "")
+                         $("#subject").val("Claim Ref # " + " [" + "@claimNumber" + "]");
+                }
+
+                 var toControl = $("#Tolist").data("kendoAutoComplete");
+                 toControl.value("@toAddress");
+
+            } else {
+                loadClaimList(null);
+            }
+
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: "/Email/GetEmailSignature", success: function (res) {
+                    if (res != null && res.ApplyOnNewEmails)
+                        $("#summernote").summernote('code', "<br/><br/>" + res.Signature);
+
+                    $.LoadingOverlay("hide");
+                }
+            });
+
+        }
+
+        if ("@action" != "") {
+            $.LoadingOverlay("show");
+
+            var withAttachments = false;
+
+            $.ajax({
+                url: "/Email/GetClaimEmail?emailId=" + "@emailId" + "&withAttachments=" + withAttachments, success: function (result) {
+                    if (result != null) {
+
+                        $('#summernote').summernote('code', "<br/><hr style='border-width: 3px;'>" + result.EmailBody);
+
+                        $("#Claim_Reference_Num").val(result.ClaimNo);
+                        loadClaimList(null);
+                        var claimMultiselect = $("#claim").data("kendoMultiSelect");
+                        console.log(result.ClaimId);
+                        claimMultiselect.value([result.ClaimId]);
+
+                        list.push(result.ClaimId);
+                        $('#Tolist').prop('disabled', false);
+                        $('#CClist').prop('disabled', false);
+
+                        $.ajax({
+                            url: "/Email/GetEmailSignature", success: function (signatureResult) {
+                                 var subjectPrefix;
+                                    var widget;
+                                    switch ("@action") {
+                                        case "Reply":
+                                            subjectPrefix = "RE: ";
+                                            widget = $("#Tolist").data("kendoAutoComplete");
+                                            widget.value(result.FromEmail);
+                                            if (signatureResult != null && signatureResult.ApplyOnReplies)
+                                                $('#summernote').summernote('code', "<br/><br/>" + signatureResult.Signature + $('#summernote').summernote('code'));
+
+                                            break;
+
+                                        case "ReplyAll":
+                                            subjectPrefix = "RE: ";
+
+                                            widget = $("#Tolist").data("kendoAutoComplete");
+                                            widget.value(result.FromEmail + "," + result.To);
+                                            widget = $("#CClist").data("kendoAutoComplete");
+                                            widget.value(result.CC);
+
+                                            var ccArr = result.CC.split(',');
+                                            for (var i = 0; i < ccArr.length; i++) {
+                                                CClist.push(ccArr[i]);
+                                            }
+                                            if (signatureResult != null && signatureResult.ApplyOnReplies)
+                                                $('#summernote').summernote('code', "<br/><br/>" + signatureResult.Signature + $('#summernote').summernote('code'));
+                                            break;
+
+                                        case "Forward":
+                                            subjectPrefix = "FW: ";
+                                            if (signatureResult != null && signatureResult.ApplyOnForwards)
+                                                $('#summernote').summernote('code', "<br/><br/>" + signatureResult.Signature + $('#summernote').summernote('code'));
+                                            break;
+                                    }
+                                    $("#subject").val(subjectPrefix + result.Subject)
+                                    BindEmailToInputs();
+                                    $.LoadingOverlay("hide");
+                            }
+                        });
+
+                    }
+                }
+            });
+
+        }
+    };
+
+
+    function downloadAttachment(name, description) {
+        window.location.href = "/ClaimDetailTabs/FileDownloadByFileName?fileName=" + name + "&fileRealName=" + description;
+    }
+
+</script>
+

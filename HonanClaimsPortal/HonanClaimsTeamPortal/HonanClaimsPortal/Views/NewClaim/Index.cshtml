@@ -1,0 +1,370 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@model HonanClaimsWebApi.Models.Claim.NewClaimModel
+
+<!-- MOMENT JS-->
+<script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+<!-- DATETIMEPICKER-->
+<link href="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Content/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
+<style>
+    .disabled {
+        background-color: lightgray;
+    }
+
+    .content-wrapper {
+        padding-top: 0px !important;
+    }
+</style>
+
+
+<br />
+
+@{
+    HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel loginObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
+}
+
+<div class="content-wrapper">
+    <h3 class="hmb">
+        New Claim
+    </h3>
+
+    <div class="row">
+        <div class="panel panel-default">
+            @using (Html.BeginForm("Index", "NewClaim", FormMethod.Post))
+            {
+                <div class="panel-body">
+
+
+                    @Html.HiddenFor(o => o.Oc_No)
+                    @Html.HiddenFor(o => o.Accountid)
+                    @Html.HiddenFor(o => o.Property_Address_1)
+                    @Html.HiddenFor(o => o.Property_Address_2)
+                    @Html.HiddenFor(o => o.Property_Postalcode)
+                    @Html.HiddenFor(o => o.Property_State)
+                    @Html.HiddenFor(o => o.Property_Suburb)
+                    @Html.HiddenFor(o => o.Assigned_To_Id)
+                    @Html.HiddenFor(o => o.AccountManager)
+                    @Html.HiddenFor(o => o.InsurerName)
+                    @Html.HiddenFor(o => o.Insurer)
+                    @Html.HiddenFor(o => o.Insured_Name)
+                    @Html.HiddenFor(o => o.Policy_Class)
+                    @Html.HiddenFor(o => o.Policy_Id)
+                    @Html.HiddenFor(o => o.Account_Manager_Property)
+
+                    <div class="form-horizontal">
+                        <div class="col-md-12 m0 p0">
+
+                            <div class="form-group mb">
+                                <label class="col-sm-2 control-label input-sm">Claim Team</label>
+                                <div class="col-sm-9">
+                                    @Html.DropDownListFor(o => o.Claim_Team, new SelectList(Model.Claim_Team_List, "Text", "Value"), new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+                            <div class="form-group mb" id="divOcNo">
+                                <label class="col-sm-2 control-label input-sm">OC #</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Oc_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto" })
+                                        <span id="spanAccountOcModal" class="input-group-btn" data-toggle="modal" data-target="#OcModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb">
+                                <label class="col-sm-2 control-label input-sm">Account Name</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Account_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto;background-color:white", @readonly = true })
+                                        <span id="accountNoModal" class="input-group-btn" data-toggle="modal" data-target="#AccountModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb">
+                                <label class="col-sm-2 control-label input-sm">Claim Type</label>
+                                <div class="col-sm-9">
+                                    @Html.DropDownListFor(o => o.Claim_Type, new SelectList(Model.Claim_Type_List, "Text", "Value"), "", new { @class = "form-control input-sm" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group mb">
+                                <label class="col-sm-2 control-label input-sm">Policy #</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200, @style = "z-index: auto" })
+                                        <span id="spnPolicyModal" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="z-index:auto">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb" id="divAssignTo">
+                                <label class="col-sm-2 control-label input-sm">Assigned To</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(o => o.Assigned_To, new { @class = "form-control input-sm", @maxlength = 200, @style = "z-index: auto" })
+                                        <span id="spnAssignTo" class="input-group-btn" data-toggle="modal" data-target="#AssignToModal">
+                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="z-index:auto">
+                                                <i class="fa fa-binoculars"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-12 col-sm-12 m0 p0">
+                    <div class="panel-footer text-right" style="padding-right:8%">
+                        <button type="button" onclick="Cancel()" class="mb-sm btn btn-default">Cancel</button>
+                        <button id="btnSubmit" type="submit" class="mb-sm btn btn-primary">Next >></button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Modal -->
+<div id="AccountModal" class="modal fade AccountModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Account Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_AccountLookup.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="OcModal" class="modal fade" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">OC # Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_OcNoLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="PolicyModal" class="modal fade PolicyModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Policy Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="AccountOcModal" class="modal fade AccountOcModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">OC# Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_AccountOcLookup.cshtml")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="AssignToModal" class="modal fade AssignToModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Users Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_AssignToLookup.cshtml")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+              
+
+        if ($("#Account_Name").val() !== "" && $("#Claim_Type").val() !== "")
+        {
+            $.LoadingOverlay("show");
+            window.location = "/claimlist/Index";
+        }
+  
+
+        if ($("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
+            $("#Oc_No").val("");
+            $("#divOcNo").hide();
+        }
+        else {
+            $("#divOcNo").show();
+        }
+
+        $("#Claim_Team").change(function () {
+            if ($(this).val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $(this).val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
+                $("#Oc_No").val("");
+                $("#divOcNo").hide();
+            }
+            else {
+                $("#divOcNo").show();
+            }
+        });
+
+        $("#Claim_Type").change(function () {
+
+            if ($(this).val() == '@HonanClaimsPortal.Helpers.ClaimType.Notification') {
+                $("#Assigned_To").val("");
+                $("#divAssignTo").hide();
+            }
+            else if ($(this).val() == "")
+            {
+                $("#Assigned_To").val("");
+            }
+            else {
+                $("#divAssignTo").show();
+                $("#Assigned_To").val('@loginObj.FirstName' + " " + '@loginObj.LastName');
+                $("#Assigned_To_Id").val('@loginObj.UserId');
+            }
+        });
+
+        $("#spnPolicyModal").click(function () {
+
+            $('#tbPolicy').DataTable().ajax.reload(null, false);
+        });
+
+        $("#spnAssignTo").click(function () {
+
+            $('#tbAssignTo').DataTable().ajax.reload(null, false);
+        });
+
+        $("#btnSubmit").click(function (e) {
+
+            if ($("#Claim_Type").val() == '@HonanClaimsPortal.Helpers.ClaimType.Claim' && $("#Assigned_To").val() == '')
+            {
+                $("#Assigned_To").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else
+            {
+                $("#Assigned_To").removeClass("input-validation-error");
+            }
+
+            if ($("#Claim_Type").val() == '@HonanClaimsPortal.Helpers.ClaimType.Claim' &&
+                ($("#Claim_Team").val() == "@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartProperty" || $("#Claim_Team").val() == "@HonanClaimsPortal.Helpers.ClaimTeams.PropertyClaims") && $("#Oc_Name").val() == "")
+            {
+                $("#Oc_Name").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else
+            {
+                $("#Oc_Name").removeClass("input-validation-error");
+            }
+        })
+
+        //$('#OcModal').on('hidden.bs.modal', function () {
+        //    $.ajax({
+        //        url: "/Lookup/GetPoliciesAjaxHandler?filter=" + $("#Policy_No").val() + "&accountId=" + $("#Oc_No").val(), success: function (result) {
+        //            if (result.length > 0) {
+        //                $("#InsurerName").val(result[0].UnderwriterName);
+        //                $("#Insurer").val(result[0].UnderwriterId);
+        //                $("#Insured_Name").val(result[0].Insured_Name);
+        //            }
+        //        }
+        //    });
+
+        //});
+
+
+        // Warning
+        $(window).on('beforeunload', function () {
+            alert("dsd");
+            return "Any changes will be lost";
+        });
+
+        // Form Submit
+        $(document).on("submit", "form", function (event) {
+            // disable unload warning
+            $(window).off('beforeunload');
+        });
+
+    })
+
+    function Cancel() {
+        $("#Oc_Name").val("");
+        $("#Oc_No").val("");
+        $("#Account_Name").val("");
+        $("#Accountid").val("");
+        $("#Claim_Type").val("");
+        $("#Policy_No").val("");
+        $("#Policy_Id").val("");
+        $("#Assigned_To").val("");
+        $("#Assigned_To_Id").val("");
+        $("#Oc_Name").val("");
+    }
+</script>

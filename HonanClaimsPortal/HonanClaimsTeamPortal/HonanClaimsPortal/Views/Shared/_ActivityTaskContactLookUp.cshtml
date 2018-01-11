@@ -1,0 +1,128 @@
+﻿
+<script src="~/Content/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/vendor/datatables-colvis/js/dataTables.colVis.js"></script>
+<script src="~/Content/vendor/datatables/media/js/dataTables.bootstrap.js"></script>
+<script src="~/Content/vendor/datatables-buttons/js/dataTables.buttons.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/dataTables.responsive.js"></script>
+<script src="~/Content/vendor/datatables-responsive/js/responsive.bootstrap.js"></script>
+@*<link href="~/Content/vendor/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />*@
+
+<style>
+    table.dataTable thead .sorting {
+        background: url('/Content/vendor/datatables/media/images/sort_both.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background: url('/Content/vendor/datatables/media/images/sort_asc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background: url('/Content/vendor/datatables/media/images/sort_desc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc_disabled {
+        background: url('/Content/vendor/datatables/media/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    .dataTables_filter {
+        margin-top: 10px !important;
+    }
+</style>
+
+<div class="panel panel-default">
+
+    <div class="table-responsive">
+        <table id="tbContact_ActivityTask" class="table table-striped" style="margin-bottom: 10px;">
+            <thead>
+                <tr>
+                    <th class="sort-alpha">Last Name</th>
+                    <th class="sort-alpha">First Name</th>
+                    <th class="sort-alpha">Conatct Name</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        //$("#tbContactBroker").hide();
+
+        $('#tbContact_ActivityTask').dataTable({
+            "bServerSide": true,
+            "searching": true,
+            "sAjaxSource": "/Lookup/ContactAjaxHandler",
+            "paging": false,
+            "scrollY": '20vh',
+            //"pageLength": 15,
+            "bProcessing": false,
+            "bsearch": false,
+            'info': false,
+            "fnServerParams": function (aoData) {
+
+                if ($('#Owner_Company_Dtl'))
+                    aoData.push({ 'name': 'accountId', 'value': $("#Owner_Company_Dtl").val() });
+
+            },
+            "aoColumns": [
+
+                {
+                    "sName": "LastName",
+                    "sClass": "center",
+                    "mRender": function (data, type, oObj) {
+                        return '<a href="javascript:void(0);" onclick="closeActivityTaskContactModal(\'' + oObj[5] + '\', \'' + oObj[2] + '\', \'' + oObj[3] + '\', \'' + oObj[4] + '\', \'' + oObj[7] + '\', \'' + oObj[6] + '\')">' + oObj[0] + '</a >';
+                        //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
+                        //item.LastName, item.FirstName, item.ContactName, item.AccountId,item.AccountName,item.ContactId
+                    }
+                },
+                { "sName": "FirstName" },
+                { "sName": "ContactName" }
+            ]
+        });
+
+        $('#tbContact_ActivityTask').on('search.dt', function () {
+               //var value = $('.dataTables_filter input').val();
+               //console.log(value); // <-- the value
+            $("#tbContact_ActivityTask").show();
+        });
+
+
+    });
+
+
+    function closeActivityTaskContactModal(contactId,contactName,accountId,accountName, phone,email) {
+
+        $("#Owner_Contact_Name_Dtl").val(contactName);
+
+        if ($("#Owner_Contact_Dtl").length > 0)
+        {
+            $("#Owner_Contact_Dtl").val(contactId);
+        }
+
+        $("#Owner_Company_Name_Dtl").val(accountName);
+
+        if ($("#Owner_Company_Dtl").length > 0) {
+            $("#Owner_Company_Dtl").val(accountId);
+        }
+
+        if ($("#Phone_Dtl").length > 0)
+            $("#Phone_Dtl").val(phone);
+
+        if ($("#Email_Dtl").length > 0)
+            $("#Email_Dtl").val(email);
+
+        if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
+            $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+        }
+
+        $('#ActivityTaskContactModal').modal('hide');
+    }
+
+
+</script>

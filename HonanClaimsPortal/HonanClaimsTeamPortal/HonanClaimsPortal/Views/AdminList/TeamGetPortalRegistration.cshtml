@@ -1,0 +1,422 @@
+﻿@model HonanClaimsWebApiAccess1.Models.TeamGetPortalRegistration.TeamGetPortalRegistrationModel
+
+@{
+    ViewBag.Title = "TeamGetPortalRegistration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-container">
+    <div class="row mt-20">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>First Name</label>
+                @Html.TextBoxFor(o => o.FirstName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                @Html.TextBoxFor(o => o.LastName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Title</label>
+                @Html.TextBoxFor(o => o.Title, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Company</label>
+                @Html.TextBoxFor(o => o.Company, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Phone</label>
+                @Html.TextBoxFor(o => o.Phone, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                @Html.TextBoxFor(o => o.EmailAddress, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Registered</label>
+                @Html.TextBoxFor(o => o.RegistrationDate, new { @class = "form-control", @readonly = true })
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+<div class="main-container">
+    @*<div class="row">
+        <div class="col-md-12">
+            <h3>CRM Matching Contacts</h3>
+            <div id="ContactGrid"></div>
+        </div>
+    </div>*@
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            @*@if (Model.MatchingContacts != null)
+            {
+                <button type="submit" id="btnSaveSelected" class="btn btn-primary mr-20">Use Selected Contact<i class="fa fa-angle-double-right ml-10 mr-10" aria-hidden="true"></i>New Loging</button>
+            }*@
+            <button type="submit" id="btnSaveDelete" class="btn btn-default">Discard Login Requestion (Delete)</button>
+            <div class="pull-right">
+                <button type="submit" id="btnSaveCreate" class="btn btn-primary">Create New Contact</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="ContactId" />
+</div>
+
+<!--Modal-->
+<div id="LoginDataModal" class="modal fade OcModal" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="closeLoginDataModal">&times;</button>
+                <h4 class="modal-title">Login Detail</h4>
+            </div>
+
+            <div class="modal-body ">
+                <input id="portalLoginId" style="display:none" />
+                <input type="text" class="form-control" style="display:none" id="ContactId">
+                <div id="error" style="display:none;" class="alert alert-danger">
+                    <strong></strong> <span id="Errormsg"></span>
+                </div>
+                <div class="form-group">
+                    <input id="isactive" type="checkbox" checked value="">
+                    <label class="ml-15">Is Active</label>
+                </div>
+                <div class="form-group">
+                    <label>Contact Name</label>
+                    <div class="demo-section k-content">
+                        <input id="products" style="width: 100%;" />
+                    </div>
+                    @*@Html.ValidationMessageFor(o => o.Oc_Num, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
+                </div>
+                <div class="form-group">
+                    <label>User Name</label>
+                    <input type="text" class="form-control" id="username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="text" class="form-control" id="Password">
+                </div>
+                <a style="float:right;" id="GenaratePassword">Generate Password</a>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control" id="Email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default mr-20" id="closeLoginDataModalbtn">Cancel</button>
+                <button id="Addlogin" type="button" class="btn btn-primary">Save</button>
+                <button id="Updatelogin" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*@Html.HiddenFor(m => m.Account_Id)
+@Html.HiddenFor(m=>m.H_Customerportaladminid)*@
+<script>
+
+    function OpenLogingModel(H_PortalLoginId){
+
+        $.ajax({
+            type: 'GET',
+            url: "/AdminList/GetAdminLoginAccount?portalLoginId="+H_PortalLoginId,
+
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: updating login detail", true);
+                } else {
+                    $("#Addlogin").hide();
+                    $("#Updatelogin").show();
+
+                    var accId = $('#Account_Id').val();
+                    LoadContacts(accId);
+                    $('#ContactId').val(resultData.ContactId),
+                    $("#products").val(resultData.ContactName);
+                    $("#username").val(resultData.UserName);
+                    $("#Password").val(resultData.Password);
+                    $("#Email").val(resultData.Email);
+                    $("#portalLoginId").val(resultData.H_PortalLoginId);
+                    if(resultData.ActiveLogin=="T"){
+                        $("#isactive").attr('checked',true);
+                    }else{
+                        $("#isactive").attr('checked',true);
+                    }
+                    $("#LoginDataModal").modal('show');
+                }
+            }
+        });
+
+
+    }
+
+
+    $('#btnSaveSelected').click(function () {
+        var accId = $('#Account_Id').val();
+        if (accId == null || accId == "") { return; };
+        LoadContacts(accId);
+        $('#LoginDataModal').modal('show');
+        $("#Addlogin").show();
+        $("#Updatelogin").hide();
+    });
+
+
+    function LoadContacts(accountId) {
+        var listdata = null;
+        $.get("/AdminList/GetContactNames?accountId=" + accountId, function (data) {
+            listdata = data;
+            $("#products").kendoAutoComplete({
+                dataTextField: "ContactName",
+                filter: "contains",
+                minLength: 2,
+                dataSource: data,
+                select: onSelect
+            });
+        });
+        function onSelect(e) {
+            var dataItem = this.dataItem(e.item.index());
+            $('#ContactId').val(dataItem.ContactId);
+        }
+    }
+
+
+    $('#GenaratePassword').click(function () {
+        var random = Math.random().toString(36).substring(6);
+        $('#Password').val(random);
+    })
+
+    $("#closeLoginDataModal,#closeLoginDataModalbtn").click(function(){
+        ClearLoging();
+    });
+
+    function ClearLoging(){
+        $("#products").val('');
+        $("#username").val('');
+        $("#Password").val('');
+        $("#Email").val('');
+        $("#isactive").attr('checked',true);
+        $("#LoginDataModal").modal('hide');
+        setError("", false);
+    }
+
+
+    $("#Updatelogin").click(function(){
+        var loginNew = false;
+        var adminId = $("#H_Customerportaladminid").val();
+        if (adminId == null || adminId=="") {
+            setError("Please Add Admin record", true);
+            return;
+        }
+
+
+        if($('#username').val()==null ||$('#username').val()==""){
+            setError("User Name Mandatory",true);
+            return false;
+        }
+        if($("#Password").val()==null || $("#Password").val()==""){
+            setError("Password Mandatory",true);
+            return false;
+        }
+        if($("#Email").val()==null || $("#Email").val()==""){
+            setError("Email Mandatory",true);
+            return false;
+        }
+
+        setError("", false);
+        var portalId = $('#portalLoginId').val();
+        var model = {
+            H_PortalLoginId: portalId,
+            H_PortalLoginAdminId: adminId,
+            ActiveLogin: $('#isactive').val(),
+            ContactName: $('#products').val(),
+            ContactId: $('#ContactId').val(),
+            UserName: $('#username').val(),
+            Password: $('#Password').val(),
+            Email: $('#Email').val(),
+            IsNew: loginNew
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/AdminList/UpdateAdminLogin",
+            data: model,
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: updating login detail", true);
+                } else {
+                    //$('#ContactGrid').data('kendoGrid').dataSource.read();
+                    //$('#ContactGrid').data('kendoGrid').refresh();
+                    window.location.replace('@Url.Action("TeamGetPortalRegistration", "AdminList", new { portalRegRequestId = @Html.Raw(Json.Encode(@ViewBag.portalRegRequestId)) })');
+                    setError("", false);
+                    $('#LoginDataModal').modal('hide');
+                    ClearLoging();
+                }
+            }
+        });
+    });
+
+
+
+    $('#Addlogin').click(function () {
+        var loginNew = false;
+        var adminId = $("#H_Customerportaladminid").val();
+        if (adminId == null || adminId=="") {
+            setError("Please Add Admin record", true);
+            return;
+        }
+
+        if($('#username').val()==null ||$('#username').val()==""){
+            setError("User Name Mandatory",true);
+            return false;
+        }
+        if($("#Password").val()==null || $("#Password").val()==""){
+            setError("Password Mandatory",true);
+            return false;
+        }
+        if($("#Email").val()==null || $("#Email").val()==""){
+            setError("Email Mandatory",true);
+            return false;
+        }
+
+        setError("", false);
+        var portalId = $('#portalLoginId').val();
+        if (portalId == null || portalId == "") { loginNew = true; }
+
+
+        var model = {
+            H_PortalLoginId: loginNew == true ? null : portalId,
+            H_PortalLoginAdminId: adminId,
+            ActiveLogin: $('#isactive').val(),
+            ContactName: $('#products').val(),
+            ContactId: $('#ContactId').val(),
+            UserName: $('#username').val(),
+            Password: $('#Password').val(),
+            Email: $('#Email').val(),
+            IsNew: loginNew
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/AdminList/AddAdminLogin",
+            data: model,
+            success: function (resultData) {
+                if (resultData == false) {
+                    setError("Error: adding login detail", true);
+                } else {
+                    //$('#ContactGrid').data('kendoGrid').dataSource.read();
+                    //$('#ContactGrid').data('kendoGrid').refresh();
+                    window.location.replace('@Url.Action("TeamGetPortalRegistration", "AdminList", new { portalRegRequestId = @Html.Raw(Json.Encode(@ViewBag.portalRegRequestId)) })');
+                    setError("", false);
+                    $('#LoginDataModal').modal('hide');
+                    ClearLoging();
+                }
+            }
+        });
+    })
+
+
+
+    function setError(errormsg, isshow) {
+        if (isshow) {
+            $('#Errormsg').text(errormsg);
+            $('#error').show();
+        } else {
+            $('#Errormsg').text(errormsg);
+            $('#error').hide();
+        }
+    }
+
+
+    @*$(document).ready(function() {
+
+        //var lines = @Html.Raw(Json.Encode(Model.MatchingContacts));
+
+        var grid = $("#ContactGrid").kendoGrid({
+            columns: [
+                {
+                    hidden: true,
+                    field: "H_PortalLoginId",
+                    title: "H_PortalLoginId"
+                },
+                {
+                    //field: "AccountName",
+                    title: "AccountName",
+                    template: "<a href='javascript:void(0);' onclick=\"OpenLogingModel('#= H_PortalLoginId #')\" '>#= AccountName #</a>"
+                },
+                {
+                    field: "FirstName",
+                    title: "FirstName"
+                },
+                {
+                    field: "LastName",
+                    title: "LastName"
+                }
+            ],
+            dataSource: {
+                data:lines
+            },
+            selectable: "row",
+        });
+
+    });*@
+
+
+
+    @*$("#btnSaveSelected").click(function () {
+        var portalRegRequestId = @Html.Raw(Json.Encode(@ViewBag.portalRegRequestId));
+        var URL = "/AdminList/TeamInsertPortalLoginByContact";
+        $.ajax({
+            url: URL,
+            data: JSON.stringify({ portalRegRequestId: portalRegRequestId, matchingContactId: ContactId, userId:"" }),
+            async: false,
+            cache: false,
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '/AdminList/AdminList';
+            }
+        });
+    });*@
+
+    $("#btnSaveCreate").click(function () {
+
+        var Phone = $("#Phone").val();
+        var EmailAddress=$("#EmailAddress").val();
+        var FirstName=$("#FirstName").val();
+        var LastName=$("#LastName").val();
+        var ContactId = $("#ContactId").val();
+
+        var portalRegRequestId = @Html.Raw(Json.Encode(@ViewBag.portalRegRequestId));
+        var URL = "/NewContactAccount/Index?fromProtal=fales&ajax=true&FirstName=" + FirstName +"&LastName="+ LastName + "&Phone=" + Phone + "&EmailAddress=" + EmailAddress+ "&portalRegRequestId=" + portalRegRequestId;
+        $.ajax({
+            url: URL,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = "/NewContactAccount/Index?fromProtal=true&ajax=false&FirstName=" + FirstName +"&LastName="+ LastName + "&Phone=" + Phone + "&EmailAddress=" + EmailAddress+ "&portalRegRequestId=" + portalRegRequestId;
+            }
+        });
+    });
+
+    $("#btnSaveDelete").click(function () {
+        var portalRegRequestId = @Html.Raw(Json.Encode(@ViewBag.portalRegRequestId));
+        var URL = "/AdminList/TeamDiscardLoginRequest";
+        $.ajax({
+            url: URL,
+            data: JSON.stringify({ portalRegRequestId: portalRegRequestId }),
+            async: false,
+            cache: false,
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '/AdminList/AdminList';
+            }
+        });
+    });
+</script>

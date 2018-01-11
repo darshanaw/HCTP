@@ -1,0 +1,262 @@
+﻿@model HonanClaimsWebApi.Models.ClaimList.CustomerListModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/notify.js"></script>
+
+
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+@{
+    var message = TempData["SuccessMsg"];
+}
+
+<div class="content-wrapper">
+    <h3 class="hmb">My Claim List</h3>
+    <div class="row">
+        <div class="main-container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                        <div class="row mb-15">
+                            <div class="col-md-12 top-padding-eight">
+                                <div class="col-md-4">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-4 control-label input-sm">Search My Claims</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control form-control input-sm" id="searchTxt">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-4 control-label input-sm">Customer</label>
+                                        <div class="col-sm-8">
+                                            @*@Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), "--select--", new { @class = "form-control input-sm" })*@
+                                            @Html.TextBox("CusList", "", new { @id = "CusList", @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group mb">
+                                        <div class="col-sm-12">
+                                            <div class="pull-right">
+                                                <button id="clearFilter" type="button" class="btn btn-default mr-10">Clear Filter</button>
+                                                <button id="filterList" type="button" class="btn btn-primary">Filter List</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mb-15 claim-filterration">
+                            <div class="col-md-4" style="padding-left:2%">
+                                <div class="radioset-1">
+                                    <div class="radio">
+                                        <label class="input-sm"><input type="radio" id="myclaim" value="true" name="allormy">My Claims</label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="input-sm"><input type="radio" id="allclaim" value="false" name="allormy">All Claims</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="radioset-3">
+                                    <div class="radio">
+                                        <label class="input-sm"><input type="radio" id="allclaimStatus" value="All" name="openclose">All</label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="input-sm"><input type="radio" id="openclaim" value="Open" name="openclose">Open Claims</label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="input-sm"><input type="radio" id="closeclaim" value="Closed" name="openclose">Closed Claims</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="padding-right:2%">
+                                <div class="radioset-3">
+                                    <div class="radio">
+                                        <label class="input-sm"><input value="All" id="typeall" type="radio" name="claimtype">All</label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="input-sm"><input value="Claims" id="typeclaim" type="radio" name="claimtype">Claims</label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="input-sm"><input value="Notification" id="typenoti" type="radio" name="claimtype">Notification</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div id="grid1"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading gif-->
+<script src="~/Scripts/loadingoverlay.min.js"></script>
+<script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $.LoadingOverlay("show");
+                //load customer list
+                //$.get("/ClaimList/GetCustomerList", function (data, status) {
+                //    $("#customer").kendoAutoComplete({
+                //        dataTextField: "Text",
+                //        filter: "startswith",
+                //        minLength: 2,
+                //        dataSource: data,
+                //        select: onSelect
+                //    });
+
+                //    function onSelect(e) {
+                //        var dataItem = this.dataItem(e.item.index());
+                //        $('#customerId').val(dataItem.Code);
+                //        LoadClaimGrid();
+                //    }
+                //});
+
+
+        function myClaimListLoaded(arg) {
+            $.LoadingOverlay("hide");
+        }
+
+
+                //set value when start
+                $('#myclaim').prop("checked", true)
+                //set value when start
+                $('#allclaimStatus').prop("checked", true)
+                //set value when start
+                $('#typeall').prop("checked", true)
+
+                LoadClaimGrid();
+
+                function LoadClaimGrid() {
+                    var searchText = "";
+                    var customerId = "";
+                    var onlyMyClaim = true;
+                    var Openclaim = true;
+                    var ClaimType = "All";
+                    //get search text
+                    var s = $('#searchTxt').val();
+                    if (s != null && s != "")
+                    { searchText = s }
+                    //get customer
+                    var c = $('#CusList').val();
+                    if (c != null && c != "")
+                    { customerId = c }
+                    //get all claims or my
+                    onlyMyClaim = $('input[name=allormy]:checked').val();
+                    //get open claims
+                    Openclaim = $('input[name=openclose]:checked').val();
+                    //get claim type
+                    ClaimType = $('input[name=claimtype]:checked').val();
+
+                    $("#grid1").kendoGrid({
+                        dataSource: {
+                            type: "json",
+                            transport: {
+                                read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId
+                            },
+                            pageSize: 20
+                        },
+                        sortable: true,
+                        dataBound: myClaimListLoaded,
+                        filterable: true,
+                        pageable: {
+                            pageSizes: [10, 20, 50,100],
+                            buttonCount: 10
+                        },
+                        columns: [{
+                            hidden: true,
+                            field: "ClaimsId",
+                            title: "ClaimsId"
+                        },
+                        {
+                            field: "ClaimRefNo",
+                            title: "Claims Ref #",
+                            template: '<a id="linkToDetail" href="/NewClaim/RedirectToDetail?claimId=#=ClaimsId#&claimTeam=#=ClaimTeam#&tab=detail">#=ClaimRefNo#</a>'
+                        },
+                        {
+                            field: "InsuredAccount",
+                            title: "Insured",
+                        }, {
+                            field: "Claimant",
+                            title: "Claimant",
+                        }, {
+                            field: "DateOfLoss",
+                            title: "Date Of Loss",
+                        },
+                        {
+                            field: "Category",
+                            title: "Category",
+                        },
+                        {
+                            field: "ClaimStage",
+                            title: "Stage",
+                        }
+                         ,
+                        {
+                            field: "NextAction",
+                            title: "Next Action",
+                        }
+                        ]
+                    });
+                }
+
+                $('#clearFilter').click(function () {
+                    //set value when start
+                    $('#myclaim').prop("checked", true)
+                    //set value when start
+                    $('#allclaimStatus').prop("checked", true)
+                    //set value when start
+                    $('#typeall').prop("checked", true)
+
+                    $('#searchTxt').val("");
+                    $('#CusList').val("");
+                    //$("#customer").data("kendoAutoComplete").value("");
+                    //$("#grid1").data("kendoGrid").dataSource.filter({});
+                    LoadClaimGrid();
+
+                })
+
+                //function RedirectToDetail(claimId, ClaimTeam) {
+                //    alert(claimId);
+                //    alert(ClaimTeam);
+                //}
+
+                $('#allclaim, #myclaim, #allclaimStatus, #openclaim, #closeclaim, #typeall, #typeclaim, #typenoti').change(function () {
+                    LoadClaimGrid();
+                });
+
+                $('#btnsearchtext, #filterList').click(function () {
+                    LoadClaimGrid();
+                });
+
+
+                $('#searchTxt').keydown(function (e) {
+                    if (e.keyCode == 13) {
+                        $.LoadingOverlay("show");
+                        LoadClaimGrid();
+                    }
+                })
+
+
+            });
+
+        var message = '@message';
+        if (message) {
+            $.notify(message, "success");
+        }
+
+</script>

@@ -1,0 +1,144 @@
+﻿@model HonanClaimsWebApi.Models.Claim.FileNoteDetailModal
+
+<!-- SELECT2-->
+<link rel="stylesheet" href="~/Content/vendor/select2/dist/css/select2.css">
+<link rel="stylesheet" href="~/Content/vendor/select2-bootstrap-theme/dist/select2-bootstrap.css">
+
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+<script>
+    $(function () {
+
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+        $('.dateCalendarFileNote').datetimepicker({
+            format: 'DD/MM/YYYY',
+            //locale: 'pt-br',
+            maxDate: moment()
+        });
+        
+
+        if (!$('#ClaimRefNo_Fn').is('input:text')) {
+            $('#ClaimRefNo_Fn').select2({ width: "100%", theme: "bootstrap" });
+        }
+
+        $('#frmileNote').submit(function () {
+
+            if ($(this).valid()) {
+                $.LoadingOverlay("show");
+            }
+        });
+    })
+
+    function GetResult_Fn(data)
+    {
+        if ($('#FileNoteDetailModal').length > 0) {
+            $('#FileNoteDetailModal').modal('hide');
+        }
+       
+        $.LoadingOverlay("hide");
+        RefreshFileNotesGrid();
+    }
+
+</script>
+
+
+@using (Ajax.BeginForm("_FileNoteDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Fn", UpdateTargetId= "divFake" },new { @id = "frmileNote" }))
+{
+    @Html.HiddenFor(o=>o.CreatedBy_Id_Fn)
+    @Html.HiddenFor(o => o.ClaimId_Fn)
+    @Html.HiddenFor(o=>o.H_FileNotesId_Fn)
+
+    <div id="divFake" style="display:none"></div>
+
+    <div class="col-md-6">
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Claim Ref</label>
+                <div class="col-sm-8">
+                    @if (string.IsNullOrEmpty(Model.ClaimRefNo_Fn))
+                    {
+                        @Html.DropDownListFor(model => model.ClaimRefNo_Fn, new SelectList(Model.RefnuberList_Fn, "Text", "Text"), "",
+                                        new { @class = "form-control input-sm" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(o => o.ClaimRefNo_Fn, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">File Note Date</label>
+                <div class="col-sm-8">
+                    <div class="input-group date dateCalendarFileNote" style="width:100%">
+                        @Html.TextBoxFor(o => o.FileNoteDate_Fn, new { @class = "form-control input-sm" })
+                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Created By</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.CreatedBy_Fn, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-4 control-label input-sm">Created Date</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(o => o.CreatedDate_Fn, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm disabledControl", @readonly = true })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12">
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-2 control-label input-sm">Short Description</label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(o => o.ShortDescription_Fn, new { @class = "form-control input-sm" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group mb">
+                <label class="col-sm-2 control-label input-sm">Detail</label>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(o => o.Detail_Fn, new { @class = "form-control input-sm", @style="height:150px" })
+                </div>
+            </div>
+        </div>
+        <br /><br /><br /><br /><br /><br /><br />
+        <div class="footer text-right">
+            <button type="button" class="mb-sm btn btn-default" data-dismiss="modal">Discard Changes</button>
+            <button type="submit" class="mb-sm btn btn-primary">Save Changes</button>
+        </div>
+
+    </div>
+
+   
+}
+
+
+
+
+

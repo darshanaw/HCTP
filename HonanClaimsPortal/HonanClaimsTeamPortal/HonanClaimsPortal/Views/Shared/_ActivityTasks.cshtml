@@ -1,0 +1,430 @@
+﻿
+
+<input type="hidden" id="isActivityCompletionGrid" name="isActivityCompletionGrid" />
+
+
+<input type="hidden" id="activityTaskId_wf" name="activityTaskId_wf" />
+<input type="hidden" id="action_wf" name="action_wf" />
+<input type="hidden" id="actionSeq_wf" name="actionSeq_wf" />
+<input type="hidden" id="nextSeq_wf" name="nextSeq_wf" />
+<input type="hidden" id="nextActivityId_wf" name="nextActivityId_wf" />
+<input type="hidden" id="nextActivityDue_wf" name="nextActivityDue_wf" />
+
+<style>
+
+    .gridOrange {
+        background-color: #FFA268;
+    }
+
+    .gridRed {
+        background-color: #FF6961;
+    }
+
+</style>
+    
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+
+                    <div class="col-sm-5">
+                        <label class="radio-inline c-radio input-sm">
+                            <input id="rdoViewAll" type="radio" name="i-radio" value="true">
+                            <span class="fa fa-circle"></span>View All
+                        </label>
+                        <label class="radio-inline c-radio input-sm">
+                            <input id="rdoIncomplete" type="radio" name="i-radio" value="false">
+                            <span class="fa fa-circle"></span>Incomplete Only
+                        </label>
+                        <label class="radio-inline c-radio input-sm">
+                            <input id="rdoCompleted" type="radio" name="i-radio" value="false">
+                            <span class="fa fa-circle"></span>Completed Only
+                        </label>
+
+                        <label class="checkbox c-checkbox pull-right mt0 input-sm" style="font-weight:500">
+                            <input type="checkbox" value="false" id="chkShowOverdue">
+                            <span class="fa fa-check"></span> High Priority
+                        </label>
+                    </div>
+                    <div class="col-sm-2" style="width:12%;">
+                        <label class="control-label input-sm" style="font-weight:500">Filter by Owner:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.DropDownList("OwnerType_ActivityTask", new SelectList(ViewBag.OwnerType, "Text", "Text"), "", new { @class = "form-control  input-sm" })
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="button" id="btnActivityTasksFilter" class="btn btn-sm btn-primary" value="Filter List" />
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="button" id="btnClearFilter" class="btn btn-sm btn-default" value="Clear Filters"/>
+                    </div>
+                    @*<div class="col-sm-2">
+                        <input type="button" class="btn btn-default" id="btnActivityTasksAddNew" value="Add New" />
+                    </div>*@
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group mb">
+                    <label class="col-sm-3 control-label input-sm">Record Count</label>
+                    <div class="col-sm-3">
+                        <input type="text" id="recordCount" class="btn btn-sm btn-default form-control input-sm disabled" readonly />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="gridActivityTasks"></div>
+
+
+<!-- Modal -->
+<div id="ActivityTasksDetailModal" class="modal fade ActivityTasksDetailModal" role="dialog" data-backdrop="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Activity Tasks Detail</h4>
+            </div>
+            <div class="modal-body PaymentDetail_" style="height:500px">
+                @{Html.RenderAction("_ActivityTaskDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"] });}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="ActivityWorkFlowModal" class="modal fade ActivityWorkFlowModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-lg" style="width:850px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ActivityWorkFlowModal_Close">&times;</button>
+                <h4 class="modal-title">Activity Workflow Next Steps</h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridActivityWorkFlowNextSteps"></div>
+                <br />
+                <br />
+                <br />
+                <div class="col-md-12" style="padding-right:0px;margin-right:0px">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">Deadline for Selected Task</div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control disabled" readonly id="txtWorkFlowCompletedDAte" />
+                    </div>
+                    <div class="col-md-2" style="padding-right:0px;margin-right:0px">
+                        <input type="button" class="btn btn-primary pull-right" value="Complete" id="btnWorkFlowComplete" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ActivityWorkFlowModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="windowActivity"></div>
+<script type="text/x-kendo-template" id="windowTemplate">
+
+    <button class="k-button" id="yesButton">Yes</button>
+    <button class="k-button" id="noButton"> No</button>
+</script>
+
+<script>
+
+    //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
+    $(function () {rdoViewAll
+
+        $("#IsNew").val("true");
+
+        $("#rdoViewAll").prop('checked',true);
+
+        var windowTemplate = kendo.template($("#windowTemplate").html());
+
+        $("#gridActivityTasks").kendoGrid({
+
+            dataSource: {
+                transport: {
+                    read: "/ClaimDetailTabs/AjaxActivityTasksLoad?claimId=" + $("#H_Claimsid").val(),
+                },
+                pageSize: 100,
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                },
+                batch: false,
+            },
+            filterable: true,
+            pageSize: 100,
+            navigatable: true,
+            pageable: true,
+            sortable: true,
+            dataBound: function (e) {
+                var rowCount = 0;
+                var items = this._data;
+                var tableRows = $(this.table).find("tr");
+                tableRows.each(function (index) {
+                    var row = $(this);
+                    var Item = items[index];
+                    if (Item.RowColor_Act == "Red") {
+                        row.removeClass("k-alt");
+                        row.addClass("gridRed");
+                    } else if (Item.RowColor_Act == "Orange") {
+                        row.removeClass("k-alt");
+                        row.addClass("gridOrange");
+                    }
+
+                    if (Item.Complete_Act != true && Item.Skipped_Act != true) {
+                        rowCount++;
+                    }
+                })
+
+                $("#recordCount").val(tableRows.length);
+                $("#activityTaskCount").text(rowCount);
+
+            },
+            columns: [
+                {
+                    field: "ActivityTaskId",
+                    title: "ActivityTaskId",
+                    hidden: true
+                },
+                {
+                    field: "Seq_Act",
+                    title: "Seq"
+                },
+                {
+                    field: "Stage_Act",
+                    title: "Stage"
+                },
+                {
+                    field: "Action_Act",
+                    title: "Action",
+                    template: "<a  href='javascript:void(0);' onclick=\"loadActivityTaskDetail('#= ActivityTaskId #')\" '>#=Action_Act#</a>"
+                },
+                {
+                    field: "Owner_Act",
+                    title: "Owner"
+                },
+                {
+                    field: "Contact_Act",
+                    title: "Contact"
+                },
+                {
+                    field: "SLADays_Act",
+                    title: "SLA (Days)"
+                },
+                {
+                    field: "DueDate_Act",
+                    title: "Due Date",
+                    template: "#= (DueDate_Act == null) ? '': kendo.toString(kendo.parseDate(DueDate_Act), 'dd/MM/yyyy') #"
+                },
+                {
+                    field: "Skipped_Act",
+                    title: "Skipped",
+                    template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
+                },
+                {
+                    field: "Complete_Act",
+                    title: "Completed",
+                    //template: "#if(Complete_Act==true){ #Yes# } else { #No# }#"
+                    template: "<input onclick=\"InvokeNextSteps(this,'#= Seq_Act #','#= ActivityTaskId #','#= Action_Act #');\" type='checkbox' #if(Complete_Act==true){ #checked disabled# } else { ## }# />"
+                    
+                },
+                {
+                    field: "CompletedDate_Act",
+                    title: "Completed Date",
+                    //template: '#= kendo.toString(kendo.parseDate(CompletedDate_Act), "dd/MM/yyyy")#',
+                    template: "#= (CompletedDate_Act == null) ? '': kendo.toString(kendo.parseDate(CompletedDate_Act), 'dd/MM/yyyy') #"
+                }
+                //,
+                //{
+                //    command: {
+                //        name: "Delete",
+                //        click: function (e) {  //add a click event listener on the delete button
+                //            e.preventDefault(); //prevent page scroll reset
+                //            var tr = $(e.target).closest("tr"); //get the row for deletion
+                //            var data = this.dataItem(tr); //get the row data so it can be referred later
+                //            window.content(windowTemplate(data)); //send the row data object to the template and render it
+                //            window.center().open();
+
+                //            $("#yesButton").click(function () {
+
+                //                $.ajax({
+                //                    url: "/ClaimDetailTabs/DeleteActivity?claimId=" + $("#H_Claimsid").val() + "&activityId=" + data.ActivityTaskId + "&seq=" + data.Seq_Act, success: function (result) {
+
+                //                        window.close();
+                //                        RefreshActivityTasksGrid();
+                //                    }
+                //                });
+
+                //            })
+                //            $("#noButton").click(function () {
+                //                window.close();
+                //            })
+                //        }
+                //    }
+                //}
+            ]
+        });
+
+        var window = $("#windowActivity").kendoWindow({
+            title: "Delete this record?",
+            visible: false, //the window will not appear before its .open method is called
+            width: "300px",
+            height: "100px",
+
+        }).data("kendoWindow");
+
+
+        $("#btnActivityTasksFilter").click(function () {
+
+            RefreshActivityTasksGrid();
+
+        });
+
+        $("#btnActivityTasksAddNew").click(function () {
+
+            refreshSequence();
+            clearActivityTaskDetails();
+            $('#ActivityTasksDetailModal').modal('show');
+            lastTaskCompletedDate()
+        });
+
+        $("#btnClearFilter").click(function () {
+            $("form.k-filter-menu button[type='reset']").trigger("click");
+            clearActivityTaskFilters();
+        });
+
+    });
+
+    function InvokeNextSteps(chkBox, seqId, activityTaskId_wf, action_wf)
+    {
+        debugger;
+        if (!$(chkBox).is(":checked"))
+        {
+            $(chkBox).prop("checked", false);
+        }
+        else
+        {
+            $("#isActivityCompletionGrid").val("true");
+
+            $("#activityTaskId_wf").val(activityTaskId_wf);
+            $("#action_wf").val(action_wf);
+            $("#actionSeq_wf").val(seqId);
+           
+            $("#ActivityWorkFlowModal").modal("show");
+            $("#txtWorkFlowCompletedDAte").val("");
+            LoadgridActivityWorkFlowNextSteps(true, seqId);
+            
+        }
+    }
+
+  
+
+    function refreshSequence() {
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetSequencyList?claimId=" + $("#H_Claimsid").val() +"&isNew=true", success: function (result) {
+
+                var options = $("#Seq_Dtl");
+                options.empty();
+                options.append(new Option("", ""));
+                $.each(result, function () {
+                    options.append(new Option(this.Text, this.Value));
+                });
+
+                $("#Seq_Dtl option:last").prop("selected", "selected");
+            }
+        });
+    }
+
+    function RefreshActivityTasksGrid() {
+
+        var viewAll, incompleteOnly, completedOnly, showOverDue, owner;
+
+        viewAll = $("#rdoViewAll").is(':checked');
+        incompleteOnly = $("#rdoIncomplete").is(':checked');
+        completedOnly = $("#rdoCompleted").is(':checked');
+        showOverDue = $("#chkShowOverdue").is(':checked');
+        owner = $("#OwnerType_ActivityTask").val();
+
+     
+        $("#gridActivityTasks").data("kendoGrid").dataSource.read({
+            incompleteOnly: incompleteOnly, completedOnly: completedOnly, showOverDue: showOverDue, owner: owner
+        });
+    }
+
+    function loadActivityTaskDetail(activityId)
+    {
+        clearActivityTaskDetails();
+        $("#H_Activitytasksid_Dtl").val(activityId);
+        //refreshSequence();
+
+        $.ajax({
+            url: "/ClaimDetailTabs/GetGetActivityTaskDetailById?activityId=" + activityId, success: function (result) {
+                $("#Seq_Dtl").val(result.Seq_Dtl);
+                //if (result.Stage_Dtl == "Received")
+                //    alert(result.Stage_Dtl);
+                $("#Stage_Dtl").val("Received");
+                $("#Actionid_Dtl").val(result.Actionid_Dtl);
+                $("#Details_Dtl").val(result.Details_Dtl);
+                $("#Owner_Dtl").val(result.Owner_Dtl);
+                $("#Owner_Company_Name_Dtl").val(result.Owner_Company_Name_Dtl);
+                $("#Owner_Company_Dtl").val(result.Owner_Company_Dtl);
+                $("#Owner_Contact_Name_Dtl").val(result.Owner_Contact_Name_Dtl);
+                $("#Owner_Contact_Dtl").val(result.Owner_Contact_Dtl);
+                $("#Phone_Dtl").val(result.Phone_Dtl);
+                $("#Email_Dtl").val(result.Email_Dtl);
+                $("#Sla_Days_Dtl").val(result.Sla_Days_Dtl);
+                $("#Last_Task_Completed_Dtl_String").val(result.Last_Task_Completed_Dtl_String);
+                $("#Last_Task_Completed_Dtl").val(kendo.toString(kendo.parseDate(result.Last_Task_Completed_Dtl), 'dd/MM/yyyy'));
+                $("#This_Task_Due_Date_Dtl").val(kendo.toString(kendo.parseDate(result.This_Task_Due_Date_Dtl), 'dd/MM/yyyy'));
+                $("#Completed_Dtl").prop("checked", result.Completed_Dtl);
+                $("#Skipped_Dtl").prop("checked", result.Skipped_Dtl);
+                $("#High_Priority_Task_Dtl").prop("checked", result.High_Priority_Task_Dtl);
+                $("#Completed_By_Name_Dtl").val(result.Completed_By_Name_Dtl);
+                $("#Completed_By_Dtl").val(result.Completed_By_Dtl);
+                $("#Completed_Date_Dtl").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
+                $("#dummyCompletedDate").val(kendo.toString(kendo.parseDate(result.Completed_Date_Dtl), 'dd/MM/yyyy'));
+                $("#Update_Key_Contacts_Dtl").prop("checked", result.Update_Key_Contacts_Dtl);
+                $("#Update_Key_Date_Dtl").prop("checked", result.Update_Key_Date_Dtl);
+                $("#IsNew").val("false");
+
+                //if ($("#Owner_Company_Dtl").val() != "" && $("#Owner_Contact_Dtl").val() != "") {
+                //    $("#Update_Key_Contacts_Dtl").prop("disabled", false);
+                //}
+                //else {
+                //    $("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
+                //}
+
+                //if (result.Completed_Dtl)
+                //    $("#Update_Key_Date_Dtl").prop("disabled", false);
+                //else
+                //    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+
+            }
+        });
+
+        $('#ActivityTasksDetailModal').modal('show');
+    }
+
+    function clearActivityTaskFilters() {
+
+        $("#rdoViewAll").prop('checked', true);
+        $("#chkShowOverdue").prop('checked', false);
+        $("#OwnerType_ActivityTask").val("");
+        RefreshActivityTasksGrid();
+    }
+
+</script>

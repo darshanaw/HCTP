@@ -1,0 +1,2033 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Honan Claims</title>
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link rel="stylesheet" href="~/Content/vendor/fontawesome/css/font-awesome.min.css">
+    <!-- SIMPLE LINE ICONS-->
+    <link rel="stylesheet" href="~/Content/vendor/simple-line-icons/css/simple-line-icons.css">
+    <!-- ANIMATE.CSS-->
+    <link rel="stylesheet" href="~/Content/vendor/animate.css/animate.min.css">
+    <!-- WHIRL (spinners)-->
+    <link rel="stylesheet" href="~/Content/vendor/whirl/dist/whirl.css">
+    <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- WEATHER ICONS-->
+    <link rel="stylesheet" href="~/Content/vendor/weather-icons/css/weather-icons.min.css">
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link rel="stylesheet" href="~/Content/app/css/bootstrap.css" id="bscss">
+    <!-- =============== APP STYLES ===============-->
+    <link rel="stylesheet" href="~/Content/app/css/app.css" id="maincss">
+    <link href="~/Content/Custom.css?v1.2" rel="stylesheet" />
+
+    <!-- JQUERY-->
+    <script src="~/Content/vendor/jquery/dist/jquery.js"></script>
+
+    <!-- Overlay-->
+    <link href="~/Content/Overlay.css?v1.1" rel="stylesheet" />
+
+    <!--Kendo-->
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-bootstrap.min.css">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.bootstrap.min.css">
+    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
+
+    @*<link href="~/Content/Kendo/kendo.common-material.min.css" rel="stylesheet" />
+         <link href="~/Content/Kendo/kendo.material.min.css" rel="stylesheet" />
+        <link href="~/Content/Kendo/kendo.material.mobile.min.css" rel="stylesheet" />
+         <link href="~/Content/Kendo/kendo.common-bootstrap.min.css" rel="stylesheet" />
+         <link href="~/Content/Kendo/kendo.bootstrap.min.css" rel="stylesheet" />
+        <script src="~/Scripts/Kendo/kendo.all.min.js"></script>*@
+
+
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+    <!--Bootbox-->
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+    <!-- Loading gif-->
+    <script src="~/Scripts/loadingoverlay.min.js"></script>
+    <script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+    <!-- MOMENT JS-->
+    <script src="~/Content/vendor/moment/min/moment-with-locales.min.js"></script>
+
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- MATCHMEDIA POLYFILL-->
+    <script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
+
+    <!-- BOOTSTRAP-->
+    <script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/Content/vendor/animo.js/animo.js"></script>
+    <!-- SLIMSCROLL-->
+    <script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+    <!-- RTL demo-->
+    <script src="~/Content/app/js/demo/demo-rtl.js"></script>
+
+    <script src="~/Content/app/js/app.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Scripts/HonanCustom.js"></script>
+
+</head>
+<body>
+    <div class="overlay">
+        <div id="loading-img"></div>
+    </div>
+
+    @{ var userObj = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel; }
+
+    <div class="wrapper">
+        <!-- top navbar-->
+        <header class="topnavbar-wrapper">
+            <!-- START Top Navbar-->
+            <nav role="navigation" class="navbar topnavbar">
+                <!-- START navbar header-->
+                <div class="navbar-header">
+                    <a href="/Home/Index" class="navbar-brand">
+                        <div class="brand-logo user-block-picture">
+                            <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
+
+                        </div>
+                        <div class="brand-logo-collapsed">
+                            <img src="~/Content/app/img/HomeNew.png" alt="Home" class="img-responsive">
+                        </div>
+                    </a>
+                </div>
+                <!-- END navbar header-->
+                <!-- START Nav wrapper-->
+                <div class="nav-wrapper">
+                    <!-- START Left navbar-->
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                            <a href="#" data-trigger-resize="" data-toggle-state="aside-collapsed" class="hidden-xs">
+                                <em class="fa fa-navicon"></em>
+                            </a>
+                            <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+                            <a href="#" data-toggle-state="aside-toggled" data-no-persist="true" class="visible-xs sidebar-toggle">
+                                <em class="fa fa-navicon"></em>
+                            </a>
+                        </li>
+                        <!-- START User avatar toggle-->
+                        @*
+                            <li>
+
+                                <a id="user-block-toggle" href="#user-block" data-toggle="collapse">
+                                    <em class="icon-pin"></em>
+                                </a>
+                            </li>*@
+                        <!-- END User avatar toggle-->
+                        <!-- START lock screen-->
+
+
+                        <li>
+                            @*<a href="lock.html" title="Lock screen">
+                                    <em class="icon-lock"></em>
+                                </a>*@
+                        </li>
+                        <!-- END lock screen-->
+                    </ul>
+                    @{Html.RenderAction("_CommonSearch", "Search");}
+
+                    <ul class="nav navbar-nav navbar-left"></ul>
+
+                    <!-- END Left navbar-->
+                    <!-- START Right Navbar-->
+                    <ul class="nav navbar-nav navbar-right">
+                        @*if (Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] != null && (bool)Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer])*@
+                        @{
+
+                            var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
+                            //if (lastEscapeTimer.IsTimerActive)
+                            //{
+                            var currentTimer = DateTime.Now;
+                            ViewBag.lastEscapeTimer = lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime;
+                            ViewBag.diffHours = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Hours.ToString().PadLeft(2, '0');
+                            ViewBag.diffMinutes = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Minutes.ToString().PadLeft(2, '0');
+                            ViewBag.diffSeconds = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Seconds.ToString().PadLeft(2, '0');
+
+
+                            ////}
+                            ////else
+                            ////{
+                            ////    var currentTimer = DateTime.Now;
+                            ////    ViewBag.lastEscapeTimer = lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime;
+                            ////    ViewBag.diffHours = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Hours.ToString().PadLeft(2, '0');
+                            ////    ViewBag.diffMinutes = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Minutes.ToString().PadLeft(2, '0');
+                            ////    ViewBag.diffSeconds = (currentTimer - (lastEscapeTimer == null ? currentTimer : lastEscapeTimer.StartTime)).Seconds.ToString().PadLeft(2, '0');
+                            ////}
+
+                            <li class="user-block-status visible-md visible-lg" style="line-height:45px">@Html.Partial("~/Views/Shared/_Timer.cshtml", null)</li>
+                        }
+                        <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
+                            <a href="#">Hello, @userObj.FirstName</a>
+                        </li>
+                        <!-- Search icon-->
+                        @*
+                            <li>
+                                <a href="#" data-search-open="">
+                                                <em class="icon-magnifier"></em>
+                                            </a>
+                            </li>*@
+                        <!-- Fullscreen (only desktops)-->
+                        <li class="visible-lg">
+
+                        </li>
+
+                        @*
+                            <li class="user-block-status visible-md visible-lg" style="pointer-events:none">
+                                <a href="#">@DateTime.Today.ToLongDateString()</a>
+                            </li>*@
+                        @*
+                            <li class="user-block-status" style="pointer-events:none">
+                                <a href="#">Last Login : @userObj.LastLoginTime</a>
+                            </li>*@
+                        @*
+                            <li class="user-block-status">
+                                <a href="/Account/LogOff">[Sign out]</a>
+                            </li>*@
+                        <!-- START Alert menu-->
+                        <li class="dropdown dropdown-list">
+                            <a href="#" data-toggle="dropdown">
+                                <em class="icon-plus"></em>
+                                @*<div class="label label-danger">11</div>*@
+                            </a>
+                            <!-- START Dropdown menu-->
+                            <ul class="dropdown-menu animated flipInX">
+                                <li>
+                                    <!-- START list group-->
+                                    <div class="list-group">
+                                        <!-- list item-->
+                                        <a href="/NewClaim/Index" class="list-group-item">
+                                            <small>New Claim</small>
+                                        </a>
+                                        <a href="#" id="addNewBillableimeSlip" class="list-group-item">
+                                            <small>New Billable Timeslip</small>
+                                        </a>
+                                        <a href="#" id="addNewPayment" class="list-group-item">
+                                            <small>New Claim Payment</small>
+                                        </a>
+                                        <a href="#" id="addNewKeyContact" class="list-group-item">
+                                            <small>New Key Contact</small>
+                                        </a>
+                                        <a href="#" id="addNewFileNote" class="list-group-item">
+                                            <small>New File Note</small>
+                                        </a>
+                                        @*<a href="#" class="list-group-item">
+                                                <small>New Activity Task</small>
+                                            </a>*@
+                                        <a href="#" id="addNewKeyDate" class="list-group-item">
+                                            <small>New Key Date</small>
+                                        </a>
+                                        <a href="#" id="emialclick" class="list-group-item">
+                                            <small>New Email</small>
+                                        </a>
+                                        <a href="/NewContactAccount/Index" class="list-group-item">
+                                            <small>New Contact/Account</small>
+                                        </a>
+                                        @*<a href="#" onclick="openEmailWindow()" class="list-group-item">
+                                                <small>New Email Window</small>
+                                            </a>*@
+
+                                    </div>
+                                    <!-- END list group-->
+                                </li>
+                            </ul>
+                            <!-- END Dropdown menu-->
+
+                        </li>
+                        <!-- END Alert menu-->
+
+                        <li class="dropdown dropdown-list">
+                            <a href="#" data-toggle="dropdown">
+                                <em class="icon-user"></em>
+                                @*<div class="label label-danger">11</div>*@
+                            </a>
+                            <!-- START Dropdown menu-->
+                            <ul class="dropdown-menu animated flipInX">
+                                <li>
+                                    <!-- START list group-->
+                                    <div class="list-group">
+                                        <!-- list item-->
+                                        <a href="javascript:void(0);" id="emailSignature" class="list-group-item">
+                                            <div class="media-box">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-pencil-square fa-2x text-success"></em>
+                                                </div>
+                                                <div class="media-box-body clearfix">
+                                                    <p class="m-sm">Email Auto Signature</p>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        <a href="javascript:void(0);" onclick="return noTimerRunning();" class="list-group-item">
+                                            <div class="media-box">
+                                                <div class="pull-left">
+                                                    <em class="fa fa-user fa-2x text-warning"></em>
+                                                </div>
+                                                <div class="media-box-body clearfix">
+                                                    <p class="m-sm">Sign Out</p>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        
+
+                                    </div>
+                                    <!-- END list group-->
+                                </li>
+                            </ul>
+                            <!-- END Dropdown menu-->
+
+                        </li>
+                        <!-- START Offsidebar button-->
+                        <li>
+                            <div>
+                                &nbsp;&nbsp;
+                            </div>
+                        </li>
+                        <!-- END Offsidebar menu-->
+                    </ul>
+                    <!-- END Right Navbar-->
+                </div>
+                <!-- END Nav wrapper-->
+                <!-- START Search form-->
+                @*<form role="search" action="search.html" class="navbar-form">
+                        <div class="form-group has-feedback">
+                            <input type="text" placeholder="Type and hit enter ..." class="form-control">
+                            <div data-search-dismiss="" class="fa fa-times form-control-feedback"></div>
+                        </div>
+                        <button type="submit" class="hidden btn btn-default">Submit</button>
+                    </form>*@
+                <!-- END Search form-->
+            </nav>
+            <!-- END Top Navbar-->
+        </header>
+        <!-- sidebar-->
+        <aside class="aside" id="sidebarNav">
+            <!-- START Sidebar (left)-->
+            <div class="aside-inner">
+                <nav data-sidebar-anyclick-close="" class="sidebar" aria-expanded="true">
+                    <!-- START sidebar nav-->
+                    <ul class="nav">
+                        <!-- START user info-->
+                        <li class="has-user-block">
+                            <div id="user-block">
+                                <div class="item user-block">
+
+                                    @*<div class="user-block-picture">
+
+                                            <div class="user-block-status">
+                                                <img src="~/Content/app/img/honanWbn.png" alt=""  width="100" height="50"/>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="brand-logo user-block-picture">
+                                            <img src="~/Content/app/img/honanWbn.png" alt="Home" class="img-responsive">
+
+                                        </div>*@
+                                    <div class="brand-logo-collapsed">
+                                        <img src="~/Content/app/img/HonanLogo.png" alt="Home" class="img-responsive">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+                        <!-- END user info-->
+                        <!-- Iterates over all sidebar items-->
+                        <li class="nav-heading ">
+                            @*<span data-localize="sidebar.heading.HEADER">Main Navigation</span>*@
+                        </li>
+
+                        @{
+
+                            HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel login = Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as
+                                HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
+                        }
+
+                        <li id="liClaimList" class="left-menu-item">
+                            <a href="/claimlist/Index" title="Claims" class="left-menu-item">
+                                <div id="assignedClaimCount" class="pull-right label label-success"></div>
+                                <em class="icon-briefcase"></em>
+                                <span>Claims</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/Myactivity/Index" title="My Activities" class="left-menu-item">
+                                <div id="activityCount" class="pull-right label label-success"></div>
+                                <em class="icon-energy"></em>
+                                <span>My Activities</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/Billing/MyBillableTime" title="My Billable Time" class="left-menu-item">
+                                <em class="icon-clock"></em>
+                                <span>My Billable Time</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/Policies/Index" title="Policies" class="left-menu-item">
+                                <em class="icon-notebook"></em>
+                                <span>Policies</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="/AccountList/Index" title="Accounts" class="left-menu-item">
+                                <em class="icon-globe"></em>
+                                <span>Accounts</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="/Contact/Index" title="Contacts" class="left-menu-item">
+                                <em class="icon-people"></em>
+                                <span>Contacts</span>
+                            </a>
+
+                        </li>
+
+                        @if (login.IsPortalAdmin == true || login.IsManager == true || login.IsTimeslipChecker == true)
+                        {
+
+                            <li class=" ">
+                                <a href="#admin" data-toggle="collapse" title="Admin Functions" class="left-menu-item">
+                                    <em class="icon-user"></em>
+                                    <span>Admin Functions</span>
+                                </a>
+                                <ul id="admin" class="nav sidebar-subnav collapse">
+                                    @if (login.IsPortalAdmin == true)
+                                    {
+                                        <li class=" ">
+                                            <a href="/AdminList/AdminList" title="Portal Admin" class="left-menu-item">
+                                                <div id="portalRegCount" class="pull-right label label-success"></div>
+                                                <span>Portal Admin</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (login.IsManager == true)
+                                    {
+                                        <li class=" ">
+                                            <a href="/claimassignment/Index" title="Claim Assignment" class="left-menu-item">
+                                                <div id="claimAssignemntCount" class="pull-right label label-success"></div>
+                                                <span>Claim Assignment</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @if (login.IsTimeslipChecker == true)
+                                    {
+                                        <li class=" ">
+                                            <a href="/TimeslipCheck/Index" title="Billing Check" class="left-menu-item">
+                                                <span>Billing Check</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+
+                        }
+
+
+
+                        @*<li class=" ">
+                                <a href="#addNew" data-toggle="collapse" title="Add New">
+                                    <em class="icon-plus"></em>
+                                    <span>Add New</span>
+                                </a>
+                                <ul id="addNew" class="nav sidebar-subnav collapse">
+                                    <li class=" ">
+                                        <a href="/NewClaim/Index" title="New Claim">
+                                            <span>New Claim</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Billable Timeslip">
+                                            <span>New Billable Timeslip</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Claim Payment">
+                                            <span>New Claim Payment</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Key Contact">
+                                            <span>New Key Contact</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New File Note">
+                                            <span>New File Note</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Activity Task">
+                                            <span>New Activity Task</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="#" title="New Key Date">
+                                            <span>New Key Date</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a href="/NewContactAccount/Index" title="New Contact/Account">
+                                            <span>New Contact/Account</span>
+                                        </a>
+                                    </li>
+                                    <li class=" ">
+                                        <a id="emialclick" title="New Email">
+                                            <span>New Email</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>*@
+
+
+                            @*<li class=" ">
+                                    <a href="/Notification/ViewNotifications" title="View Notifications">
+                                        <em class="icon-speech"></em>
+                                        <span>Test 2</span>
+                                    </a>
+                                </li>*@
+
+                            @*
+                                    <li class=" ">
+                                    <a href="/ViewPages/ViewClaims" title="View Claims">
+                                        <em class="icon-speech"></em>
+                                        <span>View Claims</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="/ViewPages/ViewNotifications" title="View Notifications">
+                                        <em class="icon-speech"></em>
+                                        <span>View Notifications</span>
+                                    </a>
+                                </li>*@
+
+
+                        </ul>
+                        <!-- END sidebar nav-->
+                    </nav>
+                </div>
+                <!-- END Sidebar (left)-->
+            </aside>
+            <!-- offsidebar-->
+            <aside class="offsidebar hide">
+                <!-- START Off Sidebar (right)-->
+                <nav>
+                    <div role="tabpanel">
+                        <!-- Nav tabs-->
+                        <ul role="tablist" class="nav nav-tabs nav-justified">
+                            <li role="presentation" class="active">
+                                <a href="#app-settings" aria-controls="app-settings" role="tab" data-toggle="tab">
+                                    <em class="icon-equalizer fa-lg"></em>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#app-chat" aria-controls="app-chat" role="tab" data-toggle="tab">
+                                    <em class="icon-user fa-lg"></em>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes-->
+                        <div class="tab-content">
+                            <div id="app-settings" role="tabpanel" class="tab-pane fade in active">
+                                <h3 class="text-center text-thin">Settings</h3>
+                                <div class="p">
+                                    <h4 class="text-muted text-thin">Themes</h4>
+                                    <div class="table-grid mb">
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-a.css">
+                                                    <input type="radio" name="setting-theme" checked="checked">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-info"></span>
+                                                        <span class="color bg-info-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-b.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-green"></span>
+                                                        <span class="color bg-green-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-c.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-purple"></span>
+                                                        <span class="color bg-purple-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-d.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-danger"></span>
+                                                        <span class="color bg-danger-light"></span>
+                                                    </span>
+                                                    <span class="color bg-white"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-grid mb">
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-e.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-info-dark"></span>
+                                                        <span class="color bg-info"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-f.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-green-dark"></span>
+                                                        <span class="color bg-green"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-g.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-purple-dark"></span>
+                                                        <span class="color bg-purple"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col mb">
+                                            <div class="setting-color">
+                                                <label data-load-css="css/theme-h.css">
+                                                    <input type="radio" name="setting-theme">
+                                                    <span class="icon-check"></span>
+                                                    <span class="split">
+                                                        <span class="color bg-danger-dark"></span>
+                                                        <span class="color bg-danger"></span>
+                                                    </span>
+                                                    <span class="color bg-gray-dark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p">
+                                    <h4 class="text-muted text-thin">Layout</h4>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Fixed</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-fixed" type="checkbox" data-toggle-state="layout-fixed">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Boxed</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-boxed" type="checkbox" data-toggle-state="layout-boxed">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="pull-left">RTL</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-rtl" type="checkbox">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p">
+                                    <h4 class="text-muted text-thin">Aside</h4>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Collapsed</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-collapsed" type="checkbox" data-toggle-state="aside-collapsed">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Collapsed Text</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-collapsed-text" type="checkbox" data-toggle-state="aside-collapsed-text">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Float</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-float" type="checkbox" data-toggle-state="aside-float">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Hover</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-hover" type="checkbox" data-toggle-state="aside-hover">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <p class="pull-left">Show Scrollbar</p>
+                                        <div class="pull-right">
+                                            <label class="switch">
+                                                <input id="chk-hover" type="checkbox" data-toggle-state="show-scrollbar" data-target=".sidebar">
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="app-chat" role="tabpanel" class="tab-pane fade">
+                                <h3 class="text-center text-thin">Connections</h3>
+                                <ul class="nav">
+                                    <!-- START list title-->
+                                    <li class="p">
+                                        <small class="text-muted">ONLINE</small>
+                                    </li>
+                                    <!-- END list title-->
+                                    <li>
+                                        <!-- START User status-->
+
+                                        <a href="#" class="media-box p mt0">
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Juan Sims</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designeer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-success circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/06.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Maureen Jenkins</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designeer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-danger circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/07.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Billie Dunn</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designeer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-warning circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/08.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Tomothy Roberts</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                    </li>
+                                    <!-- START list title-->
+                                    <li class="p">
+                                        <small class="text-muted">OFFLINE</small>
+                                    </li>
+                                    <!-- END list title-->
+                                    <li>
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/09.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Lawrence Robinson</strong>
+                                                    <br>
+                                                    <small class="text-muted">Developer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                        <!-- START User status-->
+                                        <a href="#" class="media-box p mt0">
+                                            <span class="pull-right">
+                                                <span class="circle circle-lg"></span>
+                                            </span>
+                                            <span class="pull-left">
+                                                <!-- Contact avatar-->
+                                                <img src="img/user/10.jpg" alt="Image" class="media-box-object img-circle thumb48">
+                                            </span>
+                                            <!-- Contact info-->
+                                            <span class="media-box-body">
+                                                <span class="media-box-heading">
+                                                    <strong>Tyrone Owens</strong>
+                                                    <br>
+                                                    <small class="text-muted">Designer</small>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <!-- END User status-->
+                                    </li>
+                                    <li>
+                                        <div class="p-lg text-center">
+                                            <!-- Optional link to list more users-->
+                                            <a href="#" title="See more contacts" class="btn btn-purple btn-sm">
+                                                <strong>Load more..</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- Extra items-->
+                                <div class="p">
+                                    <p>
+                                        <small class="text-muted">Tasks completion</small>
+                                    </p>
+                                    <div class="progress progress-xs m0">
+                                        <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-success progress-80">
+                                            <span class="sr-only">80% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p">
+                                    <p>
+                                        <small class="text-muted">Upload quota</small>
+                                    </p>
+                                    <div class="progress progress-xs m0">
+                                        <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-warning progress-40">
+                                            <span class="sr-only">40% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <!-- END Off Sidebar (right)-->
+            </aside>
+            <section>
+                @*@{
+                        List<SelectListItem> Navigation = new List<SelectListItem>();
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "Risksmart GCC Manager",
+                            Value = "Risksmart GCC Manager"
+                        });
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "Risksmart Property Manager",
+                            Value = "Risksmart Property Manager",
+                        });
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "GCC Claims Manager",
+                            Value = "GCC Claims Manager",
+                        });
+                        Navigation.Add(new SelectListItem
+                        {
+                            Text = "Property Claims Manager",
+                            Value = "Property Claims Manager",
+                        });
+                    }
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => Navigation, Navigation, "-- Navigation --", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchbox" placeholder="Search for">
+                                <span class="input-group-addon pointer" id="basic-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            </div>
+                    </div>*@
+
+                @RenderBody()
+            </section>
+            @*<footer>
+                    <span>&copy; 2017 - HonanCCP</span>
+                </footer>*@
+        </div>
+        <!-- Modal -->
+        <div id="sendEmailModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content" style="height:700px">
+                    <div class="modal-header">
+                        <button id="closemod" type="button" class="close">&times;</button>
+                        <h4 class="modal-title">Send Email</h4>
+                        <div class="col-md-12">
+                            <button id="sendmail" class="btn btn-primary pull-right">Send</button>
+                            <input name="EmailTattchment" class="pull-left" id="emailattach" type="file" multiple>
+                        </div>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="errormsg" class="alert alert-danger">
+                            <strong></strong> <span id="error"></span>
+                        </div>
+                        <div id="successshow" class="alert alert-success">
+                            <strong></strong> <span id="success"></span>
+                        </div>
+
+                        <div>
+                            <ul id="ul" style="max-height:125px;overflow:auto"></ul>
+                        </div>
+
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">Claim:</label>
+                            <div class="col-sm-11">
+                                <select id="claim"></select>
+                            </div>
+                        </div>
+
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">To:</label>
+                            <div class="col-sm-11">
+                                <input class="form-control" id="Tolist" />
+                            </div>
+                        </div>
+
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">CC:</label>
+                            <div class="col-sm-11">
+                                <input class="form-control" id="CClist" />
+                            </div>
+                        </div>
+
+                        <div class="top-padding col-md-12">
+                            <label class="col-sm-1 control-label input-sm">Subject:</label>
+                            <div class="col-sm-11">
+                                <input class="form-control" id="subject" />
+                            </div>
+                        </div>
+
+                        <div class="top-padding col-md-12" hidden>
+                            <div class="col-sm-1">
+                            </div>
+                            <div class="col-sm-11">
+                                <input type="checkbox" hidden checked id="chkAddToFileNote_WebMAil" name="chkAddToFileNote_WebMAil" />
+                                <label>Add to File Note</label>
+                            </div>
+                        </div>
+
+                        <div class="top-padding col-md-12">
+                            <div id="EmailEdit">
+                                <textarea id="editor" rows="10" cols="30" aria-label="editor"></textarea>
+                            </div>
+                        </div>
+                        @*<button id="sendemail" class="btn btn-default">Send</button>*@
+
+                        @*<div class="modal-footer">
+                                <div class="pull-right">
+
+                                </div>
+                            </div>*@
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div style="width:100%" id="BillingDetailModal" class="modal fade BillingDetailModal" role="dialog" data-backdrop="true">
+            <div class="modal-dialog  modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Timeslip</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        @{
+                            string CurrentURL = Request.Url.AbsoluteUri;
+                            string pageName = "";
+
+                            if (CurrentURL.Contains("Billing/MyBillableTime"))
+                            {
+                                pageName = "MyBillable";
+                            }
+                            else if (CurrentURL.Contains("DetailRisksmartGccClaim") || CurrentURL.Contains("DetailGccClaim") || CurrentURL.Contains("DetailRisksmartPropertyClaim")
+                                || CurrentURL.Contains("DetailPropertyClaim"))
+                            {
+                                pageName = "claimDetail";
+                            }
+                            else
+                            {
+                                pageName = "Other";
+                            }
+                        }
+
+                        @{Html.RenderAction("_TimeslipDetail", "Billing", new { @page = pageName });}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    
+
+
+
+        @*
+            <script src="~/Scripts/globalize.js"></script>
+            <script src="~/Scripts/jquery.validate.globalize.min.js"></script>*@
+
+
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    </body>
+</html>
+
+
+
+<!-- Modal -->
+<div id="ClaimReferenceNumbersModal" class="modal fade ClaimReferenceNumbers" role="dialog" data-backdrop="false" style="padding-top: 0%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ClaimReferenceNumbers_Close">&times;</button>
+                <h4 class="modal-title">Claim Reference Numbers Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_ClaimIdLookUp.cshtml", null)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default ClaimReferenceNumbers_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="AccountTimeslipDetailModal" class="modal fade AccountTimeslipDetailModal" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close AccountTimeslipDetailModal_Close">&times;</button>
+                <h4 class="modal-title">Account Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("~/Views/Shared/_TimeslipDetailAccountLookup.cshtml", null)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default AccountTimeslipDetailModal_Close" id="AccountTimeslipDetailModal_Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="width:100%" id="EmailSignatureModel" class="modal fade EmailSignatureModel" role="dialog" data-backdrop="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Email Auto Signature</h4>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderAction("EmailSignature", "Email");}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var list = new Array();
+    var Tolist = new Array();
+    var CClist = new Array();
+    var emptyemail = new Array();
+    var filearray = new Array();
+    var multiselectClaim = $("#claim").data("kendoMultiSelect");
+    var widget = $("#Tolist").data("kendoAutoComplete");
+    var widget2 = $("#CClist").data("kendoAutoComplete")
+    var editor = $("#editor").data("kendoEditor");
+    var emptyemailnew = new Array();
+
+    function loadBillingDetail(BillingId, ClaimId, startTime, endTime, timeDiff, hdnTimerClaimRef) {
+        debugger;
+        var newClaimRef = "";
+        var newClaimId = "";
+
+        if (ClaimId != '' && typeof ClaimId !== 'undefined' && ClaimId != 'NaN') {
+            newClaimId = ClaimId;
+        }
+        else
+            newClaimId = $("#H_Claimsid").val();
+
+        if (hdnTimerClaimRef != '' && typeof hdnTimerClaimRef !== 'undefined' && hdnTimerClaimRef != 'NaN') {
+            newClaimRef = hdnTimerClaimRef;
+        }
+        else {
+
+            if ($("#Claim_Reference_Num").val() != '' && typeof $("#Claim_Reference_Num").val() != 'undefined' && $("#Claim_Reference_Num").val() != 'NaN') {
+
+                newClaimRef = $("#Claim_Reference_Num").val();
+            }
+            else {
+                newClaimRef = $("#hdnTimerClaimRef").val();
+            }
+        }
+
+        $.ajax({
+            url: "/Billing/GetTimeslipDetail?BillingId=" + BillingId, success: function (result) {
+                if (result.Checked_Date != null) {
+                    var Checked_Date = new Date(parseInt(result.Checked_Date.substr(6)));
+                    var month = Checked_Date.getMonth() + 1;
+                    var rChecked_Date = Checked_Date.getDate() + "/" + month + "/" + Checked_Date.getFullYear();
+                }
+
+                if (result.Invoice_Processed_Date != null) {
+                    var Invoice_Processed_Date = new Date(parseInt(result.Invoice_Processed_Date.substr(6)));
+                    var month = Invoice_Processed_Date.getMonth() + 1;
+                    var rInvoice_Processed_Date = Invoice_Processed_Date.getDate() + "/" + month + "/" + Invoice_Processed_Date.getFullYear();
+                }
+
+
+                if (result.Service_Date != null) {
+                    var ssDate = new Date(parseInt(result.Service_Date.substr(6)));
+                    var dmonth = ssDate.getMonth() + 1;
+                    result.Service_Date = ssDate.getDate() + "/" + dmonth + "/" + ssDate.getFullYear();
+                }
+
+                if (result.End_Time != null) {
+                    var End_Time = new Date(parseInt(result.End_Time.substr(6)));
+                    var year = End_Time.getFullYear();
+                    if (year == 1) {
+                        result.sEnd_Time = "";
+                    } else {
+                        var h = End_Time.getHours(), m = End_Time.getMinutes();
+                        //var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                        //var _time = (h == 12) ? (h + ':' + ("0000" + m).slice(-2) + ' PM') : (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                        result.sEnd_Time = formatAMPM(End_Time);
+                    }
+                }
+
+
+                if (result.Start_Time != null) {
+                    var Start_Time = new Date(parseInt(result.Start_Time.substr(6)));
+                    var yesr = Start_Time.getFullYear();
+                    if (year == 1) {
+                        result.sStart_Time = "";
+                    } else {
+                        var h = Start_Time.getHours(), m = Start_Time.getMinutes();
+                        var _time = (h > 12) ? (h - 12 + ':' + ("0000" + m).slice(-2) + ' PM') : (h + ':' + ("0000" + m).slice(-2) + ' AM');
+                        result.sStart_Time = formatAMPM(Start_Time);
+                    }
+                }
+
+
+                $("#H_Billingsid").val(result.H_Billingsid);
+                $("#H_Claimsid_Billing").val(newClaimId);
+                $("#Service_By").val(result.Service_By);
+                $("#Is_Billable").val(result.Is_Billable);
+
+                if (result.Is_Billable) {
+                    $("#Is_Billable").prop("checked", true);
+                }
+                else {
+                    $("#Is_Billable").prop("checked", false);
+                }
+
+                $("#Billable").val(result.Billable);
+                $("#Units").val(result.Units);
+
+                if (timeDiff != '' && typeof timeDiff !== "undefined" && timeDiff != 'NaN') {
+
+                    if (timeDiff < 6) {
+
+                        $("#Units").val("1");
+
+                    }
+                    else {
+
+                        var mode = timeDiff % 6;
+                        var Unit = 0;
+                        if (mode <= 2) {
+                            Unit = Math.floor(timeDiff / 6);
+                        } else {
+                            Unit = Math.ceil(timeDiff / 6);
+                        }
+
+                        $("#Units").val(Unit);
+                    }
+                }
+
+                if ($("#Units").val() < 1) {
+                    //$("#Units").prop("readonly", true);
+                    //$("#Units").addClass("disabled");
+                }
+                else {
+                    $("#Units").prop("readonly", true);
+                    $("#Units").addClass("disabled");
+                }
+
+                if (!result.Claim_No) {
+
+                    $('#Claim_No').val(newClaimRef);
+                    $("#H_Claimsid_Billing").val(newClaimId);
+
+                    //get ClientId
+                    $.ajax({
+                        url: "/Billing/TeamGetCustomerForClaim?Claimsid=" + newClaimId,
+                        success: function (data) {
+
+                            $('#Client_Name').val(data.Text);
+                            $("#ClientId").val(data.Code);
+
+                            if (data.Order != null) {
+                                var RatePHR = data.Order;
+                                var RatePUNIT = ((RatePHR / 60) * 6);
+                                $("#Rate").val(data.Order);
+
+                                if (data.Order < 1) {
+
+                                    $("#Rate").prop("readonly", false);
+                                    $("#Rate").removeClass("disabled");
+                                }
+                                else {
+                                    $("#Rate").prop("readonly", true);
+                                    $("#Rate").addClass("disabled");
+                                }
+
+                                $("#Rate_Per_Unit").val(RatePUNIT.toFixed(2));
+
+                                var Rate_ = $("#Rate_Per_Unit").val();
+                                var val_ = (Rate_ * $("#Units").val()).toFixed(2);
+                                $("#Billable").val(val_);
+                            }
+                        }
+                    });
+
+
+                    //get policy Id
+                    $.ajax({
+                        url: "/Billing/TeamGetPolicyNoForClaim?Claimsid=" + newClaimId,
+                        success: function (result) {
+
+                            $('#Policyid_Billing').val(result[0].Code);
+                            $("#Policy_Name_Billing").val(result[0].Text);
+                        }
+                    });
+
+                    //$("#Claim_No").data("kendoAutoComplete").trigger("select");
+                }
+                else
+                    $("#Claim_No").val(result.Claim_No);
+
+                $("#ActivityId").val(result.ActivityId);
+                $("#Activity_Name").val(result.Activity_Name);
+                $("#Policyid_Billing").val(result.Policyid_Billing);
+                $("#Policy_Name_Billing").val(result.Policy_Name_Billing);
+                $("#ClientId").val(result.ClientId);
+                $("#Client_Name").val(result.Client_Name);
+                $("#Service_Date").val(result.Service_Date);
+                $("#Qty_Mins").val(result.Qty_Mins);
+                $("#Rate").val(result.Rate);
+
+                if (result.Order < 1) {
+
+                    $("#Rate").prop("readonly", false);
+                    $("#Rate").removeClass("disabled");
+                }
+                else {
+                    $("#Rate").prop("readonly", true);
+                    $("#Rate").addClass("disabled");
+                }
+
+                if (startTime != '' && typeof startTime !== "undefined")
+                    result.sStart_Time = startTime;
+
+                $("#sStart_Time").val(result.sStart_Time);
+                //var Starttimepicker = $("#sStart_Time").data("kendoTimePicker");
+                //Starttimepicker.value(result.sStart_Time);
+
+                if (endTime != '' && typeof endTime !== "undefined")
+                    result.sEnd_Time = endTime;
+
+
+                $("#sEnd_Time").val(result.sEnd_Time);
+                //var Endtimepicker = $("#sEnd_Time").data("kendoTimePicker");
+                //Endtimepicker.value(result.sEnd_Time);
+
+
+                if (result.Timeslip_Checked) {
+                    $("#Timeslip_Checked").prop('checked', true);
+                } else {
+                    $("#Timeslip_Checked").prop('checked', false);
+                }
+                $("#Timeslip_Checked").val(result.Timeslip_Checked);
+
+                $("#Checked_By").val(result.Checked_By);
+                $("#Checked_Date").val(rChecked_Date);
+                $("#Checked_By_Name").val(result.Checked_By_Name);
+
+                if (result.Invoice_Processed) {
+                    $("#Invoice_Processed").prop('checked', true);
+                } else {
+                    $("#Invoice_Processed").prop('checked', false);
+                }
+                $("#Invoice_Processed").val(result.Invoice_Processed);
+
+                $("#Invoice_Processed_By").val(result.Invoice_Processed_By);
+                $("#Invoice_Processed_Date").val(rInvoice_Processed_Date);
+                $("#Invoice_Processed_By_Name").val(result.Invoice_Processed_By_Name);
+
+                $("#Invoice_No").val(result.Invoice_No);
+                $("#Invoice_Date").val(result.Invoice_Date);
+                $("#Rate_Per_Unit").val(result.Rate_Per_Unit);
+
+
+                $("#Work_Done").val(result.Work_Done);
+                $("#Service_By_Name").val(result.Service_By_Name);
+                $("#Quarter").val(result.Quarter);
+
+                if (BillingId)
+                    $("#IsNew_Billable").val(false);
+                else
+                    $("#IsNew_Billable").val(true);
+
+                //var dateString = $("#Service_Date").val().substr(6);
+                //var currentTime = new Date(parseInt(dateString));
+                //var month = currentTime.getMonth() + 1;
+                //var day = currentTime.getDate();
+                //var year = currentTime.getFullYear();
+                //var date = day + "/" + month + "/" + year;
+                //$("#Service_Date").val(date);
+
+                //if (startTime && typeof startTime !== "undefined")
+                //    $("#sStart_Time").val(startTime);
+
+                //if (endTime && typeof endTime !== "undefined")
+                //    $("#sEnd_Time").val(endTime);
+
+                $('#BillingDetailModal').modal('show');
+            }
+        });
+
+    }
+
+
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+
+    $(document).ready(function () {
+
+        $(".AccountTimeslipDetailModal_Close").click(function () {
+            $("#AccountTimeslipDetailModal").modal("hide");
+        });
+
+        $(".ClaimReferenceNumbers_Close").click(function () {
+
+            $("#ClaimReferenceNumbersModal").modal('hide');
+        });
+
+        $('#successshow').hide();
+
+        $('#closemod').click(function () {
+            clearSelector();
+        })
+
+        $("#emailattach").change(function (input) {
+
+            var file1 = $('#emailattach').get(0).files;
+            if (file1 != null) {
+                jQuery.each(file1, function (i, file) {
+                    filearray.push(file);
+                });
+
+            }
+
+            ele = document.getElementById('emailattach');
+            ele.value = null;
+            $('#ul').empty();
+
+            $.each(filearray, function (i, item) {
+
+                $('#ul').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i></li>');
+
+            });
+
+        });
+
+        $(document).delegate('.fa-trash-o', 'click', function (e) {
+
+            id = e.target.id;
+            filearray = jQuery.grep(filearray, function (i, value) {
+                return value != id;
+            });
+
+            $('#ul').empty();
+            $.each(filearray, function (i, item) {
+                $('#ul').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i> </li>');
+
+            });
+        });
+
+        $('#errormsg').hide();
+        //$('#Tolist').prop('disabled', true);
+        // $('#CClist').prop('disabled', true);
+        // create Editor from textarea HTML element with default set of tools
+        $("#editor").kendoEditor({
+            resizable: {
+                content: true,
+                toolbar: true
+            },
+            paste: function (e) {
+                if ((/^<img src="data:image/).test(e.html)) {
+                    e.html = "";
+                }
+            }
+        });
+
+
+        bindToinputs(emptyemail);
+
+        $.get("/Home/GetAllClaimsOfTeams", function (data) {
+             loadClaimList(data);
+        });
+
+        $('#emialclick').click(function () {
+            //OpenEmailWindow();
+             window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() + "&claimId=" + $("#H_Claimsid").val(), "New Window", "height=710,width=1000");
+        });
+
+        $('#sendemail, #sendmail').click(function () {
+
+            $('#successshow').hide();
+            var editor = $("#editor").data("kendoEditor");
+            var seri = editor.value();
+            debugger;
+            var subject = $('#subject').val();
+            var autocomplete2 = $("#CClist").data("kendoAutoComplete");
+            var autocomplete1 = $("#Tolist").data("kendoAutoComplete");
+            var listone = autocomplete1.value();
+            var listtwo = autocomplete2.value();
+            var isFileNote = $("#chkAddToFileNote_WebMAil").is(':checked');
+            if (listone != null && listone != "") {
+                Tolist = separeString(listone);
+            }
+            if (listtwo != null && listtwo != "") {
+                CClist = separeString(listtwo);
+            }
+
+            if (list.length <= 0) {
+                $('#error').text("Please select claims");
+                $('#errormsg').show();
+                return;
+            }
+
+            if (Tolist.length <= 0) {
+                $('#error').text("Please enter To email");
+                $('#errormsg').show();
+                return;
+            }
+
+            if (subject == null || subject == "") {
+                $('#error').text("Please enter subject");
+                $('#errormsg').show();
+                return;
+            }
+
+            if (seri == null || seri == "") {
+                $('#error').text("Please enter body");
+                $('#errormsg').show();
+                return;
+            }
+
+            $('#error').text("");
+            $('#errormsg').hide();
+
+            var model = {
+                ToEmails: Tolist,
+                CcEmails: CClist,
+                ClaimIds: list,
+                subject: subject,
+                isFileNote: isFileNote
+            }
+
+            var formData = new FormData();
+            jQuery.each(filearray, function (i, file) {
+                formData.append('files', file);
+            });
+
+            var t = JSON.stringify(model);
+
+            var encodedString = btoa(seri);
+            formData.append("model", t);
+            formData.append("html", encodedString);
+
+            $.LoadingOverlay("show");
+
+            $.ajax({
+                url: "/Home/SendEmail",
+                type: 'post',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data) {
+                    $('#successshow').show();
+                    $('#success').text("Email sent");
+                    clearSelector();
+                    $.LoadingOverlay("hide");
+                    // ..... any success code you want
+                }
+            });
+
+        });
+
+        $('#addNewPayment').click(function () {
+
+            var claimId = $("#H_Claimsid").val();
+            var claim_Reference_Num = $("#Claim_Reference_Num").val();
+
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
+                window.location.href = '/NewRecord/NewPayment?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
+            }
+            else
+                window.location.href = '/NewRecord/NewPayment';
+
+        });
+
+        $('#addNewBillableimeSlip').click(function () {
+
+            var claimId = $("#H_Claimsid").val();
+            var claim_Reference_Num = $("#Claim_Reference_Num").val();
+
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
+                window.location.href = '/NewRecord/NewTimeslipDetail?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
+            }
+            else
+                window.location.href = '/NewRecord/NewTimeslipDetail';
+
+        });
+
+        $('#addNewKeyContact').click(function () {
+
+            var claimId = $("#H_Claimsid").val();
+            var claim_Reference_Num = $("#Claim_Reference_Num").val();
+
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
+                window.location.href = '/NewRecord/NewKeyContact?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
+            }
+            else
+                window.location.href = '/NewRecord/NewKeyContact';
+
+
+        });
+
+        $('#addNewFileNote').click(function () {
+
+            var claimId = $("#H_Claimsid").val();
+            var claim_Reference_Num = $("#Claim_Reference_Num").val();
+
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
+                window.location.href = '/NewRecord/NewFileNote?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
+            }
+            else
+                window.location.href = '/NewRecord/NewFileNote';
+
+        });
+
+        $('#addNewKeyDate').click(function () {
+            var claimId = $("#H_Claimsid").val();
+            var claim_Reference_Num = $("#Claim_Reference_Num").val();
+
+            if (claimId != '' && typeof claimId !== 'undefined' && claimId != 'NaN'
+                && claim_Reference_Num != '' && typeof claim_Reference_Num !== 'undefined' && claim_Reference_Num != 'NaN') {
+                window.location.href = '/NewRecord/NewKeyDate?claimId=' + claimId + "&claimRef=" + claim_Reference_Num;
+            }
+            else
+                window.location.href = '/NewRecord/NewKeyDate';
+        });
+
+        getPortalRegistrationCount();
+        getClaimAssigmentCount();
+        getAssignedClaimCount();
+        getMyActivityCount();
+
+        //function clearSelector() {
+        //    var multiselect = $("#claim").data("kendoMultiSelect");
+        //    var widget = $("#Tolist").data("kendoAutoComplete");
+        //    var widget2 = $("#CClist").data("kendoAutoComplete")
+        //    var editor = $("#editor").data("kendoEditor");
+        //    var emptyemailnew = new Array();
+        //    multiselect.value("");
+        //    multiselect.trigger("change");
+        //    widget.value("");
+        //    //multiselect1.trigger("change");
+        //    widget2.value("");
+        //    //multiselect2.trigger("change");
+        //    $('#subject').val("");
+        //    $('#chkAddToFileNote_WebMAil').prop("checked", true);
+        //    editor.value("");
+        //    widget.setDataSource(emptyemailnew);
+        //    widget2.setDataSource(emptyemailnew);
+        //    filearray = [];
+        //    $('#ul').empty();
+        //    list = new Array();
+        //    Tolist = new Array();
+        //    CClist = new Array();
+        //    emptyemail = new Array();
+        //    filearray = new Array();
+        //    $("#sendEmailModal").modal('hide');
+        //}
+
+        $("#liClaimList").click(function(){
+            winndow.location.href("/claimlist/Index");
+        });
+
+        //$('li#liClaimList').wrapAll('<div id="liClaimListDiv" />')
+
+        $("#emailSignature").click(function () {
+
+            $.ajax({
+                url: "/Email/GetEmailSignature", success: function (result) {
+                    debugger;
+                    if (result != null) {
+
+                        $("#ApplyOnNewEmails").prop('checked', result.ApplyOnNewEmails);
+                        $("#ApplyOnReplies").prop('checked', result.ApplyOnReplies);
+                        $("#ApplyOnForwards").prop('checked', result.ApplyOnForwards);
+                        $("#EmailSignatureId").val(result.EmailSignatureId);
+                        $("#signatureBox").summernote('code', result.Signature);
+
+                        $("#EmailSignatureModel").modal('show');
+                    }
+                }
+            });
+
+            
+        });
+
+    });
+
+
+    function loadEmails(dataItem, IsRemove) {
+        if (IsRemove) {
+            if (list.length > 0) {
+                list = jQuery.grep(list, function (value) {
+                    return value != dataItem.Code;
+                });
+                if (list.length <= 0) {
+                    $('#Tolist').prop('disabled', false);
+                    $('#CClist').prop('disabled', false);
+                }
+            }
+        } else {
+            list.push(dataItem.Code);
+        }
+
+        BindEmailToInputs();
+    }
+
+    function OpenEmailWindow() {
+
+        var list = new Array();
+        var Tolist = new Array();
+        var CClist = new Array();
+        var emptyemail = new Array();
+        var filearray = new Array();
+        $('#ul').empty();
+        $('#successshow').hide();
+        $('#errormsg').hide();
+        setClaimNo();
+        $('#sendEmailModal').modal('show');
+    }
+
+    function loadClaimList(listdata) {
+        $("#claim").kendoMultiSelect({
+
+            dataTextField: "Text",
+            dataValueField: "Code",
+            autoBind: false,
+            minlength: 5,
+            deselect: onDeselect,
+            select: onSelect,
+            //change: multiOnchange,
+            //dataSource: listdata,
+            dataSource: {
+                type: "json",
+                serverFiltering: true,
+                transport: {
+
+                    read: {
+                        url: "/Home/GetAllClaimsOfTeams",
+                        dataType: "json",
+                        data: function () {
+                            return {
+                                text_para: $("#claim").data("kendoMultiSelect").input.val(),
+                                claimRefNo: $("#Claim_Reference_Num").val()
+                            };
+                        }
+                    }
+                },
+
+            }
+        });
+
+        //var wrapper = $("#claim").data("kendoMultiSelect").wrapper;
+
+        //wrapper.blur(function () {
+        //    console.log("");
+        //});
+
+        function multiOnchange(e)
+        {
+            console.log(e);
+        }
+
+        //piumi check 1
+        function onSelect(e) {
+            var dataItem = e.dataItem;
+            $('#Tolist').prop('disabled', false);
+            $('#CClist').prop('disabled', false);
+            loadEmails(dataItem, false);
+
+            if ($("#subject").val() == "") {
+                $("#subject").val("Claim Ref # " + " [" + dataItem.Text + "]");
+            }
+        };
+
+        function onDeselect(e) {
+            var dataItem = e.dataItem;
+            loadEmails(dataItem, true);
+            $("#subject").val("");
+        };
+
+
+    };
+
+    function clearSelector() {
+
+        multiselectClaim = $("#claim").data("kendoMultiSelect");
+        widget = $("#Tolist").data("kendoAutoComplete");
+        widget2 = $("#CClist").data("kendoAutoComplete")
+        editor = $("#editor").data("kendoEditor");
+        emptyemailnew = new Array();
+
+        multiselectClaim.value("");
+        multiselectClaim.trigger("change");
+        widget.value("");
+        //multiselect1.trigger("change");
+        widget2.value("");
+        //multiselect2.trigger("change");
+        $('#subject').val("");
+        $('#chkAddToFileNote_WebMAil').prop("checked", true);
+        editor.value("");
+        widget.setDataSource(emptyemailnew);
+        widget2.setDataSource(emptyemailnew);
+        filearray = [];
+        $('#ul').empty();
+        list = new Array();
+        Tolist = new Array();
+        CClist = new Array();
+        emptyemail = new Array();
+        filearray = new Array();
+        $("#sendEmailModal").modal('hide');
+    }
+
+
+    function setClaimNo() {
+        if ($("#Claim_Reference_Num").length > 0 && $("#H_Claimsid").length > 0) {
+            var obj = {
+                Text: $("#Claim_Reference_Num").val(),
+                Code: $("#H_Claimsid").val()
+            };
+
+            var claimMultiselect = $("#claim").data("kendoMultiSelect");
+            claimMultiselect.value([$("#H_Claimsid").val()]);
+
+            $('#Tolist').prop('disabled', false);
+            $('#CClist').prop('disabled', false);
+            loadEmails(obj, false);
+            $("#subject").val("Claim Ref" + " [" + obj.Text + "]");
+
+        }
+    }
+
+    function setClaimantEmail() {
+        if ($("#Email_Address").length > 0) {
+            var widget = $("#Tolist").data("kendoAutoComplete");
+            widget.value($("#Email_Address").val() + ",");
+        }
+    }
+
+    function setInsuredEmail() {
+        if ($("#Insured_Email").length > 0) {
+            var widget = $("#Tolist").data("kendoAutoComplete");
+            widget.value($("#Insured_Email").val() + ",");
+        }
+    }
+
+    function BindEmailToInputs() {
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: '/Home/GetContactList',
+            data: JSON.stringify({ claimList: list }),
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            success: function (data) {
+
+                emptyemail = data;
+                var widget = $("#Tolist").data("kendoAutoComplete");
+                var widget2 = $("#CClist").data("kendoAutoComplete");
+                widget.setDataSource(emptyemail);
+                widget2.setDataSource(emptyemail);
+            },
+            error: function (data) {
+                console.debug(data);
+            }
+        });
+    }
+
+    function bindToinputs(data) {
+        emptyemail = data;
+        $("#CClist, #Tolist").kendoAutoComplete({
+            //dataTextField: "Code",
+            //dataValueField: "Code",
+            //autoBind: true,
+            //deselect: onemailDeselect,
+            separator: ",",
+            //select: onemailSelect,
+            dataSource: emptyemail
+        });
+
+        function onemailDeselect(e) {
+
+            var dataItem = e.dataItem;
+            if (e.sender.element[0].id == "Tolist") {
+                addRemoveEmails(dataItem, true, true);
+            } else {
+                addRemoveEmails(dataItem, true, false);
+            }
+        }
+
+        function onemailSelect(e) {
+
+            var dataItem = e.dataItem;
+            if (e.sender.element[0].id == "Tolist") {
+                addRemoveEmails(dataItem, false, true);
+            } else {
+                addRemoveEmails(dataItem, false, false);
+            }
+        }
+    }
+
+    function addRemoveEmails(dataItem, IsRemove, isTo) {
+        if (IsRemove) {
+            if (isTo) {
+                if (Tolist.length > 0) {
+                    Tolist = jQuery.grep(Tolist, function (value) {
+                        return value != dataItem.Code;
+                    });
+                }
+            } else {
+                if (CClist.length > 0) {
+                    CClist = jQuery.grep(CClist, function (value) {
+                        return value != dataItem.Code;
+                    });
+                }
+            }
+
+        } else {
+            if (isTo) {
+                Tolist.push(dataItem.Code);
+            } else {
+                CClist.push(dataItem.Code);
+            }
+        }
+
+        //BindEmailToInputs();
+    }
+
+    function getPortalRegistrationCount() {
+        $.ajax({
+            url: "/Home/GetPortalRegistrationCount", success: function (result) {
+                $("#portalRegCount").text(result);
+            }
+        });
+    }
+
+    function getClaimAssigmentCount() {
+        $.ajax({
+            url: "/Home/GetClaimAssigmentCount", success: function (result) {
+                $("#claimAssignemntCount").text(result);
+            }
+        });
+    }
+
+    function getAssignedClaimCount() {
+        $.ajax({
+            url: "/Home/GetAssignedClaimCount", success: function (result) {
+                $("#assignedClaimCount").text(result);
+            }
+        });
+    }
+
+    function getMyActivityCount() {
+        $.ajax({
+            url: "/Home/GetMyActivityCount", success: function (result) {
+                $("#activityCount").text(result);
+            }
+        });
+    }
+
+    function separeString(word) {
+        var d = word.split(",");
+        return d;
+
+    }
+
+    function noTimerRunning() {
+        $.ajax({
+
+            url: "/Billing/GetTimerStart",
+
+            success: function (result) {
+
+                if (result == "notimer") {
+                    location.href = "/Account/LogOff";
+                    return true;
+                }
+                else {
+                    bootbox.alert("Timer is running. Please log your time.");
+                    return false;
+                }
+            },
+            error: function () {
+
+                return false;
+            }
+        });
+    }
+
+
+    function openEmailWindow() {
+        window.open("/Email/EmailWindow", "New Window", "height=710,width=1000");
+    }
+
+</script>

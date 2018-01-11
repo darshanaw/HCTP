@@ -1,0 +1,214 @@
+﻿@using HonanClaimsPortal.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "HonanCCP - Log in";
+    Layout = null;
+}
+
+<!-- =============== VENDOR STYLES ===============-->
+<!-- FONT AWESOME-->
+<link rel="stylesheet" href="~/Content/vendor/fontawesome/css/font-awesome.min.css">
+<!-- SIMPLE LINE ICONS-->
+<link rel="stylesheet" href="~/Content/vendor/simple-line-icons/css/simple-line-icons.css">
+<!-- ANIMATE.CSS-->
+<link rel="stylesheet" href="~/Content/vendor/animate.css/animate.min.css">
+<!-- WHIRL (spinners)-->
+<link rel="stylesheet" href="~/Content/vendor/whirl/dist/whirl.css">
+<!-- =============== PAGE VENDOR STYLES ===============-->
+<!-- WEATHER ICONS-->
+<link rel="stylesheet" href="~/Content/vendor/weather-icons/css/weather-icons.min.css">
+<!-- =============== BOOTSTRAP STYLES ===============-->
+<link rel="stylesheet" href="~/Content/app/css/bootstrap.css" id="bscss">
+<!-- =============== APP STYLES ===============-->
+<link rel="stylesheet" href="~/Content/app/css/app.css" id="maincss">
+
+<link href="~/Content/Custom.css" rel="stylesheet" />
+<!-- JQUERY-->
+<script src="~/Content/vendor/jquery/dist/jquery.js"></script>
+
+<link href="~/Content/Overlay.css" rel="stylesheet" />
+
+
+
+<style>
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 1rem;
+        background-color: #efefef;
+        text-align: right;
+    }
+
+    .ngdialog-content {
+        width: 1000px !important
+    }
+
+    .form-horizontal .form-group {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+
+@{
+    var message = TempData["SuccessMsg"];
+}
+<div style="background-image: url('../../Content/app/img/backdrop2.jpg'); background-size:100% 100%; background-repeat: no-repeat; background-position: left top; height: 100%">
+    <div class="block-center  wd-xl" style="padding-top: 10%">
+        <!-- START panel-->
+        <div class="panel panel-dark">
+            <div class="panel-heading text-center">
+                Claims Team Portal
+            </div>
+            <div class="panel-body">
+
+                <div class="col-md-12 clearfix">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <img src="@Url.Content("~/Content/app/img/honanWbn.png")" alt="" style=" width: 100%; display: block;" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <img src="@Url.Content("~/Content/app/img/riskmart-logo.jpg")" alt="" style="width: 100%; display: block;" />
+                    </div>
+                </div>
+                <br />
+                <br />
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.UserCode, new { @class = "form-control", @placeholder = "Enter usercode" })
+                        <span class="fa fa-user form-control-feedback text-muted"></span>
+                        @Html.ValidationMessageFor(m => m.UserCode, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @type = "password" })
+                        <span class="fa fa-lock form-control-feedback text-muted"></span>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                    @*<div class="clearfix">
+                            <div class="checkbox c-checkbox pull-left mt0">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    <span class="fa fa-check"></span>Remember Me
+
+                                </label>
+                            </div>
+                        </div>*@
+                    <div class="clearfix">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                Remember Me
+                            </label>
+                        </div>
+                    </div>
+                    <br />
+                    @*</div>
+                        <div class="clearfix">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>*@
+                    <button type="submit" id="btnSubmit" class="btn btn-block btn-primary mt-lg">Login</button>
+                }
+
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger text-center" })
+
+
+                @*<p class="pt-lg text-center">Need to Signup?</p>*@
+                @*<a href="/Account/Register" class="btn btn-block btn-default">New Login Registration</a>*@
+                <br />
+                @@ All Rights Reserved Honan Insurance Group
+                <br />
+
+
+                @*<div class="container-fluid" style="padding-left: 0px;text-align: center">
+                    <a href="" style="text-align: center" data-toggle="modal" data-target="#termsModal" ng-dialog-class="ngdialog-theme-default">Terms and Conditions \ Discliamer</a>
+                </div>*@
+
+                <br />
+
+
+
+
+            </div>
+        </div>
+        <!-- END panel-->
+    </div>
+
+
+    <!-- Modal -->
+    <div id="termsModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Terms \ Conditions Disclaimer </h4>
+                </div>
+                <div class="modal-body">
+                    @*@Html.Partial("Terms_Conditions")*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/Content/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- MATCHMEDIA POLYFILL-->
+    <script src="~/Content/vendor/matchMedia/matchMedia.js"></script>
+    <!-- JQUERY-->
+    <script src="~/Content/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/Content/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/Content/vendor/jquery.easing/js/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/Content/vendor/animo.js/animo.js"></script>
+    <!-- SLIMSCROLL-->
+    <script src="~/Content/vendor/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/Content/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/Content/vendor/jquery-localize-i18n/dist/jquery.localize.js"></script>
+    <!-- RTL demo-->
+    <script src="~/Content/app/js/demo/demo-rtl.js"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+
+
+    <script src="~/Scripts/notify.js"></script>
+
+    <script src="~/Scripts/loadingoverlay.min.js"></script>
+    <script src="~/Scripts/loadingoverlay_progress.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+            $.LoadingOverlay("show");
+        })
+
+
+    });
+    var message = '@message';
+    if (message) {
+        $.notify(message, "success");
+    }
+
+    </script>
