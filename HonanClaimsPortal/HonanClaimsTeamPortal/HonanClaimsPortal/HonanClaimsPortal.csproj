@@ -1478,6 +1478,7 @@
     <Content Include="Views\Email\EmailWindow.cshtml" />
     <Content Include="Views\Shared\_Emails.cshtml" />
     <Content Include="Views\Email\EmailSignature.cshtml" />
+    <Content Include="Views\Shared\_PolicyLookupDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

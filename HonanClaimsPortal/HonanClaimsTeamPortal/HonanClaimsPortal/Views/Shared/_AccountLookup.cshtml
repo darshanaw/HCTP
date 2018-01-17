@@ -103,6 +103,11 @@
             $("#BillingMethod").val(billingMethod);
         }
 
+        if ($("#Account_Name").length > 0) {
+
+            $("#Account_Name").trigger('change');
+        }
+
         $('#AccountModal').modal('toggle');
     }
 

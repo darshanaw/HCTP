@@ -39,5 +39,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Insurer { get; set; }
         public string Insured_Name { get; set; }
         public string Account_Manager_Property { get; set; }
+        [Required(ErrorMessage = "Date Required")]
+        public DateTime? Incident_Date { get; set; }
     }
 }
