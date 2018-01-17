@@ -1,5 +1,6 @@
 ﻿using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.LookupModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -194,6 +195,96 @@ namespace HonanClaimsWebApi.Services
                         {
                             string response = responseReader.ReadToEnd();
                             return new JavaScriptSerializer().Deserialize<List<CRMOCNumSimple>>(response);
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<List<string>> GetPolicyClassesOfAccount(string accountId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Policy/GetPolicyClassesOfAccount?accountId=" + accountId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<List<string>>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<List<AccountSimpleModel>> GetPolicyInsurersOfAccount(string accountId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Policy/GetPolicyInsurersOfAccount?accountId=" + accountId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<List<AccountSimpleModel>>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<PolicySimple> GetDetailPolicies(string dateOfLoss, string policyNo, string policyClass, string associate,
+        string insuredName, string address, string insurer, string accountId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/General/GetPolicyLookupDetail?dateOfLoss="
+                    + dateOfLoss + "&policyNo=" + policyNo + "&policyClass=" + policyClass + "&associate=" + associate 
+                    + "&insuredName=" + insuredName + "&address=" + address + "&insurer=" + insurer + "&accountId=" + accountId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<PolicySimple>>(response);
                         }
                     }
                 }

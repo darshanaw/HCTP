@@ -645,9 +645,65 @@ namespace HonanClaimsPortal.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetPolicyClassesOfAccount(string accountId)
+        {
+            LookupServices services = new LookupServices();
+            return Json(services.GetPolicyClassesOfAccount(accountId), JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpGet]
+        public async Task<ActionResult> GetPolicyInsurersOfAccount(string accountId)
+        {
+            LookupServices services = new LookupServices();
+            return Json(services.GetPolicyInsurersOfAccount(accountId), JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpGet]
+        public async Task<ActionResult> GetDetailPoliciesAjaxHandler(string dateOfLoss, string policyNo, string policyClass, string associate,
+        string insuredName, string address, string insurer, string accountId)
+        {
+            lookupServices = new LookupServices();
+            List<PolicySimple> objectList = new List<PolicySimple>();
+            objectList = lookupServices.GetDetailPolicies(dateOfLoss, policyNo, policyClass, associate, insuredName, address, insurer, accountId);
 
+            IEnumerable<PolicySimple> filteredRecords = objectList;
+
+            var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+            Func<PolicySimple, string> orderingFunction = (c => sortColumnIndex == 1 ? c.PolicyNo :
+                                                                sortColumnIndex == 2 ? c.PolicyClass :
+                                                                sortColumnIndex == 3 ? c.PolicyStatus :
+                                                                c.PolicyExpiry);
+
+            var sortDirection = Request["sSortDir_0"]; // asc or desc
+            if (sortDirection == "asc")
+                filteredRecords = filteredRecords.OrderBy(orderingFunction);
+            else
+                filteredRecords = filteredRecords.OrderByDescending(orderingFunction);
+
+            List<string[]> aData = new List<string[]>();
+
+            foreach (PolicySimple item in filteredRecords)
+            {
+                string[] arry = new string[] { item.PolicyId, item.PolicyNo, item.PolicyClass,item.PeriodFrom != null ? DateTime.Parse(item.PeriodFrom.ToString()).ToShortDateString() : ""
+                    ,item.PeriodTo != null ? DateTime.Parse(item.PeriodTo.ToString()).ToShortDateString() : "",item.Insured_Name,item.UnderwriterName,item.Excess.ToString(),
+                    item.PolicyStatus,item.Address1, item.Address2, item.Suburb,
+                    item.State,item.Postcode, item.PolicyExpiry, item.AccountManager
+                    ,item.UnderwriterId,item.PolicyId,item.AccountManagerCode};
+
+                aData.Add(arry);
+            }
+
+            return Json(new
+            {
+                iTotalRecords = 97,
+                iTotalDisplayRecords = 3,
+                aaData = aData
+
+            },
+
+            JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

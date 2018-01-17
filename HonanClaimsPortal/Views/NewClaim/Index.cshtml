@@ -103,7 +103,17 @@
                                 </div>
                             </div>
 
-
+                            <div class="form-group mb">
+                                <label id="dateFieldLabel" class="col-sm-2 control-label input-sm"></label>
+                                <div class="col-sm-9">
+                                    <div id="dtpIncidentDate" class="input-group date dateCalendar" style="width:100%">
+                                        @Html.TextBoxFor(o => o.Incident_Date, new { @class = "form-control input-sm" })
+                                        <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
+                                            <span class="fa fa-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group mb">
                                 <label class="col-sm-2 control-label input-sm">Policy #</label>
@@ -111,7 +121,7 @@
                                     <div class="input-group">
                                         @Html.TextBoxFor(o => o.Policy_No, new { @class = "form-control input-sm", @maxlength = 200, @style = "z-index: auto" })
                                         <span id="spnPolicyModal" class="input-group-btn" data-toggle="modal" data-target="#PolicyModal">
-                                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="z-index:auto">
+                                            <button type="button" id="btnPolicyModal" class="mb-sm btn btn-info btn-sm btn-outline" style="z-index:auto">
                                                 <i class="fa fa-binoculars"></i>
                                             </button>
                                         </span>
@@ -191,14 +201,14 @@
 
 <!-- Modal -->
 <div id="PolicyModal" class="modal fade PolicyModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Policy Lookup</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
+                @Html.Partial("~/Views/Shared/_PolicyLookupDetail.cshtml", null, new ViewDataDictionary { { "PageId", "New" } })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -249,14 +259,33 @@
 
 <script>
     $(function () {
-              
+
+        changePolicyControlState();
+
+        var team = $("#Claim_Team").val();
+        if (team == "@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC" || team == "@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims")
+            $("#dateFieldLabel").html("Incident Date");
+        else
+            $("#dateFieldLabel").html("Date of Loss");
+
+        $("#Claim_Team").change(function () {
+            var team = $("#Claim_Team").val();
+            if (team == "@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC" || team == "@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims")
+                $("#dateFieldLabel").html("Incident Date");
+            else
+                $("#dateFieldLabel").html("Date of Loss");
+        });
+
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
 
         if ($("#Account_Name").val() !== "" && $("#Claim_Type").val() !== "")
         {
             $.LoadingOverlay("show");
             window.location = "/claimlist/Index";
         }
-  
+
 
         if ($("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.RisksmartGCC' || $("#Claim_Team").val() == '@HonanClaimsPortal.Helpers.ClaimTeams.GCCClaims') {
             $("#Oc_No").val("");
@@ -295,7 +324,48 @@
 
         $("#spnPolicyModal").click(function () {
 
+            $("#dtpIncidentDateLookup").find("input").val($("#dtpIncidentDate").find("input").val())
+            // Load Policy Classes
+            $.ajax({
+                url: "/Lookup/GetPolicyClassesOfAccount?accountId=" + $("#Accountid").val(), success: function (result) {
+                    if (result != null) {
+                        $('#ddlPolicyClassLookup').empty();
+                        $('#ddlPolicyClassLookup').append($('<option>', {
+                            value:"",
+                            text: "",
+                        }));
+                        for (var i = 0; i < result.Result.length; i++) {
+                            $('#ddlPolicyClassLookup').append($('<option>', {
+                                value: result.Result[i],
+                                text: result.Result[i],
+                            }));
+                        }
+                    }
+
+                    //Load Insurers
+                    $.ajax({
+                        url: "/Lookup/GetPolicyInsurersOfAccount?accountId=" + $("#Accountid").val(), success: function (resultSecond) {
+                            if (resultSecond != null) {
+                                $('#ddlInsurerLookup').empty()
+                                $('#ddlInsurerLookup').append($('<option>', {
+                                    value: "",
+                                    text: "",
+                                }));
+                                for (var i = 0; i < resultSecond.Result.length; i++) {
+                                    $('#ddlInsurerLookup').append($('<option>', {
+                                        value: resultSecond.Result[i].AccountId,
+                                        text: resultSecond.Result[i].AccountName,
+                                    }));
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+
             $('#tbPolicy').DataTable().ajax.reload(null, false);
+
         });
 
         $("#spnAssignTo").click(function () {
@@ -353,6 +423,18 @@
             $(window).off('beforeunload');
         });
 
+        $("#Account_Name").change(function () {
+            changePolicyControlState();
+        });
+
+        $("#Claim_Type").change(function () {
+            changePolicyControlState();
+        });
+
+        $('#dtpIncidentDate').on('dp.change', function (e) {
+            changePolicyControlState();
+        });
+
     })
 
     function Cancel() {
@@ -366,5 +448,21 @@
         $("#Assigned_To").val("");
         $("#Assigned_To_Id").val("");
         $("#Oc_Name").val("");
+        $("#Incident_Date").val("");
+        changePolicyControlState();
     }
+
+    function changePolicyControlState() {
+
+        if ($("#Account_Name").val() != "" && $("#Claim_Type").val() != "" && $("#dtpIncidentDate").find("input").val() != "") {
+            $("#Policy_No").prop('disabled', false);
+            $("#spnPolicyModal").prop('disabled', false);
+            $("#btnPolicyModal").prop('disabled', false);
+        } else {
+            $("#Policy_No").prop('disabled', true);
+            $("#spnPolicyModal").prop('disabled', true);
+            $("#btnPolicyModal").prop('disabled', true);
+        }
+    }
+
 </script>
