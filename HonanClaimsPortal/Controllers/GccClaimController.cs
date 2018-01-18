@@ -56,6 +56,8 @@ namespace HonanClaimsPortal.Controllers
             claim.Insurer = newClaimModel.Insurer;
             claim.InsurerName = newClaimModel.InsurerName;
             claim.Insured_Name = newClaimModel.Insured_Name;
+            claim.Date_Of_Loss = newClaimModel.Incident_Date;
+            claim.Incident_Date = newClaimModel.Incident_Date;
 
             // Get Claim Reference #
             claim.Claim_Reference_Num = claimServices.GenerateClaimRefNo(claim.Claim_Team);

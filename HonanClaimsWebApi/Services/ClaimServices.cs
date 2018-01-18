@@ -859,6 +859,65 @@ namespace HonanClaimsWebApi.Services
             }
 
         }
+
+        public async Task<bool> SkipActivity(string activityTaskId, string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/SkipActivity?activityTaskId=" + activityTaskId + "&userId=" + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<bool>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<bool> UpdateActivityDueDate(string dueDate,string activityTaskId, string userId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/UpdateActivityDueDate?dueDate=" + dueDate + "&activityTaskId=" + activityTaskId + "&userId=" + userId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<bool>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 
 

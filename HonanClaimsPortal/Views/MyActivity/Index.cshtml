@@ -249,6 +249,7 @@
 
 <script>
        
+    var selectedActivityRow;
 
     $(".ActivityWorkFlowModal_Close").click(function () {
         RefreshActivityTasksGrid();
@@ -534,7 +535,9 @@
                             Owner: { editable: false },
                             Contact: { editable: false },
                             SLADays: { editable: false },
-                            Complete: { editable: false }
+                            DueDate: { editable: true },
+                            Complete: { editable: false },
+                            Skipped: { editable: false }
                         }
                     }
                 }
@@ -596,9 +599,17 @@
             {
                 field: "DueDate",
                 title: "Due Date",
+                format: "{0:dd/MM/yyyy}",
+                editor: dateTimeEditor
                 //format: "dd/MMM/yyyy",
                 //template: "#= kendo.toString(kendo.parseDate(DueDate, 'yyyy-MM-dd'), 'MM/dd/yyyy') #",
                 //editor: customDateEditor
+            },
+            {
+                field: "Skipped",
+                title: "N/A",
+                //template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
+                template: "<input  onclick=\"setActivityNA(this,'#= Skipped #','#= Complete #','#= ActivityTaskId #');\" type='checkbox' #if(Skipped==true){ #checked# } else { ## }# />"
             },
             {
                  title: "Complete",
@@ -796,6 +807,62 @@
         $('#ActivityTasksDetailModal').modal('show');
     }
 
+    function setActivityNA(chkBox, skipped, completed, activityTaskId) {
+
+        if (skipped == "true") {
+            $(chkBox).prop("checked", true);
+            return false;
+        }
+
+        if (completed == "true") {
+            $(chkBox).prop("checked", false)
+            return false;
+        }
+
+        $.ajax({
+            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId, success: function (result) {
+                loadactivity();
+            }
+        });
+
+    }
+
+    function dateTimeEditor(container, options) {
+        debugger;
+        if (options.model.Complete || options.model.Skipped) {
+            $("#grid").data("kendoGrid").closeCell();
+        } else {
+
+            selectedActivityRow = options.model;
+            var maxDate = addDays(new Date(options.model.DueDate.split('/')[2] + "-" + options.model.DueDate.split('/')[1] + "-" +
+                options.model.DueDate.split('/')[0]), options.model.SLADays);
+
+            $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
+                .appendTo(container)
+                .kendoDatePicker({change: dueDateOnChange, max: maxDate });
+        }
+
+    }
+
+    function addDays(startDate, numberOfDays) {
+        var returnDate = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate() + numberOfDays,
+            startDate.getHours(),
+            startDate.getMinutes(),
+            startDate.getSeconds());
+        return returnDate;
+    }
+
+    function dueDateOnChange() {
+        $.ajax({
+            url: "/ClaimDetailTabs/UpdateActivityDueDate?dueDate=" + kendo.toString(this.value(), 'dd/MM/yyyy') + "&activityTaskId="
+            + selectedActivityRow.ActivityTaskId, success: function (result) {
+                loadactivity();
+            }
+        });
+    }
 
 </script>
 <style>
