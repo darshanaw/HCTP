@@ -838,6 +838,22 @@ namespace HonanClaimsPortal.Controllers
             return Json(result.IsSuccess, JsonRequestBehavior.AllowGet);
 
         }
+
+        public ActionResult SkipActivity(string activityTaskId)
+        {
+            ClaimServices service = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+            return Json(service.SkipActivity(activityTaskId, client.UserId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdateActivityDueDate(string dueDate,string activityTaskId)
+        {
+            ClaimServices service = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+            return Json(service.UpdateActivityDueDate(dueDate,activityTaskId, client.UserId), JsonRequestBehavior.AllowGet);
+        }
     }
 
 }

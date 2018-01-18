@@ -11,7 +11,6 @@
 <input type="hidden" id="nextActivityDue_wf" name="nextActivityDue_wf" />
 
 <style>
-
     .gridOrange {
         background-color: #FFA268;
     }
@@ -19,9 +18,8 @@
     .gridRed {
         background-color: #FF6961;
     }
-
 </style>
-    
+
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="row">
@@ -57,11 +55,11 @@
                         <input type="button" id="btnActivityTasksFilter" class="btn btn-sm btn-primary" value="Filter List" />
                     </div>
                     <div class="col-sm-1">
-                        <input type="button" id="btnClearFilter" class="btn btn-sm btn-default" value="Clear Filters"/>
+                        <input type="button" id="btnClearFilter" class="btn btn-sm btn-default" value="Clear Filters" />
                     </div>
                     @*<div class="col-sm-2">
-                        <input type="button" class="btn btn-default" id="btnActivityTasksAddNew" value="Add New" />
-                    </div>*@
+                            <input type="button" class="btn btn-default" id="btnActivityTasksAddNew" value="Add New" />
+                        </div>*@
 
                 </div>
             </div>
@@ -141,16 +139,19 @@
 
 <script>
 
+    var selectedActivityRow;
+    kendo.culture('bg-BG');
     //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
-    $(function () {rdoViewAll
+    $(function () {
+        rdoViewAll
 
         $("#IsNew").val("true");
 
-        $("#rdoViewAll").prop('checked',true);
+        $("#rdoViewAll").prop('checked', true);
 
         var windowTemplate = kendo.template($("#windowTemplate").html());
 
-        $("#gridActivityTasks").kendoGrid({
+         $("#gridActivityTasks").kendoGrid({
 
             dataSource: {
                 transport: {
@@ -163,12 +164,30 @@
                     }
                 },
                 batch: false,
+                schema: {
+                    model: {
+                        id: "ActivityTaskId",
+                        fields: {
+                            Seq_Act: { editable: false },
+                            Stage_Act: { editable: false },
+                            Action_Act: { editable: false },
+                            Owner_Act: { editable: false },
+                            Contact_Act: { editable: false },
+                            SLADays_Act: { editable: false },
+                            DueDate_Act: { editable: true },
+                            Skipped_Act: { editable: false },
+                            Complete_Act: { editable: false },
+                            CompletedDate_Act: { editable: false }
+                        }
+                    }
+                }
             },
             filterable: true,
             pageSize: 100,
             navigatable: true,
             pageable: true,
             sortable: true,
+            editable: true,
             dataBound: function (e) {
                 var rowCount = 0;
                 var items = this._data;
@@ -201,51 +220,54 @@
                 },
                 {
                     field: "Seq_Act",
-                    title: "Seq"
+                    title: "Seq",
                 },
                 {
                     field: "Stage_Act",
-                    title: "Stage"
+                    title: "Stage",
                 },
                 {
                     field: "Action_Act",
                     title: "Action",
-                    template: "<a  href='javascript:void(0);' onclick=\"loadActivityTaskDetail('#= ActivityTaskId #')\" '>#=Action_Act#</a>"
+                    template: "<a  href='javascript:void(0);' onclick=\"loadActivityTaskDetail('#= ActivityTaskId #')\" '>#=Action_Act#</a>",
                 },
                 {
                     field: "Owner_Act",
-                    title: "Owner"
+                    title: "Owner",
                 },
                 {
                     field: "Contact_Act",
-                    title: "Contact"
+                    title: "Contact",
                 },
                 {
                     field: "SLADays_Act",
-                    title: "SLA (Days)"
+                    title: "SLA (Days)",
                 },
                 {
                     field: "DueDate_Act",
                     title: "Due Date",
-                    template: "#= (DueDate_Act == null) ? '': kendo.toString(kendo.parseDate(DueDate_Act), 'dd/MM/yyyy') #"
+                    template: "#= (DueDate_Act == null) ? '': kendo.toString(kendo.parseDate(DueDate_Act), 'dd/MM/yyyy') #",
+                    format: "{0:dd/MM/yyyy}",
+                    editor: dateTimeEditor
                 },
                 {
                     field: "Skipped_Act",
-                    title: "Skipped",
-                    template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
+                    title: "N/A",
+                    //template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
+                    template: "<input  onclick=\"setActivityNA(this,'#= Skipped_Act #','#= Complete_Act #','#= ActivityTaskId #');\" type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />",
                 },
                 {
                     field: "Complete_Act",
                     title: "Completed",
                     //template: "#if(Complete_Act==true){ #Yes# } else { #No# }#"
-                    template: "<input onclick=\"InvokeNextSteps(this,'#= Seq_Act #','#= ActivityTaskId #','#= Action_Act #');\" type='checkbox' #if(Complete_Act==true){ #checked disabled# } else { ## }# />"
-                    
+                    template: "<input onclick=\"InvokeNextSteps(this,'#= Seq_Act #','#= ActivityTaskId #','#= Action_Act #');\" type='checkbox' #if(Complete_Act==true){ #checked disabled# } else { ## }# />",
+
                 },
                 {
                     field: "CompletedDate_Act",
                     title: "Completed Date",
                     //template: '#= kendo.toString(kendo.parseDate(CompletedDate_Act), "dd/MM/yyyy")#',
-                    template: "#= (CompletedDate_Act == null) ? '': kendo.toString(kendo.parseDate(CompletedDate_Act), 'dd/MM/yyyy') #"
+                    template: "#= (CompletedDate_Act == null) ? '': kendo.toString(kendo.parseDate(CompletedDate_Act), 'dd/MM/yyyy') #",
                 }
                 //,
                 //{
@@ -308,34 +330,31 @@
 
     });
 
-    function InvokeNextSteps(chkBox, seqId, activityTaskId_wf, action_wf)
-    {
+    function InvokeNextSteps(chkBox, seqId, activityTaskId_wf, action_wf) {
         debugger;
-        if (!$(chkBox).is(":checked"))
-        {
+        if (!$(chkBox).is(":checked")) {
             $(chkBox).prop("checked", false);
         }
-        else
-        {
+        else {
             $("#isActivityCompletionGrid").val("true");
 
             $("#activityTaskId_wf").val(activityTaskId_wf);
             $("#action_wf").val(action_wf);
             $("#actionSeq_wf").val(seqId);
-           
+
             $("#ActivityWorkFlowModal").modal("show");
             $("#txtWorkFlowCompletedDAte").val("");
             LoadgridActivityWorkFlowNextSteps(true, seqId);
-            
+
         }
     }
 
-  
+
 
     function refreshSequence() {
 
         $.ajax({
-            url: "/ClaimDetailTabs/GetSequencyList?claimId=" + $("#H_Claimsid").val() +"&isNew=true", success: function (result) {
+            url: "/ClaimDetailTabs/GetSequencyList?claimId=" + $("#H_Claimsid").val() + "&isNew=true", success: function (result) {
 
                 var options = $("#Seq_Dtl");
                 options.empty();
@@ -359,14 +378,13 @@
         showOverDue = $("#chkShowOverdue").is(':checked');
         owner = $("#OwnerType_ActivityTask").val();
 
-     
+
         $("#gridActivityTasks").data("kendoGrid").dataSource.read({
             incompleteOnly: incompleteOnly, completedOnly: completedOnly, showOverDue: showOverDue, owner: owner
         });
     }
 
-    function loadActivityTaskDetail(activityId)
-    {
+    function loadActivityTaskDetail(activityId) {
         clearActivityTaskDetails();
         $("#H_Activitytasksid_Dtl").val(activityId);
         //refreshSequence();
@@ -425,6 +443,60 @@
         $("#chkShowOverdue").prop('checked', false);
         $("#OwnerType_ActivityTask").val("");
         RefreshActivityTasksGrid();
+    }
+
+    function setActivityNA(chkBox, skipped, completed, activityTaskId) {
+
+        if (skipped == "true") {
+            $(chkBox).prop("checked", true);
+            return false;
+        }
+
+        if (completed == "true") {
+            $(chkBox).prop("checked", false)
+            return false;
+        }
+
+        $.ajax({
+            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId, success: function (result) {
+                RefreshActivityTasksGrid();
+            }
+        });
+
+    }
+
+    function dateTimeEditor(container, options) {
+        if (options.model.Complete_Act || options.model.Skipped_Act) {
+            $("#gridActivityTasks").data("kendoGrid").closeCell();
+        } else {
+
+            selectedActivityRow = options.model;
+            var maxDate = addDays(new Date(parseInt(options.model.DueDate_Act.substr(6))), options.model.SLADays_Act);
+            $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
+                .appendTo(container)
+                .kendoDatePicker({ parseFormats: [kendo.culture().calendar.patterns['d']],change: dueDateOnChange, max: maxDate });
+        }
+
+    }
+
+    function dueDateOnChange() {
+        $.ajax({
+            url: "/ClaimDetailTabs/UpdateActivityDueDate?dueDate=" + kendo.toString(this.value(), 'dd/MM/yyyy') + "&activityTaskId="
+            + selectedActivityRow.ActivityTaskId, success: function (result) {
+                RefreshActivityTasksGrid();
+            }
+        });
+    }
+
+    function addDays(startDate, numberOfDays) {
+        var returnDate = new Date(
+            startDate.getFullYear(),
+            startDate.getMonth(),
+            startDate.getDate() + numberOfDays,
+            startDate.getHours(),
+            startDate.getMinutes(),
+            startDate.getSeconds());
+        return returnDate;
     }
 
 </script>
