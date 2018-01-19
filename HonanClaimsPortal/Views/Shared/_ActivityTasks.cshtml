@@ -143,7 +143,12 @@
     kendo.culture('bg-BG');
     //string claimId, string payeeId, string invoicedDate, string status, string invoiceNo
     $(function () {
-        rdoViewAll
+
+        $('.dateCalendar').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+
+        //rdoViewAll
 
         $("#IsNew").val("true");
 
@@ -254,13 +259,13 @@
                     field: "Skipped_Act",
                     title: "N/A",
                     //template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
-                    template: "<input  onclick=\"setActivityNA(this,'#= Skipped_Act #','#= Complete_Act #','#= ActivityTaskId #');\" type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />",
+                    template: "<input  onclick=\"setActivityNA(this,'#= Skipped_Act #','#= Complete_Act #','#= ActivityTaskId #','#= Stage_Act #');\" type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />",
                 },
                 {
                     field: "Complete_Act",
                     title: "Completed",
                     //template: "#if(Complete_Act==true){ #Yes# } else { #No# }#"
-                    template: "<input onclick=\"InvokeNextSteps(this,'#= Seq_Act #','#= ActivityTaskId #','#= Action_Act #');\" type='checkbox' #if(Complete_Act==true){ #checked disabled# } else { ## }# />",
+                    template: "<input onclick=\"InvokeNextSteps(this,'#= Skipped_Act #','#= Complete_Act #','#= Seq_Act #','#= ActivityTaskId #','#= Action_Act #','#= Stage_Act #');\" type='checkbox' #if(Complete_Act==true){ #checked disabled# } else { ## }# />",
 
                 },
                 {
@@ -330,23 +335,84 @@
 
     });
 
-    function InvokeNextSteps(chkBox, seqId, activityTaskId_wf, action_wf) {
-        debugger;
-        if (!$(chkBox).is(":checked")) {
+    function InvokeNextSteps(chkBox, skipped, completed, seqId, activityTaskId_wf, action_wf, stage) {
+
+        if (skipped == "true") {
             $(chkBox).prop("checked", false);
+            return false;
         }
-        else {
-            $("#isActivityCompletionGrid").val("true");
 
-            $("#activityTaskId_wf").val(activityTaskId_wf);
-            $("#action_wf").val(action_wf);
-            $("#actionSeq_wf").val(seqId);
-
-            $("#ActivityWorkFlowModal").modal("show");
-            $("#txtWorkFlowCompletedDAte").val("");
-            LoadgridActivityWorkFlowNextSteps(true, seqId);
-
+        if (completed == "true") {
+            $(chkBox).prop("checked", true)
+            return false;
         }
+
+        $.ajax({
+            url: "/ClaimDetailTabs/CompleteActivity?activityTaskId=" + activityTaskId_wf + "&stage=" + stage, success: function (result) {
+                RefreshActivityTasksGrid();
+
+                $.ajax({
+                    url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + $("#H_Claimsid").val(), success: function (result2) {
+                        if (result2.Result !== null && Number(result2.Result) == 0) {
+                            $.LoadingOverlay("hide");
+                            bootbox.confirm({
+                                message: "Do you want to Close the Claim ?",
+                                buttons: {
+                                    confirm: {
+                                        label: 'Yes',
+                                        className: 'btn-success'
+                                    },
+                                    cancel: {
+                                        label: 'No',
+                                        className: 'btn-danger'
+                                    }
+                                },
+                                callback: function (result) {
+
+                                    if (result == true) {
+                                        $.ajax({
+                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+
+                                                $('#chkClaimClosed').attr('checked', true);
+                                                $('#txtClaimClosedDate').val(getTodaysDate());
+                                                $('#ddlStatus').val("Closed");
+
+                                                $.LoadingOverlay("hide");
+
+                                            }
+                                        });
+                                    }
+
+                                    RefreshActivityTasksGrid();
+                                    generateKeyContactsGrid();
+                                    generateKeyDateGrid();
+                                }
+                            });
+                        }
+
+                    }
+                });
+            }
+        });
+
+        //debugger;
+        //if (!$(chkBox).is(":checked")) {
+        //    $(chkBox).prop("checked", false);
+        //}
+        //else {
+
+        //    $("#isActivityCompletionGrid").val("true");
+
+        //    $("#activityTaskId_wf").val(activityTaskId_wf);
+        //    $("#action_wf").val(action_wf);
+        //    $("#actionSeq_wf").val(seqId);
+
+        //    $("#ActivityWorkFlowModal").modal("show");
+        //    $("#txtWorkFlowCompletedDAte").val("");
+        //    LoadgridActivityWorkFlowNextSteps(true, seqId);
+
+            
+        //}
     }
 
 
@@ -431,6 +497,15 @@
                 //else
                 //    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
 
+                if (result.Skipped_Dtl || result.Completed_Dtl) {
+                    $("#This_Task_Due_Date_Dtl").prop("disabled", true);
+                }
+                else {
+                    if (result.This_Task_Due_Date_Dtl != null)
+                        $('#dueDateActivityDetail').data("DateTimePicker").maxDate(addDays(kendo.parseDate(result.This_Task_Due_Date_Dtl), result.Sla_Days_Dtl));
+
+                    $("#This_Task_Due_Date_Dtl").prop("disabled", false);
+                }
             }
         });
 
@@ -445,7 +520,7 @@
         RefreshActivityTasksGrid();
     }
 
-    function setActivityNA(chkBox, skipped, completed, activityTaskId) {
+    function setActivityNA(chkBox, skipped, completed, activityTaskId,stage) {
 
         if (skipped == "true") {
             $(chkBox).prop("checked", true);
@@ -458,7 +533,7 @@
         }
 
         $.ajax({
-            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId, success: function (result) {
+            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage, success: function (result) {
                 RefreshActivityTasksGrid();
             }
         });
@@ -466,17 +541,19 @@
     }
 
     function dateTimeEditor(container, options) {
-        if (options.model.Complete_Act || options.model.Skipped_Act) {
-            $("#gridActivityTasks").data("kendoGrid").closeCell();
-        } else {
 
-            selectedActivityRow = options.model;
-            var maxDate = addDays(new Date(parseInt(options.model.DueDate_Act.substr(6))), options.model.SLADays_Act);
-            $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
-                .appendTo(container)
-                .kendoDatePicker({ parseFormats: [kendo.culture().calendar.patterns['d']],change: dueDateOnChange, max: maxDate });
+        if (options.model.DueDate_Act != null) {
+            if (options.model.Complete_Act || options.model.Skipped_Act) {
+                $("#gridActivityTasks").data("kendoGrid").closeCell();
+            } else {
+
+                selectedActivityRow = options.model;
+                var maxDate = addDays(new Date(parseInt(options.model.DueDate_Act.substr(6))), options.model.SLADays_Act);
+                $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
+                    .appendTo(container)
+                    .kendoDatePicker({ parseFormats: [kendo.culture().calendar.patterns['d']], change: dueDateOnChange, max: maxDate });
+            }
         }
-
     }
 
     function dueDateOnChange() {
