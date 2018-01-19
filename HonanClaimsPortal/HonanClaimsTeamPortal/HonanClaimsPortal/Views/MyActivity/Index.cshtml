@@ -720,7 +720,7 @@
 
         $.ajax({
             url: "/ClaimDetailTabs/CompleteActivity?activityTaskId=" + activityTaskId_wf + "&stage=" + stage, success: function (result) {
-                loadactivity();
+                //loadactivity();
 
                 $.ajax({
                     url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + ClaimId, success: function (result2) {
@@ -749,7 +749,7 @@
                                         });
                                     }
 
-                                    loadactivity();
+                                    //loadactivity();
                                 }
                             });
                         }
@@ -854,7 +854,7 @@
                 //    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
 
                 if (result.This_Task_Due_Date_Dtl != null)
-                    $('#dueDateActivityDetail').data("DateTimePicker").maxDate(addDays(kendo.parseDate(result.This_Task_Due_Date_Dtl), result.Sla_Days_Dtl));
+                    $('#dueDateActivityDetail').data("DateTimePicker").maxDate(addDays(new Date(), result.Sla_Days_Dtl));
 
             }
         });
@@ -876,7 +876,7 @@
 
         $.ajax({
             url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage, success: function (result) {
-                loadactivity();
+                //loadactivity();
             }
         });
 
@@ -889,8 +889,7 @@
         } else {
 
             selectedActivityRow = options.model;
-            var maxDate = addDays(new Date(options.model.DueDate.split('/')[2] + "-" + options.model.DueDate.split('/')[1] + "-" +
-                options.model.DueDate.split('/')[0]), options.model.SLADays);
+            var maxDate = addDays(new Date(), options.model.SLADays);
 
             $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
                 .appendTo(container)

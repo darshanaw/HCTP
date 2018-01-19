@@ -401,7 +401,7 @@
 
         $('#aEmailClaimant_ActivityTask').click(function () {
             this.href = "mailto:" + $('#Email_Dtl').val() + "?Subject=Claim Reference # " + $("#H_ClaimsRefid_Dtl").val();
-        });     
+        });
 
         $(".AccountModal_ActivityTask_Close").click(function () {
             $("#AccountModal_ActivityTask").modal("hide");
@@ -431,8 +431,20 @@
                 $("#dummyCompletedDate").val("");
                 $("#Completed_By_Name_Dtl").val('');
                 $("#Completed_Dtl").prop("checked", false);
-                //$("#Update_Key_Contacts_Dtl").prop("disabled", "disabled");
-                //$("#Update_Key_Date_Dtl").prop("disabled", "disabled");
+
+                 $("#actualCompletedDate").show();
+                $("#dummyCompletedDate").hide();
+                $("#Completed_Date_Dtl").val('@DateTime.Now.ToString("dd/MM/yyyy")');
+                $("#Completed_By_Name_Dtl").val('@ViewBag.CurrentUser');
+                $("#Completed_By_Dtl").val('@ViewBag.CurrentUserId');
+            }
+            else {
+                $("#Completed_Date_Dtl").val("");
+                $("#Completed_By_Dtl").val("");
+                $("#Completed_By_Name_Dtl").val('');
+                $("#actualCompletedDate").hide();
+                $("#dummyCompletedDate").show();
+                $("#dummyCompletedDate").val("");
             }
         });
 

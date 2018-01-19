@@ -349,7 +349,7 @@
 
         $.ajax({
             url: "/ClaimDetailTabs/CompleteActivity?activityTaskId=" + activityTaskId_wf + "&stage=" + stage, success: function (result) {
-                RefreshActivityTasksGrid();
+                //RefreshActivityTasksGrid();
 
                 $.ajax({
                     url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + $("#H_Claimsid").val(), success: function (result2) {
@@ -383,7 +383,7 @@
                                         });
                                     }
 
-                                    RefreshActivityTasksGrid();
+                                    //RefreshActivityTasksGrid();
                                     generateKeyContactsGrid();
                                     generateKeyDateGrid();
                                 }
@@ -502,7 +502,7 @@
                 }
                 else {
                     if (result.This_Task_Due_Date_Dtl != null)
-                        $('#dueDateActivityDetail').data("DateTimePicker").maxDate(addDays(kendo.parseDate(result.This_Task_Due_Date_Dtl), result.Sla_Days_Dtl));
+                        $('#dueDateActivityDetail').data("DateTimePicker").maxDate(addDays(new Date(), result.Sla_Days_Dtl));
 
                     $("#This_Task_Due_Date_Dtl").prop("disabled", false);
                 }
@@ -534,7 +534,7 @@
 
         $.ajax({
             url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage, success: function (result) {
-                RefreshActivityTasksGrid();
+                //RefreshActivityTasksGrid();
             }
         });
 
@@ -548,7 +548,7 @@
             } else {
 
                 selectedActivityRow = options.model;
-                var maxDate = addDays(new Date(parseInt(options.model.DueDate_Act.substr(6))), options.model.SLADays_Act);
+                var maxDate = addDays(new Date(), options.model.SLADays_Act);
                 $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + options.format + '"/>')
                     .appendTo(container)
                     .kendoDatePicker({ parseFormats: [kendo.culture().calendar.patterns['d']], change: dueDateOnChange, max: maxDate });
