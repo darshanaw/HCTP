@@ -461,7 +461,7 @@
                 $("#Completed_By_Name_Dtl").val('@ViewBag.CurrentUser');
                 $("#Completed_By_Dtl").val('@ViewBag.CurrentUserId');
                 $("#Skipped_Dtl").prop("checked", false);
-                LoadgridActivityWorkFlowNextSteps(true, $("#Seq_Dtl").val());
+                //LoadgridActivityWorkFlowNextSteps(true, $("#Seq_Dtl").val());
 
             }
             else {
@@ -567,7 +567,7 @@
 
                                                 if (result == true) {
                                                     $.ajax({
-                                                        url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+                                                        url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val() + "&skipAllActivities=false", success: function (result) {
 
                                                             $('#chkClaimClosed').attr('checked', true);
                                                             $('#txtClaimClosedDate').val(getTodaysDate());

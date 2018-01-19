@@ -829,12 +829,12 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
-        public bool CloseClaim(string claimId, string userId)
+        public bool CloseClaim(string claimId, string userId,bool skipAllActivities)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamCloseClaim?claimId=" + claimId + "&userId=" + userId);
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamCloseClaim?claimId=" + claimId + "&userId=" + userId + "&skipAllActivities=" + skipAllActivities);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 

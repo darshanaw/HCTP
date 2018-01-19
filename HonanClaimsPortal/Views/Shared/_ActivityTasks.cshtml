@@ -259,7 +259,7 @@
                     field: "Skipped_Act",
                     title: "N/A",
                     //template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
-                    template: "<input  onclick=\"setActivityNA(this,'#= Skipped_Act #','#= Complete_Act #','#= ActivityTaskId #','#= Stage_Act #');\" type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />",
+                    template: "<input  onclick=\"setActivityNA(this,'#= Skipped_Act #','#= Complete_Act #','#= ActivityTaskId #','#= Stage_Act #');\" type='checkbox' #if(Skipped_Act==true){ #checked disabled# } else { ## }# />",
                 },
                 {
                     field: "Complete_Act",
@@ -371,7 +371,7 @@
 
                                     if (result == true) {
                                         $.ajax({
-                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val(), success: function (result) {
+                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val() + "&skipAllActivities=false", success: function (result) {
 
                                                 $('#chkClaimClosed').attr('checked', true);
                                                 $('#txtClaimClosedDate').val(getTodaysDate());
@@ -460,7 +460,7 @@
                 $("#Seq_Dtl").val(result.Seq_Dtl);
                 //if (result.Stage_Dtl == "Received")
                 //    alert(result.Stage_Dtl);
-                $("#Stage_Dtl").val("Received");
+                $("#Stage_Dtl").val(result.Stage_Dtl);
                 $("#Actionid_Dtl").val(result.Actionid_Dtl);
                 $("#Details_Dtl").val(result.Details_Dtl);
                 $("#Owner_Dtl").val(result.Owner_Dtl);
