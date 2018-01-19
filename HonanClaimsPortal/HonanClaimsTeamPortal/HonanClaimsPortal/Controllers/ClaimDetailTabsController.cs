@@ -839,12 +839,12 @@ namespace HonanClaimsPortal.Controllers
 
         }
 
-        public ActionResult SkipActivity(string activityTaskId)
+        public ActionResult SkipActivity(string activityTaskId,string stage)
         {
             ClaimServices service = new ClaimServices();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
-            return Json(service.SkipActivity(activityTaskId, client.UserId), JsonRequestBehavior.AllowGet);
+            return Json(service.SkipActivity(activityTaskId, client.UserId, stage), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UpdateActivityDueDate(string dueDate,string activityTaskId)
@@ -853,6 +853,22 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
             return Json(service.UpdateActivityDueDate(dueDate,activityTaskId, client.UserId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CompleteActivity(string activityTaskId, string stage)
+        {
+            ClaimServices service = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+
+            return Json(service.CompleteActivity(activityTaskId, client.UserId, stage), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetPendingActionCount(string claimsId)
+        {
+            ClaimServices service = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            var count = service.GetPendingActionCount(claimsId);
+            return Json(count, JsonRequestBehavior.AllowGet);
         }
     }
 

@@ -860,12 +860,12 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        public async Task<bool> SkipActivity(string activityTaskId, string userId)
+        public async Task<bool> SkipActivity(string activityTaskId, string userId,string stage)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/SkipActivity?activityTaskId=" + activityTaskId + "&userId=" + userId);
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/SkipActivity?activityTaskId=" + activityTaskId + "&userId=" + userId + "&currentStage=" + stage);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
@@ -918,6 +918,63 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
+        public async Task<bool> CompleteActivity(string activityTaskId, string userId, string stage)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/CompleteActivity?activityTaskId=" + activityTaskId + "&userId=" + userId + "&currentStage=" + stage);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<bool>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<string> GetPendingActionCount(string claimsId)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/GetPendingActionCount?claimsId=" + claimsId);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<string>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 
 

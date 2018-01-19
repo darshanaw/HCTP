@@ -609,12 +609,12 @@
                 field: "Skipped",
                 title: "N/A",
                 //template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
-                template: "<input  onclick=\"setActivityNA(this,'#= Skipped #','#= Complete #','#= ActivityTaskId #');\" type='checkbox' #if(Skipped==true){ #checked# } else { ## }# />"
+                template: "<input  onclick=\"setActivityNA(this,'#= Skipped #','#= Complete #','#= ActivityTaskId #','#= Stage #');\" type='checkbox' #if(Skipped==true){ #checked# } else { ## }# />"
             },
             {
                  title: "Complete",
                 //template: '<input type="checkbox" #= Complete ? \'checked="checked" disabled\' : "" # class="chkbx" />', width: 110
-                template: "<input onclick=\"InvokeNextSteps(this,'#= Seq #','#= ActivityTaskId #','#= Action #', '#= ClaimId #');\" type='checkbox' #if(Complete==true){ #checked disabled# } else { ## }# />"
+                 template: "<input onclick=\"InvokeNextSteps(this,'#= Skipped #','#= Complete #','#= Seq #','#= ActivityTaskId #','#= Action #', '#= ClaimId #','#= Stage #');\" type='checkbox' #if(Complete==true){ #checked disabled# } else { ## }# />"
             },
             //{
             //    field: "CompletedDate",
@@ -706,22 +706,74 @@
     }
 
     //123
-    function InvokeNextSteps(chkBox, seqId, activityTaskId_wf, action_wf, ClaimId) {
-        if (!$(chkBox).is(":checked")) {
+    function InvokeNextSteps(chkBox, skipped, completed, seqId, activityTaskId_wf, action_wf, ClaimId, stage) {
+
+        if (skipped == "true") {
             $(chkBox).prop("checked", false);
+            return false;
         }
-        else {
-            $("#isActivityCompletionGrid").val("true");
 
-            $("#activityTaskId_wf").val(activityTaskId_wf);
-            $("#action_wf").val(action_wf);
-            $("#actionSeq_wf").val(seqId);
-            $("#hdnClaimId").val(ClaimId);
-            $("#ActivityWorkFlowModal").modal("show");
-            $("#txtWorkFlowCompletedDAte").val("");
-            LoadgridActivityWorkFlowNextSteps(true, seqId, ClaimId);
-
+        if (completed == "true") {
+            $(chkBox).prop("checked", true)
+            return false;
         }
+
+        $.ajax({
+            url: "/ClaimDetailTabs/CompleteActivity?activityTaskId=" + activityTaskId_wf + "&stage=" + stage, success: function (result) {
+                loadactivity();
+
+                $.ajax({
+                    url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + ClaimId, success: function (result2) {
+                        if (result2.Result !== null && Number(result2.Result) == 0) {
+                            $.LoadingOverlay("hide");
+                            bootbox.confirm({
+                                message: "Do you want to Close the Claim ?",
+                                buttons: {
+                                    confirm: {
+                                        label: 'Yes',
+                                        className: 'btn-success'
+                                    },
+                                    cancel: {
+                                        label: 'No',
+                                        className: 'btn-danger'
+                                    }
+                                },
+                                callback: function (result) {
+
+                                    if (result == true) {
+                                        $.ajax({
+                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + ClaimId, success: function (result) {
+
+                                                $.LoadingOverlay("hide");
+                                            }
+                                        });
+                                    }
+
+                                    loadactivity();
+                                }
+                            });
+                        }
+
+                    }
+                });
+            }
+        });
+
+        //if (!$(chkBox).is(":checked")) {
+        //    $(chkBox).prop("checked", false);
+        //}
+        //else {
+        //    $("#isActivityCompletionGrid").val("true");
+
+        //    $("#activityTaskId_wf").val(activityTaskId_wf);
+        //    $("#action_wf").val(action_wf);
+        //    $("#actionSeq_wf").val(seqId);
+        //    $("#hdnClaimId").val(ClaimId);
+        //    $("#ActivityWorkFlowModal").modal("show");
+        //    $("#txtWorkFlowCompletedDAte").val("");
+        //    LoadgridActivityWorkFlowNextSteps(true, seqId, ClaimId);
+
+        //}
     }
 
     function comboChange() {
@@ -801,13 +853,16 @@
                 //else
                 //    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
 
+                if (result.This_Task_Due_Date_Dtl != null)
+                    $('#dueDateActivityDetail').data("DateTimePicker").maxDate(addDays(kendo.parseDate(result.This_Task_Due_Date_Dtl), result.Sla_Days_Dtl));
+
             }
         });
 
         $('#ActivityTasksDetailModal').modal('show');
     }
 
-    function setActivityNA(chkBox, skipped, completed, activityTaskId) {
+    function setActivityNA(chkBox, skipped, completed, activityTaskId,stage) {
 
         if (skipped == "true") {
             $(chkBox).prop("checked", true);
@@ -820,7 +875,7 @@
         }
 
         $.ajax({
-            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId, success: function (result) {
+            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage, success: function (result) {
                 loadactivity();
             }
         });

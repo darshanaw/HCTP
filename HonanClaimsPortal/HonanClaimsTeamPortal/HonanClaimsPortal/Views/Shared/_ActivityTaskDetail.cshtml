@@ -225,7 +225,7 @@
 
                     @if (HonanClaimsPortal.Helpers.ClaimTeamManagers.IsClaimManager(userObj.Teams))
                     {
-                        <div class="input-group date dateCalendar" style="width:100%">
+                        <div id="dueDateActivityDetail" class="input-group date dateCalendar" style="width:100%">
                             @Html.TextBoxFor(o => o.This_Task_Due_Date_Dtl, new { @class = "form-control input-sm" })
                             <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                 <span class="fa fa-calendar"></span>
