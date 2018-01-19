@@ -1327,6 +1327,43 @@ else
             if ($(this).val() == "Closed" && $("#BillingMethod").val() == "Per Claim") {
                 bootbox.alert("This customer is billed Per Claim when claims are closed. Please ensure that all claims data is up to date before closing this Claim");
             }
+
+            if ("@Model.Claim_Status" == "Open" && $("#ddlStatus").val() == "Closed") {
+                $.ajax({
+                    url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + $("#H_Claimsid").val(), success: function (result2) {
+                        if (result2.Result !== null && Number(result2.Result) != 0) {
+                            $.LoadingOverlay("hide");
+                            bootbox.confirm({
+                                message: result2.Result + " Uncompleted Activities available. Are you sure to Close the Claim ?",
+                                buttons: {
+                                    confirm: {
+                                        label: 'Yes',
+                                        className: 'btn-success'
+                                    },
+                                    cancel: {
+                                        label: 'No',
+                                        className: 'btn-danger'
+                                    }
+                                },
+                                callback: function (result) {
+
+                                    if (result == true) {
+                                        $.ajax({
+                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val() + "&skipAllActivities=true", success: function (result) {
+                                                RefreshActivityTasksGrid();
+                                                $.LoadingOverlay("hide");
+                                            }
+                                        });
+                                    }
+                                    else
+                                        $("#ddlStatus").val("Open");
+                                }
+                            });
+                        }
+
+                    }
+                });
+            }
         });
 
 
@@ -1437,7 +1474,7 @@ else
 
         $('#aEmailClaimant').click(function () {
             //this.href = "mailto:" + $('#Email_Address').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
-              window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+              window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val()
                  + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Email_Address').val() , "New Window", "height=710,width=1000");
         });
 
@@ -1671,7 +1708,7 @@ else
 
         $('#aInsuredEmail').click(function () {
             //this.href = "mailto:" + $('#Insured_Email').val() + "?Subject=Claim Reference # " + $("#Claim_Reference_Num").val();
-              window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val() 
+              window.open("/Email/EmailWindow?emailId=&emailAction=&claimRefNo=" + $("#Claim_Reference_Num").val()
                  + "&claimId=" + $("#H_Claimsid").val() + "&toAddress=" + $('#Insured_Email').val() , "New Window", "height=710,width=1000");
 
         });

@@ -306,7 +306,7 @@
 
                                             if (result == true) {
                                                 $.ajax({
-                                                    url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#hdnClaimId").val(), success: function (result) {
+                                                    url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#hdnClaimId").val() + "&skipAllActivities=false", success: function (result) {
 
                                                         //$('#chkClaimClosed').attr('checked', true);
                                                         //$('#txtClaimClosedDate').val(getTodaysDate());
@@ -742,7 +742,7 @@
 
                                     if (result == true) {
                                         $.ajax({
-                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + ClaimId, success: function (result) {
+                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + ClaimId + "&skipAllActivities=false", success: function (result) {
 
                                                 $.LoadingOverlay("hide");
                                             }

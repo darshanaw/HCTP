@@ -73,7 +73,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         @Html.TextBoxFor(o => o.Oc_Name, new { @class = "form-control input-sm", @maxlength = 100, @style = "z-index: auto" })
-                                        <span id="spanAccountOcModal" class="input-group-btn" data-toggle="modal" data-target="#OcModal">
+                                        <span id="spanAccountOcModal" class="input-group-btn" data-toggle="modal" data-target="#OcModalNewClaim">
                                             <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px;z-index:auto">
                                                 <i class="fa fa-binoculars"></i>
                                             </button>
@@ -182,7 +182,7 @@
     </div>
 </div>
 
-<div id="OcModal" class="modal fade" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+<div id="OcModalNewClaim" class="modal fade" role="dialog" data-backdrop="false" style="padding-top: 10%;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -190,7 +190,7 @@
                 <h4 class="modal-title">OC # Lookup</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_OcNoLookUp.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }*@
+                @Html.Partial("~/Views/Shared/_OcNoLookUpNewClaim.cshtml", null) @*, new ViewDataDictionary { { "Policy_No", Model.Policy_No } }_OcNoLookUp.cshtml*@ 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
