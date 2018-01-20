@@ -839,12 +839,12 @@ namespace HonanClaimsPortal.Controllers
 
         }
 
-        public ActionResult SkipActivity(string activityTaskId,string stage)
+        public ActionResult SkipActivity(string activityTaskId,string stage,bool skip)
         {
             ClaimServices service = new ClaimServices();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
-            return Json(service.SkipActivity(activityTaskId, client.UserId, stage), JsonRequestBehavior.AllowGet);
+            return Json(service.SkipActivity(activityTaskId, client.UserId, stage,skip), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UpdateActivityDueDate(string dueDate,string activityTaskId)
@@ -855,12 +855,12 @@ namespace HonanClaimsPortal.Controllers
             return Json(service.UpdateActivityDueDate(dueDate,activityTaskId, client.UserId), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CompleteActivity(string activityTaskId, string stage)
+        public ActionResult CompleteActivity(string activityTaskId, string stage,bool complete)
         {
             ClaimServices service = new ClaimServices();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
 
-            return Json(service.CompleteActivity(activityTaskId, client.UserId, stage), JsonRequestBehavior.AllowGet);
+            return Json(service.CompleteActivity(activityTaskId, client.UserId, stage, complete), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetPendingActionCount(string claimsId)
@@ -868,6 +868,14 @@ namespace HonanClaimsPortal.Controllers
             ClaimServices service = new ClaimServices();
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             var count = service.GetPendingActionCount(claimsId);
+            return Json(count, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ApplyClaimTemplate(string claimId, string teamName)
+        {
+            ClaimServices service = new ClaimServices();
+            ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
+            var count = service.ApplyClaimTemplate(claimId, teamName);
             return Json(count, JsonRequestBehavior.AllowGet);
         }
     }

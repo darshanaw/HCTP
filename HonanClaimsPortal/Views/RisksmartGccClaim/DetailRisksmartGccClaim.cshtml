@@ -34,7 +34,7 @@
         $('.Date_Of_Birth_Cls').datetimepicker({
             format: 'DD/MM/YYYY'
         });
-        
+
 
 
         //$('#Date_Of_Birth').datetimepicker({
@@ -190,7 +190,7 @@ else
                                                         </span>
                                                     }
 
-                                                   
+
                                                 </div>
                                             </div>
                                         </div>
@@ -399,13 +399,13 @@ else
                                         </div>
                                     </div>
                                     @*<div class="col-md-12 col-sm-12">
-                                        <div class="form-group mb">
-                                            <label class="col-sm-3 control-label input-sm">Risksmart GCC Ref #</label>
-                                            <div class="col-sm-9">
-                                                @Html.TextBoxFor(o => o.Risksmart_Gcc_Ref, new { @class = "form-control input-sm" })
+                                            <div class="form-group mb">
+                                                <label class="col-sm-3 control-label input-sm">Risksmart GCC Ref #</label>
+                                                <div class="col-sm-9">
+                                                    @Html.TextBoxFor(o => o.Risksmart_Gcc_Ref, new { @class = "form-control input-sm" })
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>*@
+                                        </div>*@
                                 </fieldset>
 
                                 <fieldset>
@@ -910,13 +910,13 @@ else
                                                     </div>
 
                                                     @*<div class="col-md-12 col-sm-12">
-                                                        <div class="form-group mb">
-                                                            <label class="col-sm-3 control-label input-sm">Binder #</label>
-                                                            <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm" })
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Binder #</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(o => o.Binder, new { @class = "form-control input-sm" })
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>*@
+                                                        </div>*@
 
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group mb">
@@ -995,7 +995,7 @@ else
                                                         <div class="form-group mb">
                                                             <label class="col-sm-3 control-label input-sm">Insured Name</label>
                                                             <div class="col-sm-9">
-                                                                @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm",@maxlength = 200 })
+                                                                @Html.TextBoxFor(o => o.Insured_Name, new { @class = "form-control input-sm", @maxlength = 200 })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1369,7 +1369,7 @@ else
 </div>
 
 <!-- Modal -->
-<div id="ContactBrokerModal" class="modal fade ContactBrokerModal" role="dialog" data-backdrop="false" >
+<div id="ContactBrokerModal" class="modal fade ContactBrokerModal" role="dialog" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -1591,6 +1591,21 @@ else
 
                     }
                 });
+            }
+            else if ("@Model.Claim_Status" == "Closed" && $("#ddlStatus").val() == "Open" && "@Model.Claim_Type" == "Claim") {
+                var grid = $("#gridActivityTasks").data("kendoGrid");
+                var dataSource = grid.dataSource;
+                //total records
+                var totalRecords = dataSource.total();
+                if (totalRecords == 0) {
+                    $.LoadingOverlay("show");
+                    $.ajax({
+                        url: "/ClaimDetailTabs/ApplyClaimTemplate?claimId=" + "@Model.H_Claimsid" +  "&teamName=" + "@Model.Claim_Team_Name", success: function (result) {
+                            RefreshActivityTasksGrid();
+                            $.LoadingOverlay("hide");
+                        }
+                    });
+                }
             }
         });
 

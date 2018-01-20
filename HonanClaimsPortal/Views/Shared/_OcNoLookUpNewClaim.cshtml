@@ -58,7 +58,7 @@
         $('#tbOcNewClaim').dataTable({
             "bServerSide": true,
             "searching": true,
-            "sAjaxSource": "/Lookup/AccountOcAjaxHandler",
+            "sAjaxSource": "/Lookup/OcNoAjaxHandler",
             "paging": false,
             "bProcessing": false,
             "scrollY": '40vh',
@@ -71,7 +71,7 @@
                     "sName": "AccountName",
                     "sClass": "center",
                     "mRender": function (data, type, oObj) {
-                        return '<a href="javascript:void(0);" onclick="closeOcModalNewClaim(\'' + oObj[0] + '\', \'' + oObj[1] + '\', \'' + oObj[4] + '\')">' + oObj[1] + '</a >';
+                        return '<a href="javascript:void(0);" onclick="closeOcModalNewClaim(\'' + oObj[2] + '\', \'' + oObj[1] + '\', \'' + oObj[0] + '\')">' + oObj[2] + '</a >';
                         //return "<a  onclick='closeOcModal(this);' href='#/'  return false;>" + oObj[1]+"</a>";
                     }
                 },
@@ -90,19 +90,19 @@
     });
 
 
-    function closeOcModalNewClaim(ocNum, ocName, billingMethod) {
+    function closeOcModalNewClaim(ocNum, account,accountId) {
 
-        $("#Oc_No").val(ocName);
-        $("#Oc_Name").val(ocName);
+        $("#Oc_No").val(ocNum);
+        $("#Oc_Name").val(ocNum);
 
         if ($("#Account_Name")) {
 
-            $("#Account_Name").val(ocName);
+            $("#Account_Name").val(account);
         }
 
         if ($("#Accountid")) {
 
-            $("#Accountid").val(ocNum);
+            $("#Accountid").val(accountId);
         }
 
         $('#OcModalNewClaim').modal('hide');
