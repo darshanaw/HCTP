@@ -860,12 +860,13 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        public async Task<bool> SkipActivity(string activityTaskId, string userId,string stage)
+        public async Task<bool> SkipActivity(string activityTaskId, string userId,string stage,bool skip)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/SkipActivity?activityTaskId=" + activityTaskId + "&userId=" + userId + "&currentStage=" + stage);
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/SkipActivity?activityTaskId=" + activityTaskId + "&userId=" 
+                    + userId + "&currentStage=" + stage + "&skip=" + skip);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
@@ -918,12 +919,13 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
-        public async Task<bool> CompleteActivity(string activityTaskId, string userId, string stage)
+        public async Task<bool> CompleteActivity(string activityTaskId, string userId, string stage,bool complete)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/CompleteActivity?activityTaskId=" + activityTaskId + "&userId=" + userId + "&currentStage=" + stage);
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Activity/CompleteActivity?activityTaskId=" + activityTaskId + "&userId=" 
+                    + userId + "&currentStage=" + stage + "&complete=" + complete);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
@@ -969,6 +971,36 @@ namespace HonanClaimsWebApi.Services
                 }
 
                 return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task<bool> ApplyClaimTemplate(string claimId, string teamName)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/ApplyClaimTemplate?claimId=" + claimId + "&teamName="
+                    + teamName);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<bool>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return false;
             }
             catch (Exception e)
             {

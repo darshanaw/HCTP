@@ -169,7 +169,8 @@
                         { 'name': 'insuredName', 'value': $('#txtInsuredNameLookup').val() },
                         { 'name': 'address', 'value': $('#txtPropertyAddLookup').val() },
                         { 'name': 'insurer', 'value': $('#ddlInsurerLookup').val() },
-                        { 'name': 'accountId', 'value': $('#Accountid').val()  });
+                        { 'name': 'accountId', 'value': $('#Accountid').val() },
+                        { 'name': 'withExpiryDate', 'value': $('#WithExpiry').val() });
                 }
             },
             "aoColumns": [
@@ -293,6 +294,7 @@
     }
 
     function filterLookUp() {
+        $("#WithExpiry").val(false);
         $('#tbPolicy').DataTable().ajax.reload(null, false);
     }
 

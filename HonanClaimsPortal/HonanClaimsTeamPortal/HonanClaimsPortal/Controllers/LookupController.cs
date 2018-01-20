@@ -661,11 +661,11 @@ namespace HonanClaimsPortal.Controllers
 
         [HttpGet]
         public async Task<ActionResult> GetDetailPoliciesAjaxHandler(string dateOfLoss, string policyNo, string policyClass, string associate,
-        string insuredName, string address, string insurer, string accountId)
+        string insuredName, string address, string insurer, string accountId,bool withExpiryDate)
         {
             lookupServices = new LookupServices();
             List<PolicySimple> objectList = new List<PolicySimple>();
-            objectList = lookupServices.GetDetailPolicies(dateOfLoss, policyNo, policyClass, associate, insuredName, address, insurer, accountId);
+            objectList = lookupServices.GetDetailPolicies(dateOfLoss, policyNo, policyClass, associate, insuredName, address, insurer, accountId, withExpiryDate);
 
             IEnumerable<PolicySimple> filteredRecords = objectList;
 
@@ -703,6 +703,62 @@ namespace HonanClaimsPortal.Controllers
             },
 
             JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult OcNoAjaxHandler(jQueryDataTableParamModel param)
+        {
+            lookupServices = new LookupServices();
+            List<CRMOCNumSimple> objectList = new List<CRMOCNumSimple>();
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                objectList = lookupServices.GetOCNumLookupNew(param.sSearch);
+            }
+
+            IEnumerable<CRMOCNumSimple> filteredRecords = objectList;
+
+            var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+            Func<CRMOCNumSimple, string> orderingFunction = (c => sortColumnIndex == 1 ? c.AccountId :
+                                                                sortColumnIndex == 2 ? c.Account :
+                                                                sortColumnIndex == 3 ? c.OCNum :
+                                                                c.OCNum);
+
+            var sortDirection = Request["sSortDir_0"]; // asc or desc
+            if (sortDirection == "asc")
+                filteredRecords = filteredRecords.OrderBy(orderingFunction);
+            else
+                filteredRecords = filteredRecords.OrderByDescending(orderingFunction);
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filteredRecords = filteredRecords
+                            .Where(c => c.OCNum.ToUpper().Contains(param.sSearch.ToUpper()));
+                //           ||
+                //           c.Town.Contains(param.sSearch));
+            }
+
+
+
+            List<string[]> aData = new List<string[]>();
+
+            foreach (CRMOCNumSimple item in filteredRecords)
+            {
+                string[] arry = new string[] { item.AccountId, item.Account, item.OCNum};
+                aData.Add(arry);
+            }
+
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = 97,
+                iTotalDisplayRecords = 3,
+                aaData = aData
+
+            },
+
+            JsonRequestBehavior.AllowGet);
+
         }
 
     }

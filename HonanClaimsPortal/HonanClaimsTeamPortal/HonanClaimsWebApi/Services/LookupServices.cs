@@ -265,14 +265,14 @@ namespace HonanClaimsWebApi.Services
         }
 
         public List<PolicySimple> GetDetailPolicies(string dateOfLoss, string policyNo, string policyClass, string associate,
-        string insuredName, string address, string insurer, string accountId)
+        string insuredName, string address, string insurer, string accountId, bool withExpiryDate)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
                     ConfigurationManager.AppSettings["apiurl"] + "api/General/GetPolicyLookupDetail?dateOfLoss="
                     + dateOfLoss + "&policyNo=" + policyNo + "&policyClass=" + policyClass + "&associate=" + associate 
-                    + "&insuredName=" + insuredName + "&address=" + address + "&insurer=" + insurer + "&accountId=" + accountId);
+                    + "&insuredName=" + insuredName + "&address=" + address + "&insurer=" + insurer + "&accountId=" + accountId + "&withExpiryDate=" + withExpiryDate);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 
@@ -285,6 +285,35 @@ namespace HonanClaimsWebApi.Services
                         {
                             string response = responseReader.ReadToEnd();
                             return new JavaScriptSerializer().Deserialize<List<PolicySimple>>(response);
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<CRMOCNumSimple> GetOCNumLookupNew(string ocNum)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/General/GetOcNumLookupNew?ocNum=" + ocNum);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            string response = responseReader.ReadToEnd();
+                            return new JavaScriptSerializer().Deserialize<List<CRMOCNumSimple>>(response);
                         }
                     }
                 }
