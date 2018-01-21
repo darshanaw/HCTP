@@ -609,7 +609,7 @@
                 field: "Skipped",
                 title: "N/A",
                 //template: "<input  onclick='return false;' type='checkbox' #if(Skipped_Act==true){ #checked# } else { ## }# />"
-                template: "<input  onclick=\"setActivityNA(this,'#= Skipped #','#= Complete #','#= ActivityTaskId #','#= Stage #');\" type='checkbox' #if(Skipped==true){ #checked# } else { ## }# />"
+                template: "<input  onclick=\"setActivityNA(this,'#= Skipped #','#= Complete #','#= ActivityTaskId #','#= Stage #','#= ClaimId #');\" type='checkbox' #if(Skipped==true){ #checked# } else { ## }# />"
             },
             {
                  title: "Complete",
@@ -719,7 +719,7 @@
         }
 
         $.ajax({
-            url: "/ClaimDetailTabs/CompleteActivity?activityTaskId=" + activityTaskId_wf + "&stage=" + stage, success: function (result) {
+            url: "/ClaimDetailTabs/CompleteActivity?activityTaskId=" + activityTaskId_wf + "&stage=" + stage + "&complete=" + $(chkBox).is(':checked'), success: function (result) {
                 //loadactivity();
 
                 $.ajax({
@@ -862,7 +862,7 @@
         $('#ActivityTasksDetailModal').modal('show');
     }
 
-    function setActivityNA(chkBox, skipped, completed, activityTaskId,stage) {
+    function setActivityNA(chkBox, skipped, completed, activityTaskId,stage,claimId) {
 
         if (skipped == "true") {
             $(chkBox).prop("checked", true);
@@ -875,8 +875,43 @@
         }
 
         $.ajax({
-            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage, success: function (result) {
+            url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage + "&skip=" + $(chkBox).is(':checked'), success: function (result) {
                 //loadactivity();
+
+                $.ajax({
+                    url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + claimId, success: function (result2) {
+                        if (result2.Result !== null && Number(result2.Result) == 0) {
+                            $.LoadingOverlay("hide");
+                            bootbox.confirm({
+                                message: "Do you want to Close the Claim ?",
+                                buttons: {
+                                    confirm: {
+                                        label: 'Yes',
+                                        className: 'btn-success'
+                                    },
+                                    cancel: {
+                                        label: 'No',
+                                        className: 'btn-danger'
+                                    }
+                                },
+                                callback: function (result) {
+
+                                    if (result == true) {
+                                        $.ajax({
+                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + claimId + "&skipAllActivities=false", success: function (result) {
+
+                                                $.LoadingOverlay("hide");
+                                            }
+                                        });
+                                    }
+
+                                    //loadactivity();
+                                }
+                            });
+                        }
+
+                    }
+                });
             }
         });
 
