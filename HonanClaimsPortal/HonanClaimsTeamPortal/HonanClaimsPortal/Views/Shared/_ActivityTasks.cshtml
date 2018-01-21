@@ -535,6 +535,48 @@
         $.ajax({
             url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage + "&skip=" + $(chkBox).is(':checked'), success: function (result) {
                 //RefreshActivityTasksGrid();
+
+                $.ajax({
+                    url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + $("#H_Claimsid").val(), success: function (result2) {
+                        if (result2.Result !== null && Number(result2.Result) == 0) {
+                            $.LoadingOverlay("hide");
+                            bootbox.confirm({
+                                message: "Do you want to Close the Claim ?",
+                                buttons: {
+                                    confirm: {
+                                        label: 'Yes',
+                                        className: 'btn-success'
+                                    },
+                                    cancel: {
+                                        label: 'No',
+                                        className: 'btn-danger'
+                                    }
+                                },
+                                callback: function (result) {
+
+                                    if (result == true) {
+                                        $.ajax({
+                                            url: "/ClaimDetailTabs/CloseClaim?claimId=" + $("#H_Claimsid").val() + "&skipAllActivities=false", success: function (result) {
+
+                                                $('#chkClaimClosed').attr('checked', true);
+                                                $('#txtClaimClosedDate').val(getTodaysDate());
+                                                $('#ddlStatus').val("Closed");
+
+                                                $.LoadingOverlay("hide");
+
+                                            }
+                                        });
+                                    }
+
+                                    //RefreshActivityTasksGrid();
+                                    generateKeyContactsGrid();
+                                    generateKeyDateGrid();
+                                }
+                            });
+                        }
+
+                    }
+                });
             }
         });
 

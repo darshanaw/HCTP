@@ -73,7 +73,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Insurer_Conduct { get; set; }
         public string Insured_Name { get; set; }
         public string Property_Claim_Ref { get; set; }
-        [Required(ErrorMessage = "Policy No Required")]
+        //[Required(ErrorMessage = "Policy No Required")]
         public string Policy_No { get; set; }
         public string Policy_Id { get; set; }
         public string Policy_Name { get; set; }

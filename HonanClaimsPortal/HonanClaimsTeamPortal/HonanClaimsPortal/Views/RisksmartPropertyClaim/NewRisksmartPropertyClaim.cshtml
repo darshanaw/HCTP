@@ -1114,6 +1114,15 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
             else {
                 $("#Notification_Status").removeClass("input-validation-error");
             }
+
+            if ($("#Claim_Type").val() == "Claim" && $("#Policy_No").val() == '') {
+
+                $("#Policy_No").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else {
+                $("#Policy_No").removeClass("input-validation-error");
+            }
         });
 
         $('#dtpAcctPeriodTo').datetimepicker({

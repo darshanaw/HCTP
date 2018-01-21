@@ -397,6 +397,16 @@
             {
                 $("#Oc_Name").removeClass("input-validation-error");
             }
+
+            if ($("#Claim_Type").val() == '@HonanClaimsPortal.Helpers.ClaimType.Claim' && $("#Policy_No").val() == '')
+            {
+                $("#Policy_No").addClass("input-validation-error");
+                e.preventDefault();
+            }
+            else
+            {
+                $("#Policy_No").removeClass("input-validation-error");
+            }
         })
 
         //$('#OcModal').on('hidden.bs.modal', function () {
