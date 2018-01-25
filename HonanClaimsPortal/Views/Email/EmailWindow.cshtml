@@ -749,7 +749,16 @@
                 url: "/Email/GetClaimEmail?emailId=" + "@emailId" + "&withAttachments=" + withAttachments, success: function (result) {
                     if (result != null) {
 
-                        $('#summernote').summernote('code', "<br/><hr style='border-width: 3px;'>" + result.EmailBody);
+                        var emailDetail = "<br/>" + "<p><b>From:</b> " + result.FromEmail + "" +
+                            "<br/>" + "<b>Sent:</b> " + result.CreateDate +
+                            "<br/>" + "<b>To:</b> " + result.To;
+
+                        if (result.CC != "")
+                            emailDetail = emailDetail + "<br/>" + "<b>Cc:</b> " + result.CC;
+
+                        emailDetail = emailDetail + "<br/>" + "<b>Subject:</b> " + result.Subject + "</p>";
+
+                        $('#summernote').summernote('code', "<br/><hr style='border-width: 3px;'>" + emailDetail + result.EmailBody);
 
                         $("#Claim_Reference_Num").val(result.ClaimNo);
                         loadClaimList(null);
@@ -760,7 +769,7 @@
                         list.push(result.ClaimId);
                         $('#Tolist').prop('disabled', false);
                         $('#CClist').prop('disabled', false);
-
+                        debugger;
                         $.ajax({
                             url: "/Email/GetEmailSignature", success: function (signatureResult) {
                                  var subjectPrefix;
