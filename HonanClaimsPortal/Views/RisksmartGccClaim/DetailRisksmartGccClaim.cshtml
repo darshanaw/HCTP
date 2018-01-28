@@ -127,6 +127,7 @@ else
             @Html.HiddenFor(o => o.Claim_Reference_Num)
             @Html.HiddenFor(o => o.Policy_Id)
             @Html.HiddenFor(o => o.UpdateAllActivities)
+            @Html.HiddenFor(o => o.WithExpiry)
 
             <div class="panel panel-default">
 
@@ -890,12 +891,12 @@ else
 
                                                                 @if (!string.IsNullOrEmpty(Model.Excess.ToString()) && Model.Excess != 0)
                                                                 {
-                                                                    <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
+                                                                    <input id="excess_Textbox" class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
                                                                 }
                                                                 else
                                                                 {
                                                                     <div class="input-group">
-                                                                        <input class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
+                                                                        <input id="excess_Textbox" class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
                                                                         <span class="input-group-btn">
 
                                                                             <button type="button" class="mb-sm btn btn-danger btn-sm btn-outline" style="padding-bottom: 3.5px">
@@ -1312,7 +1313,7 @@ else
 
 <!-- Modal -->
 <div id="PolicyModal" class="modal fade PolicyModal" role="dialog" data-backdrop="false" style="padding-top: 10%;">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -1321,7 +1322,8 @@ else
                 <h4 class="modal-title">Policy Lookup</h4>
             </div>
             <div class="modal-body">
-                @Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" } })
+                @*@Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" } })*@
+                @Html.Partial("~/Views/Shared/_PolicyLookupDetail.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" } })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1483,6 +1485,7 @@ else
 
     $(document).ready(function () {
 
+
         $("#ddlStatus").val("@Model.Claim_Status");
 
         $('#convertToClaimModel').on('show.bs.modal', function () {
@@ -1543,6 +1546,45 @@ else
 
         $("#policyShow").click(function () {
 
+            $("#WithExpiry").val(true);
+            $("#dtpIncidentDateLookup").find("input").val($("#dtpIncidentDate").find("input").val())
+            // Load Policy Classes
+            $.ajax({
+                url: "/Lookup/GetPolicyClassesOfAccount?accountId=" + $("#Accountid").val(), success: function (result) {
+                    if (result != null) {
+                        $('#ddlPolicyClassLookup').empty();
+                        $('#ddlPolicyClassLookup').append($('<option>', {
+                            value: "",
+                            text: "",
+                        }));
+                        for (var i = 0; i < result.Result.length; i++) {
+                            $('#ddlPolicyClassLookup').append($('<option>', {
+                                value: result.Result[i],
+                                text: result.Result[i],
+                            }));
+                        }
+                    }
+
+                    //Load Insurers
+                    $.ajax({
+                        url: "/Lookup/GetPolicyInsurersOfAccount?accountId=" + $("#Accountid").val(), success: function (resultSecond) {
+                            if (resultSecond != null) {
+                                $('#ddlInsurerLookup').empty()
+                                $('#ddlInsurerLookup').append($('<option>', {
+                                    value: "",
+                                    text: "",
+                                }));
+                                for (var i = 0; i < resultSecond.Result.length; i++) {
+                                    $('#ddlInsurerLookup').append($('<option>', {
+                                        value: resultSecond.Result[i].AccountId,
+                                        text: resultSecond.Result[i].AccountName,
+                                    }));
+                                }
+                            }
+                        }
+                    });
+                }
+            });
             $('#tbPolicy').DataTable().ajax.reload(null, false);
         });
 

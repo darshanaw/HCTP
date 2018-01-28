@@ -220,6 +220,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string Notification_Status { get; set; }
         public bool UpdateAllActivities { get; set; }
         public decimal Over_Excess_Paid { get; set; }
+        public bool WithExpiry { get; set; }
 
         public List<PicklistItem> ReportedByTypeList { get; set; }
         public List<PicklistItem> Outcome_List { get; set; }
