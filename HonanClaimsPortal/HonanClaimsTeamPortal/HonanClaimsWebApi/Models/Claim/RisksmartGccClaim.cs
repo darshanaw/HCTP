@@ -259,6 +259,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public List<PicklistItem> Bodily_Location_List { get; set; }
         public List<PicklistItem> Client_Group_List { get; set; }
         public List<PicklistItem> Notification_Status_List { get; set; }
+        public bool WithExpiry { get; set; }
 
     }
 }

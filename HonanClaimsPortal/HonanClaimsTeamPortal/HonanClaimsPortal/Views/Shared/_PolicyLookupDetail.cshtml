@@ -162,6 +162,7 @@
 
                 if ($('#Accountid'))
                 {
+                    debugger;
                     aoData.push({ 'name': 'dateOfLoss', 'value': $("#dtpIncidentDateLookup").find("input").val() },
                         { 'name': 'policyNo', 'value': $('#txtpolicyNoLookup').val() },
                         { 'name': 'policyClass', 'value': $('#ddlPolicyClassLookup').val()},
@@ -204,7 +205,7 @@
         postcode, accountManager, policyClass, policyStatus,
         periodFrom, periodTo, excess, underwriterId,
         underwriterName, insuredName, policyId,accountManagerCode) {
-
+        debugger;
         var text = $(val).text();
         $("#Policy_No").val(text);
         $("#Policy_Id").val(policyId);
@@ -215,6 +216,11 @@
                 $(".Policy_Class_TextBox").show();
                 $(".Policy_Class_Dropdown").hide();
                 $("#Policy_Class").val(policyClass);
+
+                if ($("#Policy_Class_TextBox").length > 0) {
+                    $("#Policy_Class_TextBox").val(policyClass);
+                }
+                
             }
             else {
                 $(".Policy_Class_Dropdown").show();
@@ -225,6 +231,10 @@
             $("#Period_From").val(periodFrom);
             $("#Period_To").val(periodTo);
             $("#Excess").val(excess);
+            if ($("#excess_Textbox").length > 0) {
+                $("#excess_Textbox").val(excess);
+            }
+
             $("#InsurerName").val(underwriterName);
             $("#Insurer_Name").val(underwriterName);
             $("#Insurer").val(underwriterId);
