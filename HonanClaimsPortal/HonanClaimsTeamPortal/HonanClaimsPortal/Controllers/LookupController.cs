@@ -525,11 +525,11 @@ namespace HonanClaimsPortal.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ConvertToClaimAjax(string claimId, string policyNo, string assignedUserId, string teamName)
+        public ActionResult ConvertToClaimAjax(string claimId, string policyNo, string assignedUserId, string teamName,string policyId)
         {
             HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel;
             ClaimServices claimServices = new ClaimServices();
-            return Json(claimServices.ConvertNotificationToClaim(login.UserId, claimId, policyNo, assignedUserId, teamName), JsonRequestBehavior.AllowGet);
+            return Json(claimServices.ConvertNotificationToClaim(login.UserId, claimId, policyNo, assignedUserId, teamName, policyId), JsonRequestBehavior.AllowGet);
         }
 
 

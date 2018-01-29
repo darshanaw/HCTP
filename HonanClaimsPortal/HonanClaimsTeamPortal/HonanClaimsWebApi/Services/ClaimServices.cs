@@ -491,12 +491,13 @@ namespace HonanClaimsWebApi.Services
             }
         }
 
-        public bool ConvertNotificationToClaim(string userId,string claimId,string policyNo,string assignedUserId,string teamName)
+        public bool ConvertNotificationToClaim(string userId,string claimId,string policyNo,string assignedUserId,string teamName,string policyId)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + convertToClaim + claimId + "&teamName=" + teamName + "&assignedUserId=" + assignedUserId + "&policyNo=" + policyNo + "&userid=" + userId);
+                    ConfigurationManager.AppSettings["apiurl"] + convertToClaim + claimId + "&teamName=" + teamName + "&assignedUserId=" 
+                    + assignedUserId + "&policyNo=" + policyNo + "&userid=" + userId + "&policyId=" + policyId);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 

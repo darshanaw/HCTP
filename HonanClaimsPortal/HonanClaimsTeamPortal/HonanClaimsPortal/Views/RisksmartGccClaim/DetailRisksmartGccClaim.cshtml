@@ -1456,6 +1456,28 @@ else
 </div>
 
 
+<div id="PolicyModalCC" class="modal fade PolicyModalCC" role="dialog" data-backdrop="false" style="padding-top: 10%;">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Policy Lookup</h4>
+            </div>
+            <div class="modal-body">
+                @*@Html.Partial("~/Views/Shared/_PolicyLookup.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" } })*@
+                @Html.Partial("~/Views/Shared/_PolicyLookupConvertToClaim.cshtml", null, new ViewDataDictionary { { "PageId", "Detail" } })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
 <!-- Covert to Claim Modal End-->
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
@@ -1492,6 +1514,7 @@ else
             // disable unload warning
             $(window).off('beforeunload');
             $('#Policy_No_CC').val("@Model.Policy_No");
+            $('#Policy_Id_CC').val("@Model.Policy_Id");
             $('#ActivityTemplate').val("@Model.Claim_Team_Name");
         });
 
