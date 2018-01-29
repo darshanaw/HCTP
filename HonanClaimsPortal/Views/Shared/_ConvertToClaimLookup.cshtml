@@ -9,12 +9,26 @@
 
 <div class="panel panel-default">
     <div class="panel-body">
+
+        <input  type="hidden" id="Policy_Id_CC"/>
+
         <div class="col-md-12">
             <div class="form-group mb">
                 <label class="col-sm-3 control-label input-sm">Policy #</label>
                 <div class="col-sm-9">
                     @*<input id="Policy_No_CC" type="text" class="form-control input-sm" />*@
-                    <select id="Policy_No_CC" class="form-control input-sm"></select>
+                    @*<select id="Policy_No_CC" class="form-control input-sm"></select>*@
+
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" maxlength="200" id="Policy_No_CC"/>
+                        <span class="input-group-btn" data-toggle="modal" id="policyShowCC" data-target="#PolicyModalCC">
+
+                            <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px">
+                                <i class="fa fa-binoculars"></i>
+                            </button>
+                        </span>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -46,6 +60,11 @@
 
 </div>
 
+
+
+
+
+
 <!-- Covert to Claim Modal End-->
 <!-- SELECT2-->
 <script src="~/Content/vendor/select2/dist/js/select2.js"></script>
@@ -55,19 +74,63 @@
 
     $(document).ready(function () {
 
-        $('#Policy_No_CC').select2({ width: '100%' });
-        if ($("#Policy_No_CC").length > 0) {
-            $("#Policy_No_CC").val($("#Policy_No_CC").val()).trigger('change.select2');;
-        }
+        //$('#Policy_No_CC').select2({ width: '100%' });
+        //if ($("#Policy_No_CC").length > 0) {
+        //    $("#Policy_No_CC").val($("#Policy_No_CC").val()).trigger('change.select2');;
+        //}
 
         $('#Assigned_To_CC').select2({ width: '100%' });
         if ($("#Assigned_To_CC").length > 0) {
             $("#Assigned_To_CC").val($("#Assigned_To_CC").val()).trigger('change.select2');;
         }
+
+        $("#policyShowCC").click(function () {
+
+            $("#WithExpiry").val(true);
+            $("#dtpIncidentDateLookupCC").find("input").val($("#dtpIncidentDate").find("input").val())
+            // Load Policy Classes
+            $.ajax({
+                url: "/Lookup/GetPolicyClassesOfAccount?accountId=" + $("#Accountid").val(), success: function (result) {
+                    if (result != null) {
+                        $('#ddlPolicyClassLookupCC').empty();
+                        $('#ddlPolicyClassLookupCC').append($('<option>', {
+                            value: "",
+                            text: "",
+                        }));
+                        for (var i = 0; i < result.Result.length; i++) {
+                            $('#ddlPolicyClassLookupCC').append($('<option>', {
+                                value: result.Result[i],
+                                text: result.Result[i],
+                            }));
+                        }
+                    }
+
+                    //Load Insurers
+                    $.ajax({
+                        url: "/Lookup/GetPolicyInsurersOfAccount?accountId=" + $("#Accountid").val(), success: function (resultSecond) {
+                            if (resultSecond != null) {
+                                $('#ddlInsurerLookupCC').empty()
+                                $('#ddlInsurerLookupCC').append($('<option>', {
+                                    value: "",
+                                    text: "",
+                                }));
+                                for (var i = 0; i < resultSecond.Result.length; i++) {
+                                    $('#ddlInsurerLookupCC').append($('<option>', {
+                                        value: resultSecond.Result[i].AccountId,
+                                        text: resultSecond.Result[i].AccountName,
+                                    }));
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            $('#tbPolicyCC').DataTable().ajax.reload(null, false);
+        });
     });
 
     function loadPolicies() {
-        var policySelect = $('#Policy_No_CC');
+        @*var policySelect = $('#Policy_No_CC');
 
         $.ajax({
             url: "/Lookup/GetPoliciesAjaxHandler?filter=&accountId=" + "@accountId", success: function (result) {
@@ -80,7 +143,7 @@
                     );
                 });
             }
-        });
+        });*@
     }
 
     function loadAssignedUser() {
@@ -126,7 +189,8 @@
         $.ajax({
                 type: "POST",
                 url: "/Lookup/ConvertToClaimAjax",
-                data: '{claimId: "' + "@claimId" + '",policyNo:"' + $('#Policy_No_CC').val() + '",assignedUserId:"' + $('#Assigned_To_CC').val() + '",teamName:"' + $('#ActivityTemplate').val() + '" }',
+                data: '{claimId: "' + "@claimId" + '",policyNo:"' + $('#Policy_No_CC').val() + '",assignedUserId:"' + $('#Assigned_To_CC').val() +
+                '",teamName:"' + $('#ActivityTemplate').val() + '",policyId:"' + $('#Policy_Id_CC').val() + '"  }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {

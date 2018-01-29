@@ -1480,6 +1480,7 @@
     <Content Include="Views\Email\EmailSignature.cshtml" />
     <Content Include="Views\Shared\_PolicyLookupDetail.cshtml" />
     <Content Include="Views\Shared\_OcNoLookUpNewClaim.cshtml" />
+    <Content Include="Views\Shared\_PolicyLookupConvertToClaim.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
