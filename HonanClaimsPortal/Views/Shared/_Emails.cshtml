@@ -47,7 +47,7 @@
                         </a>
                     </div>
                     <div class="col-md-12 pl-0 pr-0" style="height:800px ;overflow-y: auto;overflow-x: hidden;">
-                        <table class="table table-hover mb-mails" id="emailTable">
+                        <table class="table table-responsive table-hover mb-mails" id="emailTable">
                             <tbody id="emailTbody"></tbody>
                         </table>
                     </div>
@@ -167,7 +167,7 @@
                     toStr = toStr.substring(0,50);
 
                     $('#emailTbody').append(' <tr class="border" id=' + id + '  onclick="openEmail(' + id + ')"><td class="text-center"><em class="fa fa-lg fa-envelope-o text-muted"></em></td>' +
-                        '<td><div class="mb-mail-date pull-right">' + item["CreateDate"] + '</div><div><div class="pull-left">' +
+                        '<td><div class="mb-mail-date pull-left">' + item["CreateDate"] + '</div><div><div class="pull-left">' +
                         '<div class="mb-mail-from">' + item["Subject"] + '</div><div class="mb-mail-preview">' + fromStr + '</div><div class="mb-mail-preview">'
                         + toStr.trim() + '</div><div class="mb-mail-preview">' + item["EmailBody"] + '</div></div></div></td></tr>');
 
