@@ -6,6 +6,11 @@
     <div id="countdown" style="padding-top:6%;margin-left:6px"></div>
 *@
 
+
+@{
+    HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel client = (HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin];
+}
+
 <div id="floatingTimerWindow" style="display:none">
     <div style="font-size:25px;font-weight:bold"><span id="countDownNumberTimer"></span> Seconds</div>
     <br />
@@ -71,12 +76,27 @@
     $(document).ready(function () {
 
 
+
         $("#hdnStateOfTimer").val("nutral");
         $("#btnStopTimer").hide();
 
         var myWindow = $("#floatingTimerWindow");
         myWindow.css('display', 'block');
-        $("#timerBlock").css("display", "block");
+
+        @if (client.Teams.Contains("Billable Lawyers"))
+        {
+            <text>
+                $("#timerBlock").css("display", "block");
+            </text>
+        }
+        else
+        {
+             <text>
+                $("#timerBlock").css("display", "none");
+            </text>
+        }
+
+
         myWindow.kendoWindow({
 
             width: "200px",
@@ -153,6 +173,8 @@
 
 
        // myCounter.start();
+
+
 
     });
 
@@ -261,7 +283,7 @@
                 endTimerVal = '';
                 $("#timerMessage").html("Timer has been running for extended hors.");
             }
-                  
+
 
             loadBillingDetail('', $("#hdnTimerClaimId").val(), startTime, endTimerVal, diff.toFixed(2), $("#hdnTimerClaimRef").val());
 
