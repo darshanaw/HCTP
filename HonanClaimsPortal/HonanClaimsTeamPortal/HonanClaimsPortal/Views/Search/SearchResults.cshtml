@@ -84,12 +84,12 @@
             </div>
         </div>
     </div>
-            </div>
+</div>
 
-            <script>
+<script>
     $(document).ready(function () {
 
-        $.LoadingOverlay("show");
+        //$.LoadingOverlay("show");
 
         @if (searchField.ToString() == "Search All" || searchField.ToString() == "Claims")
         {
@@ -119,12 +119,12 @@
             </text>
          }
 
-        $.LoadingOverlay("hide");
+
     });
 
 
     function LoadClaimGrid() {
-
+        $.LoadingOverlay("show");
             var searchText = "";
             var customerId = "";
             var onlyMyClaim = true;
@@ -144,12 +144,19 @@
             Openclaim = true;
             //get claim type
             ClaimType = "";
-           
+
             $("#claimGrid").kendoGrid({
                 dataSource: {
                     type: "json",
                     transport: {
-                        read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId
+                        read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId,
+
+                    },
+                    change: function () {
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function (e) {
+                        $.LoadingOverlay("hide");
                     },
                     pageSize: 10
                 },
@@ -193,7 +200,8 @@
     }
 
 
-    function loadPolicy() {
+                function loadPolicy() {
+                    $.LoadingOverlay("show");
         var IsActive = true;
         var PolicyNumber = "@tempval";
         var Associate = "";
@@ -206,6 +214,12 @@
             dataSource: {
                 transport: {
                     read: "/Policies/GetPolicyList?IsActive=" + IsActive + "&PolicyNumber=" + PolicyNumber + "&Associate=" + Associate + "&Customer=" + Customer + "&Underwriter=" + Underwriter + "&PolicyType=" + PolicyType + "&PolicyClass=" + PolicyClass
+                },
+                change: function () {
+                    $.LoadingOverlay("hide");
+                },
+                error: function (e) {
+                    $.LoadingOverlay("hide");
                 },
                 pageSize: 10
             },
@@ -250,7 +264,7 @@
     }
 
     function loadAccounts() {
-
+        $.LoadingOverlay("show");
         var AccountName = "@tempval";
         var Type = "";
 
@@ -258,6 +272,12 @@
             dataSource: {
                 transport: {
                     read: "/AccountList/GetAccounts?AccountName=" + AccountName + "&Type=" + Type
+                },
+                change: function () {
+                    $.LoadingOverlay("hide");
+                },
+                error: function (e) {
+                    $.LoadingOverlay("hide");
                 },
                 pageSize: 10
             },
@@ -291,6 +311,7 @@
 
 
     function loadContacts() {
+        $.LoadingOverlay("show");
         var AccountName = "";
         var ConatctName = "@tempval";
 
@@ -298,6 +319,12 @@
             dataSource: {
                 transport: {
                     read: "/Contact/GetContacts?AccountName=" + AccountName + "&ConatctName=" + ConatctName
+                },
+                change: function () {
+                    $.LoadingOverlay("hide");
+                },
+                error: function (e) {
+                    $.LoadingOverlay("hide");
                 },
                 pageSize: 10
             },
@@ -338,4 +365,4 @@
         });
     }
 
-            </script>
+</script>

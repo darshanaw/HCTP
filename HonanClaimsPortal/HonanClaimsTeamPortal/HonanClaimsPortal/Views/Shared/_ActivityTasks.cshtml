@@ -497,6 +497,8 @@
                 //else
                 //    $("#Update_Key_Date_Dtl").prop("disabled", "disabled");
 
+                lastTaskCompletedDate();
+
                 if (result.Skipped_Dtl || result.Completed_Dtl) {
                     $("#This_Task_Due_Date_Dtl").prop("disabled", true);
                 }
@@ -506,6 +508,8 @@
 
                     $("#This_Task_Due_Date_Dtl").prop("disabled", false);
                 }
+
+               
             }
         });
 
@@ -608,6 +612,7 @@
     }
 
     function addDays(startDate, numberOfDays) {
+        debugger;
         var returnDate = new Date(
             startDate.getFullYear(),
             startDate.getMonth(),

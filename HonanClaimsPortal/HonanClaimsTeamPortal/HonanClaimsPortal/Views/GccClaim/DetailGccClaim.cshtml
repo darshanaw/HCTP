@@ -702,11 +702,13 @@ else
                                                                 @if (!string.IsNullOrEmpty(Model.Excess.ToString()) && Model.Excess != 0)
                                                                 {
                                                                     <input id="excess_Textbox" class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
+                                                                    @Html.HiddenFor(o => o.Excess)
                                                                 }
                                                                 else
                                                                 {
                                                                     <div class="input-group">
-                                                                        <input id="excess_Textbox" class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />
+                                                                        @*<input id="excess_Textbox" class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />*@
+                                                                        @Html.TextBoxFor(o => o.Excess, new { @class = "form-control input-sm" })
                                                                         <span class="input-group-btn">
 
                                                                             <button type="button" class="mb-sm btn btn-danger btn-sm btn-outline" style="padding-bottom: 3.5px">
@@ -715,7 +717,6 @@ else
                                                                         </span>
                                                                     </div>
                                                                 }
-                                                                @Html.HiddenFor(o => o.Excess)
                                                             </div>
                                                         </div>
                                                     </div>
