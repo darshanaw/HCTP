@@ -45,7 +45,7 @@
             upload: function (e) {
                 e.data = { claimId: $("#H_Claimsid").val(), userId: '@userObj.UserId' };
             },
-            complete: onCompleteAttachmentUpload
+            complete: onCompleteAttachmentUploadAttachmentTab
         });
 
 
@@ -106,7 +106,7 @@
 
     });
 
-    function onCompleteAttachmentUpload()
+    function onCompleteAttachmentUploadAttachmentTab()
     {
         $("#gridAttachments").data("kendoGrid").dataSource.read({ searchText: $("#AttachmentsearchTxt").val() });
         $(".k-widget.k-upload").find("ul").remove();
