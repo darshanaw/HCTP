@@ -158,34 +158,75 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        public ExecutionResult CreateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate)
+        //public ExecutionResult CreateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate)
+        //{
+        //    exeReult = new ExecutionResult();
+        //    string result = "";
+        //    try
+        //    {
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+        //            ConfigurationManager.AppSettings["apiurl"] + createFileNote + userId + param_shortDes + shortDescription + param_detail + details
+        //            + param_claimId + claimsId + param_fileNoteDate + fileNoteDate);
+
+        //        request.Method = "GET";
+        //        request.ContentType = "application/json";
+
+        //        WebResponse webResponse = request.GetResponse();
+        //        using (Stream webStream = webResponse.GetResponseStream())
+        //        {
+        //            if (webStream != null)
+        //            {
+        //                using (StreamReader responseReader = new StreamReader(webStream))
+        //                {
+        //                    string response = responseReader.ReadToEnd();
+        //                    result = new JavaScriptSerializer().Deserialize<string>(response);
+        //                }
+        //            }
+        //        }
+
+        //        exeReult.ResultObject = result;
+        //        exeReult.IsSuccess = true;
+        //        exeReult.IsFailure = false;
+        //        return exeReult;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        exeReult.IsFailure = true;
+        //        exeReult.IsSuccess = false;
+
+        //        throw e;
+        //    }
+
+        //}
+
+
+
+        public async Task<ExecutionResult> CreateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate)
         {
             exeReult = new ExecutionResult();
             string result = "";
+
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + createFileNote + userId + param_shortDes + shortDescription + param_detail + details
-                    + param_claimId + claimsId + param_fileNoteDate + fileNoteDate);
+                string apiUrl = ConfigurationManager.AppSettings["apiurl"] + createFileNote + userId + param_shortDes + shortDescription + param_claimId + claimsId + param_fileNoteDate + fileNoteDate;
 
-                request.Method = "GET";
-                request.ContentType = "application/json";
-
-                WebResponse webResponse = request.GetResponse();
-                using (Stream webStream = webResponse.GetResponseStream())
+                using (var client = new HttpClient())
                 {
-                    if (webStream != null)
+                    using (var formData = new MultipartFormDataContent())
                     {
-                        using (StreamReader responseReader = new StreamReader(webStream))
-                        {
-                            string response = responseReader.ReadToEnd();
-                            result = new JavaScriptSerializer().Deserialize<string>(response);
-                        }
+
+                        var jsonString = JsonConvert.SerializeObject(details);
+
+                        var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "detail");
+
+                        var postResult = await client.PostAsync(apiUrl, formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                        exeReult.IsSuccess = Convert.ToBoolean(resultContent);
                     }
                 }
 
                 exeReult.ResultObject = result;
-                exeReult.IsSuccess = true;
                 exeReult.IsFailure = false;
                 return exeReult;
             }
@@ -199,34 +240,74 @@ namespace HonanClaimsWebApi.Services
 
         }
 
-        public ExecutionResult UpdateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate, string fileNoteId)
+        //public ExecutionResult UpdateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate, string fileNoteId)
+        //{
+        //    exeReult = new ExecutionResult();
+        //    string result = "";
+        //    try
+        //    {
+        //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+        //            ConfigurationManager.AppSettings["apiurl"] + updateFileNote + userId + param_shortDes + shortDescription + param_detail + details
+        //            + param_fileNoteDate + fileNoteDate + param_fileNoteId + fileNoteId);
+
+        //        request.Method = "GET";
+        //        request.ContentType = "application/json";
+
+        //        WebResponse webResponse = request.GetResponse();
+        //        using (Stream webStream = webResponse.GetResponseStream())
+        //        {
+        //            if (webStream != null)
+        //            {
+        //                using (StreamReader responseReader = new StreamReader(webStream))
+        //                {
+        //                    string response = responseReader.ReadToEnd();
+        //                    result = new JavaScriptSerializer().Deserialize<string>(response);
+        //                }
+        //            }
+        //        }
+
+        //        exeReult.ResultObject = result;
+        //        exeReult.IsSuccess = true;
+        //        exeReult.IsFailure = false;
+        //        return exeReult;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        exeReult.IsFailure = true;
+        //        exeReult.IsSuccess = false;
+
+        //        throw e;
+        //    }
+
+        //}
+
+        public async Task<ExecutionResult> UpdateFileNoteRecord(string userId, string shortDescription, string details, string claimsId, DateTime fileNoteDate, string fileNoteId)
         {
             exeReult = new ExecutionResult();
             string result = "";
+
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
-                    ConfigurationManager.AppSettings["apiurl"] + updateFileNote + userId + param_shortDes + shortDescription + param_detail + details
-                    + param_fileNoteDate + fileNoteDate + param_fileNoteId + fileNoteId);
+                string apiUrl = ConfigurationManager.AppSettings["apiurl"] + updateFileNote + userId + param_shortDes + shortDescription
+                    + param_fileNoteDate + fileNoteDate + param_fileNoteId + fileNoteId;
 
-                request.Method = "GET";
-                request.ContentType = "application/json";
-
-                WebResponse webResponse = request.GetResponse();
-                using (Stream webStream = webResponse.GetResponseStream())
+                using (var client = new HttpClient())
                 {
-                    if (webStream != null)
+                    using (var formData = new MultipartFormDataContent())
                     {
-                        using (StreamReader responseReader = new StreamReader(webStream))
-                        {
-                            string response = responseReader.ReadToEnd();
-                            result = new JavaScriptSerializer().Deserialize<string>(response);
-                        }
+
+                        var jsonString = JsonConvert.SerializeObject(details);
+
+                        var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "detail");
+
+                        var postResult = await client.PostAsync(apiUrl, formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                        exeReult.IsSuccess = Convert.ToBoolean(resultContent);
                     }
                 }
 
                 exeReult.ResultObject = result;
-                exeReult.IsSuccess = true;
                 exeReult.IsFailure = false;
                 return exeReult;
             }

@@ -216,16 +216,16 @@ namespace HonanClaimsPortal.Controllers
 
         [HttpPost]
         [AjaxOnly]
-        public ActionResult _FileNoteDetail(FileNoteDetailModal model)
+        public async Task<ActionResult> _FileNoteDetail(FileNoteDetailModal model)
         {
 
             documentService = new DocumentService();
             if (!string.IsNullOrEmpty(model.H_FileNotesId_Fn))
             {
-                documentService.UpdateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value, model.H_FileNotesId_Fn);
+                await documentService.UpdateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value, model.H_FileNotesId_Fn);
             }
             else
-                documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
+                await documentService.CreateFileNoteRecord(model.CreatedBy_Id_Fn, model.ShortDescription_Fn, model.Detail_Fn, model.ClaimId_Fn, model.FileNoteDate_Fn.Value);
 
             return Json("success", JsonRequestBehavior.AllowGet);
         }
