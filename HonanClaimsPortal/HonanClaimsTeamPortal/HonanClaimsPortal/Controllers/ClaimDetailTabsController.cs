@@ -3,6 +3,7 @@ using HonanClaimsWebApi.Models;
 using HonanClaimsWebApi.Models.Billing;
 using HonanClaimsWebApi.Models.Claim;
 using HonanClaimsWebApi.Models.Common;
+using HonanClaimsWebApi.Models.SendEmail;
 using HonanClaimsWebApi.Models.TimeslipCheck;
 using HonanClaimsWebApi.Services;
 using HonanClaimsWebApiAccess1.LoginServices;
@@ -877,6 +878,12 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin];
             var count = service.ApplyClaimTemplate(claimId, teamName);
             return Json(count, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> TeamDeleteClaimEmail(string emailId)
+        {
+            SendEmailRepo service = new SendEmailRepo();
+            return Json(await service.TeamDeleteClaimEmail(emailId), JsonRequestBehavior.AllowGet);
         }
     }
 
