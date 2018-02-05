@@ -313,7 +313,6 @@
 
                             var name = "'" + item.AttachmentName + "'";
                             var description = "'" + item.AttachmentDescription + "'";
-
                             //$('#ul').append('<li><i aria-hidden="true"></i>' + item.name + ' <i id=' + i.toString() + ' class="fa fa-trash-o" aria-hidden="true"></i></li>');
                             $('#attachmetHolder').append('<div onclick="downloadAttachment(' + name + ',' + description + ')" class="col-md-3 mb-10"><div style="background-color:#F5F7FA;cursor: pointer;" class="panel discoverer mb-0"><div class="panel-body text-center p0">' +
                                 '<div class="clearfix discover"><div class="pull-right"></div><span><a href="#" class="file-icon ph-sm"><em class="fa fa-1x fa-file-archive-o text-primary">' +
@@ -327,7 +326,7 @@
     }
 
     function downloadAttachment(name, description) {
-        window.location.href = "/ClaimDetailTabs/FileDownloadByFileName?fileName=" + name + "&fileRealName=" + description;
+        window.location.href = "/ClaimDetailTabs/FileDownloadByFileName?fileName=" + encodeURIComponent(name) + "&fileRealName=" + encodeURIComponent(description);
     }
 
     function loadEmailsNew(filterText) {
