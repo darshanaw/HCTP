@@ -721,6 +721,7 @@
         $.ajax({
             url: "/ClaimDetailTabs/CompleteActivity?activityTaskId=" + activityTaskId_wf + "&stage=" + stage + "&complete=" + $(chkBox).is(':checked'), success: function (result) {
                 //loadactivity();
+                $("#grid").data("kendoGrid").dataSource.read();
 
                 $.ajax({
                     url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + ClaimId, success: function (result2) {
@@ -877,6 +878,7 @@
         $.ajax({
             url: "/ClaimDetailTabs/SkipActivity?activityTaskId=" + activityTaskId + "&stage=" + stage + "&skip=" + $(chkBox).is(':checked'), success: function (result) {
                 //loadactivity();
+                $("#grid").data("kendoGrid").dataSource.read();
 
                 $.ajax({
                     url: "/ClaimDetailTabs/GetPendingActionCount?claimsId=" + claimId, success: function (result2) {
