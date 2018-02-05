@@ -255,5 +255,27 @@ namespace HonanClaimsWebApi.Models.SendEmail
             return result;
         }
 
+        public async Task<bool> TeamDeleteClaimEmail(string emailId)
+        {
+            bool status = false;    
+            string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
+            string apiUrl = SiteUrl + "api/Claim/TeamDeleteClaimEmail?emailId=" + emailId;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    status = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(data);
+
+                }
+            }
+            return status;
+        }
+
     }
 }

@@ -70,6 +70,9 @@
                             <a href="#" class="pr-20" id="forwardAction">
                                 <em class="fa fa-mail-forward"></em> Forward
                             </a>
+                            <a href="#" class="pr-20 pull-right" title="Delete Email" id="deleteAction">
+                                <em class="fa fa-trash"></em>
+                            </a>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12 top-padding-eight">
@@ -255,6 +258,31 @@
             complete: onCompleteAttachmentUpload
         });
 
+         $("#deleteAction").click(function () {
+             bootbox.confirm({
+                 message: "Are you sure you want to Delete the email ?",
+                 buttons: {
+                     confirm: {
+                         label: 'Yes',
+                         className: 'btn-success'
+                     },
+                     cancel: {
+                         label: 'No',
+                         className: 'btn-danger'
+                     }
+                 },
+                 callback: function (result) {
+
+                     if (result == true) {
+                         $.ajax({
+                             url: "/ClaimDetailTabs/TeamDeleteClaimEmail?emailId=" + selectedEmailId, success: function (result) {
+                                 loadEmailsNew($('#txtFilterEmails').val());
+                             }
+                         });
+                     }
+                 }
+             });
+         });
 
     });
 
@@ -320,7 +348,7 @@
                     toStr = toStr.substring(0,50);
 
                     $('#emailTbody').append(' <tr class="border" id=' + id + '  onclick="openEmail(' + id + ')"><td class="text-center"><em class="fa fa-lg fa-envelope-o text-muted"></em></td>' +
-                        '<td><div class="mb-mail-date pull-right">' + item["CreateDate"] + '</div><div><div class="pull-left">' +
+                        '<td><div class="mb-mail-date pull-left">' + item["CreateDate"] + '</div><div><div class="pull-left">' +
                         '<div class="mb-mail-from">' + item["Subject"] + '</div><div class="mb-mail-preview">' + fromStr + '</div><div class="mb-mail-preview">'
                         + toStr.trim() + '</div><div class="mb-mail-preview">' + item["EmailBody"] + '</div></div></div></td></tr>');
 
