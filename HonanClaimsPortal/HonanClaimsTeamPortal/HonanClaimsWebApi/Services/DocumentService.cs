@@ -92,9 +92,10 @@ namespace HonanClaimsWebApi.Services
 
             try
             {
+
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
                     ConfigurationManager.AppSettings["apiurl"] + createClaimAttachApiGet1 + attachment.ClaimId + createClaimAttachApiGet2 + attachment.AttachmentType
-                    + createClaimAttachApiGet3 + attachment.AttachmentName + createClaimAttachApiGet4 + attachment.AttachmentDescription
+                    + createClaimAttachApiGet3 + HttpUtility.UrlEncode(attachment.AttachmentName, Encoding.UTF8) + createClaimAttachApiGet4 + HttpUtility.UrlEncode(attachment.AttachmentDescription, Encoding.UTF8)
                     + createClaimAttachApiGet5 + attachment.Size + createClaimAttachApiGet6 + attachment.UserId + createClaimAttachApiGet7 + attachment.IsCustomerDoc);
 
                 request.Method = "GET";
@@ -858,7 +859,7 @@ namespace HonanClaimsWebApi.Services
                                 if (item != null)
                                 {
                                     //formData.Add(new StreamContent(item.InputStream), "Attachment", item.FileName);
-                                    formData.Add(CreateFileContent(item.InputStream, item.FileName, item.ContentType));
+                                    formData.Add(CreateFileContent(item.InputStream, HttpUtility.UrlEncode(item.FileName, Encoding.UTF8), item.ContentType));
                                 }
                             }
                         }
