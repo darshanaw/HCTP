@@ -74,7 +74,8 @@
                 {
                     field: "AttachmentDescription",
                     title: "Attachment Name",
-                    template: "<a href='/ClaimDetailTabs/FileDownloadByFileName?fileName=#=AttachmentName#&fileRealName=#= AttachmentDescription #'>#= AttachmentDescription #</a>"
+                    //template: "<a href='/ClaimDetailTabs/FileDownloadByFileName?fileName=escape(#=AttachmentName#)&fileRealName=#= AttachmentDescription #'>#= AttachmentDescription #</a>"
+                    template: '<a  style="cursor: pointer;" onclick="downloadFileAttachment(\'' + '#=AttachmentName#' + '\',\'' + '#= AttachmentDescription #' +'\')">#= AttachmentDescription #</a>'
                 },
                 {
                     field: "UploadedUser",
@@ -92,6 +93,8 @@
             ]
         });
 
+        
+
         $("#btnAttachmentSearchtext").click(function () {
 
             //$("#gridAttachments").data("kendoGrid").dataSource.read();
@@ -105,6 +108,10 @@
         });
 
     });
+
+    function downloadFileAttachment(attachmentName, attachmentRealName) {
+        window.location.href = '/ClaimDetailTabs/FileDownloadByFileName?fileName=' + encodeURIComponent(attachmentName) + '&fileRealName=' + encodeURIComponent(attachmentRealName);
+    }
 
     function onCompleteAttachmentUploadAttachmentTab()
     {

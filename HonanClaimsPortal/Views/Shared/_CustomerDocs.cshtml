@@ -74,7 +74,8 @@
                 {
                     field: "AttachmentDescription",
                     title: "Attachment Name",
-                    template: "<a href='/ClaimDetailTabs/FileDownloadByFileName?fileName=#=AttachmentName#&fileRealName=#= AttachmentDescription #'>#= AttachmentDescription #</a>"
+                    //template: "<a href='/ClaimDetailTabs/FileDownloadByFileName?fileName=#=AttachmentName#&fileRealName=#= AttachmentDescription #'>#= AttachmentDescription #</a>"
+                    template: '<a  style="cursor: pointer;" onclick="downloadFileCustomerDocs(\'' + '#=AttachmentName#' + '\',\'' + '#= AttachmentDescription #' + '\')">#= AttachmentDescription #</a>'
                 },
                 {
                     field: "UploadedUser",
@@ -114,6 +115,10 @@
 
     function DownloadFile(fileName) {
       window.location.href = '/ClaimDetailTabs/FileDownload?fileName=' + fileName;
+    }
+
+    function downloadFileCustomerDocs(attachmentName, attachmentRealName) {
+        window.location.href = '/ClaimDetailTabs/FileDownloadByFileName?fileName=' + encodeURIComponent(attachmentName) + '&fileRealName=' + encodeURIComponent(attachmentRealName);
     }
 
 </script>
