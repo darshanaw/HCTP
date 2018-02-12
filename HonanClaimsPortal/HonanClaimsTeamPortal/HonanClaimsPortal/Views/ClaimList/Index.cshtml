@@ -22,9 +22,9 @@
 
                         <div class="row mb-15">
                             <div class="col-md-12 top-padding-eight">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group mb">
-                                        <label class="col-sm-4 control-label input-sm">Search My Claims</label>
+                                        <label class="col-sm-4 control-label input-sm ml0 pl0 mr0 pr0">Search My Claims</label>
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control form-control input-sm" id="searchTxt">
 
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group mb">
                                         <label class="col-sm-4 control-label input-sm">Customer</label>
                                         <div class="col-sm-8">
@@ -42,7 +42,17 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group mb">
+                                        <label class="col-sm-4 control-label input-sm">Associate</label>
+                                        <div class="col-sm-8">
+                                            @*@Html.DropDownListFor(m => m.CustomerList, new SelectList(Model.CustomerList, "Code", "Text"), "--select--", new { @class = "form-control input-sm" })*@
+                                            @Html.TextBox("Associate", "", new { @id = "Associate", @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
                                     <div class="form-group mb">
                                         <div class="col-sm-12">
                                             <div class="pull-right">
@@ -144,6 +154,7 @@
                 function LoadClaimGrid() {
                     var searchText = "";
                     var customerId = "";
+                    var associate = "";
                     var onlyMyClaim = true;
                     var Openclaim = true;
                     var ClaimType = "All";
@@ -162,11 +173,15 @@
                     //get claim type
                     ClaimType = $('input[name=claimtype]:checked').val();
 
+                    if ($('#Associate').val() != null)
+                        associate = $('#Associate').val();
+
                     $("#grid1").kendoGrid({
                         dataSource: {
                             type: "json",
                             transport: {
-                                read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId
+                                read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText="
+                                + searchText + "&cutomerId=" + customerId + "&associate=" + associate
                             },
                             pageSize: 20
                         },
@@ -190,7 +205,12 @@
                         {
                             field: "InsuredAccount",
                             title: "Insured",
-                        }, {
+                        },
+                        {
+                            field: "AssociateAccount",
+                            title: "Associate",
+                        },
+                        {
                             field: "Claimant",
                             title: "Claimant",
                         }, {
@@ -224,6 +244,7 @@
 
                     $('#searchTxt').val("");
                     $('#CusList').val("");
+                    $('#Associate').val("");
                     //$("#customer").data("kendoAutoComplete").value("");
                     //$("#grid1").data("kendoGrid").dataSource.filter({});
                     LoadClaimGrid();

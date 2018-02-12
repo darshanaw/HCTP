@@ -83,12 +83,26 @@
                             </div>
                         </div>
                         <div class="col-md-3 mb">
+                            <div class="row">
+                                <div class="form-group mb">
+                                    <label class="col-sm-4 control-label input-sm">Associate</label>
+                                    <div class="col-sm-8">
+                                        @*@Html.DropDownListFor(m => m.CustomerList,
+                        new SelectList(Model.CustomerList, "Code", "Text"),
+                        "--Select--",
+                        new { @class = "form-control input-sm", @onchange = "comboChange()" })*@
+                                        @Html.TextBox("Associate", "", new { @id = "Associate", @class = "form-control input-sm" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb">
                             <div class="input-group">
                                 <input type="text" class="form-control  input-sm" placeholder="Search for" id="searchTxt" aria-describedby="basic-addon2">
                                 <span class="input-group-addon pointer" id="btnsearchtext" data-toggle="modal" data-target="#PolicyModal"><i class="fa fa-search" aria-hidden="true"></i></span>
                             </div>
                         </div>
-                        <div class="col-md-6 mb">
+                        <div class="col-md-3 mb">
                             <div class="form-inline">
                                 <div class="form-group mb-0">
                                     <input id="overdue" type="checkbox" value="true">
@@ -104,6 +118,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        
                         <div class="col-md-3 mb">
                             <div class="pull-right">
                                 <button id="clearFilter" type="button" class="btn btn-sm btn-default mr-20">Clear Filter</button>
@@ -496,6 +512,7 @@
         var customerId = null;
         var search = null;
         var assignId = null;
+        var associate = null;
 
         //Get value list
         overdue = $("#overdue").is(":checked");
@@ -515,12 +532,15 @@
         if (s != null && s != "") { search = s }
         var a = $('#Activityusers').val();
         if (a != null && a != "") { assignId = a }
+        var z = $('#Associate').val();
+        if (z != null && z != "") { associate = z }
         //load grid list
         $("#grid").kendoGrid({
             dataSource: {
                 type: "json",
                 transport: {
-                    read: "/MyActivity/GetMyActivity?overdue=" + overdue + "&nextfiveday=" + nextfiveday + "&showwithdate=" + showwithdate + "&claimId=" + claimId + "&owner=" + owner + "&customerId=" + customerId + "&searchtext=" + search + "&assignId=" + assignId
+                    read: "/MyActivity/GetMyActivity?overdue=" + overdue + "&nextfiveday=" + nextfiveday + "&showwithdate=" + showwithdate + "&claimId=" + claimId
+                    + "&owner=" + owner + "&customerId=" + customerId + "&searchtext=" + search + "&assignId=" + assignId + "&associate=" + associate
                 },
                 pageSize: 20,
                 schema: {
@@ -570,7 +590,11 @@
             {
                 field: "Customer",
                 title: "Customer",
-            }, 
+            },
+            {
+                field: "Associate",
+                title: "Associate",
+            },
             {
                 field: "Seq",
                 title: "Seq",
@@ -798,6 +822,7 @@
         $('#searchTxt').val("");
         $('#Activityusers').val("");
         $('#OwnerList').val("");
+        $('#Associate').val("");
 
         loadactivity();
     })

@@ -180,6 +180,12 @@ else
                                         </div>
                                     </div>
                                     <div class="form-group mb">
+                                        <label class="col-sm-3 control-label input-sm">Associate</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(o => o.Associate_Name, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb">
                                         <label for="input-id-1" class="col-sm-3 control-label input-sm">Assigned To</label>
                                         <div class="col-sm-9">
 
@@ -553,6 +559,14 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @*<div class="col-md-12 col-sm-12">
+                                                            <div class="form-group mb">
+                                                                <label class="col-sm-3 control-label input-sm">Incident Summary</label>
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextAreaFor(o => o.Incident_Summary, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
+                                                                </div>
+                                                            </div>
+                                                        </div>*@
                                                         <div class="col-md-12 col-sm-12">
                                                             <div class="form-group mb">
                                                                 <label class="col-sm-3 control-label input-sm">Witness</label>

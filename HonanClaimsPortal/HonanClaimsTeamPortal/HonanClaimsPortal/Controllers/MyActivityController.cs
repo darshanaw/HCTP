@@ -127,7 +127,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetMyActivity(bool overdue, bool nextfiveday, bool showwithdate, string claimId, string owner, string customerId, string searchtext, string assignId)
+        public async Task<ActionResult> GetMyActivity(bool overdue, bool nextfiveday, bool showwithdate, string claimId, string owner, string customerId, string searchtext, string assignId,string associate)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace HonanClaimsPortal.Controllers
                 }
                 List<MyActivityModels> list = new List<MyActivityModels>();
                 MyActivityRepo activityrep = new MyActivityRepo();
-                list = await activityrep.GetMyActivity(overdue, nextfiveday, showwithdate, claimId, assignId, owner, customerId, searchtext);
+                list = await activityrep.GetMyActivity(overdue, nextfiveday, showwithdate, claimId, assignId, owner, customerId, searchtext,associate);
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

@@ -28,7 +28,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetClaimList(bool myclaimsOnly, string isopenClaim, string claimType, string searchText, string cutomerId)
+        public async Task<ActionResult> GetClaimList(bool myclaimsOnly, string isopenClaim, string claimType, string searchText, string cutomerId,string associate)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace HonanClaimsPortal.Controllers
                 ClaimListRepo protalLoginAccountsRepo = new ClaimListRepo();
 
                 if (string.IsNullOrEmpty(searchText))
-                    list = await protalLoginAccountsRepo.getClaimList(UserId, myclaimsOnly, isopenClaim, claimType, searchText, cutomerId);
+                    list = await protalLoginAccountsRepo.getClaimList(UserId, myclaimsOnly, isopenClaim, claimType, searchText, cutomerId, associate);
                 else
                     list = await protalLoginAccountsRepo.getClaimListSearchTextOnly(UserId, searchText);
 

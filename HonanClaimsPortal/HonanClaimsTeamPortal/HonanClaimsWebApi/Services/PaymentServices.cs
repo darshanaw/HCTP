@@ -49,13 +49,13 @@ namespace HonanClaimsWebApi.Services
         }
 
 
-        public bool TeamUpdateFinancials(decimal liabilityResSource, decimal defenceResSource, string claimId,string userId)
+        public bool TeamUpdateFinancials(decimal liabilityResSource, decimal defenceResSource, string claimId,string userId, decimal netPaidLiability, decimal netPaidDefence)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
                     ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamUpdateFinancials?liabilityResSource=" + liabilityResSource + "&defenceResSource=" + 
-                    defenceResSource + "&claimId=" + claimId + "&userId=" + userId);
+                    defenceResSource + "&claimId=" + claimId + "&userId=" + userId + "&netPaidLiability=" + netPaidLiability + "&netPaidDefence=" + netPaidDefence);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 

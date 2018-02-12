@@ -10,13 +10,14 @@ namespace HonanClaimsWebApi.Models.ClaimList
 {
     public class ClaimListRepo
     {
-        public async Task<List<ClaimListModel>> getClaimList(string userId, bool myclaimsOnly, string isopenClaim, string claimType, string searchText, string cutomerId)
+        public async Task<List<ClaimListModel>> getClaimList(string userId, bool myclaimsOnly, string isopenClaim, string claimType, string searchText, string cutomerId,string associate)
         {
             List<ClaimListModel> list = new List<ClaimListModel>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
             searchText = searchText == "null" ? string.Empty : searchText;
             cutomerId = cutomerId == "null" ? string.Empty : cutomerId;
-            string apiUrl = SiteUrl + "api/Claim/TeamGetMyClaimList?assignedToId=" + userId + "&myClaimsOnly=" + myclaimsOnly + "&isOpenClaims=" + isopenClaim + "&claimType=" + claimType + "&searchText=" + searchText + "&customerId=" + cutomerId;
+            string apiUrl = SiteUrl + "api/Claim/TeamGetMyClaimList?assignedToId=" + userId + "&myClaimsOnly=" + myclaimsOnly + "&isOpenClaims=" + isopenClaim + "&claimType=" 
+                + claimType + "&searchText=" + searchText + "&customerId=" + cutomerId + "&associate=" + associate;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);

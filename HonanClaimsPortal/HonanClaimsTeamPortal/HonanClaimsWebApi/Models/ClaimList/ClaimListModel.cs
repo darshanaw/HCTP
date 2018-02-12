@@ -21,6 +21,7 @@ namespace HonanClaimsWebApi.Models.ClaimList
         public string Claimant { get; set; }
         public string Category { get; set; }
         public string NextAction { get; set; }
+        public string AssociateAccount { get; set; }
     }
 
     public class CustomerListModel

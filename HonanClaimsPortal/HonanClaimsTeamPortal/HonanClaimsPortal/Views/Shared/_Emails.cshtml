@@ -31,8 +31,14 @@
                     <div class="col-md-12 mb-15 pl-0 pr-0">
                         <input type="file" name="files" id="externalEmails" />
                     </div>
-                    <div class="col-md-8 mb-15 pl-0 pr-0">
+                    <div class="col-md-6 mb-15 pl-0 pr-0">
                         <input class="form-control input-sm" placeholder="Filter Emails" id="txtFilterEmails" />
+                    </div>
+                    <div class="col-md-2 mb-15 pr-0">
+                        <a class="btn btn-purple btn-sm mb-compose-button" href="#" id="btnSearch">
+                            <em class="fa fa-search"></em>
+                            @*<span>Compose</span>*@
+                        </a>
                     </div>
                     <div class="col-md-2 mb-15 pr-0">
                         <a class="btn btn-info btn-sm mb-compose-button" href="#" id="btnRefresh">
@@ -239,6 +245,10 @@
             loadEmailsNew("");
         });
 
+        $("#btnSearch").click(function () {
+            loadEmailsNew($('#txtFilterEmails').val());
+        });
+        
 
          $("#externalEmails").kendoUpload({
             async: {
