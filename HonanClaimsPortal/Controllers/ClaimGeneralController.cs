@@ -75,7 +75,7 @@ namespace HonanClaimsPortal.Controllers
 
             //Update Claim DB
             ClaimTeamLoginModel client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
-            paymentServices.TeamUpdateFinancials(liability_Res_Source, defence_Res_Source, claimId, client.UserId);
+            paymentServices.TeamUpdateFinancials(liability_Res_Source, defence_Res_Source, claimId, client.UserId,model.Net_Paid_Liability,model.Net_Paid_Defence);
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }

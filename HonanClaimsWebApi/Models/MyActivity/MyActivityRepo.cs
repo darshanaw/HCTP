@@ -86,7 +86,7 @@ namespace HonanClaimsWebApi.Models.MyActivity
             return list;
         }
 
-        public async Task<List<MyActivityModels>> GetMyActivity(bool overdue, bool nextfiveday, bool showwithdate, string claimId, string assingedId, string owner, string customerId, string searchtext)
+        public async Task<List<MyActivityModels>> GetMyActivity(bool overdue, bool nextfiveday, bool showwithdate, string claimId, string assingedId, string owner, string customerId, string searchtext,string associate)
         {
             List<MyActivityModels> list = new List<MyActivityModels>();
             string SiteUrl = ConfigurationManager.AppSettings["apiurl"];
@@ -95,7 +95,9 @@ namespace HonanClaimsWebApi.Models.MyActivity
             owner = owner == "null" ? string.Empty : owner;
             customerId = customerId == "null" ? string.Empty : customerId;
             searchtext = searchtext == "null" ? string.Empty : searchtext;
-            string apiUrl = SiteUrl + "api/Activity/GetMyActivities?isOverDue=" + overdue + "&dueNext5Days=" + nextfiveday + "&showWithDueDate=" + showwithdate + "&claimId=" + claimId + "&assignedToId=" + assingedId + "&activityOwner=" + owner + "&customerId=" + customerId + "&searchText=" + searchtext;
+            associate = associate == "null" ? string.Empty : associate;
+            string apiUrl = SiteUrl + "api/Activity/GetMyActivities?isOverDue=" + overdue + "&dueNext5Days=" + nextfiveday + "&showWithDueDate=" + showwithdate 
+                + "&claimId=" + claimId + "&assignedToId=" + assingedId + "&activityOwner=" + owner + "&customerId=" + customerId + "&searchText=" + searchtext + "&associate=" + associate;
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(apiUrl);
