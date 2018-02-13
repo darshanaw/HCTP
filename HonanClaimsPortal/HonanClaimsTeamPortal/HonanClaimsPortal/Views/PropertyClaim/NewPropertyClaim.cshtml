@@ -988,7 +988,7 @@
         $('#dtpReportedDate').datetimepicker({
             maxDate: moment(),
             format: 'DD/MM/YYYY',
-            useCurrent: false
+            //useCurrent: false
         });
 
         $('#dtpDateOfLoss').datetimepicker({
@@ -1127,8 +1127,7 @@
 
         //});
 
-
-
+        $("#dtpReportedDate").find("input").val("");
 
     });
 

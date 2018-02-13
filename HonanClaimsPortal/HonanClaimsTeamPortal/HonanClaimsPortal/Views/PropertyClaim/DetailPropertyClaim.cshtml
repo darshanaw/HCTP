@@ -189,7 +189,7 @@ else
                                         <label for="input-id-1" class="col-sm-3 control-label input-sm">Assigned To</label>
                                         <div class="col-sm-9">
 
-                                            @if (HonanClaimsPortal.Helpers.ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.RisksmartGCCManager))
+                                            @if (HonanClaimsPortal.Helpers.ClaimHelper.IsManager(HonanClaimsPortal.Helpers.ClaimTeamManagers.PropertyClaimsManager))
                                             {
                                                 @Html.DropDownListFor(o => o.Assigned_User, new SelectList(Model.Assigned_User_List, "Code", "Text"), new { @class = "form-control input-sm" })
                                             }
