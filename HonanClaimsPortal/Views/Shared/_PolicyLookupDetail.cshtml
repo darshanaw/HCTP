@@ -44,6 +44,7 @@
     .dataTables_filter {
         margin-top: 10px !important;
     }
+
 </style>
 
 <div class="panel panel-default">
@@ -196,9 +197,15 @@
                 { "sName": "Insured_Name" },
                 { "sName": "UnderwriterName" },
                 { "sName": "Excess" }
-            ]
+            ],
+            "oLanguage": {
+                "sZeroRecords": "No associated policies found"
+            }
         });
+
     });
+
+   
 
     function closeModal(val,
         address1, addresss2, suburb, state,
