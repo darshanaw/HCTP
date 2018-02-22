@@ -589,8 +589,7 @@
     }
 
     function dateTimeEditor(container, options) {
-
-        if (options.model.DueDate_Act != null) {
+        //if (options.model.DueDate_Act != null) {
             if (options.model.Complete_Act || options.model.Skipped_Act) {
                 $("#gridActivityTasks").data("kendoGrid").closeCell();
             } else {
@@ -601,7 +600,7 @@
                     .appendTo(container)
                     .kendoDatePicker({ parseFormats: [kendo.culture().calendar.patterns['d']], change: dueDateOnChange, max: maxDate, disableDates: ["sa", "su"] });
             }
-        }
+        //}
     }
 
     function dueDateOnChange() {

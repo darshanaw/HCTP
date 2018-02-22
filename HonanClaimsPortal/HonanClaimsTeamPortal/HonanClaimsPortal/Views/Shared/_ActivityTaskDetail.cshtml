@@ -388,6 +388,7 @@
     $(function () {
 
         loadThisTaskDueDate();
+        var thisTaskDueDate;
 
         $('#Sla_Days_Dtl').change(function () {
 
@@ -442,6 +443,11 @@
                 $("#Completed_Date_Dtl").val('@DateTime.Now.ToString("dd/MM/yyyy")');
                 $("#Completed_By_Name_Dtl").val('@ViewBag.CurrentUser');
                 $("#Completed_By_Dtl").val('@ViewBag.CurrentUserId');
+
+                thisTaskDueDate = $("#This_Task_Due_Date_Dtl").val();
+                $("#This_Task_Due_Date_Dtl").val("");
+                $("#This_Task_Due_Date_Dtl").prop("disabled", true);
+                    
             }
             else {
 
@@ -451,6 +457,9 @@
                 $("#actualCompletedDate").hide();
                 $("#dummyCompletedDate").show();
                 $("#dummyCompletedDate").val("");
+                $("#This_Task_Due_Date_Dtl").val(thisTaskDueDate);
+                $("#This_Task_Due_Date_Dtl").prop("disabled", false);
+
             }
         });
 
@@ -656,7 +665,7 @@
             url: "/ClaimDetailTabs/getThisTaskDueDate?date=" + date + "&slaCount=" + slaCount, success: function (result) {
 
                 $("#This_Task_Due_Date_Dtl").val(result);
-
+                thisTaskDueDate = result;
             }
         });
     }
