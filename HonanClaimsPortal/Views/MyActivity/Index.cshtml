@@ -623,6 +623,7 @@
             {
                 field: "DueDate",
                 title: "Due Date",
+                template: "#= (DueDate == null) ? '': kendo.toString(kendo.parseDate(DueDate), 'dd/MM/yyyy') #",
                 format: "{0:dd/MM/yyyy}",
                 editor: dateTimeEditor
                 //format: "dd/MMM/yyyy",
