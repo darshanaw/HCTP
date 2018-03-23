@@ -129,11 +129,12 @@
     }
 
     function clearFileNoteControls() {
-        //$("#CreatedBy_Id_Fn").val("");
+        $("#CreatedBy_Id_Fn").val("@(((HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin]).UserId)");
         //$("#ClaimId_Fn").val("");
         //$("#ClaimRefNo_Fn").val("");
         $("#FileNoteDate_Fn").val('@DateTime.Now.ToString("dd/MM/yyyy")');
-        //$("#CreatedBy_Fn").val("");
+        $("#CreatedBy_Fn").val("@(((HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin]).FirstName + " " +
+                        ((HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin]).LastName)");
         $("#CreatedDate_Fn").val('@DateTime.Now.ToString("dd/MM/yyyy")');
         $("#ShortDescription_Fn").val("");
         $("#Detail_Fn").val("");
@@ -160,7 +161,7 @@
         });
 
 
-      
+
 
 
 
