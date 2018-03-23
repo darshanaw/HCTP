@@ -71,7 +71,8 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> NewRisksmartGccClaim(RisksmartGccClaim claim, IEnumerable<string> Region, IEnumerable<string> Incident_Category, IEnumerable<HttpPostedFileBase> upfiles)
+        public async Task<ActionResult> NewRisksmartGccClaim(RisksmartGccClaim claim, IEnumerable<string> Region, 
+            IEnumerable<string> Incident_Category, IEnumerable<HttpPostedFileBase> upfiles, IEnumerable<string> Bodily_Location)
         {
             try
             {
@@ -83,6 +84,8 @@ namespace HonanClaimsPortal.Controllers
                     claim.Region = String.Join(", ", Region.Where(s => !string.IsNullOrEmpty(s)));
                 if (claim.Incident_Category != null)
                     claim.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
+                if (claim.Bodily_Location != null)
+                    claim.Bodily_Location = String.Join(", ", Bodily_Location.Where(s => !string.IsNullOrEmpty(s)));
 
                 Mapper.Initialize(cfg => cfg.CreateMap<RisksmartGccClaim, ClaimGeneral>());
                 ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(claim);
@@ -294,7 +297,7 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DetailRisksmartGccClaim(RisksmartGccClaim model, IEnumerable<string> Incident_Category)
+        public async Task<ActionResult> DetailRisksmartGccClaim(RisksmartGccClaim model, IEnumerable<string> Incident_Category, IEnumerable<string> Bodily_Location)
         {
             Session[SessionHelper.StoreobjectList] = null;
             PicklistServicecs picklistService = new PicklistServicecs();
@@ -303,11 +306,13 @@ namespace HonanClaimsPortal.Controllers
             if (Incident_Category != null)
                 model.Incident_Category = String.Join(", ", Incident_Category.Where(s => !string.IsNullOrEmpty(s)));
 
+            if (Bodily_Location != null)
+                model.Bodily_Location = String.Join(", ", Bodily_Location.Where(s => !string.IsNullOrEmpty(s)));
+
             Mapper.Initialize(cfg => cfg.CreateMap<RisksmartGccClaim, ClaimGeneral>());
             ClaimGeneral generalClaim = Mapper.Map<ClaimGeneral>(model);
 
             generalClaim.Policy_Class = string.IsNullOrEmpty(model.Policy_Class) == true ? model.Policy_Class_Selection : model.Policy_Class;
-
         
 
             ClaimTeamLoginModel login = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;

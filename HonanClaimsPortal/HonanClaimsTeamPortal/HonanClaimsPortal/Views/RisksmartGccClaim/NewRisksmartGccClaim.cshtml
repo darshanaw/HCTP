@@ -405,8 +405,11 @@
                                 <div class="form-group mb">
                                     <label class="col-sm-3 control-label input-sm">Bodily Location</label>
                                     <div class="col-sm-9">
+                                        @*@Html.DropDownListFor(model => model.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"),
+                                            new { @class = "form-control input-sm" })*@
+
                                         @Html.DropDownListFor(model => model.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"),
-                                            new { @class = "form-control input-sm" })
+                                        new { @class = "form-control input-sm", @multiple = "multiple", @name = "Bodily_Location", @style = "width:100%" })
                                     </div>
                                 </div>
                             </div>
@@ -926,6 +929,10 @@ new { @class = "form-control input-sm" })
         });
 
         $('#Incident_Category').select2({
+            theme: "bootstrap"
+        });
+
+        $('#Bodily_Location').select2({
             theme: "bootstrap"
         });
 
