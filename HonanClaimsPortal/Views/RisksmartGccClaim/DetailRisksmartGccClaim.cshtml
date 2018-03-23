@@ -516,7 +516,11 @@ else
                                             <label class="col-sm-3 control-label input-sm">Bodily Location</label>
                                             <div class="col-sm-9">
                                                 @*@Html.TextBoxFor(o => o.Bodily_Location, new { @class = "form-control input-sm valueChanged", @maxlength = 200 })*@
-                                                @Html.DropDownListFor(o => o.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"), "", new { @class = "form-control input-sm" })
+                                                @*@Html.DropDownListFor(o => o.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"), "", new { @class = "form-control input-sm" })*@
+
+                                                @Html.DropDownListFor(model => model.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"),
+                                        new { @class = "form-control input-sm", @multiple = "multiple", @name = "Bodily_Location", @style = "width:100%" })
+
                                             </div>
                                         </div>
                                     </div>
@@ -1795,6 +1799,14 @@ else
             else
                 $('.select2-selection.select2-selection--multiple').removeClass("alertError");
 
+
+            if ($('#Bodily_Location :selected').text() == "") {
+
+                $('.select2-selection.select2-selection--multiple').addClass("alertError");
+            }
+            else
+                $('.select2-selection.select2-selection--multiple').removeClass("alertError");
+
         });
 
 
@@ -1804,6 +1816,12 @@ else
             placeholder: "",
             tags: true
         });
+
+        $('#Bodily_Location').select2({
+            theme: "bootstrap",
+            placeholder: "",
+            tags: true
+        })
 
         var values = "@Model.Incident_Category"; //pull ItemIds from Model in MVC
         var arr = values.split(",");
@@ -1825,6 +1843,31 @@ else
                         $("#Incident_Category").append($("#Incident_Category option[value='" + e + "']"));
                     }
                     $("#Incident_Category option[value='" + e + "']").prop("selected", true);
+                }
+            });
+        }
+
+
+        var values = "@Model.Bodily_Location"; //pull ItemIds from Model in MVC
+        var arr = values.split(",");
+        if (arr.length > 1)
+        {
+            $.each(values.split(","), function (i, e) {
+                if (e != "Not Set" && e != "" && e != null && e != undefined) {
+                    if (i == 0)
+                        e = " " + e;
+                    if (!re.test(e)) {
+                        var newList = $.merge($('#Bodily_Location').select2('data'), [{
+                            id: e,
+                            tag: e
+                        }]);
+                        $("#Bodily_Location").select2('data', newList);
+                        $("#Bodily_Location").append('<option value="' + e + '">' + e + '</option>');
+                    }
+                    else {
+                        $("#Bodily_Location").append($("#Bodily_Location option[value='" + e + "']"));
+                    }
+                    $("#Bodily_Location option[value='" + e + "']").prop("selected", true);
                 }
             });
         }
