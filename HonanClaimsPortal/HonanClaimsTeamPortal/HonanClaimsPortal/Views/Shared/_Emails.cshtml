@@ -308,6 +308,7 @@
         $.ajax({
             url: "/Email/GetClaimEmail?emailId=" + emailId + "&withAttachments=false", success: function (result) {
                 if (result != null) {
+                    debugger;
                     $('#attachmetHolder').empty();
                     $("#emailFrom").text(result.FromEmail);
                     $("#emailTo").text(result.To);
@@ -330,6 +331,9 @@
                         });
                     }
                 }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError);
             }
         });
 
