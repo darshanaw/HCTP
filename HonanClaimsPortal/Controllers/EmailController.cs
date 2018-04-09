@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -50,7 +51,11 @@ namespace HonanClaimsPortal.Controllers
         public async Task<ActionResult> GetClaimEmail(string emailId, bool withAttachments)
         {
             EmailServices emailService = new EmailServices();
-            return Json(await emailService.GetClaimEmail(emailId, withAttachments), JsonRequestBehavior.AllowGet);
+            EmailSimple emailRec = await emailService.GetClaimEmail(emailId, withAttachments);
+            var obj = new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue };
+
+            return new JsonResult() { Data = emailRec, MaxJsonLength = Int32.MaxValue, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            //return Json(obj.Serialize(emailRec), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult EmailSignature()
