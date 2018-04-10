@@ -216,6 +216,8 @@
                         }, {
                             field: "DateOfLoss",
                             title: "Date Of Loss",
+                            template: "#= (DateOfLoss == null) ? '': kendo.toString(kendo.parseDate(DateOfLoss), 'dd/MM/yyyy') #",
+                            format: "{0:dd/MM/yyyy}",
                         },
                         {
                             field: "Category",
