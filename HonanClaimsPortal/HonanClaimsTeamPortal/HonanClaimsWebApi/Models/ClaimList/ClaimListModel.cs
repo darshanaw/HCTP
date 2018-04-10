@@ -10,7 +10,7 @@ namespace HonanClaimsWebApi.Models.ClaimList
     {
         public string ClaimsId { get; set; }
         public string ClaimRefNo { get; set; }
-        public string DateOfLoss { get; set; }
+        public DateTime? DateOfLoss { get; set; }
         public string Contact { get; set; }
         public string ClaimStage { get; set; }
         public string Status { get; set; }
