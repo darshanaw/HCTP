@@ -841,7 +841,7 @@ namespace HonanClaimsWebApi.Services
         }
 
 
-        public async Task<ExecutionResult> UploadEmails(string claimId, string userId, IEnumerable<HttpPostedFileBase> upfiles)
+        public async Task<ExecutionResult> UploadEmails(string claimId, string userId, IEnumerable<HttpPostedFileBase> upfiles, string claimNo, string userName)
         {
             string responseClaimId = "";
             exeReult = new ExecutionResult();
@@ -865,7 +865,7 @@ namespace HonanClaimsWebApi.Services
                         }
 
                         var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + "api/General/UploadEmails?claimId=" + claimId +
-                    "&userId=" + userId, formData);
+                    "&userId=" + userId + "&claimNo=" + claimNo + "&userName=" + userName, formData);
                         string resultContent = await postResult.Content.ReadAsStringAsync();
                     }
                 }
