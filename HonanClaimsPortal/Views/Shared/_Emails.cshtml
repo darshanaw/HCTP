@@ -25,7 +25,7 @@
     <div class="panel-body">
 
         <div class="col-md-4">
-
+           
             <div class="panel panel-info">
                 <div class="panel-heading"> <h3 class="panel-title">Emails</h3> </div> <div class="panel-body">
                     <div class="col-md-12 mb-15 pl-0 pr-0">
@@ -248,7 +248,7 @@
         $("#btnSearch").click(function () {
             loadEmailsNew($('#txtFilterEmails').val());
         });
-        
+
 
          $("#externalEmails").kendoUpload({
             async: {
@@ -262,8 +262,20 @@
              localization: {
                 select: 'Select Email Files...',
             },
-            upload: function (e) {
-                e.data = { claimId: $("#H_Claimsid").val(), userId: '@userObj.UserId' };
+             upload: function (e) {
+                @if(Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] != null)
+                {
+                    <text>
+                        e.data = { claimId: $("#H_Claimsid").val(), userId: '@userObj.UserId', claimNo: $("#Claim_Reference_Num").val()};
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        window.location.href = "/Account/Login";
+                    </text>
+                }
+
             },
             complete: onCompleteAttachmentUpload
         });
@@ -293,7 +305,7 @@
                  }
              });
          });
-
+         
     });
 
 

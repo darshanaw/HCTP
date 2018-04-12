@@ -146,15 +146,47 @@ namespace HonanClaimsPortal.Controllers
             return null;
         }
 
-        public FileResult FileDownloadByFileName(string fileName,string fileRealName)
+        //public FileResult FileDownloadByFileName(string fileName,string fileRealName)
+        //{
+        //    try
+        //    {
+        //        if (System.IO.File.Exists(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName))
+        //        {
+        //            byte[] fileBytes = System.IO.File.ReadAllBytes(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName);
+        //            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileRealName);
+        //        }
+        //        // return File(new byte[0],"");
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        public ActionResult FileDownloadByFileName(string fileName, string fileRealName)
         {
-            if (System.IO.File.Exists(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName))
+            try
             {
-                byte[] fileBytes = System.IO.File.ReadAllBytes(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileRealName);
+                if (System.IO.File.Exists(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName))
+                {
+                    Response.Clear();
+                    Response.ContentType = "application/octet-stream";
+                    Response.AppendHeader("Content-Disposition", "attachment; filename=" + fileRealName);
+
+                    Response.TransmitFile(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName);
+
+                    Response.End();
+
+                    return Index();
+                }
+                // return File(new byte[0],"");
+                return null;
             }
-            // return File(new byte[0],"");
-            return null;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
 
@@ -832,10 +864,30 @@ namespace HonanClaimsPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UploadEmails(IEnumerable<HttpPostedFileBase> files, string claimId, string userId)
+        public async Task<ActionResult> UploadEmails(IEnumerable<HttpPostedFileBase> files, string claimId, string userId,string claimNo)
         {
+            ClaimTeamLoginModel obj = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
+
+            //Log Emails Received Status
+            if (ConfigurationManager.AppSettings["LogEmails"].ToString() == "True")
+            {
+                string emailName = string.Empty;
+                if(files.ToList().Count > 0)
+                {
+                    foreach (HttpPostedFileBase file in files)
+                    {
+                        emailName += file.FileName + " , ";
+                    }
+
+                    
+                    LogWriter.WriteLog(emailName + " email(s) landed in server side at " + DateTime.Now.ToString(), obj.FirstName + " " +
+                        obj.LastName, claimNo);
+                }
+                
+            }
+
             DocumentService service = new DocumentService();
-            var result = await service.UploadEmails(claimId, userId, files);
+            var result = await service.UploadEmails(claimId, userId, files,claimNo, obj.FirstName + " " + obj.LastName);
             return Json(result.IsSuccess, JsonRequestBehavior.AllowGet);
 
         }
@@ -885,6 +937,9 @@ namespace HonanClaimsPortal.Controllers
             SendEmailRepo service = new SendEmailRepo();
             return Json(await service.TeamDeleteClaimEmail(emailId), JsonRequestBehavior.AllowGet);
         }
+
+
+
     }
 
 }
