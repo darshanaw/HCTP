@@ -14,7 +14,7 @@ namespace HonanClaimsWebApi.Models.Claim
         public string CreatedUser { get; set; }
         public string CreatedDate { get; set; }
         public string ShortDescription { get; set; }
-        public string FileNoteDate { get; set; }
+        public DateTime FileNoteDate { get; set; }
         public string Details { get; set; }
         public string ClaimRefNum { get; set; }
     }

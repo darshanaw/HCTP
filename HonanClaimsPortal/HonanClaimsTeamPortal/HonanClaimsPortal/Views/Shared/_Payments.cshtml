@@ -328,7 +328,9 @@
                 {
                     field: "Date_Invoice_Received",
                     title: "Date Received",
-                    template: "<a  href='javascript:void(0);' onclick=\"loadPaymentDetail('#= H_Paymentsid #')\" '>#=Date_Invoice_Received#</a>"
+                    //template: "<a  href='javascript:void(0);' onclick=\"loadPaymentDetail('#= H_Paymentsid #')\" '>#=Date_Invoice_Received#</a>"
+                    template: "<a  href='javascript:void(0);' onclick=\"loadPaymentDetail('#= H_Paymentsid #')\" '>#= (Date_Invoice_Received == null) ? '': kendo.toString(kendo.parseDate(Date_Invoice_Received), 'dd/MM/yyyy') #</a>",
+                    format: "{0:dd/MM/yyyy}"
                 },
                 {
                     field: "Invoice_Reference",
