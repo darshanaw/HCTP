@@ -9,7 +9,7 @@ namespace HonanClaimsWebApi.Models.Claim
     public class PaymentSimple
     {
         public string H_Paymentsid { get; set; }
-        public string Date_Invoice_Received { get; set; }
+        public DateTime Date_Invoice_Received { get; set; }
         public string Invoice_Reference { get; set; }
         public string Payee_Account_Name { get; set; }
         public string Payee_Account_Id { get; set; }

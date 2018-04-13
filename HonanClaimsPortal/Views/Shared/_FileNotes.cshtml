@@ -98,7 +98,9 @@
                 {
                     field: "FileNoteDate",
                     title: "File Note Date",
-                    template: "<a href='javascript:void(0);' onclick=\"loadFileNoteDetail('#= H_FileNotesId #')\" '>#= FileNoteDate #</a>"
+                    format: "{0:dd/MM/yyyy}",
+                    //template: "<a href='javascript:void(0);' onclick=\"loadFileNoteDetail('#= H_FileNotesId #')\" '>#= FileNoteDate #</a>"
+                    template: "<a href='javascript:void(0);' onclick=\"loadFileNoteDetail('#= H_FileNotesId #')\" '>#= (FileNoteDate == null) ? '': kendo.toString(kendo.parseDate(FileNoteDate), 'dd/MM/yyyy')  #</a>"
                 },
                 {
                     field: "CreatedUser",
@@ -148,7 +150,8 @@
                 $("#CreatedBy_Id_Fn").val(result.CreatedUserId);
                 $("#ClaimId_Fn").val(result.H_ClaimsId);
                 $("#ClaimRefNo_Fn").val(result.ClaimRefNum);
-                $("#FileNoteDate_Fn").val(result.FileNoteDate);
+                //$("#FileNoteDate_Fn").val(new Date(result.FileNoteDate));
+                $("#FileNoteDate_Fn").val(moment(result.FileNoteDate).format("DD/MM/YYYY"));
                 $("#CreatedBy_Fn").val(result.CreatedUser);
                 $("#CreatedDate_Fn").val(result.CreatedDate);
 
