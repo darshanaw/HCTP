@@ -152,6 +152,19 @@
                         read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText=" + searchText + "&cutomerId=" + customerId,
 
                     },
+                    schema: {
+                        model: {
+                            id: "ClaimsId",
+                            fields: {
+                                ClaimRefNo: { type: "string" },
+                                DateOfLoss: { type: "date" },
+                                Contact: { type: "string" },
+                                ClaimStage: { type: "string" },
+                                Status: { type: "string" },
+                                ClaimType: { type: "string" }
+                            }
+                        }
+                    },
                     change: function () {
                         $.LoadingOverlay("hide");
                     },

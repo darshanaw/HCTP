@@ -80,6 +80,16 @@
                     read: "/ClaimDetailTabs/AjaxFileNotesLoad?claimId=" + $("#H_Claimsid").val()
                 },
                 pageSize: 100,
+                schema: {
+                    model: {
+                        id: "H_FileNotesId",
+                        fields: {
+                            FileNoteDate: { type: "date" },
+                            CreatedUser: { type: "string" },
+                            ShortDescription: { type: "string" }
+                        }
+                    }
+                },
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
                         return { models: kendo.stringify(options.models) };
