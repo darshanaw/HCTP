@@ -231,7 +231,7 @@ namespace HonanClaimsPortal.Controllers
             }
         }
 
-        public ActionResult _FileNoteDetail(string claimId, string Claim_Reference_Num)
+        public ActionResult _FileNoteDetail(string claimId, string Claim_Reference_Num,string claimTeam)
         {
             FileNoteDetailModal model = new FileNoteDetailModal();
             claimServices = new ClaimServices();
@@ -244,6 +244,8 @@ namespace HonanClaimsPortal.Controllers
             model.RefnuberList_Fn = claimServices.GetClaimsForUser(client.UserId);
             model.FileNoteDate_Fn = DateTime.Now;
             ViewBag.CurrentDate = DateTime.Now.ToString("dd/MM/yyyy");
+
+            model.ClaimTeamUsersList_Fn = claimServices.GetTeamGetUsersofTeam(ClaimHelper.GetFullTeamName(claimTeam));
             return PartialView(model);
         }
 

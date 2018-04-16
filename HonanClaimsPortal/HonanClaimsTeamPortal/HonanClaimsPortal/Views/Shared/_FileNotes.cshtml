@@ -45,7 +45,7 @@
                 <h4 class="modal-title">File Note Detail</h4>
             </div>
             <div class="modal-body">
-                @{Html.RenderAction("_FileNoteDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"], Claim_Reference_Num = this.ViewData["Claim_Reference_Num"] });}
+                @{Html.RenderAction("_FileNoteDetail", "ClaimDetailTabs", new { claimId = this.ViewData["claimId"], Claim_Reference_Num = this.ViewData["Claim_Reference_Num"], claimTeam = this.ViewData["Claim_Team_Name"]});}
              
             </div>
             @*<div class="modal-footer">

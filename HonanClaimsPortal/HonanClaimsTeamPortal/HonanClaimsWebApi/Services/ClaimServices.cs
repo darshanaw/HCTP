@@ -1008,6 +1008,37 @@ namespace HonanClaimsWebApi.Services
                 throw e;
             }
         }
+
+
+        public List<CRMPicklistItem> GetTeamGetUsersofTeam(string TeamName)
+        {
+            try
+            {
+                string teamListJson = "";
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+                    ConfigurationManager.AppSettings["apiurl"] + "api/Claim/TeamGetUsersofTeam?team=" + TeamName);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                WebResponse webResponse = request.GetResponse();
+                using (Stream webStream = webResponse.GetResponseStream())
+                {
+                    if (webStream != null)
+                    {
+                        using (StreamReader responseReader = new StreamReader(webStream))
+                        {
+                            return JsonConvert.DeserializeObject<List<CRMPicklistItem>>(responseReader.ReadToEnd());
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 
 

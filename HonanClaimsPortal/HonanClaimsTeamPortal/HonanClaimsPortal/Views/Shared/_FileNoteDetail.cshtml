@@ -47,7 +47,7 @@
 
 @using (Ajax.BeginForm("_FileNoteDetail", "ClaimDetailTabs", new AjaxOptions { HttpMethod = "POST", OnSuccess = "GetResult_Fn", UpdateTargetId= "divFake" },new { @id = "frmileNote" }))
 {
-    @Html.HiddenFor(o=>o.CreatedBy_Id_Fn)
+    @*@Html.HiddenFor(o=>o.CreatedBy_Id_Fn)*@
     @Html.HiddenFor(o => o.ClaimId_Fn)
     @Html.HiddenFor(o=>o.H_FileNotesId_Fn)
 
@@ -93,7 +93,10 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Created By</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(o => o.CreatedBy_Fn, new { @class = "form-control input-sm disabledControl", @readonly = true })
+                   @* @Html.TextBoxFor(o => o.CreatedBy_Fn, new { @class = "form-control input-sm disabledControl", @readonly = true })*@
+                    @Html.DropDownListFor(model => model.CreatedBy_Id_Fn, new SelectList(Model.ClaimTeamUsersList_Fn, "Code", "Text"),
+                                        new { @class = "form-control input-sm" })
+
                 </div>
             </div>
         </div>
