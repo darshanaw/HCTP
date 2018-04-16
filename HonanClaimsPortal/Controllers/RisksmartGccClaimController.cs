@@ -147,6 +147,8 @@ namespace HonanClaimsPortal.Controllers
 
             InitializeModel(model, claimServices);
 
+            ViewData["Claim_Team_Name"] = model.Claim_Team_Name;
+
             return View(model);
         }
 

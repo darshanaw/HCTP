@@ -50,7 +50,6 @@ namespace HonanClaimsPortal.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

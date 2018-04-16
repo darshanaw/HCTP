@@ -1350,7 +1350,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
         @Html.Partial("~/Views/Shared/_Payments.cshtml", new ViewDataDictionary { { "claimId", Model.H_Claimsid }, { "Claim_Reference_Num", Model.Claim_Reference_Num } })
     </div>
     <div class="tab-pane" id="tabFileNotes">
-        @Html.Partial("~/Views/Shared/_FileNotes.cshtml", new ViewDataDictionary { { "claimId", Model.H_Claimsid }, { "Claim_Reference_Num", Model.Claim_Reference_Num } })
+        @Html.Partial("~/Views/Shared/_FileNotes.cshtml", new ViewDataDictionary { { "claimId", Model.H_Claimsid }, { "Claim_Reference_Num", Model.Claim_Reference_Num }, { "Claim_Team_Name", Model.Claim_Team_Name } })
     </div>
     <div class="tab-pane" id="tabEmails">
         @Html.Partial("~/Views/Shared/_Emails.cshtml", null)
