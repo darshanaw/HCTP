@@ -183,7 +183,22 @@
                                 read: "/ClaimList/GetClaimList?myclaimsOnly=" + onlyMyClaim + "&isopenClaim=" + Openclaim + "&claimType=" + ClaimType + "&searchText="
                                 + searchText + "&cutomerId=" + customerId + "&associate=" + associate
                             },
-                            pageSize: 20
+                            pageSize: 20,
+                            schema: {
+                                model: {
+                                    id: "ClaimsId",
+                                    fields: {
+                                        ClaimRefNo: { type: "string" },
+                                        InsuredAccount: { type: "string" },
+                                        AssociateAccount: { type: "string" },
+                                        Claimant: { type: "string" },
+                                        DateOfLoss: { type: "date" },
+                                        Category: { type: "string" },
+                                        ClaimStage: { type: "string" },
+                                        NextAction: { type: "string" },
+                                    }
+                                }
+                            },
                         },
                         sortable: true,
                         dataBound: myClaimListLoaded,

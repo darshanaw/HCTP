@@ -547,17 +547,17 @@
                     model: {
                         id: "ActivityTaskId",
                         fields: {
-                            ClaimRefNo: { editable: false },
-                            Customer: { editable: false },
-                            Seq: { editable: false },
-                            Stage: { editable: false },
-                            Action: { editable: false },
-                            Owner: { editable: false },
-                            Contact: { editable: false },
-                            SLADays: { editable: false },
-                            DueDate: { editable: true },
-                            Complete: { editable: false },
-                            Skipped: { editable: false }
+                            ClaimRefNo: { editable: false, type: "string" },
+                            Customer: { editable: false, type: "string" },
+                            Seq: { editable: false, type: "string" },
+                            Stage: { editable: false, type: "string" },
+                            Action: { editable: false, type: "string" },
+                            Owner: { editable: false, type: "string" },
+                            Contact: { editable: false, type: "string" },
+                            SLADays: { editable: false, type: "string" },
+                            DueDate: { editable: true, type: "date" },
+                            Complete: { editable: false, type: "checkbox" },
+                            Skipped: { editable: false, type: "checkbox" }
                         }
                     }
                 }
