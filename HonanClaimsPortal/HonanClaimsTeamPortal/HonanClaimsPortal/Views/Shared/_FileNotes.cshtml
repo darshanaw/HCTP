@@ -151,6 +151,11 @@
         $("#ShortDescription_Fn").val("");
         $("#Detail_Fn").val("");
         $("#H_FileNotesId_Fn").val("");
+
+        $("#ClaimRefNo_Fn").prop('readonly', false);
+        $("#FileNoteDate_Fn").prop('readonly', false);
+        $("#Detail_Fn").prop('readonly', false);
+
     }
 
     function loadFileNoteDetail(fileNoteId) {
@@ -169,13 +174,13 @@
                 $("#Detail_Fn").val(result.Details);
                 $("#H_FileNotesId_Fn").val(result.H_FileNotesId);
 
+                $("#ClaimRefNo_Fn").prop('readonly', true);
+                $("#FileNoteDate_Fn").prop('readonly', true);
+                $("#Detail_Fn").prop('readonly', true);
+
                 $('#FileNoteDetailModal').modal('show');
             }
         });
-
-
-
-
 
 
     }
