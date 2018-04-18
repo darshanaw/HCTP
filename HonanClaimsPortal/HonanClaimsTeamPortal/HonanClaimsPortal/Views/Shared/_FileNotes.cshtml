@@ -108,9 +108,9 @@
                 {
                     field: "FileNoteDate",
                     title: "File Note Date",
-                    format: "{0:dd/MM/yyyy}",
+                    format: "{0:dd/MM/yyyy hh:mm tt}",
                     //template: "<a href='javascript:void(0);' onclick=\"loadFileNoteDetail('#= H_FileNotesId #')\" '>#= FileNoteDate #</a>"
-                    template: "<a href='javascript:void(0);' onclick=\"loadFileNoteDetail('#= H_FileNotesId #')\" '>#= (FileNoteDate == null) ? '': kendo.toString(kendo.parseDate(FileNoteDate), 'dd/MM/yyyy')  #</a>"
+                    template: "<a href='javascript:void(0);' onclick=\"loadFileNoteDetail('#= H_FileNotesId #')\" '>#= (FileNoteDate == null) ? '': kendo.toString(kendo.parseDate(FileNoteDate), 'dd/MM/yyyy hh:mm tt')  #</a>"
                 },
                 {
                     field: "CreatedUser",
@@ -144,7 +144,7 @@
         $("#CreatedBy_Id_Fn").val("@(((HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin]).UserId)");
         //$("#ClaimId_Fn").val("");
         //$("#ClaimRefNo_Fn").val("");
-        $("#FileNoteDate_Fn").val('@DateTime.Now.ToString("dd/MM/yyyy")');
+        $("#FileNoteDate_Fn").val(moment(new Date()).format("DD/MM/YYYY hh:mm A"));
         $("#CreatedBy_Fn").val("@(((HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin]).FirstName + " " +
                         ((HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel)Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin]).LastName)");
         $("#CreatedDate_Fn").val('@DateTime.Now.ToString("dd/MM/yyyy")');
@@ -153,7 +153,7 @@
         $("#H_FileNotesId_Fn").val("");
 
         $("#ClaimRefNo_Fn").prop('readonly', false);
-        $("#FileNoteDate_Fn").prop('readonly', false);
+        $("#FileNoteDate_Fn").prop('readonly', true);
         $("#Detail_Fn").prop('readonly', false);
 
     }
@@ -166,7 +166,7 @@
                 $("#ClaimId_Fn").val(result.H_ClaimsId);
                 $("#ClaimRefNo_Fn").val(result.ClaimRefNum);
                 //$("#FileNoteDate_Fn").val(new Date(result.FileNoteDate));
-                $("#FileNoteDate_Fn").val(moment(result.FileNoteDate).format("DD/MM/YYYY"));
+                $("#FileNoteDate_Fn").val(moment(result.FileNoteDate).format("DD/MM/YYYY hh:mm A"));
                 $("#CreatedBy_Fn").val(result.CreatedUser);
                 $("#CreatedDate_Fn").val(result.CreatedDate);
 
