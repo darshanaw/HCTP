@@ -86,7 +86,9 @@ namespace HonanClaimsPortal.Controllers
         [ValidateInput(false)]
         public async Task<ActionResult> SendEmail()
         {
-            var model = Request["model"];
+            //var model = Request["model"]; // Errored
+            HttpRequestBase request = HttpContext.Request;
+            var model = request.Unvalidated.Form.Get("model");
             var files = Request.Files;
             var dicimod = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailModel>(model);
 
