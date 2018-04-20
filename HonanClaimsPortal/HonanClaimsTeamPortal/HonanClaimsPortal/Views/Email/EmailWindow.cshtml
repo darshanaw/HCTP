@@ -614,7 +614,7 @@
 
         toArr.clean("");
         ccArr.clean("");
-
+        debugger;
         var model = {
             ToEmails: toArr,
             CcEmails: ccArr,
@@ -652,6 +652,10 @@
                 $.LoadingOverlay("hide");
                 window.close();
                 // ..... any success code you want
+            },
+            error: function (e) {
+
+                debugger;
             }
         });
     };
