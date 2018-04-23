@@ -122,6 +122,7 @@
     <Compile Include="Models\LookupModel\CRMOCNumSimple.cs" />
     <Compile Include="Models\LookupModel\PolicySimple.cs" />
     <Compile Include="Models\LookupModel\StoreSimple.cs" />
+    <Compile Include="Models\PasswordResetModel.cs" />
     <Compile Include="Models\Policies\PoliciesModel.cs" />
     <Compile Include="Models\Policies\PoliciesRepo.cs" />
     <Compile Include="Models\Search\SearchModel.cs" />

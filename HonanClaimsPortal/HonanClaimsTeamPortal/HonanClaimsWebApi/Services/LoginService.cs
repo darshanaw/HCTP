@@ -1,10 +1,12 @@
 ﻿using HonanClaimsWebApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
@@ -14,7 +16,7 @@ namespace HonanClaimsWebApiAccess1.LoginServices
     public class LoginService
     {
 
-        private const string loginApi1 = "api/AccountAndReg/TeamPortalLogin?userCode=";       
+        private const string loginApi1 = "api/AccountAndReg/TeamPortalLogin?userCode=";
         private const string loginApi_password = "&password=";
         private const string loginApi_loginAttempts = "&loginAttempts=";
         private const string logoutApi = "AccountAndReg/LogoutUser?userId=";
@@ -86,6 +88,33 @@ namespace HonanClaimsWebApiAccess1.LoginServices
             }
         }
 
-               
+        /// <summary>
+        /// Change User Password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<bool> TeamChangeUserPassword(PasswordResetModel model)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        var jsonString = JsonConvert.SerializeObject(model);
+                        var content = new StringContent(jsonString, System.Text.Encoding.UTF8, "application/json");
+                        formData.Add(content, "changePassword");
+                        var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + "api/AccountAndReg/TeamChangeUserPassword", formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<bool>(resultContent);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+        }
     }
 }

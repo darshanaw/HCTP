@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using HonanClaimsPortal.Models;
 using HonanClaimsWebApiAccess1.LoginServices;
 using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -115,8 +116,15 @@ namespace HonanClaimsPortal.Controllers
                         Response.Cookies[CookieHelper.CookieObject_][CookieHelper.Password_] = model.Password;
                         Response.Cookies[CookieHelper.CookieObject_].Expires = DateTime.Now.AddDays(30);
                     }
-                    //return RedirectToAction("Index", "ClaimList");
-                    return RedirectToAction("Index", "Home");
+
+                    if (client.DaysToPasswordExpiry >= 80)
+                    {
+                        return RedirectToAction("ResetSLXPassword","Login",
+                            new { userCode= model.UserCode, userid = client.UserId, daysLeft = client.DaysToPasswordExpiry });
+                    }
+                    else
+                        return RedirectToAction("Index", "Home");
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
