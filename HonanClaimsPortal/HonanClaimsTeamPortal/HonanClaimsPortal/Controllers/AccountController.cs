@@ -12,6 +12,7 @@ using HonanClaimsPortal.Models;
 using HonanClaimsWebApiAccess1.LoginServices;
 using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models;
+using System.Configuration;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -26,7 +27,7 @@ namespace HonanClaimsPortal.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -38,9 +39,9 @@ namespace HonanClaimsPortal.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -83,6 +84,8 @@ namespace HonanClaimsPortal.Controllers
         {
             Session[SessionHelper.claimTeamLogin] = null;
 
+            
+
             int counter = Session[SessionHelper.loginCounter] == null ? 0 : (int)Session[SessionHelper.loginCounter];
             Session[SessionHelper.loginCounter] = counter + 1;
 
@@ -97,17 +100,40 @@ namespace HonanClaimsPortal.Controllers
             ClaimTeamLoginModel client = await loginService.LoginPost(model.UserCode, model.Password, model.LoginAttempt);
 
             var result = (client == null || client.UserId == null) ? SignInStatus.Failure : SignInStatus.Success;
-            
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             //var result = await SignInManager.PasswordSignInAsync(model.UserCode, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    //validate your user here (Forms Auth or Database, for example)
+                    // this could be a new "illegal" logon, so we need to check
+                    // if these credentials are already in the Cache 
+                    string sKey = model.UserCode;
+                    string sUser = Convert.ToString(System.Web.HttpContext.Current.Cache[sKey]);
+                    if (sUser == null || sUser == String.Empty)
+                    {
+                        // No Cache item, so sesion is either expired or user is new sign-on
+                        // Set the cache item and Session hit-test for this user---
+
+                        int cacheExpiry = int.Parse(ConfigurationManager.AppSettings["CacheExpiry"].ToString());
+
+                        TimeSpan SessTimeOut = new TimeSpan(0, 0, cacheExpiry, 0, 0);
+                        System.Web.HttpContext.Current.Cache.Insert(sKey, sKey, null, DateTime.MaxValue, SessTimeOut,
+                           System.Web.Caching.CacheItemPriority.NotRemovable, null);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "User already logged into the portal");
+                        return View(model);
+                    }
+
                     Session[SessionHelper.loginCounter] = null;
                     client.UserCode = model.UserCode;
                     Session[SessionHelper.claimTeamLogin] = client;
-                    if(client.ClaimTimer != null && client.ClaimTimer.IsTimerActive)
+                    if (client.ClaimTimer != null && client.ClaimTimer.IsTimerActive)
                         Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
                     else
                         Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
@@ -120,8 +146,8 @@ namespace HonanClaimsPortal.Controllers
 
                     if (client.DaysToPasswordExpiry >= 80)
                     {
-                        return RedirectToAction("ResetSLXPassword","Login",
-                            new { userCode= model.UserCode, userid = client.UserId, daysLeft = client.DaysToPasswordExpiry });
+                        return RedirectToAction("ResetSLXPassword", "Login",
+                            new { userCode = model.UserCode, userid = client.UserId, daysLeft = client.DaysToPasswordExpiry });
                     }
                     else
                         return RedirectToAction("Index", "Home");
@@ -166,7 +192,7 @@ namespace HonanClaimsPortal.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -201,8 +227,8 @@ namespace HonanClaimsPortal.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -442,7 +468,7 @@ namespace HonanClaimsPortal.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-           
+
             var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
 
             LoginService loginService = new LoginService();
