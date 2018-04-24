@@ -94,7 +94,7 @@ namespace HonanClaimsPortal.Controllers
             }
 
             loginService = new LoginService();
-            ClaimTeamLoginModel client = loginService.Login(model.UserCode, model.Password, model.LoginAttempt);
+            ClaimTeamLoginModel client = await loginService.LoginPost(model.UserCode, model.Password, model.LoginAttempt);
 
             var result = (client == null || client.UserId == null) ? SignInStatus.Failure : SignInStatus.Success;
             
@@ -105,6 +105,7 @@ namespace HonanClaimsPortal.Controllers
             {
                 case SignInStatus.Success:
                     Session[SessionHelper.loginCounter] = null;
+                    client.UserCode = model.UserCode;
                     Session[SessionHelper.claimTeamLogin] = client;
                     if(client.ClaimTimer != null && client.ClaimTimer.IsTimerActive)
                         Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;

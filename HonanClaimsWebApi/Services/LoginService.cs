@@ -61,6 +61,44 @@ namespace HonanClaimsWebApiAccess1.LoginServices
             }
         }
 
+
+        /// <summary>
+        /// Change User Password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<ClaimTeamLoginModel> LoginPost(string userCode, string password, string loginAttempt)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    using (var formData = new MultipartFormDataContent())
+                    {
+                        var userCodeJs = new StringContent(userCode, System.Text.Encoding.UTF8, "application/json");
+                        var passwordJs = new StringContent(password, System.Text.Encoding.UTF8, "application/json");
+                        var loginAttemptJs = new StringContent(loginAttempt, System.Text.Encoding.UTF8, "application/json");
+
+                        formData.Add(userCodeJs, "userCode");
+                        formData.Add(passwordJs, "password");
+                        formData.Add(loginAttemptJs, "loginAttempt");
+
+
+                        var postResult = await client.PostAsync(ConfigurationManager.AppSettings["apiurl"] + "api/AccountAndReg/TeamPortalLogin", formData);
+                        string resultContent = await postResult.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<ClaimTeamLoginModel>(resultContent);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+
+            }
+        }
+
+
+
         /// <summary>
         /// Logout User
         /// </summary>
