@@ -281,7 +281,7 @@
                                         <a href="javascript:void(0);" id="changePassword" class="list-group-item">
                                             <div class="media-box">
                                                 <div class="pull-left">
-                                                    <em class="fa fa-pencil-square fa-2x text-success"></em>
+                                                    <em class="fa fa-lock fa-2x text-primary"></em>
                                                 </div>
                                                 <div class="media-box-body clearfix">
                                                     <p class="m-sm">Change Password</p>
@@ -1748,6 +1748,10 @@
 
         $("#changePassword").click(function () {
 
+            $("#UserCode").val("@userObj.UserCode");
+            $("#NewPassword").val("");
+            $("#ConfirmNewPassword").val("");
+            $("#DaysLeft").val("1");
             $("#ChangePasswordModel").modal('show');
         });
 

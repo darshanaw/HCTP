@@ -23,7 +23,8 @@ namespace HonanClaimsWebApi.Models
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "New Password")]
-        [RegularExpression(@"^(?=.*\d).{8,}$", ErrorMessage ="Password must be minimum 8 characters with atleast 1 number")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).{6,}$", ErrorMessage ="Password must be minimum 6 " +
+            "characters with atleast 1 uppercase letter, 1 number & 1 special character")]
         public string NewPassword { get; set; }
 
         [Required]

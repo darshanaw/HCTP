@@ -38,6 +38,21 @@ namespace HonanClaimsPortal.Controllers
         {
             return View();
         }
-        
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePassword(PasswordResetModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            model.UserId = (Session[HonanClaimsPortal.Helpers.SessionHelper.claimTeamLogin] as HonanClaimsWebApiAccess1.LoginServices.ClaimTeamLoginModel).UserId;
+            LoginService service = new LoginService();
+            bool result = await service.TeamChangeUserPassword(model);
+            if (result)
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            return View();
+        }
+
     }
 }
