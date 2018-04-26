@@ -139,7 +139,7 @@
                 <div class="form-group mb">
                     <label class="col-sm-4 control-label input-sm">Service Date</label>
                     <div class="col-sm-8">
-                        <div class="input-group date dateCalendar" style="width:100%">
+                        <div id="serviceDate_TD" class="input-group date dateCalendar" style="width:100%">
                             @Html.TextBoxFor(o => o.Service_Date, new { @class = "form-control input-sm" })
                             <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                 <span class="fa fa-calendar"></span>
@@ -155,7 +155,7 @@
 
                         @*@Html.ValidationMessageFor(o => o.sStart_Time, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
 
-                        <div class='input-group date_sStart_Time' id='datetimepicker3'>
+                        <div class='input-group date date_sStart_Time' id='dtpStartTime_TD'>
                             @*<input type='text' class="form-control" />*@
                             @Html.TextBoxFor(m => m.sStart_Time, new { @class = "form-control input-sm" })
                             <span class="input-group-addon">
@@ -168,11 +168,11 @@
             </div>
             <div class="row">
                 <div class="form-group mb">
-                    <label class="col-sm-4 control-label input-sm">End Time</label>
+                    <label class="col-sm-4  control-label input-sm">End Time</label>
                     <div class="col-sm-8">
                         @*@Html.TextBoxFor(m => m.sEnd_Time, new { @style = "width:100%" })
                             @Html.ValidationMessageFor(o => o.sEnd_Time, String.Empty, new { @class = "parsley-errors-list filled", @style = "color:red" })*@
-                        <div class='input-group date_sEnd_Time' id='datetimepicker3'>
+                        <div class='input-group date date_sEnd_Time' id='dtpEndTime_TD'>
                             @Html.TextBoxFor(m => m.sEnd_Time, new { @class = "form-control input-sm" })
                             <span class="input-group-addon">
                                 <span class="fa fa-clock-o"></span>

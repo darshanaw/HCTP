@@ -164,7 +164,7 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Date Received</label>
                 <div class="col-sm-8">
-                    <div class="input-group date dateCalendar_Date_Invoice" style="width:100%">
+                    <div id="dateReceived_PD" class="input-group date dateCalendar_Date_Invoice" style="width:100%">
                         @Html.TextBoxFor(o => o.Date_Invoice_Received, new { @class = "form-control input-sm" })
                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                             <span class="fa fa-calendar"></span>
@@ -276,7 +276,7 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Date Sent for Payment</label>
                 <div class="col-sm-8">
-                    <div class="input-group date dateCalendarDate_Sent_For_Payment" style="width:100%">
+                    <div id="dateSentForPayment_PD" class="input-group date dateCalendarDate_Sent_For_Payment" style="width:100%">
                         @Html.TextBoxFor(o => o.Date_Sent_For_Payment, new { @class = "form-control input-sm" })
                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                             <span class="fa fa-calendar"></span>
@@ -354,7 +354,7 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Date Invoice Paid</label>
                 <div class="col-sm-8">
-                    <div class="input-group date dateCalendarDate_Invoice_Paid" style="width:100%">
+                    <div id="dateInvoicePaid_PD" class="input-group date dateCalendarDate_Invoice_Paid" style="width:100%">
                         @Html.TextBoxFor(o => o.Date_Invoice_Paid, new { @class = "form-control input-sm" })
                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                             <span class="fa fa-calendar"></span>
@@ -406,7 +406,7 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Payment Date</label>
                 <div class="col-sm-8">
-                    <div class="input-group date dateCalendarDate_Payment_Date" style="width:100%">
+                    <div id="paymentDate_PD" class="input-group date dateCalendarDate_Payment_Date" style="width:100%">
                         @Html.TextBoxFor(o => o.Payment_Date, new { @class = "form-control input-sm" })
                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                             <span class="fa fa-calendar"></span>
