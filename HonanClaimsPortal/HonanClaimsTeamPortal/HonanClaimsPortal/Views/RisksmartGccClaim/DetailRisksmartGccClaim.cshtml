@@ -463,7 +463,7 @@ else
                                             <label class="col-sm-3 control-label input-sm">Incident Category</label>
                                             <div class="col-sm-9">
                                                 @Html.DropDownListFor(model => model.Incident_Category, new SelectList(Model.IncidentCategoryList, "Text", "Text"),
-                                        new { @class = "form-control input-sm", @multiple = "multiple", @name = "Incident_Category", @style = "width:100%" })
+                                        new { @class = "form-control input-sm select2", @multiple = "multiple", @name = "Incident_Category", @style = "width:100%" })
                                             </div>
                                         </div>
                                     </div>
@@ -519,7 +519,7 @@ else
                                                 @*@Html.DropDownListFor(o => o.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"), "", new { @class = "form-control input-sm" })*@
 
                                                 @Html.DropDownListFor(model => model.Bodily_Location, new SelectList(Model.Bodily_Location_List, "Text", "Text"),
-                                        new { @class = "form-control input-sm", @multiple = "multiple", @name = "Bodily_Location", @style = "width:100%" })
+                                        new { @class = "form-control input-sm select2", @multiple = "multiple", @name = "Bodily_Location", @style = "width:100%" })
 
                                             </div>
                                         </div>
@@ -1884,16 +1884,35 @@ else
 
         var previous;
 
-        $('.form-control').focus(function () {
+        $('.form-control').focus(function (e) {
             // Store the current value on focus, before it changes
             previous = this.value;
 
         }).change(function (e) {
-            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
+            debugger;
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in')
+                || $('#ActivityTasksDetailModal').hasClass('in') || $("#BillingDetailModal").hasClass('in')) {
+
+                var source = "";
+                if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1)
+                    source = "Claim Detail";
+                else if ($('#PaymentDetailModal').hasClass('in'))
+                    source = "Payment Detail";
+                else if ($('#ActivityTasksDetailModal').hasClass('in'))
+                    source = "Activity Task Detail";
+                else if ($('#BillingDetailModal').hasClass('in'))
+                    source = "Timeslip Detail";
+
+                var value;
+                if (this.type == "select-multiple")
+                    value = $("#" + this.id + " option:selected").text();
+                else
+                    value = this.value;
+
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.value + '",oldValue:"' + previous + '"}',
+                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + value + '",oldValue:"' + previous + '",source:"' + source + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
@@ -1909,7 +1928,19 @@ else
         });
 
         $('input:checkbox').click(function (e) {
-            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in') || $('#ActivityTasksDetailModal').hasClass('in')) {
+            if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in')
+                || $('#ActivityTasksDetailModal').hasClass('in') || $("#BillingDetailModal").hasClass('in')) {
+
+                var source = "";
+                if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1)
+                    source = "Claim Detail";
+                else if ($('#PaymentDetailModal').hasClass('in'))
+                    source = "Payment Detail";
+                else if ($('#ActivityTasksDetailModal').hasClass('in'))
+                    source = "Activity Task Detail";
+                else if ($('#BillingDetailModal').hasClass('in'))
+                    source = "Timeslip Detail";
+
                 var oldVal;
                 if (this.checked == true)
                     oldVal = "false";
@@ -1919,7 +1950,41 @@ else
                 $.ajax({
                     type: "POST",
                     url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.checked + '",oldValue:"' + oldVal + '"}',
+                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + this.checked + '",oldValue:"' + oldVal + '",source:"' + source + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                    },
+                    failure: function (response) {
+                        bootbox.alert("Error writing to history");
+                    },
+                    error: function (response) {
+                        bootbox.alert("Error writing to history");
+                    }
+                });
+            }
+        });
+
+
+        $('.date').on('dp.change', function (e) {
+
+             if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1 || $('#PaymentDetailModal').hasClass('in')
+                || $('#ActivityTasksDetailModal').hasClass('in') || $("#BillingDetailModal").hasClass('in')) {
+
+                var source = "";
+                if ($('.nav-tabs .active').text().indexOf("Claim Detail") !== -1)
+                    source = "Claim Detail";
+                else if ($('#PaymentDetailModal').hasClass('in'))
+                    source = "Payment Detail";
+                else if ($('#ActivityTasksDetailModal').hasClass('in'))
+                    source = "Activity Task Detail";
+                else if ($('#BillingDetailModal').hasClass('in'))
+                    source = "Timeslip Detail";
+
+                $.ajax({
+                    type: "POST",
+                    url: "/RisksmartGccClaim/HistoryAjaxHandler",
+                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + moment(e.date).format('DD/MM/YYYY hh:mm A') + '",oldValue:"' + previous + '",source:"' + source + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {

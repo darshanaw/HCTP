@@ -111,7 +111,7 @@ namespace HonanClaimsPortal.Controllers
                     //validate your user here (Forms Auth or Database, for example)
                     // this could be a new "illegal" logon, so we need to check
                     // if these credentials are already in the Cache 
-                    string sKey = model.UserCode;
+                    string sKey = model.UserCode.ToLower();
                     string sUser = Convert.ToString(System.Web.HttpContext.Current.Cache[sKey]);
                     if (sUser == null || sUser == String.Empty)
                     {
@@ -144,8 +144,10 @@ namespace HonanClaimsPortal.Controllers
                         Response.Cookies[CookieHelper.CookieObject_].Expires = DateTime.Now.AddDays(30);
                     }
 
-                    if (client.DaysToPasswordExpiry >= 80)
+                    if (client.DaysToPasswordExpiry <= 10)
                     {
+                        System.Web.HttpContext.Current.Cache.Remove(sKey);
+
                         return RedirectToAction("ResetSLXPassword", "Login",
                             new { userCode = model.UserCode, userid = client.UserId, daysLeft = client.DaysToPasswordExpiry });
                     }

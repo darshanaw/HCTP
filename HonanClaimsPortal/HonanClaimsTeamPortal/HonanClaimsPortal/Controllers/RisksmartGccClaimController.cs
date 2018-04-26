@@ -338,11 +338,11 @@ namespace HonanClaimsPortal.Controllers
         }
 
 
-        public ActionResult HistoryAjaxHandler(string claimId, string fieldName, string newValue,string oldValue)
+        public ActionResult HistoryAjaxHandler(string claimId, string fieldName, string newValue,string oldValue,string source)
         {
             ClaimServices claimService = new ClaimServices();
             client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
-            return Json(claimService.CreateHistoryRecord(client.UserId, client.FirstName + " " + client.LastName, claimId, fieldName, newValue, oldValue));
+            return Json(claimService.CreateHistoryRecord(client.UserId, client.FirstName + " " + client.LastName, claimId, fieldName, newValue, oldValue, source));
         }
        
 
