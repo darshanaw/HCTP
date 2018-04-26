@@ -342,7 +342,7 @@ namespace HonanClaimsPortal.Controllers
         {
             ClaimServices claimService = new ClaimServices();
             client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
-            return Json(claimService.CreateHistoryRecord(client.UserId, client.FirstName + " " + client.LastName, claimId, fieldName, newValue, oldValue, source));
+            return Json(claimService.CreateHistoryRecord(client.UserId, client.FirstName + " " + client.LastName, claimId, fieldName, newValue, oldValue, source,"CTP"));
         }
        
 

@@ -463,6 +463,7 @@ namespace HonanClaimsPortal.Controllers
         // POST: /Account/LogOff
         //[HttpPost]
         //[ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult LogOff()
         {
             if (Session[SessionHelper.claimTeamLogin] == null)
@@ -472,12 +473,14 @@ namespace HonanClaimsPortal.Controllers
 
 
             var lastEscapeTimer = HonanClaimsPortal.Helpers.TimerHelper.GetTimerStart();
+            ClaimTeamLoginModel client = Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel;
 
-            LoginService loginService = new LoginService();
-            loginService.LogoutUser((Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel).UserId);
+            //LoginService loginService = new LoginService();
+            //loginService.LogoutUser((Session[SessionHelper.claimTeamLogin] as ClaimTeamLoginModel).UserId);
 
             Session[SessionHelper.claimTeamLogin] = null;
             //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            System.Web.HttpContext.Current.Cache.Remove(client.UserCode.ToLower());
             return RedirectToAction("Login", "Account");
         }
 
