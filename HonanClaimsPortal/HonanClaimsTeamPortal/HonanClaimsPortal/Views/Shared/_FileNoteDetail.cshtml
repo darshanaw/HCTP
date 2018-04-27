@@ -14,7 +14,7 @@
         });
 
         $('.dateCalendarFileNote').datetimepicker({
-            format: 'DD/MM/YYYY hh:mm A'
+            format: 'DD/MM/YYYY'
             //locale: 'pt-br',
             //maxDate: moment()
         });
@@ -104,7 +104,7 @@
             <div class="form-group mb">
                 <label class="col-sm-4 control-label input-sm">Created Date</label>
                 <div class="col-sm-8">
-                    @Html.TextBoxFor(o => o.CreatedDate_Fn, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm disabledControl", @readonly = true })
+                    @Html.TextBoxFor(o => o.CreatedDate_Fn, "{0:dd/MM/yyyy hh:mm tt}", new { @class = "form-control input-sm disabledControl", @readonly = true })
                 </div>
             </div>
         </div>
