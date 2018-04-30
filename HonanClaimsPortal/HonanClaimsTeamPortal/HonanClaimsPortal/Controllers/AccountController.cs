@@ -108,6 +108,12 @@ namespace HonanClaimsPortal.Controllers
             {
                 case SignInStatus.Success:
 
+                    if(!client.IsActive)
+                    {
+                        ModelState.AddModelError("", "User account disabled. Please contact Administrator");
+                        return View(model);
+                    }
+
                     //validate your user here (Forms Auth or Database, for example)
                     // this could be a new "illegal" logon, so we need to check
                     // if these credentials are already in the Cache 

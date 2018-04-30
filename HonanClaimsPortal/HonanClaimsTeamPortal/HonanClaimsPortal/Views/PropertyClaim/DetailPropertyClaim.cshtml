@@ -2065,21 +2065,24 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 else
                     value = this.value;
 
-                $.ajax({
-                    type: "POST",
-                    url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + value + '",oldValue:"' + previous + '",source:"' + source + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                    },
-                    failure: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
-                    },
-                    error: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
-                    }
-                });
+                if (this.id != "")
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "/RisksmartGccClaim/HistoryAjaxHandler",
+                        data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + value + '",oldValue:"' + previous + '",source:"' + source + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                        },
+                        failure: function (response) {
+                            //bootbox.alert("Error writing to history. Please logout and log back in.");
+                        },
+                        error: function (response) {
+                            //bootbox.alert("Error writing to history. Please logout and log back in.");
+                        }
+                    });
+                }
             }
         });
 
@@ -2112,10 +2115,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                     success: function (response) {
                     },
                     failure: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     },
                     error: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     }
                 });
             }
@@ -2146,10 +2149,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                     success: function (response) {
                     },
                     failure: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     },
                     error: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     }
                 });
             }

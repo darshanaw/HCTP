@@ -305,7 +305,7 @@
             </div>
 
             <div class="modal-body">
-                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearch">
+                <input style="width:200px; text-align:right;" type="text" class="form-control" id="AMccsearchAD">
                 <div id="lookupAccountManagerGrid"></div>
             </div>
             <div class="modal-footer">
@@ -323,7 +323,7 @@
 
         $('#AccountManagerlookup').click(function () {
             var accId = $('#Account_Id').val();
-            var text = $('#AMccsearch').val();
+            var text = $('#AMccsearchAD').val();
             $.get("/AdminList/GetContactNames?accountId=" + accId, function (data) {
             //$.get("/NewContactAccount/GetManagerList?userName=" + text, function (data) {
                 AccountManagerList = data;
@@ -333,7 +333,7 @@
         });
 
         $('#cancelManagerBtn').click(function () {
-            $('#AMccsearch').val('');
+            $('#AMccsearchAD').val('');
             AccountManagerList = [];
         })
 
@@ -383,7 +383,7 @@
 
         }
 
-        $("#AMccsearch").keyup(function () {
+        $("#AMccsearchAD").keyup(function () {
             var accId = $('#Account_Id').val();
             if (accId.length > 2) {
                 AccountList = [];
@@ -410,7 +410,7 @@
         $("#ContactId").val(ContactId);
         $("#Email").val(Email);
         $('#AccountManagerModal').modal('hide');
-        $('#AMccsearch').val('');
+        $('#AMccsearchAD').val('');
     }
     //==============================================================
     $("#btncancel").click(function () {
