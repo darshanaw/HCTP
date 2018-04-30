@@ -560,7 +560,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
 
 
                             <div class="col-md-6">
-                               
+
                             </div>
 
 
@@ -771,7 +771,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                 {
                                                                     <div class="input-group">
                                                                         @*<input id="excess_Textbox" class="form-control input-sm disabledControl" disabled="disabled" value="@String.Format("{0:C}", Model.Excess)" />*@
-                                                                       @Html.TextBoxFor(o => o.Excess, new { @class = "form-control input-sm"})
+                                                                        @Html.TextBoxFor(o => o.Excess, new { @class = "form-control input-sm" })
                                                                         <span class="input-group-btn">
 
                                                                             <button type="button" class="mb-sm btn btn-danger btn-sm btn-outline" style="padding-bottom: 3.5px">
@@ -780,7 +780,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                         </span>
                                                                     </div>
                                                                 }
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -997,7 +997,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                 <div id="headingThree" role="tab" class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordionFinance" href="#collapseThree" aria-expanded="True" aria-controls="collapseThree">Financials</a>
-                                                       
+
                                                     </h4>
                                                 </div>
                                                 <div id="collapseThree" role="tabpanel" aria-labelledby="headingThree" class="panel-collapse collapse in">
@@ -1030,12 +1030,12 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                                         <button type="button" class="mb-sm btn btn-info btn-sm btn-outline" style="padding-bottom: 3.5px" data-toggle="modal" data-target="#ExrtaFieldModal">
                                                                             <i class="fa fa-dollar"></i>
                                                                         </button>
-                                                                       
+
                                                                     </span>
                                                                 </div>
                                                                 @*<div class="col-sm-2 pull-right">
-                                                                    <input type="button" value="New Payment" id="btnNewPaymentClaimDetail" class="btn btn-primary" data-toggle="modal" data-target="#PaymentDetailModal" />
-                                                                </div>*@
+                                                                        <input type="button" value="New Payment" id="btnNewPaymentClaimDetail" class="btn btn-primary" data-toggle="modal" data-target="#PaymentDetailModal" />
+                                                                    </div>*@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 col-sm-12">
@@ -1314,7 +1314,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                             </fieldset>
                         </div>
                         <div class="col-md-12">
-                          
+
                         </div>
                     </div>
                 </div>
@@ -1960,21 +1960,24 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                 else
                     value = this.value;
 
-                $.ajax({
-                    type: "POST",
-                    url: "/RisksmartGccClaim/HistoryAjaxHandler",
-                    data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + value + '",oldValue:"' + previous + '",source:"' + source + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                    },
-                    failure: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
-                    },
-                    error: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
-                    }
-                });
+                if (this.id != "")
+                {
+                     $.ajax({
+                        type: "POST",
+                        url: "/RisksmartGccClaim/HistoryAjaxHandler",
+                        data: '{claimId: "' + "@Model.H_Claimsid" + '",fieldName:"' + this.id + '",newValue:"' + value + '",oldValue:"' + previous + '",source:"' + source + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                        },
+                        failure: function (response) {
+                            //bootbox.alert("Error writing to history. Please logout and log back in.");
+                        },
+                        error: function (response) {
+                            //bootbox.alert("Error writing to history. Please logout and log back in.");
+                        }
+                    });
+                }
             }
         });
 
@@ -2008,10 +2011,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                     success: function (response) {
                     },
                     failure: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     },
                     error: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     }
                 });
             }
@@ -2042,10 +2045,10 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                     success: function (response) {
                     },
                     failure: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     },
                     error: function (response) {
-                        bootbox.alert("Error writing to history. Please logout and log back in.");
+                        //bootbox.alert("Error writing to history. Please logout and log back in.");
                     }
                 });
             }

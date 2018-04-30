@@ -21,5 +21,7 @@ namespace HonanClaimsWebApiAccess1.LoginServices
         public string Email { get; set; }
         public int DaysToPasswordExpiry { get; set; }
         public string UserCode { get; set; }
+        public bool IsActive { get; set; }
+
     }
 }
