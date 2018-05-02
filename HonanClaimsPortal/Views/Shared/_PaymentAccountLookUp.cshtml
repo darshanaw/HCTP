@@ -95,7 +95,9 @@
 
     function closePaymentAccountModal(accountId, accountName) {
 
+        $("#Payee_Account_Name").focus();
         $("#Payee_Account_Name").val(accountName);
+        $("#Payee_Account_Name").change();
 
         if ($("#Payee_Account").length > 0)
         {

@@ -31,15 +31,15 @@ namespace HonanClaimsPortal
         //    }
         //}
 
-        void Application_AcquireRequestState(object sender, EventArgs e)
-        {
-            HttpContext context = HttpContext.Current;
-            if (context != null && context.Session != null && context.Session[SessionHelper.claimTeamLogin] != null)
-            {
-                string sKey = ((ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin]).UserCode.ToLower();
-                // Accessing the Cache Item extends the Sliding Expiration automatically
-                string sUser = (string)HttpContext.Current.Cache[sKey];
-            }
-        }
+        //void Application_AcquireRequestState(object sender, EventArgs e)
+        //{
+        //    HttpContext context = HttpContext.Current;
+        //    if (context != null && context.Session != null && context.Session[SessionHelper.claimTeamLogin] != null)
+        //    {
+        //        string sKey = ((ClaimTeamLoginModel)Session[SessionHelper.claimTeamLogin]).UserCode.ToLower();
+        //        // Accessing the Cache Item extends the Sliding Expiration automatically
+        //        string sUser = (string)HttpContext.Current.Cache[sKey];
+        //    }
+        //}
     }
 }

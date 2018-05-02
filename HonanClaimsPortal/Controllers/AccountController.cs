@@ -114,27 +114,24 @@ namespace HonanClaimsPortal.Controllers
                         return View(model);
                     }
 
-                    //validate your user here (Forms Auth or Database, for example)
-                    // this could be a new "illegal" logon, so we need to check
-                    // if these credentials are already in the Cache 
-                    string sKey = model.UserCode.ToLower();
-                    string sUser = Convert.ToString(System.Web.HttpContext.Current.Cache[sKey]);
-                    if (sUser == null || sUser == String.Empty)
-                    {
-                        // No Cache item, so sesion is either expired or user is new sign-on
-                        // Set the cache item and Session hit-test for this user---
+                    //string sKey = model.UserCode.ToLower();
+                    //string sUser = Convert.ToString(System.Web.HttpContext.Current.Cache[sKey]);
+                    //if (sUser == null || sUser == String.Empty)
+                    //{
+                    //    // No Cache item, so sesion is either expired or user is new sign-on
+                    //    // Set the cache item and Session hit-test for this user---
 
-                        int cacheExpiry = int.Parse(ConfigurationManager.AppSettings["CacheExpiry"].ToString());
+                    //    int cacheExpiry = int.Parse(ConfigurationManager.AppSettings["CacheExpiry"].ToString());
 
-                        TimeSpan SessTimeOut = new TimeSpan(0, 0, cacheExpiry, 0, 0);
-                        System.Web.HttpContext.Current.Cache.Insert(sKey, sKey, null, DateTime.MaxValue, SessTimeOut,
-                           System.Web.Caching.CacheItemPriority.NotRemovable, null);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "User already logged into the portal");
-                        return View(model);
-                    }
+                    //    TimeSpan SessTimeOut = new TimeSpan(0, 0, cacheExpiry, 0, 0);
+                    //    System.Web.HttpContext.Current.Cache.Insert(sKey, sKey, null, DateTime.MaxValue, SessTimeOut,
+                    //       System.Web.Caching.CacheItemPriority.NotRemovable, null);
+                    //}
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "User already logged into the portal");
+                    //    return View(model);
+                    //}
 
                     Session[SessionHelper.loginCounter] = null;
                     client.UserCode = model.UserCode;
@@ -152,7 +149,7 @@ namespace HonanClaimsPortal.Controllers
 
                     if (client.DaysToPasswordExpiry <= 10)
                     {
-                        System.Web.HttpContext.Current.Cache.Remove(sKey);
+                        //System.Web.HttpContext.Current.Cache.Remove(sKey);
 
                         return RedirectToAction("ResetSLXPassword", "Login",
                             new { userCode = model.UserCode, userid = client.UserId, daysLeft = client.DaysToPasswordExpiry });

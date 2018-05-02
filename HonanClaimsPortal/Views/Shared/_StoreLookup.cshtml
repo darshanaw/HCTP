@@ -96,7 +96,9 @@
     function closeStoreModal(storeName,address,region)
     {
         //var text = $(val).text();
+        $("#Storeid_Name").focus();
         $("#Storeid_Name").val(storeName);
+        $("#Storeid_Name").change();
                 
         if ($("#Incident_Address").length > 0) {
 
@@ -104,7 +106,9 @@
         }
         if ($("#Region").length > 0) {
 
-            $("#Region").val(region).trigger('change');
+            $("#Region").focus();
+            $("#Region").val(region);
+            $("#Region").change();
         }
 
         $('#StoresModal').modal('toggle');

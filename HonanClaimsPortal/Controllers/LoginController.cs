@@ -31,19 +31,19 @@ namespace HonanClaimsPortal.Controllers
             bool result = await service.TeamChangeUserPassword(model);
             if(result)
             {
-                string sKey = model.UserCode.ToLower();
-                string sUser = Convert.ToString(System.Web.HttpContext.Current.Cache[sKey]);
-                if (sUser == null || sUser == String.Empty)
-                {
-                    // No Cache item, so sesion is either expired or user is new sign-on
-                    // Set the cache item and Session hit-test for this user---
+                //string sKey = model.UserCode.ToLower();
+                //string sUser = Convert.ToString(System.Web.HttpContext.Current.Cache[sKey]);
+                //if (sUser == null || sUser == String.Empty)
+                //{
+                //    // No Cache item, so sesion is either expired or user is new sign-on
+                //    // Set the cache item and Session hit-test for this user---
 
-                    int cacheExpiry = int.Parse(ConfigurationManager.AppSettings["CacheExpiry"].ToString());
+                //    int cacheExpiry = int.Parse(ConfigurationManager.AppSettings["CacheExpiry"].ToString());
 
-                    TimeSpan SessTimeOut = new TimeSpan(0, 0, cacheExpiry, 0, 0);
-                    System.Web.HttpContext.Current.Cache.Insert(sKey, sKey, null, DateTime.MaxValue, SessTimeOut,
-                       System.Web.Caching.CacheItemPriority.NotRemovable, null);
-                }
+                //    TimeSpan SessTimeOut = new TimeSpan(0, 0, cacheExpiry, 0, 0);
+                //    System.Web.HttpContext.Current.Cache.Insert(sKey, sKey, null, DateTime.MaxValue, SessTimeOut,
+                //       System.Web.Caching.CacheItemPriority.NotRemovable, null);
+                //}
                 return RedirectToAction("Index", "Home");
             }
 
