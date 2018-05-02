@@ -388,14 +388,14 @@ else
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 col-sm-12">
+                                    @*<div class="col-md-12 col-sm-12">
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Special Instructions</label>
                                             <div class="col-sm-9">
                                                 @Html.TextAreaFor(o => o.Special_Instructions, new { @class = "form-control input-sm valueChanged", @maxlength = 400 })
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
 
                                 </fieldset>
 
@@ -480,7 +480,7 @@ else
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Claim_Not_Lodged, new { @id = "chkClaim_Not_Lodged" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpNotLodged" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Not_Lodged_Date, new { @id = "txtClaim_Not_LodgedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -497,7 +497,7 @@ else
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Claim_Lodged, new { @id = "chkClaim_Lodged" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpLodged" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Lodged_Date, new { @id = "txtClaim_LodgedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -531,7 +531,7 @@ else
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Expert_Appointed, new { @id = "chkExpert_Appointed" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpExpertAppointed" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Expert_Appointed_Date, new { @id = "txtExpert_AppointedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>

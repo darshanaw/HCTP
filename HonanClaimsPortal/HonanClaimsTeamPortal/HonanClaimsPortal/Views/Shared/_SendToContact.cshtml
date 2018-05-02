@@ -99,7 +99,9 @@
 
     function closeSendToContactModal(contactId,contactName,accountId,accountName, email, phone) {
 
+        $("#Sent_To_Contact_Name").focus();
         $("#Sent_To_Contact_Name").val(contactName);
+        $("#Sent_To_Contact_Name").change();
 
         if ($("#Sent_To_Contact").length > 0)
         {
@@ -108,18 +110,28 @@
 
         if ($("#payment_email").length > 0)
         {
+            $("#payment_email").focus();
             $("#payment_email").val(email);
+            $("#payment_email").change();
         }
 
         if ($("#payment_phone").length > 0) {
+
+            $("#payment_phone").focus();
             $("#payment_phone").val(phone);
+            $("#payment_phone").change();
         }
         
 
+        $("#Payment_To_Name").focus();
         $("#Payment_To_Name").val(accountName);
+        $("#Payment_To_Name").change();
 
         if ($("#Payment_To").length > 0) {
+
+            $("#Payment_To").focus();
             $("#Payment_To").val(accountId);
+            $("#Payment_To").change();
         }
 
         $('#Sent_To_Contact_Name_Modal_Pd').modal('hide');

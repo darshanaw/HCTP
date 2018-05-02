@@ -214,7 +214,11 @@
         underwriterName, insuredName, policyId,accountManagerCode) {
         debugger;
         var text = $(val).text();
+
+        $("#Policy_No").focus();
         $("#Policy_No").val(text);
+        $("#Policy_No").change();
+
         $("#Policy_Id").val(policyId);
         if ("@pageId" == "Detail")
         {
@@ -222,10 +226,15 @@
                 //$(".Policy_Class_TextBox").val(policyClass);
                 $(".Policy_Class_TextBox").show();
                 $(".Policy_Class_Dropdown").hide();
+
+                $("#Policy_Class").focus();
                 $("#Policy_Class").val(policyClass);
+                $("#Policy_Class").change();
 
                 if ($("#Policy_Class_TextBox").length > 0) {
+                    $("#Policy_Class_TextBox").focus();
                     $("#Policy_Class_TextBox").val(policyClass);
+                    $("#Policy_Class_TextBox").change();
                 }
                 
             }
@@ -234,70 +243,122 @@
                 $(".Policy_Class_TextBox").hide();
             }
 
+            $("#Policy_Status").focus();
             $("#Policy_Status").val(policyStatus);
+            $("#Policy_Status").change();
+
+            $("#Period_From").focus();
             $("#Period_From").val(periodFrom);
+            $("#Period_From").change();
+
+            $("#Period_To").focus();
             $("#Period_To").val(periodTo);
+            $("#Period_To").change();
+
+            $("#Excess").focus();
             $("#Excess").val(excess);
+            $("#Excess").change();
+
             if ($("#excess_Textbox").length > 0) {
+
+                $("#excess_Textbox").focus();
                 $("#excess_Textbox").val(excess);
+                $("#excess_Textbox").change();
             }
 
+            $("#InsurerName").focus();
             $("#InsurerName").val(underwriterName);
+            $("#InsurerName").change();
+
+            $("#Insurer_Name").focus();
             $("#Insurer_Name").val(underwriterName);
+            $("#Insurer_Name").change();
+
             $("#Insurer").val(underwriterId);
 
 
             if ($("#AccountManager").length > 0) {
+
+                $("#AccountManager").focus();
                 $("#AccountManager").val(accountManager);
+                $("#AccountManager").change();
             }
 
             if ($("#Insured_Name").length > 0) {
+
+                $("#Insured_Name").focus();
                 $("#Insured_Name").val(insuredName);
+                $("#Insured_Name").change();
             }
         }
         else
         {
             if ($("#Property_Address_1").length > 0) {
 
+                $("#Property_Address_1").focus();
                 $("#Property_Address_1").val(address1);
+                $("#Property_Address_1").change();
             }
 
             if ($("#Property_Address_2").length > 0) {
 
+                $("#Property_Address_2").focus();
                 $("#Property_Address_2").val(addresss2);
+                $("#Property_Address_2").change();
             }
 
             if ($("#Property_Suburb").length > 0) {
 
+                $("#Property_Suburb").focus();
                 $("#Property_Suburb").val(suburb.toUpperCase());
+                $("#Property_Suburb").change();
             }
 
             if ($("#Property_State").length > 0) {
 
+                $("#Property_State").focus();
                 $("#Property_State").val(state);
+                $("#Property_State").change();
             }
 
             if ($("#Property_Postalcode").length > 0) {
 
+                $("#Property_Postalcode").focus();
                 $("#Property_Postalcode").val(postcode);
+                $("#Property_Postalcode").change();
             }
 
             if ($("#AccountManager").length > 0) {
+                $("#AccountManager").focus();
                 $("#AccountManager").val(accountManager);
+                $("#AccountManager").change();
             }
 
             if ($("#InsurerName").length > 0) {
+
+                $("#InsurerName").focus();
                 $("#InsurerName").val(underwriterName);
+                $("#InsurerName").change();
+
+                $("#Insurer_Name").focus();
                 $("#Insurer_Name").val(underwriterName);
+                $("#Insurer_Name").change();
+
                 $("#Insurer").val(underwriterId);
             }
 
             if ($("#Insured_Name").length > 0) {
+
+                $("#Insured_Name").focus();
                 $("#Insured_Name").val(insuredName);
+                $("#Insured_Name").change();
             }
 
             if ($("#Account_Manager_Property").length > 0) {
+
+                $("#Account_Manager_Property").focus();
                 $("#Account_Manager_Property").val(accountManagerCode);
+                $("#Account_Manager_Property").change();
             }
         }
 

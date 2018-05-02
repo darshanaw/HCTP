@@ -301,7 +301,7 @@ else
                                             <div class="form-group mb">
                                                 <label class="col-sm-3 control-label input-sm">Date of Loss</label>
                                                 <div class="col-sm-9">
-                                                    <div id="datetimepicker1" class="input-group date dateCalendar">
+                                                    <div id="dtpDateOfLoss" class="input-group date dateCalendar">
                                                         @Html.TextBoxFor(o => o.Date_Of_Loss, new { @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -695,7 +695,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Claim_Not_Lodged, new { @id = "chkNotLodged" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpNotLodged" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Not_Lodged_Date, new { @id = "txtNotLodgedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -712,7 +712,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                                     <span class="input-group-addon">
                                                         @Html.CheckBoxFor(o => o.Claim_Lodged, new { @id = "chkLodged" })
                                                     </span>
-                                                    <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                    <div id="dtpLodged" class="input-group date dateCalendar" style="width:100%">
                                                         @Html.TextBoxFor(o => o.Claim_Lodged_Date, new { @id = "txtLodgedDate", @class = "form-control input-sm" })
                                                         <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                             <span class="fa fa-calendar"></span>
@@ -757,7 +757,7 @@ new List<SelectListItem> { new SelectListItem { Value = "", Text = "" }, new Sel
                                         <div class="form-group mb">
                                             <label class="col-sm-3 control-label input-sm">Approval - Date</label>
                                             <div class="col-sm-9">
-                                                <div id="datetimepicker3" class="input-group date dateCalendar" style="width:100%">
+                                                <div id="dtpApprovalDate" class="input-group date dateCalendar" style="width:100%">
                                                     @Html.TextBoxFor(o => o.Approvedecline_Date, new { @id = "txtApprovalDate", @class = "form-control input-sm" })
                                                     <span class="input-group-addon btn btn-info btn-sm btn-outline datebtn" style="padding-bottom: 3.5px;">
                                                         <span class="fa fa-calendar"></span>

@@ -137,7 +137,10 @@
                 $("#Policy_Name_Billing").val('');
 
 
+                $("#Claim_No").focus();
                 $("#Claim_No").val(claimRef);
+                $("#Claim_No").change();
+
                 $("#H_Claimsid_Billing").val(claimId);
 
                 $.ajax({
@@ -312,10 +315,13 @@
             (window.location.href.indexOf('GccClaim/DetailGccClaim') > -1) ||
             (window.location.href.indexOf('PropertyClaim/DetailPropertyClaim') > -1))
         {
+            $("#Claim_No").focus();
             $("#Claim_No").val('');
             $("#H_Claimsid_Billing").val('');
 
             $("#Claim_No").val(claimRef);
+            $("#Claim_No").change();
+
             $("#H_Claimsid_Billing").val(claimId);
         }
 

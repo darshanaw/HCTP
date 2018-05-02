@@ -95,8 +95,10 @@
 
 
     function closePaymentToModal(accountId, accountName) {
-      
+
+        $("#Payment_To_Name").focus();
         $("#Payment_To_Name").val(accountName);
+        $("#Payment_To_Name").change();
 
         if ($("#Payment_To").length > 0)
         {            

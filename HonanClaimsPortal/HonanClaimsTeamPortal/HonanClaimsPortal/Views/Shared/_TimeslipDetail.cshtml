@@ -614,7 +614,11 @@
     function accountLookupClickSBY(Code, Text) {
 
         $('#Service_By').val(Code);
+
+        $("#Service_By_Name").focus();
         $('#Service_By_Name').val(Text);
+        $("#Service_By_Name").change();
+
         $('#AccountManagerModal').modal('hide');
     }
 

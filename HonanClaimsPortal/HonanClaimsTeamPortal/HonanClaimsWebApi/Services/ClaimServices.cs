@@ -360,7 +360,7 @@ namespace HonanClaimsWebApi.Services
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
                     ConfigurationManager.AppSettings["apiurl"] + insertHistoryRecord + userId + "&userName=" + userName + "&claimId=" + claimId +
-                    "&fieldName=" + fieldName + "&newValue=" + newValue + "&oldValue=" + oldValue + "&source=" + source + "&systemInstance=" + systemInstance);
+                    "&fieldName=" + fieldName + "&newValue=" + HttpUtility.UrlEncode(newValue, Encoding.UTF8) + "&oldValue=" + HttpUtility.UrlEncode(oldValue, Encoding.UTF8) + "&source=" + source + "&systemInstance=" + systemInstance);
                 request.Method = "GET";
                 request.ContentType = "application/json";
 

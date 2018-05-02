@@ -98,7 +98,9 @@
 
     function closeContactBrokerModal(contactId,contactName,accountId,accountName) {
 
+        $("#Broker_Name").focus();
         $("#Broker_Name").val(contactName);
+        $("#Broker_Name").change();
 
         if ($("#Broker_Name_Id").length > 0)
         {
@@ -106,7 +108,10 @@
         }
 
         if ($("#Broker_Account").length > 0) {
+
+            $("#Broker_Account").focus();
             $("#Broker_Account").val(accountName);
+            $("#Broker_Account").change();
         }
 
         if ($("#Broker_Account_Id").length > 0) {

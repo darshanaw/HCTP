@@ -99,14 +99,18 @@
 
     function closePaymentContactModal(contactId,contactName,accountId,accountName) {
 
+        $("#Payee_Contact_Name").focus();
         $("#Payee_Contact_Name").val(contactName);
+        $("#Payee_Contact_Name").change();
 
         if ($("#Payee_Contact").length > 0)
         {
             $("#Payee_Contact").val(contactId);
         }
 
+        $("#Payee_Account_Name").focus();
         $("#Payee_Account_Name").val(accountName);
+        $("#Payee_Account_Name").change();
 
         if ($("#Payee_Account").length > 0) {
             $("#Payee_Account").val(accountId);

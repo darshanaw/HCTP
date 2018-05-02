@@ -94,8 +94,9 @@
 
     function closeTimeslipDetailAccountModal(accountId, accountName, serviceRate) {
 
-
+        $("#Client_Name").focus();
         $("#Client_Name").val(accountName);
+        $("#Client_Name").change();
 
         if ($("#ClientId").length > 0) {
             $("#ClientId").val(accountId);

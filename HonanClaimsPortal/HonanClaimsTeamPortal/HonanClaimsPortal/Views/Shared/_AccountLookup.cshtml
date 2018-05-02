@@ -91,6 +91,8 @@
 
 
     function closeAccountModal(ocNum, ocName, billingMethod) {
+
+        $("#Account_Name").focus();
         $("#Account_Name").val(ocName);
 
         if ($("#Accountid").length > 0)
