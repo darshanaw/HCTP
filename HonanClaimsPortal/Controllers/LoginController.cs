@@ -1,4 +1,5 @@
-﻿using HonanClaimsWebApi.Models;
+﻿using HonanClaimsPortal.Helpers;
+using HonanClaimsWebApi.Models;
 using HonanClaimsWebApiAccess1.LoginServices;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,20 @@ namespace HonanClaimsPortal.Controllers
                 //    System.Web.HttpContext.Current.Cache.Insert(sKey, sKey, null, DateTime.MaxValue, SessTimeOut,
                 //       System.Web.Caching.CacheItemPriority.NotRemovable, null);
                 //}
+
+                if(Session[SessionHelper.claimTeamLoginTemp] != null)
+                {
+                    ClaimTeamLoginModel client = (ClaimTeamLoginModel)Session[SessionHelper.claimTeamLoginTemp];
+                    Session[SessionHelper.loginCounter] = null;
+                    client.UserCode = model.UserCode;
+                    Session[SessionHelper.claimTeamLogin] = client;
+                    if (client.ClaimTimer != null && client.ClaimTimer.IsTimerActive)
+                        Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
+                    else
+                        Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
+
+                }
+               
                 return RedirectToAction("Index", "Home");
             }
 

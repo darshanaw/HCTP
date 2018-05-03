@@ -133,19 +133,9 @@ namespace HonanClaimsPortal.Controllers
                     //    return View(model);
                     //}
 
-                    Session[SessionHelper.loginCounter] = null;
                     client.UserCode = model.UserCode;
-                    Session[SessionHelper.claimTeamLogin] = client;
-                    if (client.ClaimTimer != null && client.ClaimTimer.IsTimerActive)
-                        Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
-                    else
-                        Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
-                    if (model.RememberMe)
-                    {
-                        Response.Cookies[CookieHelper.CookieObject_][CookieHelper.UserCode_] = model.UserCode;
-                        Response.Cookies[CookieHelper.CookieObject_][CookieHelper.Password_] = model.Password;
-                        Response.Cookies[CookieHelper.CookieObject_].Expires = DateTime.Now.AddDays(30);
-                    }
+                    Session[SessionHelper.claimTeamLoginTemp] = client;
+
 
                     if (client.DaysToPasswordExpiry <= 10)
                     {
@@ -155,7 +145,22 @@ namespace HonanClaimsPortal.Controllers
                             new { userCode = model.UserCode, userid = client.UserId, daysLeft = client.DaysToPasswordExpiry });
                     }
                     else
+                    {
+                        Session[SessionHelper.loginCounter] = null;
+                        client.UserCode = model.UserCode;
+                        Session[SessionHelper.claimTeamLogin] = client;
+                        if (client.ClaimTimer != null && client.ClaimTimer.IsTimerActive)
+                            Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
+                        else
+                            Session[HonanClaimsPortal.Helpers.SessionHelper.ShowTimer] = true;
+                        if (model.RememberMe)
+                        {
+                            Response.Cookies[CookieHelper.CookieObject_][CookieHelper.UserCode_] = model.UserCode;
+                            Response.Cookies[CookieHelper.CookieObject_][CookieHelper.Password_] = model.Password;
+                            Response.Cookies[CookieHelper.CookieObject_].Expires = DateTime.Now.AddDays(30);
+                        }
                         return RedirectToAction("Index", "Home");
+                    }
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");

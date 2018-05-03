@@ -20,6 +20,7 @@ namespace HonanClaimsPortal.Helpers
     public class SessionHelper
     {
         public static string claimTeamLogin = "claimTeamLogin";
+        public static string claimTeamLoginTemp = "claimTeamLoginTemp";
         public static string loginCounter = "loginCounter";
         public static string StoreobjectList = "StoreobjectList";
         public static string PaymentAttachment = "PaymentAttachment";
