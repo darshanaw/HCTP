@@ -25,7 +25,7 @@
     <div class="panel-body">
 
         <div class="col-md-4">
-           
+
             <div class="panel panel-info">
                 <div class="panel-heading"> <h3 class="panel-title">Emails</h3> </div> <div class="panel-body">
                     <div class="col-md-12 mb-15 pl-0 pr-0">
@@ -81,7 +81,15 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-12 top-padding-eight">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-1 col-md-1">
+                            <label class="control-label input-sm">Date:</label>
+                        </div>
+                        <div class="col-sm-11 col-md-11">
+                            <label class="control-label input-sm" id="emailDate"></label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
                         <div class="col-sm-1 col-md-1">
                             <label class="control-label input-sm">From:</label>
                         </div>
@@ -90,7 +98,7 @@
                         </div>
                     </div>
 
-                    <div class="top-padding col-sm-12 col-md-12">
+                    <div class="col-sm-12 col-md-12">
                         <div class="col-sm-1 col-md-1">
                             <label class="control-label input-sm">Claim:</label>
                         </div>
@@ -100,9 +108,7 @@
                         </div>
                     </div>
 
-
-
-                    <div class="col-sm-12 col-md-12 top-padding-eight">
+                    <div class="col-sm-12 col-md-12">
                         <div class="col-sm-1 col-md-1">
                             <label class="control-label input-sm">To:</label>
                         </div>
@@ -112,7 +118,7 @@
 
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-12 top-padding">
+                    <div class="col-sm-12 col-md-12 ">
                         <div class="col-sm-1 col-md-1">
                             <label class="control-label input-sm">CC:</label>
                         </div>
@@ -121,7 +127,7 @@
                             <label class="control-label input-sm" id="emailCC"></label>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-12 top-padding">
+                    <div class="col-sm-12 col-md-12">
                         <div class="col-sm-1 col-md-1">
                             <label class="control-label input-sm">Subject:</label>
                         </div>
@@ -305,7 +311,7 @@
                  }
              });
          });
-         
+
     });
 
 
@@ -322,6 +328,7 @@
                 if (result != null) {
                     debugger;
                     $('#attachmetHolder').empty();
+                    $("#emailDate").text(result.CreateDate);
                     $("#emailFrom").text(result.FromEmail);
                     $("#emailTo").text(result.To);
                     $("#emailCC").text(result.CC);

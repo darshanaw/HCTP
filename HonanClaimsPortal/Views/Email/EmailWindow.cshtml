@@ -128,8 +128,19 @@
         </div>
     </div>
 
+  
+
     @if (!string.IsNullOrEmpty(emailId) && string.IsNullOrEmpty(action))
     {
+        <div class="col-sm-12 col-md-12 top-padding-eight">
+            <div class="col-sm-1 col-md-1">
+                <label class="control-label input-sm">Date:</label>
+            </div>
+            <div class="col-sm-11 col-md-11">
+                <label class="control-label input-sm" id="emailDate"></label>
+            </div>
+        </div>
+
         <div class="col-sm-12 col-md-12 top-padding-eight">
             <div class="col-sm-1 col-md-1">
                 <label class="control-label input-sm">From:</label>
@@ -669,6 +680,7 @@
                 url: "/Email/GetClaimEmail?emailId=" + "@emailId" + "&withAttachments=false", success: function (result) {
                     if (result != null) {
 
+                        $("#emailDate").text(result.CreateDate);
                         $("#emailFrom").text(result.FromEmail);
                         $("#emailTo").text(result.To);
                         $("#emailCC").text(result.CC);
