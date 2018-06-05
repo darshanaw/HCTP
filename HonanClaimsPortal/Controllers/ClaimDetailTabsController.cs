@@ -172,7 +172,9 @@ namespace HonanClaimsPortal.Controllers
                 {
                     Response.Clear();
                     Response.ContentType = "application/octet-stream";
-                    Response.AppendHeader("Content-Disposition", "attachment; filename=" + fileRealName);
+                    //Response.AppendHeader("Content-Disposition", "attachment; filename=" + fileRealName);
+
+                    Response.AddHeader("Content-Disposition", $"attachment;filename=\"{fileRealName}\"");
 
                     Response.TransmitFile(ConfigurationManager.AppSettings["FileUploadPath"] + "/" + fileName);
 
