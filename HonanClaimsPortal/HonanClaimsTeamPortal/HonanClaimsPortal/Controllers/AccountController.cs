@@ -13,6 +13,7 @@ using HonanClaimsWebApiAccess1.LoginServices;
 using HonanClaimsPortal.Helpers;
 using HonanClaimsWebApi.Models;
 using System.Configuration;
+using System.Security.Principal;
 
 namespace HonanClaimsPortal.Controllers
 {
@@ -62,6 +63,8 @@ namespace HonanClaimsPortal.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            //ViewBag.ComputerName = WindowsIdentity.GetCurrent().Name;
+
             LoginViewModel loginViewModel = new LoginViewModel();
             ViewBag.ReturnUrl = returnUrl;
             loginViewModel.RememberMe = false;

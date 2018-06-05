@@ -2,6 +2,7 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "HonanCCP - Log in";
+    string computerName = ViewBag.ComputerName;
     Layout = null;
 }
 
@@ -72,6 +73,7 @@
                         <img src="@Url.Content("~/Content/app/img/riskmart-logo.jpg")" alt="" style="width: 100%; display: block;" />
                     </div>
                 </div>
+                <p>@computerName</p>
                 <br />
                 <br />
 
